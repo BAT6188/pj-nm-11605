@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="false"/>
+    <!--<constant name="struts.objectFactory" value="spring"></constant>-->
+    <!--<constant name="framework.id.field.name" value="id" />-->
+    <!--<constant name="framework.deleted.id.param.name" value="deletedId" />-->
+    <!--<constant name="framework.separator.name" value="," />-->
+    <!--<constant name="framework.stacktrace.name" value="stacktrace" />-->
+    <!--<constant name="framework.page.name" value="page" />-->
+    <!--<constant name="framework.pageSize.param.name" value="pageSize" />-->
+    <!--<constant name="framework.default.pageSize" value="10" />-->
+    <!--<constant name="framework.success.name" value="success" />-->
+    <!--<constant name="framework.msg.name" value="msg" />-->
+    <!--<constant name="framework.orderby.param.name" value="sort" />-->
+    <!--<constant name="framework.direction.param.name" value="dir" />-->
+
+    <package name="license" extends="struts-default" namespace="/system">
+        <action name="LicenseInfo" class="com.harmonywisdom.framework.action.LicenseInfoAction" method="getInfo"/>
+    </package>
+
+    <package name="demo" extends="struts-default" namespace="/demo">
+        <action name="S_*" class="com.harmonywisdom.dshbcbp.demo.action.DemoAction" method="{1}"/>
+    </package>
+
+    <package name="dshbcbp" namespace="/action" extends="struts-default">
+        <action name="S_*_*_*" class="com.harmonywisdom.dshbcbp.{1}.action.{2}Action" method="{3}"/>
+    </package>
+
+    <include file="struts/*.xml"/>
+</struts>
