@@ -5,11 +5,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 噪声治理设施
+ * 大气污染治理设施
  */
 @Entity
-@Table(name = "HW_SOUND_CONTROL_FACILITY")
-public class SoundControlFacility implements Serializable {
+@Table(name = "HW_GAS_CONTROL_FACILITY")
+public class GasControlFacility implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,6 +43,11 @@ public class SoundControlFacility implements Serializable {
      **/
     @Column(name = "CRAFTS", length = 50)
     private String crafts;
+    /**
+     * 设计处理能力
+     **/
+    @Column(name = "ABILITY", length = 50)
+    private String ability;
     /**
      * 附件
      **/
@@ -100,6 +105,14 @@ public class SoundControlFacility implements Serializable {
 
     public void setCrafts(String crafts) {
         this.crafts = crafts;
+    }
+
+    public String getAbility() {
+        return ability;
+    }
+
+    public void setAbility(String ability) {
+        this.ability = ability;
     }
 
     public String getAttachmentId() {
