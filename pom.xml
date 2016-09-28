@@ -53,10 +53,10 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <db.host>127.0.0.1</db.host>
-                <!--<db.name>dshbcbp-dev</db.name>-->
-                <db.username>username</db.username>
-                <db.password>password</db.password>
+                <db.host>dev1.zthz.com</db.host>
+                <db.name>dshbcbp</db.name>
+                <db.username>root</db.username>
+                <db.password>database.MySQ1.root</db.password>
                 <db.show.sql>true</db.show.sql>
             </properties>
         </profile>
