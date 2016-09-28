@@ -4,6 +4,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>com.harmonywisdom.dshbcbp.demo.bean.Demo</class>
+		<class>com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise</class>
 
         <!--短信记录-->
         <class>com.harmonywisdom.dshbcbp.sms.bean.SmsRecord</class>
