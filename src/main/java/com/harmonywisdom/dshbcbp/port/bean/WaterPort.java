@@ -17,4 +17,26 @@ public class WaterPort implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 企业ID
+     */
+    @Column(name = "enterprise_id",length = 32)
+    private String enterpriseId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
 }
