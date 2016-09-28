@@ -14,6 +14,8 @@
         <class>com.harmonywisdom.dshbcbp.alert.bean.MessageTrace</class>
 
         <!--企业污染防治设施-->
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.WaterControlFacility</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.GasControlFacility</class>
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.SolidControlFacility</class>
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.SoundControlFacility</class>
 
