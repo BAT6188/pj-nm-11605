@@ -5,6 +5,17 @@
 
         <class>com.harmonywisdom.dshbcbp.demo.bean.Demo</class>
 
+        <!--短信记录-->
+        <class>com.harmonywisdom.dshbcbp.sms.bean.SmsRecord</class>
+        <class>com.harmonywisdom.dshbcbp.sms.bean.SmsSendStatus</class>
+        <!--消息提醒-->
+        <class>com.harmonywisdom.dshbcbp.alert.bean.Message</class>
+        <class>com.harmonywisdom.dshbcbp.alert.bean.MessageTrace</class>
+
+        <!--企业污染防治设施-->
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.SolidControlFacility</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.SoundControlFacility</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="default_schema" value="${db.schema}"/>
