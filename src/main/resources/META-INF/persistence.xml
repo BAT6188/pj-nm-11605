@@ -4,7 +4,10 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>com.harmonywisdom.dshbcbp.demo.bean.Demo</class>
+        <!--基本信息类-->
 		<class>com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise</class>
+		<class>com.harmonywisdom.dshbcbp.production.bean.MainProduct</class>
+		<class>com.harmonywisdom.dshbcbp.production.bean.OtherEquipment</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
