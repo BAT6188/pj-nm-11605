@@ -36,6 +36,21 @@
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.GasControlFacility</class>
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.SolidControlFacility</class>
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.SoundControlFacility</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.EnvTestProgram</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.OtherEnv</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.LetterSue</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.Check</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.Punish</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.ProblemCorrect</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.PollutantPayment</class>
+        <class>com.harmonywisdom.dshbcbp.enterprise.bean.SelfCheckReport</class>
+
+
+        <class>com.harmonywisdom.dshbcbp.monitorcase.bean.MonitorCase</class>
+        <class>com.harmonywisdom.dshbcbp.dispathtask.bean.DispathTask</class>
+        <class>com.harmonywisdom.dshbcbp.schedule.bean.Schedule</class>
+        <class>com.harmonywisdom.dshbcbp.trustmonitor.bean.TrustMonitor</class>
+        <class>com.harmonywisdom.dshbcbp.entmonitortask.bean.EntMonitorTask</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
