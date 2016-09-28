@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.enterprise.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -54,7 +51,7 @@ public class GasControlFacility implements Serializable {
     /**
      * 附件
      **/
-    @Column(name = "ATTACHMENT_ID", length = 1000)
+    @Transient
     private String attachmentId;
     /**
      * 企业id
