@@ -8,7 +8,7 @@ import java.util.Date;
  * 企业基本信息
  */
 @Entity
-@Table(name = "T_HW_DSHBCBP_ENTERPRISE")
+@Table(name = "HW_DSHBCBP_ENTERPRISE")
 public class Enterprise implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +27,7 @@ public class Enterprise implements Serializable {
      * 1:运行中
      * 2:已停产
      */
-    @Column(name = "status")
+    @Column(name = "status",length = 1)
     private String status;
 
     /**
@@ -141,7 +141,7 @@ public class Enterprise implements Serializable {
      * 0:否
      * 1:是
      */
-    @Column(name = "is_special")
+    @Column(name = "is_special",length = 1)
     private String isSpecial;
 
     /**
@@ -269,7 +269,7 @@ public class Enterprise implements Serializable {
     /**
      * 是否删除
      */
-    @Column(name = "is_del")
+    @Column(name = "is_del",length = 1)
     private String isDel;
 
     /**
