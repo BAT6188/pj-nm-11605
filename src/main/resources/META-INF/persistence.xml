@@ -8,6 +8,21 @@
 		<class>com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise</class>
 		<class>com.harmonywisdom.dshbcbp.production.bean.MainProduct</class>
 		<class>com.harmonywisdom.dshbcbp.production.bean.OtherEquipment</class>
+        <class>com.harmonywisdom.dshbcbp.production.bean.Kiln</class>
+        <class>com.harmonywisdom.dshbcbp.production.bean.Boiler</class>
+        <!--排口相关-->
+        <class>com.harmonywisdom.dshbcbp.port.bean.GasPort</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.NoisePort</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.DustPort</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.WaterPort</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.GasPortHistory</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.WaterPortHistory</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.FumesPort</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.FumesPortHistory</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.DustPortHistory</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.NoisePortHistory</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.PortThreshold</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory</class>
 
         <!--短信记录-->
         <class>com.harmonywisdom.dshbcbp.sms.bean.SmsRecord</class>
