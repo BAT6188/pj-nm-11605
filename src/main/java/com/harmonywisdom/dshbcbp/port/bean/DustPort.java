@@ -79,6 +79,48 @@ public class DustPort implements Serializable {
     @Column(name = "wind_speed")
     private Double windSpeed;
 
+    /**
+     * 是否监测PM(mg/m3)
+     */
+    @Column(name = "is_pm")
+    private Double isPm;
+
+    /**
+     * 是否监测TSP(mg/m3)
+     */
+    @Column(name = "is_tsp")
+    private Double isTsp;
+
+    /**
+     * 是否监测温度(.C)
+     */
+    @Column(name = "is_temperature")
+    private Double isTemperature;
+
+    /**
+     * 是否监测湿度(%)
+     */
+    @Column(name = "is_humidity")
+    private Double isHumidity;
+
+    /**
+     * 是否监测气压(hpa)
+     */
+    @Column(name = "is_air_pressure")
+    private Double isAirPressure;
+
+    /**
+     * 是否监测风向(度)
+     */
+    @Column(name = "is_wind_direction")
+    private Double isWindDirection;
+
+    /**
+     * 是否监测风速(m/s)
+     */
+    @Column(name = "is_wind_speed")
+    private Double isWindSpeed;
+
     public String getId() {
         return id;
     }
@@ -166,4 +208,61 @@ public class DustPort implements Serializable {
     public void setWindSpeed(Double windSpeed) {
         this.windSpeed = windSpeed;
     }
+
+    public Double getIsPm() {
+        return isPm;
+    }
+
+    public void setIsPm(Double isPm) {
+        this.isPm = isPm;
+    }
+
+    public Double getIsTsp() {
+        return isTsp;
+    }
+
+    public void setIsTsp(Double isTsp) {
+        this.isTsp = isTsp;
+    }
+
+    public Double getIsTemperature() {
+        return isTemperature;
+    }
+
+    public void setIsTemperature(Double isTemperature) {
+        this.isTemperature = isTemperature;
+    }
+
+    public Double getIsHumidity() {
+        return isHumidity;
+    }
+
+    public void setIsHumidity(Double isHumidity) {
+        this.isHumidity = isHumidity;
+    }
+
+    public Double getIsAirPressure() {
+        return isAirPressure;
+    }
+
+    public void setIsAirPressure(Double isAirPressure) {
+        this.isAirPressure = isAirPressure;
+    }
+
+    public Double getIsWindDirection() {
+        return isWindDirection;
+    }
+
+    public void setIsWindDirection(Double isWindDirection) {
+        this.isWindDirection = isWindDirection;
+    }
+
+    public Double getIsWindSpeed() {
+        return isWindSpeed;
+    }
+
+    public void setIsWindSpeed(Double isWindSpeed) {
+        this.isWindSpeed = isWindSpeed;
+    }
+
 }

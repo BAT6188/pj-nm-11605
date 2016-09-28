@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 废水排口历史数据
@@ -24,6 +25,36 @@ public class WaterPortHistory implements Serializable {
     @Column(name = "port_id",length = 32)
     private String portId;
 
+    /**
+     * 监测时间
+     */
+    @Column(name = "monitor_time")
+    private Date monitorTime;
+
+    /**
+     * 流量
+     */
+    @Column(name = "flow")
+    private Double flow;
+
+    /**
+     * 化学需氧量
+     */
+    @Column(name = "oxygen")
+    private Double oxygen;
+
+    /**
+     * 氨氮
+     */
+    @Column(name = "nitrogen")
+    private Double nitrogen;
+
+    /**
+     * ph值
+     */
+    @Column(name = "ph")
+    private Double ph;
+
     public String getId() {
         return id;
     }
@@ -38,5 +69,45 @@ public class WaterPortHistory implements Serializable {
 
     public void setPortId(String portId) {
         this.portId = portId;
+    }
+
+    public Date getMonitorTime() {
+        return monitorTime;
+    }
+
+    public void setMonitorTime(Date monitorTime) {
+        this.monitorTime = monitorTime;
+    }
+
+    public Double getFlow() {
+        return flow;
+    }
+
+    public void setFlow(Double flow) {
+        this.flow = flow;
+    }
+
+    public Double getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(Double oxygen) {
+        this.oxygen = oxygen;
+    }
+
+    public Double getNitrogen() {
+        return nitrogen;
+    }
+
+    public void setNitrogen(Double nitrogen) {
+        this.nitrogen = nitrogen;
+    }
+
+    public Double getPh() {
+        return ph;
+    }
+
+    public void setPh(Double ph) {
+        this.ph = ph;
     }
 }

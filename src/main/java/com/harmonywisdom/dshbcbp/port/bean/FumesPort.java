@@ -49,6 +49,24 @@ public class FumesPort implements Serializable {
     @Column(name = "humidity")
     private Double humidity;
 
+    /**
+     * 是否监测油烟
+     */
+    @Column(name = "is_fumes")
+    private Double isFumes;
+
+    /**
+     * 是否监测烟气温度
+     */
+    @Column(name = "is_temperature")
+    private Double isTemperature;
+
+    /**
+     * 是否监测烟气湿度
+     */
+    @Column(name = "is_humidity")
+    private Double isHumidity;
+
     public String getId() {
         return id;
     }
@@ -95,5 +113,29 @@ public class FumesPort implements Serializable {
 
     public void setHumidity(Double humidity) {
         this.humidity = humidity;
+    }
+
+    public Double getIsFumes() {
+        return isFumes;
+    }
+
+    public void setIsFumes(Double isFumes) {
+        this.isFumes = isFumes;
+    }
+
+    public Double getIsTemperature() {
+        return isTemperature;
+    }
+
+    public void setIsTemperature(Double isTemperature) {
+        this.isTemperature = isTemperature;
+    }
+
+    public Double getIsHumidity() {
+        return isHumidity;
+    }
+
+    public void setIsHumidity(Double isHumidity) {
+        this.isHumidity = isHumidity;
     }
 }
