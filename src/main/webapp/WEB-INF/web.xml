@@ -48,7 +48,7 @@
         <listener-class>com.harmonywisdom.framework.listener.FrameworkListener</listener-class>
     </listener>
 
-    <!--附件上传servlet（旧）-->
+    <!--附件上传servlet-->
     <servlet>
         <servlet-name>AttachmentServlet</servlet-name>
         <servlet-class>com.harmonywisdom.dshbcbp.attachment.action.AttachmentServlet</servlet-class>
@@ -57,31 +57,6 @@
     <servlet-mapping>
         <servlet-name>AttachmentServlet</servlet-name>
         <url-pattern>/Upload</url-pattern>
-    </servlet-mapping>
-    <!--附件上传servlet（新）-->
-    <servlet>
-        <servlet-name>FineUploaderServlet</servlet-name>
-        <servlet-class>com.harmonywisdom.dshbcbp.common.servlet.FineUploaderServlet</servlet-class>
-        <init-param>
-            <param-name>tempDir</param-name>
-            <param-value>C:/temp/upload</param-value>
-        </init-param>
-    </servlet>
-    <servlet>
-        <servlet-name>FineDownloaderServlet</servlet-name>
-        <servlet-class>com.harmonywisdom.dshbcbp.common.servlet.FineDownloaderServlet</servlet-class>
-        <init-param>
-            <param-name>tempDir</param-name>
-            <param-value>C:/temp/upload</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FineUploaderServlet</servlet-name>
-        <url-pattern>/FineUploaderServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FineDownloaderServlet</servlet-name>
-        <url-pattern>/FineDownloaderServlet</url-pattern>
     </servlet-mapping>
 
     <!--apportal filter-->

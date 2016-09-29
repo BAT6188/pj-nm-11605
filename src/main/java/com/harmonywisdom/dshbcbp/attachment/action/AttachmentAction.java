@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AttachmentAction extends DownloadableAction<Attachment, AttachmentService> {
 	
@@ -95,14 +97,22 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
     public void listAttachment() {
         String businessId = entity.getBusinessId();
         String type = entity.getAttachmentType();
-
+        List<Attachment> list = new ArrayList<Attachment>();
         if (StringUtils.isNotBlank(businessId) && StringUtils.isNotBlank(type)) {
-            write(attachmentService.getByBusinessIdAndType(businessId, type));
+            list = attachmentService.getByBusinessIdAndType(businessId, type);
         } else if (StringUtils.isNotBlank(businessId)) {
-            write(attachmentService.getByBusinessId(businessId));
-        } else {
-            write("[]");
+            list = attachmentService.getByBusinessId(businessId);
         }
+        if (list.size() == 0) {
+            write("[]");
+        }else{
+            //转换为fine uploader 需要的格式
+            for (Attachment attr: list) {
+                attr.setUuid(attr.getId());
+            }
+            write(list);
+        }
+
     }
     
     public void delete(){

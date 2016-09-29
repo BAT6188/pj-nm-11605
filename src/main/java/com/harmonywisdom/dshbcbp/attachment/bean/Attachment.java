@@ -10,6 +10,12 @@ public class Attachment implements Serializable {
 
     public Attachment() {}
 
+    /**
+     * find uploader 需要的属性
+     */
+    @Transient
+    private String uuid;
+
     @Id
     @Column(name = "ID", length = 32)
     private String id;
@@ -54,6 +60,14 @@ public class Attachment implements Serializable {
      */
     @Column(name = "ATT_TYPE", length = 50)
     private String attachmentType;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getId() {
         return id;
