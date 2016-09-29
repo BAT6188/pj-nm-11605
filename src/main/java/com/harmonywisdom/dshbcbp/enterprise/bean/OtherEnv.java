@@ -21,14 +21,17 @@ public class OtherEnv implements Serializable {
     /**
      * 环境制度建设情况
      */
+    @Column(name = "env_build_desc")
     private String EnvBuildDesc;
     /**
      * 是否通过ISO管理体系认证
      */
+    @Column(name = "is_iso", length = 2)
     private String isISO;
     /**
      * 其他环境信息
      */
+    @Column(name = "other_info")
     private String otherInfo;
 
     public String getId() {

@@ -70,19 +70,23 @@
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.SoundControlFacility</class>
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.EnvTestProgram</class>
         <class>com.harmonywisdom.dshbcbp.enterprise.bean.OtherEnv</class>
-        <class>com.harmonywisdom.dshbcbp.enterprise.bean.LetterSue</class>
-        <class>com.harmonywisdom.dshbcbp.enterprise.bean.Check</class>
-        <class>com.harmonywisdom.dshbcbp.enterprise.bean.Punish</class>
-        <class>com.harmonywisdom.dshbcbp.enterprise.bean.ProblemCorrect</class>
-        <class>com.harmonywisdom.dshbcbp.enterprise.bean.PollutantPayment</class>
-        <class>com.harmonywisdom.dshbcbp.enterprise.bean.SelfCheckReport</class>
 
+        <!--执法监管-->
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.LetterSue</class>
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.Check</class>
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.Punish</class>
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.ProblemCorrect</class>
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.PollutantPayment</class>
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.SelfCheckReport</class>
 
-        <class>com.harmonywisdom.dshbcbp.monitorcase.bean.MonitorCase</class>
-        <class>com.harmonywisdom.dshbcbp.dispathtask.bean.DispathTask</class>
-        <class>com.harmonywisdom.dshbcbp.schedule.bean.Schedule</class>
-        <class>com.harmonywisdom.dshbcbp.trustmonitor.bean.TrustMonitor</class>
-        <class>com.harmonywisdom.dshbcbp.entmonitortask.bean.EntMonitorTask</class>
+        <!--调度系统-->
+        <class>com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase</class>
+        <class>com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask</class>
+
+        <!--综合监测-->
+        <class>com.harmonywisdom.dshbcbp.detect.bean.Schedule</class>
+        <class>com.harmonywisdom.dshbcbp.detect.bean.TrustMonitor</class>
+        <class>com.harmonywisdom.dshbcbp.detect.bean.EntMonitorTask</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
