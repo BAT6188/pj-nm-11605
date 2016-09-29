@@ -3,6 +3,37 @@
     <persistence-unit name="dshbcbp">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
+        <!--日常办公系统 -->
+        <class>com.harmonywisdom.dshbcbp.office.bean.Contacts</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.CreationMode</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.Manual</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.ManualCatalog</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.MeetingNotice</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.PubInfo</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.ShareMeans</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.WorkSum</class>
+        <!--突发环境事件应急预案-->
+        <class>com.harmonywisdom.dshbcbp.composite.bean.EnterprisePlan</class>
+        <!-- 建设项目环评及其他许可证情况-->
+        <class>com.harmonywisdom.dshbcbp.composite.bean.BuildProject</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.PollutantLicense</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.CleanLicense</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.ProjectEIA</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.ProjectAcceptance</class>
+        <!--农村生态环境监管 -->
+        <class>com.harmonywisdom.dshbcbp.composite.bean.VillageEnv</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.Video</class>
+
+        <!--三级网格化信息维护 -->
+        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockLevel</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockFirst</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockSecond</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockThird</class>
+        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockFourth</class>
+
+
+
+
         <class>com.harmonywisdom.dshbcbp.demo.bean.Demo</class>
         <class>com.harmonywisdom.dshbcbp.attachment.bean.Attachment</class>
         <!--基本信息类-->
