@@ -61,7 +61,6 @@ public class VillageEnv implements Serializable {
     @Column(name = "CREATE_TIME")
     private Date createTime;
 
-    public java.util.Collection<Video> video;
 
     public String getId() {
         return id;
