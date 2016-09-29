@@ -21,18 +21,22 @@ public class EnvTestProgram implements Serializable {
     /**
      * 年份
      */
+    @Column(name = "year", length = 6)
     private Integer year;
     /**
      * 附件
      */
+    @Column(name = "attachment_id", length = 32)
     private String attachmentId;
     /**
      * 主要内容
      */
+    @Column(name = "content")
     private String content;
     /**
      * 企业id
      */
+    @Column(name = "enterprise_id", length = 32)
     private String enterpriseId;
 
     public String getId() {
