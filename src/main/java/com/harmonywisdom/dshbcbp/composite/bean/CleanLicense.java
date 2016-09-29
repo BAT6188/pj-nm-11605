@@ -23,12 +23,12 @@ public class CleanLicense implements Serializable {
     /**
      *有效期起始日期
      */
-    @Column(name = "START_DATE",length = 100)
+    @Column(name = "START_DATE")
     private Date startDate;
     /**
      *有效期结束日期
      */
-    @Column(name = "END_DATE",length = 100)
+    @Column(name = "END_DATE")
     private Date endDate;
     /**
      *发证机关
@@ -38,7 +38,7 @@ public class CleanLicense implements Serializable {
     /**
      *发证日期
      */
-    @Column(name = "PUB_DATE",length = 100)
+    @Column(name = "PUB_DATE")
     private Date pubDate;
     /**
      *附件
@@ -48,7 +48,7 @@ public class CleanLicense implements Serializable {
     /**
      *所属企业id
      */
-    @Column(name = "ENTERPRISE_ID",length = 100)
+    @Column(name = "ENTERPRISE_ID",length = 32)
     private String enterpriseId;
 
     public String getId() {

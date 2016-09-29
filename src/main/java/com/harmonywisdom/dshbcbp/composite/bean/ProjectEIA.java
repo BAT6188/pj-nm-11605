@@ -16,7 +16,7 @@ public class ProjectEIA implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(length = 64)
+    @Column(length = 32)
     private String id;
     /**
      *所属项目ID
@@ -56,7 +56,7 @@ public class ProjectEIA implements Serializable {
     /**
      *批复时间
      */
-    @Column(name = "REPLY_TIME",length = 100)
+    @Column(name = "REPLY_TIME")
     private Date replyTime;
     /**
      *批复文号

@@ -23,7 +23,7 @@ public class ShareMeans implements Serializable {
     /**
      *发布时间
      */
-    @Column(name = "PUB_TIME",length = 100)
+    @Column(name = "PUB_TIME")
     private Date pubTime;
     /**
      *发布单位id

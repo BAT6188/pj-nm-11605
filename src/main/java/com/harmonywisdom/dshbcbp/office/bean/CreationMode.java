@@ -33,7 +33,7 @@ public class CreationMode implements Serializable {
     /**
      *发布时间
      */
-    @Column(name = "PUB_TIME",length = 100)
+    @Column(name = "PUB_TIME")
     private Date pubTime;
     /**
      *内容概要

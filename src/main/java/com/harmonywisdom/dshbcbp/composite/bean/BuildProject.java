@@ -106,7 +106,7 @@ public class BuildProject implements Serializable {
     /**
      *竣工验收时间
      */
-    @Column(name = "ACCEPT_TIME",length = 100)
+    @Column(name = "ACCEPT_TIME")
     private Date acceptTime;
     /**
      *附件

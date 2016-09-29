@@ -48,7 +48,7 @@ public class MeetingNotice implements Serializable {
     /**
      * 会议时间
      */
-    @Column(name = "TIME",length = 100)
+    @Column(name = "TIME")
     private Date time;
     /**
      * 发布单位Id
@@ -73,17 +73,17 @@ public class MeetingNotice implements Serializable {
     /**
      * createTime
      */
-    @Column(name = "CREATETIME",length = 100)
+    @Column(name = "CREATE_TIME")
     private Date createTime;
     /**
      * 参会人员id(,号分隔)
      */
-    @Column(name = "PERSONIDS",length = 100)
+    @Column(name = "PERSON_IDS",length = 100)
     private String personIds;
     /**
      * 参会人员名称(,号分隔)
      */
-    @Column(name = "PERSONNAMES",length = 100)
+    @Column(name = "PERSON_NAMES",length = 100)
     private String personNames;
 
     public String getId() {

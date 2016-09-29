@@ -9,11 +9,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "HW_MANUAL")
-public class manual implements Serializable {
+public class Manual implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(length = 64)
+    @Column(length = 32)
     private String id;
     /**
      *文件名称
@@ -23,7 +23,7 @@ public class manual implements Serializable {
     /**
      *创建时间
      */
-    @Column(name = "CREATE_TIME",length = 100)
+    @Column(name = "CREATE_TIME")
     private Date createTime;
     /**
      * 类型:
@@ -55,7 +55,7 @@ public class manual implements Serializable {
     /**
      *发布时间
      */
-    @Column(name = "PUB_TIME",length = 100)
+    @Column(name = "PUB_TIME")
     private Date pubTime;
     /**
      *适用范围
