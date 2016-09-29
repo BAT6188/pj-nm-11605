@@ -4,6 +4,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>com.harmonywisdom.dshbcbp.demo.bean.Demo</class>
+        <class>com.harmonywisdom.dshbcbp.attachment.bean.Attachment</class>
         <!--基本信息类-->
 		<class>com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise</class>
 		<class>com.harmonywisdom.dshbcbp.production.bean.MainProduct</class>

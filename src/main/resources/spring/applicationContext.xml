@@ -19,6 +19,10 @@
     </context:component-scan>
 
     <bean class="com.harmonywisdom.framework.service.SpringUtil"/>
+    <!--字典码配置-->
+    <bean class="com.harmonywisdom.dshbcbp.common.dict.util.DictUtil"/>
+    <bean id="dictManager" class="com.harmonywisdom.dshbcbp.common.dict.manager.impl.ApportalDictManager"/>
+
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" lazy-init="false" destroy-method="close">
         <property name="driverClass" value="${jdbc.driverClassName}" />
         <property name="jdbcUrl" value="${jdbc.url}" />

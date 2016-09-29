@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<APPortalConfigure xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="APPortalConfigure">
+
+    <BasicConfigure>
+        <!--DomainDeploy single/main/sub -->
+        <DomainDeploy>single</DomainDeploy>
+        <VersionCode>V2.0</VersionCode>
+        <VersionDesc>Copyright: Copyright(c) 2002-2009,Harmony Technologies ,
+            All Rights Reserved </VersionDesc>
+    </BasicConfigure>
+
+    <SSOConfigure>
+        <SSOEnable>true</SSOEnable>
+        <SSOGateWaySite>http://dev1.zthz.com:8083/apportal</SSOGateWaySite>
+        <SSOGateWayURL>/SSOGateWay</SSOGateWayURL>
+        <SSOLoginPage>http://dev1.zthz.com:8083/apportal</SSOLoginPage>
+        <SSOLogoutPage>http://dev1.zthz.com:8083/apportal</SSOLogoutPage>
+        <SSOSecureEnable>false</SSOSecureEnable>
+        <SSOValidateMode>DataBase</SSOValidateMode>
+        <SSOTimeOut>30000</SSOTimeOut>
+    </SSOConfigure>
+
+    <LogInConfigure>
+        <MaxLoginFailNum>3</MaxLoginFailNum>
+        <MaxOnLineUserCount>0</MaxOnLineUserCount>
+        <AccountPolicy>false</AccountPolicy>
+        <IpPolicy>false</IpPolicy>
+        <LoginMode>MIX</LoginMode>
+        <LoginFailurePage>http://dev1.zthz.com:8083/apportal/layout/default/error/error.jsp</LoginFailurePage>
+        <LoginSuccessPage>/main/index.action</LoginSuccessPage>
+        <ConcurrentNum>10</ConcurrentNum>
+        <WaitInterval>100</WaitInterval>
+    </LogInConfigure>
+
+    <DataSourceConfigure>
+        <DBConfigurePathFile>META-INF/jdbc-apportal.properties</DBConfigurePathFile>
+        <DBConnectionType>jdbc</DBConnectionType>
+    </DataSourceConfigure>
+</APPortalConfigure>

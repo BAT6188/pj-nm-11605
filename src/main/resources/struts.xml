@@ -31,5 +31,10 @@
         <action name="S_*_*_*" class="com.harmonywisdom.dshbcbp.{1}.action.{2}Action" method="{3}"/>
     </package>
 
+    <!-- 字典 -->
+    <package name="dict" namespace="" extends="struts-default">
+        <action name="S_dict_Dict_*" class="com.harmonywisdom.dshbcbp.common.dict.action.DictAction" method="{1}"/>
+    </package>
+
     <include file="struts/*.xml"/>
 </struts>

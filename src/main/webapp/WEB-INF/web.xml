@@ -47,4 +47,35 @@
     <listener>
         <listener-class>com.harmonywisdom.framework.listener.FrameworkListener</listener-class>
     </listener>
+
+    <!--附件上传servlet-->
+    <servlet>
+        <servlet-name>AttachmentServlet</servlet-name>
+        <servlet-class>com.harmonywisdom.dshbcbp.attachment.action.AttachmentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AttachmentServlet</servlet-name>
+        <url-pattern>/Upload</url-pattern>
+    </servlet-mapping>
+
+    <!--apportal filter-->
+    <filter>
+        <filter-name>AgentFilter</filter-name>
+        <filter-class>com.harmonywisdom.apportal.sso.agent.AgentFilter</filter-class>
+        <!--======统计用户登录信息，注意systemCode值是唯一的======-->
+        <init-param>
+            <param-name>systemCode</param-name>
+            <param-value>dshbcbp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>systemName</param-name>
+            <param-value>东胜环保综合业务平台</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>AgentFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
