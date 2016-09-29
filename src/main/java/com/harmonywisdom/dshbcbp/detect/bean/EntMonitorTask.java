@@ -66,7 +66,7 @@ public class EntMonitorTask implements Serializable {
     @Column(name = "result")
     private String result;
 
-    @Column(name = "attachmentId", length = 32)
+    @Column(name = "attachment_id", length = 32)
     private String attachmentId;
 
     public String getId() {
