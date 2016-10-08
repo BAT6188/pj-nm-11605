@@ -1,16 +1,15 @@
-
-var $table = $('#table'),
-    $remove = $('#remove'),
+var gridTable = $('#table'),
+    removeBtn = $('#remove'),
     selections = [];
 function initTable() {
-    $table.bootstrapTable({
+    gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        height: 600,
+        url: rootPath+"/action/S_demo_Demo_list.action",
+        height: 590,
         method:'post',
         queryParams:function (param) {
             var name = $("#s_name").val();
             var age = $("#s_age").val();
-            console.log(param);
             var temp = {
                 name: name,
                 age: age,
@@ -20,8 +19,6 @@ function initTable() {
                 page: param.offset/param.limit + 1,
                 pageSize: param.limit
             };
-
-
             return temp;
         },
         columns: [
@@ -64,34 +61,18 @@ function initTable() {
     });
     // sometimes footer render error.
     setTimeout(function () {
-        $table.bootstrapTable('resetView');
+        gridTable.bootstrapTable('resetView');
     }, 200);
-    $table.on('check.bs.table uncheck.bs.table ' +
-        'check-all.bs.table uncheck-all.bs.table', function () {
-        $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
-        // save your data, here just save the current page
-        selections = getIdSelections();
-        // push or splice the selections if you want to save all data selections
-    });
-    $table.on('expand-row.bs.table', function (e, index, row, $detail) {
-        if (index % 2 == 1) {
-            $detail.html('Loading from ajax request...');
-            $.get('LICENSE', function (res) {
-                $detail.html(res.replace(/\n/g, '<br>'));
-            });
-        }
-    });
-    $table.on('all.bs.table', function (e, name, args) {
-        //console.log(" 全选 ");
-    });
-    $remove.click(function () {
+
+    //处理删除按钮状态
+    removeBtn.click(function () {
         var ids = getIdSelections();
         deleteDemos(ids,function (msg) {
-            $table.bootstrapTable('remove', {
+            gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
             });
-            $remove.prop('disabled', true);
+            removeBtn.prop('disabled', true);
         });
 
     });
@@ -99,10 +80,10 @@ function initTable() {
     //搜索
     $("#search").click(function () {
         //查询之前重置table
-        $table.bootstrapTable('resetSearch');
+        gridTable.bootstrapTable('resetSearch');
         var name = $("#s_name").val();
         var age = $("#s_age").val();
-        $table.bootstrapTable('refresh',{
+        gridTable.bootstrapTable('refresh',{
             query:{name: name, age: age}
         });
     });
@@ -110,7 +91,7 @@ function initTable() {
     $("#searchFix").click(function () {
         $("#s_name").val("");
         $("#s_age").val("");
-        $table.bootstrapTable('resetSearch');
+        gridTable.bootstrapTable('resetSearch');
     });
 
     //表单弹出框 保存按钮
@@ -127,27 +108,27 @@ function initTable() {
         demo.removeId = $("#removeId").val();
         saveDemo(demo,function (msg) {
             $('#demoForm').modal('hide');
-            $table.bootstrapTable('refresh');
+            gridTable.bootstrapTable('refresh');
         });
     });
 
     $(window).resize(function () {
         // 重新设置表的高度
-        $table.bootstrapTable('resetView', {
+        gridTable.bootstrapTable('resetView', {
             height: getHeight()
         });
     });
 }
 // 获取所有的选中数据
 function getIdSelections() {
-    return $.map($table.bootstrapTable('getSelections'), function (row) {
+    return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
 // 获取所有的选中数据
 function getSelections() {
-    return $.map($table.bootstrapTable('getSelections'), function (row) {
+    return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         return row
     });
 }
@@ -185,7 +166,7 @@ window.operateEvents = {
     },
     'click .remove': function (e, value, row, index) {
         deleteDemos(row.id, function (msg) {
-            $table.bootstrapTable('remove', {
+            gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: [row.id]
             });
@@ -210,6 +191,8 @@ function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
+//初始化表单
+var ef = $("#demoForm").easyform();
 
 function updateDemo(demo) {
     $.ajax({
@@ -362,7 +345,4 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
-var ef;
-$(function () {
-    ef = $("#demoForm").easyform();
-});
+
