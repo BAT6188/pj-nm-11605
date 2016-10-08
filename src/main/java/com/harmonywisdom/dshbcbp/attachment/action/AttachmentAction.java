@@ -116,7 +116,7 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
     }
     
     public void delete(){
-    	String id = request.getParameter("deletedId");
+    	String id = request.getParameter("qquuid");
     	write(true, "id", id);
     }
 }

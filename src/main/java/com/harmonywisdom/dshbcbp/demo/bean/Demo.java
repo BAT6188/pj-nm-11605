@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.demo.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -21,6 +18,9 @@ public class Demo implements Serializable {
 
     @Column
     private Integer age;
+
+    @Transient
+    private String attachmentIds;
 
     public String getId() {
         return id;
@@ -44,5 +44,13 @@ public class Demo implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 }

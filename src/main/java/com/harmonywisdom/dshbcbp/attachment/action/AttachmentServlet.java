@@ -121,6 +121,7 @@ public class AttachmentServlet extends HttpServlet {
             // 保存到数据库
             AttachmentService service = SpringUtil.getBean("attachmentService");
             service.save(attachment);
+            attachment.setUuid(attachment.getId());
 
             response.setCharacterEncoding("UTF-8");
 //            response.setContentType("application/json;charset=utf-8");

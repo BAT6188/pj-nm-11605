@@ -15,6 +15,8 @@
     <link href="<%=request.getContextPath()%>/scripts/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/scripts/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/scripts/bootstrap-table-1.11.0/bootstrap-table.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader-gallery.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader-new.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/css/pageStyle.css" rel="stylesheet">
 
     <script src="<%=request.getContextPath()%>/scripts/jquery1.12.4/jquery.js"></script>
@@ -29,9 +31,13 @@
     <script src="<%=request.getContextPath()%>/scripts/bootstrap-table-1.11.0/table-export/tableExport.js"></script>
     <script src="<%=request.getContextPath()%>/scripts/bootstrap-table-1.11.0/extensions/export/bootstrap-table-export.js"></script>
 
+    <script src="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader.core.js"></script>
+    <script src="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader.jquery.js"></script>
+    <script src="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader.js"></script>
+
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <!--搜索区域-->
     <div class="alert alert-info">
         <form class="form-inline" role="form">
@@ -51,6 +57,7 @@
     <!--列表区域-->
     <div id="toolbar">
         <button id="add" type="button" class="btn btn-default" data-toggle="modal" data-target="#demoForm" >新增</button>
+        <button id="update" type="button" class="btn btn-default" data-toggle="modal" data-target="#demoForm" >修改</button>
         <button id="remove" type="button" class="btn btn-default" >删除</button>
     </div>
     <table id="table"
@@ -86,6 +93,8 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle">添加Demo</h4>
+                <input type="hidden" id="id">
+                <input type="hidden" id="removeId">
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
@@ -100,6 +109,13 @@
                         <label for="age" class="col-sm-2 control-label">年龄</label>
                         <div class="col-sm-10">
                             <input type="text" id="age" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件</label>
+                        <div class="col-sm-10">
+                                <jsp:include page="/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                                <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
                 </form>
