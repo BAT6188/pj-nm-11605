@@ -115,6 +115,10 @@ function initTable() {
 
     //表单弹出框 保存按钮
     $("#saveDemo").bind('click',function () {
+        var result = ef.submit(true);
+        if (!result) {
+            return false;
+        }
         var demo = {};
         demo.id = $("#id").val();
         demo.name = $("#name").val();
@@ -357,4 +361,8 @@ function getAttachmentIds() {
 $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function () {
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+});
+var ef;
+$(function () {
+    ef = $("#demoForm").easyform();
 });

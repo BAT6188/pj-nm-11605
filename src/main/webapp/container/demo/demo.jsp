@@ -17,9 +17,11 @@
     <link href="<%=request.getContextPath()%>/scripts/bootstrap-table-1.11.0/bootstrap-table.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader-gallery.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader-new.css" rel="stylesheet">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.css">
     <link href="<%=request.getContextPath()%>/css/pageStyle.css" rel="stylesheet">
 
-    <script src="<%=request.getContextPath()%>/scripts/jquery1.12.4/jquery.js"></script>
+    <%--<script src="<%=request.getContextPath()%>/scripts/jquery1.12.4/jquery.js"></script>--%>
+    <script src="<%=request.getContextPath()%>/demo/easyform/js/jquery-2.1.0.min.js"></script>
     <script src="<%=request.getContextPath()%>/scripts/bootstrap-3.3.7/js/bootstrap.js"></script>
 
     <script src="<%=request.getContextPath()%>/scripts/bootstrap-table-1.11.0/bootstrap-table.js"></script>
@@ -34,6 +36,7 @@
     <script src="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader.core.js"></script>
     <script src="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader.jquery.js"></script>
     <script src="<%=request.getContextPath()%>/scripts/fine-uploader-5.11.8/fine-uploader.js"></script>
+    <script src="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.js"></script>
 
 </head>
 <body>
@@ -101,14 +104,22 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">姓名</label>
                         <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control col-sm-10" />
+                            <input type="text" id="name" class="form-control"
+                                   data-easyform="!null;"
+                                   data-message="用户名不能为空"
+                                   data-easytip="position:right;class:easy-red;"
+                            />
                         </div>
 
                     </div>
                     <div class="form-group">
                         <label for="age" class="col-sm-2 control-label">年龄</label>
                         <div class="col-sm-10">
-                            <input type="text" id="age" class="form-control" />
+                            <input type="text" id="age" class="form-control"
+                                   data-easyform="uint:14 100;"
+                                   data-message="年龄必须为14~100范围内整数"
+                                   data-easytip="position:right;class:easy-red;"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
