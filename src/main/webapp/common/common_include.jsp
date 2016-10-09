@@ -36,4 +36,4 @@
 <script src="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader.jquery.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader.js"></script>
 <script src="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.js"></script>
-<script src="<%=request.getContextPath()%>/common/scripts/formSerializeObject.js"></script>
+<script src="<%=request.getContextPath()%>/common/scripts/userDefined.js"></script>
