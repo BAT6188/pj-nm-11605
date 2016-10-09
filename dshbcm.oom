@@ -3823,7 +3823,7 @@ Shadow=0</a:DisplayPreferences>
 </o:PolylineSymbol>
 <o:AssociationSymbol Id="o7">
 <a:ModificationDate>1475052112</a:ModificationDate>
-<a:Rect>((-17500,27950), (-16100,31900))</a:Rect>
+<a:Rect>((-18787,27950), (-14813,31900))</a:Rect>
 <a:ListOfPoints>((-16800,31500),(-16800,28350))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
