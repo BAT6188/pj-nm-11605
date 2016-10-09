@@ -17,7 +17,7 @@
 <link href="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader-gallery.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader-new.css" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.css">
-<link href="<%=request.getContextPath()%>/css/pageStyle.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/common/css/pageStyle.css" rel="stylesheet">
 
 <%--<script src="<%=request.getContextPath()%>/common/scripts/jquery1.12.4/jquery.js"></script>--%>
 <script src="<%=request.getContextPath()%>/demo/easyform/js/jquery-2.1.0.min.js"></script>
