@@ -32,20 +32,20 @@ function initTable() {
                 field: 'id',
                 align: 'center',
                 valign: 'middle',
-                sortable: true,
+                sortable: false,
                 footerFormatter: totalTextFormatter
             },
             {
-                field: 'name',
                 title: '姓名',
-                sortable: true,
+                field: 'name',
                 editable: false,
+                sortable: false,
                 footerFormatter: totalNameFormatter,
                 align: 'center'
             }, {
                 field: 'age',
                 title: '年龄',
-                sortable: true,
+                sortable: false,
                 align: 'center',
                 editable: false,
                 footerFormatter: totalPriceFormatter

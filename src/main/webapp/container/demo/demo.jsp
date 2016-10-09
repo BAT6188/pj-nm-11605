@@ -9,7 +9,7 @@
 <body>
 <div class="container-fluid">
     <!--搜索区域-->
-    <div class="alert alert-info">
+    <div class="alert">
         <form class="form-inline" role="form">
             <div class="form-group">
                 <label for="name">姓名</label>
@@ -19,26 +19,26 @@
                 <label for="age">年龄</label>
                 <input type="text" id="s_age" class="form-control" />
             </div>
-            <button id="search" type="button" class="btn btn-default" >查询</button>
+            <button id="search" type="button" class="btn btn-success" >查询</button>
             <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
         </form>
     </div>
 
     <!--列表区域-->
     <div id="toolbar">
-        <button id="add" type="button" class="btn btn-default" data-toggle="modal" data-target="#demoForm" >新增</button>
-        <button id="update" type="button" class="btn btn-default" data-toggle="modal" data-target="#demoForm" >修改</button>
-        <button id="remove" type="button" class="btn btn-default" >删除</button>
+        <button id="add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoForm" >新增</button>
+        <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#demoForm" >修改</button>
+        <button id="remove" type="button" class="btn btn-danger" >删除</button>
     </div>
     <table id="table"
            data-toolbar="#toolbar"
            data-show-header="true"
            data-card-view="false"
            data-search="false"
-           data-show-refresh="true"
+           data-show-refresh="false"
            data-show-toggle="false"
            data-show-columns="false"
-           data-show-export="true"
+           data-show-export="false"
            data-detail-view="false"
            data-detail-formatter="detailFormatter"
            data-minimum-count-columns="2"
@@ -73,7 +73,7 @@
                             <input type="text" id="name" class="form-control"
                                    data-easyform="!null;"
                                    data-message="用户名不能为空"
-                                   data-easytip="position:right;class:easy-red;"
+                                   data-easytip="position:top;class:easy-red;"
                             />
                         </div>
 
@@ -84,7 +84,7 @@
                             <input type="text" id="age" class="form-control"
                                    data-easyform="uint:14 100;"
                                    data-message="年龄必须为14~100范围内整数"
-                                   data-easytip="position:right;class:easy-red;"
+                                   data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
