@@ -4,7 +4,7 @@ var gridTable = $('#table'),
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url: rootPath+"/action/S_enterprise_GasControlFacility_list.action",
+        url: rootPath+"/action/S_enterprise_WaterControlFacility_list.action",
         height: 590,
         method:'post',
         queryParams:function (param) {
@@ -157,6 +157,7 @@ function initTable() {
         demo.openDate = $("openDate").val();
         demo.crafts = $("crafts").val();
         demo.ability = $("ability").val();
+        demo.realAbility = $("realAbility").val();
         demo.enterpriseId = $("enterpriseId").val();
         demo.attachmentIds = getAttachmentIds();
         demo.removeId = $("#removeId").val();
@@ -250,7 +251,7 @@ var ef = $("#demoForm").easyform();
 
 function updateDemo(demo) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_save.action",
+        url: rootPath + "/action/S_enterprise_WaterControlFacility_save.action",
         type:"post",
         data:demo,
         dataType:"json",
@@ -262,7 +263,7 @@ function updateDemo(demo) {
 
 function deleteDemos(ids,callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_delete.action",
+        url: rootPath + "/action/S_enterprise_WaterControlFacility_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -272,7 +273,7 @@ function deleteDemos(ids,callback) {
 
 function saveDemo(demo,callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_save.action",
+        url: rootPath + "/action/S_enterprise_WaterControlFacility_save.action",
         type:"post",
         data:demo,
         dataType:"json",
@@ -302,7 +303,7 @@ $("#demoForm").on('show.bs.modal', function () {
 function refreshDemoForm(demo) {
     var id = "";
     if (demo && (typeof(demo) == "object")) {
-        $("#demoFormTitle").text("修改大气污染治理设施");
+        $("#demoFormTitle").text("修改水污染治理设施");
         id = demo.id;
         $("#id").val(demo.id);
         $("#name").val(demo.name);
@@ -311,9 +312,10 @@ function refreshDemoForm(demo) {
         $("#openDate").val(demo.openDate);
         $("#crafts").val(demo.crafts);
         $("#ability").val(demo.ability);
+        $("#realAbility").val(demo.realAbility);
         $("#enterpriseId").val(demo.enterpriseId);
     }else{
-        $("#demoFormTitle").text("新增大气污染治理设施");
+        $("#demoFormTitle").text("新增水污染治理设施");
         $("#id").val("");
         $("#name").val("");
         $("#createTime").val("");
@@ -321,6 +323,7 @@ function refreshDemoForm(demo) {
         $("#openDate").val("");
         $("#crafts").val("");
         $("#ability").val("");
+        $("#realAbility").val("");
         $("#enterpriseId").val("");
 
     }

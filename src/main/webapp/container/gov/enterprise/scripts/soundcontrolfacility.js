@@ -4,7 +4,7 @@ var gridTable = $('#table'),
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url: rootPath+"/action/S_enterprise_GasControlFacility_list.action",
+        url: rootPath+"/action/S_enterprise_SoundControlFacility_list.action",
         height: 590,
         method:'post',
         queryParams:function (param) {
@@ -74,14 +74,14 @@ function initTable() {
                 editable: false,
                 footerFormatter: totalPriceFormatter
             },
-            {
-                field: 'ability',
-                title: '设计处理能力',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                footerFormatter: totalPriceFormatter
-            },
+            // {
+            //     field: 'ability',
+            //     title: '设计处理能力',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false,
+            //     footerFormatter: totalPriceFormatter
+            // },
             // {
             //     field: 'attachmentId',
             //     title: '附件ID',
@@ -250,7 +250,7 @@ var ef = $("#demoForm").easyform();
 
 function updateDemo(demo) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_save.action",
+        url: rootPath + "/action/S_enterprise_SoundControlFacility_save.action",
         type:"post",
         data:demo,
         dataType:"json",
@@ -262,7 +262,7 @@ function updateDemo(demo) {
 
 function deleteDemos(ids,callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_delete.action",
+        url: rootPath + "/action/S_enterprise_SoundControlFacility_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -272,7 +272,7 @@ function deleteDemos(ids,callback) {
 
 function saveDemo(demo,callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_save.action",
+        url: rootPath + "/action/S_enterprise_SoundControlFacility_save.action",
         type:"post",
         data:demo,
         dataType:"json",
@@ -302,7 +302,7 @@ $("#demoForm").on('show.bs.modal', function () {
 function refreshDemoForm(demo) {
     var id = "";
     if (demo && (typeof(demo) == "object")) {
-        $("#demoFormTitle").text("修改大气污染治理设施");
+        $("#demoFormTitle").text("修改噪声治理设施");
         id = demo.id;
         $("#id").val(demo.id);
         $("#name").val(demo.name);
@@ -313,7 +313,7 @@ function refreshDemoForm(demo) {
         $("#ability").val(demo.ability);
         $("#enterpriseId").val(demo.enterpriseId);
     }else{
-        $("#demoFormTitle").text("新增大气污染治理设施");
+        $("#demoFormTitle").text("新增噪声治理设施");
         $("#id").val("");
         $("#name").val("");
         $("#createTime").val("");

@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
-    <title>大气污染治理设施</title>
+    <title>噪声治理设施</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -119,15 +119,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ability" class="col-sm-2 control-label">设计处理能力</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="ability" class="form-control"
-                                   data-message="设计处理能力不为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="enterpriseId" class="col-sm-2 control-label">企业Id</label>
                         <div class="col-sm-10">
                             <input type="text" id="enterpriseId" class="form-control"
@@ -153,6 +144,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="scripts/gascontrolfacility.js"></script>
+<script src="scripts/soundcontrolfacility.js"></script>
 </body>
 </html>
