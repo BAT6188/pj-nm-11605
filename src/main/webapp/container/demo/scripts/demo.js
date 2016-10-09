@@ -191,7 +191,7 @@ function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
-//初始化表单
+//初始化表单验证
 var ef = $("#demoForm").easyform();
 
 function updateDemo(demo) {
@@ -225,13 +225,18 @@ function saveDemo(demo,callback) {
         success:callback
     });
 }
-
-//初始化表单
+$("#add,#update").bind('click',function () {
+    $("#demoForm").attr("data-form-type",$(this).attr("id"));
+});
+//初始化表单数据
 $("#demoForm").on('show.bs.modal', function () {
-    var selects = getSelections();
     var demo;
-    if (selects && selects.length > 0) {
-        demo = selects[0];
+    var formType = $("#demoForm").attr("data-form-type");
+    if (formType == "update") {
+        var selects = getSelections();
+        if (selects && selects.length > 0) {
+            demo = selects[0];
+        }
     }
     refreshDemoForm(demo);
 });
