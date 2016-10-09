@@ -16,35 +16,36 @@ public class CreationMode implements Serializable {
     @Column(length = 32)
     private String id;
     /**
-     *标题
+     * 标题
      */
-    @Column(name = "TITLE",length = 100)
+    @Column(name = "TITLE", length = 100)
     private String title;
     /**
-     *发布单位id
+     * 发布单位id
      */
-    @Column(name = "PUB_ORG_ID",length = 100)
+    @Column(name = "PUB_ORG_ID", length = 100)
     private int pubOrgId;
     /**
-     *发布单位
+     * 发布单位
      */
-    @Column(name = "PUB_ORG_NAME",length = 100)
+    @Column(name = "PUB_ORG_NAME", length = 100)
     private String pubOrgName;
     /**
-     *发布时间
+     * 发布时间
      */
     @Column(name = "PUB_TIME")
     private Date pubTime;
     /**
-     *内容概要
+     * 内容概要
      */
-    @Column(name = "CONTENT",length = 200)
+    @Column(name = "CONTENT", length = 200)
     private String content;
     /**
-     *附件ID
+     * 附件ID
      */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
+
 
     public String getId() {
         return id;
@@ -94,11 +95,11 @@ public class CreationMode implements Serializable {
         this.content = content;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 }
