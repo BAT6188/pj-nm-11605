@@ -96,20 +96,7 @@ function initTable() {
 
     //表单弹出框 保存按钮
     $("#saveDemo").bind('click',function () {
-        var result = ef.submit(true);
-        if (!result) {
-            return false;
-        }
-        var demo = {};
-        demo.id = $("#id").val();
-        demo.name = $("#name").val();
-        demo.age = $("#age").val();
-        demo.attachmentIds = getAttachmentIds();
-        demo.removeId = $("#removeId").val();
-        saveDemo(demo,function (msg) {
-            $('#demoForm').modal('hide');
-            gridTable.bootstrapTable('refresh');
-        });
+        ef.submit(true);
     });
 
     $(window).resize(function () {
@@ -192,7 +179,23 @@ function getHeight() {
 }
 initTable();
 //初始化表单验证
-var ef = $("#demoForm").easyform();
+var ef = $("#demoForm").easyform({
+    success:function (ef) {
+        var demo = {};
+        demo.id = $("#id").val();
+        demo.name = $("#name").val();
+        demo.age = $("#age").val();
+        demo.attachmentIds = getAttachmentIds();
+        demo.removeId = $("#removeId").val();
+        saveDemo(demo,function (msg) {
+            $('#demoForm').modal('hide');
+            gridTable.bootstrapTable('refresh');
+        });
+    },
+    error:function (ef,input, rull) {
+        alert($(input).attr("id"));
+    }
+});
 
 function updateDemo(demo) {
     $.ajax({
