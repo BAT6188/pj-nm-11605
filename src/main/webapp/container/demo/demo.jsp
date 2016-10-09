@@ -71,7 +71,6 @@
                         <label for="name" class="col-sm-2 control-label">姓名</label>
                         <div class="col-sm-10">
                             <input type="text" id="name" class="form-control"
-                                   data-easyform="!null;"
                                    data-message="用户名不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />

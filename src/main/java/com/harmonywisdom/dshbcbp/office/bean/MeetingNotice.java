@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.office.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -63,7 +60,7 @@ public class MeetingNotice implements Serializable {
     /**
      * 会议内容
      */
-    @Column(name = "CONTENT",length = 100)
+    @Column(name = "CONTENT",length = 1000)
     private String content;
     /**
      * 是否短信通知
@@ -85,6 +82,16 @@ public class MeetingNotice implements Serializable {
      */
     @Column(name = "PERSON_NAMES",length = 100)
     private String personNames;
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;
