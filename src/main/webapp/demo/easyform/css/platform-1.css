@@ -469,7 +469,7 @@ body {
     background-color: rgba(255, 255, 255, 0.27);
     border-radius: 10px;
     border: 1px solid #aaa;
-    width: 424px;
+    width: 100%;
     margin: 0 auto;
     padding: 30px 0 20px 0px;
     font-size: 12px;
@@ -494,9 +494,17 @@ body {
 }
 
 .form-div table {
+    border:solid #0000FF;
+    border-width:1px 0px 0px 1px;
     margin: 0 auto;
     text-align: right;
     color: rgba(64, 64, 64, 1.00);
+}
+
+.form-div table td{
+    border:solid #0000FF;
+    border-width:0px 1px 1px 0px;
+    padding:10px 0px;
 }
 
 .form-div table th{

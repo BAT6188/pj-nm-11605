@@ -9,6 +9,9 @@
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
+    <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.css" rel="stylesheet">
+    <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.js"></script>
+    <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <title>大气污染治理设施</title>
 </head>
 <body>
@@ -77,7 +80,6 @@
                         <label for="name" class="col-sm-2 control-label">设施名称</label>
                         <div class="col-sm-10">
                             <input type="text" id="name" class="form-control"
-                                   data-easyform="!null;"
                                    data-message="用户名不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -86,18 +88,21 @@
                     <div class="form-group">
                         <label for="createTime" class="col-sm-2 control-label">建设日期</label>
                         <div class="col-sm-10">
-                            <input type="text" id="createTime" class="form-control"
-                                   data-easyform="!null;"
-                                   data-message="时间不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                            <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                <input type="text" id="createTime" class="form-control"
+                                       data-message="时间不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="status" class="col-sm-2 control-label">状态</label>
                         <div class="col-sm-10">
                             <input type="text" id="status" class="form-control"
-                                   data-easyform="!null;"
                                    data-message="状态不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -106,18 +111,21 @@
                     <div class="form-group">
                         <label for="openDate" class="col-sm-2 control-label">投运日期</label>
                         <div class="col-sm-10">
-                            <input type="text" id="openDate" class="form-control"
-                                   data-easyform="!null;"
-                                   data-message="投运日期不为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input type="text" id="openDate" class="form-control"
+                                       data-message="时间不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="crafts" class="col-sm-2 control-label">工艺处理</label>
                         <div class="col-sm-10">
                             <input type="text" id="crafts" class="form-control"
-                                   data-easyform="!null;"
                                    data-message="工艺处理不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -127,7 +135,6 @@
                         <label for="ability" class="col-sm-2 control-label">设计处理能力</label>
                         <div class="col-sm-10">
                             <input type="text" id="ability" class="form-control"
-                                   data-easyform="!null;"
                                    data-message="设计处理能力不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -137,7 +144,6 @@
                         <label for="enterpriseId" class="col-sm-2 control-label">企业Id</label>
                         <div class="col-sm-10">
                             <input type="text" id="enterpriseId" class="form-control"
-                                   data-easyform="!null;"
                                    data-message="设计处理能力不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />

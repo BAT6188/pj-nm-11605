@@ -2,8 +2,7 @@
  * Created by Administrator on 2016/10/9.
  */
 (function($){
-    $.fn.formSerializeObject = function()
-    {
+    $.fn.formSerializeObject = function(){
         var o = {};
         var a = this.serializeArray();
         $.each(a, function() {

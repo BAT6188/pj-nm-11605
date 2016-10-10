@@ -55,11 +55,16 @@ public class PubInfo implements Serializable {
      */
     @Column(name = "CONTENT",length = 255)
     private String content;
-    /**
-     *附件
-     */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;
@@ -125,11 +130,4 @@ public class PubInfo implements Serializable {
         this.content = content;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
-}
+   }

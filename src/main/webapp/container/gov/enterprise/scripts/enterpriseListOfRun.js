@@ -1,4 +1,5 @@
 var gridTable = $('#table'),
+    add = $('#add'),
     removeBtn = $('#remove'),
     selections = [];
 function initTable() {
@@ -68,6 +69,10 @@ function initTable() {
         gridTable.bootstrapTable('resetView');
     }, 200);
 
+    //处理新增按钮
+    add.click(function(){
+       window.location.href = 'enterpriseAdd.jsp';
+    });
     //处理删除按钮状态
     removeBtn.click(function () {
         var ids = getIdSelections();
@@ -86,15 +91,13 @@ function initTable() {
         //查询之前重置table
         gridTable.bootstrapTable('resetSearch');
         var jsonData = $('#searchform').formSerializeObject();
-        console.log(jsonData);
         gridTable.bootstrapTable('refresh',{
             query:jsonData
         });
     });
     //重置搜索
     $("#searchFix").click(function () {
-        $("#s_name").val("");
-        $("#s_age").val("");
+        $('#searchform')[0].reset();
         gridTable.bootstrapTable('resetSearch');
     });
 
@@ -156,7 +159,7 @@ function detailFormatter(index, row) {
 function operateFormatter(value, row, index) {
     return [
         '<a class="like" href="javascript:void(0)" title="Like">',
-        '<i class="glyphicon glyphicon-heart"></i>',
+        '<i class="glyphicon glyphicon-hand-down"></i>',
         '</a>  ',
         '<a class="remove" href="javascript:void(0)" title="Remove">',
         '<i class="glyphicon glyphicon-remove"></i>',
@@ -198,26 +201,21 @@ initTable();
 //初始化表单
 var ef = $("#demoForm").easyform();
 
-function updateDemo(demo) {
-    $.ajax({
-        url: rootPath + "/action/S_enterprise_Enterprise_save.action",
-        type:"post",
-        data:demo,
-        dataType:"json",
-        success:function (msg) {
-            alert("更新成功");
-        }
-    });
-}
-
 function deleteDemos(ids,callback) {
-    $.ajax({
-        url: rootPath + "/action/S_enterprise_Enterprise_delete.action",
-        type:"post",
-        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:callback
-    });
+    if(ids!=undefined && ids!=""){
+        $.ajax({
+            url: rootPath + "/action/S_enterprise_Enterprise_delete.action",
+            type:"post",
+            data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
+            dataType:"json",
+            success:callback
+        });
+    }else{
+        $(".alert-warning").show();
+        setTimeout(function () {
+            $(".alert-warning").hide();
+        }, 2000);
+    }
 }
 
 function saveDemo(demo,callback) {
@@ -349,3 +347,5 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+/*消息提示功能*/
