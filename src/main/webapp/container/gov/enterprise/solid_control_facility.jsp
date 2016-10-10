@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
@@ -29,22 +30,7 @@
         <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#scfForm" >修改</button>
         <button id="remove" type="button" class="btn btn-danger" >删除</button>
     </div>
-    <table id="table"
-           data-toolbar="#toolbar"
-
-
-
-
-
-
-
-           data-pagination="true"
-
-
-           data-side-pagination="server"
-
-           >
-    </table>
+    <table id="table" data-toolbar="#toolbar" ></table>
 </div>
 <!--添加表单-->
 <div class="modal fade" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

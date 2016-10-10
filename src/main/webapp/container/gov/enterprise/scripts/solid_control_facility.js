@@ -34,9 +34,12 @@ function deleteAjax(ids, callback) {
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
         url: rootPath+"/action/S_enterprise_SolidControlFacility_list.action",
-        height: 580,
+        height: 590,
         method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = {
                 //分页参数
@@ -151,6 +154,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
+        setFormData(row);
         alert('You click like action, row: ' + JSON.stringify(row));
     },
     'click .remove': function (e, value, row, index) {
@@ -247,7 +251,11 @@ var ef = form.easyform({
         entity.id = $("#id").val();
         entity.name = $("#name").val();
         entity.createTime = $("#createTime").val();
-        entity.status = $("input[name='status']").val();
+         $("input[name='status']").each(function (index, radio) {
+             if ($(radio).prop("checked")) {
+                 entity.status = $(radio).val();
+             }
+         });
         entity.openDate = $("#openDate").val();
         entity.crafts = $("#crafts").val();
         entity.ability = $("#ability").val();
@@ -256,10 +264,6 @@ var ef = form.easyform({
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
-    },
-    error:function (ef, i, r) {
-        alert($(i).html());
-        
     }
 });
 
@@ -293,7 +297,15 @@ function setFormData(entity) {
     $("#removeId").val("");
     $("#name").val(entity.name);
     $("#createTime").val(sub10(entity.createTime));
-    $("input[name='status']").val(entity.status);
+
+    $("input[name='status']").each(function (index,radio) {
+        var value = $(radio).val();
+        if (entity.status && value==entity.status) {
+            $(radio).prop("checked",true);
+        }else{
+            $(radio).prop("checked",false);
+        }
+    });
     $("#openDate").val(sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);

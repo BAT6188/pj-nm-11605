@@ -4,6 +4,8 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.enterprise.bean.SolidControlFacility;
 import com.harmonywisdom.dshbcbp.enterprise.service.SolidControlFacilityService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
+import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
@@ -17,6 +19,14 @@ public class SolidControlFacilityAction extends BaseAction<SolidControlFacility,
     @Override
     protected SolidControlFacilityService getService() {
         return solidControlFacilityService;
+    }
+
+    @Override
+    protected QueryCondition getQueryCondition() {
+        QueryCondition condition = new QueryCondition();
+        condition.setPaging(getPaging());
+        condition.setOrderBy("createTime", Direction.DESC);
+        return condition;
     }
 
     @Override
