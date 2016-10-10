@@ -191,9 +191,6 @@ var ef = $("#demoForm").easyform({
             $('#demoForm').modal('hide');
             gridTable.bootstrapTable('refresh');
         });
-    },
-    error:function (ef,input, rull) {
-        alert($(input).attr("id"));
     }
 });
 
@@ -254,11 +251,13 @@ function refreshDemoForm(demo) {
         $("#demoFormTitle").text("修改Dmo");
         id = demo.id;
         $("#id").val(demo.id);
+        $("#removeId").val("");
         $("#name").val(demo.name);
         $("#age").val(demo.age);
     }else{
         $("#demoFormTitle").text("新增Dmo");
         $("#id").val("");
+        $("#removeId").val("");
         $("#name").val("");
         $("#age").val("");
     }
