@@ -31,25 +31,18 @@
     </div>
     <table id="table"
            data-toolbar="#toolbar"
-           data-show-header="true"
-           data-card-view="false"
-           data-search="false"
-           data-show-refresh="false"
-           data-show-toggle="false"
-           data-show-columns="false"
-           data-show-export="false"
-           data-detail-view="false"
-           data-minimum-count-columns="2"
-           data-show-pagination-switch="false"
+
+
+
+
+
+
+
            data-pagination="true"
-           data-id-field="id"
-           data-page-list="[10, 20, 30]"
-           data-show-footer="false"
+
+
            data-side-pagination="server"
-           data-striped="true"
-           data-sort-name="id"
-           data-sort-order="asc"
-           data-click-to-select="true"
+
            >
     </table>
 </div>
@@ -78,15 +71,16 @@
                         <label for="createTime" class="col-sm-2 control-label">建设日期</label>
                         <div class="col-sm-4">
                             <div id="createTimeContent" class="input-group date form_date" data-date="" data-link-field="createTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <input class="form-control" id="createTime" size="16" type="text" value="" readonly
+                                       data-message="处理工艺不能为空"
+                                       data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="createTime" />
                         </div>
                         <label for="status" class="col-sm-2 control-label">运行状态</label>
                         <div class="col-sm-4 radio">
-                            <label><input type="radio" value="1" name="status">正常</label>
+                            <label><input type="radio" value="1" checked name="status">正常</label>
                             <label><input type="radio" value="0" name="status">异常</label>
                         </div>
                     </div>
@@ -94,11 +88,12 @@
                         <label for="openDate" class="col-sm-2 control-label">投运日期</label>
                         <div class="col-sm-4">
                             <div id="openDateContent" class="input-group date form_date" data-date="" data-link-field="openDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <input class="form-control" id="openDate" size="16" type="text" value="" readonly
+                                       data-message="处理工艺不能为空"
+                                       data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="openDate" class="form-control" />
 
                         </div>
                         <label for="crafts" class="col-sm-2 control-label">处理工艺</label>
@@ -135,7 +130,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveDemo">保存</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>

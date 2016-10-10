@@ -35,7 +35,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: rootPath+"/action/S_enterprise_SolidControlFacility_list.action",
-        height: 590,
+        height: 580,
         method:'post',
         queryParams:function (param) {
             var temp = {
@@ -74,14 +74,20 @@ function initTable() {
                 field: 'createTime',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return sub10(value);
+                }
             },
             {
                 title: '投运日期',
                 field: 'openDate',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return sub10(value);
+                }
             },
             {
                 title: '设计处理能力',
@@ -157,32 +163,6 @@ window.operateEvents = {
 
     }
 };
-/**============列表工具栏处理============**/
-//初始化按钮状态
-removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
-/**
- * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
- */
-$("#add,#update").bind('click',function () {
-    //设置表单是新增还是更新的标识
-    form.attr("data-form-type",$(this).attr("id"));
-});
-/**
- * 列表工具栏 删除按钮
- */
-removeBtn.click(function () {
-    var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
-        });
-        removeBtn.prop('disabled', true);
-    });
-
-});
-
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -207,6 +187,35 @@ function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
+/**============列表工具栏处理============**/
+//初始化按钮状态
+removeBtn.prop('disabled', true);
+updateBtn.prop('disabled', true);
+/**
+ * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
+ */
+$("#add").bind('click',function () {
+    resetForm();
+});
+$("#update").bind("click",function () {
+    setFormData(getSelections()[0]);
+});
+/**
+ * 列表工具栏 删除按钮
+ */
+removeBtn.click(function () {
+    var ids = getIdSelections();
+    deleteAjax(ids,function (msg) {
+        gridTable.bootstrapTable('remove', {
+            field: 'id',
+            values: ids
+        });
+        removeBtn.prop('disabled', true);
+    });
+
+});
+
+
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
@@ -223,95 +232,90 @@ $("#search").click(function () {
 $("#searchFix").click(function () {
     $("#s_name").val("");
     $("#s_age").val("");
-    gridTable.bootstrapTable('resetSearch');
 });
 
 /**============表单初始化相关代码============**/
-//初始化表单数据
-form.on('show.bs.modal', function () {
-    var entity;
-    var formType = form.attr("data-form-type");
-    if (formType == "update") {
-        var selects = getSelections();
-        if (selects && selects.length > 0) {
-            entity = selects[0];
-        }
-    }
-    if (entity && (typeof(entity) == "object")) {
-        setFormData(entity);
-    }else{
-        resetForm();
-    }
-});
-//初始化日期组件
-$('#createTimeContent').datetimepicker({
-    language:   'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0
-});
-$('#openDateContent').datetimepicker({
-    language:   'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0
-});
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
         var entity = {};
         entity.id = $("#id").val();
-        entity.name = $("#name").val();
-        entity.age = $("#age").val();
         entity.attachmentIds = getAttachmentIds();
         entity.removeId = $("#removeId").val();
+
+        entity.id = $("#id").val();
+        entity.name = $("#name").val();
+        entity.createTime = $("#createTime").val();
+        entity.status = $("input[name='status']").val();
+        entity.openDate = $("#openDate").val();
+        entity.crafts = $("#crafts").val();
+        entity.ability = $("#ability").val();
+        entity.realAbility = $("#realAbility").val();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
+    },
+    error:function (ef, i, r) {
+        alert($(i).html());
+        
     }
 });
 
 //表单 保存按钮
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
-    ef.submit(true);
+    ef.submit(false);
 });
-
+//初始化日期组件
+$('#createTimeContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#openDateContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 /**
  * 设置表单数据
  * @param entity
  * @returns {boolean}
  */
 function setFormData(entity) {
+    resetForm();
     if (!entity) {return false}
     form.find(".formTitle").text("修改固体废物治理设施");
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
     $("#name").val(entity.name);
-    $("#createTime").val(entity.createTime);
+    $("#createTime").val(sub10(entity.createTime));
     $("input[name='status']").val(entity.status);
-    $("#openDate").val(entity.openDate);
+    $("#openDate").val(sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#realAbility").val(entity.realAbility);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 /**
+ * 截取字符前10位
+ * @param str
+ * @returns {string}
+ */
+function sub10(str) {
+    if(str){
+        return str.substr(0,10);
+    }
+}
+/**
  * 重置表单
  */
 function resetForm() {
     form.find(".formTitle").text("新增固体废物治理设施");
-    form.find("input").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
 }
 
