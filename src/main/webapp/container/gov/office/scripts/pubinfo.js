@@ -1,17 +1,20 @@
 var gridTable = $('#table'),
-    add = $('#add'),
     removeBtn = $('#remove'),
     selections = [];
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url: rootPath+"/action/S_enterprise_Enterprise_list.action",
-        height: 500,
+        url: rootPath+"/action/S_office_PubInfo_list.action",
+        height: 590,
         method:'post',
         queryParams:function (param) {
-            var name = $("#s_name").val();
-            var age = $("#s_age").val();
+            var title = $("#s_title").val();
+            var type =$("#s_type").val();
+            var pubTime = $("#s_pubTime").val();
             var temp = {
+                pubTime: pubTime,
+                type: type,
+                title:title,
                 //分页参数
                 take: param.limit,
                 skip: param.offset,
@@ -22,61 +25,59 @@ function initTable() {
         },
         columns: [
             {
-                field: 'state',
                 checkbox: true,
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
+            }, {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                footerFormatter: totalTextFormatter
             },
             {
-                field: 'name',
-                title: '排污单位名称',
-                sortable: true,
-                editable: true,
+                title: '标题',
+                field: 'title',
+                editable: false,
+                sortable: false,
                 footerFormatter: totalNameFormatter,
                 align: 'center'
             }, {
-                field: 'orgCode',
-                title: '组织机构代码',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'artificialPerson',
-                title: '企业法人',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'apPhone',
-                title: '联系方式',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'status',
-                title: '企业运行状态',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'operate',
-                title: '操作',
+                title: '类型',
+                field: 'type',
+                sortable: false,
                 align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                editable: false,
+                footerFormatter: totalPriceFormatter
+            }, {
+                title: '发布单位',
+                field: 'pubOrgName',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                footerFormatter: totalPriceFormatter
+            }, {
+                title: '会议时间',
+                field: 'pubTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                footerFormatter: totalPriceFormatter
             }
 
         ]
     });
+    // sometimes footer render error.
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
     }, 200);
 
-    //处理新增按钮
-    add.click(function(){
-       window.location.href = 'enterpriseAdd.jsp';
-    });
     //处理删除按钮状态
     removeBtn.click(function () {
         var ids = getIdSelections();
-        deleteDemos(ids,function (msg) {
+        deletePubInfo(ids,function (msg) {
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -90,33 +91,24 @@ function initTable() {
     $("#search").click(function () {
         //查询之前重置table
         gridTable.bootstrapTable('resetSearch');
-        var jsonData = $('#searchform').formSerializeObject();
+        var title = $("#s_title").val();
+        var type =$("#s_type").val();
+        var pubTime = $("#s_pubTime").val();
         gridTable.bootstrapTable('refresh',{
-            query:jsonData
+            query:{title: title,type:type, pubTime: pubTime}
         });
     });
     //重置搜索
     $("#searchFix").click(function () {
-        $('#searchform')[0].reset();
+        $("#s_title").val("");
+        $("#s_type").val("");
+        $("#s_pubTime").val("");
         gridTable.bootstrapTable('resetSearch');
     });
 
     //表单弹出框 保存按钮
-    $("#saveDemo").bind('click',function () {
-        var result = ef.submit(true);
-        if (!result) {
-            return false;
-        }
-        var demo = {};
-        demo.id = $("#id").val();
-        demo.name = $("#name").val();
-        demo.age = $("#age").val();
-        demo.attachmentIds = getAttachmentIds();
-        demo.removeId = $("#removeId").val();
-        saveDemo(demo,function (msg) {
-            $('#demoForm').modal('hide');
-            gridTable.bootstrapTable('refresh');
-        });
+    $("#savePubInfo").bind('click',function () {
+         ef.submit(true);
     });
 
     $(window).resize(function () {
@@ -159,7 +151,7 @@ function detailFormatter(index, row) {
 function operateFormatter(value, row, index) {
     return [
         '<a class="like" href="javascript:void(0)" title="Like">',
-        '<i class="glyphicon glyphicon-hand-down"></i>',
+        '<i class="glyphicon glyphicon-heart"></i>',
         '</a>  ',
         '<a class="remove" href="javascript:void(0)" title="Remove">',
         '<i class="glyphicon glyphicon-remove"></i>',
@@ -172,7 +164,7 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row));
     },
     'click .remove': function (e, value, row, index) {
-        deleteDemos(row.id, function (msg) {
+        deletePubInfo(row.id, function (msg) {
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: [row.id]
@@ -198,63 +190,98 @@ function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
-//初始化表单
-var ef = $("#demoForm").easyform();
-
-function deleteDemos(ids,callback) {
-    if(ids!=undefined && ids!=""){
-        $.ajax({
-            url: rootPath + "/action/S_enterprise_Enterprise_delete.action",
-            type:"post",
-            data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-            dataType:"json",
-            success:callback
+//初始化表单验证
+var ef = $("#pubInfoForm").easyform({
+    success:function(ef){
+        var pubinfo = {};
+        pubinfo.id = $("#id").val();
+        pubinfo.title = $("#title").val();
+        pubinfo.type = $("#type").val();
+        pubinfo.pubTime=$("#pubTime").val();
+        pubinfo.pubOrgName=$("#pubOrgName").val();
+        pubinfo.content=$("#content").val();
+        pubinfo.attachmentIds = getAttachmentIds();
+        pubinfo.removeId = $("#removeId").val();
+        savePubInfo(pubinfo,function (msg) {
+            $('#pubInfoForm').modal('hide');
+            gridTable.bootstrapTable('refresh');
         });
-    }else{
-        $(".alert-warning").show();
-        setTimeout(function () {
-            $(".alert-warning").hide();
-        }, 2000);
     }
+});
+
+function updatePubInfo(pubinfo) {
+    $.ajax({
+        url: rootPath + "/action/S_office_PubInfo_save.action",
+        type:"post",
+        data:pubinfo,
+        dataType:"json",
+        success:function (msg) {
+            alert("更新成功");
+        }
+    });
 }
 
-function saveDemo(demo,callback) {
+function deletePubInfo(ids,callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_Enterprise_save.action",
+        url: rootPath + "/action/S_office_PubInfo_delete.action",
         type:"post",
-        data:demo,
+        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:callback
     });
 }
 
-//初始化表单
-$("#demoForm").on('show.bs.modal', function () {
-    var selects = getSelections();
-    var demo;
-    if (selects && selects.length > 0) {
-        demo = selects[0];
+function savePubInfo(pubinfo,callback) {
+    $.ajax({
+        url: rootPath +"/action/S_office_PubInfo_save.action",
+        type:"post",
+        data:pubinfo,
+        dataType:"json",
+        success:callback
+    });
+}
+$("#add,#update").bind('click',function () {
+    $("#pubInfoForm").attr("data-form-type",$(this).attr("id"));
+});
+//初始化表单数据
+$("#pubInfoForm").on('show.bs.modal', function () {
+    var pubinfo;
+    var formType = $("#pubInfoForm").attr("data-form-type");
+    if (formType == "update") {
+        var selects = getSelections();
+        if (selects && selects.length > 0) {
+            pubinfo = selects[0];
+        }
     }
-    refreshDemoForm(demo);
+    refreshPubInfoForm(pubinfo);
 });
 
 /**
  * 刷新表单数据
- * @param demo
+ * @param meeting
  */
-function refreshDemoForm(demo) {
+function refreshPubInfoForm(pubinfo) {
     var id = "";
-    if (demo && (typeof(demo) == "object")) {
-        $("#demoFormTitle").text("修改Dmo");
-        id = demo.id;
-        $("#id").val(demo.id);
-        $("#name").val(demo.name);
-        $("#age").val(demo.age);
+    if (pubinfo && (typeof(pubinfo) == "object")) {
+        $("#pubInfoFormTitle").text("修改信息公告");
+        id = pubinfo.id;
+        $("#id").val(pubinfo.id);
+        $("#title").val(pubinfo.title);
+        $("#type").val(pubinfo.type);
+        $("#pubTime").val(pubinfo.pubTime);
+        $("#pubOrgName").val(pubinfo.pubOrgName);
+        $("#content").val(pubinfo.content);
+
     }else{
-        $("#demoFormTitle").text("新增Dmo");
+        $("#pubInfoFormTitle").text("新增信息公告");
         $("#id").val("");
-        $("#name").val("");
-        $("#age").val("");
+        $("#title").val("");
+        $("#type").val("");
+        $("#pubTime").val("");
+        $("#pubOrgName").val("");
+        $("#content").val("")
+
+
     }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -348,4 +375,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/*消息提示功能*/

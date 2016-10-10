@@ -1,17 +1,18 @@
 var gridTable = $('#table'),
-    add = $('#add'),
     removeBtn = $('#remove'),
     selections = [];
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url: rootPath+"/action/S_enterprise_Enterprise_list.action",
-        height: 500,
+        url: rootPath+"/action/S_office_CreationMode_list.action",
+        height: 590,
         method:'post',
         queryParams:function (param) {
-            var name = $("#s_name").val();
-            var age = $("#s_age").val();
+            var title = $("#s_title").val();
+            var pubTime = $("#s_pubTime").val();
             var temp = {
+                title: title,
+                pubTime: pubTime,
                 //分页参数
                 take: param.limit,
                 skip: param.offset,
@@ -22,61 +23,59 @@ function initTable() {
         },
         columns: [
             {
-                field: 'state',
                 checkbox: true,
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
+            }, {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                footerFormatter: totalTextFormatter
             },
             {
-                field: 'name',
-                title: '排污单位名称',
-                sortable: true,
-                editable: true,
+                title: '标题',
+                field: 'title',
+                editable: false,
+                sortable: false,
                 footerFormatter: totalNameFormatter,
                 align: 'center'
             }, {
-                field: 'orgCode',
-                title: '组织机构代码',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'artificialPerson',
-                title: '企业法人',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'apPhone',
-                title: '联系方式',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'status',
-                title: '企业运行状态',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'operate',
-                title: '操作',
+                title: '发布单位',
+                field: 'pubOrgName',
+                sortable: false,
                 align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                editable: false,
+                footerFormatter: totalPriceFormatter
+            }, {
+                title: '会议时间',
+                field: 'pubTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                footerFormatter: totalPriceFormatter
+            }, {
+                title: '内容概要',
+                field: 'content',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                footerFormatter: totalPriceFormatter
             }
 
         ]
     });
+    // sometimes footer render error.
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
     }, 200);
 
-    //处理新增按钮
-    add.click(function(){
-       window.location.href = 'enterpriseAdd.jsp';
-    });
     //处理删除按钮状态
     removeBtn.click(function () {
         var ids = getIdSelections();
-        deleteDemos(ids,function (msg) {
+        deleteCreationMode(ids,function (msg) {
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -90,33 +89,22 @@ function initTable() {
     $("#search").click(function () {
         //查询之前重置table
         gridTable.bootstrapTable('resetSearch');
-        var jsonData = $('#searchform').formSerializeObject();
+        var title = $("#s_title").val();
+        var pubTime = $("#s_pubTime").val();
         gridTable.bootstrapTable('refresh',{
-            query:jsonData
+            query:{title: title, pubTime: pubTime}
         });
     });
     //重置搜索
     $("#searchFix").click(function () {
-        $('#searchform')[0].reset();
+        $("#s_title").val("");
+        $("#s_pubTime").val("");
         gridTable.bootstrapTable('resetSearch');
     });
 
     //表单弹出框 保存按钮
-    $("#saveDemo").bind('click',function () {
-        var result = ef.submit(true);
-        if (!result) {
-            return false;
-        }
-        var demo = {};
-        demo.id = $("#id").val();
-        demo.name = $("#name").val();
-        demo.age = $("#age").val();
-        demo.attachmentIds = getAttachmentIds();
-        demo.removeId = $("#removeId").val();
-        saveDemo(demo,function (msg) {
-            $('#demoForm').modal('hide');
-            gridTable.bootstrapTable('refresh');
-        });
+    $("#saveCreationMode").bind('click',function () {
+         ef.submit(true);
     });
 
     $(window).resize(function () {
@@ -159,7 +147,7 @@ function detailFormatter(index, row) {
 function operateFormatter(value, row, index) {
     return [
         '<a class="like" href="javascript:void(0)" title="Like">',
-        '<i class="glyphicon glyphicon-hand-down"></i>',
+        '<i class="glyphicon glyphicon-heart"></i>',
         '</a>  ',
         '<a class="remove" href="javascript:void(0)" title="Remove">',
         '<i class="glyphicon glyphicon-remove"></i>',
@@ -172,7 +160,7 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row));
     },
     'click .remove': function (e, value, row, index) {
-        deleteDemos(row.id, function (msg) {
+        deleteCreationMode(row.id, function (msg) {
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: [row.id]
@@ -198,63 +186,96 @@ function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
-//初始化表单
-var ef = $("#demoForm").easyform();
-
-function deleteDemos(ids,callback) {
-    if(ids!=undefined && ids!=""){
-        $.ajax({
-            url: rootPath + "/action/S_enterprise_Enterprise_delete.action",
-            type:"post",
-            data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-            dataType:"json",
-            success:callback
+//初始化表单验证
+var ef = $("#creationModeForm").easyform({
+    success:function (ef) {
+        var creation = {};
+        creation.id = $("#id").val();
+        creation.title = $("#title").val();
+        creation.pubTime=$("#pubTime").val();
+        creation.pubOrgName=$("#pubOrgName").val();
+        // creation.content=$("#content").val();
+        creation.attachmentIds = getAttachmentIds();
+        creation.removeId = $("#removeId").val();
+        saveCreationMode(creation,function (msg) {
+            $('#creationModeForm').modal('hide');
+            gridTable.bootstrapTable('refresh');
         });
-    }else{
-        $(".alert-warning").show();
-        setTimeout(function () {
-            $(".alert-warning").hide();
-        }, 2000);
+    },
+    error:function (ef,input, rull) {
+        alert($(input).attr("id"));
     }
+});
+
+function updateCreationMode(creationmode) {
+    $.ajax({
+        url: rootPath + "/action/S_office_CreationMode_save.action",
+        type:"post",
+        data:creationmode,
+        dataType:"json",
+        success:function (msg) {
+            alert("更新成功");
+        }
+    });
 }
 
-function saveDemo(demo,callback) {
+function deleteCreationMode(ids,callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_Enterprise_save.action",
+        url: rootPath + "/action/S_office_CreationMode_delete.action",
         type:"post",
-        data:demo,
+        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:callback
     });
 }
 
-//初始化表单
-$("#demoForm").on('show.bs.modal', function () {
-    var selects = getSelections();
-    var demo;
-    if (selects && selects.length > 0) {
-        demo = selects[0];
+function saveCreationMode(creationmode,callback) {
+    $.ajax({
+        url: rootPath +  "/action/S_office_CreationMode_save.action",
+        type:"post",
+        data:creationmode,
+        dataType:"json",
+        success:callback
+    });
+}
+$("#add,#update").bind('click',function () {
+    $("#creationModeForm").attr("data-form-type",$(this).attr("id"));
+});
+//初始化表单数据
+$("#creationModeForm").on('show.bs.modal', function () {
+    var creation;
+    var formType = $("#creationModeForm").attr("data-form-type");
+    if (formType == "update") {
+        var selects = getSelections();
+        if (selects && selects.length > 0) {
+            creation = selects[0];
+        }
     }
-    refreshDemoForm(demo);
+    refreshCreationModeForm(creation);
 });
 
 /**
  * 刷新表单数据
- * @param demo
+ * @param meeting
  */
-function refreshDemoForm(demo) {
+function refreshCreationModeForm(creation) {
     var id = "";
-    if (demo && (typeof(demo) == "object")) {
-        $("#demoFormTitle").text("修改Dmo");
-        id = demo.id;
-        $("#id").val(demo.id);
-        $("#name").val(demo.name);
-        $("#age").val(demo.age);
+    if (creation && (typeof(creation) == "object")) {
+        $("#creationModeFormTitle").text("修改创模建设信息");
+        id = creation.id;
+        $("#id").val(creation.id);
+        $("#title").val(creation.title);
+        $("#pubTime").val(creation.pubTime);
+        $("#pubOrgName").val(creation.pubOrgName);
+        $("#content").val(creation.content);
+
     }else{
-        $("#demoFormTitle").text("新增Dmo");
+        $("#creationModeFormTitle").text("新增创模建设信息");
         $("#id").val("");
-        $("#name").val("");
-        $("#age").val("");
+        $("#title").val("");
+        $("#pubTime").val("");
+        $("#pubOrgName").val("");
+        $("#content").val("")
     }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -348,4 +369,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/*消息提示功能*/
