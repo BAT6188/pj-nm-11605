@@ -16,6 +16,7 @@
 <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-table-1.11.0/bootstrap-table.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader-gallery.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader-new.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.css" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.css">
 <link href="<%=request.getContextPath()%>/common/css/pageStyle.css" rel="stylesheet">
 
@@ -35,5 +36,9 @@
 <script src="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader.core.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader.jquery.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/fine-uploader-5.11.8/fine-uploader.js"></script>
+
+<script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.js"></script>
+<script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
 <script src="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/userDefined.js"></script>

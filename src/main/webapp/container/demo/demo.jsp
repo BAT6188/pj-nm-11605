@@ -12,11 +12,11 @@
     <div class="alert">
         <form class="form-inline" role="form">
             <div class="form-group">
-                <label for="name">姓名</label>
+                <label for="s_name">姓名</label>
                 <input type="text" id="s_name" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="age">年龄</label>
+                <label for="s_age">年龄</label>
                 <input type="text" id="s_age" class="form-control" />
             </div>
             <button id="search" type="button" class="btn btn-success" >查询</button>
