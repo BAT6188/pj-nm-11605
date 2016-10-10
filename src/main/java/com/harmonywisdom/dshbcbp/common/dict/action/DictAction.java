@@ -45,7 +45,27 @@ public class DictAction extends ActionHelper implements Preparable {
             write(map);
         }
     }
-    
+
+    public void multipleList() {
+        String[] codes = getParamValues("code");
+        String parentCode = getParamValue("parentCode");
+        if (codes == null) {
+            write("[]");
+            return;
+        }
+
+        if (codes.length == 1) {
+            write(DictUtil.getDictList(codes[0],parentCode));
+        } else {
+            Map<String, List<DictBean>> map = new HashMap<String, List<DictBean>>(codes.length);
+            for (String code : codes) {
+                map.put(code, DictUtil.getDictList(code,parentCode));
+            }
+
+            write(map);
+        }
+    }
+
     public void getOrgList(){
     	List<IOrg> orgs = OrgServiceUtil.getAllNotDelOrg();
     	write(JSON.toJSONString(orgs));
