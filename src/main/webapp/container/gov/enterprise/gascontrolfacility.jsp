@@ -9,6 +9,9 @@
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
+    <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.css" rel="stylesheet">
+    <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.js"></script>
+    <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <title>大气污染治理设施</title>
 </head>
 <body>
@@ -85,10 +88,15 @@
                     <div class="form-group">
                         <label for="createTime" class="col-sm-2 control-label">建设日期</label>
                         <div class="col-sm-10">
-                            <input type="text" id="createTime" class="form-control"
-                                   data-message="时间不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                            <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                <input type="text" id="createTime" class="form-control"
+                                       data-message="时间不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -103,10 +111,15 @@
                     <div class="form-group">
                         <label for="openDate" class="col-sm-2 control-label">投运日期</label>
                         <div class="col-sm-10">
-                            <input type="text" id="openDate" class="form-control"
-                                   data-message="投运日期不为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input type="text" id="openDate" class="form-control"
+                                       data-message="时间不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="form-group">
