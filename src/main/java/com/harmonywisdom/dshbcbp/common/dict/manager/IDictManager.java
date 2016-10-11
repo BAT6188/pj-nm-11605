@@ -44,4 +44,12 @@ public interface IDictManager {
      * @return 字典项
      */
     DictBean getDict(String code, String value);
+
+    /**
+     * 根据级别获取
+     * @param code
+     * @param parentCode
+     * @return
+     */
+    List<DictBean> getDictList(String code,String parentCode);
 }

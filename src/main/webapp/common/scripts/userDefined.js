@@ -1,6 +1,57 @@
-/**
- * Created by Administrator on 2016/10/9.
- */
+var pageUtils = {
+    /**
+     * 转换bootstrapTable 参数为本地参数
+     * @param params
+     * @returns {{}}
+     */
+    localParams: function localParams(params) {
+        var localParams = {};
+        //分页参数
+        localParams.take = params.limit;
+        localParams.skip = params.offset;
+        localParams.page = params.offset / params.limit + 1;
+        localParams.pageSize = params.limit;
+        return localParams;
+    },
+    /**
+     * 获取radio Value
+     * @param name
+     */
+    getRadioValue:function (name) {
+        var rv;
+        $("input[name='"+name+"']").each(function (index, radio) {
+            if ($(radio).prop("checked")) {
+                rv = $(radio).val()+"";
+            }
+        });
+        return rv;
+    },
+    /**
+     * 设置radio value
+     * @param name
+     * @param value
+     */
+    setRadioValue:function (name, value) {
+        $("input[name='"+name+"']").each(function (index,radio) {
+            var rv = $(radio).val();
+            if (value && rv==value) {
+                $(radio).prop("checked",true);
+            }else{
+                $(radio).prop("checked",false);
+            }
+        });
+    },
+    /**
+     * 截取字符前10位 日期串获取前10位
+     * @param str
+     * @returns {string}
+     */
+    sub10:function (str) {
+        if(str){
+            return str.substr(0,10);
+        }
+    }
+};
 (function($){
     $.fn.formSerializeObject = function(){
         var o = {};

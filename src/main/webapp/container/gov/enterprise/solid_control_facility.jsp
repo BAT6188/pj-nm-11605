@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
@@ -7,7 +8,7 @@
 <body>
 <div class="container-fluid">
     <div class="alert">
-        <form class="form-inline">
+        <form class="form-inline search-form">
             <div class="form-group">
                 <label for="s_name">设备名称</label>
                 <input type="text" id="s_name" class="form-control" />
@@ -18,8 +19,12 @@
             </div>
             <div class="form-group">
                 <label for="s_status">运行状态</label>
-                <input type="text" id="s_status" class="form-control" />
+                <div class="radio">
+                    <label><input type="radio" value="1" name="s_status">正常</label>
+                    <label><input type="radio" value="0" name="s_status">异常</label>
+                </div>
             </div>
+
             <button id="search" type="button" class="btn btn-success" >查询</button>
             <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
         </form>
@@ -29,22 +34,7 @@
         <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#scfForm" >修改</button>
         <button id="remove" type="button" class="btn btn-danger" >删除</button>
     </div>
-    <table id="table"
-           data-toolbar="#toolbar"
-
-
-
-
-
-
-
-           data-pagination="true"
-
-
-           data-side-pagination="server"
-
-           >
-    </table>
+    <table id="table" data-toolbar="#toolbar" ></table>
 </div>
 <!--添加表单-->
 <div class="modal fade" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -53,15 +43,15 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">添加固体废物治理设施</h4>
-                <input type="hidden" id="id">
-                <input type="hidden" id="removeId">
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">设施名称</label>
                         <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control"
+                            <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="text" id="name" name="name" class="form-control"
                                    data-message="设施名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -71,7 +61,7 @@
                         <label for="createTime" class="col-sm-2 control-label">建设日期</label>
                         <div class="col-sm-4">
                             <div id="createTimeContent" class="input-group date form_date" data-date="" data-link-field="createTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" id="createTime" size="16" type="text" value="" readonly
+                                <input class="form-control" id="createTime" name="createTime" size="16" type="text" value="" readonly
                                        data-message="处理工艺不能为空"
                                        data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -88,7 +78,7 @@
                         <label for="openDate" class="col-sm-2 control-label">投运日期</label>
                         <div class="col-sm-4">
                             <div id="openDateContent" class="input-group date form_date" data-date="" data-link-field="openDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" id="openDate" size="16" type="text" value="" readonly
+                                <input class="form-control" id="openDate" name="openDate" size="16" type="text" value="" readonly
                                        data-message="处理工艺不能为空"
                                        data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -98,7 +88,7 @@
                         </div>
                         <label for="crafts" class="col-sm-2 control-label">处理工艺</label>
                         <div class="col-sm-4">
-                            <input type="text" id="crafts" class="form-control"
+                            <input type="text" id="crafts" name="crafts" class="form-control"
                                    data-message="处理工艺不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -107,14 +97,14 @@
                     <div class="form-group">
                         <label for="ability" class="col-sm-2 control-label">设计处理能力</label>
                         <div class="col-sm-4">
-                            <input type="text" id="ability" class="form-control"
+                            <input type="text" id="ability" name="ability" class="form-control"
                                    data-message="设计处理能力不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                         <label for="realAbility" class="col-sm-2 control-label">实际处理能力</label>
                         <div class="col-sm-4">
-                            <input type="text" id="realAbility" class="form-control"
+                            <input type="text" id="realAbility" name="realAbility" class="form-control"
                                    data-message="实际处理能力不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />

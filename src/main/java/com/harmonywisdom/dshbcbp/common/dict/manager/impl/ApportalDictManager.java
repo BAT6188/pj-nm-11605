@@ -47,6 +47,20 @@ public class ApportalDictManager implements IDictManager {
         return covert(dictData);
     }
 
+    @Override
+    public List<DictBean> getDictList(String code, String parentCode) {
+        List<DictData> list = DictDataServiceUtil.getDictData(code);
+        List<DictBean> result = new ArrayList<DictBean>(list.size());
+
+        for (DictData dictData : list) {
+            if(dictData.getDictdataText().equals(parentCode)){
+                result.add(covert(dictData));
+            }
+        }
+
+        return result;
+    }
+
     private DictBean covert(DictData dictData) {
         DictBean bean = new DictBean();
         bean.setCode(dictData.getDictdataCode());

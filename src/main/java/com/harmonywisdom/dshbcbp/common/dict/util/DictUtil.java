@@ -101,4 +101,32 @@ public class DictUtil implements ApplicationContextAware {
         }
         return null;
     }
+
+    /**
+     * 获取字典码对应的所有字典数据
+     *
+     * @param code 字典码
+     * @param parentCode 父类字典码
+     * @return 指定字典码的所有字典项
+     */
+    public static List<DictBean> getDictList(String code, String parentCode) {
+        assert code != null;
+
+        if (!useCache) {
+            return manager.getDictList(code,parentCode);
+        }
+
+        if (!cache.containsKey(code)) {
+            // 从数据库中加载
+            List<DictBean> list = manager.getDictList(code,parentCode);
+
+            if (needSort) {
+                Collections.sort(list);
+            }
+
+            cache.put(code, list);
+        }
+
+        return cache.get(code);
+    }
 }

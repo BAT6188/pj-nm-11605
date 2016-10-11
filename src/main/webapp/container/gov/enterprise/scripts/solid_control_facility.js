@@ -34,19 +34,13 @@ function deleteAjax(ids, callback) {
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
         url: rootPath+"/action/S_enterprise_SolidControlFacility_list.action",
-        height: 580,
+        height: 590,
         method:'post',
-        queryParams:function (param) {
-            var temp = {
-                //分页参数
-                take: param.limit,
-                skip: param.offset,
-                page: param.offset/param.limit + 1,
-                pageSize: param.limit
-            };
-            return temp;
-        },
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 checkbox: true,
@@ -76,7 +70,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return sub10(value);
+                    return pageUtils.sub10(value);
                 }
             },
             {
@@ -86,7 +80,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return sub10(value);
+                    return pageUtils.sub10(value);
                 }
             },
             {
@@ -125,8 +119,6 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-
-
     });
 
     $(window).resize(function () {
@@ -151,6 +143,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
+        setFormData(row);
         alert('You click like action, row: ' + JSON.stringify(row));
     },
     'click .remove': function (e, value, row, index) {
@@ -220,18 +213,28 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
+    var queryParams = {};
     var name = $("#s_name").val();
-    var age = $("#s_age").val();
+    var crafts = $("#s_crafts").val();
+    var status = pageUtils.getRadioValue("s_status");
+    if (name){
+        queryParams["name"] = name;
+    }
+    if (crafts){
+        queryParams["crafts"] = crafts;
+    }
+    if (status) {
+        queryParams["status"] = status;
+    }
     gridTable.bootstrapTable('refresh',{
-        query:{name: name, age: age}
+        query:queryParams
     });
 });
 //搜索重置搜索
 $("#searchFix").click(function () {
     $("#s_name").val("");
-    $("#s_age").val("");
+    $("#s_crafts").val("");
+    pageUtils.setRadioValue("s_status");
 });
 
 /**============表单初始化相关代码============**/
@@ -239,27 +242,12 @@ $("#searchFix").click(function () {
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = {};
-        entity.id = $("#id").val();
+        var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        entity.removeId = $("#removeId").val();
-
-        entity.id = $("#id").val();
-        entity.name = $("#name").val();
-        entity.createTime = $("#createTime").val();
-        entity.status = $("input[name='status']").val();
-        entity.openDate = $("#openDate").val();
-        entity.crafts = $("#crafts").val();
-        entity.ability = $("#ability").val();
-        entity.realAbility = $("#realAbility").val();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
-    },
-    error:function (ef, i, r) {
-        alert($(i).html());
-        
     }
 });
 
@@ -292,23 +280,14 @@ function setFormData(entity) {
     $("#id").val(entity.id);
     $("#removeId").val("");
     $("#name").val(entity.name);
-    $("#createTime").val(sub10(entity.createTime));
-    $("input[name='status']").val(entity.status);
-    $("#openDate").val(sub10(entity.openDate));
+    $("#createTime").val(pageUtils.sub10(entity.createTime));
+
+    pageUtils.setRadioValue("status",entity.status);
+    $("#openDate").val(pageUtils.sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#realAbility").val(entity.realAbility);
     uploader = new qq.FineUploader(getUploaderOptions(id));
-}
-/**
- * 截取字符前10位
- * @param str
- * @returns {string}
- */
-function sub10(str) {
-    if(str){
-        return str.substr(0,10);
-    }
 }
 /**
  * 重置表单
