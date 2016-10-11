@@ -19,8 +19,12 @@
             </div>
             <div class="form-group">
                 <label for="s_status">运行状态</label>
-                <input type="text" id="s_status" class="form-control" />
+                <div class="radio">
+                    <label><input type="radio" value="1" name="s_status">正常</label>
+                    <label><input type="radio" value="0" name="s_status">异常</label>
+                </div>
             </div>
+
             <button id="search" type="button" class="btn btn-success" >查询</button>
             <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
         </form>

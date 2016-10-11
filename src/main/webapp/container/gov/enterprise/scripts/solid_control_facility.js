@@ -40,16 +40,7 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = {
-                //分页参数
-                take: param.limit,
-                skip: param.offset,
-                page: param.offset/param.limit + 1,
-                pageSize: param.limit
-            };
-            return temp;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 checkbox: true,
@@ -79,7 +70,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return sub10(value);
+                    return pageUtils.sub10(value);
                 }
             },
             {
@@ -89,7 +80,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return sub10(value);
+                    return pageUtils.sub10(value);
                 }
             },
             {
@@ -128,8 +119,6 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-
-
     });
 
     $(window).resize(function () {
@@ -224,18 +213,30 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
+    /*//查询之前重置table
+    gridTable.bootstrapTable('resetSearch');*/
+    var queryParams = {};
     var name = $("#s_name").val();
-    var age = $("#s_age").val();
+    var crafts = $("#s_crafts").val();
+    var status = pageUtils.getRadioValue("s_status");
+    if (name){
+        queryParams["name"] = name;
+    }
+    if (crafts){
+        queryParams["crafts"] = crafts;
+    }
+    if (status) {
+        queryParams["status"] = status;
+    }
     gridTable.bootstrapTable('refresh',{
-        query:{name: name, age: age}
+        query:queryParams
     });
 });
 //搜索重置搜索
 $("#searchFix").click(function () {
     $("#s_name").val("");
-    $("#s_age").val("");
+    $("#s_crafts").val("");
+    pageUtils.setRadioValue("s_status");
 });
 
 /**============表单初始化相关代码============**/
@@ -251,11 +252,7 @@ var ef = form.easyform({
         entity.id = $("#id").val();
         entity.name = $("#name").val();
         entity.createTime = $("#createTime").val();
-         $("input[name='status']").each(function (index, radio) {
-             if ($(radio).prop("checked")) {
-                 entity.status = $(radio).val();
-             }
-         });
+        entity.status = pageUtils.getRadioValue("status");
         entity.openDate = $("#openDate").val();
         entity.crafts = $("#crafts").val();
         entity.ability = $("#ability").val();
@@ -298,29 +295,12 @@ function setFormData(entity) {
     $("#name").val(entity.name);
     $("#createTime").val(sub10(entity.createTime));
 
-    $("input[name='status']").each(function (index,radio) {
-        var value = $(radio).val();
-        if (entity.status && value==entity.status) {
-            $(radio).prop("checked",true);
-        }else{
-            $(radio).prop("checked",false);
-        }
-    });
+    pageUtils.setRadioValue("status",entity.status);
     $("#openDate").val(sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#realAbility").val(entity.realAbility);
     uploader = new qq.FineUploader(getUploaderOptions(id));
-}
-/**
- * 截取字符前10位
- * @param str
- * @returns {string}
- */
-function sub10(str) {
-    if(str){
-        return str.substr(0,10);
-    }
 }
 /**
  * 重置表单
