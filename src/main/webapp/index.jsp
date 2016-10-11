@@ -24,6 +24,9 @@
 <h2>时间控件</h2>
 <a href="demo/bootstrap-datepicker/bootstrap-datetime-picker.jsp">bootstrap-datetime-picker.jsp</a>
 
+<h2>树结构</h2>
+<a href="demo/ztree/ztree.jsp">ztree.jsp</a>
+
 <h2>bootstrap-table</h2>
 <a href="demo/bootstrap-table/bootstrap-table-fromdata.jsp">bootstrap-table-fromdata.jsp</a>
 <a href="demo/bootstrap-table/bootstrap-table-fromtable.jsp">bootstrap-table-fromtable.jsp</a>
