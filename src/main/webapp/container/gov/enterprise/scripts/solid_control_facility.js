@@ -213,8 +213,6 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    /*//查询之前重置table
-    gridTable.bootstrapTable('resetSearch');*/
     var queryParams = {};
     var name = $("#s_name").val();
     var crafts = $("#s_crafts").val();
@@ -244,19 +242,8 @@ $("#searchFix").click(function () {
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = {};
-        entity.id = $("#id").val();
+        var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        entity.removeId = $("#removeId").val();
-
-        entity.id = $("#id").val();
-        entity.name = $("#name").val();
-        entity.createTime = $("#createTime").val();
-        entity.status = pageUtils.getRadioValue("status");
-        entity.openDate = $("#openDate").val();
-        entity.crafts = $("#crafts").val();
-        entity.ability = $("#ability").val();
-        entity.realAbility = $("#realAbility").val();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -293,10 +280,10 @@ function setFormData(entity) {
     $("#id").val(entity.id);
     $("#removeId").val("");
     $("#name").val(entity.name);
-    $("#createTime").val(sub10(entity.createTime));
+    $("#createTime").val(pageUtils.sub10(entity.createTime));
 
     pageUtils.setRadioValue("status",entity.status);
-    $("#openDate").val(sub10(entity.openDate));
+    $("#openDate").val(pageUtils.sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#realAbility").val(entity.realAbility);
