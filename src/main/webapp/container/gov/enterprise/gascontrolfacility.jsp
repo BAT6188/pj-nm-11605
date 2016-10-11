@@ -9,9 +9,6 @@
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
-    <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.css" rel="stylesheet">
-    <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.js"></script>
-    <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <title>大气污染治理设施</title>
 </head>
 <body>
@@ -34,39 +31,21 @@
 
     <!--列表区域-->
     <div id="toolbar">
-        <button id="add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoForm" >新增</button>
-        <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#demoForm" >修改</button>
+        <button id="add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#scfForm" >新增</button>
+        <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#scfForm" >修改</button>
         <button id="remove" type="button" class="btn btn-danger" >删除</button>
     </div>
     <table id="table"
            data-toolbar="#toolbar"
-           data-show-header="true"
-           data-card-view="false"
-           data-search="false"
-           data-show-refresh="false"
-           data-show-toggle="false"
-           data-show-columns="false"
-           data-show-export="false"
-           data-detail-view="false"
-           data-detail-formatter="detailFormatter"
-           data-minimum-count-columns="2"
-           data-show-pagination-switch="false"
            data-pagination="true"
-           data-id-field="id"
-           data-page-list="[10, 20, 30]"
-           data-show-footer="false"
            data-side-pagination="server"
-           data-striped="true"
-           data-sort-name="id"
-           data-sort-order="asc"
-           data-click-to-select="true"
-           data-response-handler="responseHandler">
+            >
     </table>
 </div>
 
 <!--添加表单-->
-<div class="modal fade" id="demoForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="scfForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 900px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -87,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         <label for="createTime" class="col-sm-2 control-label">建设日期</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                                 <input type="text" id="createTime" class="form-control"
                                        data-message="时间不能为空"
@@ -98,19 +77,16 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="status" class="col-sm-2 control-label">状态</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="status" class="form-control"
-                                   data-message="状态不为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                        <label for="status" class="col-sm-2 control-label">运行状态</label>
+                        <div class="col-sm-4 radio">
+                            <label><input type="radio" value="1" checked name="status">正常</label>
+                            <label><input type="radio" value="0" name="status">异常</label>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="openDate" class="col-sm-2 control-label">投运日期</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input type="text" id="openDate" class="form-control"
                                        data-message="时间不能为空"
@@ -121,16 +97,15 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="form-group">
                         <label for="crafts" class="col-sm-2 control-label">工艺处理</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <input type="text" id="crafts" class="form-control"
                                    data-message="工艺处理不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="ability" class="col-sm-2 control-label">设计处理能力</label>
                         <div class="col-sm-10">
@@ -141,16 +116,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseId" class="col-sm-2 control-label">企业Id</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="enterpriseId" class="form-control"
-                                   data-message="设计处理能力不为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
@@ -160,7 +125,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveDemo">保存</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
