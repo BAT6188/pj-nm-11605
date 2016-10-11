@@ -13,4 +13,10 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
     protected EnterpriseService getService() {
         return enterpriseService;
     }
+
+    public void saveEnterprise(){
+        Enterprise ent = this.entity;
+        String id = enterpriseService.saveOrUpdate(ent);
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", id));
+    }
 }

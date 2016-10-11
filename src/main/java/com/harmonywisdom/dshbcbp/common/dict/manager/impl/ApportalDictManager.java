@@ -5,6 +5,7 @@ import com.harmonywisdom.apportal.sdk.dictdata.domain.DictData;
 import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.common.dict.manager.IDictManager;
 import com.harmonywisdom.dshbcbp.common.dict.util.DictUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +53,15 @@ public class ApportalDictManager implements IDictManager {
         List<DictData> list = DictDataServiceUtil.getDictData(code);
         List<DictBean> result = new ArrayList<DictBean>(list.size());
 
-        for (DictData dictData : list) {
-            if(dictData.getDictdataText().equals(parentCode)){
-                result.add(covert(dictData));
+        if(StringUtils.isNotBlank(parentCode)){
+            for (DictData dictData : list) {
+                if(dictData.getDictdataText().equals(parentCode)){
+                    result.add(covert(dictData));
+                }
+            }
+        }else{
+            for (DictData dictData : list) {
+                result.add(covert2(dictData));
             }
         }
 
@@ -65,6 +72,16 @@ public class ApportalDictManager implements IDictManager {
         DictBean bean = new DictBean();
         bean.setCode(dictData.getDictdataCode());
         bean.setName(dictData.getDictdataName());
+        bean.setSerial(dictData.getSerialIndex());
+
+        return bean;
+    }
+
+    private DictBean covert2(DictData dictData) {
+        DictBean bean = new DictBean();
+        bean.setCode(dictData.getDictdataCode());
+        bean.setName(dictData.getDictdataName());
+        bean.setParentCode(dictData.getDictdataText());
         bean.setSerial(dictData.getSerialIndex());
 
         return bean;
