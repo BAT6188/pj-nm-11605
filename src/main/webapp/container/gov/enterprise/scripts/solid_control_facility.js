@@ -36,13 +36,14 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_enterprise_SolidControlFacility_list.action",
-        height: 590,
+        height: 540,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:pageUtils.localParams,
         columns: [
             {
+                title:"全选",
                 checkbox: true,
                 align: 'center',
                 radio:false,  //  true 单选， false多选
@@ -131,28 +132,12 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return [
-        '<a class="view" data-toggle="modal" data-target="#scfForm" href="javascript:void(0)" title="详情">',
-        '<i class="glyphicon glyphicon-list-alt"></i>',
-        '</a>&nbsp;&nbsp;',
-        '<a class="remove" href="javascript:void(0)" title="删除">',
-        '<i class="glyphicon glyphicon-remove"></i>',
-        '</a>'
-    ].join('');
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
         setFormView(row);
-    },
-    'click .remove': function (e, value, row, index) {
-        deleteAjax(row.id, function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: [row.id]
-            });
-        });
-
     }
 };
 /**
@@ -229,12 +214,6 @@ $("#search").click(function () {
         query:queryParams
     });
 });
-//搜索重置搜索
-$("#searchFix").click(function () {
-    $("#s_name").val("");
-    $("#s_crafts").val("");
-    pageUtils.setRadioValue("s_status");
-});
 
 /**============表单初始化相关代码============**/
 
@@ -292,7 +271,12 @@ function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看固体废物治理设施");
     disabledForm(true);
-
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
@@ -321,7 +305,7 @@ function resetForm() {
     form.find(".form-title").text("新增固体废物治理设施");
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
-    disabledForm(true);
+    disabledForm(false);
 }
 
 //表单附件相关js
