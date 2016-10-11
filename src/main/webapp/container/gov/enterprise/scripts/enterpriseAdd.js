@@ -1,8 +1,50 @@
 /**
  * Created by Administrator on 2016/10/9.
  */
+var dictData = dict.getDctionnary({code:['registType','scale','affiliation','industrialPark']});
+var firstData = dict.getMultipleDctionnary({code:'industryType',parentCode:'-1'});
+console.log(firstData);
+setRegistType();
+setAffiliation();
+setScale();
+setIndustrialPark();
+/*初始化工业园区名称*/
+function setIndustrialPark(){
+    var industrialParkData = dictData.industrialPark;
+    var optionsHtml = '';
+    $.each(industrialParkData,function(k,v){
+        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
+    })
+    $('#industrialPark').append(optionsHtml);
+}
+/*初始化排污单位规模*/
+function setScale(){
+    var scaleData = dictData.scale;
+    var optionsHtml = '';
+    $.each(scaleData,function(k,v){
+        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
+    })
+    $('#scale').append(optionsHtml);
+}
+/*初始化隶属关系*/
+function setAffiliation(){
+    var affiliationData = dictData.affiliation;
+    var optionsHtml = '';
+    $.each(affiliationData,function(k,v){
+        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
+    })
+    $('#affiliation').append(optionsHtml);
+}
+/*初始化登记注册类型*/
+function setRegistType(){
+    var registTypeData = dictData.registType;
+    var optionsHtml = '';
+    $.each(registTypeData,function(k,v){
+        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
+    })
+    $('#registType').append(optionsHtml);
+}
 
-console.log(dict);
 $('#datetimepicker1').datetimepicker({
     language:   'zh-CN',
     weekStart: 1,
