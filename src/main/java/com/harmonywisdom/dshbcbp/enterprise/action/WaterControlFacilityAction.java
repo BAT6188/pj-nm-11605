@@ -24,7 +24,9 @@ public class WaterControlFacilityAction extends BaseAction<WaterControlFacility,
         if (StringUtils.isNotBlank(entity.getName())) {
             params.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }
-
+        if(StringUtils.isNotBlank(entity.getCrafts())){
+            params.andParam(new QueryParam("crafts",QueryOperator.LIKE,entity.getCrafts()));
+        }
         if (entity.getStatus() != null) {
             params.andParam(new QueryParam("status", QueryOperator.LIKE,entity.getStatus()));
         }

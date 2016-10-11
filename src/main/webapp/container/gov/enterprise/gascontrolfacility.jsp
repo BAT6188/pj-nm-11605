@@ -15,14 +15,21 @@
 <div class="container-fluid">
     <!--搜索区域-->
     <div class="alert">
-        <form class="form-inline" role="form">
+        <form class="form-inline search-form">
             <div class="form-group">
                 <label for="name">设施名称</label>
                 <input type="text" id="s_name" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="name">运行情况</label>
-                <input type="text" id="s_status" class="form-control" />
+                <label for="s_crafts">处理工艺</label>
+                <input type="text" id="s_crafts" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="s_status">运行状态</label>
+                <div class="radio">
+                    <label><input type="radio" value="1" name="s_status">正常</label>
+                    <label><input type="radio" value="0" name="s_status">异常</label>
+                </div>
             </div>
             <button id="search" type="button" class="btn btn-success" >查询</button>
             <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
@@ -50,15 +57,15 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle">添加大气污染治理设施</h4>
-                <input type="hidden" id="id">
-                <input type="hidden" id="removeId">
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">设施名称</label>
                         <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control"
+                            <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="text" id="name" name="name" class="form-control"
                                    data-message="用户名不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -68,7 +75,7 @@
                         <label for="createTime" class="col-sm-2 control-label">建设日期</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
-                                <input type="text" id="createTime" class="form-control"
+                                <input class="form-control" id="createTime" name="createTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
                                 />
@@ -88,7 +95,7 @@
                         <label for="openDate" class="col-sm-2 control-label">投运日期</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input type="text" id="openDate" class="form-control"
+                                <input class="form-control" id="openDate" name="openDate" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
                                 />
@@ -99,7 +106,7 @@
                         </div>
                         <label for="crafts" class="col-sm-2 control-label">工艺处理</label>
                         <div class="col-sm-4">
-                            <input type="text" id="crafts" class="form-control"
+                            <input type="text" id="crafts" name="crafts" class="form-control"
                                    data-message="工艺处理不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -109,7 +116,7 @@
                     <div class="form-group">
                         <label for="ability" class="col-sm-2 control-label">设计处理能力</label>
                         <div class="col-sm-10">
-                            <input type="text" id="ability" class="form-control"
+                            <input type="text" id="ability" name="ability" class="form-control"
                                    data-message="设计处理能力不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
