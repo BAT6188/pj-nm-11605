@@ -6,53 +6,56 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
     <title>大气污染治理设施</title>
 </head>
 <body>
-<div class="container-fluid">
-    <!--搜索区域-->
-    <div class="alert">
-        <form class="form-inline search-form">
-            <div class="form-group">
-                <label for="name">设施名称</label>
-                <input type="text" id="s_name" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="s_crafts">处理工艺</label>
-                <input type="text" id="s_crafts" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="s_status">运行状态</label>
-                <div class="radio">
-                    <label><input type="radio" value="1" name="s_status">正常</label>
-                    <label><input type="radio" value="0" name="s_status">异常</label>
+<div class="content content1 clearfix">
+    <div class="wrap">
+        <div class="mainBox">
+            <div class="dealBox">
+                <div class="sideTitle left">
+                        <span class="blueMsg">
+                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
+                            <span class="text">查询</span>
+                        </span>
                 </div>
+                <div class="queryBox marginLeft0">
+                    <p>
+                        <label for="s_name">设备名称：</label> <input type="text" id="s_name" class="form-control" />
+                        <label for="s_crafts">处理工艺：</label> <input type="text" id="s_crafts" class="form-control" />
+                        <label for="s_status">运行状态：</label>
+                        <label style="width: 50px"><input type="radio" value="1" name="s_status">正常</label>
+                        <label style="width: 50px"><input type="radio" value="0" name="s_status">异常</label>
+                    </p>
+                </div>
+                <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <p class="btnListP">
+                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
+                        <i class="btnIcon add-icon"></i><span>新建</span>
+                    </button>
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
+                        <i class="btnIcon edit-icon"></i><span>修改</span>
+                    </button>
+                    <button id="remove" type="button" class="btn btn-sm btn-danger">
+                        <i class="btnIcon delf-icon"></i><span>删除</span>
+                    </button>
+                </p>
             </div>
-            <button id="search" type="button" class="btn btn-success" >查询</button>
-            <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
-        </form>
+            <div class="tableBox">
+                <table id="table" class="table table-striped table-responsive">
+                </table>
+            </div>
+        </div>
     </div>
-
-    <!--列表区域-->
-    <div id="toolbar">
-        <button id="add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#scfForm" >新增</button>
-        <button id="update" type="button" class="btn btn-warning" data-toggle="modal" data-target="#scfForm" >修改</button>
-        <button id="remove" type="button" class="btn btn-danger" >删除</button>
-    </div>
-    <table id="table"
-           data-toolbar="#toolbar"
-           data-pagination="true"
-           data-side-pagination="server"
-            >
-    </table>
 </div>
 
 <!--添加表单-->
-<div class="modal fade" id="scfForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 900px">
+<div class="modal fade" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
