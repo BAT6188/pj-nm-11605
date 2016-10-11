@@ -25,7 +25,7 @@
                         <label style="width: 50px"><input type="radio" value="0" name="s_status">异常</label>
                     </p>
                 </div>
-                <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
