@@ -72,14 +72,6 @@ function initTable() {
                 }
             },
             {
-                field: 'status',
-                title: '运行状态',
-                sortable: false,
-                align: 'center',
-                editable: false
-
-            },
-            {
                 field: 'openDate',
                 title: '投运日期',
                 sortable: false,
@@ -91,7 +83,7 @@ function initTable() {
             },
             {
                 field: 'crafts',
-                title: '工艺处理',
+                title: '处理工艺',
                 sortable: false,
                 align: 'center',
                 editable: false
@@ -99,6 +91,13 @@ function initTable() {
             {
                 field: 'ability',
                 title: '设计处理能力',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'status',
+                title: '运行情况',
                 sortable: false,
                 align: 'center',
                 editable: false

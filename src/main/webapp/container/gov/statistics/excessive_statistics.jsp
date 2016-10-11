@@ -48,7 +48,7 @@
 </div>
 
     <!--highcharts图形区-->
-    <table border="1px" style="width: 25%;height: 5%;">
+    <table border="1px" style="width: 25%;height: 5%;margin-left: 5px;">
         <tr>
             <td>柱状图</td>
             <td>饼状图</td>
