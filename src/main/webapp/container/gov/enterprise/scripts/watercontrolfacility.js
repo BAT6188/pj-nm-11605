@@ -247,7 +247,7 @@ $("#search").click(function () {
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
+        entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');

@@ -4,17 +4,18 @@ var gridTable = $('#table'),
     form = $("#scfForm"),
     selections = [];
 
+
+
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_save.action",
+        url: rootPath + "/action/S_enterprise_SoundControlFacility_save.action",
         type:"post",
         data:entity,
         dataType:"json",
         success:callback
     });
 }
-
 /**
  * 删除请求
  * @param ids 多个,号分隔
@@ -22,20 +23,19 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_delete.action",
+        url: rootPath + "/action/S_enterprise_SoundControlFacility_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:callback
     });
 }
-
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_enterprise_GasControlFacility_list.action",
+        url: rootPath+"/action/S_enterprise_SoundControlFacility_list.action",
         height: 540,
         method:'post',
         pagination:true,
@@ -48,7 +48,7 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            }, 
+            },
             {
                 title: 'ID',
                 field: 'id',
@@ -63,9 +63,10 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
-            }, {
-                field: 'createTime',
+            },
+            {
                 title: '建设日期',
+                field: 'createTime',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -74,8 +75,8 @@ function initTable() {
                 }
             },
             {
-                field: 'openDate',
                 title: '投运日期',
+                field: 'openDate',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -84,22 +85,8 @@ function initTable() {
                 }
             },
             {
-                field: 'crafts',
-                title: '处理工艺',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },
-            {
-                field: 'ability',
-                title: '设计处理能力',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },
-            {
-                field: 'status',
                 title: '运行情况',
+                field: 'status',
                 sortable: false,
                 align: 'center',
                 editable: false
@@ -126,8 +113,6 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-
-
     });
 
     $(window).resize(function () {
@@ -136,8 +121,6 @@ function initTable() {
             height: getHeight()
         });
     });
-
-  
 }
 
 // 生成列表操作方法
@@ -150,7 +133,6 @@ window.operateEvents = {
         setFormView(row);
     }
 };
-
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -175,7 +157,6 @@ function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
-
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -204,10 +185,11 @@ removeBtn.click(function () {
 
 });
 
+
+
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
     var queryParams = {};
     var name = $("#s_name").val();
     var crafts = $("#s_crafts").val();
@@ -226,8 +208,8 @@ $("#search").click(function () {
     });
 });
 
-
 /**============表单初始化相关代码============**/
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
@@ -237,13 +219,8 @@ var ef = form.easyform({
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
-    },
-    error:function (ef,input, rull) {
-        alert($(input).attr("id"));
     }
-    
 });
-
 
 //表单 保存按钮
 $("#save").bind('click',function () {
@@ -251,17 +228,16 @@ $("#save").bind('click',function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#datetimepicker').datetimepicker({
+$('#createTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#datetimepicker2').datetimepicker({
+$('#openDateContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-
 /**
  * 设置表单数据
  * @param entity
@@ -270,23 +246,23 @@ $('#datetimepicker2').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改大气污染治理设施");
-    id = entity.id;
+    form.find(".form-title").text("修改噪声治理设施");
+    var id = entity.id;
     $("#id").val(entity.id);
+    $("#removeId").val("");
     $("#name").val(entity.name);
     $("#createTime").val(pageUtils.sub10(entity.createTime));
+
     pageUtils.setRadioValue("status",entity.status);
     $("#openDate").val(pageUtils.sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
-    $("#enterpriseId").val(entity.enterpriseId);
+    $("#realAbility").val(entity.realAbility);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
-
-
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看大气污染治理设施");
+    form.find(".form-title").text("查看噪声治理设施");
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -294,7 +270,6 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
@@ -316,17 +291,15 @@ function disabledForm(disabled) {
     }
 
 }
-
 /**
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增固体废物治理设施");
+    form.find(".form-title").text("新增噪声治理设施");
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
-
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -424,3 +397,4 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
