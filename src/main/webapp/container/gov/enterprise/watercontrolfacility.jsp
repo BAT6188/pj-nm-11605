@@ -39,7 +39,7 @@
     <!--列表区域-->
     <div id="toolbar">
         <button id="add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#scfForm" >新增</button>
-        <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#scfForm" >修改</button>
+        <button id="update" type="button" class="btn btn-warning" data-toggle="modal" data-target="#scfForm" >修改</button>
         <button id="remove" type="button" class="btn btn-danger" >删除</button>
     </div>
     <table id="table"
@@ -56,7 +56,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="demoFormTitle">添加大气污染治理设施</h4>
+                <h4 class="modal-title form-title" id="demoFormTitle">添加水污染治理设施</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
