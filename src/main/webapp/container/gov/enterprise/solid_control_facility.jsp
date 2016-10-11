@@ -31,7 +31,7 @@
     </div>
     <div id="toolbar">
         <button id="add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#scfForm" >新增</button>
-        <button id="update" type="button" class="btn btn-info" data-toggle="modal" data-target="#scfForm" >修改</button>
+        <button id="update" type="button" class="btn btn-warning" data-toggle="modal" data-target="#scfForm" >修改</button>
         <button id="remove" type="button" class="btn btn-danger" >删除</button>
     </div>
     <table id="table" data-toolbar="#toolbar" ></table>

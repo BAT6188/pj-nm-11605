@@ -143,8 +143,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        setFormData(row);
-        alert('You click like action, row: ' + JSON.stringify(row));
+        setFormView(row);
     },
     'click .remove': function (e, value, row, index) {
         deleteAjax(row.id, function (msg) {
@@ -275,7 +274,7 @@ $('#openDateContent').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".formTitle").text("修改固体废物治理设施");
+    form.find(".form-title").text("修改固体废物治理设施");
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
@@ -289,13 +288,40 @@ function setFormData(entity) {
     $("#realAbility").val(entity.realAbility);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
+function setFormView(entity) {
+    setFormData(entity);
+    form.find(".form-title").text("查看固体废物治理设施");
+    disabledForm(true);
+
+}
+function disabledForm(disabled) {
+    form.find("input").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#createTimeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openDateContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
+    }
+
+}
 /**
  * 重置表单
  */
 function resetForm() {
-    form.find(".formTitle").text("新增固体废物治理设施");
+    form.find(".form-title").text("新增固体废物治理设施");
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
+    disabledForm(true);
 }
 
 //表单附件相关js
