@@ -35,22 +35,11 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         url: rootPath+"/action/S_enterprise_GasControlFacility_list.action",
-        height: 580,
+        height: 590,
         method:'post',
-        queryParams:function (param) {
-            var name = $("#s_name").val();
-            var status = $("#s_status").val();
-            var temp = {
-                name: name,
-                status:status,
-                //分页参数
-                take: param.limit,
-                skip: param.offset,
-                page: param.offset/param.limit + 1,
-                pageSize: param.limit
-            };
-            return temp;
-        },
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 checkbox: true,
@@ -79,7 +68,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return sub10(value);
+                    return pageUtils.sub10(value);
                 }
             },
             {
@@ -97,7 +86,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return sub10(value);
+                    return pageUtils.sub10(value);
                 }
             },
             {
@@ -164,7 +153,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row));
+        setFormView(row);
     },
     'click .remove': function (e, value, row, index) {
         deleteAjax(row.id, function (msg) {
@@ -234,18 +223,28 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
+    var queryParams = {};
     var name = $("#s_name").val();
-    var status = $("#s_status").val();
+    var crafts = $("#s_crafts").val();
+    var status = pageUtils.getRadioValue("s_status");
+    if (name){
+        queryParams["name"] = name;
+    }
+    if (crafts){
+        queryParams["crafts"] = crafts;
+    }
+    if (status) {
+        queryParams["status"] = status;
+    }
     gridTable.bootstrapTable('refresh',{
-        query:{name: name,status: status}
+        query:queryParams
     });
 });
 //搜索重置搜索
 $("#searchFix").click(function () {
         $("#s_name").val("");
-        $("#s_status").val("");
-        gridTable.bootstrapTable('resetSearch');
+        $("#s_crafts").val("");
+        pageUtils.setRadioValue("s_status");;
 });
 
 
@@ -253,18 +252,9 @@ $("#searchFix").click(function () {
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var demo = {};
-        demo.id = $("#id").val();
-        demo.name = $("#name").val();
-        demo.createTime = $("#createTime").val();
-        demo.status = $("input[name='status']").val();
-        demo.openDate = $("#openDate").val();
-        demo.crafts = $("#crafts").val();
-        demo.ability = $("#ability").val();
-        demo.enterpriseId = $("#enterpriseId").val();
-        demo.attachmentIds = getAttachmentIds();
-        demo.removeId = $("#removeId").val();
-        saveAjax(demo,function (msg) {
+        var entity = $("#scfForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
@@ -301,17 +291,45 @@ $('#datetimepicker2').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    $("#demoFormTitle").text("修改大气污染治理设施");
+    form.find(".form-title").text("修改大气污染治理设施");
     id = entity.id;
     $("#id").val(entity.id);
     $("#name").val(entity.name);
-    $("#createTime").val(sub10(entity.createTime));
-    $("#status").val(entity.status);
-    $("#openDate").val(sub10(entity.openDate));
+    $("#createTime").val(pageUtils.sub10(entity.createTime));
+    pageUtils.setRadioValue("status",entity.status);
+    $("#openDate").val(pageUtils.sub10(entity.openDate));
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#enterpriseId").val(entity.enterpriseId);
     uploader = new qq.FineUploader(getUploaderOptions(id));
+}
+
+
+function setFormView(entity) {
+    setFormData(entity);
+    form.find(".form-title").text("查看大气污染治理设施");
+    disabledForm(true);
+
+}
+function disabledForm(disabled) {
+    form.find("input").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#createTimeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openDateContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
+    }
+
 }
 
 /**
@@ -328,7 +346,7 @@ function sub10(str) {
  * 重置表单
  */
 function resetForm() {
-    form.find("#demoFormTitle").text("新增固体废物治理设施");
+    form.find(".form-title").text("新增固体废物治理设施");
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
 }
