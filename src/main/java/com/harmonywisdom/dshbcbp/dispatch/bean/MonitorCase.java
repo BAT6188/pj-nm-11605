@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.dispatch.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,21 +16,46 @@ public class MonitorCase implements Serializable {
     @Column(length = 32)
     private String id;
 
+
     /**
-     * 事件来源
+     * 状态
+     * 1:未发送
+     * 2:已发送
      */
-    @Column(name = "source")
-    private String source;
-    /**
-     * 所属网格级别
-     */
-    @Column(name = "block_level_id", length = 32)
-    private String blockLevelId;
+    @Column(name = "status", length = 2)
+    private int status;
+
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
+
+    @Transient
+    private String enterpriseName;
+
+    @Column(name = "event_time")
+    private String eventTime;
+
+    @Transient
+    private String supervisor;
+
+    @Transient
+    private String supervisorPhone;
+
+
     /**
      * 所属网格id
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
+
+    @Transient
+    private String blockName;
+
+    @Transient
+    private String blockLevelName;
+
+    @Column(name = "reason", length = 2)
+    private String reason;
+
     /**
      * 超标值
      */
@@ -67,13 +89,63 @@ public class MonitorCase implements Serializable {
      */
     @Column(name = "send_remark")
     private String sendRemark;
-    /**
-     * 1:未发送
-     * 2:已发送
-     * 状态
-     */
-    @Column(name = "status", length = 2)
-    private int status;
+
+
+    public String getSupervisorPhone() {
+        return supervisorPhone;
+    }
+
+    public void setSupervisorPhone(String supervisorPhone) {
+        this.supervisorPhone = supervisorPhone;
+    }
+
+    public String getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(String supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public String getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(String eventTime) {
+        this.eventTime = eventTime;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
 
     public String getId() {
         return id;
@@ -83,20 +155,13 @@ public class MonitorCase implements Serializable {
         this.id = id;
     }
 
-    public String getSource() {
-        return source;
+
+    public String getBlockName() {
+        return blockName;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getBlockLevelId() {
-        return blockLevelId;
-    }
-
-    public void setBlockLevelId(String blockLevelId) {
-        this.blockLevelId = blockLevelId;
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     public String getBlockId() {

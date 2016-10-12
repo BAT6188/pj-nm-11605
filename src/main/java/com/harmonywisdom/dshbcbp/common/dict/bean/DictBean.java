@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class DictBean extends HashMap<String, String> implements Comparable<DictBean> {
     public static final String CODE = "code";
     public static final String NAME = "name";
+    public static final String PARENTCODE = "parentCode";
 
     private double serial;
 
@@ -25,6 +26,14 @@ public class DictBean extends HashMap<String, String> implements Comparable<Dict
 
     public void setName(String name) {
         put(NAME, name);
+    }
+
+    public String getParentCode() {
+        return get(PARENTCODE);
+    }
+
+    public void setParentCode(String parentCode) {
+        put(PARENTCODE, parentCode);
     }
 
     public double getSerial() {
