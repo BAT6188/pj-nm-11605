@@ -2,6 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
+    formTitle = "固体废物治理设施",
     selections = [];
 
 
@@ -36,7 +37,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_enterprise_SolidControlFacility_list.action",
-        height: 540,
+        height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -161,7 +162,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('h1').outerHeight(true);
+    return $(window).height() - $('.dealBox').outerHeight(true) - 13;
 }
 initTable();
 /**============列表工具栏处理============**/
@@ -253,7 +254,7 @@ $('#openDateContent').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改固体废物治理设施");
+    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
@@ -269,7 +270,7 @@ function setFormData(entity) {
 }
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看固体废物治理设施");
+    form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -302,7 +303,7 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增固体废物治理设施");
+    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
