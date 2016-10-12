@@ -98,6 +98,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="scripts/enterpriseListOfRun.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseListOfRun.js"></script>
 </body>
 </html>

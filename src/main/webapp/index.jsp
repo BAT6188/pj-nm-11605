@@ -27,6 +27,9 @@
 <h2>树结构</h2>
 <a href="demo/ztree/ztree.jsp">ztree.jsp</a>
 
+<h2>选择</h2>
+<a href="demo/select/bootstrap-select.jsp">bootstrap-select.jsp</a>
+
 <h2>bootstrap-table</h2>
 <a href="demo/bootstrap-table/bootstrap-table-fromdata.jsp">bootstrap-table-fromdata.jsp</a>
 <a href="demo/bootstrap-table/bootstrap-table-fromtable.jsp">bootstrap-table-fromtable.jsp</a>
