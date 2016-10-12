@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <%@include file="/common/common_include.jsp"%>
@@ -13,49 +14,79 @@
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
     <style type="text/css">
-       table{
-           top:0px;
-           cursor: pointer;
-           background-color: #dddddd;
-       }
-       table tr td {
-           text-align: center;
-           font-weight: bold;
-           border-bottom: 0px;
-           border-right: 0px;
-           height: 5px;
-       }
 
     </style>
 </head>
 <body>
-<div class="container-fluid">
-    <!--搜索区域-->
-    <div class="alert">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <label for="name">企业名称</label>
-                <input type="text" id="s_name" class="form-control" />
+<div class="content content1 clearfix">
+    <div class="wrap">
+        <div class="mainBox">
+            <div class="dealBox">
+                <div class="sideTitle left">
+                        <span class="blueMsg">
+                            <img class="tipImg" src="${pageContext.request.contextPath}/common/images/searchTip.png" alt=""/>
+                            <span class="text">查询</span>
+                        </span>
+                </div>
+                <div class="queryBox marginLeft0">
+                    <p>
+                        <label for="">企业名称：</label> <input class="form-control" type="text"/>
+                        <label for="">是否缴费：</label>
+                        <select class="form-control" name="" id="">
+                            <option value="1">是</option>
+                            <option value="2">否</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="">申报年份：</label>
+                        <select class="form-control" name="" id="">
+                            <option value="1">2016</option>
+                            <option value="2">2015</option>
+                            <option value="3">2014</option>
+                        </select>
+                        <label for="">近期时间段：</label>
+                        <select class="form-control" name="" id="">
+                            <option value="1">一月</option>
+                            <option value="2">一周</option>
+                            <option value="3">一天</option>
+                        </select>
+
+                    </p>
+                </div>
+                <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
             </div>
-            <div class="form-group">
-                <label for="name">日期</label>
-                <input type="text" id="s_status" class="form-control" />
+            <div class="tableBox">
+                <div class="chart-box">
+                    <div class="chart-list">
+                        <ul class="clearfix">
+                            <li class="active"><a href="javascript:;">柱状图</a></li>
+                            <li><a href="javascript:;">饼状图</a></li>
+                            <li><a href="javascript:;">折线图</a></li>
+                        </ul>
+                    </div>
+                    <div class="chart-content">
+                        <div class="chartBox chartBox1">
+                            <div class="chart">
+                                <div id="container" style="min-width:80%;min-height:75%;text-align: center;width:90%;padding-left: 5px;"></div>
+                            </div>
+                        </div>
+                        <div class="chartBox chartBox2">
+                            <div class="chart">
+                                <img src="${pageContext.request.contextPath}/common/images/tree/chart2.png" alt=""/>
+                            </div>
+                        </div>
+                        <div class="chartBox chartBox3">
+                            <div class="chart">
+                                <img src="${pageContext.request.contextPath}/common/images/tree/chart3.png" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button id="search" type="button" class="btn btn-success" >查询</button>
-            <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
-        </form>
+        </div>
     </div>
 </div>
 
-    <!--highcharts图形区-->
-    <table border="1px" style="width: 25%;height: 5%;margin-left: 5px;">
-        <tr>
-            <td>柱状图</td>
-            <td>饼状图</td>
-            <td>折线图</td>
-        </tr>
-    </table>
-    <div id="container" style="min-width:80%;min-height:75%;text-align: center;width:90%;padding-left: 5px;"></div>
 
 <script src="scripts/excessive_statistics.js"></script>
 </body>
