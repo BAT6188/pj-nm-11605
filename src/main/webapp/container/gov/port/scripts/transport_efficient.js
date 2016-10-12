@@ -2,6 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
+    formTitle = "传输有效率",
     selections = [];
 
 //保存ajax请求
@@ -35,7 +36,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_port_TransportEfficient_list.action",
-        height: 540,
+        height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -181,7 +182,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('h1').outerHeight(true);
+    return $(window).height() - $('.dealBox').outerHeight(true) - 13;
 }
 initTable();
 
@@ -389,7 +390,7 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增传输有效率");
+    form.find(".form-title").text("新增" + formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     // uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
