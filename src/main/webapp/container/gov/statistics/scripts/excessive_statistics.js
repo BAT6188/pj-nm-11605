@@ -2,17 +2,45 @@
  * Created by Administrator on 2016/10/10.
  */
 $(function(){
-    // $.ajax({
-    //     url:rootPath + "/action/S_port_PortStatusHistory_.action",
-    //     type:"post",
-    //     dataType:"json",
-    //     success:function (excessiveValue) {
-    //         initMtchart(seriesData);
-    //     }
-    // });
 
-    colMchart();
-    function colMchart() {
+    initPage();//执行初始化
+
+    function initPage(){
+        getColumnHighChartData();
+    }
+
+    /**
+     * 柱状图获取数据
+     */
+    function getColumnHighChartData(){
+        // var data = {};
+        var categories = ["1月","2月","3月","4月","5月","6月"];
+        var series = [];
+        
+        var gongsi1 = {name: "gongsi1", data: [1,2,3,3,4,3.55]};
+        var gongsi2 = {name: "gongsi2", data: [2,3,1.2,4.5,3.7,2.8]};
+        var gongsi3 = {name: "gongsi2", data: [4,5,5.2,5.5,5.7,3.8]};
+        series.push(gongsi1);
+        series.push(gongsi2);
+        series.push(gongsi3);
+        // $.ajax({
+        //     url:rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
+        //     type:"post",
+        //     dataType:"json",
+        //     success:function (data) {
+        //             colMchart(categories, series);
+        //     }
+        // });
+
+        colMchart(categories, series);
+    }
+
+    /**
+     * 柱状图highchart
+     * @param categories
+     * @param series
+     */
+    function colMchart(categories,series) {
         $('#container').highcharts({
             chart: {
                 type: 'column'
@@ -21,7 +49,7 @@ $(function(){
                 text: '2016年上半年超标统计'
             },
             xAxis: {
-                categories: ['1月', '2月', '3月', '4月', '5月', '6月']
+                categories: categories
             },
             yAxis: {
                 allowDecimals:false,//是否允许为小数
@@ -41,17 +69,16 @@ $(function(){
             plotOptions: {
                 column: {
                     pointPadding: 0.1,
-                    borderWidth: 0
+                    borderWidth: 0,
                 }
             },
-            // series: seriesData
-            series: [{
-                data: [5, 3, 4, 7, 2,6]
-            }]
+            series: series
         });
     }
 
-    // pieMchart();
+    /**
+     * 饼状图highchart
+     */
     function pieMchart() {
         $('#container').highcharts({
             chart: {
@@ -98,7 +125,9 @@ $(function(){
         });
     }
 
-    // lineMchart();
+    /**
+     * 折线图highchart
+     */
     function lineMchart(){
         $('#container').highcharts({
             chart: {

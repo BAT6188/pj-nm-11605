@@ -2,13 +2,13 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "大气污染治理设施",
+    formTitle = "传输有效率",
     selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_save.action",
+        url: rootPath + "/action/S_port_TransportEfficient_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -23,20 +23,19 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_GasControlFacility_delete.action",
+        url: rootPath + "/action/S_port_TransportEfficient_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:callback
     });
 }
-
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_enterprise_GasControlFacility_list.action",
+        url: rootPath+"/action/S_port_TransportEfficient_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -49,8 +48,7 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            }, 
-            {
+            }, {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
@@ -59,60 +57,71 @@ function initTable() {
                 visible:false
             },
             {
-                title: '设施名称',
-                field: 'name',
+                title: '企业名称',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            }, {
-                field: 'createTime',
-                title: '建设日期',
+            },
+            {
+                field: 'blockName',
+                title: '所属网格名称',
                 sortable: false,
                 align: 'center',
                 editable: false,
+                visible: false
+            },
+            {
+                field: 'startTime',
+                title: '开始时间',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                visible:false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
                 }
             },
             {
-                field: 'openDate',
-                title: '投运日期',
+                field: 'endTime',
+                title: '结束时间',
                 sortable: false,
                 align: 'center',
                 editable: false,
+                visible:false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
                 }
             },
             {
-                field: 'crafts',
-                title: '处理工艺',
+                field: 'transpor',
+                title: '传输率',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                field: 'ability',
-                title: '设计处理能力',
+                field: 'efficient',
+                title: '有效率',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                field: 'status',
-                title: '运行情况',
+                field: 'ratio',
+                title: '传输有效率',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                field: 'operate',
-                title: '操作',
+                field: 'remark',
+                title: '备注',
+                sortable: false,
                 align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                editable: true,
+                visible:false
             }
-
         ]
     });
     // sometimes footer render error.
@@ -137,9 +146,9 @@ function initTable() {
             height: getHeight()
         });
     });
-
-  
 }
+
+
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
@@ -177,6 +186,7 @@ function getHeight() {
 }
 initTable();
 
+
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -210,30 +220,24 @@ removeBtn.click(function () {
 $("#search").click(function () {
     //查询之前重置table
     var queryParams = {};
-    var name = $("#s_name").val();
-    var crafts = $("#s_crafts").val();
-    var status = pageUtils.getRadioValue("s_status");
-    if (name){
-        queryParams["name"] = name;
+    var enterpriseName = $("#s_enterpriseName").val();
+    if (enterpriseName){
+        queryParams["enterpriseName"] = enterpriseName;
     }
-    if (crafts){
-        queryParams["crafts"] = crafts;
-    }
-    if (status) {
-        queryParams["status"] = status;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    search(queryParams);
 });
-
+function search(params) {
+    gridTable.bootstrapTable('refresh',{
+        query:params
+    });
+}
 
 /**============表单初始化相关代码============**/
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
-        entity.attachmentId = getAttachmentIds();
+        // entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -242,9 +246,7 @@ var ef = form.easyform({
     error:function (ef,input, rull) {
         alert($(input).attr("id"));
     }
-    
 });
-
 
 //表单 保存按钮
 $("#save").bind('click',function () {
@@ -264,6 +266,78 @@ $('#datetimepicker2').datetimepicker({
 });
 
 /**
+ * 按时间查询表单
+ * @type {*|jQuery|HTMLElement}
+ */
+var yearUl = $('#year');
+
+var year = new Date().getFullYear();
+for ( var i = year; i >=2014; i--) {
+    $("<li class='year'>" + i + "</li>").appendTo(yearUl);
+}
+
+var statistical = $("#statistical");
+//按年份查询
+statistical.find("#year .year").bind('click',function(){
+    var year = parseInt($(this).text());
+    $('#selYear').text(year);
+    var startYdate = year +　'-'+'01' + '-'+'01';
+    var lastYdate = year + '-'+ '12' + '-'+ '31';
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+        
+    });
+});
+
+//按季度查询
+statistical.find(".tm").bind('click',function(){
+    var seasons= $(this).text();
+    var selYear = $('#selYear').text();
+    if(selYear == "年份"){
+        alert("请选择年份");
+        return ;
+    }
+    if(seasons == "第一季度"){
+        var startYdate = selYear + '-' +'01' + '-' + '01' ;
+        var lastYdate = selYear + '-' + '03' + '-' + '31';
+    }else if(seasons == "第二季度"){
+        var startYdate= selYear + '-' + '04' + '-' + '01';
+        var lastYdate = selYear + '-' + '06' + '-' + '30';
+    }else if(seasons == "第三季度"){
+        var startYdate = selYear + '-' + '07' + '-'+ '01';
+        var lastYdate = selYear + '-' + '09' + '-' + '30';
+    }else if(seasons = "第四季度"){
+        var startYdate = selYear + '-' + '10' + '-' + '01';
+        var lastYdate = selYear + '-' + '12' + '-'+ '31';
+    }
+    // search(startSdate, lastSdate);
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+        
+    });
+});
+
+//按月份查询
+statistical.find("li[class='month']").bind("click", function() {
+    var mNum = parseInt(this.value);
+    var m = mNum > 9 ? mNum : ("0"+mNum);
+    var selYear = $('#selYear').text();
+    if(selYear == "年份"){
+        alert("请选择年份!");
+        return;
+    }
+    var  day = new Date(selYear,m,0);
+    var startYdate = selYear +'-'+ m + '-'+'01';
+    var lastYdate = selYear + '-' + m + '-' + day.getDate();//获取当月最后一天日期
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+    });
+});
+
+/**
  * 设置表单数据
  * @param entity
  * @returns {boolean}
@@ -271,30 +345,24 @@ $('#datetimepicker2').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改" + formTitle);
-    id = entity.id;
+    form.find(".form-title").text("修改水污染治理设施");
+    var id = entity.id;
     $("#id").val(entity.id);
-    $("#name").val(entity.name);
-    $("#createTime").val(pageUtils.sub10(entity.createTime));
-    pageUtils.setRadioValue("status",entity.status);
-    $("#openDate").val(pageUtils.sub10(entity.openDate));
-    $("#crafts").val(entity.crafts);
-    $("#ability").val(entity.ability);
-    $("#enterpriseId").val(entity.enterpriseId);
-    uploader = new qq.FineUploader(getUploaderOptions(id));
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#blockName").val(entity.blockName);
+    $("#startTime").val(pageUtils.sub10(entity.startTime));
+    $("#endTime").val(pageUtils.sub10(entity.endTime));
+    $("#transpor").val(entity.transpor);
+    $("#efficient").val(entity.efficient);
+    $("#ratio").val(entity.ratio);
+    $("#remark").val(entity.remark);
+    // uploader = new qq.FineUploader(getUploaderOptions(id));
 }
-
 
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看" + formTitle);
+    form.find(".form-title").text("查看水污染治理设施");
     disabledForm(true);
-    var fuOptions = getUploaderOptions(entity.id);
-    fuOptions.callbacks.onSessionRequestComplete = function () {
-        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-    };
-    uploader = new qq.FineUploader(fuOptions);
-    $(".qq-upload-button").hide();
 
 }
 function disabledForm(disabled) {
@@ -324,104 +392,8 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增" + formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
-    uploader = new qq.FineUploader(getUploaderOptions());
+    // uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
 
 
-//表单附件相关js
-var uploader;//附件上传组件对象
-/**
- * 获取上传组件options
- * @param bussinessId
- * @returns options
- */
-function getUploaderOptions(bussinessId) {
-    return {
-        element: document.getElementById("fine-uploader-gallery"),
-        template: 'qq-template',
-        chunking: {
-            enabled: false,
-            concurrent: {
-                enabled: true
-            }
-        },
-        resume: {
-            enabled: false
-        },
-        retry: {
-            enableAuto: false,
-            showButton: false
-        },
-        failedUploadTextDisplay: {
-            mode: 'custom'
-        },
-        callbacks: {
-            onComplete:function (id,fileName,msg,request) {
-                uploader.setUuid(id, msg.id);
-            },
-            onDeleteComplete:function (id) {
-                var file = uploader.getUploads({id:id});
-                var removeIds = $("#removeId").val();
-                if (removeIds) {
-                    removeIds+= ("," + file.uuid)
-                }else{
-                    removeIds = file.uuid;
-                }
-                $("#removeId").val(removeIds);
-            },
-            onAllComplete: function (succeed) {
-                var self = this;
-                $.each(succeed, function (k, v) {
-                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
-                });
-            }
-        },
-        request: {
-            endpoint: rootPath + '/Upload',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        session:{
-            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        deleteFile: {
-            enabled: true,
-            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
-            method:"POST"
-        },
-        validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
-        },
-        debug: true
-    };
-}
-/**
- * 获取附件列表ids
- * @returns {*}
- */
-function getAttachmentIds() {
-    var attachments = uploader.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
-        }
-        return ids.join(",");
-    }
-    return "";
-}
-
-/**
- * 绑定下载按钮事件
- */
-$("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function () {
-    var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
-    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-});

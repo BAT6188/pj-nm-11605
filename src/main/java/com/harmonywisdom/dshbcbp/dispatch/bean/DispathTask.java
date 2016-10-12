@@ -19,7 +19,7 @@ public class DispathTask implements Serializable {
     @Column(length = 32)
     private String id;
     /**
-     * 事件来源
+     * 事件来源：1-12369,2-区长热线，3-市长热线
      */
     @Column(name = "source")
     private String source;
