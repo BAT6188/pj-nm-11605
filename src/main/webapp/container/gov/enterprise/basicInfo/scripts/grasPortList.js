@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_SoundControlFacility_save.action",
+        url: rootPath + "/action/S_port_GasPort_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_SoundControlFacility_delete.action",
+        url: rootPath + "/action/S_port_GasPort_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,12 +36,17 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_enterprise_SoundControlFacility_list.action",
+        url: rootPath+"/action/S_port_GasPort_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temp = pageUtils.getBaseParams(param);
+            temp.enterpriseId = id;
+            console.log(temp);
+            return temp;
+        },
         columns: [
             {
                 title:"全选",
@@ -51,46 +56,54 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: 'ID',
-                field: 'id',
+                title: '排口编号',
+                field: 'number',
                 align: 'center',
                 valign: 'middle',
                 sortable: false,
                 visible:false
             },
             {
-                title: '设施名称',
+                title: '排口名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '建设日期',
-                field: 'createTime',
-                sortable: false,
-                align: 'center',
+                title: '排口位置',
+                field: 'position',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                sortable: false,
+                align: 'center'
             },
             {
-                title: '投运日期',
-                field: 'openDate',
-                sortable: false,
-                align: 'center',
+                title: '排放方式',
+                field: 'dischargeMode',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                sortable: false,
+                align: 'center'
             },
             {
-                title: '运行情况',
-                field: 'status',
+                title: '排放去向',
+                field: 'dischargeDirection',
+                editable: false,
                 sortable: false,
-                align: 'center',
-                editable: false
+                align: 'center'
+            },
+            {
+                title: '排放标准',
+                field: 'dischargeStandard',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '监测类型',
+                field: 'monitorType',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'operate',
@@ -259,7 +272,6 @@ function setFormData(entity) {
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#realAbility").val(entity.realAbility);
-    // $("#enterpriseId").val(enterpriseId);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {

@@ -112,7 +112,33 @@ var pageUtils = {
         }else{
             callback(that._mainMenu,that._subMenu);
         }
-
+    },
+    /**
+     * 手动转换
+     * @param params
+     * @returns {{}}
+     */
+    getBaseParams:function (params){
+        var localParams = {};
+        //分页参数
+        localParams.take = params.limit;
+        localParams.skip = params.offset;
+        localParams.page = params.offset / params.limit + 1;
+        localParams.pageSize = params.limit;
+        return localParams;
+    },
+    loading:function(msg){
+        var showMsg = '数据载入中，请稍后......';
+        if(msg!=undefined && msg!=""){
+            showMsg = msg;
+        }
+        var returnMsg = '<table width=100% height=100% border=0 align=center valign=middle>'
+        + '<tr height=50%><td align=center>&nbsp;</td></tr>'
+        + '<tr><td align=center></td></tr>'
+        + '<tr><td align=center>'+showMsg+'</td></tr>'
+        + '<tr height=50%><td align=center>&nbsp;</td></tr>'
+        + '</table>';
+        return returnMsg;
     }
 };
 (function($){

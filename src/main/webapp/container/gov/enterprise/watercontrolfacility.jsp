@@ -145,6 +145,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="scripts/watercontrolfacility.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/watercontrolfacility.js"></script>
 </body>
 </html>

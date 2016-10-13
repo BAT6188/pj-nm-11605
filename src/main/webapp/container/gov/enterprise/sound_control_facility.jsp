@@ -103,6 +103,15 @@
                             />
                         </div>
                     </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="enterpriseId" class="col-sm-2 control-label">企业id:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="enterpriseId" name="enterpriseId" class="form-control"
+                                      data-message="设计处理能力不为空"
+                                      data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
@@ -119,6 +128,6 @@
         </div>
     </div>
 </div>
-<script src="scripts/sound_control_facility.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/sound_control_facility.js"></script>
 </body>
 </html>

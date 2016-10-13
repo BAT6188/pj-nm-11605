@@ -448,6 +448,6 @@
     </div><!-- /.modal -->
 </div>
 <!-- 所属流域模态框 end -->
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseInfo.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/enterpriseInfo.js"></script>
 </body>
 </html>

@@ -20,10 +20,46 @@ public class GasPort implements Serializable {
     private String id;
 
     /**
+     * 排口编号
+     */
+    @Column(name = "number",length = 100)
+    private String number;
+
+    /**
      * 排口名称
      */
     @Column(name = "name",length = 100)
     private String name;
+
+    /**
+     * 排口位置
+     */
+    @Column(name = "position",length = 100)
+    private String position;
+
+    /**
+     * 排放方式
+     */
+    @Column(name = "discharge_mode",length = 100)
+    private String dischargeMode;
+
+    /**
+     * 排放去向
+     */
+    @Column(name = "discharge_direction",length = 100)
+    private String dischargeDirection ;
+
+    /**
+     * 排放标准
+     */
+    @Column(name = "discharge_standard",length = 100)
+    private String dischargeStandard;
+
+    /**
+     * 监测类型
+     */
+    @Column(name = "monitor_type",length = 100)
+    private String monitorType ;
 
     /**
      * 监测时间
@@ -105,12 +141,60 @@ public class GasPort implements Serializable {
         this.id = id;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDischargeMode() {
+        return dischargeMode;
+    }
+
+    public void setDischargeMode(String dischargeMode) {
+        this.dischargeMode = dischargeMode;
+    }
+
+    public String getDischargeDirection() {
+        return dischargeDirection;
+    }
+
+    public void setDischargeDirection(String dischargeDirection) {
+        this.dischargeDirection = dischargeDirection;
+    }
+
+    public String getDischargeStandard() {
+        return dischargeStandard;
+    }
+
+    public void setDischargeStandard(String dischargeStandard) {
+        this.dischargeStandard = dischargeStandard;
+    }
+
+    public String getMonitorType() {
+        return monitorType;
+    }
+
+    public void setMonitorType(String monitorType) {
+        this.monitorType = monitorType;
     }
 
     public Date getMonitorTime() {
