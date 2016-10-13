@@ -24,69 +24,78 @@
     }
 </style>
 <body>
-<div class="container-fluid">
-    <!--搜索区域-->
-    <div class="alert">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <label for="searchEnterpriseName">企业名称</label>
-                <input type="text" id="searchEnterpriseName" class="form-control" />
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <label for="">调度时间</label>
-                <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                    <input class="form-control" size="16" type="text" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                </div>
-                <input type="hidden" id="start_sendTime" value="" />
-                ~
-                <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                    <input class="form-control" size="16" type="text" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                </div>
-                <input type="hidden" id="end_sendTime" value="" />
+<div class="content content1 clearfix">
+    <div class="wrap">
+        <div class="mainBox">
+            <div class="dealBox">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label for="searchEnterpriseName">企业名称</label>
+                        <input type="text" id="searchEnterpriseName" class="form-control" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label for="">调度时间</label>
+                        <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <input class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                        <input type="hidden" id="start_sendTime" value="" />
+                        ~
+                        <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <input class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                        <input type="hidden" id="end_sendTime" value="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="blockNname">调度网格</label>
+                        <input type="text" id="blockNname" class="form-control" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label for="reason">原  因</label>
+                        <input type="text" id="reason" class="form-control" />
+                    </div>
+                    <button id="search" type="button" class="btn btn-success" >查询</button>
+                    <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="blockNname">调度网格</label>
-                <input type="text" id="blockNname" class="form-control" />
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <label for="reason">原  因</label>
-                <input type="text" id="reason" class="form-control" />
+
+            <div class="tableBox">
+                <table id="table" class="table table-striped table-responsive"
+                       data-toolbar="#toolbar"
+                       data-show-header="true"
+                       data-card-view="false"
+                       data-search="false"
+                       data-show-refresh="false"
+                       data-show-toggle="false"
+                       data-show-columns="false"
+                       data-show-export="false"
+                       data-detail-view="false"
+                       data-detail-formatter="detailFormatter"
+                       data-minimum-count-columns="2"
+                       data-show-pagination-switch="false"
+                       data-pagination="true"
+                       data-id-field="id"
+                       data-page-list="[10, 20, 30]"
+                       data-show-footer="false"
+                       data-side-pagination="server"
+                       data-striped="true"
+                       data-sort-name="id"
+                       data-sort-order="asc"
+                       data-click-to-select="true"
+                       data-response-handler="responseHandler">
+                </table>
             </div>
-            <button id="search" type="button" class="btn btn-success" >查询</button>
-            <button id="searchFix" type="button" class="btn btn-default" >重置查询</button>
-        </form>
+        </div>
     </div>
 
-    <table id="table"
-           data-toolbar="#toolbar"
-           data-show-header="true"
-           data-card-view="false"
-           data-search="false"
-           data-show-refresh="false"
-           data-show-toggle="false"
-           data-show-columns="false"
-           data-show-export="false"
-           data-detail-view="false"
-           data-detail-formatter="detailFormatter"
-           data-minimum-count-columns="2"
-           data-show-pagination-switch="false"
-           data-pagination="true"
-           data-id-field="id"
-           data-page-list="[10, 20, 30]"
-           data-show-footer="false"
-           data-side-pagination="server"
-           data-striped="true"
-           data-sort-name="id"
-           data-sort-order="asc"
-           data-click-to-select="true"
-           data-response-handler="responseHandler">
-    </table>
+
+
+
 </div>
 
 <!--添加表单-->
-<div class="modal fade" id="demoForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal fade" id="systemSendForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
     <div class="modal-dialog" style="width:642px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -192,7 +201,7 @@
 </div>
 
 <!--添加表单-->
-<div class="modal fade" id="selectPeopleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal fade" id="selectPeopleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" >
     <div class="modal-dialog" style="width:882px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,15 +211,28 @@
                 <input type="hidden" id="removeId2">
             </div>
             <div class="modal-body">
-                <div class="Node-frame-menubar">
-                    <div class="scrollContent" >
-                        <ul id="treeDemo1" class="ztree"></ul>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="Node-frame-menubar">
+                            <div class="scrollContent" >
+                                <ul id="treeDemo1" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="mainBox">
+                            <div class="tableBox">
+                                <table id="selectPeopleTable" class="table table-striped table-responsive">
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-<table><tr><td>11</td><td>22</td></tr><tr><td>11</td><td>22</td></tr><tr><td>11</td><td>22</td></tr><tr><td>11</td><td>22</td></tr></table>
+
+
             </div>
             <div class="modal-footer" style="clear: both;">
-                <button type="button" class="btn btn-primary" id="send2" data-toggle="modal" data-target="#demoForm">发送</button>
+                <button type="button" class="btn btn-primary" id="sendTo" data-toggle="modal" data-target="#selectPeopleForm,#systemSendForm">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
@@ -218,5 +240,6 @@
 </div>
 
 <script src="scripts/MonitorCase.js"></script>
+<script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>
 </body>
 </html>
