@@ -14,7 +14,7 @@
     <title>修改企业信息</title>
     <%
         String handleType=request.getParameter("handleType");
-        String id=request.getParameter("id");
+        String enterpriseId=request.getParameter("id");
     %>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
@@ -26,7 +26,7 @@
     <jsp:include page="/common/common_select.jsp" flush="true"/>
     <script type="text/javascript">
         var handleType='<%=handleType%>';
-        var id='<%=id%>';
+        var enterpriseId='<%=enterpriseId%>';
     </script>
     <style>
         .Node-frame-menubar {
@@ -37,10 +37,14 @@
             border-right: 1px solid #e5e5e5;
             padding: 10px;
         }
+        .list-group-item{
+            cursor: default;
+        }
     </style>
 </head>
 <body>
-<div class="form-div" style="width: 95%;margin-left: -50px;">
+<div class="form-div" style="width: 99%;">
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active"></a>
     <form class="form-horizontal" role="form" id="enterpriseForm" method="post" style="margin-top: 20px;">
         <input type="hidden" id="id" name="id" class="form-control" />
         <input type="hidden" id="createTime" name="createTime" class="form-control" />
@@ -348,15 +352,18 @@
         <div class="form-group">
             <div class="col-sm-3"></div>
             <div class="col-sm-2">
-                <button id="saveForm" type="button" class="btn btn-success saveOrEditBtn" style="display: none">保存</button>
-                <button id="editForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
+                <button id="saveForm" type="button" class="btn btn-success addBtn" style="display: none">保存</button>
+                <button id="editForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>
+                <button id="toEditForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
             </div>
             <div class="col-sm-2">
-                <button id="resetForm" type="button" class="btn btn-default saveOrEditBtn" style="display: none">置空</button>
+                <button id="resetAddForm" type="button" class="btn btn-default addBtn" style="display: none">置空</button>
+                <button id="resetEditForm" type="button" class="btn btn-default editBtn" style="display: none">置空</button>
             </div>
             <div class="col-sm-2">
-                <button id="cancel" type="button" class="btn btn-warning saveOrEditBtn" style="display: none">取消</button>
-                <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none"><a href="javascript:history.back(-1);">返回</a></button>
+                <button id="cancelAddForm" type="button" class="btn btn-warning addBtn" style="display: none">取消</button>
+                <button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>
+                <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none">返回列表</button>
             </div>
             <div class="col-sm-3"></div>
         </div>
