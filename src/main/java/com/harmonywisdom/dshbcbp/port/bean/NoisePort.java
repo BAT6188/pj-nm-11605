@@ -20,10 +20,28 @@ public class NoisePort implements Serializable {
     private String id;
 
     /**
+     * 排口编号
+     */
+    @Column(name = "number",length = 100)
+    private String number;
+
+    /**
      * 监测点
      */
     @Column(name = "name",length = 100)
     private String name;
+
+    /**
+     * 性质
+     */
+    @Column(name = "nature",length = 100)
+    private String nature;
+
+    /**
+     * 监测类型
+     */
+    @Column(name = "monitor_type",length = 100)
+    private String monitorType;
 
     /**
      * 监测时间
@@ -183,6 +201,30 @@ public class NoisePort implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getNature() {
+        return nature;
+    }
+
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
+
+    public String getMonitorType() {
+        return monitorType;
+    }
+
+    public void setMonitorType(String monitorType) {
+        this.monitorType = monitorType;
     }
 
     public Date getMonitorTime() {

@@ -1,16 +1,33 @@
+<%@ page import="com.harmonywisdom.apportal.common.configuration.ConfigureManager" %>
+<%@ page import="com.harmonywisdom.apportal.sdk.person.IPerson" %>
+<%@ page import="com.harmonywisdom.dshbcbp.utils.ApportalUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+<%
+    IPerson person = ApportalUtil.getPerson(request);
+    String userID = "";
+    String userName = "";
+    if (person != null) {
+        userID = person.getUserId();
+        userName = person.getUserName();
+    }
+
+%>
 <script type="text/javascript" >
     var rootPath = '<%=request.getContextPath()%>';
+    var apportalRootPath = '<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>';
+    var SToken = '${param.SToken}';
+    var userId = '<%=userID%>';
+    var userName = '<%=userName%>';
 </script>
 
 <!--[if lt IE 9]>
 <meta http-equiv="refresh" content="0;ie.html" />
 <![endif]-->
-
+<link rel='icon' href='<%=request.getContextPath()%>/common/images/company.ico ' type='image/x-ico' />
 <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/common/scripts/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-table-1.11.0/bootstrap-table.css" rel="stylesheet">

@@ -199,7 +199,7 @@ function detailFormatter(index, row) {
 // 生成操作方法
 function operateFormatter(value, row, index) {
     return [
-        '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#demoForm" >系统发送</button>'
+        '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#systemSendForm" >系统发送</button>'
     ].join('');
 }
 
@@ -249,11 +249,11 @@ function getHeight() {
 }
 initTable();
 //初始化表单验证
-var ef = $("#demoForm").easyform({
+var ef = $("#systemSendForm").easyform({
     success:function (ef) {
         var demo = {};
         saveDemo(demo,function (msg) {
-            $('#demoForm').modal('hide');
+            $('#systemSendForm').modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     },
@@ -286,7 +286,7 @@ function saveDemo(demo,callback) {
 }
 
 
-
+//-------------datetimepicker配置--------------------//
 $('#datetimepicker1').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
@@ -308,7 +308,7 @@ $('#datetimepicker2').datetimepicker({
     showMeridian: 1
 });
 
-
+//-------------ztree配置--------------------//
 $(".scrollContent").slimScroll({
     height:"100%",
     railOpacity:.9,
@@ -327,6 +327,9 @@ var setting = {
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
+    },
+    callback: {
+        onClick: zTreeOnClick
     }
 };
 function filter(treeId, parentNode, childNodes) {
@@ -337,8 +340,78 @@ function filter(treeId, parentNode, childNodes) {
     return childNodes;
 }
 $.fn.zTree.init($("#treeDemo1"), setting);
+var treeObj = $.fn.zTree.getZTreeObj("treeDemo1");
+setTimeout(function () {
+    treeObj.expandAll(true);
+},2000)
 
-function f(p) {
-    console.log("fffffffff")
+
+
+
+
+//-------------table配置--------------------//
+var gridSelectPeopleTable = $('#selectPeopleTable');
+function initSelectPeopleTable() {
+    gridSelectPeopleTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        height: 540,
+        clickToSelect:true,//单击行时checkbox选中
+        columns: [
+            {
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:false,  //  true 单选， false多选
+                valign: 'middle'
+            },{
+                title: 'id',
+                field: 'id',
+                sortable: false,
+                footerFormatter: totalTextFormatter,
+                visible:false
+            }, {
+                title: '已选名单',
+                field: 'name',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '职务',
+                field: 'zhiwu',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            }
+        ]
+    });
 }
+
+initSelectPeopleTable();
+
+/**
+ * 获取列表所有的选中数据id
+ * @returns {*}
+ */
+function getIdSelectionsFromGridSelectPeople() {
+    return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
+        return row.id
+    });
+}
+
+function zTreeOnClick(event, treeId, treeNode) {
+    if(!map.isHave(treeNode.id)){
+        map.put(treeNode.id,treeNode.id);
+        gridSelectPeopleTable.bootstrapTable("append",treeNode)
+        gridSelectPeopleTable.bootstrapTable('checkAll');
+    }
+};
+
+$("#sendTo").click(function () {
+    var ids=getIdSelectionsFromGridSelectPeople();
+    console.log(ids)
+
+    gridSelectPeopleTable.bootstrapTable('removeAll');
+    map.removeAll();
+})
 

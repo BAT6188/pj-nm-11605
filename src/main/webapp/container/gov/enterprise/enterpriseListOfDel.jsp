@@ -5,7 +5,7 @@
     <jsp:include page="/common/common_include.jsp" flush="true"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
-    <title>排污单位列表</title>
+    <title>删除排污单位列表</title>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -98,6 +98,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseListOfRun.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseListOfDel.js"></script>
 </body>
 </html>

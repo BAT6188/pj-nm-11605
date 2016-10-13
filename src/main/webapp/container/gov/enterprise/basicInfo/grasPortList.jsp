@@ -2,26 +2,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>固体废物治理设施</title>
+    <%@include file="/common/common_include.jsp"%>
+    <%
+        String id=request.getParameter("id");
+    %>
+    <title>废气排口</title>
+    <script type="text/javascript">
+        var id='<%=id%>';
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
-                <div class="sideTitle left">
-                        <span class="blueMsg">
-                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
-                            <span class="text">查询</span>
-                        </span>
-                </div>
                 <div class="queryBox marginLeft0">
                     <p>
-                        <label for="s_name">设备名称：</label> <input type="text" id="s_name" class="form-control" />
-                        <label for="s_crafts">处理工艺：</label> <input type="text" id="s_crafts" class="form-control" />
-                        <label for="s_status">运行状态：</label>
-                        <label style="width: 50px"><input type="radio" value="1" name="s_status">正常</label>
-                        <label style="width: 50px"><input type="radio" value="0" name="s_status">异常</label>
+                        <label for="portNumber">排口编号：</label> <input type="text" id="portNumber" class="form-control" />
+                        <label for="portName">排口名称：</label> <input type="text" id="portName" class="form-control" />
                     </p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -50,7 +48,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加固体废物治理设施</h4>
+                <h4 class="modal-title form-title">添加噪声治理设施</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
@@ -103,22 +101,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ability" class="col-sm-2 control-label">设计处理能力：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="ability" name="ability" class="form-control"
-                                   data-message="设计处理能力不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                        <label for="realAbility" class="col-sm-2 control-label">实际处理能力：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="realAbility" name="realAbility" class="form-control"
-                                   data-message="实际处理能力不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
@@ -134,6 +116,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/solid_control_facility.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/grasPortList.js"></script>
 </body>
 </html>
