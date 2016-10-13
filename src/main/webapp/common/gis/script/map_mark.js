@@ -1,6 +1,12 @@
+$(".modal-dialog").width($(window).width()-100);
 $("#mapFrame").css({
-    width:$(window).width(),
-    height:$(window).height()
+    width:$(".modal-dialog").width()-3,
+    height:$(window).height()-200,
+    marginBottom:'-10px'
+});
+$("#markDialog").modal('show');
+$("#openMark").click(function () {
+
 });
 //获取map对象
 var mapWindow = $("#mapFrame")[0].contentWindow;
