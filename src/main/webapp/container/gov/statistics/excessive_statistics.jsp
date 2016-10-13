@@ -28,7 +28,7 @@
                             <span class="text">查询</span>
                         </span>
                 </div>
-                <div class="queryBox marginLeft0">
+                <div class=" marginLeft0">
                     <p>
                         <label for="s_name">企业名称：</label> <input class="form-control" type="text"/>
                         <%--<label for="">是否缴费：</label>--%>
@@ -38,7 +38,7 @@
                         <%--</select>--%>
                     </p>
                     <p>
-                        <label for="startTime" class="col-sm-2 control-label">日期:</label>
+                        <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
                         <div class="col-sm-8">
                             <div class="col-sm-4">
                                 <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
