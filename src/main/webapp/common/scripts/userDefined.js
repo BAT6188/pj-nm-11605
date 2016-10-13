@@ -61,6 +61,7 @@ var pageUtils = {
     _mainMenu: [],//主菜单
     _subMenu:{}, //子菜单
     _getSubMenu: function(data) {//该函数取得被指定菜单激活的下拉式菜单或子菜单的句柄。
+        var that = this;
         var items = [];//定义一个空数组items
         $.each(data, function (k, v) {//data目标数组，k数组的下标，v数组的元素
             var item = {
@@ -73,7 +74,7 @@ var pageUtils = {
 
             children = v.childrenData;
             if (children && children.length > 0) {
-                item.items = getSubMenu(children);
+                item.items = that._getSubMenu(children);
                 item.expanded = true;
                 delete item.url;
             }
