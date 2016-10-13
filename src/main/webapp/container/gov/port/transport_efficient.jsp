@@ -231,7 +231,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="scripts/transport_efficient.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/port/scripts/transport_efficient.js"></script>
 
 </body>
 </html>

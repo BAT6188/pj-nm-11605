@@ -2,12 +2,24 @@
  * Created by Administrator on 2016/10/10.
  */
 $(function(){
-
+    
     initPage();//执行初始化
 
     function initPage(){
         getColumnHighChartData();
     }
+
+    //初始化日期组件
+    $('#datetimepicker').datetimepicker({
+        language:   'zh-CN',
+        autoclose: 1,
+        minView: 2
+    });
+    $('#datetimepicker2').datetimepicker({
+        language:   'zh-CN',
+        autoclose: 1,
+        minView: 2
+    });
 
     /**
      * 柱状图获取数据
@@ -69,7 +81,7 @@ $(function(){
             plotOptions: {
                 column: {
                     pointPadding: 0.1,
-                    borderWidth: 0,
+                    borderWidth: 0
                 }
             },
             series: series

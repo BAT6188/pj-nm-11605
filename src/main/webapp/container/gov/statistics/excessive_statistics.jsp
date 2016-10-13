@@ -24,70 +24,81 @@
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">
-                            <img class="tipImg" src="${pageContext.request.contextPath}/common/images/searchTip.png" alt=""/>
+                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
                     <p>
-                        <label for="">企业名称：</label> <input class="form-control" type="text"/>
-                        <label for="">是否缴费：</label>
-                        <select class="form-control" name="" id="">
-                            <option value="1">是</option>
-                            <option value="2">否</option>
-                        </select>
+                        <label for="s_name">企业名称：</label> <input class="form-control" type="text"/>
+                        <%--<label for="">是否缴费：</label>--%>
+                        <%--<select class="form-control" name="" id="">--%>
+                            <%--<option value="1">是</option>--%>
+                            <%--<option value="2">否</option>--%>
+                        <%--</select>--%>
                     </p>
                     <p>
-                        <label for="">申报年份：</label>
-                        <select class="form-control" name="" id="">
-                            <option value="1">2016</option>
-                            <option value="2">2015</option>
-                            <option value="3">2014</option>
-                        </select>
-                        <label for="">近期时间段：</label>
-                        <select class="form-control" name="" id="">
-                            <option value="1">一月</option>
-                            <option value="2">一周</option>
-                            <option value="3">一天</option>
-                        </select>
-
+                        <label for="startTime" class="col-sm-2 control-label">日期:</label>
+                        <div class="col-sm-8">
+                            <div class="col-sm-4">
+                                <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                                    <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly
+                                           data-message="时间不能为空"
+                                           data-easytip="position:top;class:easy-red;"
+                                    />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                                    <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly
+                                           data-message="时间不能为空"
+                                           data-easytip="position:top;class:easy-red;"
+                                    />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                     </p>
                 </div>
-                <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
             </div>
             <div class="tableBox">
-                <div class="chart-box">
-                    <div class="chart-list">
-                        <ul class="clearfix">
-                            <li class="active"><a href="javascript:;">柱状图</a></li>
-                            <li><a href="javascript:;">饼状图</a></li>
-                            <li><a href="javascript:;">折线图</a></li>
-                        </ul>
+                    <div class="chart-box">
+                        <div class="chart-list">
+                            <ul class="clearfix">
+                                <li class="active"><a href="javascript:;">柱状图</a></li>
+                                <li><a href="javascript:;">饼状图</a></li>
+                                <li><a href="javascript:;">折线图</a></li>
+                            </ul>
+                        </div>
+                        <div class="chart-content">
+                            <div class="chartBox chartBox1">
+                                <div class="chart">
+                                    <div id="container" style="min-width:80%;min-height:75%;text-align: center;width:90%;padding-left: 5px;"></div>
+                                </div>
+                            </div>
+                            <div class="chartBox chartBox2">
+                                <div class="chart">
+                                    <img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="chartBox chartBox3">
+                                <div class="chart">
+                                    <img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="chart-content">
-                        <div class="chartBox chartBox1">
-                            <div class="chart">
-                                <div id="container" style="min-width:80%;min-height:75%;text-align: center;width:90%;padding-left: 5px;"></div>
-                            </div>
-                        </div>
-                        <div class="chartBox chartBox2">
-                            <div class="chart">
-                                <img src="${pageContext.request.contextPath}/common/images/tree/chart2.png" alt=""/>
-                            </div>
-                        </div>
-                        <div class="chartBox chartBox3">
-                            <div class="chart">
-                                <img src="${pageContext.request.contextPath}/common/images/tree/chart3.png" alt=""/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
+
         </div>
     </div>
 </div>
 
 
-<script src="scripts/excessive_statistics.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/excessive_statistics.js"></script>
 </body>
 </html>

@@ -259,6 +259,7 @@ function setFormData(entity) {
     $("#crafts").val(entity.crafts);
     $("#ability").val(entity.ability);
     $("#realAbility").val(entity.realAbility);
+    // $("#enterpriseId").val(enterpriseId);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {

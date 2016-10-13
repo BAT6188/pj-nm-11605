@@ -141,6 +141,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="scripts/gascontrolfacility.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/gascontrolfacility.js"></script>
 </body>
 </html>
