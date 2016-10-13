@@ -1,0 +1,249 @@
+.map-unselectable-container{
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+.amap-toolbar,.amap-scalecontrol,.amap-overviewcontrol {
+	margin:0px;
+	padding: 0px;
+	z-index: inherit
+}
+
+.amap-toolbar {
+	position: absolute;
+	width: 52px;
+	height: 250px;
+	overflow: visible
+}
+
+.amap-pancontrol {
+	width: 52px;
+	height: 52px;
+	background: url(./../images/map_view.png);
+	_background: url(./../images/map_view.gif);
+	background-position: 0 -140px;
+	position: absolute
+}
+
+.amap-pan-left,.amap-pan-top,.amap-pan-right,.amap-pan-bottom {
+	position: absolute;
+	cursor: pointer
+}
+
+.amap-pan-left,.amap-pan-right {
+	width: 12px;
+	height: 18px;
+	top: 17px
+}
+
+.amap-pan-top,.amap-pan-bottom {
+	width: 18px;
+	height: 12px;
+	left: 17px
+}
+
+.amap-pan-left {
+	left: 8px
+}
+
+.amap-pan-right {
+	left: 32px
+}
+
+.amap-pan-top {
+	top: 8px
+}
+
+.amap-pan-bottom {
+	top: 31px
+}
+
+.amap-pan-left:hover,.amap-pan-top:hover,.amap-pan-right:hover,.amap-pan-bottom:hover
+	{
+	background: url(./../images/map_view.png);
+	_background: url(./../images/map_view.gif)
+}
+
+.amap-pan-left:hover {
+	background-position: -52px -110px
+}
+
+.amap-pan-top:hover {
+	background-position: -70px -112px
+}
+
+.amap-pan-right:hover {
+	background-position: -61px -110px
+}
+
+.amap-pan-bottom:hover {
+	background-position: -84px -110px
+}
+
+.amap-zoomcontrol {
+	width: 24px;
+	position: absolute
+}
+
+.amap-zoom-plus,.amap-zoom-minus,.amap-zoom-cursor,.amap-zoom-label-street,.amap-zoom-label-city,.amap-zoom-label-province,.amap-zoom-label-country
+	{
+	background: url(./../images/map_view.png);
+	_background: url(./../images/map_view.gif);
+	cursor: pointer
+}
+
+.amap-zoom-ruler,.amap-zoom-mask {
+	background: url(./../images/toolbar_rbg.png);
+	cursor: pointer
+}
+
+.amap-zoom-ruler {
+	overflow: visible
+}
+
+.amap-zoom-plus,.amap-zoom-minus {
+	width: 24px;
+	height: 21px
+}
+
+.amap-zoom-plus {
+	background-position: 0 -217px
+}
+
+.amap-zoom-plus:hover {
+	background-position: 0 -194px
+}
+
+.amap-zoom-minus {
+	background-position: -26px -224px
+}
+
+.amap-zoom-minus:hover {
+	background-position: -26px -195px
+}
+
+.amap-zoom-ruler {
+	width: 12px;
+	height: 147px;
+	position: relative;
+	left: 6px;
+	background-position: 0 0
+}
+
+.amap-zoom-mask,.amap-zoom-cursor,.amap-zoom-labels,.amap-zoom-label-street,.amap-zoom-label-city,.amap-zoom-label-province,.amap-zoom-label-country
+	{
+	position: absolute
+}
+
+.amap-zoom-mask {
+	width: 12px;
+	height: 106px;
+	background-position: -14px 0
+}
+
+.amap-zoom-cursor {
+	width: 24px;
+	height: 20px;
+	left: -6px;
+	top: 106px;
+	background-position: -127px -164px
+}
+
+.amap-zoom-cursor:hover {
+	background-position: -127px -141px
+}
+
+.amap-zoom-labels {
+	display: none
+}
+
+.amap-zoom-label-street,.amap-zoom-label-city,.amap-zoom-label-province,.amap-zoom-label-country
+	{
+	width: 39px;
+	height: 31px;
+	left: 20px
+}
+
+.amap-zoom-label-street {
+	top: 0;
+	background-position: -87px -140px
+}
+
+.amap-zoom-label-city {
+	top: 54px;
+	background-position: -87px -171px
+}
+
+.amap-zoom-label-province {
+	top: 92px;
+	background-position: -87px -203px
+}
+
+.amap-zoom-label-country {
+	top: 129px;
+	background-position: -87px -235px
+}
+
+.amap-locate {
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	background: url(./../images/map_view.png);
+	_background: url(./../images/map_view.gif);
+	background-position: -130px -185px;
+	cursor: pointer
+}
+
+.amap_scaleCtrl {
+	width: 70px;
+	height: 20px;
+	bottom: 10px;
+	left: 10px;
+	overflow: hidden;
+	-moz-user-select: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.amap_scaleCtrl div.amap_scaleTxt {
+	font-size: 11px;
+	font-family: Arial, sans-serif;
+}
+
+.amap_scaleCtrl div {
+	position: absolute;
+	overflow: hidden;
+}
+
+.amap_scaleTxt {
+	text-align: center;
+	width: 100%;
+	cursor: default;
+	line-height: 18px;
+}
+
+.amap_scaleCtrl div {
+	position: absolute;
+	overflow: hidden;
+}
+
+.amap_scaleHBar {
+	width: 100%;
+	height: 3px;
+	font-size: 0;
+	bottom: 0;
+	padding: 0px;
+	margin: 0px;
+}
+
+.infowindow .window .top .right .user .layout{
+	margin: 0px;
+	padding: 0px;
+	overflow-x: hidden;
+}
+
+.anchorBL{display:none}
