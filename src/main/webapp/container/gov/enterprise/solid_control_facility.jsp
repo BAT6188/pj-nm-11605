@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>固体废物治理设施</title>
 </head>
 <body>
@@ -135,6 +134,6 @@
         </div>
     </div>
 </div>
-<script src="scripts/solid_control_facility.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/solid_control_facility.js"></script>
 </body>
 </html>

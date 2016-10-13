@@ -1,83 +1,65 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hotleave
-  Date: 14-5-20
-  Time: 下午4:05
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.harmonywisdom.apportal.common.configuration.ConfigureManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>首页</title>
-    <style>
-        a{
-            font-size: 20px;
-            display: block;
-            margin-bottom: 20px;
-        }
-    </style>
+<head lang="en">
+    <%@include file="/common/common_include.jsp"%>
+    <title>东胜环保</title>
 </head>
 <body>
-<h2>demo</h2>
-<a href="container/demo/demo.jsp">demo.jsp</a>
-
-<h2>时间控件</h2>
-<a href="demo/bootstrap-datepicker/bootstrap-datetime-picker.jsp">bootstrap-datetime-picker.jsp</a>
-
-<h2>树结构</h2>
-<a href="demo/ztree/ztree.jsp">ztree.jsp</a>
-
-<h2>选择</h2>
-<a href="demo/select/bootstrap-select.jsp">bootstrap-select.jsp</a>
-
-<h2>bootstrap-table</h2>
-<a href="demo/bootstrap-table/bootstrap-table-fromdata.jsp">bootstrap-table-fromdata.jsp</a>
-<a href="demo/bootstrap-table/bootstrap-table-fromtable.jsp">bootstrap-table-fromtable.jsp</a>
-<a href="demo/bootstrap-table/bootstrap-table-fromtable2.jsp">bootstrap-table-fromtable2.jsp</a>
-<a href="demo/bootstrap-table/bootstrap-table-fromtable-stantand.jsp">bootstrap-table-fromtable-stantand.jsp</a>
-<a href="demo/bootstrap-table/bootstrap-table-fromtable-stantand-cellcolor.jsp">bootstrap-table-fromtable-stantand-cellcolor.jsp</a>
-<a href="demo/bootstrap-table/bootstrap-table-fromtable-stantand-detail.jsp">bootstrap-table-fromtable-stantand-detail.jsp</a>
-<a href="demo/bootstrap-table/bootstrap-table-fromtable-stantand-rowcolor.jsp">bootstrap-table-fromtable-stantand-rowcolor.jsp</a>
-
-<h2>bootstrap-plugin</h2>
-<a href="demo/bootstrap-plugin/affix.jsp">affix.jsp</a>
-<a href="demo/bootstrap-plugin/affix2.jsp">affix2.jsp</a>
-<a href="demo/bootstrap-plugin/alert.jsp">提示和警告</a>
-<a href="demo/bootstrap-plugin/button.jsp">button.jsp</a>
-<a href="demo/bootstrap-plugin/carousel.jsp">轮播图</a>
-<a href="demo/bootstrap-plugin/collapse.jsp">折叠</a>
-<a href="demo/bootstrap-plugin/dropdown.jsp">下拉列表</a>
-<a href="demo/bootstrap-plugin/model.jsp">静态弹出框</a>
-<a href="demo/bootstrap-plugin/popover.jsp">popover类型title</a>
-<a href="demo/bootstrap-plugin/scrollspy.jsp">滚动</a>
-<a href="demo/bootstrap-plugin/tab.jsp">tab.jsp</a>
-<a href="demo/bootstrap-plugin/tooltip.jsp">tooltip.jsp</a>
-
-<h2>bootstrap-layout</h2>
-<a href="demo/bootstrap-layout/bootstrap-Alerts.jsp">bootstrap-Alerts.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-Badges.jsp">bootstrap-Badges.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-Breadcrumbs.jsp">bootstrap-Breadcrumbs.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-button-dropdown.jsp">bootstrap-button-dropdown.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-button-group.jsp">bootstrap-button-group.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-button-input-group.jsp">bootstrap-button-input-group.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-dropdowns.jsp">bootstrap-dropdowns.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-Jumbotron.jsp">bootstrap-Jumbotron.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-label.jsp">bootstrap-label.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-layout.jsp">layout.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-list.jsp">bootstrap-list.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-media.jsp">bootstrap-media.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-nav-tabs.jsp">bootstrap-nav-tabs.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-navbar.jsp">bootstrap-navbar.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-PageHeader.jsp">bootstrap-PageHeader.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-Pagination.jsp">bootstrap-Pagination.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-Panels.jsp">bootstrap-Panels.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-progress.jsp">bootstrap-progress.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-thumbnail.jsp">bootstrap-thumbnail.jsp</a>
-<a href="demo/bootstrap-layout/bootstrap-Well.jsp">bootstrap-Well.jsp</a>
-<a href="demo/bootstrap-layout/font-icon.jsp">font-icon.jsp</a>
-
-<h2>test</h2>
-<a href="container/gov/enterprise/enterpriseListOfRun.jsp">enterpriseListOfRun.jsp</a>
-
+<div class="main clearfix">
+    <div class="banner clearfix">
+        <div class="logoDiv left">
+            <img src="<%=request.getContextPath()%>/common/images/indexlogo.png" alt=""/>
+        </div>
+        <div class="opDiv right">
+            <ul>
+                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
+                <li class="divider"><i class="short-divider"></i></li>
+                <li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
+                <li><a href="#" class="msg-icon"><span class="new-icon">0</span></a></li>
+                <li class="divider"><i class="long-divider"></i></li>
+                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="link-list">
+            <ul class="clearfix">
+                <%--<li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/composite-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/exelaw-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/statistics-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/monitor-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/dispatch-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/office-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/dsyjt-img.png" alt=""/></a></li>
+                <li><a href="main.jsp?SToken=${param.SToken}"><img src="<%=request.getContextPath()%>/common/images/detect-img.png" alt=""/></a></li>--%>
+            </ul>
+        </div>
+        <div class="bg-icon">
+            <img src="<%=request.getContextPath()%>/common/images/bg-icon.png" alt=""/>
+        </div>
+    </div>
+</div>
+<p class="copyrightP"><span>版权所有：东胜环保局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
+<!--样式js-->
+<script>
+    function loadHeight(){
+        var main = document.querySelector(".main");
+        var mainContent = document.querySelector(".main-content");
+        mainContent.style.height=(main.offsetHeight - 76)+"px";//右侧列表宽度自适应
+    }
+    window.onload=loadHeight();
+    window.onresize=loadHeight();
+    //加载主菜单
+    pageUtils.loadMenu(function (mainMenu) {
+        //加载一级主菜单
+        for(var i = 0; i < mainMenu.length; i++){
+            var menu = mainMenu[i];
+            var li = $('<li><a href="main.jsp?menuCode='+menu.code+'&SToken='+SToken+'"><img src="<%=request.getContextPath()%>/common/images/'+menu.code+'-img.png" alt="'+menu.text+'"/></a></li>');
+            $(".link-list>ul").append(li);
+        }
+    })
+</script>
 </body>
 </html>
