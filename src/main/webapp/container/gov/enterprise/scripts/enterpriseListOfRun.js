@@ -10,18 +10,20 @@ var gridTable = $('#table'),
  */
 function deleteAjax(ids, callback) {
     if(ids!=undefined && ids!=""){
-        $.ajax({
-            url: rootPath + "/action/S_enterprise_Enterprise_delete.action",
-            type:"post",
-            data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-            dataType:"json",
-            success:callback
+        Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+            if (!e) {
+                return;
+            }
+            $.ajax({
+                url: rootPath + "/action/S_enterprise_Enterprise_delete.action",
+                type:"post",
+                data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
+                dataType:"json",
+                success:callback
+            });
         });
     }else{
-        $(".alert-warning").show();
-        setTimeout(function () {
-            $(".alert-warning").hide();
-        }, 2000);
+        Ewin.alert('请选择一条记录!');
     }
 }
 
@@ -100,11 +102,12 @@ function initTable() {
     });
     //处理新增按钮
     add.click(function(){
-       window.location.href = 'enterpriseAdd.jsp';
+       window.location.href = 'mainEnterprise.jsp?handleType=add';
     });
     /*处理更新按钮*/
     updateBtn.click(function(){
-        window.location.href = 'enterpriseEdit.jsp';
+        var id = getIdSelections();
+        window.location.href = 'mainEnterprise.jsp?handleType=edit&id='+id;
     });
     //处理删除按钮状态
     removeBtn.click(function () {
@@ -145,7 +148,7 @@ function detailFormatter(index, row) {
 }
 // 生成操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view"><a href="mainEnterprise.jsp?handleType=look&id='+row.id+'">查看</a></button>';
 }
 // 列表操作事件
 window.operateEvents = {

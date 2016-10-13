@@ -14,9 +14,11 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         return enterpriseService;
     }
 
-    public void saveEnterprise(){
-        Enterprise ent = this.entity;
-        String id = enterpriseService.saveOrUpdate(ent);
-        write(String.format("{\"success\": true, \"id\": \"%s\"}", id));
+    /**
+     * 根据id获取企业信息
+     */
+    public void getEnterpriseInfo(){
+        Enterprise enterprise = enterpriseService.findById(this.entity.getId());
+        write(enterprise);
     }
 }

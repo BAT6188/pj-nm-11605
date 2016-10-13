@@ -1,235 +1,125 @@
 /**
  * Created by Administrator on 2016/10/9.
  */
-/*添加按钮*/
-$('#saveForm').click(function(){
-    $('#enterpriseAddForm').ajaxSubmit({
-        type: 'post', // 提交方式 get/post
-        async:false,
-        dataType:"json",
-        url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
-        success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-            if(data.success){
-                window.location.href = 'enterpriseListOfRun.jsp';
-            }
-        }
+initZTree();
+initSelect();
+/*初始化选择菜单*/
+function initSelect(){
+    /*数据字典*/
+    var dictData = dict.getDctionnary({code:['registType','scale','affiliation','industrialPark']});
+    $.each(dictData,function(k,v){
+        var optionsHtml = '';
+        $.each(v,function(i,obj){
+            optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
+        })
+        $('#'+k).append(optionsHtml);
     });
-});
-/*重置按钮*/
-$('#resetForm').click(function(){
-    $('#enterpriseAddForm')[0].reset();
-});
-/*数据字典*/
-var dictData = dict.getDctionnary({code:['registType','scale','affiliation','industrialPark']});
-//var firstData = dict.getMultipleDctionnary({code:'industryType',parentCode:'-1'});
-initIndestryType();
-initArea();
-initValley();
-initRegistType();
-initAffiliation();
-initScale();
-initIndustrialPark();
-/*初始化行业类别 树结构*/
+    var selects = $('select');
+    $.each(selects,function(k,v){
+        var thisId = $(v).attr('id');
+        var thisOptionLength = $(v)[0].options.length;
+        if(thisOptionLength>12){
+            $('#'+thisId).select2({
+                language: "zh-CN",
+                height:"20px",
+                placeholder: "请选择",
+                minimumResultsForSearch: 2,
+                allowClear: true
+            });
+        }else{
+            $('#'+thisId).select2({
+                language: "zh-CN",
+                placeholder: "请选择",
+                minimumResultsForSearch: Infinity,
+                allowClear: true
+            });
+        }
+    })
+}
+/*初始化 树结构*/
 $(".scrollContent").slimScroll({
     height:"100%",
     railOpacity:.9,
     alwaysVisible:!1
 });
-function initIndestryType(){
-    var setting = {
-        data: {
-            simpleData: {
+function initZTree(){
+    var treeCode = ['industryType','area','valley'];
+    $.each(treeCode,function(k,v){
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "code",
+                    pIdKey: "parentCode",
+                    rootPId: -1
+                }
+            },
+            height:500,
+            width:200,
+            view: {
+                showLine: false
+            },
+            async: {
                 enable: true,
-                idKey: "code",
-                pIdKey: "parentCode",
-                rootPId: -1
+                url:rootPath + "/S_dict_Dict_multipleList.action",
+                autoParam:["code"],
+                otherParam:{"code":v},
+                dataFilter: null
+            },
+            callback: {
+                onDblClick: function(event, treeId, treeNode){
+                    console.log(treeNode);
+                    if(treeNode.check_Child_State == -1){
+                        $('#'+v).val(treeNode.name);
+                        $('#'+v+'ModalClose').trigger('click');
+                    }
+                }
             }
-        },
-        height:500,
-        width:200,
-        view: {
-            showLine: false
-        },
-        async: {
-            enable: true,
-            url:rootPath + "/S_dict_Dict_multipleList.action",
-            autoParam:["code"],
-            otherParam:{"code":"industryType"},
-            dataFilter: null
-        },
-        callback: {
-            onDblClick: zTreeOnDblClick
-        }
-    };
-    function zTreeOnDblClick(event, treeId, treeNode) {
-        if(treeNode.check_Child_State == -1){
-            $('#industryType').val(treeNode.name);
-            $('#industryTypeModalClose').trigger('click');
-        }
-    };
-    var industryTypeTree = $.fn.zTree.init($("#industryTypeTree"), setting);
-    $('#industryTypeModalSure').click(function(){
-        var nodes = industryTypeTree.getSelectedNodes();
-        var selectNode = nodes[0];
-        if(selectNode.check_Child_State == -1){
-            $('#industryType').val(selectNode.name);
-            $('#industryTypeModalClose').trigger('click');
-        }
-    })
-}
-/*初始化行政区 树结构*/
-function initArea(){
-    var setting = {
-        data: {
-            simpleData: {
-                enable: true,
-                idKey: "code",
-                pIdKey: "parentCode",
-                rootPId: -1
+        };
+        var zTree = $.fn.zTree.init($('#'+v+'Tree'), setting);
+        $('#'+v+'ModalSure').click(function(){
+            var nodes = zTree.getSelectedNodes();
+            var selectNode = nodes[0];
+            if(selectNode.check_Child_State == -1){
+                $('#'+v).val(selectNode.name);
+                $('#'+v+'ModalClose').trigger('click');
             }
-        },
-        height:500,
-        width:200,
-        view: {
-            showLine: false
-        },
-        async: {
-            enable: true,
-            url:rootPath + "/S_dict_Dict_multipleList.action",
-            autoParam:["code"],
-            otherParam:{"code":"area"},
-            dataFilter: null
-        },
-        callback: {
-            onDblClick: zTreeOnDblClick
-        }
-    };
-    function zTreeOnDblClick(event, treeId, treeNode) {
-        if(treeNode.check_Child_State == -1){
-            $('#area').val(treeNode.name);
-            $('#areaModalClose').trigger('click');
-        }
-    };
-    var areaTree = $.fn.zTree.init($("#areaTree"), setting);
-    $('#areaModalSure').click(function(){
-        var nodes = areaTree.getSelectedNodes();
-        var selectNode = nodes[0];
-        if(selectNode.check_Child_State == -1){
-            $('#area').val(selectNode.name);
-            $('#areaModalClose').trigger('click');
-        }
+        })
     })
-}
-/*初始化所属流域 树结构*/
-function initValley(){
-    var setting = {
-        data: {
-            simpleData: {
-                enable: true,
-                idKey: "code",
-                pIdKey: "parentCode",
-                rootPId: -1
-            }
-        },
-        height:500,
-        width:200,
-        view: {
-            showLine: false
-        },
-        async: {
-            enable: true,
-            url:rootPath + "/S_dict_Dict_multipleList.action",
-            autoParam:["code"],
-            otherParam:{"code":"valley"},
-            dataFilter: null
-        },
-        callback: {
-            onDblClick: zTreeOnDblClick
-        }
-    };
-    function zTreeOnDblClick(event, treeId, treeNode) {
-        if(treeNode.check_Child_State == -1){
-            $('#valley').val(treeNode.name);
-            $('#valleyModalClose').trigger('click');
-        }
-    };
-    var valleyTree = $.fn.zTree.init($("#valleyTree"), setting);
-    $('#valleyModalSure').click(function(){
-        var nodes = valleyTree.getSelectedNodes();
-        var selectNode = nodes[0];
-        if(selectNode.check_Child_State == -1){
-            $('#valley').val(selectNode.name);
-            $('#valleyModalClose').trigger('click');
-        }
-    })
-}
-/*初始化工业园区名称*/
-function initIndustrialPark(){
-    var industrialParkData = dictData.industrialPark;
-    var optionsHtml = '';
-    $.each(industrialParkData,function(k,v){
-        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
-    })
-    $('#industrialPark').append(optionsHtml);
-}
-/*初始化排污单位规模*/
-function initScale(){
-    var scaleData = dictData.scale;
-    var optionsHtml = '';
-    $.each(scaleData,function(k,v){
-        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
-    })
-    $('#scale').append(optionsHtml);
-}
-/*初始化隶属关系*/
-function initAffiliation(){
-    var affiliationData = dictData.affiliation;
-    var optionsHtml = '';
-    $.each(affiliationData,function(k,v){
-        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
-    })
-    $('#affiliation').append(optionsHtml);
-}
-/*初始化登记注册类型*/
-function initRegistType(){
-    var registTypeData = dictData.registType;
-    var optionsHtml = '';
-    $.each(registTypeData,function(k,v){
-        optionsHtml +='<option value="'+ v.code+'">'+ v.name+'</option>';
-    })
-    $('#registType').append(optionsHtml);
 }
 
-$('#datetimepicker1').datetimepicker({
-    language:   'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0
-});
-$('#datetimepicker2').datetimepicker({
-    language:   'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0
-});
-$('#datetimepicker3').datetimepicker({
-    language:   'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0
-});
+function initTimeInput(){
+    $('#datetimepicker1').datetimepicker({
+        language:   'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('#datetimepicker2').datetimepicker({
+        language:   'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('#datetimepicker3').datetimepicker({
+        language:   'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+}
 
 //附件相关js
 var uploader = new qq.FineUploader(getUploaderOptions(''));//附件上传组件对象
@@ -330,21 +220,120 @@ function initEnterpriseForm(type){
             editEnterpriseForm();
             break;
         case "add":
-            return true;
+            addEnterpriseForm();
             break;
         default:
-            return true;
+            addEnterpriseForm();
     }
 }
 /*查看信息*/
 function lookEnterpriseForm(){
-
+    setEnterpriseForm();
+    setLookBtn();
+}
+/*新建*/
+function addEnterpriseForm(){
+    setSaveOrEditBtn(false);
 }
 /*编辑信息*/
 function editEnterpriseForm(){
+    setEnterpriseForm();
+    setSaveOrEditBtn(false);
+}
+/*显示并设置查看状态按钮*/
+function setLookBtn(){
+    $("select").prop("disabled", true);
+    $('.form-control').attr('readonly','readonly');
+    $('.fieldset').attr('disabled','disabled');
+    $('.formBtn').attr('disabled','disabled');
+    $('.lookBtn').show();
+    $('.saveOrEditBtn').hide();
+    $('#editForm').click(function(){
+        setSaveOrEditBtn(true);
+    })
+}
+/*显示并设置保存和编辑状态按钮*/
+function setSaveOrEditBtn(isFromEditBtn){
+    $('.lookBtn').hide();
+    $('.saveOrEditBtn').show();
+    initTimeInput();
+    if(isFromEditBtn){
+        $("select").prop("disabled", false);
+        $('.form-control').removeAttr('readonly');
+        $('.fieldset').removeAttr('disabled');
+        $('.formBtn').removeAttr('disabled');
+        /*添加按钮*/
+        $('#saveForm').click(function(){
+            $('#enterpriseForm').ajaxSubmit({
+                type: 'post', // 提交方式 get/post
+                async:false,
+                dataType:"json",
+                url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
+                success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if(data.success){
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+        /*重置按钮*/
+        $('#resetForm').click(function(){
+            window.location.reload();
+        });
+        /*取消按钮*/
+        $('#cancel').click(function(){
+            window.location.reload();
+        })
+    }else{
+        /*添加按钮*/
+        $('#saveForm').click(function(){
+            $('#enterpriseForm').ajaxSubmit({
+                type: 'post', // 提交方式 get/post
+                async:false,
+                dataType:"json",
+                url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
+                success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    console.log(data);
+                    if(data.success){
+                        window.location.href = 'enterpriseListOfRun.jsp';
+                    }
+                }
+            });
+        });
+        /*重置按钮*/
+        $('#resetForm').click(function(){
+            $('#enterpriseForm')[0].reset();
+        });
+        /*取消按钮*/
+        $('#cancel').click(function(){
 
+        })
+    }
 }
 /*获取企业信息*/
 function setEnterpriseForm(){
-
+    $.ajax({
+        url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
+        type:"post",
+        data:{"id":id},//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function(data){
+            var inputs = $('.form-control');
+            $.each(inputs,function(k,v){
+                var tagId = $(v).attr('id');
+                var value = data[tagId];
+                if($(v)[0].tagName=='select'){
+                    $(v).find("option[value='"+value+"']").attr("selected",true);
+                }else{
+                    $(v).val(value);
+                }
+            });
+            $("input#isSpecial"+data.isSpecial).get(0).checked=true;
+            $("input#pollutantLevel"+data.pollutantLevel).get(0).checked=true;
+            var pollutantTypes = data.pollutantType.split(',');
+            $.each(pollutantTypes,function(k,v){
+                $("input#pollutantType"+ v.replace(/\s/g,'')).attr("checked", true);
+            })
+        }
+    });
 }
