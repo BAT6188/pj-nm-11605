@@ -115,6 +115,7 @@ img{
     color:#FF0000;
 }
 
+/*子页面折叠菜单*/
 .main{
     width: 97%;
     height: 90%;
@@ -130,7 +131,7 @@ img{
     text-align: center;
     position: absolute;
     width: 96%;
-    bottom: 0px;
+    bottom: 10px;
     line-height: 40px;
 }
 .copyrightP span{
@@ -145,11 +146,8 @@ img{
     height: 76px;
 }
 .opDiv{
-    width: 40%;
-    text-align: right;
-    margin-right: 20px;
+    width: 30%;
 }
-.opDiv ul{display: inline-block;}
 .link-list{
     width: 80%;
     margin-left: 10%;

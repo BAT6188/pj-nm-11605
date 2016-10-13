@@ -57,62 +57,32 @@ var pageUtils = {
             return str.substr(0,10);
         }
     },
-    //加载菜单
-    _mainMenu: [],//主菜单
-    _subMenu:{}, //子菜单
-    _getSubMenu: function(data) {//该函数取得被指定菜单激活的下拉式菜单或子菜单的句柄。
-        var items = [];//定义一个空数组items
-        $.each(data, function (k, v) {//data目标数组，k数组的下标，v数组的元素
-            var item = {
-                id: v.id,
-                text: v.text,
-                url: v.navUrl
-            }, children;
-
-            items.push(item);
-
-            children = v.childrenData;
-            if (children && children.length > 0) {
-                item.items = getSubMenu(children);
-                item.expanded = true;
-                delete item.url;
-            }
-        });
-        return items.length > 0 ? items : null;
+    /**
+     * 手动转换
+     * @param params
+     * @returns {{}}
+     */
+    getBaseParams:function (params){
+        var localParams = {};
+        //分页参数
+        localParams.take = params.limit;
+        localParams.skip = params.offset;
+        localParams.page = params.offset / params.limit + 1;
+        localParams.pageSize = params.limit;
+        return localParams;
     },
-    loadMenu:function (callback) {
-        var that = this;
-        if (this._mainMenu.length == 0) {
-            //加载菜单
-            $.ajax({
-                url: apportalRootPath + '/main/app.action',
-                dataType: 'jsonp',
-                jsonp: '_ca11back',
-                data: {
-                    method: 'appMenuItem',
-                    appId: '402883b3577422f00157743c07f10002',
-                    subSysId: '402883b3577422f00157743f33440003',
-                    requestMode: 'ajax',
-                    SToken: SToken
-                },
-                success: function (data) {
-                    data = JSON.parse(data);//此示例使用 JSON.parse 将 JSON 字符串转换为对象
-                    //初始化菜单数据结构
-                    $.each(data.childrenData, function (k, v) {
-                        that._mainMenu.push({
-                            code: v.name,
-                            text: v.text
-                        });
-                        that._subMenu[v.name] = that._getSubMenu(v.childrenData);
-                    });
-
-                    callback(that._mainMenu,that._subMenu);
-                }
-            });
-        }else{
-            callback(that._mainMenu,that._subMenu);
+    loading:function(msg){
+        var showMsg = '数据载入中，请稍后......';
+        if(msg!=undefined && msg!=""){
+            showMsg = msg;
         }
-
+        var returnMsg = '<table width=100% height=100% border=0 align=center valign=middle>'
+        + '<tr height=50%><td align=center>&nbsp;</td></tr>'
+        + '<tr><td align=center></td></tr>'
+        + '<tr><td align=center>'+showMsg+'</td></tr>'
+        + '<tr height=50%><td align=center>&nbsp;</td></tr>'
+        + '</table>';
+        return returnMsg;
     }
 };
 (function($){
