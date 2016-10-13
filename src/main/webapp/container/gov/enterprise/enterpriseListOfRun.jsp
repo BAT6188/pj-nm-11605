@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <jsp:include page="/common/common_include.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_include.jsp" flush="true"/>--%>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>排污单位列表</title>
@@ -100,7 +100,7 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" id="addNewEnterpriseForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 80%">
+    <div class="modal-dialog" style="width: 60%">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #0d8ddb">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -120,7 +120,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseListOfRun.js"></script>
 <script>
     $(function(){
-        pageUtils.loadPageOfContent('.modal-body',rootPath+'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add')
+        //pageUtils.loadPageOfContent('.modal-body',rootPath+'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add')
     })
 </script>
 </body>

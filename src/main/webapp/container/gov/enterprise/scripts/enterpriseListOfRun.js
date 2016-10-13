@@ -103,7 +103,7 @@ function initTable() {
     });
     //处理新增按钮
     add.click(function(){
-        jumpToUrl('/container/gov/enterprise/mainEnterprise.jsp?handleType=add');
+        jumpToUrl('/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add');
     });
     /*处理更新按钮*/
     updateBtn.click(function(){
@@ -137,7 +137,7 @@ function initTable() {
         $('#searchform')[0].reset();
         gridTable.bootstrapTable('resetSearch');
     });
-    //initSaveModel();
+    initSaveModel();
 }
 /*model*/
 function initSaveModel(){

@@ -11,7 +11,7 @@ import java.util.Date;
  * 废气排口
  */
 @Entity
-@Table(name = "HW_DSHBCBPGAS_PORT")
+@Table(name = "HW_DSHBCBP_GAS_PORT")
 public class GasPort implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,11 @@ public class GasPort implements Serializable {
      */
     @Column(name = "discharge_direction",length = 100)
     private String dischargeDirection ;
-
+    /**
+     * 排放设备
+     */
+    @Column(name = "discharge_device",length = 100)
+    private String dischargeDevice ;
     /**
      * 排放标准
      */
@@ -283,6 +287,14 @@ public class GasPort implements Serializable {
 
     public void setIsOxygen(String isOxygen) {
         this.isOxygen = isOxygen;
+    }
+
+    public String getDischargeDevice() {
+        return dischargeDevice;
+    }
+
+    public void setDischargeDevice(String dischargeDevice) {
+        this.dischargeDevice = dischargeDevice;
     }
 
     public String getEnterpriseId() {

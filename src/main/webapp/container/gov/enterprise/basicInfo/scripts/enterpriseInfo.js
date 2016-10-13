@@ -14,7 +14,7 @@ function initSelect(){
         })
         $('#'+k).append(optionsHtml);
     });
-    var selects = $('select');
+    /*var selects = $('select');
     $.each(selects,function(k,v){
         var thisId = $(v).attr('id');
         var thisOptionLength = $(v)[0].options.length;
@@ -34,7 +34,7 @@ function initSelect(){
                 allowClear: true
             });
         }
-    })
+    })*/
 }
 /*初始化 树结构*/
 $(".scrollContent").slimScroll({
