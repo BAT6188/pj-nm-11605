@@ -13,4 +13,17 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
     protected PortStatusHistoryService getService() {
         return portStatusHistoryService;
     }
+
+    /**
+     * highchart获取超标数据
+     */
+    public void getColumnHighChart(){
+
+
+
+    }
+
+
+
+
 }
