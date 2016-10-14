@@ -47,10 +47,10 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">污染防治设施建设和运营信息</a></h3>
             <ul>
-                <li><a href="javascript:;">水污染治理设施建设和运营情况</a></li>
-                <li><a href="javascript:;">大气污染治理设施建设和运营情况</a></li>
-                <li><a href="javascript:;">固体废物贮存及治理设施建设和运营情况</a></li>
-                <li><a href="javascript:;">噪声污染治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/watercontrolfacility.jsp')">水污染治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/gascontrolfacility.jsp')">大气污染治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/solid_control_facility.jsp')">固体废物贮存及治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/sound_control_facility.jsp')">噪声污染治理设施建设和运营情况</a></li>
                 <li><a href="javascript:;">监测设备信息</a></li>
             </ul>
         </div>

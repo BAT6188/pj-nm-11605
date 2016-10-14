@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>超标统计</title>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
@@ -28,9 +27,9 @@
                             <span class="text">查询</span>
                         </span>
                 </div>
-                <div class=" marginLeft0">
+                <div class="marginLeft0">
                     <p>
-                        <label for="s_name">企业名称：</label> <input id="s_name" lass="form-control" type="text"/>
+                        <label for="s_name">企业名称：</label> <input id="s_name" class="form-control" type="text"/>
                     </p>
                     <p>
                         <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
@@ -50,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                    <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                    <button type="button" id="serachModel" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                     </p>
                 </div>
             </div>

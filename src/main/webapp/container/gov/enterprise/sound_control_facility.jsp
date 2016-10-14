@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>噪声治理设施</title>
 </head>
 <body>

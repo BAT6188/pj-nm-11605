@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>企业环评验收统计分析</title>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
