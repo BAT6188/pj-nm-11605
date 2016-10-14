@@ -217,6 +217,9 @@ $("#search").click(function () {
 var ef = form.easyform({
     success:function (ef) {
         debugger;
+        //验证成功，打开选择人员 对话框
+        $('#selectPeopleForm').modal('show');
+
         var entity = $("#eventMsg").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {

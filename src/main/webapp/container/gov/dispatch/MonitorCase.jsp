@@ -67,39 +67,12 @@
                     </div>
                 </form>
             </div>
-
             <div class="tableBox">
-                <table id="table" class="table table-striped table-responsive"
-                       data-toolbar="#toolbar"
-                       data-show-header="true"
-                       data-card-view="false"
-                       data-search="false"
-                       data-show-refresh="false"
-                       data-show-toggle="false"
-                       data-show-columns="false"
-                       data-show-export="false"
-                       data-detail-view="false"
-                       data-detail-formatter="detailFormatter"
-                       data-minimum-count-columns="2"
-                       data-show-pagination-switch="false"
-                       data-pagination="true"
-                       data-id-field="id"
-                       data-page-list="[10, 20, 30]"
-                       data-show-footer="false"
-                       data-side-pagination="server"
-                       data-striped="true"
-                       data-sort-name="id"
-                       data-sort-order="asc"
-                       data-click-to-select="true"
-                       data-response-handler="responseHandler">
+                <table id="table" class="table table-striped table-responsive">
                 </table>
             </div>
         </div>
     </div>
-
-
-
-
 </div>
 
 <!--添加表单-->
