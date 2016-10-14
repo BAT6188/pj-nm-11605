@@ -18,8 +18,8 @@
     %>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
-    <%--时间--%>
-    <%--<jsp:include page="/common/common_datetimepicker.jsp" flush="true"/>--%>
+    <link href="<%=request.getContextPath()%>/common/scripts/notyf/notyf.min.css" rel="stylesheet">
+    <script src="<%=request.getContextPath()%>/common/scripts/notyf/notyf.js"></script>
     <%--ztree--%>
     <jsp:include page="/common/common_ztree.jsp" flush="true"/>
     <%--select--%>
@@ -56,7 +56,7 @@
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">单位名称：</label>
             <div class="col-sm-4">
-                <input type="text" id="name" name="name" class="form-control needshow"/>
+                <input type="text" id="name" name="name" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位名称"/>
             </div>
             <label for="status" class="col-sm-2 control-label">企业运行状态：</label>
             <div class="col-sm-4">
@@ -71,11 +71,11 @@
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">单位地址：</label>
             <div class="col-sm-4">
-                <input type="text" id="address" name="address" class="form-control needshow"/>
+                <input type="text" id="address" name="address" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位地址"/>
             </div>
             <label for="pollutantCode" class="col-sm-2 control-label">污染源代码：</label>
             <div class="col-sm-4">
-                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow"/>
+                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="污染源代码"/>
             </div>
         </div>
         <div class="form-group">
@@ -100,12 +100,12 @@
         <div class="form-group">
             <label for="zipCode" class="col-sm-2 control-label">邮政编码：</label>
             <div class="col-sm-4">
-                <input type="text" id="zipCode" name="zipCode" class="form-control needshow"/>
+                <input type="text" id="zipCode" name="zipCode" class="form-control needshow needCheck" data-message="" data-easyform="number" title="邮政编码"/>
             </div>
             <label for="orgCode" class="col-sm-2 control-label">组织机构代码：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode"/>
+                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode"readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button">
                             选择
@@ -117,24 +117,24 @@
         <div class="form-group">
             <label for="artificialPerson" class="col-sm-2 control-label">法定代表人：</label>
             <div class="col-sm-4">
-                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow"/>
+                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人">
             </div>
             <label for="apPosition" class="col-sm-2 control-label">法定代表人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPosition" name="apPosition" class="form-control needshow"/>
+                <input type="text" id="apPosition" name="apPosition" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人职务"/>
             </div>
         </div>
         <div class="form-group">
             <label for="apPhone" class="col-sm-2 control-label">法定代表人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPhone" name="apPhone" class="form-control needshow"/>
+                <input type="text" id="apPhone" name="apPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
         <div class="form-group">
             <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
             <div class="col-sm-4">
-                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow"/>
+                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="环保负责人"/>
             </div>
             <label for="epPosition" class="col-sm-2 control-label">环保负责人职务：</label>
             <div class="col-sm-4">
@@ -144,7 +144,7 @@
         <div class="form-group">
             <label for="epPhone" class="col-sm-2 control-label">环保负责人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPhone" name="epPhone" class="form-control needshow"/>
+                <input type="text" id="epPhone" name="epPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
@@ -153,7 +153,7 @@
             <div class="col-sm-10" id="pollutantType">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType01" name="pollutantType" value="01">废水
+                    <input type="checkbox" id="pollutantType01" name="pollutantType" value="01" class="needCheck" data-message="" data-easyform="checkbox" title="污染源类型">废水
                 </label>
                 <label class="checkbox-inline">
                     <input type="checkbox" id="pollutantType02" name="pollutantType" value="02">废气
@@ -189,7 +189,7 @@
             <div class="col-sm-10" id="pollutantLevel">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" data-message="请选择污染源管理级别">国控
+                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" class="needCheck" data-message="" data-easyform="checkbox" title="污染源类型">国控
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="pollutantLevel" id="pollutantLevel02" value="02">省（区）控

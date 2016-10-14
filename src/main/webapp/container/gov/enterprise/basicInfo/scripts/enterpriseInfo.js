@@ -248,18 +248,14 @@ function initEnterpriseForm(type){
 }
 //初始化表单验证
 var isEditBtnFromlook = false;
-/*var ef = enterpriseForm.easyform({
-    success:function (ef) {
-        console.log(ef);
-        var entity = form.formSerializeObject();
-        entity.isDel='0';
-        entity.attachmentId = getAttachmentIds();
-        $.ajax({
-            url: rootPath + "/action/S_enterprise_Enterprise_save.action",
-            type:"post",
+function saveForm(){
+    $('#attachmentId').val(getAttachmentIds());
+    if(checkForm('enterpriseForm')){
+        $('#enterpriseForm').ajaxSubmit({
+            type: 'post', // 提交方式 get/post
             async:false,
-            data:entity,
             dataType:"json",
+            url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
             success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
                 if(data.success){
                     if(isEditBtnFromlook){
@@ -270,35 +266,9 @@ var isEditBtnFromlook = false;
                 }
             }
         });
-    },
-    error:function(ef, i, r){
-        console.log(ef);
-        console.log(i);
-        console.log(r);
-    },
-    per_validation:function(ef){
-        console.log(ef);
+    }else{
+        return false;
     }
-});*/
-function saveForm(){
-    console.log(getAttachmentIds());
-    $('#attachmentId').val(getAttachmentIds());
-    console.log($('#attachmentId'));
-    $('#enterpriseForm').ajaxSubmit({
-        type: 'post', // 提交方式 get/post
-        async:false,
-        dataType:"json",
-        url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
-        success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-            if(data.success){
-                if(isEditBtnFromlook){
-                    reloadThisPage();
-                }else{
-                    pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
-                }
-            }
-        }
-    });
 }
 /*查看信息*/
 function lookEnterpriseForm(){
