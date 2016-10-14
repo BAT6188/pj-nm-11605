@@ -1,10 +1,8 @@
 package com.harmonywisdom.dshbcbp.composite.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 网格级别
@@ -27,6 +25,17 @@ public class BlockLevel implements Serializable {
      */
     @Column(name = "NAME",length = 100)
     private String name;
+
+    @Transient
+    public List<BlockFirst> getNodes;
+
+    public List<BlockFirst> getGetNodes() {
+        return getNodes;
+    }
+
+    public void setGetNodes(List<BlockFirst> getNodes) {
+        this.getNodes = getNodes;
+    }
 
     public String getId() {
         return id;

@@ -1,0 +1,18 @@
+[
+  { "id":1, "pId":0, "name":"一级网格", "open":true,"isParent":true,"children": [
+    { "id":11, "pId":1, "name":"父节点11 - 折叠"},
+    { "id":111, "pId":11, "name":"叶子节点111"}
+  ]},
+  { "id":13, "pId":1, "name":"二级网格", "isParent":true,"children": [
+    { "id":2, "pId":0, "name":"父节点2 - 折叠"},
+    { "id":2, "pId":0, "name":"父节点2 - 折叠"}
+  ]},
+  { "id":21, "pId":2, "name":"三级网格","children": [
+    { "id":211, "pId":21, "name":"叶子节点211"},
+    { "id":212, "pId":21, "name":"叶子节点212"}
+  ]},
+  { "id":3, "pId":0, "name":"四级网格", "isParent":true,"children": [
+    { "id":211, "pId":21, "name":"叶子节点211"},
+    { "id":212, "pId":21, "name":"叶子节点212"}
+  ]}
+]

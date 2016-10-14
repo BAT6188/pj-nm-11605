@@ -71,6 +71,20 @@ public class BlockFirst implements Serializable {
     @Column(name = "CREATE_TIME")
     private Date createTime;
 
+    /**
+     *附件
+     */
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
+
     public String getId() {
         return id;
     }
