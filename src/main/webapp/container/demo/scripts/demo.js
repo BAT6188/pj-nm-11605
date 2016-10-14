@@ -215,7 +215,8 @@ MapMarkDialog.closed(function (mark) {
     }
 });
 $('#mapMarkBtn').bind('click', function () {
-    MapMarkDialog.setMode("polyline");
+    //设置标绘模式
+    MapMarkDialog.setMode("point");
     MapMarkDialog.open();
 });
 
