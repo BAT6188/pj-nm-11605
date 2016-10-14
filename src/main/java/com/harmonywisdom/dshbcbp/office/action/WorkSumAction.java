@@ -49,10 +49,11 @@ public class WorkSumAction extends BaseAction<WorkSum, WorkSumService> {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-        super.save();
+
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
+        super.save();
     }
 
     /**

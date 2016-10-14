@@ -28,7 +28,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             param.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getTitle()));
         }
         if (StringUtils.isNotBlank(entity.getType())) {
-            param.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getType()));
+            param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
@@ -48,12 +48,10 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-
+        super.save();
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
-
-        super.save();
     }
 
     /**

@@ -1,16 +1,14 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#workSumForm"),
-    formTitle = "工作总结",
+    form = $("#shareMeansForm"),
+    formTitle = "资料共享",
     selections = [];
-
-
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_WorkSum_list.action",
+        url: rootPath+"/action/S_office_ShareMeans_list.action",
         height: 590,
         method:'post',
         pagination:true,
@@ -23,7 +21,8 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            }, {
+            },
+            {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
@@ -76,6 +75,44 @@ function initTable() {
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
+    //处理删除按钮状态
+    removeBtn.click(function () {
+        var ids = getIdSelections();
+        deleteShareMeans(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
+        });
+
+    });
+
+    /**============列表搜索相关处理============**/
+//搜索
+    $("#search").click(function () {
+        var queryParams = {};
+        var title = $("#s_title").val();
+        var types =$("#s_type").val();
+        var pubTime = $("#s_pubTime").val();
+        if (title){
+            queryParams["title"] = title;
+        }
+        if (types){
+            queryParams["type"] = types;
+        }
+        if (pubTime) {
+            queryParams["pubTime"] = pubTime;
+        }
+        gridTable.bootstrapTable('refresh',{
+            query:queryParams
+        });
+    });
+
+    //表单弹出框 保存按钮
+    $("#saveShareMeans").bind('click',function () {
+         ef.submit(false);
+    });
 
     $(window).resize(function () {
         // 重新设置表的高度
@@ -84,7 +121,6 @@ function initTable() {
         });
     });
 }
-
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -105,10 +141,12 @@ function getSelections() {
     });
 }
 
+
 function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
 initTable();
+
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -123,70 +161,22 @@ $("#add").bind('click',function () {
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
 });
-/**
- * 列表工具栏 删除按钮
- */
-removeBtn.click(function () {
-    var ids = getIdSelections();
-    deleteWorkSum(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
-        });
-        removeBtn.prop('disabled', true);
-    });
 
-});
-
-/**============列表搜索相关处理============**/
-//搜索
-$("#search").click(function () {
-    var queryParams = {};
-    var title = $("#s_title").val();
-    var type =$("#s_type").val();
-    var pubTime = $("#s_pubTime").val();
-    if (title){
-        queryParams["title"] = title;
-    }
-    if (type){
-        queryParams["type"] = type;
-    }
-    if (pubTime) {
-        queryParams["pubTime"] = pubTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
-});
-
-/**============表单初始化相关代码============**/
 //初始化表单验证
 var ef = form.easyform({
     success:function(ef){
-        var worksum = $("#workSumForm").find("form").formSerializeObject();
-        worksum.attachmentIds = getAttachmentIds();
-        saveWorkSum(worksum,function (msg) {
+        var sharemeans = form.find("form").formSerializeObject();
+        sharemeans.attachmentIds = getAttachmentIds();
+        saveShareMeans(sharemeans,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     }
 });
 
-//表单弹出框 保存按钮
-$("#saveWorkSum").bind('click',function () {
-    //验证表单，验证成功后触发ef.success方法保存数据
-    ef.submit(false);
-});
-//初始化日期组件
-$('#pubTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
-function deleteWorkSum(ids,callback) {
+function deleteShareMeans(ids,callback) {
     $.ajax({
-        url: rootPath + "/action/S_office_WorkSum_delete.action",
+        url: rootPath + "/action/S_office_ShareMeans_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -194,33 +184,39 @@ function deleteWorkSum(ids,callback) {
     });
 }
 
-function saveWorkSum(worksum,callback) {
+function saveShareMeans(sharemeans,callback) {
     $.ajax({
-        url: rootPath +"/action/S_office_WorkSum_save.action",
+        url: rootPath +"/action/S_office_ShareMeans_save.action",
         type:"post",
-        data:worksum,
+        data:sharemeans,
         dataType:"json",
         success:callback
     });
 }
+//初始化日期组件
+$('#pubTimeContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 
 /**
  * 刷新表单数据
  * @param meeting
  */
-function setFormData(worksum) {
-     resetForm();
-        if (!worksum) {return false}
-        form.find(".form-title").text("修改"+formTitle);
-         var  id = worksum.id;
-        $("#id").val(worksum.id);
+function setFormData(sharemeans) {
+    resetForm();
+    if (!sharemeans) {return false}
+    form.find(".form-title").text("修改"+formTitle);
+        var id = sharemeans.id;
+        $("#id").val(sharemeans.id);
         $("#removeId").val("");
-        $("#title").val(worksum.title);
-        $("#type").val(worksum.type);
-        $("#pubTime").val(pageUtils.sub10(worksum.pubTime));
-        $("#pubOrgName").val(worksum.pubOrgName);
-        $("#description").val(worksum.description);
-     uploader = new qq.FineUploader(getUploaderOptions(id));
+        $("#title").val(sharemeans.title);
+        $("#type").val(sharemeans.type);
+         $("#pubTime").val(pageUtils.sub10(sharemeans.pubTime));
+        $("#pubOrgName").val(sharemeans.pubOrgName);
+        $("#description").val(sharemeans.description);
+        uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 
 function disabledForm(disabled) {
@@ -237,7 +233,6 @@ function disabledForm(disabled) {
     }
 
 }
-
 /**
  * 重置表单
  */
@@ -248,14 +243,8 @@ function resetForm() {
     disabledForm(false);
 }
 
-
 //附件相关js
 var uploader;//附件上传组件对象
-/**
- * 获取上传组件options
- * @param bussinessId
- * @returns options
- */
 function getUploaderOptions(bussinessId) {
     return {
         element: document.getElementById("fine-uploader-gallery"),
@@ -322,10 +311,7 @@ function getUploaderOptions(bussinessId) {
         debug: true
     };
 }
-/**
- * 获取附件列表ids
- * @returns {*}
- */
+
 function getAttachmentIds() {
     var attachments = uploader.getUploads();
     if (attachments && attachments.length) {
@@ -337,6 +323,7 @@ function getAttachmentIds() {
     }
     return "";
 }
+
 
 /**
  * 绑定下载按钮事件

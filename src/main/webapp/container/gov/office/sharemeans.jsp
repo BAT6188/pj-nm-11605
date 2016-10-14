@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>工作总结系统</title>
+    <title>资料共享系统</title>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -18,17 +18,17 @@
                 <div class="queryBox marginLeft0">
                     <p>
                         <label for="title">标题</label><input type="text" id="s_title" class="form-control" />
-                        <label for="type">工作类型</label><input type="text" id="s_type" class="form-control" />
+                        <label for="type">资料类型</label><input type="text" id="s_type" class="form-control" />
                         <label for="pubTime">发布时间</label>
                         <input type="text" id="s_pubTime" class="form-control" />
                     </p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#workSumForm">
+                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#workSumForm">
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
@@ -44,20 +44,20 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" id="workSumForm" data-form-type="add"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog"  style="width: 900px">
+<div class="modal fade" id="shareMeansForm" data-form-type="add"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 900px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">创建工作总结</h4>
+                <h4 class="modal-title form-title" id="shareMeansFormTitle" >创建资源共享</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="id" name="id">
-                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" id="id">
+                            <input type="hidden" id="removeId">
                             <input type="text" id="title" name="title" class="form-control"
                                    data-message="标题不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -82,19 +82,20 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="type" class="col-sm-2 control-label">类型</label>
+                        <label for="type" class="col-sm-2 control-label">资料类型</label>
                         <div class="col-sm-4">
-                            <input type="text" id="type" name="type"  class="form-control"
-                                   data-message="类型不能为空"
+                            <input type="text" id="type" name="type" class="form-control"
+                                   data-message="资料类型不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="description" class="col-sm-2 control-label">描述</label>
+                        <label for="description" class="col-sm-2 control-label">资料描述</label>
                         <div class="col-sm-10">
                             <textarea  id="description" name="description" class="form-control" rows="5"
-                                       data-message="描述不能为空"
+                                       data-message="资料描述不能为空"
                                        data-easytip="position:top;class:easy-red;"
                             ></textarea>
                         </div>
@@ -109,12 +110,12 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveWorkSum">保存</button>
+                <button type="button" class="btn btn-primary" id="saveShareMeans">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/worksum.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/office/scripts/sharemeans.js"></script>
 </body>
 </html>
