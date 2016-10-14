@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>水污染治理设施</title>
 </head>
 <body>
