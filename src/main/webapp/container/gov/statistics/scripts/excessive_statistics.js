@@ -21,23 +21,18 @@ $(function(){
             minView: 2
         });
 
-
         var year = new Date().getFullYear();
         var startYdate = year +　'-'+'01' + '-'+'01';
         var lastYdate = year + '-'+ '12' + '-'+ '31';
         getColumnHighChartData(startYdate,lastYdate);
     }
 
-    //初始化日期组件
-    $('#datetimepicker').datetimepicker({
-        language:   'zh-CN',
-        autoclose: 1,
-        minView: 2
-    });
-    $('#datetimepicker2').datetimepicker({
-        language:   'zh-CN',
-        autoclose: 1,
-        minView: 2
+    //查询按钮
+    $("#serachModel").bind('click',function(){
+        var name = $("#s_name").val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        search(name,startTime,endTime);
     });
 
     /**
