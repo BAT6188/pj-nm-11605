@@ -17,7 +17,7 @@
     float: left;
 }
 .navbar span{
-    display: block;
+    display: none;
     line-height: 20px;
     width: 32px;
     height:32px;

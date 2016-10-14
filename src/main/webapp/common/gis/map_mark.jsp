@@ -2,10 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
-
     <title>通用标绘页面</title>
-    <link rel="stylesheet" href="css/map_mark.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/common/gis/css/map_mark.css" type="text/css">
 </head>
 <body style="overflow: hidden;">
 
@@ -28,13 +26,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="markSave">保存</button>
+                <button type="button" class="btn btn-primary" id="markDialogOK">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="script/map_mark.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/common/gis/script/map_mark.js"></script>
 </body>
 </html>

@@ -96,8 +96,15 @@ HwmapCommon = {
     initmap: function () {
         //设置mapContainer 全屏
         var mapContainer = document.getElementById(this.options.mapContainerId);
-        mapContainer.style.width = (window.innerWidth) + "px";
-        mapContainer.style.height = (window.innerHeight) + "px";
+        if (window.initMap) {
+            window.initMap(this, mapContainer);
+        }
+        //如果没有设置container大小，设置为窗口大小
+        if (!mapContainer.style.width) {
+            mapContainer.style.width = (window.innerWidth) + "px";
+            mapContainer.style.height = (window.innerHeight) + "px";
+        }
+
         this.hwmap = new com.hw.map.HWMap(this.options.mapContainerId, this.options);
         this.MapTools = com.hw.map.utils.MapTools;
         //添加获取多边形中心点方法

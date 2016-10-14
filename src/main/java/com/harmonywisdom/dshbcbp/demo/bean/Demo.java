@@ -19,6 +19,19 @@ public class Demo implements Serializable {
     @Column
     private Integer age;
 
+    /**
+     * x坐标
+     */
+    @Column
+    private Double longitude;
+
+    /**
+     * y坐标
+     */
+    @Column
+    private Double latitude;
+
+
     @Transient
     private String attachmentIds;
 
@@ -52,5 +65,21 @@ public class Demo implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 }
