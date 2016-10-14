@@ -37,7 +37,11 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temp = pageUtils.getBaseParams(param);
+            temp.isDel = '1';
+            return temp;
+        },
         columns: [
             {
                 field: 'state',
@@ -48,12 +52,12 @@ function initTable() {
             },
             {
                 field: 'name',
-                title: '排污单位名称',
+                title: '单位名称',
                 sortable: true,
                 align: 'center'
             }, {
-                field: 'orgCode',
-                title: '组织机构代码',
+                field: 'delOpinion',
+                title: '删除意见',
                 sortable: true,
                 align: 'center'
             }, {
@@ -62,21 +66,22 @@ function initTable() {
                 sortable: true,
                 align: 'center'
             }, {
-                field: 'apPhone',
-                title: '联系方式',
+                field: 'delerName',
+                title: '操作人',
                 sortable: true,
                 align: 'center'
-            }, {
+            },
+            {
+                field: 'delTime',
+                title: '操作时间',
+                align: 'center'
+            },
+            {
                 field: 'status',
                 title: '企业运行状态',
                 sortable: true,
-                align: 'center'
-            }, {
-                field: 'operate',
-                title: '操作',
                 align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                formatter: statusFormatter
             }
 
         ]
@@ -137,14 +142,16 @@ function initTable() {
         gridTable.bootstrapTable('resetSearch');
     });
 }
-
-// 生成详细信息方法
-function detailFormatter(index, row) {
-    var html = [];
-    $.each(row, function (key, value) {
-        html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-    });
-    return html.join('');
+/*企业运行状态*/
+function  statusFormatter(value, row, index){
+    switch(value){
+        case "0":
+            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+        case "1":
+            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
+        default:
+            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+    }
 }
 // 生成操作方法
 function operateFormatter(value, row, index) {

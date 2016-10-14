@@ -2,11 +2,30 @@
  * Created by Administrator on 2016/10/10.
  */
 $(function(){
+
+    var columnHighchart = $("#container");
+
     
     initPage();//执行初始化
 
     function initPage(){
-        getColumnHighChartData();
+
+        $('#datetimepicker').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#datetimepicker2').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+
+
+        var year = new Date().getFullYear();
+        var startYdate = year +　'-'+'01' + '-'+'01';
+        var lastYdate = year + '-'+ '12' + '-'+ '31';
+        getColumnHighChartData(startYdate,lastYdate);
     }
 
     //初始化日期组件
@@ -24,23 +43,25 @@ $(function(){
     /**
      * 柱状图获取数据
      */
-    function getColumnHighChartData(){
-        // var data = {};
-        var categories = ["1月","2月","3月","4月","5月","6月"];
-        var series = [];
-        
-        var excessivenumbe = {name: "超标次数", data: [1,2,3,3,4,3.55]};
-        series.push(excessivenumbe);
+    function getColumnHighChartData(startYdate,lastYdate){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
             type:"post",
+            data:{startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function (data) {
-                    colMchart(data);
+                var categories = data.x;
+                var series = [];
+                var list = data.y;
+                var ylist = [];
+                for (var i=0; i<list.length; i++) {
+                    ylist.push(parseInt(list[i]));
+                }
+                var series1 = {name: "超标次数", data:ylist};
+                series.push(series1);
+                colMchart(categories,series);
             }
         });
-
-        // colMchart(categories, series);
     }
 
     /**
@@ -49,7 +70,7 @@ $(function(){
      * @param series
      */
     function colMchart(categories,series) {
-        $('#container').highcharts({
+        columnHighchart.highcharts({
             chart: {
                 type: 'column'
             },
@@ -79,6 +100,14 @@ $(function(){
                     pointPadding: 0.1,
                     borderWidth: 0
                 }
+            },
+            lang: {
+                printChart:"打印图表",
+                downloadJPEG: "下载JPEG 图片" ,
+                downloadPDF: "下载PDF文档"  ,
+                downloadPNG: "下载PNG 图片"  ,
+                downloadSVG: "下载SVG 矢量图" ,
+                exportButtonTitle: "导出图片"
             },
             series: series
         });

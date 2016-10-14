@@ -140,6 +140,15 @@ var pageUtils = {
         + '<tr height=50%><td align=center>&nbsp;</td></tr>'
         + '</table>';
         return returnMsg;
+    },
+    /**
+     * 导入页面
+     * @param id
+     * @param url
+     */
+    loadPageOfContent:function(id,url){
+        $(id).html(pageUtils.loading()); // 设置页面加载时的loading图片
+        $(id).load(url); // ajax加载页面
     }
 };
 (function($){

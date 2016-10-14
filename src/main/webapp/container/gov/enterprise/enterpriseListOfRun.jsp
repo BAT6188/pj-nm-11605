@@ -2,13 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <jsp:include page="/common/common_include.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_include.jsp" flush="true"/>--%>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>排污单位列表</title>
+    <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
 </head>
 <body>
 <div class="content content1 clearfix">
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 20px;">排污档案列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -72,7 +74,7 @@
                             <button id="search" type="button" class="btn btn-success" >查询</button>
                         </div>
                         <div class="col-sm-1" style="text-align: right;">
-                            <button id="searchFix" type="button" class="btn btn-default" >重置</button>
+                            <button id="resetSearch" type="button" class="btn btn-default" >重置</button>
                         </div>
                     </div>
                 </form>
@@ -98,6 +100,51 @@
         </div>
     </div>
 </div>
+<!--添加表单-->
+<div class="modal fade" id="addNewEnterpriseForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 60%">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d8ddb">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title form-title">新增企业信息</h5>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button id="saveForm" type="button" class="btn btn-success addBtn">保存</button>
+                <button id="resetAddForm" type="button" class="btn btn-default addBtn">置空</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--删除表单-->
+<div class="modal fade" id="delEnterpriseModal" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 50%">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0d8ddb">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title form-title">删除原因及意见</h5>
+            </div>
+            <div class="modal-body">
+                <form id="deleteEnterpriseForm" class="form-horizontal" role="form">
+                    <input type="hidden" id="enterpriseId" name="id" value=""/>
+                    <textarea class="form-control" id="delOpinion" name="delOpinion" rows="5"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="makeSureDel" type="button" class="btn btn-success addBtn">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseListOfRun.js"></script>
+<script>
+    $(function(){
+        //pageUtils.loadPageOfContent('.modal-body',rootPath+'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add')
+    })
+</script>
 </body>
 </html>

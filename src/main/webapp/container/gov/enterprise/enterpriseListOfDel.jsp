@@ -2,13 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <jsp:include page="/common/common_include.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_include.jsp" flush="true"/>--%>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>删除排污单位列表</title>
 </head>
 <body>
 <div class="content content1 clearfix">
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 20px;">已删除排污档案列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">

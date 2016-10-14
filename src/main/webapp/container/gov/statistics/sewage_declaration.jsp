@@ -19,12 +19,12 @@
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
-                <div class="sideTitle left">
-                        <span class="blueMsg">
-                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
-                            <span class="text">查询</span>
-                        </span>
-                </div>
+                <%--<div class="sideTitle left">--%>
+                        <%--<span class="blueMsg">--%>
+                            <%--<img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>--%>
+                            <%--<span class="text">查询</span>--%>
+                        <%--</span>--%>
+                <%--</div>--%>
                 <div class="queryBox marginLeft0">
                     <p>
                         <label for="">企业名称：</label> <input class="form-control" type="text"/>
@@ -35,22 +35,27 @@
                         </select>
                     </p>
                     <p>
-                        <label for="">申报年份：</label>
-                        <select class="form-control" name="" id="">
-                            <option value="1">2016</option>
-                            <option value="2">2015</option>
-                            <option value="3">2014</option>
-                        </select>
-                        <label for="">近期时间段：</label>
-                        <select class="form-control" name="" id="">
-                            <option value="1">一月</option>
-                            <option value="2">一周</option>
-                            <option value="3">一天</option>
-                        </select>
-
+                        <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
+                    <div class="col-sm-8">
+                        <div class="col-sm-4">
+                            <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                                <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                                <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                     </p>
+
                 </div>
-                <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
             </div>
             <div class="tableBox">
                 <div class="chart-box">

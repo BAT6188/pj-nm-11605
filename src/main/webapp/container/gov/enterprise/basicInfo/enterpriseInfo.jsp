@@ -8,25 +8,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <jsp:include page="/common/common_include.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_include.jsp" flush="true"/>--%>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>修改企业信息</title>
     <%
         String handleType=request.getParameter("handleType");
-        String id=request.getParameter("id");
+        String enterpriseId=request.getParameter("id");
     %>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
     <%--时间--%>
-    <jsp:include page="/common/common_datetimepicker.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_datetimepicker.jsp" flush="true"/>--%>
     <%--ztree--%>
     <jsp:include page="/common/common_ztree.jsp" flush="true"/>
     <%--select--%>
-    <jsp:include page="/common/common_select.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_select.jsp" flush="true"/>--%>
     <script type="text/javascript">
         var handleType='<%=handleType%>';
-        var id='<%=id%>';
+        var enterpriseId='<%=enterpriseId%>';
     </script>
     <style>
         .Node-frame-menubar {
@@ -37,10 +37,14 @@
             border-right: 1px solid #e5e5e5;
             padding: 10px;
         }
+        .list-group-item{
+            cursor: default;
+        }
     </style>
 </head>
 <body>
-<div class="form-div" style="width: 95%;margin-left: -50px;">
+<div class="form-div" style="width: 99%;">
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active"></a>
     <form class="form-horizontal" role="form" id="enterpriseForm" method="post" style="margin-top: 20px;">
         <input type="hidden" id="id" name="id" class="form-control" />
         <input type="hidden" id="createTime" name="createTime" class="form-control" />
@@ -52,13 +56,12 @@
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">单位名称：</label>
             <div class="col-sm-4">
-                <input type="text" id="name" name="name" class="form-control" />
+                <input type="text" id="name" name="name" class="form-control needshow"/>
             </div>
             <label for="status" class="col-sm-2 control-label">企业运行状态：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control" id="status" name="status">
-                    <option value="">---请选择---</option>
+                <select class="form-control needshow" id="status" name="status">
                     <option value="1">运营中</option>
                     <option value="0">未运营</option>
                 </select>
@@ -68,24 +71,26 @@
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">单位地址：</label>
             <div class="col-sm-4">
-                <input type="text" id="address" name="address" class="form-control" />
+                <input type="text" id="address" name="address" class="form-control needshow"/>
             </div>
             <label for="pollutantCode" class="col-sm-2 control-label">污染源代码：</label>
             <div class="col-sm-4">
-                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control">
+                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow"/>
             </div>
         </div>
         <div class="form-group">
             <label for="longitude" class="col-sm-2 control-label">经度：</label>
             <div class="col-sm-4">
-                <input type="text" id="longitude" name="longitude" class="form-control" />
+                <input type="text" id="longitude" name="longitude" class="form-control" readonly
+                       data-easyform="null;"/>
             </div>
             <label for="latitude" class="col-sm-2 control-label">纬度：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="latitude" name="latitude">
+                    <input type="text" class="form-control" id="latitude" name="latitude" readonly
+                           data-easyform="null;"/>
 					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button">
+						<button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
                             标注
                         </button>
 					</span>
@@ -95,12 +100,12 @@
         <div class="form-group">
             <label for="zipCode" class="col-sm-2 control-label">邮政编码：</label>
             <div class="col-sm-4">
-                <input type="text" id="zipCode" name="zipCode" class="form-control" />
+                <input type="text" id="zipCode" name="zipCode" class="form-control needshow"/>
             </div>
             <label for="orgCode" class="col-sm-2 control-label">组织机构代码：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="orgCode" name="orgCode">
+                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode"/>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button">
                             选择
@@ -112,34 +117,34 @@
         <div class="form-group">
             <label for="artificialPerson" class="col-sm-2 control-label">法定代表人：</label>
             <div class="col-sm-4">
-                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control" />
+                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow"/>
             </div>
             <label for="apPosition" class="col-sm-2 control-label">法定代表人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPosition" name="apPosition" class="form-control">
+                <input type="text" id="apPosition" name="apPosition" class="form-control needshow"/>
             </div>
         </div>
         <div class="form-group">
             <label for="apPhone" class="col-sm-2 control-label">法定代表人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPhone" name="apPhone" class="form-control" />
+                <input type="text" id="apPhone" name="apPhone" class="form-control needshow"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
         <div class="form-group">
             <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
             <div class="col-sm-4">
-                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control" />
+                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow"/>
             </div>
             <label for="epPosition" class="col-sm-2 control-label">环保负责人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPosition" name="epPosition" class="form-control">
+                <input type="text" id="epPosition" name="epPosition" class="form-control needshow"/>
             </div>
         </div>
         <div class="form-group">
             <label for="epPhone" class="col-sm-2 control-label">环保负责人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPhone" name="epPhone" class="form-control" />
+                <input type="text" id="epPhone" name="epPhone" class="form-control needshow"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
@@ -184,7 +189,7 @@
             <div class="col-sm-10" id="pollutantLevel">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01">国控
+                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" data-message="请选择污染源管理级别">国控
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="pollutantLevel" id="pollutantLevel02" value="02">省（区）控
@@ -201,7 +206,7 @@
             <label for="superviseType" class="col-sm-2 control-label">排污单位监管类型：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="superviseType" name="superviseType">
+                <select class="form-control needshow"  id="superviseType" name="superviseType">
                     <option value="">---请选择---</option>
                     <option value="01">重点排污单位</option>
                     <option value="02">一般排污单位</option>
@@ -211,7 +216,7 @@
             <div class="col-sm-4" id="isSpecial">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="isSpecial" id="isSpecial1" value="1">是
+                    <input type="radio" name="isSpecial" id="isSpecial1" value="1" data-easyform="length:0 100" data-message="请选择是否特殊监管对象">是
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="isSpecial" id="isSpecial0" value="0">否
@@ -222,32 +227,31 @@
             <label for="registType" class="col-sm-2 control-label">登记注册类型：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="registType" name="registType">
+                <select class="form-control needshow"  id="registType" name="registType">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
             <label for="registTime" class="col-sm-2 control-label">登记注册时间：</label>
             <div class="col-sm-4">
-                <div id="datetimepicker1" class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="12" type="text" id="registTime" name="registTime" value="" readonly>
+                <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" id="registTime" name="registTime" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-                <input type="hidden" id="dtp_input1" value="" /><br/>
             </div>
         </div>
         <div class="form-group">
             <label for="affiliation" class="col-sm-2 control-label">隶属关系：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="affiliation" name="affiliation">
+                <select class="form-control needshow"  id="affiliation" name="affiliation">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
             <label for="scale" class="col-sm-2 control-label">排污单位规模：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="scale" name="scale">
+                <select class="form-control needshow"  id="scale" name="scale">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
@@ -256,7 +260,7 @@
             <label for="industryType" class="col-sm-2 control-label">行业类别：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="industryType" name="industryType">
+                    <input type="text" class="form-control" id="industryType" name="industryType" readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
                             选择
@@ -273,7 +277,7 @@
             <label for="area" class="col-sm-2 control-label">行政区：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="area" name="area">
+                    <input type="text" class="form-control" id="area" name="area" readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#areaModal">
                             选择
@@ -284,7 +288,7 @@
             <label for="industrialPark" class="col-sm-2 control-label">所在工业园区名称：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="industrialPark" name="industrialPark">
+                <select class="form-control needshow"  id="industrialPark" name="industrialPark">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
@@ -293,7 +297,7 @@
             <label for="valley" class="col-sm-2 control-label">所属流域：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="valley" name="valley">
+                    <input type="text" class="form-control" id="valley" name="valley" readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#valleyModal">
                             选择
@@ -309,26 +313,26 @@
         <div class="form-group">
             <label for="openDate" class="col-sm-2 control-label">建成时间（开业时间）：</label>
             <div class="col-sm-4">
-                <div id="datetimepicker2" class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="10" type="text" id="openDate" name="openDate" value="" readonly>
+                <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="openDate" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" id="openDate" name="openDate" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-                <input type="hidden" id="dtp_input2" value="" /><br/>
             </div>
             <label for="extensionDate" class="col-sm-2 control-label">最近扩建时间：</label>
             <div class="col-sm-4">
-                <div id="datetimepicker3" class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input3" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="10" type="text" id="extensionDate" name="extensionDate" value="" readonly>
+                <div id="datetimepicker3" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="extensionDate" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" id="extensionDate" name="extensionDate" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-                <input type="hidden" id="dtp_input3" value="" /><br/>
             </div>
         </div>
         <div class="form-group">
             <label for="attachmentId" class="col-sm-2 control-label">附件区：</label>
             <div class="col-sm-10">
+                <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
+                <input type="hidden" id="removeId" name="removeId" class="form-control">
                 <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                 <div id="fine-uploader-gallery"></div>
             </div>
@@ -336,27 +340,30 @@
         <div class="form-group">
             <label for="orgInfo" class="col-sm-2 control-label">排污单位介绍：</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="orgInfo" name="orgInfo" rows="3"></textarea>
+                <textarea class="form-control needshow" id="orgInfo" name="orgInfo" rows="3"></textarea>
             </div>
         </div>
         <div class="form-group">
             <label for="envDesc" class="col-sm-2 control-label">周边环境敏感点：</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="envDesc" name="envDesc" rows="3"></textarea>
+                <textarea class="form-control needshow" id="envDesc" name="envDesc" rows="3"></textarea>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-3"></div>
             <div class="col-sm-2">
-                <button id="saveForm" type="button" class="btn btn-success saveOrEditBtn" style="display: none">保存</button>
-                <button id="editForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
+                <button id="saveForm" type="button" class="btn btn-success addBtn" style="display: none">保存</button>
+                <button id="editForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>
+                <button id="toEditForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
             </div>
             <div class="col-sm-2">
-                <button id="resetForm" type="button" class="btn btn-default saveOrEditBtn" style="display: none">置空</button>
+                <button id="resetAddForm" type="button" class="btn btn-default addBtn" style="display: none">置空</button>
+                <button id="resetEditForm" type="button" class="btn btn-default editBtn" style="display: none">置空</button>
             </div>
             <div class="col-sm-2">
-                <button id="cancel" type="button" class="btn btn-warning saveOrEditBtn" style="display: none">取消</button>
-                <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none"><a href="javascript:history.back(-1);">返回</a></button>
+                <button id="cancelAddForm" type="button" class="btn btn-warning addBtn" style="display: none">取消</button>
+                <button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>
+                <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none">返回</button>
             </div>
             <div class="col-sm-3"></div>
         </div>
@@ -448,6 +455,7 @@
     </div><!-- /.modal -->
 </div>
 <!-- 所属流域模态框 end -->
+<%@include file="/common/gis/map_mark.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/enterpriseInfo.js"></script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "噪声治理设施",
+    form = $("#grasForm"),
+    formTitle = "废气排口",
     selections = [];
 
 
@@ -44,7 +44,6 @@ function initTable() {
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
             temp.enterpriseId = id;
-            console.log(temp);
             return temp;
         },
         columns: [
@@ -139,7 +138,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#grasForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -179,9 +178,11 @@ updateBtn.prop('disabled', true);
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
+    updateSuccessMsg = '添加'+formTitle+'成功!';
     resetForm();
 });
 $("#update").bind("click",function () {
+    updateSuccessMsg = '修改'+formTitle+'成功!';
     setFormData(getSelections()[0]);
 });
 /**
@@ -189,14 +190,19 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            Ewin.alert('删除成功');
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
-
 });
 
 
@@ -223,14 +229,16 @@ $("#search").click(function () {
 });
 
 /**============表单初始化相关代码============**/
-
+var updateSuccessMsg = '提交成功';
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
+        var entity = $("#grasForm").find("form").formSerializeObject();
+        entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            form.modal('hide');
+            $(".modal").modal('hide');
+            Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -262,16 +270,22 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#createTime").val(pageUtils.sub10(entity.createTime));
-
-    pageUtils.setRadioValue("status",entity.status);
-    $("#openDate").val(pageUtils.sub10(entity.openDate));
-    $("#crafts").val(entity.crafts);
-    $("#ability").val(entity.ability);
-    $("#realAbility").val(entity.realAbility);
+    var inputs = $('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = entity[tagId];
+        if($(v)[0].tagName=='select'){
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
+    var radios = $('.isRadio');
+    $.each(radios,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = entity[tagId];
+        $("input#"+tagId+value).get(0).checked=true;
+    });
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -286,7 +300,7 @@ function setFormView(entity) {
     $(".qq-upload-button").hide();
 }
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
+    form.find(".form-control").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
@@ -310,7 +324,8 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    //form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find('form')[0].reset();
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
