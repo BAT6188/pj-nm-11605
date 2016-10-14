@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 监控中心监控的事件
+ * 监控中心、监察大队办公室
  */
 @Entity
 @Table(name = "HW_MONITOR_CASE")
@@ -16,42 +16,75 @@ public class MonitorCase implements Serializable {
     @Column(length = 32)
     private String id;
 
+    /**
+     * 事件来源，信息来源
+     * 监察大队办公司： 12369：0, 区长热线：2， 市长热线：3
+     * 监测中心：0
+     */
+    @Column(name = "source")
+    private String source;
 
     /**
      * 状态
-     * 1:未发送
-     * 2:已发送
+     * 0：未调度
+     * 1：已调度
+     * 2：已反馈
      */
     @Column(name = "status", length = 2)
     private int status;
 
+    /**
+     * 企业，投诉对象
+     */
     @Column(name = "enterprise_id")
     private String enterpriseId;
 
-    @Transient
+    @Column(name = "enterprise_name")
     private String enterpriseName;
 
+    /**
+     * 事件时间
+     */
     @Column(name = "event_time")
-    private String eventTime;
-
-    @Transient
-    private String supervisor;
-
-    @Transient
-    private String supervisorPhone;
-
+    private Date eventTime;
 
     /**
-     * 所属网格id
+     * 网格级别
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+    /**
+     * 所属网格
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
 
-    @Transient
+    @Column(name = "block_name")
     private String blockName;
 
-    @Transient
-    private String blockLevelName;
+    /**
+     * 接电时间
+     */
+    @Column(name = "conn_time")
+    private Date connTime;
+    /**
+     * 接电人
+     */
+    @Column(name = "answer")
+    private String answer;
+
+    /**
+     * 监管人员
+     */
+    @Column(name = "supervisor")
+    private String supervisor;
+
+    @Column(name = "supervisor_phone")
+    private String supervisorPhone;
+
 
     @Column(name = "reason", length = 2)
     private String reason;
@@ -71,25 +104,60 @@ public class MonitorCase implements Serializable {
      */
     @Column(name = "content")
     private String content;
+
     /**
-     * 发送人id
+     * 处理人、发送人
      */
     @Column(name = "sender_id", length = 32)
     private String senderId;
-    /**
-     * 发送人姓名
-     */
+
     @Column(name = "sender_name", length = 20)
     private String senderName;
 
     @Column(name = "send_time")
     private Date sendTime;
+
+    @Column(name = "send_phone")
+    private String sendPhone;
+
     /**
      * 发送备注
      */
     @Column(name = "send_remark")
     private String sendRemark;
 
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public Date getConnTime() {
+        return connTime;
+    }
+
+    public void setConnTime(Date connTime) {
+        this.connTime = connTime;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public String getSupervisorPhone() {
         return supervisorPhone;
@@ -127,12 +195,20 @@ public class MonitorCase implements Serializable {
         return enterpriseId;
     }
 
-    public String getEventTime() {
+    public Date getEventTime() {
         return eventTime;
     }
 
-    public void setEventTime(String eventTime) {
+    public void setEventTime(Date eventTime) {
         this.eventTime = eventTime;
+    }
+
+    public String getSendPhone() {
+        return sendPhone;
+    }
+
+    public void setSendPhone(String sendPhone) {
+        this.sendPhone = sendPhone;
     }
 
     public String getReason() {

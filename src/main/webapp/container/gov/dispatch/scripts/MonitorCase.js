@@ -53,6 +53,11 @@ function initTable() {
                 footerFormatter: totalTextFormatter,
                 align: 'center'
             }, {
+                field: 'blockLevelName',
+                sortable: false,
+                editable: false,
+                visible:false
+            }, {
                 field: 'blockName',
                 title: '所属网格',
                 sortable: false,
@@ -149,11 +154,11 @@ function initTable() {
         });
     });
     //重置搜索
-    $("#searchFix").click(function () {
-        $("#s_name").val("");
-        $("#s_age").val("");
-        gridTable.bootstrapTable('resetSearch');
-    });
+    // $("#searchFix").click(function () {
+    //     $("#s_name").val("");
+    //     $("#s_age").val("");
+    //     gridTable.bootstrapTable('resetSearch');
+    // });
 
     //表单弹出框 保存按钮
     $("#saveDemo").bind('click',function () {
@@ -221,7 +226,9 @@ function refreshDemoForm(demo) {
     $("#eventTime").val(demo.eventTime);
     $("#enterpriseName").val(demo.enterpriseName);
     $("#blockName").val(demo.blockName);
+    $("#blockLevelName").val(demo.blockLevelName);
     $("#supervisor").val(demo.supervisor);
+    $("#supervisorPhone").val(demo.supervisorPhone);
     $("#overValue").val(demo.overValue);
     $("#thrValue").val(demo.thrValue);
     $("#content").val(demo.content);
@@ -323,7 +330,7 @@ var setting = {
     },
     async: {
         enable: true,
-        url:"selectPeople.json",
+        url:rootPath + "/container/gov/dispatch/selectPeople.json",
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
@@ -399,19 +406,36 @@ function getIdSelectionsFromGridSelectPeople() {
     });
 }
 
-function zTreeOnClick(event, treeId, treeNode) {
+/**
+ * 往表格中添加数据，如果已有这条数据则忽略
+ */
+function appendToGrid(treeNode) {
     if(!map.isHave(treeNode.id)){
         map.put(treeNode.id,treeNode.id);
         gridSelectPeopleTable.bootstrapTable("append",treeNode)
         gridSelectPeopleTable.bootstrapTable('checkAll');
     }
+}
+
+/**
+ * 从表格中移除数据
+ */
+function removeFromGrid() {
+    gridSelectPeopleTable.bootstrapTable('removeAll');
+    map.removeAll();
+}
+
+function zTreeOnClick(event, treeId, treeNode) {
+    appendToGrid(treeNode);
 };
 
+/**
+ * 点击发送按钮
+ */
 $("#sendTo").click(function () {
     var ids=getIdSelectionsFromGridSelectPeople();
     console.log(ids)
 
-    gridSelectPeopleTable.bootstrapTable('removeAll');
-    map.removeAll();
+    removeFromGrid();
 })
 

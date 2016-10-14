@@ -597,4 +597,12 @@ public class Enterprise implements Serializable {
     public void setDelOpinion(String delOpinion) {
         this.delOpinion = delOpinion;
     }
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
 }

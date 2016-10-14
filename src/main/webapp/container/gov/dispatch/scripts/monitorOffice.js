@@ -1,16 +1,15 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#grasForm"),
-    formTitle = "废气排口",
+    form = $("#eventMsg"),
+    formTitle = "事件信息",
     selections = [];
-
 
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_GasPort_save.action",
+        url: rootPath + "/action/S_dispatch_MonitorCase_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +23,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_GasPort_delete.action",
+        url: rootPath + "/action/S_dispatch_MonitorCase_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,16 +35,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_GasPort_list.action",
-        height: getHeight(),
+        url: rootPath+"/action/S_dispatch_MonitorCase_list.action",
+        height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
-            return temp;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -55,58 +50,56 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '排口编号',
-                field: 'number',
+                title: 'ID',
+                field: 'id',
                 align: 'center',
                 valign: 'middle',
                 sortable: false,
                 visible:false
             },
             {
-                title: '排口名称',
-                field: 'name',
+                title: '投诉对象',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排口位置',
-                field: 'position',
+                title: '接电时间',
+                field: 'connTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                title: '接电人',
+                field: 'answer',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排放方式',
-                field: 'dischargeMode',
+                title: '信息来源',
+                field: 'source',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排放去向',
-                field: 'dischargeDirection',
+                title: '所属网格',
+                field: 'blockName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排放标准',
-                field: 'dischargeStandard',
+                title: '状态跟踪',
+                field: 'status',
                 editable: false,
                 sortable: false,
-                align: 'center'
-            },
-            {
-                title: '监测类型',
-                field: 'monitorType',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                field: 'operate',
-                title: '操作',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
@@ -131,14 +124,14 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()
         });
     });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#grasForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#eventMsg">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -166,9 +159,6 @@ function getSelections() {
     });
 }
 
-function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 13;
-}
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
@@ -178,11 +168,9 @@ updateBtn.prop('disabled', true);
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
-    updateSuccessMsg = '添加'+formTitle+'成功!';
     resetForm();
 });
 $("#update").bind("click",function () {
-    updateSuccessMsg = '修改'+formTitle+'成功!';
     setFormData(getSelections()[0]);
 });
 /**
@@ -190,19 +178,14 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
-            return;
-        }
-        deleteAjax(ids,function (msg) {
-            Ewin.alert('删除成功');
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
+    deleteAjax(ids,function (msg) {
+        gridTable.bootstrapTable('remove', {
+            field: 'id',
+            values: ids
         });
+        removeBtn.prop('disabled', true);
     });
+
 });
 
 
@@ -229,17 +212,16 @@ $("#search").click(function () {
 });
 
 /**============表单初始化相关代码============**/
-var updateSuccessMsg = '提交成功';
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#grasForm").find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
-        entity.attachmentId = getAttachmentIds();
+        debugger;
+        var entity = $("#eventMsg").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
-            Ewin.alert(updateSuccessMsg);
-            gridTable.bootstrapTable('refresh');
+            //form.modal('hide');
+            //gridTable.bootstrapTable('refresh');
         });
     }
 });
@@ -270,22 +252,19 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    var inputs = $('.form-control');
-    $.each(inputs,function(k,v){
-        var tagId = $(v).attr('id');
-        var value = entity[tagId];
-        if($(v)[0].tagName=='select'){
-            $(v).find("option[value='"+value+"']").attr("selected",true);
-        }else{
-            $(v).val(value);
-        }
-    });
-    var radios = $('.isRadio');
-    $.each(radios,function(k,v){
-        var tagId = $(v).attr('id');
-        var value = entity[tagId];
-        $("input#"+tagId+value).get(0).checked=true;
-    });
+    $("#id").val(entity.id);
+
+    $("#eventTime").val(entity.eventTime);
+    $("#answer").val(entity.answer);
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#source").val(entity.source);
+    $("#blockLevelName").val(entity.blockLevelName);
+    $("#blockName").val(entity.blockName);
+    $("#supervisor").val(entity.supervisor);
+    $("#supervisorPhone").val(entity.supervisorPhone);
+    $("#content").val(entity.content);
+    $("#senderName").val(entity.senderName);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -300,7 +279,7 @@ function setFormView(entity) {
     $(".qq-upload-button").hide();
 }
 function disabledForm(disabled) {
-    form.find(".form-control").attr("disabled",disabled);
+    form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
@@ -324,8 +303,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find('form')[0].reset();
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
