@@ -1,55 +1,81 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
+    updateBtn = $('#update'),
+    form = $("#demoForm"),
+    formTitle = "Demo",
     selections = [];
+
+
+
+//保存ajax请求
+function saveAjax(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_demo_Demo_save.action",
+        type:"post",
+        data:entity,
+        dataType:"json",
+        success:callback
+    });
+}
+/**
+ * 删除请求
+ * @param ids 多个,号分隔
+ * @param callback
+ */
+function deleteAjax(ids, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_demo_Demo_delete.action",
+        type:"post",
+        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:callback
+    });
+}
+/**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
         url: rootPath+"/action/S_demo_Demo_list.action",
-        height: 590,
+        height: pageUtils.getTableHeight(),
         method:'post',
-        queryParams:function (param) {
-            var name = $("#s_name").val();
-            var age = $("#s_age").val();
-            var temp = {
-                name: name,
-                age: age,
-                //分页参数
-                take: param.limit,
-                skip: param.offset,
-                page: param.offset/param.limit + 1,
-                pageSize: param.limit
-            };
-            return temp;
-        },
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
         columns: [
             {
+                title:"全选",
                 checkbox: true,
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            }, {
+            },
+            {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
                 valign: 'middle',
                 sortable: false,
-                footerFormatter: totalTextFormatter
+                visible:false
             },
             {
-                title: '姓名',
+                title: '名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
-                footerFormatter: totalNameFormatter,
                 align: 'center'
-            }, {
-                field: 'age',
+            },
+            {
                 title: '年龄',
+                field: 'age',
                 sortable: false,
                 align: 'center',
                 editable: false,
-                footerFormatter: totalPriceFormatter
-            }, {
+                formatter:function (value, row, index) {
+                    return value;
+                }
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
@@ -64,207 +90,213 @@ function initTable() {
         gridTable.bootstrapTable('resetView');
     }, 200);
 
-    //处理删除按钮状态
-    removeBtn.click(function () {
-        var ids = getIdSelections();
-        deleteDemos(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
-        });
-
-    });
-
-    //搜索
-    $("#search").click(function () {
-        //查询之前重置table
-        gridTable.bootstrapTable('resetSearch');
-        var name = $("#s_name").val();
-        var age = $("#s_age").val();
-        gridTable.bootstrapTable('refresh',{
-            query:{name: name, age: age}
-        });
-    });
-    //重置搜索
-    $("#searchFix").click(function () {
-        $("#s_name").val("");
-        $("#s_age").val("");
-        gridTable.bootstrapTable('resetSearch');
-    });
-
-    //表单弹出框 保存按钮
-    $("#saveDemo").bind('click',function () {
-        ef.submit(true);
+    //列表checkbox选中事件
+    gridTable.on('check.bs.table uncheck.bs.table ' +
+        'check-all.bs.table uncheck-all.bs.table', function () {
+        //有选中数据，启用删除按钮
+        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        //选中一条数据启用修改按钮
+        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()
         });
     });
 }
-// 获取所有的选中数据
+
+// 生成列表操作方法
+function operateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+}
+// 列表操作事件
+window.operateEvents = {
+    'click .view': function (e, value, row, index) {
+        setFormView(row);
+    }
+};
+/**
+ * 获取列表所有的选中数据id
+ * @returns {*}
+ */
 function getIdSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
-// 获取所有的选中数据
+/**
+ *  获取列表所有的选中数据
+ * @returns {*}
+ */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        return row
+        return row;
     });
 }
 
-// 设置默认选中
-function responseHandler(res) {
-    $.each(res.rows, function (i, row) {
-        row.state = $.inArray(row.id, selections) !== -1;
-    });
-    return res;
-}
-// 生成详细信息方法
-function detailFormatter(index, row) {
-    var html = [];
-    $.each(row, function (key, value) {
-        html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-    });
-    return html.join('');
-}
-// 生成操作方法
-function operateFormatter(value, row, index) {
-    return [
-        '<a class="like" href="javascript:void(0)" title="Like">',
-        '<i class="glyphicon glyphicon-heart"></i>',
-        '</a>  ',
-        '<a class="remove" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove"></i>',
-        '</a>'
-    ].join('');
-}
-// 操作事件
-window.operateEvents = {
-    'click .like': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row));
-    },
-    'click .remove': function (e, value, row, index) {
-        deleteDemos(row.id, function (msg) {
+initTable();
+/**============列表工具栏处理============**/
+//初始化按钮状态
+removeBtn.prop('disabled', true);
+updateBtn.prop('disabled', true);
+/**
+ * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
+ */
+$("#add").bind('click',function () {
+    resetForm();
+});
+$("#update").bind("click",function () {
+    setFormData(getSelections()[0]);
+});
+/**
+ * 列表工具栏 删除按钮
+ */
+removeBtn.click(function () {
+    var ids = getIdSelections();
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
             gridTable.bootstrapTable('remove', {
                 field: 'id',
-                values: [row.id]
+                values: ids
             });
+            removeBtn.prop('disabled', true);
         });
-
-    }
-};
-function totalTextFormatter(data) {
-    return 'Total';
-}
-function totalNameFormatter(data) {
-    return data.length;
-}
-function totalPriceFormatter(data) {
-    var total = 0;
-    $.each(data, function (i, row) {
-        total += +(row.price.substring(1));
     });
-    return '$' + total;
-}
-function getHeight() {
-    return $(window).height() - $('h1').outerHeight(true);
-}
-initTable();
+
+
+});
+
+
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    var queryParams = {};
+    var name = $("#s_name").val();
+    var age = $("#s_age").val();
+    if (name){
+        queryParams["name"] = name;
+    }
+    if (age){
+        queryParams["age"] = age;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+});
+
+/**============表单初始化相关代码============**/
+
 //初始化表单验证
-var ef = $("#demoForm").easyform({
+var ef = form.easyform({
     success:function (ef) {
-        var demo = {};
-        demo.id = $("#id").val();
-        demo.name = $("#name").val();
-        demo.age = $("#age").val();
-        demo.attachmentIds = getAttachmentIds();
-        demo.removeId = $("#removeId").val();
-        saveDemo(demo,function (msg) {
-            $('#demoForm').modal('hide');
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        saveAjax(entity,function (msg) {
+            form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     }
 });
-
-function updateDemo(demo) {
-    $.ajax({
-        url: rootPath + "/action/S_demo_Demo_save.action",
-        type:"post",
-        data:demo,
-        dataType:"json",
-        success:function (msg) {
-            alert("更新成功");
-        }
-    });
-}
-
-function deleteDemos(ids,callback) {
-    $.ajax({
-        url: rootPath + "/action/S_demo_Demo_delete.action",
-        type:"post",
-        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:callback
-    });
-}
-
-function saveDemo(demo,callback) {
-    $.ajax({
-        url: rootPath + "/action/S_demo_Demo_save.action",
-        type:"post",
-        data:demo,
-        dataType:"json",
-        success:callback
-    });
-}
-$("#add,#update").bind('click',function () {
-    $("#demoForm").attr("data-form-type",$(this).attr("id"));
-});
-//初始化表单数据
-$("#demoForm").on('show.bs.modal', function () {
-    var demo;
-    var formType = $("#demoForm").attr("data-form-type");
-    if (formType == "update") {
-        var selects = getSelections();
-        if (selects && selects.length > 0) {
-            demo = selects[0];
-        }
-    }
-    refreshDemoForm(demo);
-});
-
-/**
- * 刷新表单数据
- * @param demo
- */
-function refreshDemoForm(demo) {
-    var id = "";
-    if (demo && (typeof(demo) == "object")) {
-        $("#demoFormTitle").text("修改Dmo");
-        id = demo.id;
-        $("#id").val(demo.id);
-        $("#removeId").val("");
-        $("#name").val(demo.name);
-        $("#age").val(demo.age);
+//绑定markDialog关闭事件
+MapMarkDialog.closed(function (mark) {
+    if (mark) {
+        $("#longitude").val(mark.x);
+        $("#latitude").val(mark.y);
     }else{
-        $("#demoFormTitle").text("新增Dmo");
-        $("#id").val("");
-        $("#removeId").val("");
-        $("#name").val("");
-        $("#age").val("");
+        Ewin.alert({message:"请选择坐标"});
+        return false;
     }
+});
+$('#mapMarkBtn').bind('click', function () {
+    //设置标绘模式
+    MapMarkDialog.setMode("point");
+    MapMarkDialog.open();
+});
+
+//表单 保存按钮
+$("#save").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+/**
+ * 设置表单数据
+ * @param entity
+ * @returns {boolean}
+ */
+function setFormData(entity) {
+    resetForm();
+    if (!entity) {return false}
+    form.find(".form-title").text("修改"+formTitle);
+    var id = entity.id;
+    $("#id").val(entity.id);
+    $("#removeId").val("");
+    $("#name").val(entity.name);
+    $("#age").val(entity.age);
+    $("#longitude").val(entity.longitude);
+    $("#latitude").val(entity.latitude);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
-//附件相关js
+function setFormView(entity) {
+    setFormData(entity);
+    form.find(".form-title").text("查看"+formTitle);
+    disabledForm(true);
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
+}
+function disabledForm(disabled) {
+    form.find("input").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#createTimeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openDateContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
+    }
+
+}
+/**
+ * 重置表单
+ */
+function resetForm() {
+    form.find(".form-title").text("新增"+formTitle);
+    form.find("input[type!='radio'][type!='checkbox']").val("");
+    uploader = new qq.FineUploader(getUploaderOptions());
+    disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
+}
+
+//表单附件相关js
 var uploader;//附件上传组件对象
+/**
+ * 获取上传组件options
+ * @param bussinessId
+ * @returns options
+ */
 function getUploaderOptions(bussinessId) {
     return {
         element: document.getElementById("fine-uploader-gallery"),
@@ -331,7 +363,10 @@ function getUploaderOptions(bussinessId) {
         debug: true
     };
 }
-
+/**
+ * 获取附件列表ids
+ * @returns {*}
+ */
 function getAttachmentIds() {
     var attachments = uploader.getUploads();
     if (attachments && attachments.length) {
@@ -343,7 +378,6 @@ function getAttachmentIds() {
     }
     return "";
 }
-
 
 /**
  * 绑定下载按钮事件
