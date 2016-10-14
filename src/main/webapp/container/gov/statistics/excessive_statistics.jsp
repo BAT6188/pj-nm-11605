@@ -30,32 +30,21 @@
                 </div>
                 <div class=" marginLeft0">
                     <p>
-                        <label for="s_name">企业名称：</label> <input class="form-control" type="text"/>
-                        <%--<label for="">是否缴费：</label>--%>
-                        <%--<select class="form-control" name="" id="">--%>
-                            <%--<option value="1">是</option>--%>
-                            <%--<option value="2">否</option>--%>
-                        <%--</select>--%>
+                        <label for="s_name">企业名称：</label> <input id="s_name" lass="form-control" type="text"/>
                     </p>
                     <p>
                         <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
                         <div class="col-sm-8">
                             <div class="col-sm-4">
-                                <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
-                                    <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly
-                                           data-message="时间不能为空"
-                                           data-easytip="position:top;class:easy-red;"
-                                    />
+                                <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
-                                    <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly
-                                           data-message="时间不能为空"
-                                           data-easytip="position:top;class:easy-red;"
-                                    />
+                                <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>

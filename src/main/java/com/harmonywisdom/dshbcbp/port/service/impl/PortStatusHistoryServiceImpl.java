@@ -8,6 +8,9 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+
 @Service("portStatusHistoryService")
 public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory, String> implements PortStatusHistoryService {
     @Autowired
@@ -16,5 +19,19 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
     @Override
     protected BaseDAO<PortStatusHistory, String> getDAO() {
         return portStatusHistoryDAO;
+    }
+
+    /**
+     * 超标柱状图数据
+     * @param firstTime
+     * @param lastTime
+     * @return
+     */
+    @Override
+    public List<Object[]> findColumnData(Date firstTime, Date lastTime) {
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" +
+                "WHERE STATUS='1' AND DATE_FORMAT(start_time,'%Y-%m-%d')> '2016-01-01' AND DATE_FORMAT(start_time,'%Y-%m-%d')<='2016-12-04' GROUP BY MONTH");
+
+        return list;
     }
 }
