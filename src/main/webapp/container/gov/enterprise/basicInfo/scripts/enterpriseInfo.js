@@ -248,12 +248,7 @@ function initEnterpriseForm(type){
 }
 //初始化表单验证
 var isEditBtnFromlook = false;
-$("#name").on("easyform-error", function (e, input, rule) {
-    console.log(e)
-    console.log(input)
-    console.log(rule);
-});
-var ef = enterpriseForm.easyform({
+/*var ef = enterpriseForm.easyform({
     success:function (ef) {
         console.log(ef);
         var entity = form.formSerializeObject();
@@ -284,7 +279,27 @@ var ef = enterpriseForm.easyform({
     per_validation:function(ef){
         console.log(ef);
     }
-});
+});*/
+function saveForm(){
+    console.log(getAttachmentIds());
+    $('#attachmentId').val(getAttachmentIds());
+    console.log($('#attachmentId'));
+    $('#enterpriseForm').ajaxSubmit({
+        type: 'post', // 提交方式 get/post
+        async:false,
+        dataType:"json",
+        url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
+        success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+            if(data.success){
+                if(isEditBtnFromlook){
+                    reloadThisPage();
+                }else{
+                    pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
+                }
+            }
+        }
+    });
+}
 /*查看信息*/
 function lookEnterpriseForm(){
     $('#headTitle').html('查看企业信息');
@@ -300,7 +315,8 @@ function addEnterpriseForm(){
     /*添加按钮*/
     $('#saveForm').click(function(){
         //验证表单，验证成功后触发ef.success方法保存数据
-        ef.submit(false);
+        saveForm();
+        //ef.submit(false);
     });
     /*重置按钮*/
     $('#resetAddForm').click(function(){
@@ -361,7 +377,8 @@ function setEditBtn(isFromEditBtn){
         /*添加按钮*/
         $('#editForm').click(function(){
             isEditBtnFromlook = true;
-            ef.submit(false);
+            saveForm();
+            //ef.submit(false);
         });
         /*重置按钮*/
         $('#resetEditForm').click(function(){
@@ -374,7 +391,8 @@ function setEditBtn(isFromEditBtn){
     }else{
         /*添加按钮*/
         $('#editForm').click(function(){
-            ef.submit(false);
+            saveForm();
+            //ef.submit(false);
         });
         /*重置按钮*/
         $('#resetEditForm').click(function(){

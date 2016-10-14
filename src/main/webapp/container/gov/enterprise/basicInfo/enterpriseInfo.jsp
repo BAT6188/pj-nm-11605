@@ -56,15 +56,12 @@
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">单位名称：</label>
             <div class="col-sm-4">
-                <input type="text" id="name" name="name" class="form-control"
-                       data-message=“请填写单位名称"
-                       data-easytip="position:right;class:easy-red;"
-                        data-easyform="real-time;"/>
+                <input type="text" id="name" name="name" class="form-control needshow"/>
             </div>
             <label for="status" class="col-sm-2 control-label">企业运行状态：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control" id="status" name="status">
+                <select class="form-control needshow" id="status" name="status">
                     <option value="1">运营中</option>
                     <option value="0">未运营</option>
                 </select>
@@ -74,17 +71,11 @@
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">单位地址：</label>
             <div class="col-sm-4">
-                <input type="text" id="address" name="address" class="form-control"
-                       data-message="请填写单位地址"
-                       data-easytip="position:right;class:easy-red;"
-                       data-easyform="real-time;"/>
+                <input type="text" id="address" name="address" class="form-control needshow"/>
             </div>
             <label for="pollutantCode" class="col-sm-2 control-label">污染源代码：</label>
             <div class="col-sm-4">
-                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control"
-                       data-message="请填写污染源代码"
-                       data-easytip="position:right;class:easy-red;"
-                       data-easyform="real-time;"/>
+                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow"/>
             </div>
         </div>
         <div class="form-group">
@@ -109,15 +100,12 @@
         <div class="form-group">
             <label for="zipCode" class="col-sm-2 control-label">邮政编码：</label>
             <div class="col-sm-4">
-                <input type="text" id="zipCode" name="zipCode" class="form-control"
-                       data-message="请填写正确格式的邮政编码"
-                       data-easytip="position:right;class:easy-red;"
-                       data-easyform="number;real-time;"/>
+                <input type="text" id="zipCode" name="zipCode" class="form-control needshow"/>
             </div>
             <label for="orgCode" class="col-sm-2 control-label">组织机构代码：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="orgCode" name="orgCode"/>
+                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode"/>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button">
                             选择
@@ -129,34 +117,34 @@
         <div class="form-group">
             <label for="artificialPerson" class="col-sm-2 control-label">法定代表人：</label>
             <div class="col-sm-4">
-                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control"/>
+                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow"/>
             </div>
             <label for="apPosition" class="col-sm-2 control-label">法定代表人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPosition" name="apPosition" class="form-control"/>
+                <input type="text" id="apPosition" name="apPosition" class="form-control needshow"/>
             </div>
         </div>
         <div class="form-group">
             <label for="apPhone" class="col-sm-2 control-label">法定代表人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPhone" name="apPhone" class="form-control"/>
+                <input type="text" id="apPhone" name="apPhone" class="form-control needshow"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
         <div class="form-group">
             <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
             <div class="col-sm-4">
-                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control"/>
+                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow"/>
             </div>
             <label for="epPosition" class="col-sm-2 control-label">环保负责人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPosition" name="epPosition" class="form-control"/>
+                <input type="text" id="epPosition" name="epPosition" class="form-control needshow"/>
             </div>
         </div>
         <div class="form-group">
             <label for="epPhone" class="col-sm-2 control-label">环保负责人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPhone" name="epPhone" class="form-control"/>
+                <input type="text" id="epPhone" name="epPhone" class="form-control needshow"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
@@ -218,7 +206,7 @@
             <label for="superviseType" class="col-sm-2 control-label">排污单位监管类型：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="superviseType" name="superviseType">
+                <select class="form-control needshow"  id="superviseType" name="superviseType">
                     <option value="">---请选择---</option>
                     <option value="01">重点排污单位</option>
                     <option value="02">一般排污单位</option>
@@ -239,7 +227,7 @@
             <label for="registType" class="col-sm-2 control-label">登记注册类型：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="registType" name="registType">
+                <select class="form-control needshow"  id="registType" name="registType">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
@@ -256,14 +244,14 @@
             <label for="affiliation" class="col-sm-2 control-label">隶属关系：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="affiliation" name="affiliation">
+                <select class="form-control needshow"  id="affiliation" name="affiliation">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
             <label for="scale" class="col-sm-2 control-label">排污单位规模：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="scale" name="scale">
+                <select class="form-control needshow"  id="scale" name="scale">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
@@ -289,8 +277,7 @@
             <label for="area" class="col-sm-2 control-label">行政区：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="area" name="area" readonly
-                           data-easyform="null;"/>
+                    <input type="text" class="form-control" id="area" name="area" readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#areaModal">
                             选择
@@ -301,7 +288,7 @@
             <label for="industrialPark" class="col-sm-2 control-label">所在工业园区名称：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
-                <select class="form-control"  id="industrialPark" name="industrialPark">
+                <select class="form-control needshow"  id="industrialPark" name="industrialPark">
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
@@ -344,6 +331,8 @@
         <div class="form-group">
             <label for="attachmentId" class="col-sm-2 control-label">附件区：</label>
             <div class="col-sm-10">
+                <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
+                <input type="hidden" id="removeId" name="removeId" class="form-control">
                 <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                 <div id="fine-uploader-gallery"></div>
             </div>
@@ -351,13 +340,13 @@
         <div class="form-group">
             <label for="orgInfo" class="col-sm-2 control-label">排污单位介绍：</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="orgInfo" name="orgInfo" rows="3"></textarea>
+                <textarea class="form-control needshow" id="orgInfo" name="orgInfo" rows="3"></textarea>
             </div>
         </div>
         <div class="form-group">
             <label for="envDesc" class="col-sm-2 control-label">周边环境敏感点：</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="envDesc" name="envDesc" rows="3"></textarea>
+                <textarea class="form-control needshow" id="envDesc" name="envDesc" rows="3"></textarea>
             </div>
         </div>
         <div class="form-group">
