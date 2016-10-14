@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="content content1 clearfix">
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 20px;">已删除排污档案列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">

@@ -1,8 +1,28 @@
 /**
  * Created by Administrator on 2016/10/9.
  */
+var enterpriseForm =$('#enterpriseForm');
 initZTree();
 initSelect();
+initMapBtn();
+/*初始化标注按钮*/
+function initMapBtn(){
+    //绑定markDialog关闭事件
+    MapMarkDialog.closed(function (mark) {
+        if (mark) {
+            $("#longitude").val(mark.x);
+            $("#latitude").val(mark.y);
+        }else{
+            Ewin.alert({message:"请选择坐标"});
+            return false;
+        }
+    });
+    $('#mapMarkBtn').bind('click', function () {
+        //设置标绘模式
+        MapMarkDialog.setMode("point");
+        MapMarkDialog.open();
+    });
+}
 /*初始化选择菜单*/
 function initSelect(){
     /*数据字典*/
@@ -122,7 +142,7 @@ function initTimeInput(){
 }
 
 //附件相关js
-var uploader = new qq.FineUploader(getUploaderOptions(''));//附件上传组件对象
+var uploader ;
 function getUploaderOptions(bussinessId) {
     return {
         element: document.getElementById("fine-uploader-gallery"),
@@ -226,7 +246,45 @@ function initEnterpriseForm(type){
             addEnterpriseForm();
     }
 }
-
+//初始化表单验证
+var isEditBtnFromlook = false;
+$("#name").on("easyform-error", function (e, input, rule) {
+    console.log(e)
+    console.log(input)
+    console.log(rule);
+});
+var ef = enterpriseForm.easyform({
+    success:function (ef) {
+        console.log(ef);
+        var entity = form.formSerializeObject();
+        entity.isDel='0';
+        entity.attachmentId = getAttachmentIds();
+        $.ajax({
+            url: rootPath + "/action/S_enterprise_Enterprise_save.action",
+            type:"post",
+            async:false,
+            data:entity,
+            dataType:"json",
+            success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if(data.success){
+                    if(isEditBtnFromlook){
+                        reloadThisPage();
+                    }else{
+                        pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
+                    }
+                }
+            }
+        });
+    },
+    error:function(ef, i, r){
+        console.log(ef);
+        console.log(i);
+        console.log(r);
+    },
+    per_validation:function(ef){
+        console.log(ef);
+    }
+});
 /*查看信息*/
 function lookEnterpriseForm(){
     $('#headTitle').html('查看企业信息');
@@ -236,22 +294,13 @@ function lookEnterpriseForm(){
 /*新建*/
 function addEnterpriseForm(){
     $('#headTitle').html('新增企业信息');
+    uploader = new qq.FineUploader(getUploaderOptions(''));//附件上传组件对象
     initTimeInput();
     $('.addBtn').show();
     /*添加按钮*/
     $('#saveForm').click(function(){
-        $('#enterpriseForm').ajaxSubmit({
-            type: 'post', // 提交方式 get/post
-            async:false,
-            dataType:"json",
-            url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
-            success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-                console.log(data);
-                if(data.success){
-                    pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
-                }
-            }
-        });
+        //验证表单，验证成功后触发ef.success方法保存数据
+        ef.submit(false);
     });
     /*重置按钮*/
     $('#resetAddForm').click(function(){
@@ -272,12 +321,18 @@ var enterpriseListOfRunUrl = rootPath +'/container/gov/enterprise/enterpriseList
 /*显示并设置查看状态按钮*/
 function setLookBtn(){
     $("select").prop("disabled", true);
-    $('.form-control').attr('readonly','readonly');
+    $('.needshow').attr('readonly','readonly');
     $('.fieldset').attr('disabled','disabled');
     $('.formBtn').attr('disabled','disabled');
-    /*$('.addBtn').hide();
-    $('.editBtn').hide();*/
     $('.lookBtn').show();
+    /*设置上传*/
+    var fuOptions = getUploaderOptions(enterpriseId);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+    /*上传*/
     $('#toEditForm').click(function(){
         $('#headTitle').html('编辑企业信息');
         setEditBtn(true);
@@ -294,27 +349,19 @@ function reloadThisPage(){
 }
 /*显示并设置保存和编辑状态按钮*/
 function setEditBtn(isFromEditBtn){
+    uploader = new qq.FineUploader(getUploaderOptions(enterpriseId));//附件上传组件对象
     $('.lookBtn').hide();
     $('.editBtn').show();
     initTimeInput();
     if(isFromEditBtn){
         $("select").prop("disabled", false);
-        $('.form-control').removeAttr('readonly');
+        $('.needshow').removeAttr('readonly');
         $('.fieldset').removeAttr('disabled');
         $('.formBtn').removeAttr('disabled');
         /*添加按钮*/
         $('#editForm').click(function(){
-            $('#enterpriseForm').ajaxSubmit({
-                type: 'post', // 提交方式 get/post
-                async:false,
-                dataType:"json",
-                url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
-                success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-                    if(data.success){
-                        reloadThisPage();
-                    }
-                }
-            });
+            isEditBtnFromlook = true;
+            ef.submit(false);
         });
         /*重置按钮*/
         $('#resetEditForm').click(function(){
@@ -327,18 +374,7 @@ function setEditBtn(isFromEditBtn){
     }else{
         /*添加按钮*/
         $('#editForm').click(function(){
-            $('#enterpriseForm').ajaxSubmit({
-                type: 'post', // 提交方式 get/post
-                async:false,
-                dataType:"json",
-                url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
-                success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-                    console.log(data);
-                    if(data.success){
-                        pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
-                    }
-                }
-            });
+            ef.submit(false);
         });
         /*重置按钮*/
         $('#resetEditForm').click(function(){

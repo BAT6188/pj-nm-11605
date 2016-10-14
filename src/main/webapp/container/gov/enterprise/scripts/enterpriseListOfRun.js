@@ -38,7 +38,11 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temp = pageUtils.getBaseParams(param);
+            temp.isDel = '0';
+            return temp;
+        },
         columns: [
             {
                 field: 'state',
@@ -71,7 +75,8 @@ function initTable() {
                 field: 'status',
                 title: '企业运行状态',
                 sortable: true,
-                align: 'center'
+                align: 'center',
+                formatter:statusFormatter
             }, {
                 field: 'operate',
                 title: '操作',
@@ -82,6 +87,7 @@ function initTable() {
 
         ]
     });
+    //gridTable.bootstrapTable('hideColumn', 'id');
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
     }, 200);
@@ -90,7 +96,7 @@ function initTable() {
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
-        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        removeBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length==1));
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
@@ -113,15 +119,13 @@ function initTable() {
     //处理删除按钮状态
     removeBtn.click(function () {
         var ids = getIdSelections();
-        deleteAjax(ids,function (msg) {
-            alert("删除成功！");
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
+        Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+            if (!e) {
+                return;
+            }
+            $('#enterpriseId').val(ids);
+            $('#delEnterpriseModal').modal('show');
         });
-
     });
     //搜索
     $("#search").click(function () {
@@ -133,14 +137,14 @@ function initTable() {
         });
     });
     //重置搜索
-    $("#searchFix").click(function () {
+    $("#resetSearch").click(function () {
         $('#searchform')[0].reset();
         gridTable.bootstrapTable('resetSearch');
     });
-    initSaveModel();
+    initModel();
 }
 /*model*/
-function initSaveModel(){
+function initModel(){
     /*添加按钮*/
     $('#saveForm').click(function(){
         $('#enterpriseForm').ajaxSubmit({
@@ -158,17 +162,39 @@ function initSaveModel(){
     });
     /*重置按钮*/
     $('#resetAddForm').click(function(){
-        console.log($('#enterpriseForm'));
         $('#enterpriseForm')[0].reset();
     });
+    /*删除排污企业*/
+    $('#makeSureDel').click(function(){
+        $('#delEnterpriseModal').modal('hide');
+        $('#deleteEnterpriseForm').ajaxSubmit({
+            type: 'post', // 提交方式 get/post
+            async:false,
+            dataType:"json",
+            url: rootPath+"/action/S_enterprise_Enterprise_deleteEnterprise.action", // 需要提交的 url
+            success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                console.log(data);
+                if(data.success){
+                    Ewin.alert("删除成功！");
+                    gridTable.find('tr.selected').remove();
+                    removeBtn.prop('disabled', true);
+                }else{
+                    Ewin.alert("系统连接故障！");
+                }
+            }
+        });
+    })
 }
-// 生成详细信息方法
-function detailFormatter(index, row) {
-    var html = [];
-    $.each(row, function (key, value) {
-        html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-    });
-    return html.join('');
+/*企业运行状态*/
+function  statusFormatter(value, row, index){
+    switch(value){
+        case "0":
+            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+        case "1":
+            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
+        default:
+            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+    }
 }
 // 生成操作方法
 function operateFormatter(value, row, index) {

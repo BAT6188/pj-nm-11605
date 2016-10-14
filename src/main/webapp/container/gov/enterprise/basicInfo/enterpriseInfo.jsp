@@ -14,19 +14,19 @@
     <title>修改企业信息</title>
     <%
         String handleType=request.getParameter("handleType");
-        String id=request.getParameter("id");
+        String enterpriseId=request.getParameter("id");
     %>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
     <%--时间--%>
-    <jsp:include page="/common/common_datetimepicker.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_datetimepicker.jsp" flush="true"/>--%>
     <%--ztree--%>
     <jsp:include page="/common/common_ztree.jsp" flush="true"/>
     <%--select--%>
-    <jsp:include page="/common/common_select.jsp" flush="true"/>
+    <%--<jsp:include page="/common/common_select.jsp" flush="true"/>--%>
     <script type="text/javascript">
         var handleType='<%=handleType%>';
-        var id='<%=id%>';
+        var enterpriseId='<%=enterpriseId%>';
     </script>
     <style>
         .Node-frame-menubar {
@@ -56,13 +56,15 @@
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">单位名称：</label>
             <div class="col-sm-4">
-                <input type="text" id="name" name="name" class="form-control" />
+                <input type="text" id="name" name="name" class="form-control"
+                       data-message=“请填写单位名称"
+                       data-easytip="position:right;class:easy-red;"
+                        data-easyform="real-time;"/>
             </div>
             <label for="status" class="col-sm-2 control-label">企业运行状态：</label>
             <div class="col-sm-4">
                 <fieldset class="fieldset">
                 <select class="form-control" id="status" name="status">
-                    <option value="">---请选择---</option>
                     <option value="1">运营中</option>
                     <option value="0">未运营</option>
                 </select>
@@ -72,24 +74,32 @@
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">单位地址：</label>
             <div class="col-sm-4">
-                <input type="text" id="address" name="address" class="form-control" />
+                <input type="text" id="address" name="address" class="form-control"
+                       data-message="请填写单位地址"
+                       data-easytip="position:right;class:easy-red;"
+                       data-easyform="real-time;"/>
             </div>
             <label for="pollutantCode" class="col-sm-2 control-label">污染源代码：</label>
             <div class="col-sm-4">
-                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control">
+                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control"
+                       data-message="请填写污染源代码"
+                       data-easytip="position:right;class:easy-red;"
+                       data-easyform="real-time;"/>
             </div>
         </div>
         <div class="form-group">
             <label for="longitude" class="col-sm-2 control-label">经度：</label>
             <div class="col-sm-4">
-                <input type="text" id="longitude" name="longitude" class="form-control" />
+                <input type="text" id="longitude" name="longitude" class="form-control" readonly
+                       data-easyform="null;"/>
             </div>
             <label for="latitude" class="col-sm-2 control-label">纬度：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="latitude" name="latitude">
+                    <input type="text" class="form-control" id="latitude" name="latitude" readonly
+                           data-easyform="null;"/>
 					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button">
+						<button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
                             标注
                         </button>
 					</span>
@@ -99,12 +109,15 @@
         <div class="form-group">
             <label for="zipCode" class="col-sm-2 control-label">邮政编码：</label>
             <div class="col-sm-4">
-                <input type="text" id="zipCode" name="zipCode" class="form-control" />
+                <input type="text" id="zipCode" name="zipCode" class="form-control"
+                       data-message="请填写正确格式的邮政编码"
+                       data-easytip="position:right;class:easy-red;"
+                       data-easyform="number;real-time;"/>
             </div>
             <label for="orgCode" class="col-sm-2 control-label">组织机构代码：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="orgCode" name="orgCode">
+                    <input type="text" class="form-control" id="orgCode" name="orgCode"/>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button">
                             选择
@@ -116,34 +129,34 @@
         <div class="form-group">
             <label for="artificialPerson" class="col-sm-2 control-label">法定代表人：</label>
             <div class="col-sm-4">
-                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control" />
+                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control"/>
             </div>
             <label for="apPosition" class="col-sm-2 control-label">法定代表人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPosition" name="apPosition" class="form-control">
+                <input type="text" id="apPosition" name="apPosition" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label for="apPhone" class="col-sm-2 control-label">法定代表人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="apPhone" name="apPhone" class="form-control" />
+                <input type="text" id="apPhone" name="apPhone" class="form-control"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
         <div class="form-group">
             <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
             <div class="col-sm-4">
-                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control" />
+                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control"/>
             </div>
             <label for="epPosition" class="col-sm-2 control-label">环保负责人职务：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPosition" name="epPosition" class="form-control">
+                <input type="text" id="epPosition" name="epPosition" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label for="epPhone" class="col-sm-2 control-label">环保负责人电话：</label>
             <div class="col-sm-4">
-                <input type="text" id="epPhone" name="epPhone" class="form-control" />
+                <input type="text" id="epPhone" name="epPhone" class="form-control"/>
             </div>
             <div class="col-sm-6"></div>
         </div>
@@ -188,7 +201,7 @@
             <div class="col-sm-10" id="pollutantLevel">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01">国控
+                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" data-message="请选择污染源管理级别">国控
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="pollutantLevel" id="pollutantLevel02" value="02">省（区）控
@@ -215,7 +228,7 @@
             <div class="col-sm-4" id="isSpecial">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="isSpecial" id="isSpecial1" value="1">是
+                    <input type="radio" name="isSpecial" id="isSpecial1" value="1" data-easyform="length:0 100" data-message="请选择是否特殊监管对象">是
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="isSpecial" id="isSpecial0" value="0">否
@@ -259,7 +272,7 @@
             <label for="industryType" class="col-sm-2 control-label">行业类别：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="industryType" name="industryType">
+                    <input type="text" class="form-control" id="industryType" name="industryType" readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
                             选择
@@ -276,7 +289,8 @@
             <label for="area" class="col-sm-2 control-label">行政区：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="area" name="area">
+                    <input type="text" class="form-control" id="area" name="area" readonly
+                           data-easyform="null;"/>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#areaModal">
                             选择
@@ -296,7 +310,7 @@
             <label for="valley" class="col-sm-2 control-label">所属流域：</label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="valley" name="valley">
+                    <input type="text" class="form-control" id="valley" name="valley" readonly>
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#valleyModal">
                             选择
@@ -452,6 +466,7 @@
     </div><!-- /.modal -->
 </div>
 <!-- 所属流域模态框 end -->
+<%@include file="/common/gis/map_mark.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/enterpriseInfo.js"></script>
 </body>
 </html>
