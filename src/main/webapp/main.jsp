@@ -35,7 +35,7 @@
                 <li class="list2"><a href="javascript:;">空气质量监测</a></li>--%>
             </ul>
         </div>
-        <div class="content show clearfix">
+        <div id="level2content" class="content show clearfix">
         </div>
         <div class="siderNav">
             <ul>

@@ -2,6 +2,7 @@ var gridTable = $('#table'),
     add = $('#add'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
+    form = $("#addNewEnterpriseForm"),
     selections = [];
 /**
  * 删除请求
@@ -102,12 +103,12 @@ function initTable() {
     });
     //处理新增按钮
     add.click(function(){
-       window.location.href = 'mainEnterprise.jsp?handleType=add';
+        jumpToUrl('/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add');
     });
     /*处理更新按钮*/
     updateBtn.click(function(){
         var id = getIdSelections();
-        window.location.href = 'mainEnterprise.jsp?handleType=edit&id='+id;
+        jumpToUrl('/container/gov/enterprise/mainEnterprise.jsp?handleType=edit&id='+id);
     });
     //处理删除按钮状态
     removeBtn.click(function () {
@@ -136,8 +137,31 @@ function initTable() {
         $('#searchform')[0].reset();
         gridTable.bootstrapTable('resetSearch');
     });
+    initSaveModel();
 }
-
+/*model*/
+function initSaveModel(){
+    /*添加按钮*/
+    $('#saveForm').click(function(){
+        $('#enterpriseForm').ajaxSubmit({
+            type: 'post', // 提交方式 get/post
+            async:false,
+            dataType:"json",
+            url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
+            success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if(data.success){
+                    form.modal('hide');
+                    gridTable.bootstrapTable('refresh');
+                }
+            }
+        });
+    });
+    /*重置按钮*/
+    $('#resetAddForm').click(function(){
+        console.log($('#enterpriseForm'));
+        $('#enterpriseForm')[0].reset();
+    });
+}
 // 生成详细信息方法
 function detailFormatter(index, row) {
     var html = [];
@@ -148,7 +172,11 @@ function detailFormatter(index, row) {
 }
 // 生成操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view"><a href="mainEnterprise.jsp?handleType=look&id='+row.id+'">查看</a></button>';
+    return '<button type="button" class="btn btn-md btn-warning view" onclick="jumpToUrl(\'/container/gov/enterprise/mainEnterprise.jsp?handleType=look&id='+row.id+'\')">查看</button>';
+}
+function jumpToUrl(url){
+    $('.content').html(pageUtils.loading()); // 设置页面加载时的loading图片
+    $('.content').load(rootPath+url); // ajax加载页面
 }
 // 列表操作事件
 window.operateEvents = {

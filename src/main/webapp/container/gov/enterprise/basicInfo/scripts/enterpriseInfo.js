@@ -14,7 +14,7 @@ function initSelect(){
         })
         $('#'+k).append(optionsHtml);
     });
-    var selects = $('select');
+    /*var selects = $('select');
     $.each(selects,function(k,v){
         var thisId = $(v).attr('id');
         var thisOptionLength = $(v)[0].options.length;
@@ -34,7 +34,7 @@ function initSelect(){
                 allowClear: true
             });
         }
-    })
+    })*/
 }
 /*初始化 树结构*/
 $(".scrollContent").slimScroll({
@@ -226,36 +226,76 @@ function initEnterpriseForm(type){
             addEnterpriseForm();
     }
 }
+
 /*查看信息*/
 function lookEnterpriseForm(){
+    $('#headTitle').html('查看企业信息');
     setEnterpriseForm();
     setLookBtn();
 }
 /*新建*/
 function addEnterpriseForm(){
-    setSaveOrEditBtn(false);
+    $('#headTitle').html('新增企业信息');
+    initTimeInput();
+    $('.addBtn').show();
+    /*添加按钮*/
+    $('#saveForm').click(function(){
+        $('#enterpriseForm').ajaxSubmit({
+            type: 'post', // 提交方式 get/post
+            async:false,
+            dataType:"json",
+            url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
+            success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                console.log(data);
+                if(data.success){
+                    pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
+                }
+            }
+        });
+    });
+    /*重置按钮*/
+    $('#resetAddForm').click(function(){
+        $('#enterpriseForm')[0].reset();
+    });
+    /*取消按钮*/
+    $('#cancelAddForm').click(function(){
+        pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
+    });
 }
 /*编辑信息*/
 function editEnterpriseForm(){
+    $('#headTitle').html('编辑企业信息');
     setEnterpriseForm();
-    setSaveOrEditBtn(false);
+    setEditBtn(false);
 }
+var enterpriseListOfRunUrl = rootPath +'/container/gov/enterprise/enterpriseListOfRun.jsp';
 /*显示并设置查看状态按钮*/
 function setLookBtn(){
     $("select").prop("disabled", true);
     $('.form-control').attr('readonly','readonly');
     $('.fieldset').attr('disabled','disabled');
     $('.formBtn').attr('disabled','disabled');
+    /*$('.addBtn').hide();
+    $('.editBtn').hide();*/
     $('.lookBtn').show();
-    $('.saveOrEditBtn').hide();
-    $('#editForm').click(function(){
-        setSaveOrEditBtn(true);
+    $('#toEditForm').click(function(){
+        $('#headTitle').html('编辑企业信息');
+        setEditBtn(true);
+    })
+    $('#backList').click(function(){
+        pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
     })
 }
+function reloadThisPage(){
+    var thisUrl = rootPath +'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=look&id='+enterpriseId;
+    //$(".main-right").load(url);
+    $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
+    $('.main-right').load(thisUrl); // ajax加载页面
+}
 /*显示并设置保存和编辑状态按钮*/
-function setSaveOrEditBtn(isFromEditBtn){
+function setEditBtn(isFromEditBtn){
     $('.lookBtn').hide();
-    $('.saveOrEditBtn').show();
+    $('.editBtn').show();
     initTimeInput();
     if(isFromEditBtn){
         $("select").prop("disabled", false);
@@ -263,7 +303,7 @@ function setSaveOrEditBtn(isFromEditBtn){
         $('.fieldset').removeAttr('disabled');
         $('.formBtn').removeAttr('disabled');
         /*添加按钮*/
-        $('#saveForm').click(function(){
+        $('#editForm').click(function(){
             $('#enterpriseForm').ajaxSubmit({
                 type: 'post', // 提交方式 get/post
                 async:false,
@@ -271,22 +311,22 @@ function setSaveOrEditBtn(isFromEditBtn){
                 url: rootPath+"/action/S_enterprise_Enterprise_save.action", // 需要提交的 url
                 success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
                     if(data.success){
-                        window.location.reload();
+                        reloadThisPage();
                     }
                 }
             });
         });
         /*重置按钮*/
-        $('#resetForm').click(function(){
-            window.location.reload();
+        $('#resetEditForm').click(function(){
+            reloadThisPage();
         });
         /*取消按钮*/
-        $('#cancel').click(function(){
-            window.location.reload();
+        $('#cancelEditForm').click(function(){
+            reloadThisPage();
         })
     }else{
         /*添加按钮*/
-        $('#saveForm').click(function(){
+        $('#editForm').click(function(){
             $('#enterpriseForm').ajaxSubmit({
                 type: 'post', // 提交方式 get/post
                 async:false,
@@ -295,19 +335,19 @@ function setSaveOrEditBtn(isFromEditBtn){
                 success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
                     console.log(data);
                     if(data.success){
-                        window.location.href = 'enterpriseListOfRun.jsp';
+                        pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
                     }
                 }
             });
         });
         /*重置按钮*/
-        $('#resetForm').click(function(){
+        $('#resetEditForm').click(function(){
             $('#enterpriseForm')[0].reset();
         });
         /*取消按钮*/
-        $('#cancel').click(function(){
-
-        })
+        $('#cancelEditForm').click(function(){
+            pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
+        });
     }
 }
 /*获取企业信息*/

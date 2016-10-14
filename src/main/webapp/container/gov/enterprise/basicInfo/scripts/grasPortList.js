@@ -228,9 +228,10 @@ $("#search").click(function () {
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
+        entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            form.modal('hide');
+            $(".modal").modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -262,16 +263,22 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#createTime").val(pageUtils.sub10(entity.createTime));
-
-    pageUtils.setRadioValue("status",entity.status);
-    $("#openDate").val(pageUtils.sub10(entity.openDate));
-    $("#crafts").val(entity.crafts);
-    $("#ability").val(entity.ability);
-    $("#realAbility").val(entity.realAbility);
+    var inputs = $('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = entity[tagId];
+        if($(v)[0].tagName=='select'){
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
+    var radios = $('.isRadio');
+    $.each(radios,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = entity[tagId];
+        $("input#"+tagId+value).get(0).checked=true;
+    });
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
