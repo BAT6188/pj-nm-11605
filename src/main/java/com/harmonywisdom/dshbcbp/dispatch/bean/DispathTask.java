@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 监察大队执行的任务
+ * 执法管理列表
  */
 @Entity
 @Table(name = "HW_DISPATH_TASK")
@@ -18,21 +18,8 @@ public class DispathTask implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
-    /**
-     * 事件来源：1-12369,2-区长热线，3-市长热线
-     */
-    @Column(name = "source")
-    private String source;
-    /**
-     * 接电时间
-     */
-    @Column(name = "conn_time")
-    private Date connTime;
-    /**
-     * 接电人
-     */
-    @Column(name = "answer")
-    private String answer;
+
+
     /**
      * 所属网格级别
      */
@@ -43,11 +30,7 @@ public class DispathTask implements Serializable {
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
-    /**
-     * 投诉对象
-     */
-    @Column(name = "target_name", length = 20)
-    private String targetName;
+
     /**
      * 投诉对象负责人
      */
@@ -136,29 +119,7 @@ public class DispathTask implements Serializable {
         this.id = id;
     }
 
-    public String getSource() {
-        return source;
-    }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public Date getConnTime() {
-        return connTime;
-    }
-
-    public void setConnTime(Date connTime) {
-        this.connTime = connTime;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
 
     public String getBlockLevelId() {
         return blockLevelId;
@@ -176,13 +137,6 @@ public class DispathTask implements Serializable {
         this.blockId = blockId;
     }
 
-    public String getTargetName() {
-        return targetName;
-    }
-
-    public void setTargetName(String targetName) {
-        this.targetName = targetName;
-    }
 
     public String getTargetLinkman() {
         return targetLinkman;
