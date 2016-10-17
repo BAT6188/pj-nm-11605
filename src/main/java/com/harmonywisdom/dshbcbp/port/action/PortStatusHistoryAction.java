@@ -25,6 +25,7 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         Map<String,Object> result = new HashMap<String,Object>();
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
+        String name = request.getParameter("name");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date firstTime = sdf.parse(startYdate);

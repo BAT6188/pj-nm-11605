@@ -182,7 +182,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 13;
+    return $(window).height() - $('.dealBox').outerHeight(true) - 130;
 }
 initTable();
 
@@ -242,9 +242,6 @@ var ef = form.easyform({
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
-    },
-    error:function (ef,input, rull) {
-        alert($(input).attr("id"));
     }
 });
 
