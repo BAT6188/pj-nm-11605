@@ -13,19 +13,15 @@ $(function(){
     initPage();//执行初始化
     function initPage(){
 
-        $('#datetimepicker').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#datetimepicker2').datetimepicker({
+        //初始化日期组件
+        $('.form_datetime').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
 
         $('#columnBtn').css('background','#0099FF');
-        getColumnHighChartData(startYdate,lastYdate);
+        getColumnHighChartData('',startYdate,lastYdate);
     }
 
     //查询按钮
@@ -64,11 +60,11 @@ $(function(){
     /**
      * 柱状图获取数据
      */
-    function getColumnHighChartData(startYdate,lastYdate){
+    function getColumnHighChartData(name,startYdate,lastYdate){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
             type:"post",
-            data:{startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:name,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function (data) {
                 var categories = data.x;
