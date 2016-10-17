@@ -94,7 +94,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">姓名：</label>
+                        <label for="name" class="col-sm-2 control-label">姓名<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -104,9 +104,10 @@
                             />
                         </div>
 
+
                     </div>
                     <div class="form-group">
-                        <label for="age" class="col-sm-2 control-label">年龄：</label>
+                        <label for="age" class="col-sm-2 control-label">年龄<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="text" id="age" name="age" class="form-control"
                                    data-easyform="uint:0 100;"
@@ -116,7 +117,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="age" class="col-sm-2 control-label">x坐标：</label>
+                        <label for="age" class="col-sm-2 control-label">x坐标<span class="text-danger">*</span>：</label>
                         <div class="col-sm-3">
                             <input type="text" id="longitude" name="longitude" class="form-control"
                                    data-easyform="float:8 10;"
@@ -124,7 +125,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="age" class="col-sm-2 control-label">y坐标：</label>
+                        <label for="age" class="col-sm-2 control-label">y坐标<span class="text-danger">*</span>：</label>
                         <div class="col-sm-3">
                             <input type="text" id="latitude" name="latitude" class="form-control"
                                    data-easyform="float:8 10;"
