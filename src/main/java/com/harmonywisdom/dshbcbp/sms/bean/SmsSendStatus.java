@@ -29,7 +29,7 @@ public class SmsSendStatus implements Serializable {
     @Column(name = "RECEIVER_NAME", length = 20)
     private String receiverName;
     /**
-     * 接收人姓名
+     * 接收人电话
      **/
     @Column(name = "RECEIVER_PHONE", length = 20)
     private String receiverPhone;

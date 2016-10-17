@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 短信记录
@@ -17,6 +18,12 @@ public class SmsRecord implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 发送时间
+     */
+    @Column(name = "SEND_TIME")
+    private Date sendTime;
 
     /**
      *发送人ID
@@ -64,5 +71,13 @@ public class SmsRecord implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
     }
 }

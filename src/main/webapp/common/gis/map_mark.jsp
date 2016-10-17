@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>通用标绘页面</title>
+    <title>通用标绘dialog</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/gis/css/map_mark.css" type="text/css">
 </head>
 <body style="overflow: hidden;">

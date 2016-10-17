@@ -32,7 +32,10 @@ function loadLevel2Menu(subMenus) {
             $(this).addClass("linear-hover").siblings().removeClass("linear-hover");
             var url = $(this).attr("data-url");
             $(".content").html("");
-            $(".content").load(url);
+            if (url && url.indexOf(".jsp")>0) {
+                $(".content").load(url);
+            }
+
         });
         //加载第一个菜单
         level2MenuUl.find("li:first").click();
