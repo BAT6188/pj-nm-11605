@@ -144,7 +144,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -153,7 +153,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="blockName" class="col-sm-2 control-label">所属网格名称：</label>
+                        <label for="blockName" class="col-sm-2 control-label">所属网格名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="blockName" name="blockName" class="form-control"
                                    data-message="所属网格名称不为空"
@@ -162,7 +162,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="startTime" class="col-sm-2 control-label">开始时间：</label>
+                        <label for="startTime" class="col-sm-2 control-label">开始时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly
@@ -173,7 +173,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
-                        <label for="endTime" class="col-sm-2 control-label">结束时间：</label>
+                        <label for="endTime" class="col-sm-2 control-label">结束时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly
@@ -188,14 +188,14 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="transpor" class="col-sm-2 control-label">传输率：</label>
+                        <label for="transpor" class="col-sm-2 control-label">传输率<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="transpor" name="transpor" class="form-control"
                                    data-message="工艺处理不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="efficient" class="col-sm-2 control-label">有效率：</label>
+                        <label for="efficient" class="col-sm-2 control-label">有效率<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="efficient" name="efficient" class="form-control"
                                    data-message="有效率不为空"
@@ -204,7 +204,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ratio" class="col-sm-2 control-label">传输有效率：</label>
+                        <label for="ratio" class="col-sm-2 control-label">传输有效率<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="ratio" name="ratio" class="form-control"
                                    data-message="传输有效率不为空"

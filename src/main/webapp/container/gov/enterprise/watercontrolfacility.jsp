@@ -63,7 +63,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">设施名称：</label>
+                        <label for="name" class="col-sm-2 control-label">设施名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="createTime" class="col-sm-2 control-label">建设日期：</label>
+                        <label for="createTime" class="col-sm-2 control-label">建设日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                         <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                             <input class="form-control" id="createTime" name="createTime" size="16" type="text" value="" readonly
@@ -85,14 +85,14 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                         </div>
-                        <label for="status" class="col-sm-2 control-label">运行状态：</label>
+                        <label for="status" class="col-sm-2 control-label">运行状态<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4 radio">
                             <label><input type="radio" value="1" checked name="status">正常</label>
                             <label><input type="radio" value="0" name="status">异常</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="openDate" class="col-sm-2 control-label">投运日期：</label>
+                        <label for="openDate" class="col-sm-2 control-label">投运日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="openDate" name="openDate" size="16" type="text" value="" readonly
@@ -104,7 +104,7 @@
                             </div>
 
                         </div>
-                        <label for="crafts" class="col-sm-2 control-label">工艺处理：</label>
+                        <label for="crafts" class="col-sm-2 control-label">工艺处理<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="crafts" name="crafts" class="form-control"
                                    data-message="工艺处理不为空"
@@ -113,14 +113,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ability" class="col-sm-2 control-label">设计处理能力：</label>
+                        <label for="ability" class="col-sm-2 control-label">设计处理能力<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="ability" name="ability" class="form-control"
                                    data-message="设计处理能力不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="realAbility" class="col-sm-2 control-label">实际处理能力：</label>
+                        <label for="realAbility" class="col-sm-2 control-label">实际处理能力<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="realAbility" name="realAbility" class="form-control"
                                    data-message="设计处理能力不为空"
