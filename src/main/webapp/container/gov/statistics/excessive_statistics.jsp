@@ -13,6 +13,10 @@
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
     <style type="text/css">
+        .chart-list {
+            text-align: center;
+            height: 42px;
+        }
 
     </style>
 </head>
@@ -57,9 +61,9 @@
                     <div class="chart-box">
                         <div class="chart-list">
                             <ul class="clearfix">
-                                <li class="active"><a href="javascript:;">柱状图</a></li>
-                                <li><a href="javascript:;">饼状图</a></li>
-                                <li><a href="javascript:;">折线图</a></li>
+                                <li id="columnBtn" data-checked="1"><a href="javascript:;">柱状图</a></li>
+                                <li id="pieBtn" data-checked="2"><a href="javascript:;">饼状图</a></li>
+                                <li id="lineBtn" data-checked="3"><a href="javascript:;">折线图</a></li>
                             </ul>
                         </div>
                         <div class="chart-content">
@@ -68,16 +72,16 @@
                                     <div id="container" style="min-width:80%;min-height:75%;text-align: center;width:90%;padding-left: 5px;"></div>
                                 </div>
                             </div>
-                            <div class="chartBox chartBox2">
-                                <div class="chart">
-                                    <img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>
-                                </div>
-                            </div>
-                            <div class="chartBox chartBox3">
-                                <div class="chart">
-                                    <img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>
-                                </div>
-                            </div>
+                            <%--<div class="chartBox chartBox2">--%>
+                                <%--<div class="chart">--%>
+                                    <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="chartBox chartBox3">--%>
+                                <%--<div class="chart">--%>
+                                    <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
                         </div>
                     </div>
             </div>

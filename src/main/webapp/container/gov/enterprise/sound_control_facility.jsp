@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="display: none;">
-                        <label for="enterpriseId" class="col-sm-2 control-label">企业id:</label>
+                        <label for="enterpriseId" class="col-sm-2 control-label">企业id：</label>
                         <div class="col-sm-10">
                             <input type="text" id="enterpriseId" name="enterpriseId" class="form-control"
                                       data-message="设计处理能力不为空"

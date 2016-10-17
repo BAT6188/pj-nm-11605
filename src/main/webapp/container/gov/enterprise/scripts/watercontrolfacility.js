@@ -253,9 +253,6 @@ var ef = form.easyform({
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
-    },
-    error:function (ef,input, rull) {
-        alert($(input).attr("id"));
     }
 });
 
