@@ -71,7 +71,7 @@ public class Manual implements Serializable {
      *附件
      */
     @Transient
-    private String attachemntId;
+    private String attachmentIds;
 
     public String getId() {
         return id;
@@ -153,11 +153,11 @@ public class Manual implements Serializable {
         this.remark = remark;
     }
 
-    public String getAttachemntId() {
-        return attachemntId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachemntId(String attachemntId) {
-        this.attachemntId = attachemntId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 }

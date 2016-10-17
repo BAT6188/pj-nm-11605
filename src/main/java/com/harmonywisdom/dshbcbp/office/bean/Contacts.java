@@ -52,7 +52,7 @@ public class Contacts implements Serializable {
      *附件
      */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
 
     public String getId() {
         return id;
@@ -118,11 +118,11 @@ public class Contacts implements Serializable {
         this.orgId = orgId;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 }

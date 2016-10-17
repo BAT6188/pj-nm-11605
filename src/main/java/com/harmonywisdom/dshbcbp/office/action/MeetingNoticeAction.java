@@ -8,7 +8,7 @@ import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNoticeService> {
     @AutoService
@@ -44,12 +44,10 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-
+        super.save();
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
-
-        super.save();
     }
 
     /**

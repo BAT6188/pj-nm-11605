@@ -65,7 +65,7 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">突发环境事件应急预案</a></h3>
             <ul>
-                <li><a href="javascript:;">突发环境事件应急预案</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/enterpriseplan.jsp')">突发环境事件应急预案</a></li>
             </ul>
         </div>
         <div class="menuDiv">

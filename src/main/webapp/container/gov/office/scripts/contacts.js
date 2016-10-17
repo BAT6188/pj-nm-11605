@@ -2,13 +2,13 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "信息公告",
+    formTitle = "人员管理",
     selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_office_PubInfo_save.action",
+        url: rootPath + "/action/S_office_Contacts_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -22,7 +22,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_office_PubInfo_delete.action",
+        url: rootPath + "/action/S_office_Contacts_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -34,7 +34,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_PubInfo_list.action",
+        url: rootPath+"/action/S_office_Contacts_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -57,35 +57,44 @@ function initTable() {
                 visible:false
             },
             {
-                title: '标题',
-                field: 'title',
+                title: '名称',
+                field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '类型',
-                field: 'type',
+                title: '部门名称',
+                field: 'department',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                title: '发布单位',
-                field: 'pubOrgName',
+                title: '职务',
+                field: 'position',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                title: '发布时间',
-                field: 'pubTime',
+                title: '座机号码',
+                field: 'tel',
                 sortable: false,
                 align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                editable: false
+            },{
+                title: '手机号码',
+                field: 'phone',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },{
+                title: '单位地址',
+                field: 'address',
+                sortable: false,
+                align: 'center',
+                editable: false
             },
             {
                 field: 'operate',
@@ -177,21 +186,23 @@ removeBtn.click(function () {
 
 });
 
+
+
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var title = $("#s_title").val();
-    var type = $("#s_type").val();
-    var pubTime =$("#s_pubTime").val();
-    if (title){
-        queryParams["title"] = title;
+    var name = $("#s_name").val();
+    var department = $("#s_department").val();
+    var position =$("#s_position").val();
+    if (name){
+        queryParams["name"] = name;
     }
-    if (type){
-        queryParams["type"] = type;
+    if (department){
+        queryParams["department"] = department;
     }
-    if (pubTime) {
-        queryParams["pubTime"] = pubTime;
+    if (position) {
+        queryParams["position"] = position;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -200,6 +211,7 @@ $("#search").click(function () {
 
 /**============表单初始化相关代码============**/
 
+//初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
@@ -210,18 +222,12 @@ var ef = form.easyform({
         });
     }
 });
+
 //表单 保存按钮
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-//初始化日期组件
-$('#pubTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
 /**
  * 设置表单数据
  * @param entity
@@ -234,12 +240,13 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#title").val(entity.title);
-    $("#pubTime").val(pageUtils.sub10(entity.pubTime));
-    $("#pubOrgName").val(entity.pubOrgName);
-    $("#type").val(entity.type);
-    $("#grade").val(entity.grade);
-    $("#content").val(entity.content);
+    $("#name").val(entity.name);
+    $("#department").val(entity.department);
+    $("#position").val(entity.position);
+    $("#address").val(entity.address);
+    $("#tel").val(entity.tel);
+    $("#phone").val(entity.phone);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -272,7 +279,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }

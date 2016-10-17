@@ -31,6 +31,10 @@ public class WorkSumAction extends BaseAction<WorkSum, WorkSumService> {
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
+        String pubTime = request.getParameter("pubTime");
+        if (StringUtils.isNotBlank(pubTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.EQ,entity.getPubTime()));
+        }
 
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
