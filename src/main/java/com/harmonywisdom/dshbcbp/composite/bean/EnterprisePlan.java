@@ -54,7 +54,15 @@ public class EnterprisePlan implements Serializable {
      *附件
      */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;
@@ -120,11 +128,4 @@ public class EnterprisePlan implements Serializable {
         this.recordDate = recordDate;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
 }

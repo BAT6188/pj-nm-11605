@@ -4,12 +4,14 @@ var gridTable = $('#table'),
     form = $("#shareMeansForm"),
     formTitle = "资料共享",
     selections = [];
+
+
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_office_ShareMeans_list.action",
-        height: 590,
+        height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -57,6 +59,13 @@ function initTable() {
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
                 }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
             }
 
         ]
@@ -117,10 +126,23 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()
         });
     });
 }
+
+// 生成列表操作方法
+function operateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#shareMeansForm">查看</button>';
+}
+// 列表操作事件
+window.operateEvents = {
+    'click .view': function (e, value, row, index) {
+        setFormView(row);
+    }
+};
+
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}

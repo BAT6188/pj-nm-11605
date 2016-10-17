@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>创模建设信息系统</title>
+    <title>人员信息管理</title>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -17,8 +17,9 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <p>
-                        <label for="s_title">标题：</label> <input type="text" id="s_title" class="form-control" />
-                        <label for="s_pubTime">时间：</label> <input type="text" id="s_pubTime" class="form-control" />
+                        <label for="s_name">姓名：</label> <input type="text" id="s_name" class="form-control" />
+                        <label for="s_department">单位：</label> <input type="text" id="s_department" class="form-control" />
+                        <label for="s_position">职务：</label><input type="text" id="s_position" class="form-control" />
                     </p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -47,48 +48,58 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加创模建设信息</h4>
+                <h4 class="modal-title form-title">添加人员信息</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">标题*：</label>
-                        <div class="col-sm-10">
+                        <label for="name" class="col-sm-2 control-label">姓名*：</label>
+                        <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
-                            <input type="text" id="title" name="title" class="form-control"
-                                   data-message="标题不能为空"
+                            <input type="text" id="name" name="name" class="form-control"
+                                   data-message="姓名不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                        <label for="department" class="col-sm-2 control-label">所属部门*：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="department" name="department" class="form-control"
+                                   data-message="所属部门不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位*：</label>
+                        <label for="position" class="col-sm-2 control-label">职务*：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
-                                   data-message="发布单位不能为空"
+                            <input type="text" id="position" name="position" class="form-control"
+                                   data-message="职务不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubTime" class="col-sm-2 control-label">发布时间*：</label>
+                        <label for="address" class="col-sm-2 control-label">单位地址*：</label>
                         <div class="col-sm-4">
-                            <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
-                                       data-message="发布时间不能为空"
-                                       data-easytip="position:top;class:easy-red;">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-
+                            <input type="address" id="address" name="address" class="form-control"
+                                   data-message="单位地址不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="content" class="col-sm-2 control-label">内容概要*：</label>
-                        <div class="col-sm-10">
-                            <textarea  id="content" name="content" class="form-control" rows="5"
-                                       data-message="内容概要不能为空"
-                                       data-easytip="position:top;class:easy-red;"
-                            ></textarea>
+                        <label for="tel" class="col-sm-2 control-label">座机号码*：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="tel" name="tel" class="form-control"
+                                   data-message="单位地址不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                        <label for="phone" class="col-sm-2 control-label">手机号码*：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                   data-message="单位地址不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
@@ -107,6 +118,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/creationmode.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
 </body>
 </html>

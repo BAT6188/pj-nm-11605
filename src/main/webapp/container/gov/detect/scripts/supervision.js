@@ -352,13 +352,13 @@ $(".scrollContent").slimScroll({
 });
 var setting = {
     height:500,
-    width:200,
+    width:150,
     view: {
         showLine: false
     },
     async: {
         enable: true,
-        url:"ztreeData.json",
+        url:rootPath + "/demo/ztree/ztreeData.json",
         autoParam:["id", "name", "level"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter

@@ -2,13 +2,15 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "信息公告",
+    formTitle = "突发环境事件应急预案",
     selections = [];
+
+
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_office_PubInfo_save.action",
+        url: rootPath + "/action/S_composite_EnterprisePlan_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -22,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_office_PubInfo_delete.action",
+        url: rootPath + "/action/S_composite_EnterprisePlan_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -34,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_PubInfo_list.action",
+        url: rootPath+"/action/S_composite_EnterprisePlan_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -57,29 +59,22 @@ function initTable() {
                 visible:false
             },
             {
-                title: '标题',
-                field: 'title',
+                title: '排污单位名称',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '类型',
-                field: 'type',
+                title: '受理机关',
+                field: 'acceptOrg',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                title: '发布单位',
-                field: 'pubOrgName',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },
-            {
-                title: '发布时间',
-                field: 'pubTime',
+                title: '备案日期',
+                field: 'recordDate',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -88,12 +83,27 @@ function initTable() {
                 }
             },
             {
+                title: '经办人',
+                field: 'attnPerson',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '经办人电话',
+                field: 'attnPhone',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
             }
+
         ]
     });
     // sometimes footer render error.
@@ -177,21 +187,15 @@ removeBtn.click(function () {
 
 });
 
+
+
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var title = $("#s_title").val();
-    var type = $("#s_type").val();
-    var pubTime =$("#s_pubTime").val();
-    if (title){
-        queryParams["title"] = title;
-    }
-    if (type){
-        queryParams["type"] = type;
-    }
-    if (pubTime) {
-        queryParams["pubTime"] = pubTime;
+    var attnPerson = $("#s_attnPerson").val();
+    if (attnPerson){
+        queryParams["attnPerson"] = attnPerson;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -200,6 +204,7 @@ $("#search").click(function () {
 
 /**============表单初始化相关代码============**/
 
+//初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
@@ -210,13 +215,14 @@ var ef = form.easyform({
         });
     }
 });
+
 //表单 保存按钮
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
 //初始化日期组件
-$('#pubTimeContent').datetimepicker({
+$('#recordDateContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
@@ -234,12 +240,13 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#title").val(entity.title);
-    $("#pubTime").val(pageUtils.sub10(entity.pubTime));
-    $("#pubOrgName").val(entity.pubOrgName);
-    $("#type").val(entity.type);
-    $("#grade").val(entity.grade);
-    $("#content").val(entity.content);
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#recordDate").val(pageUtils.sub10(entity.recordDate));
+    $("#recordCode").val(entity.recordCode);
+    $("#acceptOrg").val(entity.acceptOrg);
+    $("#attnPerson").val(entity.attnPerson);
+    $("#attnPhone").val(entity.attnPhone);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -257,13 +264,13 @@ function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#pubTimeContent').datetimepicker({
+        $('#recordDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#pubTimeContent').datetimepicker('remove');
+        $('#recordDateContent').datetimepicker('remove');
     }
 
 }
@@ -272,7 +279,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }

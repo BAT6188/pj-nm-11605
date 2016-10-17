@@ -1,240 +1,26 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
+    updateBtn = $('#update'),
+    form = $("#scfForm"),
+    formTitle = "会议通知",
     selections = [];
-function initTable() {
-    gridTable.bootstrapTable({
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        url: rootPath+"/action/S_office_MeetingNotice_list.action",
-        height: 590,
-        method:'post',
-        queryParams:function (param) {
-            var name = $("#s_title").val();
-            var age = $("#s_time").val();
-            var temp = {
-                name: name,
-                age: age,
-                //分页参数
-                take: param.limit,
-                skip: param.offset,
-                page: param.offset/param.limit + 1,
-                pageSize: param.limit
-            };
-            return temp;
-        },
-        columns: [
-            {
-                checkbox: true,
-                align: 'center',
-                radio:false,  //  true 单选， false多选
-                valign: 'middle'
-            }, {
-                title: 'ID',
-                field: 'id',
-                align: 'center',
-                valign: 'middle',
-                sortable: false,
-                footerFormatter: totalTextFormatter
-            },
-            {
-                title: '会议标题',
-                field: 'title',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalNameFormatter,
-                align: 'center'
-            }, {
-                title: '会议类型',
-                field: 'type',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                footerFormatter: totalPriceFormatter
-            }, {
-                title: '会议地点',
-                field: 'address',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                footerFormatter: totalPriceFormatter
-            }, {
-                title: '会议时间',
-                field: 'time',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                footerFormatter: totalPriceFormatter
-            }, {
-                title: '发布单位',
-                field: 'pubOrgName',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                footerFormatter: totalPriceFormatter
-            }, {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
-            }
 
-        ]
-    });
-    // sometimes footer render error.
-    setTimeout(function () {
-        gridTable.bootstrapTable('resetView');
-    }, 200);
-
-    //处理删除按钮状态
-    removeBtn.click(function () {
-        var ids = getIdSelections();
-        deleteMeetingNotice(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
-        });
-
-    });
-
-    //搜索
-    $("#search").click(function () {
-        //查询之前重置table
-        gridTable.bootstrapTable('resetSearch');
-        var title = $("#s_title").val();
-        var time = $("#s_time").val();
-
-        gridTable.bootstrapTable('refresh',{
-            query:{title: title, time: time}
-        });
-    });
-    //重置搜索
-    $("#searchFix").click(function () {
-        $("#s_title").val("");
-        $("#s_time").val("");
-        gridTable.bootstrapTable('resetSearch');
-    });
-
-    //表单弹出框 保存按钮
-    $("#saveMeeting").bind('click',function () {
-         ef.submit(true);
-    });
-
-    $(window).resize(function () {
-        // 重新设置表的高度
-        gridTable.bootstrapTable('resetView', {
-            height: getHeight()
-        });
-    });
-}
-// 获取所有的选中数据
-function getIdSelections() {
-    return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        return row.id
-    });
-}
-
-// 获取所有的选中数据
-function getSelections() {
-    return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        return row
-    });
-}
-
-// 设置默认选中
-function responseHandler(res) {
-    $.each(res.rows, function (i, row) {
-        row.state = $.inArray(row.id, selections) !== -1;
-    });
-    return res;
-}
-// 生成详细信息方法
-function detailFormatter(index, row) {
-    var html = [];
-    $.each(row, function (key, value) {
-        html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-    });
-    return html.join('');
-}
-// 生成操作方法
-function operateFormatter(value, row, index) {
-    return [
-        '<a class="like" href="javascript:void(0)" title="Like">',
-        '<i class="glyphicon glyphicon-heart"></i>',
-        '</a>  ',
-        '<a class="remove" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove"></i>',
-        '</a>'
-    ].join('');
-}
-// 操作事件
-window.operateEvents = {
-    'click .like': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row));
-    },
-    'click .remove': function (e, value, row, index) {
-        deleteMeetingNotice(row.id, function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: [row.id]
-            });
-        });
-
-    }
-};
-function totalTextFormatter(data) {
-    return 'Total';
-}
-function totalNameFormatter(data) {
-    return data.length;
-}
-function totalPriceFormatter(data) {
-    var total = 0;
-    $.each(data, function (i, row) {
-        total += +(row.price.substring(1));
-    });
-    return '$' + total;
-}
-function getHeight() {
-    return $(window).height() - $('h1').outerHeight(true);
-}
-initTable();
-//初始化表单验证
-var ef = $("#meetingForm").easyform({
-    success:function(ef){
-        var meeting = {};
-        meeting.id = $("#id").val();
-        meeting.title = $("#title").val();
-        meeting.type = $("#type").val();
-        meeting.address=$("#address").val();
-        meeting.time=$("#time").val();
-        meeting.pubOrgName=$("#pubOrgName").val();
-        meeting.linkMan=$("#linkMan").val();
-        meeting.linkPhone=$("#linkPhone").val();
-        meeting.content=$("#content").val();
-        meeting.attachmentIds = getAttachmentIds();
-        meeting.removeId = $("#removeId").val();
-        saveMeeting(meeting,function (msg) {
-            $('#meetingForm').modal('hide');
-            gridTable.bootstrapTable('refresh');
-        });
-    }
-});
-
-function updateMeetingNotice(meetingnotice) {
+//保存ajax请求
+function saveAjax(entity, callback) {
     $.ajax({
         url: rootPath + "/action/S_office_MeetingNotice_save.action",
         type:"post",
-        data:meetingnotice,
+        data:entity,
         dataType:"json",
-        success:function (msg) {
-            alert("更新成功");
-        }
+        success:callback
     });
 }
-
-function deleteMeetingNotice(ids,callback) {
+/**
+ * 删除请求
+ * @param ids 多个,号分隔
+ * @param callback
+ */
+function deleteAjax(ids, callback) {
     $.ajax({
         url: rootPath + "/action/S_office_MeetingNotice_delete.action",
         type:"post",
@@ -243,67 +29,271 @@ function deleteMeetingNotice(ids,callback) {
         success:callback
     });
 }
+/**============grid 列表初始化相关代码============**/
+function initTable() {
+    gridTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_office_MeetingNotice_list.action",
+        height: pageUtils.getTableHeight(),
+        method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:false,  //  true 单选， false多选
+                valign: 'middle'
+            },
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '会议标题',
+                field: 'title',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '会议类型',
+                field: 'type',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '会议地点',
+                field: 'address',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '会议时间',
+                field: 'time',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                title: '发布单位',
+                field: 'pubOrgName',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'operate',
+                title: '跟踪状态',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
+            }
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        gridTable.bootstrapTable('resetView');
+    }, 200);
 
-function saveMeeting(meetingnotice,callback) {
-    $.ajax({
-        url: rootPath +"/action/S_office_MeetingNotice_save.action",
-        type:"post",
-        data:meetingnotice,
-        dataType:"json",
-        success:callback
+    //列表checkbox选中事件
+    gridTable.on('check.bs.table uncheck.bs.table ' +
+        'check-all.bs.table uncheck-all.bs.table', function () {
+        //有选中数据，启用删除按钮
+        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        //选中一条数据启用修改按钮
+        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+    });
+
+    $(window).resize(function () {
+        // 重新设置表的高度
+        gridTable.bootstrapTable('resetView', {
+            height: pageUtils.getTableHeight()
+        });
     });
 }
-$("#add,#update").bind('click',function () {
-    $("#meetingForm").attr("data-form-type",$(this).attr("id"));
-});
-//初始化表单数据
-$("#meetingForm").on('show.bs.modal', function () {
-    var meeting;
-    var formType = $("#meetingForm").attr("data-form-type");
-    if (formType == "update") {
-        var selects = getSelections();
-        if (selects && selects.length > 0) {
-            meeting = selects[0];
-        }
+
+// 生成列表操作方法
+function operateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+}
+// 列表操作事件
+window.operateEvents = {
+    'click .view': function (e, value, row, index) {
+        setFormView(row);
     }
-    refreshMeetingForm(meeting);
+};
+/**
+ * 获取列表所有的选中数据id
+ * @returns {*}
+ */
+function getIdSelections() {
+    return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
+        return row.id
+    });
+}
+
+/**
+ *  获取列表所有的选中数据
+ * @returns {*}
+ */
+function getSelections() {
+    return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
+        return row;
+    });
+}
+
+initTable();
+/**============列表工具栏处理============**/
+//初始化按钮状态
+removeBtn.prop('disabled', true);
+updateBtn.prop('disabled', true);
+/**
+ * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
+ */
+$("#add").bind('click',function () {
+    resetForm();
+});
+$("#update").bind("click",function () {
+    setFormData(getSelections()[0]);
+});
+/**
+ * 列表工具栏 删除按钮
+ */
+removeBtn.click(function () {
+    var ids = getIdSelections();
+    deleteAjax(ids,function (msg) {
+        gridTable.bootstrapTable('remove', {
+            field: 'id',
+            values: ids
+        });
+        removeBtn.prop('disabled', true);
+    });
+
+});
+
+
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    var queryParams = {};
+    var title = $("#s_title").val();
+    var time =$("#s_time").val();
+    if (title){
+        queryParams["title"] = title;
+    }
+    if (time) {
+        queryParams["time"] = time;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+});
+
+/**============表单初始化相关代码============**/
+
+//初始化表单验证
+var ef = form.easyform({
+    success:function (ef) {
+        var entity = $("#scfForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        saveAjax(entity,function (msg) {
+            form.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        });
+    }
+});
+
+//表单 保存按钮
+$("#save").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+//初始化日期组件
+$('#timeContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
 });
 
 /**
- * 刷新表单数据
- * @param meeting
+ * 设置表单数据
+ * @param entity
+ * @returns {boolean}
  */
-function refreshMeetingForm(meeting) {
-    var id = "";
-    if (meeting && (typeof(meeting) == "object")) {
-        $("#meetingFormTitle").text("修改会议通知");
-        id = meeting.id;
-        $("#id").val(meeting.id);
-        $("#title").val(meeting.title);
-        $("#type").val(meeting.type);
-        $("#address").val(meeting.address);
-        $("#time").val(meeting.time);
-        $("#pubOrgName").val(meeting.pubOrgName);
-        $("#linkMan").val(meeting.linkMan );
-        $("#linkPhone").val(meeting.linkPhone);
-        $("#content").val(meeting.content);
+function setFormData(entity) {
+    resetForm();
+    if (!entity) {return false}
+    form.find(".form-title").text("修改"+formTitle);
+    var id = entity.id;
+    $("#id").val(entity.id);
+    $("#removeId").val("");
+    $("#title").val(entity.title);
+    $("#address").val(entity.address);
+    $("#type").val(entity.type);
+    $("#pubOrgName").val(entity.pubOrgName);
+    $("#linkMan").val(entity.linkMan);
+    $("#linkPhone").val(entity.linkPhone);
+    $("#time").val(pageUtils.sub10(entity.time));
+    $("#content").val(entity.content);
 
-    }else{
-        $("#meetingFormTitle").text("新增会议通知");
-        $("#id").val("");
-        $("#title").val("");
-        $("#type").val("");
-        $("#address").val("");
-        $("#time").val("");
-        $("#pubOrgName").val("");
-        $("#linkMan").val("");
-        $("#linkPhone").val("");
-        $("#content").val("")
-    }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
-//附件相关js
+function setFormView(entity) {
+    setFormData(entity);
+    form.find(".form-title").text("查看"+formTitle);
+    disabledForm(true);
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+}
+function disabledForm(disabled) {
+    form.find("input").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#timeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#timeContent').datetimepicker('remove');
+    }
+
+}
+/**
+ * 重置表单
+ */
+function resetForm() {
+    form.find(".form-title").text("新增"+formTitle);
+    form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
+    uploader = new qq.FineUploader(getUploaderOptions());
+    disabledForm(false);
+}
+
+//表单附件相关js
 var uploader;//附件上传组件对象
+/**
+ * 获取上传组件options
+ * @param bussinessId
+ * @returns options
+ */
 function getUploaderOptions(bussinessId) {
     return {
         element: document.getElementById("fine-uploader-gallery"),
@@ -370,7 +360,10 @@ function getUploaderOptions(bussinessId) {
         debug: true
     };
 }
-
+/**
+ * 获取附件列表ids
+ * @returns {*}
+ */
 function getAttachmentIds() {
     var attachments = uploader.getUploads();
     if (attachments && attachments.length) {
@@ -382,7 +375,6 @@ function getAttachmentIds() {
     }
     return "";
 }
-
 
 /**
  * 绑定下载按钮事件

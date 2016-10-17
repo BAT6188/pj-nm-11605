@@ -44,7 +44,7 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" id="shareMeansForm" data-form-type="add"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="shareMeansForm" data-form-type="add"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 900px">
         <div class="modal-content">
             <div class="modal-header">
@@ -54,7 +54,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">标题</label>
+                        <label for="title" class="col-sm-2 control-label">标题*：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id">
                             <input type="hidden" id="removeId">
@@ -63,7 +63,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubTime" class="col-sm-2 control-label">发布时间</label>
+                        <label for="pubTime" class="col-sm-2 control-label">发布时间*：</label>
                         <div class="col-sm-4">
                             <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
@@ -75,14 +75,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位</label>
+                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位*：</label>
                         <div class="col-sm-4">
                             <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
                                    data-message="发布单位不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="type" class="col-sm-2 control-label">资料类型</label>
+                        <label for="type" class="col-sm-2 control-label">资料类型*：</label>
                         <div class="col-sm-4">
                             <input type="text" id="type" name="type" class="form-control"
                                    data-message="资料类型不能为空"
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description" class="col-sm-2 control-label">资料描述</label>
+                        <label for="description" class="col-sm-2 control-label">资料描述*：</label>
                         <div class="col-sm-10">
                             <textarea  id="description" name="description" class="form-control" rows="5"
                                        data-message="资料描述不能为空"
