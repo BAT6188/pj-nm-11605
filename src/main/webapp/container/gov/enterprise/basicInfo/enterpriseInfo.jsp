@@ -373,7 +373,7 @@
 
 <%----------------------------------------------------弹出框区域---------------------------------------------------------------------%>
 <!-- 行业类别模态框 start -->
-<div class="modal fade" id="industryTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="industryTypeModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -400,7 +400,7 @@
 </div>
 <!-- 行业类别模态框 end -->
 <!-- 行政区模态框 start -->
-<div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-labelledby="areaModalLabel" aria-hidden="true">
+<div class="modal fade" id="areaModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="areaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -428,7 +428,7 @@
 </div>
 <!-- 行政区模态框 end -->
 <!-- 所属流域模态框 start -->
-<div class="modal fade" id="valleyModal" tabindex="-1" role="dialog" aria-labelledby="valleyModalLabel" aria-hidden="true">
+<div class="modal fade" id="valleyModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="valleyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

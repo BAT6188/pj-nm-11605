@@ -5,7 +5,7 @@
     <%
         String enterpriseId=request.getParameter("id");
     %>
-    <title>废气排口</title>
+    <title>废水排口</title>
     <script type="text/javascript">
         var enterpriseId='<%=enterpriseId%>';
         console.log(enterpriseId);
@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">废气排口列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">废水排口列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -51,7 +51,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加废气排口</h4>
+                <h4 class="modal-title form-title">添加废水排口</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
@@ -159,6 +159,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/grasPortList.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/waterPortList.js"></script>
 </body>
 </html>

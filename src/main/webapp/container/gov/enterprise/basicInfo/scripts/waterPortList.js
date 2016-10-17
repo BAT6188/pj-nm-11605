@@ -2,7 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#grasForm"),
-    formTitle = "废气排口",
+    formTitle = "废水排口",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_GasPort_save.action",
+        url: rootPath + "/action/S_port_WaterPort_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_GasPort_delete.action",
+        url: rootPath + "/action/S_port_WaterPort_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_GasPort_list.action",
+        url: rootPath+"/action/S_port_WaterPort_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,

@@ -31,7 +31,7 @@
             <ul>
                 <li class="curLi"><a href="javascript:loadPageInEnterprise('basicInfo/enterpriseInfo.jsp?handleType=<%=handleType%>&id=<%=id%>')">基本信息</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/grasPortList.jsp?id=<%=id%>')">废气排口</a></li>
-                <li><a href="#">废水排口</a></li>
+                <li><a href="javascript:loadPageInEnterprise('basicInfo/waterPortList.jsp?id=<%=id%>')">废水排口</a></li>
                 <li><a href="#">噪声源</a></li>
                 <li><a href="#">主要产品及规模</a></li>
             </ul>

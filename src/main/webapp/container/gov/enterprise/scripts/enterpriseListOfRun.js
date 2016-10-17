@@ -50,8 +50,13 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            },
-            {
+            },{
+                field: 'status',
+                title: '企业运行状态',
+                sortable: true,
+                align: 'center',
+                formatter:statusFormatter
+            }, {
                 field: 'name',
                 title: '排污单位名称',
                 sortable: true,
@@ -71,12 +76,6 @@ function initTable() {
                 title: '联系方式',
                 sortable: true,
                 align: 'center'
-            }, {
-                field: 'status',
-                title: '企业运行状态',
-                sortable: true,
-                align: 'center',
-                formatter:statusFormatter
             }, {
                 field: 'operate',
                 title: '操作',
