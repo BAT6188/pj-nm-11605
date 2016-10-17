@@ -17,10 +17,51 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="s_name">姓名：</label> <input type="text" id="s_name" class="form-control" />
-                        <label for="s_age">年龄：</label> <input type="text" id="s_age" class="form-control" />
-                    </p>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="s_name">姓名：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="s_age">年龄：</label> <input type="text" id="s_age"  style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="">创建时间：</label>
+                                <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                        </form>
+                    <p></p>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="s_name">姓名：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="s_age">年龄：</label> <input type="text" id="s_age"  style="width: 180px;" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">创建时间：</label>
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            -
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <p class="btnListP">
@@ -53,7 +94,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">姓名：</label>
+                        <label for="name" class="col-sm-2 control-label">姓名<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -63,9 +104,10 @@
                             />
                         </div>
 
+
                     </div>
                     <div class="form-group">
-                        <label for="age" class="col-sm-2 control-label">年龄：</label>
+                        <label for="age" class="col-sm-2 control-label">年龄<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="text" id="age" name="age" class="form-control"
                                    data-easyform="uint:0 100;"
@@ -75,7 +117,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="age" class="col-sm-2 control-label">x坐标：</label>
+                        <label for="age" class="col-sm-2 control-label">x坐标<span class="text-danger">*</span>：</label>
                         <div class="col-sm-3">
                             <input type="text" id="longitude" name="longitude" class="form-control"
                                    data-easyform="float:8 10;"
@@ -83,7 +125,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="age" class="col-sm-2 control-label">y坐标：</label>
+                        <label for="age" class="col-sm-2 control-label">y坐标<span class="text-danger">*</span>：</label>
                         <div class="col-sm-3">
                             <input type="text" id="latitude" name="latitude" class="form-control"
                                    data-easyform="float:8 10;"

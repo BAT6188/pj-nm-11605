@@ -1,15 +1,16 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#eventMsg"),
-    formTitle = "事件信息",
+    form = $("#scfForm"),
+    formTitle = "网格人员",
     selections = [];
+
 
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_dispatch_MonitorCase_save.action",
+        url: rootPath + "/action/S_composite_BlockFirst_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -23,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_dispatch_MonitorCase_delete.action",
+        url: rootPath + "/action/S_composite_BlockFirst_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -35,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_MonitorCase_list.action",
+        url: rootPath+"/action/S_composite_BlockFirst_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -58,53 +59,33 @@ function initTable() {
                 visible:false
             },
             {
-                title: '投诉对象',
-                field: 'enterpriseName',
+                title: '单位名称',
+                field: 'orgName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '接电时间',
-                field: 'connTime',
+                title: '姓名',
+                field: 'principal',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '管辖网格',
+                field: 'areaDesc',
                 sortable: false,
                 align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                editable: false
             },
             {
-                title: '接电人',
-                field: 'answer',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '信息来源',
-                field: 'source',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '所属网格',
-                field: 'blockName',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '状态跟踪',
-                field: 'status',
-                editable: false,
+                title: '联系方式',
+                field: 'principalPhone',
                 sortable: false,
                 align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                editable: false
             }
-
         ]
     });
     // sometimes footer render error.
@@ -128,10 +109,9 @@ function initTable() {
         });
     });
 }
-
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#eventMsg">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -187,44 +167,15 @@ removeBtn.click(function () {
     });
 
 });
-
-
-
-/**============列表搜索相关处理============**/
-//搜索按钮处理
-$("#search").click(function () {
-    var queryParams = {};
-    var name = $("#s_name").val();
-    var crafts = $("#s_crafts").val();
-    var status = pageUtils.getRadioValue("s_status");
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (crafts){
-        queryParams["crafts"] = crafts;
-    }
-    if (status) {
-        queryParams["status"] = status;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
-});
-
 /**============表单初始化相关代码============**/
-
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        debugger;
-        //验证成功，打开选择人员 对话框
-        $('#selectPeopleForm').modal('show');
-
-        var entity = $("#eventMsg").find("form").formSerializeObject();
+        var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            //form.modal('hide');
-            //gridTable.bootstrapTable('refresh');
+            form.modal('hide');
+            gridTable.bootstrapTable('refresh');
         });
     }
 });
@@ -234,17 +185,7 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-//初始化日期组件
-$('#createTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#openDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
+
 /**
  * 设置表单数据
  * @param entity
@@ -256,18 +197,14 @@ function setFormData(entity) {
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
-
-    $("#eventTime").val(entity.eventTime);
-    $("#answer").val(entity.answer);
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#source").val(entity.source);
-    $("#blockLevelName").val(entity.blockLevelName);
-    $("#blockName").val(entity.blockName);
-    $("#supervisor").val(entity.supervisor);
-    $("#supervisorPhone").val(entity.supervisorPhone);
-    $("#content").val(entity.content);
-    $("#senderName").val(entity.senderName);
-
+    $("#removeId").val("");
+    $("#orgName").val(entity.orgName);
+    $("#principal").val(entity.principal);
+    $("#areaDesc").val(entity.areaDesc);
+    $("#principalPhone").val(entity.principalPhone);
+    $("#orgAddress").val(entity.orgAddress);
+    $("#position").val(entity.position);
+    $("#areaPoints").val(entity.areaPoints);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -408,3 +345,30 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
+$(".scrollContent").slimScroll({
+    height:"100%",
+    railOpacity:.9,
+    alwaysVisible:!1
+});
+var setting = {
+    height:500,
+    width:200,
+    view: {
+        showLine: false
+    },
+    async: {
+        enable: true,
+        url:"ztreeData.json",
+        autoParam:["id", "name", "level"],
+        otherParam:{"otherParam":"zTreeAsyncTest"},
+        dataFilter: filter
+    }
+};
+function filter(treeId, parentNode, childNodes) {
+    if (!childNodes) return null;
+    for (var i=0, l=childNodes.length; i<l; i++) {
+        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+    }
+    return childNodes;
+}
+$.fn.zTree.init($("#treeDemo1"), setting);

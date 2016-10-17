@@ -1,27 +1,15 @@
 var gridTable = $('#table'),
     selections = [];
-var h=$(window).height()-105;
-console.log(h)
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
         url: rootPath+"/action/S_dispatch_MonitorCase_list.action",
-        height: 540,
+        height: pageUtils.getTableHeight(),
         method:'post',
-        queryParams:function (param) {
-            var name = $("#s_name").val();
-            var age = $("#s_age").val();
-            var temp = {
-                name: name,
-                age: age,
-                //分页参数
-                take: param.limit,
-                skip: param.offset,
-                page: param.offset/param.limit + 1,
-                pageSize: param.limit
-            };
-            return temp;
-        },
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 checkbox: true,
@@ -172,6 +160,8 @@ function initTable() {
         });
     });
 }
+
+
 // 获取所有的选中数据
 function getIdSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {

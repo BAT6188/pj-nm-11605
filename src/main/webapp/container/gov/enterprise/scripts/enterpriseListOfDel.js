@@ -3,6 +3,28 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     selections = [];
+function initTimeInput(){
+    $('#datetimepicker1').datetimepicker({
+        language:   'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('#datetimepicker2').datetimepicker({
+        language:   'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+}
 /**
  * 删除请求
  * @param ids 多个,号分隔
@@ -185,6 +207,7 @@ function responseHandler(res) {
 function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
+initTimeInput();
 initTable();
 
 //初始化按钮状态

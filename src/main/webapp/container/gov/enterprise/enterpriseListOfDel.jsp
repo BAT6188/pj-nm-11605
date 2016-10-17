@@ -19,50 +19,40 @@
                         <div class="col-sm-4">
                             <input type="text" id="name" name="name" class="form-control" />
                         </div>
-                        <label for="pollutantType" class="col-sm-2 control-label">单位类型：</label>
+                        <label for="delOpinion" class="col-sm-2 control-label">删除意见：</label>
                         <div class="col-sm-4">
-                            <select class="form-control" id="pollutantType" name="pollutantType">
-                                <option value="">全部</option>
-                                <option value="01">废水</option>
-                                <option value="02">废气</option>
-                                <option value="03">污水处理厂</option>
-                                <option value="04">重金属</option>
-                                <option value="05">畜禽养殖</option>
-                                <option value="06">固废</option>
-                                <option value="07">危险废物</option>
-                                <option value="08">省级实验室</option>
-                                <option value="09">二级以上医院</option>
-                                <option value="10">其他</option>
-                            </select>
+                            <input type="text" id="delOpinion" name="delOpinion" class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="orgCode" class="col-sm-1 control-label">组织机构代码：</label>
+                        <label for="delerName" class="col-sm-1 control-label">操作人：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="orgCode" name="orgCode" class="form-control" />
+                            <input type="text" id="delerName" name="delerName" class="form-control" />
                         </div>
-                        <label for="superviseType" class="col-sm-2 control-label">排污单位监管类型：</label>
-                        <div class="col-sm-4">
-                            <select style="width: 100%" class="form-control"  id="superviseType" name="superviseType">
-                                <option value="">全部</option>
-                                <option value="01">重点排污单位</option>
-                                <option value="02">一般排污单位</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="area" class="col-sm-1 control-label">所属行政区：</label>
+                        <label for="area" class="col-sm-2 control-label">所属行政区：</label>
                         <div class="col-sm-4">
                             <input type="text" id="area" name="area" class="form-control" />
                         </div>
-                        <label for="isSpecial" class="col-sm-2 control-label">特殊监管排污单位：</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="area" class="col-sm-1 control-label">操作时间：</label>
                         <div class="col-sm-4">
-                            <select style="width: 100%" class="form-control"  id="isSpecial" name="isSpecial">
-                                <option value="">全部</option>
-                                <option value="1">是</option>
-                                <option value="0">否</option>
-                            </select>
+                            <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div  class="col-sm-6">
+                            —
+                        </div>
+                        <div  class="col-sm-6">
+                            <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

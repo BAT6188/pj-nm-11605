@@ -2,6 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#workSumForm"),
+    formTitle = "工作总结",
     selections = [];
 
 
@@ -210,7 +211,7 @@ function saveWorkSum(worksum,callback) {
 function setFormData(worksum) {
      resetForm();
         if (!worksum) {return false}
-        form.find(".form-title").text("修改资料共享");
+        form.find(".form-title").text("修改"+formTitle);
          var  id = worksum.id;
         $("#id").val(worksum.id);
         $("#removeId").val("");
@@ -241,7 +242,7 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增资料共享");
+    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
