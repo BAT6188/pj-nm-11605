@@ -191,6 +191,18 @@ $("#search").click(function () {
     });
 });
 
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+});
+
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
