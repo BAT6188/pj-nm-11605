@@ -126,23 +126,28 @@ var currentAlert = 0;
 var notyf = new Notyf({delay:3000});
 var checkedValue = true;
 function checkForm(formid){
+    checkedValue = true;
     $('#'+formid).find(".needCheck").each(function(){
         var rule = $(this).attr('data-easyform');
         var message = $(this).attr('data-message');
-        var name = $(this).attr('title');
+        var title = $(this).attr('title');
+        var name = $(this).attr('name');
         var value = $(this).val();
         switch(rule){
             case "notnull":
-                checkNotNull(name,value,message);
+                checkNotNull(title,value,message);
                 break;
             case "number":
-                checkIsNumber(name,value,message);
+                checkIsNumber(title,value,message);
                 break;
             case "notNullAndNumber":
-                checkNotNullAndNumber(name,value,message);
+                checkNotNullAndNumber(title,value,message);
                 break;
             case "checkbox":
-                checkCheckedBox(formid,name,value,message);
+                checkCheckedBox(formid,title,name,value,message);
+                break;
+            case "radio":
+                checkCheckedRadio(formid,title,name,value,message);
                 break;
             default:
                 checkNotNull(name,value,message);
@@ -159,7 +164,7 @@ function notyfAlert(message){
 }
 function checkNotNull(name,value,message){
     var reg = new RegExp("/S");
-    if(!reg.test(value)){
+    if(value==""){
         //输入框为空
         if(message==""){
             message =name +" 不能为空！";
@@ -192,13 +197,25 @@ function checkNotNullAndNumber(name,value,message){
         checkedValue = false;
     }
 }
-function checkCheckedBox(formid,name,value,message){
-    var checkBoxs = $('#'+formid).find("input[name='"+name+"']");
+function checkCheckedBox(formid,title,name,value,message){
+    var checkBoxs = $('#'+formid).find("input[name='"+name+"']:checked");
     if(checkBoxs.length>0){
         return true;
     }else{
         if(message==""){
-            message = name+" 最少选择一个!";
+            message = title+" 最少选择一个!";
+        }
+        notyfAlert(message);
+        checkedValue = false;
+    }
+}
+function checkCheckedRadio(formid,title,name,value,message){
+    var checkRadios = $('#'+formid).find("input[name='"+name+"']:checked");
+    if(checkRadios.length>0){
+        return true;
+    }else{
+        if(message==""){
+            message = title+" 最少选择一个!";
         }
         notyfAlert(message);
         checkedValue = false;

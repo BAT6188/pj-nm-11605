@@ -189,7 +189,7 @@
             <div class="col-sm-10" id="pollutantLevel">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" class="needCheck" data-message="" data-easyform="checkbox" title="污染源类型">国控
+                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" class="needCheck" data-message="" data-easyform="radio" title="污染源管理级别">国控
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="pollutantLevel" id="pollutantLevel02" value="02">省（区）控
@@ -216,7 +216,7 @@
             <div class="col-sm-4" id="isSpecial">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
-                    <input type="radio" name="isSpecial" id="isSpecial1" value="1" data-easyform="length:0 100" data-message="请选择是否特殊监管对象">是
+                    <input type="radio" name="isSpecial" id="isSpecial1" value="1" class="needCheck" data-easyform="radio" title="是否特殊监管对象" data-message="请选择是否特殊监管对象">是
                 </label>
                 <label class="checkbox-inline">
                     <input type="radio" name="isSpecial" id="isSpecial0" value="0">否

@@ -285,6 +285,7 @@ function addEnterpriseForm(){
     /*添加按钮*/
     $('#saveForm').click(function(){
         //验证表单，验证成功后触发ef.success方法保存数据
+        $('#isDel').val('0');
         saveForm();
         //ef.submit(false);
     });
@@ -303,7 +304,7 @@ function editEnterpriseForm(){
     setEnterpriseForm();
     setEditBtn(false);
 }
-var enterpriseListOfRunUrl = rootPath +'/container/gov/enterprise/enterpriseListOfRun.jsp';
+var enterpriseListOfRunUrl = rootPath +'/container/gov/enterprise/enterpriseAccount.jsp';
 /*显示并设置查看状态按钮*/
 function setLookBtn(){
     $("select").prop("disabled", true);
