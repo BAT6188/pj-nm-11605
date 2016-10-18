@@ -21,6 +21,14 @@
         border-right: 1px solid #e5e5e5;
         padding: 10px;
     }
+
+    .nav{
+        height: 47px;
+    }
+    a{
+        color: #1618c7;
+    }
+
 </style>
 <body>
 <div class="content content1 clearfix">
@@ -75,10 +83,32 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
 
             </div>
-            <div class="tableBox">
-                <table id="table" class="table table-striped table-responsive">
-                </table>
+
+
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#noDispath" data-toggle="tab">未调度</a>
+                </li>
+                <li><a href="#yesDispath" data-toggle="tab">已调度</a></li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="noDispath">
+                    <div class="tableBox">
+                        <table  class="table table-striped table-responsive tableTab" >
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="yesDispath">
+                    <div class="tableBox">
+                        <table  class="table table-striped table-responsive tableTab">
+                        </table>
+                    </div>
+                </div>
+
             </div>
+
+
         </div>
     </div>
 </div>
@@ -195,6 +225,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
+                <input id="monitorCaseId" type="hidden"/>
             </div>
             <div class="modal-body">
                 <div class="row">

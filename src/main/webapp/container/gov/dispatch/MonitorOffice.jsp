@@ -104,14 +104,14 @@
                     <input type="hidden" id="id" name="id">
                     <input type="hidden" id="removeId" name="removeId">
                     <div class="form-group">
-                        <label for="connTime" class="col-sm-2 control-label">接电时间<span class="text-danger">*</span>：</label>
+                        <label for="eventTime" class="col-sm-2 control-label">接电时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="connTime">
-                                <input class="form-control" size="16" type="text" value="" id="datetimepickerConnTime" readonly>
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
+                                <input class="form-control" size="16" type="text" value="" id="datetimepickerEventTime" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <input type="hidden" id="connTime" name="connTime" class="form-control"/>
+                            <input type="hidden" id="eventTime" name="eventTime" class="form-control"/>
                         </div>
 
                         <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
@@ -214,6 +214,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
+                <input id="monitorCaseId" type="hidden"/>
             </div>
             <div class="modal-body">
                 <div class="row">

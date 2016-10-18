@@ -66,7 +66,7 @@ function initTable() {
             },
             {
                 title: '接电时间',
-                field: 'connTime',
+                field: 'eventTime',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -240,6 +240,8 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             //form.modal('hide');
             //gridTable.bootstrapTable('refresh');
+
+            $("#monitorCaseId").val(msg.id)
         });
     },
     error:function () {
@@ -275,8 +277,8 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
 
-    $("#datetimepickerConnTime").val(entity.connTime);
-    $("#connTime").val(entity.connTime);
+    $("#datetimepickerEventTime").val(entity.eventTime);
+    $("#eventTime").val(entity.eventTime);
     $("#answer").val(entity.answer);
     $("#enterpriseName").val(entity.enterpriseName);
     $("#source").val(entity.source);

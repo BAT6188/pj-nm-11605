@@ -17,6 +17,7 @@ var setting = {
     },
     async: {
         enable: true,
+        //url:rootPath + "/action/S_dispatch_MonitorCase_getOrgPersonList.action",
         url:rootPath + "/container/gov/dispatch/selectPeople.json",
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
@@ -72,7 +73,7 @@ function initSelectPeopleTable() {
             },
             {
                 title: '职务',
-                field: 'zhiwu',
+                field: 'job',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -87,7 +88,7 @@ initSelectPeopleTable();
  * 获取列表所有的选中数据id
  * @returns {*}
  */
-function getIdSelectionsFromGridSelectPeople() {
+function getIdsSelectionsFromGridSelectPeople() {
     return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
         return row.id
     });
@@ -123,8 +124,31 @@ function zTreeOnClick(event, treeId, treeNode) {
  * 点击发送按钮
  */
 $("#sendTo").click(function () {
-    var ids=getIdSelectionsFromGridSelectPeople();
-    console.log(ids)
+    var ids=getIdsSelectionsFromGridSelectPeople();
+    if(ids.length==0){
+        //TODO 如果没有选择人员时，点发送按钮，应该提示 选择人员，同时选择人员对话框 保持不关
+        //Ewin.alert({message:"请选择人员"});
+        return;
+    }
+
+    var data=$.param({ids:ids},true)
+
+    var monitorCaseId=$("#monitorCaseId").val();
+    data+="&monitorCaseId="+monitorCaseId;
+    console.log(data)
+    sendAjax(data,function (msg) {
+        console.log(msg)
+    })
 
     removeFromGrid();
 })
+
+function sendAjax(data, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispathTask_save.action",
+        type:"post",
+        data:data,
+        dataType:"json",
+        success:callback
+    });
+}
