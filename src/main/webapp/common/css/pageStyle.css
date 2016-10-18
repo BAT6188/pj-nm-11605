@@ -8,9 +8,8 @@ html,body{
 }
 body {
     font: 13px/28px "SimSun", 'Microsoft YaHei', Arial, Verdana, "\5b8b\4f53", "Helvetica Neue", Helvetica, sans-serif;
-    background: url("../images/loginbg-repeat.png") repeat-x center;
     background-size: contain;
-    background-attachment: fixed;
+    background: #eaeaea fixed;
 }
 div.container{
     padding: 0;
@@ -262,7 +261,7 @@ span.text{
 }
 .content{
     background-color: #eaeaea;
-    padding:5px 5px 8px;
+    padding:0;
     overflow-y: auto;
 }
 .tree-left,.main-right{

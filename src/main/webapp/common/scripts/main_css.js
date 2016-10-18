@@ -19,7 +19,7 @@ window.onload=loadHeight();
 window.onresize=loadHeight;
 
 /* 侧边栏显示切换*/
-$(".container").bind("mouseleave",
+$("#level2content").bind("mouseleave",
     function(e) {
         var w = $(this).width();
         var h = $(this).height();
@@ -28,7 +28,7 @@ $(".container").bind("mouseleave",
         var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
         var eventType = e.type;
         var dirName = new Array('1','2','3','4');//上右下左
-        if(e.type == 'mouseleave'){
+        if(eventType == 'mouseleave'){
             if(dirName[direction]=='4'){//判断为左侧移出
                 $(".siderNav").show();
             }
