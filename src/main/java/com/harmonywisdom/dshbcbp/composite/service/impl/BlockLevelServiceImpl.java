@@ -8,6 +8,9 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service("blockLevelService")
 public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> implements BlockLevelService {
     @Autowired
@@ -16,5 +19,12 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
     @Override
     protected BaseDAO<BlockLevel, String> getDAO() {
         return blockLevelDAO;
+    }
+
+    @Override
+    public List<BlockLevel> findByParentId(String id) {
+        List<BlockLevel> list =new ArrayList<BlockLevel>();
+        list=blockLevelDAO.find("entity.parentId='"+id+"'");
+        return list;
     }
 }

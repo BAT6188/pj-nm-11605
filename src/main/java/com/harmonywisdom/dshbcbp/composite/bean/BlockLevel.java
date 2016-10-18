@@ -27,13 +27,13 @@ public class BlockLevel implements Serializable {
     private String name;
 
     @Transient
-    public List<BlockFirst> getNodes;
+    public List<Block> getNodes;
 
-    public List<BlockFirst> getGetNodes() {
+    public List<Block> getGetNodes() {
         return getNodes;
     }
 
-    public void setGetNodes(List<BlockFirst> getNodes) {
+    public void setGetNodes(List<Block> getNodes) {
         this.getNodes = getNodes;
     }
 
