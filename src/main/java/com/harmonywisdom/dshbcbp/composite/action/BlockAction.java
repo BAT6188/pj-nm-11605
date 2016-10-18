@@ -1,19 +1,19 @@
 package com.harmonywisdom.dshbcbp.composite.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
-import com.harmonywisdom.dshbcbp.composite.bean.BlockFirst;
-import com.harmonywisdom.dshbcbp.composite.service.BlockFirstService;
+import com.harmonywisdom.dshbcbp.composite.bean.Block;
+import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-public class BlockFirstAction extends BaseAction<BlockFirst, BlockFirstService> {
+public class BlockAction extends BaseAction<Block, BlockService> {
     @AutoService
-    private BlockFirstService blockFirstService;
+    private BlockService blockService;
 
     @Override
-    protected BlockFirstService getService() {
-        return blockFirstService;
+    protected BlockService getService() {
+        return blockService;
     }
     @AutoService
     private AttachmentService attachmentService;

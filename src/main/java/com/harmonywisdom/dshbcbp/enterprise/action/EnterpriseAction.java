@@ -39,6 +39,7 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getIsDel())) {
             param.andParam(new QueryParam("isDel", QueryOperator.EQ,entity.getIsDel()));
         }
+        /*----排污档案列表查询条件---*/
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,"%"+entity.getName()+"%"));
         }
@@ -57,6 +58,22 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getIsSpecial())) {
             param.andParam(new QueryParam("isSpecial", QueryOperator.EQ,entity.getIsSpecial()));
         }
+        /*---删除排污档案查询条件---*/
+        if (StringUtils.isNotBlank(entity.getDelOpinion())) {
+            param.andParam(new QueryParam("delOpinion", QueryOperator.LIKE,"%"+entity.getDelOpinion()+"%"));
+        }
+        if (StringUtils.isNotBlank(entity.getDelerName())) {
+            param.andParam(new QueryParam("delerName", QueryOperator.LIKE,"%"+entity.getDelerName()+"%"));
+        }
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if(StringUtils.isNotBlank(startTime)){
+            param.andParam(new QueryParam("delTime", QueryOperator.GE,startTime));
+        }
+        if(StringUtils.isNotBlank(endTime)){
+            param.andParam(new QueryParam("delTime", QueryOperator.LE,endTime));
+        }
+
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
             condition.setParam(param);

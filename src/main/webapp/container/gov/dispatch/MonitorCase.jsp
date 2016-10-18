@@ -21,62 +21,100 @@
         border-right: 1px solid #e5e5e5;
         padding: 10px;
     }
+
+    .nav{
+        height: 47px;
+    }
+    a{
+        color: #1618c7;
+    }
+
 </style>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
-                <form class="form-inline" role="form">
-
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="searchEnterpriseName">企业名称</label>
-                            <input type="text" id="searchEnterpriseName" class="form-control" />
-
+                <div class="sideTitle left">
+                        <span class="blueMsg">
+                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
+                            <span class="text">查询</span>
+                        </span>
+                </div>
+                <div class="queryBox marginLeft0">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="searchEnterpriseName">企业名称：</label> <input type="text" id="searchEnterpriseName" name="searchEnterpriseName" class="form-control" />
                         </div>
-                        <div class="col-md-6">
-                            <label for="">调度时间</label>
+                        <div class="form-group">
+                            <label for="">调度时间：</label>
                             <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <input class="form-control" id="start_sendTime" size="16" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <input type="hidden" id="start_sendTime" value="" />
-                            ~
+                            -
                             <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <input class="form-control" id="end_sendTime" size="16" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <input type="hidden" id="end_sendTime" value="" />
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="blockNname">调度网格</label>
+                    </form>
+                    <p></p>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="reason">原&nbsp;&nbsp;因：</label>
+                            <select id="reason" name="reason" class="form-control" style="width: 301px;">
+                                <option value="">全部</option>
+                                <option value="异常">异常</option>
+                                <option value="超标">超标</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blockNname">调度网格：</label>
                             <input type="text" id="blockNname" class="form-control" />
                         </div>
-                        <div class="col-md-6">
-                            <label for="reason">原&nbsp;&nbsp;因</label>
-                            <input type="text" id="reason" class="form-control" />
-                            <button id="search" type="button" class="btn btn-success" >查询</button>
-                            <%--<button id="searchFix" type="button" class="btn btn-default" >重置查询</button>--%>
-                        </div>
+
+                    </form>
+
+                </div>
+                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+
+            </div>
+
+
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#noDispath" data-toggle="tab">未调度</a>
+                </li>
+                <li><a href="#yesDispath" data-toggle="tab">已调度</a></li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="noDispath">
+                    <div class="tableBox">
+                        <table  class="table table-striped table-responsive tableTab" >
+                        </table>
                     </div>
-                </form>
+                </div>
+                <div class="tab-pane fade" id="yesDispath">
+                    <div class="tableBox">
+                        <table  class="table table-striped table-responsive tableTab">
+                        </table>
+                    </div>
+                </div>
+
             </div>
-            <div class="tableBox">
-                <table id="table" class="table table-striped table-responsive">
-                </table>
-            </div>
+
+
         </div>
     </div>
 </div>
 
-<!--添加表单-->
-<div class="modal fade" id="systemSendForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<!--调度单-->
+<div class="modal fade" id="systemSendForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:718px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -180,13 +218,14 @@
     </div><!-- /.modal -->
 </div>
 
-<!--添加表单-->
-<div class="modal fade" id="selectPeopleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" >
+<!--人员选择-->
+<div class="modal fade" id="selectPeopleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:882px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
+                <input id="monitorCaseId" type="hidden"/>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -218,6 +257,7 @@
 </div>
 
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/MonitorCase.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/selectPeople.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>
 </body>
 </html>

@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -38,6 +35,18 @@ public class WaterPort implements Serializable {
     private String position;
 
     /**
+     * 排口经度
+     */
+    @Column(name = "longitude")
+    private Double longitude;
+
+    /**
+     * 排口纬度
+     */
+    @Column(name = "latitude")
+    private Double latitude;
+
+    /**
      * 排放方式
      */
     @Column(name = "discharge_mode",length = 100)
@@ -54,6 +63,18 @@ public class WaterPort implements Serializable {
      */
     @Column(name = "discharge_standard",length = 100)
     private String dischargeStandard;
+
+    /**
+     * 受纳水体
+     */
+    @Column(name = "valley")
+    private String valley;
+
+    /**
+     * 受纳水体功能区类别
+     */
+    @Column(name = "valley_fn_type")
+    private String valleyFnType;
 
     /**
      * 监测类型
@@ -120,6 +141,84 @@ public class WaterPort implements Serializable {
      */
     @Column(name = "enterprise_id",length = 32)
     private String enterpriseId;
+
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentId;
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDischargeMode() {
+        return dischargeMode;
+    }
+
+    public void setDischargeMode(String dischargeMode) {
+        this.dischargeMode = dischargeMode;
+    }
+
+    public String getDischargeDirection() {
+        return dischargeDirection;
+    }
+
+    public void setDischargeDirection(String dischargeDirection) {
+        this.dischargeDirection = dischargeDirection;
+    }
+
+    public String getDischargeStandard() {
+        return dischargeStandard;
+    }
+
+    public void setDischargeStandard(String dischargeStandard) {
+        this.dischargeStandard = dischargeStandard;
+    }
+
+    public String getMonitorType() {
+        return monitorType;
+    }
+
+    public void setMonitorType(String monitorType) {
+        this.monitorType = monitorType;
+    }
+
+    public Date getMonitorTime() {
+        return monitorTime;
+    }
+
+    public void setMonitorTime(Date monitorTime) {
+        this.monitorTime = monitorTime;
+    }
 
     public String getId() {
         return id;

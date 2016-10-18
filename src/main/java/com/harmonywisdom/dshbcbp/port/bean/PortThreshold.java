@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -41,6 +38,20 @@ public class PortThreshold implements Serializable {
      */
     @Column(name = "min")
     private Double min;
+
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentId;
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
 
     public String getId() {
         return id;

@@ -1,8 +1,6 @@
 var pageUtils = {
 
     getTableHeight:function () {
-        console.log(".banner height:"+$('.banner').outerHeight(true));
-        console.log(".linear height:"+$('.linear').outerHeight(true));
         return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true) -26;
     },
     /**

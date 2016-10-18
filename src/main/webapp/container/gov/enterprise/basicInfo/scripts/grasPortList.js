@@ -143,6 +143,8 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
+        $('.saveBtn').hide();
+        $('.lookBtn').show();
         setFormView(row);
     }
 };
@@ -179,10 +181,14 @@ updateBtn.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     updateSuccessMsg = '添加'+formTitle+'成功!';
+    $('.saveBtn').show();
+    $('.lookBtn').hide();
     resetForm();
 });
 $("#update").bind("click",function () {
     updateSuccessMsg = '修改'+formTitle+'成功!';
+    $('.saveBtn').show();
+    $('.lookBtn').hide();
     setFormData(getSelections()[0]);
 });
 /**
@@ -210,21 +216,11 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#s_name").val();
-    var crafts = $("#s_crafts").val();
-    var status = pageUtils.getRadioValue("s_status");
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (crafts){
-        queryParams["crafts"] = crafts;
-    }
-    if (status) {
-        queryParams["status"] = status;
-    }
+    //查询之前重置table
+    gridTable.bootstrapTable('resetSearch');
+    var jsonData = $('#searchform').formSerializeObject();
     gridTable.bootstrapTable('refresh',{
-        query:queryParams
+        query:jsonData
     });
 });
 

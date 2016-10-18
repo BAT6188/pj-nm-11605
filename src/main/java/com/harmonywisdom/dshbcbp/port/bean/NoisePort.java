@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,11 +28,25 @@ public class NoisePort implements Serializable {
     @Column(name = "name",length = 100)
     private String name;
 
+
+
     /**
      * 性质
      */
     @Column(name = "nature",length = 100)
     private String nature;
+
+    /**
+     * 排放标准
+     */
+    @Column(name = "discharge_standard",length = 100)
+    private String dischargeStandard;
+
+    /**
+     * 功能区类别
+     */
+    @Column(name = "fn_type",length = 100)
+    private String fnType;
 
     /**
      * 监测类型
@@ -186,6 +197,20 @@ public class NoisePort implements Serializable {
      */
     @Column(name = "enterprise_id",length = 32)
     private String enterpriseId;
+
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentId;
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
 
     public String getId() {
         return id;

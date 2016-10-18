@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +15,12 @@ public class DustPort implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 排口编号
+     */
+    @Column(name = "number",length = 100)
+    private String number;
 
     /**
      * 站点名称
@@ -120,6 +123,20 @@ public class DustPort implements Serializable {
      */
     @Column(name = "is_wind_speed")
     private Double isWindSpeed;
+
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentId;
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
 
     public String getId() {
         return id;

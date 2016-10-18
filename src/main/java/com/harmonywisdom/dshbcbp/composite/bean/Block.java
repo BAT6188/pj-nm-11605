@@ -9,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "HW_BLOCK_FIRST")
-public class BlockFirst implements Serializable {
+public class Block implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

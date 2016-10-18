@@ -18,7 +18,7 @@ public class MonitorCase implements Serializable {
 
     /**
      * 事件来源，信息来源
-     * 监察大队办公司： 12369：0, 区长热线：2， 市长热线：3
+     * 监察大队办公司： 12369：1, 区长热线：2， 市长热线：3
      * 监测中心：0
      */
     @Column(name = "source")
@@ -43,7 +43,7 @@ public class MonitorCase implements Serializable {
     private String enterpriseName;
 
     /**
-     * 事件时间
+     * 事件时间,接电时间
      */
     @Column(name = "event_time")
     private Date eventTime;
@@ -65,11 +65,6 @@ public class MonitorCase implements Serializable {
     @Column(name = "block_name")
     private String blockName;
 
-    /**
-     * 接电时间
-     */
-    @Column(name = "conn_time")
-    private Date connTime;
     /**
      * 接电人
      */
@@ -100,7 +95,7 @@ public class MonitorCase implements Serializable {
     @Column(name = "thr_value")
     private Double thrValue;
     /**
-     * 事件内容
+     * 事件内容,来电详情
      */
     @Column(name = "content")
     private String content;
@@ -126,6 +121,61 @@ public class MonitorCase implements Serializable {
     @Column(name = "send_remark")
     private String sendRemark;
 
+    @Transient
+    private String attachmentIds;
+
+    @Transient
+    private String startConnTime;
+
+    @Transient
+    private String  endConnTime;
+
+    @Transient
+    private String startSendTime;
+
+    @Transient
+    private String  endSendTime;
+
+    public String getStartSendTime() {
+        return startSendTime;
+    }
+
+    public void setStartSendTime(String startSendTime) {
+        this.startSendTime = startSendTime;
+    }
+
+    public String getEndSendTime() {
+        return endSendTime;
+    }
+
+    public void setEndSendTime(String endSendTime) {
+        this.endSendTime = endSendTime;
+    }
+
+    public String getStartConnTime() {
+        return startConnTime;
+    }
+
+    public void setStartConnTime(String startConnTime) {
+        this.startConnTime = startConnTime;
+    }
+
+    public String getEndConnTime() {
+        return endConnTime;
+    }
+
+    public void setEndConnTime(String endConnTime) {
+        this.endConnTime = endConnTime;
+    }
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
+
     public String getBlockLevelId() {
         return blockLevelId;
     }
@@ -134,13 +184,6 @@ public class MonitorCase implements Serializable {
         this.blockLevelId = blockLevelId;
     }
 
-    public Date getConnTime() {
-        return connTime;
-    }
-
-    public void setConnTime(Date connTime) {
-        this.connTime = connTime;
-    }
 
     public String getAnswer() {
         return answer;

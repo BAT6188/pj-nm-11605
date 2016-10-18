@@ -1,10 +1,10 @@
-var gridTable = $('#table'),
+var gridTable = $('.tableTab'),
     selections = [];
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_MonitorCase_list.action",
+        url: rootPath+"/action/S_dispatch_MonitorCase_list.action?source=0",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -80,6 +80,13 @@ function initTable() {
                 events: operateEvents,
                 formatter: operateFormatter
             }, {
+                field: 'status',
+                title: '状态跟踪',
+                align: 'center',
+                events: operateEvents,
+                formatter: statusFormatter,
+                visible:false
+            },{
                 title: 'supervisorPhone',
                 field: 'supervisorPhone',
                 editable: false,
@@ -135,11 +142,17 @@ function initTable() {
     $("#search").click(function () {
         //查询之前重置table
         gridTable.bootstrapTable('resetSearch');
-        var name = $("#s_name").val();
-        var age = $("#s_age").val();
+        var searchEnterpriseName = $("#searchEnterpriseName").val();
+        var start_sendTime=$("#start_sendTime").val()
+        var end_sendTime=$("#end_sendTime").val()
+
+
+        var reason = $("#reason").val();
+        // var age = $("#s_age").val();
         gridTable.bootstrapTable('refresh',{
-            query:{name: name, age: age}
+            query:{enterpriseName: searchEnterpriseName,reason:reason,startSendTime:start_sendTime,endSendTime:end_sendTime}
         });
+
     });
     //重置搜索
     // $("#searchFix").click(function () {
@@ -198,6 +211,18 @@ function operateFormatter(value, row, index) {
     ].join('');
 }
 
+function statusFormatter(value, row, index) {
+    var html
+    if(0==value){
+        html="未发送"
+    }else if(1==value){
+        html="已发送"
+    }else if(2==value){
+        html="已反馈"
+    }
+    return html;
+}
+
 // 操作事件
 window.operateEvents = {
     'click .like': function (e, value, row, index) {
@@ -213,6 +238,7 @@ window.operateEvents = {
 function refreshDemoForm(demo) {
     var id = "";
     id = demo.id;
+    $("#id").val(demo.id);
     $("#eventTime").val(demo.eventTime);
     $("#enterpriseName").val(demo.enterpriseName);
     $("#blockName").val(demo.blockName);
@@ -227,6 +253,10 @@ function refreshDemoForm(demo) {
     $("#sendRemark").val(demo.sendRemark);
 
 }
+
+$("#send").click(function () {
+    $("#monitorCaseId").val($("#id").val())
+});
 
 function totalTextFormatter(data) {
     return 'Total';
@@ -305,127 +335,19 @@ $('#datetimepicker2').datetimepicker({
     showMeridian: 1
 });
 
-//-------------ztree配置--------------------//
-$(".scrollContent").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
+$(function(){
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var activeTab = $(e.target).attr("href");
+
+        if("#noDispath"==activeTab){
+            gridTable.bootstrapTable('hideColumn',"status");
+            gridTable.bootstrapTable('showColumn',"operate");
+        }else {
+            gridTable.bootstrapTable('showColumn',"status");
+            gridTable.bootstrapTable('hideColumn',"operate");
+        }
+
+
+    });
 });
-
-var setting = {
-    height:500,
-    width:200,
-    view: {
-        showLine: true
-    },
-    async: {
-        enable: true,
-        url:rootPath + "/container/gov/dispatch/selectPeople.json",
-        autoParam:["id", "name=n", "level=lv"],
-        otherParam:{"otherParam":"zTreeAsyncTest"},
-        dataFilter: filter
-    },
-    callback: {
-        onClick: zTreeOnClick
-    }
-};
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
-}
-$.fn.zTree.init($("#treeDemo1"), setting);
-var treeObj = $.fn.zTree.getZTreeObj("treeDemo1");
-setTimeout(function () {
-    treeObj.expandAll(true);
-},2000)
-
-
-
-
-
-//-------------table配置--------------------//
-var gridSelectPeopleTable = $('#selectPeopleTable');
-function initSelectPeopleTable() {
-    gridSelectPeopleTable.bootstrapTable({
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        height: 540,
-        clickToSelect:true,//单击行时checkbox选中
-        columns: [
-            {
-                title:"全选",
-                checkbox: true,
-                align: 'center',
-                radio:false,  //  true 单选， false多选
-                valign: 'middle'
-            },{
-                title: 'id',
-                field: 'id',
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                visible:false
-            }, {
-                title: '已选名单',
-                field: 'name',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '职务',
-                field: 'zhiwu',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            }
-        ]
-    });
-}
-
-initSelectPeopleTable();
-
-/**
- * 获取列表所有的选中数据id
- * @returns {*}
- */
-function getIdSelectionsFromGridSelectPeople() {
-    return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
-        return row.id
-    });
-}
-
-/**
- * 往表格中添加数据，如果已有这条数据则忽略
- */
-function appendToGrid(treeNode) {
-    if(!map.isHave(treeNode.id)){
-        map.put(treeNode.id,treeNode.id);
-        gridSelectPeopleTable.bootstrapTable("append",treeNode)
-        gridSelectPeopleTable.bootstrapTable('checkAll');
-    }
-}
-
-/**
- * 从表格中移除数据
- */
-function removeFromGrid() {
-    gridSelectPeopleTable.bootstrapTable('removeAll');
-    map.removeAll();
-}
-
-function zTreeOnClick(event, treeId, treeNode) {
-    appendToGrid(treeNode);
-};
-
-/**
- * 点击发送按钮
- */
-$("#sendTo").click(function () {
-    var ids=getIdSelectionsFromGridSelectPeople();
-    console.log(ids)
-
-    removeFromGrid();
-})
 

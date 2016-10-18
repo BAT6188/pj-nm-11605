@@ -89,7 +89,7 @@
     </div>
 </div>
 <!--短信接收人列表Dialog-->
-<div class="modal fade" id="smsReceiverDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="smsReceiverDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,7 +98,7 @@
             </div>
             <div class="modal-body">
                 <div class="tableBox">
-                    <table id="receiverListTable" class="table table-striped table-responsive">
+                    <table class="table table-striped table-responsive">
                     </table>
                 </div>
             </div>
