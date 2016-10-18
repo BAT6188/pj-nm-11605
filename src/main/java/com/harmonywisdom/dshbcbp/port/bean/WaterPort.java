@@ -83,6 +83,30 @@ public class WaterPort implements Serializable {
     private String monitorType;
 
     /**
+     * 标志牌安装形式
+     */
+    @Column(name = "single_install_type",length = 100)
+    private String singleInstallType;
+
+    /**
+     * 状态
+     */
+    @Column(name = "status",length = 1)
+    private String status;
+
+    /**
+     * 是否进水口
+     */
+    @Column(name = "is_water_intake",length = 1)
+    private String isWaterIntake;
+
+    /**
+     * 备注
+     */
+    @Column(name = "remark",length = 200)
+    private String remark;
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -298,5 +322,69 @@ public class WaterPort implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getValley() {
+        return valley;
+    }
+
+    public void setValley(String valley) {
+        this.valley = valley;
+    }
+
+    public String getValleyFnType() {
+        return valleyFnType;
+    }
+
+    public void setValleyFnType(String valleyFnType) {
+        this.valleyFnType = valleyFnType;
+    }
+
+    public String getSingleInstallType() {
+        return singleInstallType;
+    }
+
+    public void setSingleInstallType(String singleInstallType) {
+        this.singleInstallType = singleInstallType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getIsWaterIntake() {
+        return isWaterIntake;
+    }
+
+    public void setIsWaterIntake(String isWaterIntake) {
+        this.isWaterIntake = isWaterIntake;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

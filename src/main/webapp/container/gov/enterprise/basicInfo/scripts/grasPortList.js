@@ -81,28 +81,24 @@ function initTable() {
                 field: 'dischargeMode',
                 editable: false,
                 sortable: false,
-                align: 'center'
-            },
-            {
-                title: '排放去向',
-                field: 'dischargeDirection',
-                editable: false,
-                sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:dischargeModeFormatter
             },
             {
                 title: '排放标准',
                 field: 'dischargeStandard',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:dischargeStandardFormatter
             },
             {
                 title: '监测类型',
                 field: 'monitorType',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:monitorTypeFormatter
             },
             {
                 field: 'operate',
@@ -139,6 +135,15 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#grasForm">查看</button>';
+}
+function dischargeModeFormatter(value, row, index){
+    return dict.get('dischargeMode',value);
+}
+function dischargeStandardFormatter(value, row, index){
+    return dict.get('grasDischargeStandard',value);
+}
+function monitorTypeFormatter(value, row, index){
+    return dict.get('monitorType',value);
 }
 // 列表操作事件
 window.operateEvents = {
@@ -223,13 +228,17 @@ $("#search").click(function () {
         query:jsonData
     });
 });
-
+//重置搜索
+$("#searchFix").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
+});
 /**============表单初始化相关代码============**/
 var updateSuccessMsg = '提交成功';
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#grasForm").find("form").formSerializeObject();
+        var entity = form.find("form").formSerializeObject();
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
@@ -266,9 +275,9 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    var inputs = $('.form-control');
+    var inputs = form.find('.form-control');
     $.each(inputs,function(k,v){
-        var tagId = $(v).attr('id');
+        var tagId = $(v).attr('name');
         var value = entity[tagId];
         if($(v)[0].tagName=='select'){
             $(v).find("option[value='"+value+"']").attr("selected",true);
@@ -276,7 +285,7 @@ function setFormData(entity) {
             $(v).val(value);
         }
     });
-    var radios = $('.isRadio');
+    var radios = form.find('.isRadio');
     $.each(radios,function(k,v){
         var tagId = $(v).attr('id');
         var value = entity[tagId];
