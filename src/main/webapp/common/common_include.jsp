@@ -57,6 +57,6 @@
 <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/bootstrap-datetimepicker.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
-<script src="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.js"></script>
+<script src="<%=request.getContextPath()%>/common/scripts/easyform/easyform.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/userDefined.js"></script>
 
