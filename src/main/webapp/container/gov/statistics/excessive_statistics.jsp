@@ -10,6 +10,8 @@
 <html>
 <head>
     <title>超标统计</title>
+    <%--<script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.css"></script>--%>
+    <script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.js"></script>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
     <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
     <style type="text/css">
@@ -38,8 +40,8 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="s_name">企业名称：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
-                            <input id="selCompanyBtn" style="color: #fff;background-color: #449d44;border-color: #398439; width:15%;" type="button" value="选择" class="form-control" data-toggle="modal" data-target="#demoForm"/>
+                            <label for="s_name" class="ui-widget">企业名称：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                            <%--<input id="selCompanyBtn" style="color: #fff;background-color: #449d44;border-color: #398439; width:15%;" type="button" value="选择" class="form-control" data-toggle="modal" data-target="#demoForm"/>--%>
                         </div>
                         <div class="form-group">
                             <label for="">日期：</label>
@@ -71,7 +73,7 @@
                         <%--<div class="chart-content">--%>
                             <%--<div class="chartBox chartBox1">--%>
                                 <%--<div class="chart">--%>
-                                    <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;padding-left: 5px;"></div>
+                                    <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
                                 <%--</div>--%>
                             <%--</div>--%>
                             <%--<div class="chartBox chartBox2">--%>
@@ -92,28 +94,76 @@
     </div>
 </div>
 <!--选择企业-->
-<div class="modal fade" id="demoForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 800px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%--<div class="modal fade" id="demoForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--%>
+    <%--<div class="modal-dialog" style="width: 800px;">--%>
+        <%--<div class="modal-content">--%>
+            <%--<div class="modal-header">--%>
+                <%--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--%>
+                <%--<h4 class="modal-title form-title">企业列表</h4>--%>
+            <%--</div>--%>
+            <%--<div class="modal-body">--%>
+                <%--<a href="javascript:loadPageInEnterprise('/grasPortList.jsp')">水污染治理设施建设和运营情况</a>--%>
+            <%--</div>--%>
+            <%--<div class="modal-footer">--%>
+                <%--<button type="button" class="btn btn-primary" id="save">保存</button>--%>
+                <%--<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
 
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/excessive_statistics.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/mainEnterprise.js"></script>
+<script type="text/javascript">
+    $( function() {
+
+        $( "#s_name" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            console.log(data.rows[i].name);
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                result.push(data.rows[i].name);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            },
+//            source: [
+//                "Chinese",
+//                "English",
+//                "Spanish",
+//                "Russian",
+//                "French",
+//                "Japanese",
+//                "Korean",
+//                "German"
+//            ]
+//            minLength: 2
+//            select: function(event, ui) {
+//                // 这里的this指向当前输入框的DOM元素
+//                // event参数是事件对象
+//                // ui对象只有一个item属性，对应数据源中被选中的对象
+//
+//                $(this).value = ui.item.label;
+//                $("#s_name").val( ui.item.value );
+//                $("#s_name").html(ui.item.sayHi);
+//
+//                // 必须阻止默认行为，因为autocomplete默认会把ui.item.value设为输入框的value值
+//                event.preventDefault();
+//            }
+        } );
+    } );
+
+</script>
 </body>
 </html>

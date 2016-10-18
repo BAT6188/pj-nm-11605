@@ -39,14 +39,7 @@ $(function(){
         $("#lineBtn").css('background','#fff');
         getColumnHighChartData('',startYdate,lastYdate);
     });
-
-    $("#lineBtn").bind('click',function(){
-        $('#columnBtn').css('background','#fff');
-        $("#pieBtn").css('background','#fff');
-        $("#lineBtn").css('background','#0099FF');
-        getLineHighData('',startYdate,lastYdate);
-    });
-
+    
     //饼状图按钮
     $("#pieBtn").bind('click',function(){
         $("#pieBtn").css('background','#0099FF');
@@ -56,6 +49,13 @@ $(function(){
 
     });
 
+    //线状图按钮
+    $("#lineBtn").bind('click',function(){
+        $('#columnBtn').css('background','#fff');
+        $("#pieBtn").css('background','#fff');
+        $("#lineBtn").css('background','#0099FF');
+        getLineHighData('',startYdate,lastYdate);
+    });
 
     /**
      * 柱状图获取数据
@@ -74,7 +74,7 @@ $(function(){
                 for (var i=0; i<list.length; i++) {
                     ylist.push(parseInt(list[i]));
                 }
-                var series1 = {name: "超标次数", data:ylist};
+                var series1 = {name: "月份", data:ylist};
                 series.push(series1);
                 colMchart(categories,series);
             }
@@ -122,7 +122,7 @@ $(function(){
                 for (var i=0; i<list.length; i++) {
                     ylist.push(parseInt(list[i]));
                 }
-                var series1 = {name: "超标次数", data:ylist};
+                var series1 = {name: "次数", data:ylist};
                 series.push(series1);
                 lineMchart(categories,series);
 
@@ -150,7 +150,7 @@ $(function(){
                 allowDecimals:false,//是否允许为小数
                 min: 0,
                 title: {
-                    text: '数量'
+                    text: '超标次数(次)'
                 }
             },
             tooltip: {
@@ -252,7 +252,7 @@ $(function(){
             lang: {
                 printChart:"打印图表",
                 downloadJPEG: "下载JPEG 图片" ,
-                downloadPDF: "下载PDF文档"  ,
+                downloadPDF: "下载PDF文档" ,
                 downloadPNG: "下载PNG 图片"  ,
                 downloadSVG: "下载SVG 矢量图" ,
                 exportButtonTitle: "导出图片"
