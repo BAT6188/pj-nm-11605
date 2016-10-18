@@ -18,7 +18,7 @@ public class MonitorCase implements Serializable {
 
     /**
      * 事件来源，信息来源
-     * 监察大队办公司： 12369：0, 区长热线：2， 市长热线：3
+     * 监察大队办公司： 12369：1, 区长热线：2， 市长热线：3
      * 监测中心：0
      */
     @Column(name = "source")
@@ -125,6 +125,61 @@ public class MonitorCase implements Serializable {
      */
     @Column(name = "send_remark")
     private String sendRemark;
+
+    @Transient
+    private String attachmentIds;
+
+    @Transient
+    private String startConnTime;
+
+    @Transient
+    private String  endConnTime;
+
+    @Transient
+    private String startSendTime;
+
+    @Transient
+    private String  endSendTime;
+
+    public String getStartSendTime() {
+        return startSendTime;
+    }
+
+    public void setStartSendTime(String startSendTime) {
+        this.startSendTime = startSendTime;
+    }
+
+    public String getEndSendTime() {
+        return endSendTime;
+    }
+
+    public void setEndSendTime(String endSendTime) {
+        this.endSendTime = endSendTime;
+    }
+
+    public String getStartConnTime() {
+        return startConnTime;
+    }
+
+    public void setStartConnTime(String startConnTime) {
+        this.startConnTime = startConnTime;
+    }
+
+    public String getEndConnTime() {
+        return endConnTime;
+    }
+
+    public void setEndConnTime(String endConnTime) {
+        this.endConnTime = endConnTime;
+    }
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getBlockLevelId() {
         return blockLevelId;

@@ -86,7 +86,17 @@ function initTable() {
                 field: 'source',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="12369"
+                    }else if (2==value){
+                        value="区长热线"
+                    }else if (3==value){
+                        value="市长热线"
+                    }
+                    return value;
+                }
             },
             {
                 title: '所属网格',
@@ -194,17 +204,23 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var name = $("#s_name").val();
-    var crafts = $("#s_crafts").val();
-    var status = pageUtils.getRadioValue("s_status");
-    if (name){
-        queryParams["name"] = name;
+    var search_enterpriseName = $("#search_enterpriseName").val();
+    var search_source = $("#search_source").val();
+    var startConnTime=$("#start_connTime").val()
+    var endConnTime=$("#end_connTime").val()
+
+    // var status = pageUtils.getRadioValue("s_status");
+    if (search_enterpriseName){
+        queryParams["enterpriseName"] = search_enterpriseName;
     }
-    if (crafts){
-        queryParams["crafts"] = crafts;
+    if (search_source){
+        queryParams["source"] = search_source;
     }
-    if (status) {
-        queryParams["status"] = status;
+    if (startConnTime){
+        queryParams["startConnTime"] = startConnTime;
+    }
+    if (endConnTime){
+        queryParams["endConnTime"] = endConnTime;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -216,7 +232,6 @@ $("#search").click(function () {
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        debugger;
         //验证成功，打开选择人员 对话框
         $('#selectPeopleForm').modal('show');
 
@@ -226,6 +241,9 @@ var ef = form.easyform({
             //form.modal('hide');
             //gridTable.bootstrapTable('refresh');
         });
+    },
+    error:function () {
+        console.log("error")
     }
 });
 
@@ -257,7 +275,8 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
 
-    $("#eventTime").val(entity.eventTime);
+    $("#datetimepickerConnTime").val(entity.connTime);
+    $("#connTime").val(entity.connTime);
     $("#answer").val(entity.answer);
     $("#enterpriseName").val(entity.enterpriseName);
     $("#source").val(entity.source);
@@ -267,6 +286,7 @@ function setFormData(entity) {
     $("#supervisorPhone").val(entity.supervisorPhone);
     $("#content").val(entity.content);
     $("#senderName").val(entity.senderName);
+    $("#sendPhone").val(entity.sendPhone);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -282,23 +302,7 @@ function setFormView(entity) {
     $(".qq-upload-button").hide();
 }
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
+
 
 }
 /**
@@ -307,6 +311,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
@@ -407,4 +412,29 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+});
+
+function appendOption(selector,options) {
+    $.each(options,function (i,v) {
+        var option = $("<option>").val(v.code).text(v.name);
+        $(selector).append(option);
+    })
+}
+
+var code={code:"monitor_office_source"};
+var monitor_office_source=dict.getDctionnary(code)
+appendOption("#source",monitor_office_source)
+
 
