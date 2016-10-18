@@ -1,8 +1,14 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
+import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
+import com.harmonywisdom.apportal.sdk.org.domain.Org;
+import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.domain.Person;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
+import com.harmonywisdom.dshbcbp.dispatch.bean.OrgPerson;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
@@ -11,6 +17,11 @@ import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseService> {
@@ -23,6 +34,42 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
     @Override
     protected MonitorCaseService getService() {
         return monitorCaseService;
+    }
+
+    public void getOrgPersonList(){
+        List<OrgPerson> orgPersonList=new LinkedList<OrgPerson>();
+
+        List<Org> allNotDelOrg = OrgServiceUtil.getAllNotDelOrg();
+        for (Org org : allNotDelOrg) {
+
+            OrgPerson orgPerson=new OrgPerson();
+            orgPerson.setId(org.getOrgId());
+            orgPerson.setName(org.getOrgName());
+
+            List<Person> personByOrgId = PersonServiceUtil.getPersonByOrgId(org.getOrgId());
+            List<OrgPerson> children=new LinkedList<OrgPerson>();
+            for (Person person : personByOrgId) {
+                orgPerson.setParent(true);
+
+                OrgPerson child=new OrgPerson();
+                child.setId(person.getPersonId());
+                child.setName(person.getUserName());
+                child.setJob(person.getExtattrMap().get("job").toString());
+                children.add(child);
+
+            }
+            orgPerson.setChildren(children);
+
+            orgPersonList.add(orgPerson);
+
+            try {
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter writer = response.getWriter();
+                writer.write(JSON.toJSONString(orgPersonList));
+            } catch (IOException e) {
+                log.error("无法输出JSON信息", e);
+            }
+        }
     }
 
     @Override
@@ -49,11 +96,11 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         }
 
         if (StringUtils.isNotEmpty(startConnTime)){
-            params.andParam(new QueryParam("connTime",QueryOperator.GE, DateUtil.strToDate(startConnTime,"yyyy-MM-dd HH:mm")));
+            params.andParam(new QueryParam("eventTime",QueryOperator.GE, DateUtil.strToDate(startConnTime,"yyyy-MM-dd HH:mm")));
         }
 
         if (StringUtils.isNotEmpty(endConnTime)){
-            params.andParam(new QueryParam("connTime",QueryOperator.LE,DateUtil.strToDate(endConnTime,"yyyy-MM-dd HH:mm")));
+            params.andParam(new QueryParam("eventTime",QueryOperator.LE,DateUtil.strToDate(endConnTime,"yyyy-MM-dd HH:mm")));
         }
 
         if (StringUtils.isNotEmpty(startSendTime)){

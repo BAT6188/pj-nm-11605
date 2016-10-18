@@ -1,4 +1,4 @@
-var gridTable = $('#table'),
+var gridTable = $('.tableTab'),
     selections = [];
 function initTable() {
     gridTable.bootstrapTable({
@@ -80,6 +80,13 @@ function initTable() {
                 events: operateEvents,
                 formatter: operateFormatter
             }, {
+                field: 'status',
+                title: '状态跟踪',
+                align: 'center',
+                events: operateEvents,
+                formatter: statusFormatter,
+                visible:false
+            },{
                 title: 'supervisorPhone',
                 field: 'supervisorPhone',
                 editable: false,
@@ -145,6 +152,7 @@ function initTable() {
         gridTable.bootstrapTable('refresh',{
             query:{enterpriseName: searchEnterpriseName,reason:reason,startSendTime:start_sendTime,endSendTime:end_sendTime}
         });
+
     });
     //重置搜索
     // $("#searchFix").click(function () {
@@ -203,6 +211,18 @@ function operateFormatter(value, row, index) {
     ].join('');
 }
 
+function statusFormatter(value, row, index) {
+    var html
+    if(0==value){
+        html="未发送"
+    }else if(1==value){
+        html="已发送"
+    }else if(2==value){
+        html="已反馈"
+    }
+    return html;
+}
+
 // 操作事件
 window.operateEvents = {
     'click .like': function (e, value, row, index) {
@@ -218,6 +238,7 @@ window.operateEvents = {
 function refreshDemoForm(demo) {
     var id = "";
     id = demo.id;
+    $("#id").val(demo.id);
     $("#eventTime").val(demo.eventTime);
     $("#enterpriseName").val(demo.enterpriseName);
     $("#blockName").val(demo.blockName);
@@ -232,6 +253,10 @@ function refreshDemoForm(demo) {
     $("#sendRemark").val(demo.sendRemark);
 
 }
+
+$("#send").click(function () {
+    $("#monitorCaseId").val($("#id").val())
+});
 
 function totalTextFormatter(data) {
     return 'Total';
@@ -310,5 +335,19 @@ $('#datetimepicker2').datetimepicker({
     showMeridian: 1
 });
 
+$(function(){
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var activeTab = $(e.target).attr("href");
 
+        if("#noDispath"==activeTab){
+            gridTable.bootstrapTable('hideColumn',"status");
+            gridTable.bootstrapTable('showColumn',"operate");
+        }else {
+            gridTable.bootstrapTable('showColumn',"status");
+            gridTable.bootstrapTable('hideColumn',"operate");
+        }
+
+
+    });
+});
 

@@ -43,7 +43,7 @@ public class MonitorCase implements Serializable {
     private String enterpriseName;
 
     /**
-     * 事件时间
+     * 事件时间,接电时间
      */
     @Column(name = "event_time")
     private Date eventTime;
@@ -65,11 +65,6 @@ public class MonitorCase implements Serializable {
     @Column(name = "block_name")
     private String blockName;
 
-    /**
-     * 接电时间
-     */
-    @Column(name = "conn_time")
-    private Date connTime;
     /**
      * 接电人
      */
@@ -100,7 +95,7 @@ public class MonitorCase implements Serializable {
     @Column(name = "thr_value")
     private Double thrValue;
     /**
-     * 事件内容
+     * 事件内容,来电详情
      */
     @Column(name = "content")
     private String content;
@@ -189,13 +184,6 @@ public class MonitorCase implements Serializable {
         this.blockLevelId = blockLevelId;
     }
 
-    public Date getConnTime() {
-        return connTime;
-    }
-
-    public void setConnTime(Date connTime) {
-        this.connTime = connTime;
-    }
 
     public String getAnswer() {
         return answer;
