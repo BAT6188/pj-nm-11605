@@ -26,13 +26,7 @@
 
         <!--三级网格化信息维护 -->
         <class>com.harmonywisdom.dshbcbp.composite.bean.BlockLevel</class>
-        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockFirst</class>
-        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockSecond</class>
-        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockThird</class>
-        <class>com.harmonywisdom.dshbcbp.composite.bean.BlockFourth</class>
-
-
-
+        <class>com.harmonywisdom.dshbcbp.composite.bean.Block</class>
 
         <class>com.harmonywisdom.dshbcbp.demo.bean.Demo</class>
         <class>com.harmonywisdom.dshbcbp.attachment.bean.Attachment</class>
