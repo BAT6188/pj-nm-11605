@@ -269,11 +269,11 @@ span.text{
     overflow-y: auto;
 }
 .tree-left{
-    width: 20.5%;
+    width: 20%;
     background-color: #fff;
 }
 .main-right{
-    width: 82%;
+    width: 79.5%;
     /*margin-left: 26%;*/
     background-color: #fff;
     position: relative;
@@ -314,9 +314,9 @@ span.text{
     font-size: 15px;
     letter-spacing: 2px;
 }
-.content{
+/*.content{
     display: none;
-}
+}*/
 div.content1{
     display: block;
 }
