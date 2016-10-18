@@ -308,12 +308,6 @@ var ReceiverListTable= function () {
         gridTable.bootstrapTable('resetView');
     }, 200);
 
-    //列表checkbox选中事件
-    gridTable.on('check.bs.table uncheck.bs.table ' +
-        'check-all.bs.table uncheck-all.bs.table', function () {
-        //有选中数据，启用删除按钮
-        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
-    });
 }();
 
 
