@@ -233,7 +233,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
-                <input id="monitorCaseId" type="hidden"/>
+                <input id="dispathTaskId" type="hidden"/>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -257,7 +257,7 @@
 
             </div>
             <div class="modal-footer" style="clear: both;">
-                <button type="button" class="btn btn-primary" id="sendTo" data-toggle="modal" data-target="#selectPeopleForm,#eventMsg">发送</button>
+                <button type="button" class="btn btn-primary" id="sendTo" onclick="sendToBtn(2)" data-toggle="modal" data-target="#selectPeopleForm,#eventMsg">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->

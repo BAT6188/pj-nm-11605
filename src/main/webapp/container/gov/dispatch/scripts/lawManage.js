@@ -9,7 +9,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_dispatch_MonitorCase_save.action",
+        url: rootPath + "/action/S_dispatch_DispathTask_dispathTaskBtnSave.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -21,7 +21,7 @@ function saveAjax(entity, callback) {
  * @param ids 多个,号分隔
  * @param callback
  */
-function deleteAjax(ids, callback) {
+/*function deleteAjax(ids, callback) {
     $.ajax({
         url: rootPath + "/action/S_dispatch_MonitorCase_delete.action",
         type:"post",
@@ -29,13 +29,13 @@ function deleteAjax(ids, callback) {
         dataType:"json",
         success:callback
     });
-}
+}*/
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_MonitorCase_list.action",
+        url: rootPath+"/action/S_dispatch_DispathTask_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -236,7 +236,7 @@ var ef = form.easyform({
             //form.modal('hide');
             //gridTable.bootstrapTable('refresh');
 
-            $("#monitorCaseId").val(msg.id)
+            $("#dispathTaskId").val(msg.id)
         });
     },
     error:function () {
@@ -258,7 +258,6 @@ $("#dispatch").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
 

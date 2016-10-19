@@ -62,7 +62,7 @@ function initSelectPeopleTable() {
                 title: 'id',
                 field: 'id',
                 sortable: false,
-                footerFormatter: totalTextFormatter,
+
                 visible:false
             }, {
                 title: '已选名单',
@@ -121,9 +121,10 @@ function zTreeOnClick(event, treeId, treeNode) {
 };
 
 /**
- * 点击发送按钮
+ * 调度单点击发送按钮
+ * @param flag  1-监控中心，监控办公室的调度单   2-执法管理列表的调度单
  */
-$("#sendTo").click(function () {
+function sendToBtn(flag) {
     var ids=getIdsSelectionsFromGridSelectPeople();
     if(ids.length==0){
         //TODO 如果没有选择人员时，点发送按钮，应该提示 选择人员，同时选择人员对话框 保持不关
@@ -133,22 +134,41 @@ $("#sendTo").click(function () {
 
     var data=$.param({ids:ids},true)
 
-    var monitorCaseId=$("#monitorCaseId").val();
-    data+="&monitorCaseId="+monitorCaseId;
+    if(1==flag){
+        var monitorCaseId=$("#monitorCaseId").val();
+        data+="&monitorCaseId="+monitorCaseId;
+    }else if(2==flag){
+        var dispathTaskId=$("#dispathTaskId").val();
+        data+="&dispathTaskId="+dispathTaskId;
+    }
+
+
     console.log(data)
-    sendAjax(data,function (msg) {
+    sendAjax(flag,data,function (msg) {
         console.log(msg)
     })
 
     removeFromGrid();
-})
+}
 
-function sendAjax(data, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_dispatch_DispathTask_save.action",
-        type:"post",
-        data:data,
-        dataType:"json",
-        success:callback
-    });
+
+
+function sendAjax(flag,data, callback) {
+    if(1==flag){
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_DispathTask_save.action",
+            type:"post",
+            data:data,
+            dataType:"json",
+            success:callback
+        });
+    }else if(2==flag){
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_DispathTask_updateFromSendToBtn.action",
+            type:"post",
+            data:data,
+            dataType:"json",
+            success:callback
+        });
+    }
 }

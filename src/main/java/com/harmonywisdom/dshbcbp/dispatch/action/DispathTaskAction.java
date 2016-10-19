@@ -23,6 +23,21 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         return dispathTaskService;
     }
 
+    public void dispathTaskBtnSave(){
+        super.save();
+    }
+
+    public void updateFromSendToBtn(){
+        String[] ids = this.getParamValues("ids");
+        String jsonIds = JSON.toJSONString(ids);
+        entity.setEnvironmentalProtectionStationStaffIds(jsonIds);
+
+        String dispathTaskId = request.getParameter("dispathTaskId");
+        entity.setId(dispathTaskId);
+
+        super.save();
+    }
+
     @Override
     public void save() {
         String[] ids = this.getParamValues("ids");
