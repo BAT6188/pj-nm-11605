@@ -11,6 +11,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
+
 public class GasPortAction extends BaseAction<GasPort, GasPortService> {
     @AutoService
     private GasPortService gasPortService;
@@ -38,7 +40,7 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("number", Direction.DESC);
+        condition.setOrderBy("createTime", Direction.DESC);
         return condition;
     }
 
@@ -50,7 +52,9 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-
+        if(entity.getCreateTime()==null){
+            entity.setCreateTime(new Date());
+        }
         super.save();
 
         if(StringUtils.isNotBlank(entity.getAttachmentId())){

@@ -29,6 +29,12 @@ public class NoisePort implements Serializable {
     private String name;
 
     /**
+     * 排口位置
+     */
+    @Column(name = "position",length = 100)
+    private String position;
+
+    /**
      * 噪声源类型
      */
     @Column(name = "noise_type",length = 100)
@@ -195,6 +201,12 @@ public class NoisePort implements Serializable {
      */
     @Column(name = "night_max")
     private Double nightMax;
+
+    /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * 企业ID
@@ -470,5 +482,21 @@ public class NoisePort implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

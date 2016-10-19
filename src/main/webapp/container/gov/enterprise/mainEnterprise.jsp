@@ -33,7 +33,7 @@
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/grasPortList.jsp?id=<%=id%>')">废气排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/waterPortList.jsp?id=<%=id%>')">废水排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/noisePortList.jsp?id=<%=id%>')">噪声源</a></li>
-                <li><a href="#">主要产品及规模</a></li>
+                <li><a href="javascript:loadPageInEnterprise('basicInfo/mainProductList.jsp?id=<%=id%>')">主要产品及规模</a></li>
             </ul>
         </div>
         <div class="menuDiv">

@@ -83,6 +83,12 @@ public class FumesPort implements Serializable {
     private Double isHumidity;
 
     /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
      * 附件
      */
     @Transient
@@ -190,5 +196,13 @@ public class FumesPort implements Serializable {
 
     public void setIsHumidity(Double isHumidity) {
         this.isHumidity = isHumidity;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

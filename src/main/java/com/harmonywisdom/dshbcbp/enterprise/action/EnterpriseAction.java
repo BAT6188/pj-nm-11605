@@ -91,6 +91,9 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
+        if(entity.getCreateTime()==null){
+            entity.setCreateTime(new Date());
+        }
 
         super.save();
 

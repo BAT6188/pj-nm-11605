@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#noiseForm"),
-    formTitle = "噪声源",
+    form = $("#mainProductForm"),
+    formTitle = "主要产品及规模",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_NoisePort_save.action",
+        url: rootPath + "/action/S_production_MainProduct_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_NoisePort_delete.action",
+        url: rootPath + "/action/S_production_MainProduct_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_NoisePort_list.action",
+        url: rootPath+"/action/S_production_MainProduct_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -55,34 +55,32 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '噪声源编号',
-                field: 'number',
+                title: '主要产品（服务）',
+                field: 'product',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '噪声源名称',
-                field: 'name',
+                title: '生产规模',
+                field: 'scope',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '噪声源类型',
-                field: 'noiseType',
+                title: '主要原辅材料名称',
+                field: 'rawMaterial',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:noiseTypeFormatter
+                align: 'center'
             },
             {
-                title: '功能区类别',
-                field: 'fnType',
+                title: '耗量',
+                field: 'consumption',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:fnTypeFormatter
+                align: 'center'
             },
             {
                 field: 'operate',
@@ -118,13 +116,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#noiseForm">查看</button>';
-}
-function noiseTypeFormatter(value, row, index){
-    return dict.get('noiseType',value);
-}
-function fnTypeFormatter(value, row, index){
-    return dict.get('noiseFnType',value);
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#mainProductForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -224,7 +216,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.find('#cancelBtn').trigger('click');
             Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });

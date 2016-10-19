@@ -125,6 +125,12 @@ public class DustPort implements Serializable {
     private Double isWindSpeed;
 
     /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
      * 附件
      */
     @Transient
@@ -282,4 +288,19 @@ public class DustPort implements Serializable {
         this.isWindSpeed = isWindSpeed;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }
