@@ -10,8 +10,6 @@
 <html>
 <head>
     <title>超标同期对比</title>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
     <style type="text/css">
         .chart-list {
             text-align: center;

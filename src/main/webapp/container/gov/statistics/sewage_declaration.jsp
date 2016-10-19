@@ -10,8 +10,6 @@
 <html>
 <head>
     <title>排污申报统计</title>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -37,14 +35,14 @@
                         <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
                     <div class="col-sm-8">
                         <div class="col-sm-4">
-                            <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                            <div id="datetimepicker" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
                                 <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                            <div id="datetimepicker2" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
                                 <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

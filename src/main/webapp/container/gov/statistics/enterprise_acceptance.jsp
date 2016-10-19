@@ -10,8 +10,6 @@
 <html>
 <head>
     <title>企业环评验收统计分析</title>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
 </head>
 <body>
 <div class="content content1 clearfix">
