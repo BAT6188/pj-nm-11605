@@ -49,8 +49,8 @@ public class Kiln implements Serializable {
     /**
      * 锅炉用途
      */
-    @Column(name = "use",length = 100)
-    private String use;
+    @Column(name = "purpose",length = 100)
+    private String purpose;
 
     /**
      * 锅炉规模
@@ -148,12 +148,12 @@ public class Kiln implements Serializable {
         this.buildTime = buildTime;
     }
 
-    public String getUse() {
-        return use;
+    public String getPurpose() {
+        return purpose;
     }
 
-    public void setUse(String use) {
-        this.use = use;
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 
     public String getScale() {
