@@ -54,7 +54,7 @@
         <input type="hidden" id="delTime" name="delTime" class="form-control" />
         <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
         <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">单位名称：</label>
+            <label for="name" class="col-sm-2 control-label">单位名称<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="name" name="name" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位名称"/>
             </div>
@@ -69,11 +69,11 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="address" class="col-sm-2 control-label">单位地址：</label>
+            <label for="address" class="col-sm-2 control-label">单位地址<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="address" name="address" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位地址"/>
             </div>
-            <label for="pollutantCode" class="col-sm-2 control-label">污染源代码：</label>
+            <label for="pollutantCode" class="col-sm-2 control-label">污染源代码<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="污染源代码"/>
             </div>
@@ -102,7 +102,7 @@
             <div class="col-sm-4">
                 <input type="text" id="zipCode" name="zipCode" class="form-control needshow needCheck" data-message="" data-easyform="number" title="邮政编码"/>
             </div>
-            <label for="orgCode" class="col-sm-2 control-label">组织机构代码：</label>
+            <label for="orgCode" class="col-sm-2 control-label">组织机构代码<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <div class="input-group">
                     <input type="text" class="form-control needshow" id="orgCode" name="orgCode"readonly>
@@ -115,11 +115,11 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="artificialPerson" class="col-sm-2 control-label">法定代表人：</label>
+            <label for="artificialPerson" class="col-sm-2 control-label">法定代表人<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人">
             </div>
-            <label for="apPosition" class="col-sm-2 control-label">法定代表人职务：</label>
+            <label for="apPosition" class="col-sm-2 control-label">法定代表人职务<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="apPosition" name="apPosition" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人职务"/>
             </div>
@@ -132,11 +132,11 @@
             <div class="col-sm-6"></div>
         </div>
         <div class="form-group">
-            <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
+            <label for="envPrincipal" class="col-sm-2 control-label">环保负责人<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="环保负责人"/>
             </div>
-            <label for="epPosition" class="col-sm-2 control-label">环保负责人职务：</label>
+            <label for="epPosition" class="col-sm-2 control-label">环保负责人职务<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <input type="text" id="epPosition" name="epPosition" class="form-control needshow"/>
             </div>
@@ -149,7 +149,7 @@
             <div class="col-sm-6"></div>
         </div>
         <div class="form-group">
-            <label for="pollutantType" class="col-sm-2 control-label">污染源类型：</label>
+            <label for="pollutantType" class="col-sm-2 control-label">污染源类型<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-10" id="pollutantType">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
@@ -185,7 +185,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="pollutantLevel" class="col-sm-2 control-label">污染源管理级别：</label>
+            <label for="pollutantLevel" class="col-sm-2 control-label">污染源管理级别<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-10" id="pollutantLevel">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
@@ -212,7 +212,7 @@
                     <option value="02">一般排污单位</option>
                 </select></fieldset>
             </div>
-            <label for="isSpecial" class="col-sm-2 control-label">是否特殊监管对象：</label>
+            <label for="isSpecial" class="col-sm-2 control-label">是否特殊监管对象<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4" id="isSpecial">
                 <fieldset class="fieldset">
                 <label class="checkbox-inline">
@@ -231,7 +231,7 @@
                     <option value="">---请选择---</option>
                 </select></fieldset>
             </div>
-            <label for="registTime" class="col-sm-2 control-label">登记注册时间：</label>
+            <label for="registTime" class="col-sm-2 control-label">登记注册时间<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
                 <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                     <input class="form-control" size="16" type="text" id="registTime" name="registTime" value="" readonly>
