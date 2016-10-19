@@ -233,7 +233,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
-                <input id="monitorCaseId" type="hidden"/>
+                <input id="dispathTaskId" type="hidden"/>
             </div>
             <div class="modal-body">
                 <div class="row">

@@ -128,6 +128,12 @@ public class DispathTask implements Serializable {
     @Column(name = "select_people_ids")
     private String selectPeopleIds;
 
+    /**
+     * 选择的发送给环保站的人员
+     */
+    @Column(name="Environmental_protection_station_staff")
+    private String EnvironmentalProtectionStationStaffIds;
+
 
 
     ///////////////////////////////////////////////////
@@ -463,5 +469,13 @@ public class DispathTask implements Serializable {
 
     public void setHandlerPhone(String handlerPhone) {
         this.handlerPhone = handlerPhone;
+    }
+
+    public String getEnvironmentalProtectionStationStaffIds() {
+        return EnvironmentalProtectionStationStaffIds;
+    }
+
+    public void setEnvironmentalProtectionStationStaffIds(String environmentalProtectionStationStaffIds) {
+        EnvironmentalProtectionStationStaffIds = environmentalProtectionStationStaffIds;
     }
 }

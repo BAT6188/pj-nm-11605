@@ -23,6 +23,10 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         return dispathTaskService;
     }
 
+    public void dispathTaskBtnSave(){
+        super.save();
+    }
+
     @Override
     public void save() {
         String[] ids = this.getParamValues("ids");

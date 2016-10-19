@@ -62,7 +62,7 @@ function initSelectPeopleTable() {
                 title: 'id',
                 field: 'id',
                 sortable: false,
-                footerFormatter: totalTextFormatter,
+
                 visible:false
             }, {
                 title: '已选名单',
