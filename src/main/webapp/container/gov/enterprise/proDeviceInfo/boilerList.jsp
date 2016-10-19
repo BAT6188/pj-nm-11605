@@ -108,15 +108,15 @@
                     <div class="form-group">
                         <label for="buildTime" class="col-sm-2 control-label">建成时间<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
-                            <div id="buildTime" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" id="registTime" name="registTime" value="" readonly>
+                            <div id="buildTimeDiv" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="buildTime" name="buildTime" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
-                        <label for="use" class="col-sm-2 control-label">锅炉用途：</label>
+                        <label for="purpose" class="col-sm-2 control-label">锅炉用途：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="use" name="use" class="form-control"/>
+                            <input type="text" id="purpose" name="purpose" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -159,8 +159,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-4 control-label">附件：</label>
-                        <div class="col-sm-8">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
                             <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
                             <input type="hidden" id="removeId" name="removeId" class="form-control">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
@@ -180,7 +180,6 @@
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/proDeviceInfo/scripts/boilerList.js"></script>
 <script>
     $(function(){
-        $('.mainBox').alertMsg('ssss');
         initSelect();
         $('.form_date').datetimepicker({
             language:   'zh-CN',
