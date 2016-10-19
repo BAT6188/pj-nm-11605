@@ -32,7 +32,7 @@
                     <div class="col-md-8" >
                         <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                            <div id="datetimepicker" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
                                 <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                            <div id="datetimepicker2" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
                                 <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -80,23 +80,24 @@
                         <li><a href="javascript:;">折线图</a></li>
                     </ul>
                 </div>
-                <div class="chart-content">
-                    <div class="chartBox chartBox1">
-                        <div class="chart">
-                            <img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>
-                        </div>
-                    </div>
-                    <div class="chartBox chartBox2">
-                        <div class="chart">
-                            <img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>
-                        </div>
-                    </div>
-                    <div class="chartBox chartBox3">
-                        <div class="chart">
-                            <img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>
-                        </div>
-                    </div>
-                </div>
+                <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
+                <%--<div class="chart-content">--%>
+                    <%--<div class="chartBox chartBox1">--%>
+                        <%--<div class="chart">--%>
+                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="chartBox chartBox2">--%>
+                        <%--<div class="chart">--%>
+                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="chartBox chartBox3">--%>
+                        <%--<div class="chart">--%>
+                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
             </div>
         </div>
     </div>
