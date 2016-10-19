@@ -20,16 +20,117 @@ public class DispathTask implements Serializable {
     private String id;
 
 
+    @Column(name = "monitor_case_id")
+    private String monitorCaseId;
+
+
     /**
-     * 所属网格级别
+     * 事件来源，信息来源
+     * 监察大队办公司： 12369：1, 区长热线：2， 市长热线：3
+     * 监测中心：0
      */
-    @Column(name = "block_level_id", length = 32)
-    private String blockLevelId;
+    @Column(name = "source")
+    private String source;
+
+
     /**
-     * 所属网格id
+     * 企业，投诉对象
+     */
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
+
+    @Column(name = "enterprise_name")
+    private String enterpriseName;
+
+    /**
+     * 事件时间,接电时间
+     */
+    @Column(name = "event_time")
+    private Date eventTime;
+
+    /**
+     * 网格级别
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+    /**
+     * 所属网格
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
+
+    @Column(name = "block_name")
+    private String blockName;
+
+    /**
+     * 接电人
+     */
+    @Column(name = "answer")
+    private String answer;
+
+    /**
+     * 监管人员
+     */
+    @Column(name = "supervisor")
+    private String supervisor;
+
+    @Column(name = "supervisor_phone")
+    private String supervisorPhone;
+
+
+    @Column(name = "reason", length = 2)
+    private String reason;
+
+    /**
+     * 超标值
+     */
+    @Column(name = "over_value")
+    private Double overValue;
+    /**
+     * 超标阈值
+     */
+    @Column(name = "thr_value")
+    private Double thrValue;
+    /**
+     * 事件内容
+     */
+    @Column(name = "content")
+    private String content;
+
+    /**
+     * 处理人、发送人
+     */
+    @Column(name = "sender_id", length = 32)
+    private String senderId;
+
+    @Column(name = "sender_name", length = 20)
+    private String senderName;
+
+    @Column(name = "send_time")
+    private Date sendTime;
+
+    @Column(name = "send_phone")
+    private String sendPhone;
+
+    /**
+     * 发送备注
+     */
+    @Column(name = "send_remark")
+    private String sendRemark;
+
+
+    /**
+     * 从监控中心，监察大队发送过来的选择的人员
+     */
+    @Column(name = "select_people_ids")
+    private String selectPeopleIds;
+
+
+
+    ///////////////////////////////////////////////////
 
     /**
      * 投诉对象负责人
@@ -40,27 +141,6 @@ public class DispathTask implements Serializable {
     @Column(name = "target_linkphone", length = 11)
     private String targetLinkPhone;
 
-    /**
-     * 来电详情
-     */
-    @Column(name = "content")
-    private String content;
-    /**
-     * 发送人id
-     */
-    @Column(name = "sender_id", length = 32)
-    private String senderId;
-
-    @Column(name = "sender_name", length = 20)
-    private String senderName;
-
-    @Column(name = "send_time")
-    private Date sendTime;
-    /**
-     * 发送备注
-     */
-    @Column(name = "send_remark")
-    private String sendRemark;
     /**
      * 执法人员
      */
@@ -119,7 +199,126 @@ public class DispathTask implements Serializable {
         this.id = id;
     }
 
+    public String getSelectPeopleIds() {
+        return selectPeopleIds;
+    }
 
+    public void setSelectPeopleIds(String selectPeopleIds) {
+        this.selectPeopleIds = selectPeopleIds;
+    }
+
+    public String getMonitorCaseId() {
+        return monitorCaseId;
+    }
+
+    public void setMonitorCaseId(String monitorCaseId) {
+        this.monitorCaseId = monitorCaseId;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public Date getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(Date eventTime) {
+        this.eventTime = eventTime;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(String supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public String getSupervisorPhone() {
+        return supervisorPhone;
+    }
+
+    public void setSupervisorPhone(String supervisorPhone) {
+        this.supervisorPhone = supervisorPhone;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Double getOverValue() {
+        return overValue;
+    }
+
+    public void setOverValue(Double overValue) {
+        this.overValue = overValue;
+    }
+
+    public Double getThrValue() {
+        return thrValue;
+    }
+
+    public void setThrValue(Double thrValue) {
+        this.thrValue = thrValue;
+    }
+
+    public String getSendPhone() {
+        return sendPhone;
+    }
+
+    public void setSendPhone(String sendPhone) {
+        this.sendPhone = sendPhone;
+    }
 
     public String getBlockLevelId() {
         return blockLevelId;
