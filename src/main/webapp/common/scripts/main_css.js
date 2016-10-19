@@ -8,11 +8,11 @@ function loadHeight(){
     var tableBoxs = document.querySelectorAll(".tableBox");
     for (var i = 0, len = contents.length; i < len; i++) {
         var content = contents[i];
-        content.style.height=(document.body.clientHeight - 76 -35)+"px";//右侧列表宽度自适应
+        content.style.height=(document.body.clientHeight - 76 -35-13)+"px";//右侧列表宽度自适应
     }
     for (var i = 0, len = contents.length; i < len; i++) {
         var content = contents[i];
-        content.style.height=(document.body.clientHeight - 76 -35)+"px";//右侧列表宽度自适应
+        content.style.height=(document.body.clientHeight - 76 -35-13)+"px";//右侧列表宽度自适应
     }
 }
 window.onload=loadHeight();

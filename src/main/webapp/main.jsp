@@ -9,7 +9,7 @@
     </script>
     <title>东胜环保</title>
 </head>
-<body>
+<body style="overflow: hidden">
 <div class="container">
     <div class="banner clearfix">
         <div class="logoDiv left">

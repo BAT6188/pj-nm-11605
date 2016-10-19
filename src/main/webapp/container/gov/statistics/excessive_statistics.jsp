@@ -11,9 +11,6 @@
 <head>
     <title>超标统计</title>
     <%--<script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.css"></script>--%>
-    <script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.js"></script>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
     <style type="text/css">
         .chart-list {
             text-align: center;
@@ -45,13 +42,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">日期：</label>
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -93,28 +90,10 @@
         </div>
     </div>
 </div>
-<!--选择企业-->
-<%--<div class="modal fade" id="demoForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--%>
-    <%--<div class="modal-dialog" style="width: 800px;">--%>
-        <%--<div class="modal-content">--%>
-            <%--<div class="modal-header">--%>
-                <%--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--%>
-                <%--<h4 class="modal-title form-title">企业列表</h4>--%>
-            <%--</div>--%>
-            <%--<div class="modal-body">--%>
-                <%--<a href="javascript:loadPageInEnterprise('/grasPortList.jsp')">水污染治理设施建设和运营情况</a>--%>
-            <%--</div>--%>
-            <%--<div class="modal-footer">--%>
-                <%--<button type="button" class="btn btn-primary" id="save">保存</button>--%>
-                <%--<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
+
 
 
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/excessive_statistics.js"></script>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/mainEnterprise.js"></script>
 <script type="text/javascript">
     $( function() {
 
