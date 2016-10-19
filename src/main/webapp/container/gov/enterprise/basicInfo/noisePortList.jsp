@@ -66,6 +66,7 @@
                         <label for="number" class="col-sm-2 control-label">噪声源编号<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="createTime" name="createTime" class="form-control">
                             <input type="text" id="number" name="number" class="form-control"
                                    data-message="噪声源编号不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
@@ -202,7 +203,6 @@
         </div>
     </div>
 </div>
-<%@include file="/common/gis/map_mark.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/noisePortList.js"></script>
 <script>
     $(function(){

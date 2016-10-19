@@ -238,7 +238,7 @@
 
             </div>
             <div class="modal-footer" style="clear: both;">
-                <button type="button" class="btn btn-primary" id="sendTo" data-toggle="modal" data-target="#selectPeopleForm,#eventMsg">发送</button>
+                <button type="button" class="btn btn-primary" id="sendTo" onclick="sendToBtn(1)" data-toggle="modal" data-target="#selectPeopleForm,#eventMsg">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->

@@ -57,21 +57,13 @@ function initTable() {
             {
                 title: '噪声源编号',
                 field: 'number',
-                align: 'center',
-                valign: 'middle',
-                sortable: false,
-                visible:false
-            },
-            {
-                title: '噪声源名称',
-                field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '噪声源位置',
-                field: 'position',
+                title: '噪声源名称',
+                field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -132,7 +124,7 @@ function noiseTypeFormatter(value, row, index){
     return dict.get('noiseType',value);
 }
 function fnTypeFormatter(value, row, index){
-    return dict.get('fnType',value);
+    return dict.get('noiseFnType',value);
 }
 // 列表操作事件
 window.operateEvents = {

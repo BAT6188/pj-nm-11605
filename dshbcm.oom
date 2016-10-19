@@ -3823,7 +3823,7 @@ Shadow=0</a:DisplayPreferences>
 </o:PolylineSymbol>
 <o:AssociationSymbol Id="o7">
 <a:ModificationDate>1475052112</a:ModificationDate>
-<a:Rect>((-18674,27950), (-14926,31900))</a:Rect>
+<a:Rect>((-18787,27950), (-14813,31900))</a:Rect>
 <a:ListOfPoints>((-16800,31500),(-16800,28350))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -3843,7 +3843,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o11">
 <a:ModificationDate>1474959258</a:ModificationDate>
-<a:Rect>((-175,-56050), (1225,-50000))</a:Rect>
+<a:Rect>((-1462,-56050), (2512,-50000))</a:Rect>
 <a:ListOfPoints>((525,-55650),(525,-50400))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -3863,7 +3863,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o15">
 <a:ModificationDate>1474607146</a:ModificationDate>
-<a:Rect>((15376,45800), (19124,55000))</a:Rect>
+<a:Rect>((15263,45800), (19237,55000))</a:Rect>
 <a:ListOfPoints>((17250,54600),(17250,46200))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -3924,7 +3924,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o27">
 <a:ModificationDate>1474882170</a:ModificationDate>
-<a:Rect>((39500,-65763), (61383,-57350))</a:Rect>
+<a:Rect>((39500,-65763), (62970,-57350))</a:Rect>
 <a:ListOfPoints>((60983,-57750),(60983,-65063),(39900,-65063))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -3945,7 +3945,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o30">
 <a:ModificationDate>1474959255</a:ModificationDate>
-<a:Rect>((-15100,-68650), (-3800,-58625))</a:Rect>
+<a:Rect>((-16687,-68650), (-3800,-58625))</a:Rect>
 <a:ListOfPoints>((-14700,-68250),(-14700,-59325),(-4200,-59325))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -3965,7 +3965,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o33">
 <a:ModificationDate>1474959255</a:ModificationDate>
-<a:Rect>((-175,-66550), (1225,-62600))</a:Rect>
+<a:Rect>((-1462,-66550), (2512,-62600))</a:Rect>
 <a:ListOfPoints>((525,-66150),(525,-63000))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -3985,7 +3985,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o36">
 <a:ModificationDate>1474959255</a:ModificationDate>
-<a:Rect>((4850,-68650), (17200,-58625))</a:Rect>
+<a:Rect>((4850,-68650), (17200,-58501))</a:Rect>
 <a:ListOfPoints>((16800,-68250),(16800,-59325),(5250,-59325))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4065,7 +4065,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o49">
 <a:ModificationDate>1475056554</a:ModificationDate>
-<a:Rect>((31726,37400), (35474,47650))</a:Rect>
+<a:Rect>((31613,37400), (35587,47650))</a:Rect>
 <a:ListOfPoints>((33600,37800),(33600,47250))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4085,7 +4085,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o53">
 <a:ModificationDate>1475056326</a:ModificationDate>
-<a:Rect>((58100,47900), (59500,51850))</a:Rect>
+<a:Rect>((56813,47900), (60787,51850))</a:Rect>
 <a:ListOfPoints>((58800,48300),(58800,51450))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4105,7 +4105,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o57">
 <a:ModificationDate>1475056460</a:ModificationDate>
-<a:Rect>((70175,46850), (71575,55000))</a:Rect>
+<a:Rect>((68888,46850), (72862,55000))</a:Rect>
 <a:ListOfPoints>((70875,47250),(70875,54600))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4125,7 +4125,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o61">
 <a:ModificationDate>1474959618</a:ModificationDate>
-<a:Rect>((-19075,-84400), (57625,-82100))</a:Rect>
+<a:Rect>((-20362,-84400), (57625,-81976))</a:Rect>
 <a:ListOfPoints>((57225,-84000),(57225,-82500),(-18375,-82500),(-18375,-84000))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4145,7 +4145,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o65">
 <a:ModificationDate>1474960891</a:ModificationDate>
-<a:Rect>((-29800,-95725), (-23750,-94325))</a:Rect>
+<a:Rect>((-29800,-95849), (-23750,-94201))</a:Rect>
 <a:ListOfPoints>((-29400,-95025),(-24150,-95025))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4165,7 +4165,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o68">
 <a:ModificationDate>1475056533</a:ModificationDate>
-<a:Rect>((84875,47900), (86275,57100))</a:Rect>
+<a:Rect>((83588,47900), (87562,57100))</a:Rect>
 <a:ListOfPoints>((85575,48300),(85575,56700))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -4205,7 +4205,7 @@ SOURCE 0 新宋体,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o74">
 <a:ModificationDate>1475056557</a:ModificationDate>
-<a:Rect>((46025,37400), (47425,48700))</a:Rect>
+<a:Rect>((44738,37400), (48712,48700))</a:Rect>
 <a:ListOfPoints>((46725,37800),(46725,48300))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -7648,10 +7648,10 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:Attribute Id="o329">
 <a:ObjectID>7FC5298A-6071-4E87-9EE1-C9C7E88473A8</a:ObjectID>
 <a:Name>锅炉用途</a:Name>
-<a:Code>use</a:Code>
+<a:Code>purpose</a:Code>
 <a:CreationDate>1474857354</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1474878241</a:ModificationDate>
+<a:ModificationDate>1476870414</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:DataType>String</a:DataType>
 <a:Attribute.Visibility>-</a:Attribute.Visibility>
@@ -11835,10 +11835,10 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:Attribute Id="o673">
 <a:ObjectID>B991C271-42B5-41A4-803A-1BC778980314</a:ObjectID>
 <a:Name>锅炉用途</a:Name>
-<a:Code>use</a:Code>
+<a:Code>purpose</a:Code>
 <a:CreationDate>1474878296</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1474878296</a:ModificationDate>
+<a:ModificationDate>1476870406</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:DataType>String</a:DataType>
 <a:Attribute.Visibility>-</a:Attribute.Visibility>

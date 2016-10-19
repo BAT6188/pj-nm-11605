@@ -81,6 +81,7 @@
                         <label for="number" class="col-sm-2 control-label">排口编号<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="createTime" name="createTime" class="form-control">
                             <input type="text" id="number" name="number" class="form-control"
                                    data-message="排口编号不能为空"
                                    data-easytip="position:top;class:easy-red;"/>

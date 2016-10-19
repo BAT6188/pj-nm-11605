@@ -161,6 +161,12 @@ public class WaterPort implements Serializable {
     private String isPh;
 
     /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
      * 企业ID
      */
     @Column(name = "enterprise_id",length = 32)
@@ -386,5 +392,13 @@ public class WaterPort implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

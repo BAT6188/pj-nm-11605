@@ -129,6 +129,12 @@ public class GasPort implements Serializable {
     private String isOxygen;
 
     /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
      * 企业ID
      */
     @Column(name = "enterprise_id",length = 32)
@@ -314,5 +320,13 @@ public class GasPort implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

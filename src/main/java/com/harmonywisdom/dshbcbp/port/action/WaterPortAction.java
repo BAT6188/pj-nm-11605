@@ -11,6 +11,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
+
 public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
     @AutoService
     private WaterPortService waterPortService;
@@ -27,7 +29,7 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
         if (StringUtils.isNotBlank(entity.getNumber())) {
-            param.andParam(new QueryParam("number", QueryOperator.EQ,entity.getNumber()));
+            param.andParam(new QueryParam("number", QueryOperator.LIKE,"%"+entity.getNumber()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,"%"+entity.getName()+"%"));
@@ -38,7 +40,7 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("number", Direction.DESC);
+        condition.setOrderBy("createTime", Direction.DESC);
         return condition;
     }
 
@@ -49,6 +51,9 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        if(entity.getCreateTime()==null){
+            entity.setCreateTime(new Date());
         }
 
         super.save();

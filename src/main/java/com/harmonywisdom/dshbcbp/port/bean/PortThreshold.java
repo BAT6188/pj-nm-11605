@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.port.bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 阀值
@@ -38,6 +39,18 @@ public class PortThreshold implements Serializable {
      */
     @Column(name = "min")
     private Double min;
+
+    /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
+     * 企业ID
+     */
+    @Column(name = "enterprise_id",length = 32)
+    private String enterpriseId;
 
     /**
      * 附件
@@ -91,5 +104,21 @@ public class PortThreshold implements Serializable {
 
     public void setMin(Double min) {
         this.min = min;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

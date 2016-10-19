@@ -188,7 +188,7 @@ var pageUtils = {
 (function ($) {
 
     window.Ewin = function () {
-        var html = '<div id="[Id]" class="modal fade" role="dialog" aria-labelledby="modalLabel">' +
+        var html = '<div id="[Id]" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog modal-sm">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
@@ -207,7 +207,7 @@ var pageUtils = {
             '</div>';
 
 
-        var dialogdHtml = '<div id="[Id]" class="modal fade" role="dialog" aria-labelledby="modalLabel">' +
+        var dialogdHtml = '<div id="[Id]" class="modal fade" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="dailogModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
