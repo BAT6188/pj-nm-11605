@@ -108,27 +108,7 @@ function initZTree(){
 }
 
 function initTimeInput(){
-    $('#datetimepicker1').datetimepicker({
-        language:   'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-    $('#datetimepicker2').datetimepicker({
-        language:   'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-    $('#datetimepicker3').datetimepicker({
+    $('.form_date').datetimepicker({
         language:   'zh-CN',
         weekStart: 1,
         todayBtn:  1,
