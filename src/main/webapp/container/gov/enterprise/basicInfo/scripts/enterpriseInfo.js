@@ -88,7 +88,6 @@ function initZTree(){
             },
             callback: {
                 onDblClick: function(event, treeId, treeNode){
-                    console.log(treeNode);
                     if(treeNode.check_Child_State == -1){
                         $('#'+v).val(treeNode.name);
                         $('#'+v+'ModalClose').trigger('click');

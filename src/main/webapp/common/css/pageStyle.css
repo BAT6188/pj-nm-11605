@@ -679,3 +679,8 @@ p.red{
         width: 280px;
     }
 }
+
+/*自定义*/
+form .labelMarginLeft{
+    margin-left: 30px;
+}

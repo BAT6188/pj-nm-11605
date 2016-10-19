@@ -64,32 +64,32 @@ public class NoisePortHistory implements Serializable {
     /**
      * L5(dB)
      */
-    @Column(name = "l5")
-    private Double l5;
+    @Column(name = "lFive")
+    private Double lFive;
 
     /**
      * L10(dB)
      */
-    @Column(name = "l10")
-    private Double l10;
+    @Column(name = "lTen")
+    private Double lTen;
 
     /**
      * L50(dB)
      */
-    @Column(name = "l50")
-    private Double l50;
+    @Column(name = "lFifty")
+    private Double lFifty;
 
     /**
      * L90(dB)
      */
-    @Column(name = "l90")
-    private Double l90;
+    @Column(name = "lNinety")
+    private Double lNinety;
 
     /**
      * L95(dB)
      */
-    @Column(name = "l95")
-    private Double l95;
+    @Column(name = "lNinetyFive")
+    private Double lNinetyFive;
 
     /**
      * Le
@@ -173,44 +173,44 @@ public class NoisePortHistory implements Serializable {
         this.lmin = lmin;
     }
 
-    public Double getL5() {
-        return l5;
+    public Double getlFive() {
+        return lFive;
     }
 
-    public void setL5(Double l5) {
-        this.l5 = l5;
+    public void setlFive(Double lFive) {
+        this.lFive = lFive;
     }
 
-    public Double getL10() {
-        return l10;
+    public Double getlTen() {
+        return lTen;
     }
 
-    public void setL10(Double l10) {
-        this.l10 = l10;
+    public void setlTen(Double lTen) {
+        this.lTen = lTen;
     }
 
-    public Double getL50() {
-        return l50;
+    public Double getlFifty() {
+        return lFifty;
     }
 
-    public void setL50(Double l50) {
-        this.l50 = l50;
+    public void setlFifty(Double lFifty) {
+        this.lFifty = lFifty;
     }
 
-    public Double getL90() {
-        return l90;
+    public Double getlNinety() {
+        return lNinety;
     }
 
-    public void setL90(Double l90) {
-        this.l90 = l90;
+    public void setlNinety(Double lNinety) {
+        this.lNinety = lNinety;
     }
 
-    public Double getL95() {
-        return l95;
+    public Double getlNinetyFive() {
+        return lNinetyFive;
     }
 
-    public void setL95(Double l95) {
-        this.l95 = l95;
+    public void setlNinetyFive(Double lNinetyFive) {
+        this.lNinetyFive = lNinetyFive;
     }
 
     public Double getLe() {

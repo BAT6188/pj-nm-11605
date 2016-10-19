@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#waterForm"),
-    formTitle = "废水排口",
+    form = $("#noiseForm"),
+    formTitle = "噪声源",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_save.action",
+        url: rootPath + "/action/S_port_NoisePort_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_delete.action",
+        url: rootPath + "/action/S_port_NoisePort_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_WaterPort_list.action",
+        url: rootPath+"/action/S_port_NoisePort_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -55,7 +55,7 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '排口编号',
+                title: '噪声源编号',
                 field: 'number',
                 align: 'center',
                 valign: 'middle',
@@ -63,50 +63,34 @@ function initTable() {
                 visible:false
             },
             {
-                title: '排口名称',
+                title: '噪声源名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排口位置',
+                title: '噪声源位置',
                 field: 'position',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排放方式',
-                field: 'dischargeMode',
+                title: '噪声源类型',
+                field: 'noiseType',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                formatter:dischargeModeFormatter
+                formatter:noiseTypeFormatter
             },
             {
-                title: '排放去向',
-                field: 'dischargeDirection',
+                title: '功能区类别',
+                field: 'fnType',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '排放标准',
-                field: 'dischargeStandard',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '监测类型',
-                field: 'monitorType',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:monitorTypeFormatter
+                formatter:fnTypeFormatter
             },
             {
                 field: 'operate',
@@ -142,19 +126,13 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#waterForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#noiseForm">查看</button>';
 }
-function dischargeModeFormatter(value, row, index){
-    return dict.get('dischargeMode',value);
+function noiseTypeFormatter(value, row, index){
+    return dict.get('noiseType',value);
 }
-function dischargeStandardFormatter(value, row, index){
-    return dict.get('waterDischargeStandard',value);
-}
-function monitorTypeFormatter(value, row, index){
-    return dict.get('monitorType',value);
-}
-function dischargeDirectionFormatter(value, row, index){
-    return dict.get('waterDischargeDirection',value);
+function fnTypeFormatter(value, row, index){
+    return dict.get('fnType',value);
 }
 // 列表操作事件
 window.operateEvents = {
