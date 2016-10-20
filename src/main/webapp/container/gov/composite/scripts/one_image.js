@@ -120,8 +120,12 @@ var OneImagePage = function () {
                 if (!enterprise.planeMap) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
-                    PlottingDialog.setAttachmentId(enterprise.planeMap);
-                    PlottingDialog.open();
+                    PlottingDialog.dialog({
+                        show:true,
+                        mode:"view",
+                        attachmentId:enterprise.planeMap
+                    });
+
                 }
 
 

@@ -18,7 +18,7 @@
                 <h4 class="modal-title form-title">企业平面图</h4>
             </div>
             <div class="modal-body" style="padding: 0;">
-                <div id="plottingPaper" style="overflow: hidden;">
+                <div id="plottingPaper" style="overflow: auto;">
 
                 </div>
                 <div class="navbar" style="display:block;">
@@ -32,7 +32,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-save" id="save">保存</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>

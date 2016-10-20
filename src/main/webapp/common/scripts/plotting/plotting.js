@@ -125,13 +125,11 @@
                 imgWidth = that._originWidth = $img[0].naturalWidth;
                 imgHeight = that._originHeight = $img[0].naturalHeight;
                 $img.remove();
-
                 if (that.paper) {
                     paper = that.paper;
                     that._bg.attr({src: bg, width: imgWidth, height: imgHeight});
                 } else {
-                    //初始化画布大小
-                    paper = that.paper = Raphael(that.el.attr('id'), width, height);
+                    paper = that.paper = Raphael(that.el.attr('id'), imgWidth, imgHeight);
                     that._bg = paper.image(bg, 0, 0, imgWidth, imgHeight).data('ignore', true).toBack();
                 }
 
