@@ -15,6 +15,13 @@
 <h2>demo</h2>
 <a href="container/demo/demo.jsp">demo.jsp</a>
 
+<h2>上传</h2>
+<a href="demo/fine-uploader/fineUploader.jsp">fineUploader.jsp</a>
+<a href="demo/fine-uploader/fineUploader_demo.jsp">fineUploader_demo.jsp</a>
+<a href="demo/fine-uploader/testFileDelete.jsp">testFileDelete.jsp</a>
+<a href="demo/fine-uploader/testFileList.jsp">testFileList.jsp</a>
+<a href="demo/fine-uploader/testFileUpload.jsp">testFileUpload.jsp</a>
+
 <h2>时间控件</h2>
 <a href="demo/bootstrap-datepicker/bootstrap-datetime-picker.jsp">bootstrap-datetime-picker.jsp</a>
 

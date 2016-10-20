@@ -297,6 +297,12 @@ public class Enterprise implements Serializable {
     private String delOpinion;
 
     /**
+     * 平面图
+     */
+    @Column(name = "plane_map")
+    private String planeMap;
+
+    /**
      * 附件
      */
     @Transient
@@ -604,5 +610,13 @@ public class Enterprise implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public String getPlaneMap() {
+        return planeMap;
+    }
+
+    public void setPlaneMap(String planeMap) {
+        this.planeMap = planeMap;
     }
 }

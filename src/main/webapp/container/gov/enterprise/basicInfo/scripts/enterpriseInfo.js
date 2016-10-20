@@ -122,6 +122,79 @@ function initTimeInput(){
 
 //附件相关js
 var uploader ;
+var planeMapUploader ;
+function getPlaneMapUploaderOptions(id) {
+    return {
+        element: document.getElementById("fine-uploader-planemap"),
+        template: 'qq-template',
+        chunking: {
+            enabled: false,
+            concurrent: {
+                enabled: true
+            }
+        },
+        resume: {
+            enabled: false
+        },
+        retry: {
+            enableAuto: false,
+            showButton: false
+        },
+        failedUploadTextDisplay: {
+            mode: 'custom'
+        },
+        callbacks: {
+            onComplete:function (id,fileName,msg,request) {
+                $('#planeMap').val(msg.id);
+                planeMapUploader.setUuid(id, msg.id);
+                $('#fine-uploader-planemap').find(".qq-upload-button").hide();
+            },
+            onDeleteComplete:function (index,resp,msg) {
+                $('#fine-uploader-planemap').find(".qq-upload-button").show();
+                var reqObj = JSON.parse(resp.response);
+                if(reqObj.id!=""){
+                    var file = planeMapUploader.getUploads({id:index});
+                    var removeIds = $("#removeId").val();
+                    if (removeIds) {
+                        removeIds+= ("," + file.uuid)
+                    }else{
+                        removeIds = file.uuid;
+                    }
+                    $("#removeId").val(removeIds);
+                }
+            },
+            onAllComplete: function (succeed) {
+                var self = this;
+                $.each(succeed, function (k, v) {
+                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                });
+            }
+        },
+        request: {
+            endpoint: rootPath + '/Upload',
+            params: {
+                businessId:id
+            }
+        },
+        session:{
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachmentByID.action',
+            params: {
+                id:id
+            }
+        },
+        deleteFile: {
+            enabled: true,
+            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+            method:"POST"
+        },
+        validation: {
+            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
+            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+            itemLimit: 1
+        },
+        debug: true
+    };
+}
 function getUploaderOptions(bussinessId) {
     return {
         element: document.getElementById("fine-uploader-gallery"),
@@ -207,6 +280,10 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+$("#fine-uploader-planemap").on('click', '.qq-upload-download-selector', function () {
+    var uuid = planeMapUploader.getUuid($(this.closest('li')).attr('qq-file-id'));
+    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+});
 
 initEnterpriseForm(handleType);
 /*根据操作内容初始化表单*/
@@ -252,12 +329,12 @@ function saveForm(){
 /*查看信息*/
 function lookEnterpriseForm(){
     $('#headTitle').html('查看企业信息');
-    setEnterpriseForm();
-    setLookBtn();
+    setEnterpriseForm(true);
 }
 /*新建*/
 function addEnterpriseForm(){
     $('#headTitle').html('新增企业信息');
+    planeMapUploader = new qq.FineUploader(getPlaneMapUploaderOptions(''));
     uploader = new qq.FineUploader(getUploaderOptions(''));//附件上传组件对象
     initTimeInput();
     $('.addBtn').show();
@@ -280,8 +357,7 @@ function addEnterpriseForm(){
 /*编辑信息*/
 function editEnterpriseForm(){
     $('#headTitle').html('编辑企业信息');
-    setEnterpriseForm();
-    setEditBtn(false);
+    setEnterpriseForm(false);
 }
 var enterpriseListOfRunUrl = rootPath +'/container/gov/enterprise/enterpriseAccount.jsp';
 /*显示并设置查看状态按钮*/
@@ -292,6 +368,12 @@ function setLookBtn(){
     $('.formBtn').attr('disabled','disabled');
     $('.lookBtn').show();
     /*设置上传*/
+    var pfuOptions = getPlaneMapUploaderOptions(enterpriseData.planeMap);
+    pfuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-planemap").find(".qq-upload-delete").hide();
+    };
+    planeMapUploader = new qq.FineUploader(pfuOptions);
+
     var fuOptions = getUploaderOptions(enterpriseId);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -315,6 +397,10 @@ function reloadThisPage(){
 }
 /*显示并设置保存和编辑状态按钮*/
 function setEditBtn(isFromEditBtn){
+    planeMapUploader = new qq.FineUploader(getPlaneMapUploaderOptions(enterpriseData.planeMap));
+    if(enterpriseData.planeMap!=""){
+        $("#fine-uploader-planemap").find(".qq-upload-button").hide();
+    }
     uploader = new qq.FineUploader(getUploaderOptions(enterpriseId));//附件上传组件对象
     $('.lookBtn').hide();
     $('.editBtn').show();
@@ -331,9 +417,7 @@ function setEditBtn(isFromEditBtn){
             //ef.submit(false);
         });
         /*重置按钮*/
-        $('#resetEditForm').click(function(){
-            reloadThisPage();
-        });
+        $('#resetEditForm').hide();
         /*取消按钮*/
         $('#cancelEditForm').click(function(){
             reloadThisPage();
@@ -355,13 +439,21 @@ function setEditBtn(isFromEditBtn){
     }
 }
 /*获取企业信息*/
-function setEnterpriseForm(){
+var enterpriseData;
+function setEnterpriseForm(flag){
     $.ajax({
         url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
         type:"post",
+        async:false,
         data:{"id":id},//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function(data){
+            enterpriseData = data;
+            if(flag){
+                setLookBtn();
+            }else{
+                setEditBtn(false);
+            }
             var inputs = $('.form-control');
             $.each(inputs,function(k,v){
                 var tagId = $(v).attr('id');
