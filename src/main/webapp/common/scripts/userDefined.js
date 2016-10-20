@@ -1,7 +1,8 @@
 var pageUtils = {
 
     getTableHeight:function () {
-        return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true) -26;
+        console.log($('.dealBox').outerHeight(true)+$('.banner').outerHeight(true)+$('.linear').outerHeight(true));
+        return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true)-8;
     },
     /**
      * 转换bootstrapTable 参数为本地参数
