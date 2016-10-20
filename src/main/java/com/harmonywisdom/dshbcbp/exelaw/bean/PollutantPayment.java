@@ -61,6 +61,11 @@ public class PollutantPayment implements Serializable {
      */
     @Column(name = "remark")
     private String remark;
+    /**
+     * 缴费状态
+     * 1:已缴费，0：未缴费
+     */
+    private String payment_status;
 
     @Column(name = "attachment_id", length = 32)
     private String attachmentId;
@@ -162,5 +167,13 @@ public class PollutantPayment implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public String getPayment_status() {
+        return payment_status;
+    }
+
+    public void setPayment_status(String payment_status) {
+        this.payment_status = payment_status;
     }
 }
