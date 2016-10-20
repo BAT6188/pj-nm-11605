@@ -17,7 +17,8 @@ $(function(){
         $('.form_datetime').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
-            minView: 2
+            startView: 3,//月视图
+            minView: 3
         });
 
         $('#columnBtn').css('background','#0099FF');
@@ -71,12 +72,37 @@ $(function(){
                 var series = [];
                 var list = data.y;
                 var ylist = [];
-                for (var i=0; i<list.length; i++) {
-                    ylist.push(parseInt(list[i]));
+                if(list && list.length>0){
+                    for (var i=0; i<list.length; i++) {
+                        ylist.push(parseInt(list[i]));
+                    }
                 }
-                var series1 = {name: "月份", data:ylist};
+                var preMonth = [];//定义查询月份的数组
+                var preValue = [];//定义对应月份为0的一组数据
+                for(var i = 1; i <= 6; i++){
+                    preMonth.push(i);
+                    preValue.push(0);
+                }
+                console.log(preMonth);
+                console.log(preValue);
+                var month = categories;//后台取出的2组数据
+                var value = ylist;
+                if(month && month.length>0){
+                    for(var i = 0; i < month.length;i++){
+                        var m = month[i];
+                        for (var j = 0; j < preMonth.length; j++){
+                            if (m == preMonth[j]) {
+                                preValue[j] = value[i];
+                            }
+                        }
+                    }
+                }
+                console.log(preMonth);
+                console.log(preValue);
+
+                var series1 = {name: "月份", data:preValue};
                 series.push(series1);
-                colMchart(categories,series);
+                colMchart(preMonth,series);
             }
         });
     }
@@ -98,9 +124,35 @@ $(function(){
                 if(!series1){
                     return " ";
                 }
-                for (var i = 0; i < series1.length; i++) {
 
-                    series[0].data.push({name:categories[i],y: parseInt(series1[i])});
+                var preMonth = [];//定义查询月份的数组
+                var preValue = [];//定义对应月份为0的一组数据
+                for(var i = 1; i <= 6; i++){
+                    preMonth.push(i);
+                    preValue.push(0);
+                }
+                console.log(preMonth);
+                console.log(preValue);
+                var month = categories;//后台取出的2组数据
+                var value = series1;
+                if(month && month.length>0){
+                    for(var i = 0; i < month.length;i++){
+                        var m = month[i];
+                        for (var j = 0; j < preMonth.length; j++){
+                            if (m == preMonth[j]) {
+                                preValue[j] = value[i];
+                            }
+                        }
+
+                    }
+
+                }
+                console.log(preMonth);
+                console.log(preValue);
+
+                for (var i = 0; i < preValue.length; i++) {
+
+                    series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                 }
                 pieMchart(series);
             }
@@ -119,12 +171,39 @@ $(function(){
                 var series = [];
                 var list = data.y;
                 var ylist = [];
-                for (var i=0; i<list.length; i++) {
-                    ylist.push(parseInt(list[i]));
+                if(list && list.length>0){
+                    for (var i=0; i<list.length; i++) {
+                        ylist.push(parseInt(list[i]));
+                    }
                 }
-                var series1 = {name: "次数", data:ylist};
+
+                var preMonth = [];
+                var preValue = [];
+                for(var i = 1;i <= 6;i++){
+                    preMonth.push(i);
+                    preValue.push(0);
+                }
+                console.log(preMonth);
+                console.log(preValue);
+                var month = categories;
+                var values = ylist;
+                if(month && month.length>0){
+                    for(var i=0;i< month.length;i++){
+                        var m = month[i];
+                        for(var j=0; j<preMonth.length;j++){
+                            if(m==preMonth[j]){
+                                preValue[j] = values[i];
+                            }
+                        }
+                    }
+                }
+                console.log(preMonth);
+                console.log(preValue);
+
+
+                var series1 = {name: "月份", data:preValue};
                 series.push(series1);
-                lineMchart(categories,series);
+                lineMchart(preMonth,series);
 
             }
         })
@@ -135,7 +214,7 @@ $(function(){
      * @param categories
      * @param series
      */
-    function colMchart(categories,series) {
+    function colMchart(preMonth,series) {
         highchart.highcharts({
             chart: {
                 type: 'column'
@@ -144,22 +223,17 @@ $(function(){
                 text: '2016年上半年超标统计'
             },
             xAxis: {
-                categories: categories
+                categories: preMonth
             },
             yAxis: {
                 allowDecimals:false,//是否允许为小数
                 min: 0,
                 title: {
-                    text: '超标次数(次)'
+                    text: '数量'
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px"></span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} </b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
+                pointFormat: '超标次数: <b>{point.y:.1f} 次</b>'
             },
             plotOptions: {
                 column: {
@@ -190,9 +264,6 @@ $(function(){
             title: {
                 text: '2016年上半年超标统计'
             },
-            // tooltip: {
-            //     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            // },
             plotOptions: {
                 pie: {
                     allowPointSelect: true,
@@ -222,7 +293,7 @@ $(function(){
     /**
      * 折线图highchart
      */
-    function lineMchart(categories,series){
+    function lineMchart(preMonth,series){
         highchart.highcharts({
             chart: {
                 type: 'line'
@@ -234,7 +305,7 @@ $(function(){
             //     text: 'Source: WorldClimate.com'
             // },
             xAxis: {
-                categories: categories
+                categories: preMonth
             },
             yAxis: {
                 title: {
@@ -248,6 +319,12 @@ $(function(){
                     },
                     enableMouseTracking: false
                 }
+            },
+            legend: {
+                enabled: true
+            },
+            tooltip: {
+                pointFormat: '超标次数: <b>{point.y:.1f} 次</b>'
             },
             lang: {
                 printChart:"打印图表",

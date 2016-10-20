@@ -10,7 +10,8 @@ $(function(){
     $('.form_datetime').datetimepicker({
         language:   'zh-CN',
         autoclose: 1,
-        minView: 2
+        startView: 3,//月视图
+        minView: 3
     });
 
     //执行初始化

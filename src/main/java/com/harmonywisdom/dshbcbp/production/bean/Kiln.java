@@ -83,6 +83,12 @@ public class Kiln implements Serializable {
     private String fuelType;
 
     /**
+     * createTime
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
      * 企业ID
      */
     @Column(name = "enterprise_id",length = 32)
@@ -204,5 +210,13 @@ public class Kiln implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

@@ -10,8 +10,6 @@
 <html>
 <head>
     <title>传输有效率(统计六家平均值)</title>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -32,7 +30,7 @@
                     <div class="col-md-8" >
                         <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                            <div id="datetimepicker" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
                                 <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -42,7 +40,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
+                            <div id="datetimepicker2" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
                                 <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"

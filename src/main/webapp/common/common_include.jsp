@@ -59,4 +59,7 @@
 
 <script src="<%=request.getContextPath()%>/common/scripts/easyform/easyform.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/userDefined.js"></script>
+<script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
+<script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
+<script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.js"></script>
 

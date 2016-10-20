@@ -5,14 +5,14 @@
     <%
         String enterpriseId=request.getParameter("id");
     %>
-    <title>噪声源</title>
+    <title>主要产品及规模</title>
     <script type="text/javascript">
         var enterpriseId='<%=enterpriseId%>';
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">噪声源排口列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">主要产品及规模列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">

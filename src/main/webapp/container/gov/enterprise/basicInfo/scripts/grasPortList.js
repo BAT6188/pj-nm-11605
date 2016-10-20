@@ -201,12 +201,9 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
-            return;
-        }
+    $('.mainBox').BootstrapConfirm('确认要删除选择的数据吗？',function(){
         deleteAjax(ids,function (msg) {
-            Ewin.alert('删除成功');
+            $('.mainBox').BootstrapAlertMsg('success','删除成功!',2000);
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -243,7 +240,7 @@ var ef = form.easyform({
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             $(".modal").modal('hide');
-            Ewin.alert(updateSuccessMsg);
+            $('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
             gridTable.bootstrapTable('refresh');
         });
     }

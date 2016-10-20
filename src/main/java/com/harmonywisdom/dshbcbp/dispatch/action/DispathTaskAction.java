@@ -10,6 +10,12 @@ import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskService> {
     @AutoService
@@ -71,4 +77,35 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
 
         super.save();
     }
+
+    /**
+     * 柱状图数据
+     */
+    public void getColumnHighChart() throws ParseException {
+        Map<String,Object> result = new HashMap<String,Object>();
+        String startYdate = request.getParameter("startYdate");
+        String lastYdate = request.getParameter("lastYdate");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date firstTime = sdf.parse(startYdate);
+        Date lastTime = sdf.parse(lastYdate);
+
+        List<Object[]> list = dispathTaskService.getByColumnData(firstTime,lastTime);
+        if(list !=null && list.size()>0){
+            Object[] xlist = new Object[list.size()];
+            Object[] ylist = new Object[list.size()];
+
+            for(int i = 0;i<list.size();i++){
+                Object[] arr = list.get(i);
+                xlist[i] = String.valueOf(arr[0]);
+                ylist[i] = String.valueOf(arr[1]);
+            }
+            result.put("x",xlist);
+            result.put("y",ylist);
+        }
+        write(result);
+    }
+
+
+
 }
