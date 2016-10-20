@@ -13,4 +13,12 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
     protected PollutantPaymentService getService() {
         return pollutantPaymentService;
     }
+
+    /**
+     * highchart获取柱状图数据
+     */
+    public void getSewageColumn(){
+
+
+    }
 }
