@@ -11,22 +11,7 @@ var PlottingDialog = function(){
             that._model.find(".modal-dialog")
                 .width(that._width);
             that._plottingEle.height(that._height);
-            //初始化平面图
-            that._plotting = that._plottingEle.plotting({
-                action: 'plotting',
-                bg: rootPath+'/action/S_attachment_Attachment_download.action?id='+attachmentId,
-                icon:{
-                    size:32,
-                    url:rootPath+"/common/gis/images/markers/mark.png",
-                    offset:{
-                        left: 0,
-                        top: 0
-                    }
-                },
-                width: that._width,
-                height: that._height
-            }).data('Plotting');
-            that._plotting.mode('pan');
+
             var zoomLevel = 1;
             //绑定操作按钮事件
             $(".glyphicon-zoom-in").bind('click',function () {
@@ -56,6 +41,31 @@ var PlottingDialog = function(){
         setMode:function (mode) {
             $("." + mode).css('display','block').siblings().hide();
         },
+        _initPloting:function (attachmentId) {
+            var that = this;
+            that._plottingEle.html("");
+            //初始化平面图
+            that._plotting = that._plottingEle.plotting({
+                action: 'plotting',
+                bg: rootPath+'/action/S_attachment_Attachment_download.action?id='+attachmentId,
+                icon:{
+                    size:32,
+                    url:rootPath+"/common/gis/images/markers/mark.png",
+                    offset:{
+                        left: 0,
+                        top: 0
+                    }
+                },
+                width: that._width,
+                height: that._height
+            }).data('Plotting');
+            console.log(that._plottingEle.html());
+            that._plotting.mode('pan');
+
+        },
+        setAttachmentId:function (attachmentId) {
+            this._initPloting(attachmentId);
+        },
         open:function () {
             this._model.modal('show');
         },
@@ -69,7 +79,7 @@ var PlottingDialog = function(){
     dialog.init();
     return dialog;
 }();
-PlottingDialog.open();
+//PlottingDialog.open();
 
 
 

@@ -19,6 +19,7 @@
 
     </div>
 </div>
+<%@include file="/container/gov/composite/enterprise_plotting.jsp" %>
 <script src="<%=request.getContextPath()%>/container/gov/composite/scripts/one_image.js"></script>
 </body>
 </html>
