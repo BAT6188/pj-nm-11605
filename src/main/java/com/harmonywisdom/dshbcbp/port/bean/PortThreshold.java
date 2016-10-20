@@ -17,6 +17,12 @@ public class PortThreshold implements Serializable {
     private String id;
 
     /**
+     * 阀值类型
+     */
+    @Column(name = "type")
+    private String type; //废水阈值管理、火电厂废气阈值管理、锅炉废气阈值管理、油烟阈值管理
+
+    /**
      * 污染物编码
      */
     @Column(name = "pollutant_code")
@@ -31,14 +37,14 @@ public class PortThreshold implements Serializable {
     /**
      * 上限
      */
-    @Column(name = "max")
-    private Double max;
+    @Column(name = "max_value")
+    private Double maxValue;
 
     /**
      * 下限
      */
-    @Column(name = "min")
-    private Double min;
+    @Column(name = "min_value")
+    private Double minValue;
 
     /**
      * createTime
@@ -90,20 +96,28 @@ public class PortThreshold implements Serializable {
         this.overValue = overValue;
     }
 
-    public Double getMax() {
-        return max;
+    public String getType() {
+        return type;
     }
 
-    public void setMax(Double max) {
-        this.max = max;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Double getMin() {
-        return min;
+    public Double getMaxValue() {
+        return maxValue;
     }
 
-    public void setMin(Double min) {
-        this.min = min;
+    public void setMaxValue(Double maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public Double getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(Double minValue) {
+        this.minValue = minValue;
     }
 
     public Date getCreateTime() {

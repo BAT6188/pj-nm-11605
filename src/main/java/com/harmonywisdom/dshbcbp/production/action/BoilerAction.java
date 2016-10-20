@@ -28,6 +28,9 @@ public class BoilerAction extends BaseAction<Boiler, BoilerService> {
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
+            param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,"%"+entity.getName()+"%"));
         }

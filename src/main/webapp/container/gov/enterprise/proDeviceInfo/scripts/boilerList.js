@@ -288,23 +288,17 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
+    form.find('.isRadio input').attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
+        form.find('.form_date').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        form.find('.form_date').datetimepicker('remove');
     }
-
 }
 /**
  * 重置表单

@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#waterForm"),
-    formTitle = "废水排口",
+    form = $("#fumesPortForm"),
+    formTitle = "油烟排口",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_save.action",
+        url: rootPath + "/action/S_port_FumesPort_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_delete.action",
+        url: rootPath + "/action/S_port_FumesPort_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_WaterPort_list.action",
+        url: rootPath+"/action/S_port_FumesPort_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -68,37 +68,6 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
-            {
-                title: '排口位置',
-                field: 'position',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '排放方式',
-                field: 'dischargeMode',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:dischargeModeFormatter
-            },
-            {
-                title: '排放去向',
-                field: 'dischargeDirection',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '排放标准',
-                field: 'dischargeStandard',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:dischargeStandardFormatter
             },
             {
                 title: '监测类型',
@@ -142,19 +111,15 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#waterForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#fumesPortForm">查看</button>';
 }
-function dischargeModeFormatter(value, row, index){
-    return dict.get('dischargeMode',value);
-}
-function dischargeStandardFormatter(value, row, index){
-    return dict.get('waterDischargeStandard',value);
+var monitorType = {
+    '01':'自动',
+    '02':'手动',
+    '03':'自动+手动'
 }
 function monitorTypeFormatter(value, row, index){
-    return dict.get('monitorType',value);
-}
-function dischargeDirectionFormatter(value, row, index){
-    return dict.get('waterDischargeDirection',value);
+    return monitorType[value];
 }
 // 列表操作事件
 window.operateEvents = {
@@ -241,7 +206,6 @@ $("#searchFix").click(function () {
     $('#searchform')[0].reset();
     gridTable.bootstrapTable('resetSearch');
 });
-
 /**============表单初始化相关代码============**/
 var updateSuccessMsg = '提交成功';
 //初始化表单验证
@@ -304,7 +268,6 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
-    form.find(".formBtn").attr("disabled",disabled);
     form.find('.isRadio input').attr("disabled",disabled);
 }
 /**
@@ -384,8 +347,6 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true

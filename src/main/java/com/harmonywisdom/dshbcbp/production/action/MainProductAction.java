@@ -28,6 +28,9 @@ public class MainProductAction extends BaseAction<MainProduct, MainProductServic
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
+            param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getProduct())) {
             param.andParam(new QueryParam("product", QueryOperator.LIKE,"%"+entity.getProduct()+"%"));
         }

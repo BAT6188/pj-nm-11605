@@ -22,7 +22,32 @@ public class PortStatusHistory implements Serializable {
     /**
      * 关联设备ID
      */
+    @Column(name = "port_id")
     private String portId;
+
+    /**
+     * 关联设备ID
+     */
+    @Column(name = "port_number")
+    private String portNumber;
+
+    /**
+     * 关联设备ID
+     */
+    @Column(name = "port_name")
+    private String portName;
+
+    /**
+     * 关联企业ID
+     */
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
+
+    /**
+     * 关联企业名称
+     */
+    @Column(name = "enterprise_name")
+    private String enterpriseName;
 
     /**
      * 污染物编码
@@ -138,5 +163,37 @@ public class PortStatusHistory implements Serializable {
 
     public void setSolution(String solution) {
         this.solution = solution;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getPortNumber() {
+        return portNumber;
+    }
+
+    public void setPortNumber(String portNumber) {
+        this.portNumber = portNumber;
+    }
+
+    public String getPortName() {
+        return portName;
+    }
+
+    public void setPortName(String portName) {
+        this.portName = portName;
     }
 }
