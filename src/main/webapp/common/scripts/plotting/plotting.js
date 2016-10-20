@@ -122,10 +122,9 @@
 
             // 检测图片尺寸
             $img.load(function () {
-                imgWidth = that._originWidth = $img.width();
-                imgHeight = that._originHeight = $img.height();
+                imgWidth = that._originWidth = $img[0].naturalWidth;
+                imgHeight = that._originHeight = $img[0].naturalHeight;
                 $img.remove();
-
                 if (that.paper) {
                     paper = that.paper;
                     that._bg.attr({src: bg, width: imgWidth, height: imgHeight});
@@ -136,7 +135,8 @@
 
                 paper.setViewBox(0, 0, imgWidth, imgHeight, false);
 
-                that.zoom(Math.min(width / imgWidth, height / imgHeight));
+                //that.zoom(Math.min(width / imgWidth, height / imgHeight));
+                that.zoom(1);
 
                 // 添加forEach方法
                 that.forEach = $.proxy(paper.forEach, paper);
@@ -426,8 +426,8 @@
             }
 
             that._zoomLevel = level;
-            //that.paper.setViewBox(0, 0, width / level, height / level, viewBox[4]);
-            that.paper.setViewBox((width - width / level) / 2, (height - height / level) / 2, width / level, height / level, viewBox[4]);
+            that.paper.setViewBox(0, 0, width / level, height / level, viewBox[4]);
+            //that.paper.setViewBox((width - width / level) / 2, (height - height / level) / 2, width / level, height / level, viewBox[4]);
         },
 
         _getPosition: function (e) {

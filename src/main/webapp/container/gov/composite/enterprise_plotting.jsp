@@ -2,14 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp" %>
     <link href="<%=request.getContextPath()%>/container/gov/composite/css/enterprise_plotting.css" rel="stylesheet">
     <script type="text/javascript" src="<%=request.getContextPath()%>/common/scripts/plotting/raphael.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/common/scripts/plotting/plotting.js"></script>
     <title>企业平面图展示及维护</title>
-    <script>
-        var attachmentId = '${param.attachmentId}';
-    </script>
 </head>
 <body style="overflow: hidden;">
 
@@ -22,7 +18,7 @@
                 <h4 class="modal-title form-title">企业平面图</h4>
             </div>
             <div class="modal-body" style="padding: 0;">
-                <div id="plottingPaper" style="overflow: hidden;">
+                <div id="plottingPaper" style="overflow: auto;">
 
                 </div>
                 <div class="navbar" style="display:block;">
@@ -36,7 +32,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-save" id="save">保存</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
