@@ -151,6 +151,7 @@ function getPlaneMapUploaderOptions(id) {
             },
             onDeleteComplete:function (index,resp,msg) {
                 $('#fine-uploader-planemap').find(".qq-upload-button").show();
+                $('#planeMap').val("");
                 var reqObj = JSON.parse(resp.response);
                 if(reqObj.id!=""){
                     var file = planeMapUploader.getUploads({id:index});
@@ -254,8 +255,6 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true

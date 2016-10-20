@@ -63,8 +63,9 @@ public class PollutantPayment implements Serializable {
     private String remark;
     /**
      * 缴费状态
-     * 1:已缴费，0：未缴费
+     * 1:已缴费，2：未缴费
      */
+    @Column(name="PAYMENT_STATUS")
     private String payment_status;
 
     @Column(name = "attachment_id", length = 32)

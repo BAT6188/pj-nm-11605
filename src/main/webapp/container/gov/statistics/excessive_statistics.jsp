@@ -12,17 +12,17 @@
     <title>超标统计</title>
     <%--<script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.css"></script>--%>
     <style type="text/css">
-        .chart-list {
-            text-align: center;
-            height: 42px;
-        }
-        .chart-list li {
-            float: left;
-            width: 33.33%;
-            height: 100%;
-        }
+    .chart-list {
+        text-align: center;
+        height: 42px;
+    }
+    .chart-list li {
+        float: left;
+        width: 33.33%;
+        height: 100%;
+    }
 
-    </style>
+</style>
 </head>
 <body>
 <div class="content content1 clearfix">
