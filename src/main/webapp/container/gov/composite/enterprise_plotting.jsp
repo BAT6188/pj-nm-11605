@@ -2,14 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp" %>
     <link href="<%=request.getContextPath()%>/container/gov/composite/css/enterprise_plotting.css" rel="stylesheet">
     <script type="text/javascript" src="<%=request.getContextPath()%>/common/scripts/plotting/raphael.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/common/scripts/plotting/plotting.js"></script>
     <title>企业平面图展示及维护</title>
-    <script>
-        var attachmentId = '${param.attachmentId}';
-    </script>
 </head>
 <body style="overflow: hidden;">
 
