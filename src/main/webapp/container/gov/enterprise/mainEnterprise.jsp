@@ -39,7 +39,7 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">生产设备信息</a></h3>
             <ul>
-                <li><a href="javascript:;">燃煤锅炉信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('proDeviceInfo/boilerList.jsp?id=<%=id%>')">燃煤锅炉信息</a></li>
                 <li><a href="javascript:;">窑炉信息</a></li>
                 <li><a href="javascript:;">其他生产设备信息</a></li>
             </ul>

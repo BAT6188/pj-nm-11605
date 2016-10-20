@@ -1,7 +1,8 @@
 var pageUtils = {
 
     getTableHeight:function () {
-        return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true) -26;
+        console.log($('.dealBox').outerHeight(true)+$('.banner').outerHeight(true)+$('.linear').outerHeight(true));
+        return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true)-8;
     },
     /**
      * 转换bootstrapTable 参数为本地参数
@@ -181,6 +182,40 @@ var pageUtils = {
             }
         });
         return o;
+    };
+    var BootstrapAlerts={
+        'warning':'警告！',
+        'success':'提示：',
+        'info':'信息：',
+        'danger':'错误！'
+    }
+    $.fn.BootstrapAlertMsg = function(type,msg,time){
+        var id = 'BootstrapAlert'+(new Date().getTime());
+        var html = '<div id="'+id+'" class="alert alert-'+type+'" style="font-size: 15px;text-align: center;">'
+            + '<a href="#" class="close" data-dismiss="alert">'
+            + '&times;</a>'
+            + '<strong>'+BootstrapAlerts[type]+'</strong>'+msg+'</div>';
+        $(this).prepend(html);
+        setTimeout(function(){
+            $('#'+id).remove();
+        },time);
+    };
+    $.fn.BootstrapConfirm = function(msg,func){
+        var id = 'BootstrapConfirm'+(new Date().getTime());
+        var html = '<div id="'+id+'" class="alert alert-info" style="font-size: 15px;text-align: center;">'
+            + '<a href="#" class="close" data-dismiss="alert">'
+            + '&times;</a>'
+            + '<strong>提示：</strong>'+msg
+            + '<br/><button id="BootstrapConfirmMakeSure" type="button" class="btn btn-primary">确定</button>'
+            + '<button id="BootstrapConfirmCancel" type="button" class="btn btn-default" style="margin-left: 20px;">取消</button></div>';
+        $(this).prepend(html);
+        $('#BootstrapConfirmMakeSure').click(function(){
+            $('#'+id).remove();
+            func();
+        })
+        $('#BootstrapConfirmCancel').click(function(){
+            $('#'+id).remove();
+        })
     };
 })(jQuery);
 
