@@ -5,7 +5,7 @@
     <%
         String enterpriseId=request.getParameter("id");
     %>
-    <title>燃煤锅炉信息</title>
+    <title>窑炉信息</title>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script type="text/javascript">
         var enterpriseId='<%=enterpriseId%>';
@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">燃煤锅炉信息列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">窑炉信息列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -49,10 +49,10 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#boilerForm">
+                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#kilnForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#boilerForm">
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#kilnForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
@@ -68,22 +68,22 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" id="boilerForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="boilerModalLabel" aria-hidden="true">
+<div class="modal fade" id="kilnForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="kilnModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 900px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加燃煤锅炉信息</h4>
+                <h4 class="modal-title form-title">添加窑炉信息</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="model" class="col-sm-2 control-label">锅炉型号<span class="text-danger">(*)</span>：</label>
+                        <label for="model" class="col-sm-2 control-label">窑炉型号<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
                             <input type="text" id="model" name="model" class="form-control"
-                                   data-message="锅炉型号不能为空"
+                                   data-message="窑炉型号不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                         <label for="name" class="col-sm-2 control-label">设备名称<span class="text-danger">(*)</span>：</label>
@@ -106,6 +106,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="purpose" class="col-sm-2 control-label">窑炉用途：</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="purpose" name="purpose" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="buildTime" class="col-sm-2 control-label">建成时间<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <div id="buildTimeDiv" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
@@ -116,22 +122,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
-                        <label for="purpose" class="col-sm-2 control-label">锅炉用途：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="purpose" name="purpose" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="isImportPosition" class="col-sm-2 control-label">是否位于地级及以上城区<span class="text-danger">(*)</span>：</label>
-                        <div class="col-sm-4 isRadio" id="isImportPosition">
-                            <label class="checkbox-inline">
-                                <input type="radio" name="isImportPosition" id="isImportPosition1" value="1" data-easytip="class:easy-red;" data-message="请选择是否特殊监管对象">是
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="radio" name="isImportPosition" id="isImportPosition0" value="0">否
-                            </label>
-                        </div>
-                        <label for="scale" class="col-sm-2 control-label">锅炉规模：</label>
+                        <label for="scale" class="col-sm-2 control-label">窑炉规模：</label>
                         <div class="col-sm-4">
                             <input type="text" id="scale" name="scale" class="form-control"/>
                         </div>
@@ -179,7 +170,7 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/proDeviceInfo/scripts/boilerList.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/proDeviceInfo/scripts/kilnList.js"></script>
 <script>
     $(function(){
         initSelect();

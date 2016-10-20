@@ -112,11 +112,34 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
             }
             write(list);
         }
-
     }
     
     public void delete(){
     	String id = request.getParameter("qquuid");
-    	write(true, "id", id);
+        Attachment attachment = attachmentService.findById(id);
+        if(StringUtils.isNotBlank(attachment.getBusinessId())){
+            write(true, "id", id);
+        }else{
+            attachmentService.removeByIds(id);
+            write(true, "id", "");
+        }
+    }
+
+    public void listAttachmentByID() {
+        String id = entity.getId();
+        List<Attachment> list = new ArrayList<Attachment>();
+        if (StringUtils.isNotBlank(id)) {
+            Attachment attachment = attachmentService.findById(id);
+            list.add(attachment);
+        }
+        if (list.size() == 0) {
+            write("[]");
+        }else{
+            //转换为fine uploader 需要的格式
+            for (Attachment attr: list) {
+                attr.setUuid(attr.getId());
+            }
+            write(list);
+        }
     }
 }

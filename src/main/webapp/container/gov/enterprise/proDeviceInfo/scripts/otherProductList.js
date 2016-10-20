@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#waterForm"),
-    formTitle = "废水排口",
+    form = $("#otherProductForm"),
+    formTitle = "其他生产设备信息",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_save.action",
+        url: rootPath + "/action/S_production_OtherEquipment_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_delete.action",
+        url: rootPath + "/action/S_production_OtherEquipment_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_WaterPort_list.action",
+        url: rootPath+"/action/S_production_OtherEquipment_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -55,58 +55,32 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '排口编号',
-                field: 'number',
-                align: 'center',
-                valign: 'middle',
-                sortable: false,
-                visible:false
-            },
-            {
-                title: '排口名称',
-                field: 'name',
+                title: '主要产品（服务）',
+                field: 'product',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排口位置',
-                field: 'position',
+                title: '生产规模',
+                field: 'scope',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排放方式',
-                field: 'dischargeMode',
+                title: '主要原辅材料名称',
+                field: 'rawMaterial',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:dischargeModeFormatter
+                align: 'center'
             },
             {
-                title: '排放去向',
-                field: 'dischargeDirection',
+                title: '耗量',
+                field: 'consumption',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '排放标准',
-                field: 'dischargeStandard',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '监测类型',
-                field: 'monitorType',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:monitorTypeFormatter
+                align: 'center'
             },
             {
                 field: 'operate',
@@ -142,19 +116,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#waterForm">查看</button>';
-}
-function dischargeModeFormatter(value, row, index){
-    return dict.get('dischargeMode',value);
-}
-function dischargeStandardFormatter(value, row, index){
-    return dict.get('waterDischargeStandard',value);
-}
-function monitorTypeFormatter(value, row, index){
-    return dict.get('monitorType',value);
-}
-function dischargeDirectionFormatter(value, row, index){
-    return dict.get('waterDischargeDirection',value);
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#otherProductForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -251,7 +213,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.find('#cancelBtn').trigger('click');
             $('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
             gridTable.bootstrapTable('refresh');
         });
@@ -315,7 +277,6 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
-    form.find(".formBtn").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
