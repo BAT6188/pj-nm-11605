@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#noiseForm"),
-    formTitle = "噪声源",
+    form = $("#kilnForm"),
+    formTitle = "窑炉信息",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_NoisePort_save.action",
+        url: rootPath + "/action/S_production_Kiln_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_NoisePort_delete.action",
+        url: rootPath + "/action/S_production_Kiln_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_NoisePort_list.action",
+        url: rootPath+"/action/S_production_Kiln_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -55,34 +55,40 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '噪声源编号',
-                field: 'number',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '噪声源名称',
+                title: '设备名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '噪声源类型',
-                field: 'noiseType',
+                title: '建成时间',
+                field: 'buildTime',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                formatter:noiseTypeFormatter
+                formatter: buildTimeFormatter
             },
             {
-                title: '功能区类别',
-                field: 'fnType',
+                title: '窑炉用途',
+                field: 'purpose',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:fnTypeFormatter
+                align: 'center'
+            },
+            {
+                title: '窑炉规模',
+                field: 'scale',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '窑炉燃料种类',
+                field: 'fuelType',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'operate',
@@ -118,13 +124,10 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#noiseForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#kilnForm">查看</button>';
 }
-function noiseTypeFormatter(value, row, index){
-    return dict.get('noiseType',value);
-}
-function fnTypeFormatter(value, row, index){
-    return dict.get('noiseFnType',value);
+function buildTimeFormatter(value, row, index){
+    return value.split(" ")[0];
 }
 // 列表操作事件
 window.operateEvents = {
@@ -221,7 +224,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.find('#cancelBtn').trigger('click');
             $('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
             gridTable.bootstrapTable('refresh');
         });

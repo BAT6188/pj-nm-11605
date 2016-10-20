@@ -99,7 +99,9 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
 
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
-
+        }
+        if(StringUtils.isNotBlank(entity.getPlaneMap())){
+            attachmentService.updateBusinessId(entity.getPlaneMap(),entity.getPlaneMap());
         }
     }
 
