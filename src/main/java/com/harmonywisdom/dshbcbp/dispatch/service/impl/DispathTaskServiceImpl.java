@@ -23,7 +23,7 @@ public class DispathTaskServiceImpl extends BaseService<DispathTask, String> imp
 
 
     /**
-     * highchart获取柱状图数据
+     * highchart获取数据
      * @param firstTime
      * @param lastTime
      * @return

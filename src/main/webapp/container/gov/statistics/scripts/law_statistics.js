@@ -70,7 +70,6 @@ $(function(){
             data:{startYdate:startYdate,lastYdate:lastYdate},
             dataType:'json',
             success:function(data){
-
                 var categories = data.x;
                 var series = [];
                 var list = data.y;
@@ -82,7 +81,9 @@ $(function(){
                 }
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
-                for(var i = 1; i <= 6; i++){
+                var startMonth= startYdate.substring(5,7);
+                var endMonth= lastYdate.substring(5,7);
+                for(var i = startMonth; i <= endMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -127,7 +128,9 @@ $(function(){
                 }];
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
-                for(var i = 1; i <= 6; i++){
+                var startMonth= startYdate.substring(5,7);
+                var endMonth= lastYdate.substring(5,7);
+                for(var i = startMonth; i <= endMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -157,11 +160,7 @@ $(function(){
         });
 
     }
-
-
-
-
-
+    
     //线状图获取后台数据
     function getLineHighData(startYdate,lastYdate){
         $.ajax({
@@ -182,7 +181,9 @@ $(function(){
 
                 var preMonth = [];
                 var preValue = [];
-                for(var i = 1;i <= 6;i++){
+                var startMonth= startYdate.substring(5,7);
+                var endMonth= lastYdate.substring(5,7);
+                for(var i = startMonth; i <= endMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -213,8 +214,6 @@ $(function(){
     }
 
 
-
-
     //柱状图highchart
     function colMchart(preMonth, series){
         highchart.highcharts({
@@ -225,7 +224,10 @@ $(function(){
                 text: '2016上半年执法统计'
             },
             xAxis: {
-                categories: preMonth
+                categories: preMonth,
+                title:{
+                    text:'月份'
+                }
             },
             yAxis: {
                 min: 0,
@@ -303,7 +305,10 @@ $(function(){
             //     text: 'Source: WorldClimate.com'
             // },
             xAxis: {
-                categories: preMonth
+                categories: preMonth,
+                title:{
+                    text:'月份'
+                }
             },
             yAxis: {
                 title: {

@@ -30,7 +30,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
     @Override
     public List<Object[]> findColumnData(Date firstTime, Date lastTime) {
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" +
-                "WHERE STATUS='1' AND DATE_FORMAT(start_time,'%Y-%m-%d')> '2016-01-01' AND DATE_FORMAT(start_time,'%Y-%m-%d')<='2016-12-04' GROUP BY MONTH");
+                "WHERE STATUS='1' AND DATE_FORMAT(start_time,'%Y-%m-%d')> ? AND DATE_FORMAT(start_time,'%Y-%m-%d')<= ? GROUP BY MONTH",firstTime,lastTime);
 
         return list;
     }
