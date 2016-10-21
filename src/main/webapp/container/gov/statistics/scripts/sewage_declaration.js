@@ -137,7 +137,7 @@ $(function(){
                 var categories = data['x'];
                 var series1 = data['y'];
                 var series = [{
-                    name:"超标次数:(次)",
+                    name:"已缴费企业:(家)",
                     data:[]
                 }];
                 if(!series1){
