@@ -6,7 +6,7 @@ $(function(){
     var highchart = $("#container");
     var year = new Date().getFullYear();
     var startYdate = year +　'-'+'01' + '-'+'01';
-    var lastYdate = year + '-'+ '12' + '-'+ '31';
+    var lastYdate = year + '-'+ '06' + '-'+ '30';
 
 
 
@@ -79,7 +79,9 @@ $(function(){
                 }
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
-                for(var i = 1; i <= 6; i++){
+                var startMonth= startYdate.substring(5,7);
+                var endMonth= lastYdate.substring(5,7);
+                for(var i = startMonth; i <= endMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -127,7 +129,9 @@ $(function(){
 
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
-                for(var i = 1; i <= 6; i++){
+                var startMonth= startYdate.substring(5,7);
+                var endMonth= lastYdate.substring(5,7);
+                for(var i = startMonth; i <= endMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -145,7 +149,6 @@ $(function(){
                         }
 
                     }
-
                 }
                 console.log(preMonth);
                 console.log(preValue);
@@ -179,7 +182,9 @@ $(function(){
 
                 var preMonth = [];
                 var preValue = [];
-                for(var i = 1;i <= 6;i++){
+                var startMonth= startYdate.substring(5,7);
+                var endMonth= lastYdate.substring(5,7);
+                for(var i = startMonth;i <= endMonth;i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -223,7 +228,10 @@ $(function(){
                 text: '2016年上半年超标统计'
             },
             xAxis: {
-                categories: preMonth
+                categories: preMonth,
+                title:{
+                    text:'月份'
+                }
             },
             yAxis: {
                 allowDecimals:false,//是否允许为小数
@@ -305,7 +313,10 @@ $(function(){
             //     text: 'Source: WorldClimate.com'
             // },
             xAxis: {
-                categories: preMonth
+                categories: preMonth,
+                title:{
+                    text:'月份'
+                }
             },
             yAxis: {
                 title: {
