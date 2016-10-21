@@ -108,7 +108,7 @@
             </ul>
         </div>
     </div>
-    <div class="main-right right">
+    <div class="main-right right level3MenuContent" style="overflow-x: hidden;">
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
@@ -125,8 +125,8 @@
     function loadPageInEnterprise(url){
         var headUrl = rootPath +"/container/gov/enterprise/";
         //$(".main-right").load(url);
-        $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
-        $('.main-right').load(headUrl+url); // ajax加载页面
+        $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
+        $('.level3MenuContent').load(headUrl+url); // ajax加载页面
     }
 </script>
 </body>

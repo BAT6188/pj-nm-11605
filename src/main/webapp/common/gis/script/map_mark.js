@@ -5,7 +5,7 @@ var MapMarkDialog = {
         //初始化dialog大小
         var markDialogModal = $("#markDialog").find(".modal-dialog")
             .width($(window).width()-100);
-        var mapFrame = $("#mapFrame").css({
+        var mapFrame = markDialogModal.find("iframe").css({
             width:markDialogModal.width()-3,
             height:$(window).height()-200,
             marginBottom:'-10px'
