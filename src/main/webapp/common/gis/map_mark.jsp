@@ -16,7 +16,7 @@
                 <h4 class="modal-title form-title">地图标绘</h4>
             </div>
             <div class="modal-body" style="padding: 0;">
-                <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
+                <iframe name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
                 <div class="navbar" style="display:block;">
                     <ul>
                         <li><span class="point"></span></li>

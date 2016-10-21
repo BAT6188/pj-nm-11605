@@ -201,6 +201,12 @@ $('#pubTimeContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
+//-------------datetimepicker配置--------------------//
+$('#datetimepicker1').datetimepicker({
+    language:  'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 
 function deleteWorkSum(ids,callback) {
     $.ajax({

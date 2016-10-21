@@ -134,41 +134,32 @@ function sendToBtn(flag) {
 
     var data=$.param({ids:ids},true)
 
+    var url;
     if(1==flag){
         var monitorCaseId=$("#monitorCaseId").val();
         data+="&monitorCaseId="+monitorCaseId;
+        url=rootPath + "/action/S_dispatch_DispathTask_save.action"
     }else if(2==flag){
         var dispathTaskId=$("#dispathTaskId").val();
         data+="&dispathTaskId="+dispathTaskId;
+        url=rootPath + "/action/S_dispatch_DispathTask_updateFromSendToBtn.action"
     }
 
-
-    console.log(data)
-    sendAjax(flag,data,function (msg) {
+    console.log("人员选择，点发送按钮："+JSON.stringify(data))
+    sendAjax(url,data,function (msg) {
         console.log(msg)
     })
-
     removeFromGrid();
 }
 
 
 
-function sendAjax(flag,data, callback) {
-    if(1==flag){
-        $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_save.action",
-            type:"post",
-            data:data,
-            dataType:"json",
-            success:callback
-        });
-    }else if(2==flag){
-        $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_updateFromSendToBtn.action",
-            type:"post",
-            data:data,
-            dataType:"json",
-            success:callback
-        });
-    }
+function sendAjax(url,data, callback) {
+    $.ajax({
+        url: url,
+        type:"post",
+        data:data,
+        dataType:"json",
+        success:callback
+    });
 }

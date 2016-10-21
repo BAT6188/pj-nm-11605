@@ -113,7 +113,7 @@ var OneImagePage = function () {
             });
             //绑定企业台账按钮事件
             $(infoDOM).find("#mainInfo").bind("click", function () {
-
+                EnterpriseInfoDialog.show(enterprise.id);
             });
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
@@ -134,7 +134,4 @@ var OneImagePage = function () {
     };
     page.init();
     return page;
-
-
-
 }();

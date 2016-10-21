@@ -31,9 +31,9 @@ function loadLevel2Menu(subMenus) {
         level2MenuUl.find("li").bind('click',function () {
             $(this).addClass("linear-hover").siblings().removeClass("linear-hover");
             var url = $(this).attr("data-url");
-            $(".content").html("");
+            $("#level2content").html("");
             if (url && url.indexOf(".jsp")>0) {
-                $(".content").load(url);
+                $("#level2content").load(url);
             }
 
         });

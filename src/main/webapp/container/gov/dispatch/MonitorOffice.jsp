@@ -121,9 +121,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">投诉对象<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseId" class="col-sm-2 control-label">投诉对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="enterpriseName" name="enterpriseName" class="form-control">
+                            <select id="enterpriseId" name="enterpriseId" class="form-control">
                                 <option value="1">aa</option>
                                 <option value="2">bb</option>
                                 <option value="3">cc</option>
@@ -137,18 +137,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLevelName" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelName" name="blockLevelName" class="form-control">
+                            <select id="blockLevelId" name="blockLevelId" class="form-control">
                                 <option value="1">网格级别1</option>
                                 <option value="2">网格级别2</option>
                                 <option value="3">网格级别3</option>
                             </select>
                         </div>
 
-                        <label for="blockName" class="col-sm-2 control-label"></label>
+                        <label for="blockId" class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
-                            <select id="blockName" name="blockName" class="form-control">
+                            <select id="blockId" name="blockId" class="form-control">
                                 <option value="1">网格1</option>
                                 <option value="2">网格2</option>
                                 <option value="3">网格3</option>

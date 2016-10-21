@@ -44,7 +44,7 @@ public class CleanLicense implements Serializable {
      *附件
      */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
     /**
      *所属企业id
      */
@@ -99,12 +99,12 @@ public class CleanLicense implements Serializable {
         this.pubDate = pubDate;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 
     public String getEnterpriseId() {

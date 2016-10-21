@@ -1,15 +1,19 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.org.domain.Org;
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.domain.Person;
+import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.bean.OrgPerson;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -76,7 +80,6 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
         String enterpriseName = entity.getEnterpriseName();
-        String source = entity.getSource();
         String reason = entity.getReason();
         String startConnTime = entity.getStartConnTime();
         String endConnTime = entity.getEndConnTime();
@@ -84,9 +87,20 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         String startSendTime = entity.getStartSendTime();
         String endSendTime = entity.getEndSendTime();
 
+        String source = entity.getSource();
         if(null==source){
             source="1";
         }
+
+        String status_search = request.getParameter("status_search");
+        if (StringUtils.isEmpty(status_search)|| "0".equals(status_search)){
+            params.andParam(new QueryParam("status",QueryOperator.EQ,0));
+        }else {
+            params.andParam(new QueryParam("status",QueryOperator.NE,0));
+        }
+
+
+
         if(StringUtils.isNotEmpty(enterpriseName)){
             params.andParam(new QueryParam("enterpriseName",QueryOperator.LIKE,"%"+enterpriseName+"%"));
         }
@@ -140,6 +154,16 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
+    }
+
+    public void saveMonitor(){
+        String id = entity.getId();
+        MonitorCase mc = monitorCaseService.findById(id);
+        mc.setSenderName(entity.getSenderName());
+        mc.setSendTime(entity.getSendTime());
+        mc.setSendRemark(entity.getSendRemark());
+        monitorCaseService.update(mc);
+
     }
 
     /**

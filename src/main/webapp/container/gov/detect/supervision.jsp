@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%@include file="/common/common_include.jsp" %>
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
     <title>网格人员</title>
@@ -9,8 +10,9 @@
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
-        <div class="tree-left left" >
-            <ul id="treeDemo1" class="ztree"></ul>
+        <div class="tree-left left">
+            <div id="blockTree" class="ztree">
+            </div>
         </div>
         <div class="main-right right">
             <div class="dealBox">

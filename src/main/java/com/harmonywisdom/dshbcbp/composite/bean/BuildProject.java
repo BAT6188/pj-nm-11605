@@ -112,7 +112,7 @@ public class BuildProject implements Serializable {
      *附件
      */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
     /**
      *企业id
      */
@@ -271,12 +271,12 @@ public class BuildProject implements Serializable {
         this.acceptTime = acceptTime;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 
     public String getEnterpriseId() {

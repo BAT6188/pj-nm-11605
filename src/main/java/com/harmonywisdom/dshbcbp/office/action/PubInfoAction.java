@@ -1,9 +1,11 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.PubInfo;
 import com.harmonywisdom.dshbcbp.office.service.PubInfoService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -30,12 +32,16 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
+        String pubTime = request.getParameter("gTime");
+        if (StringUtils.isNotBlank(pubTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-//        condition.setOrderBy("time", Direction.DESC);
+        condition.setOrderBy("pubTime", Direction.DESC);
         return condition;
     }
 

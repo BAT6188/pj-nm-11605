@@ -73,9 +73,9 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">建设项目环评及其他许可情况</a></h3>
             <ul>
-                <li><a href="javascript:;">建设项目环评及验收信息</a></li>
-                <li><a href="javascript:;">排污许可证信息</a></li>
-                <li><a href="javascript:;">清洁生产审核</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/buildproject.jsp')">建设项目环评及验收信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/pollutantlicense.jsp')">排污许可证信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/cleanLicense.jsp')">清洁生产审核</a></li>
             </ul>
         </div>
         <div class="menuDiv">
@@ -108,7 +108,7 @@
             </ul>
         </div>
     </div>
-    <div class="main-right right">
+    <div class="main-right right level3MenuContent" style="overflow-x: hidden;">
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
@@ -125,8 +125,8 @@
     function loadPageInEnterprise(url){
         var headUrl = rootPath +"/container/gov/enterprise/";
         //$(".main-right").load(url);
-        $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
-        $('.main-right').load(headUrl+url); // ajax加载页面
+        $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
+        $('.level3MenuContent').load(headUrl+url); // ajax加载页面
     }
 </script>
 </body>

@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.composite.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.EnterprisePlan;
 import com.harmonywisdom.dshbcbp.composite.service.EnterprisePlanService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -27,7 +28,10 @@ public class EnterprisePlanAction extends BaseAction<EnterprisePlan, EnterpriseP
         if (StringUtils.isNotBlank(entity.getAttnPerson())) {
             param.andParam(new QueryParam("attnPerson", QueryOperator.LIKE,entity.getAttnPerson()));
         }
-
+        String recordDate = request.getParameter("recordDate");
+        if (StringUtils.isNotBlank(recordDate)) {
+            param.andParam(new QueryParam("recordDate", QueryOperator.EQ, DateUtil.strToDate(recordDate,"yyyy-MM-dd")));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);

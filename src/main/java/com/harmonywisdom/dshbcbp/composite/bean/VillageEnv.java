@@ -51,16 +51,29 @@ public class VillageEnv implements Serializable {
     @Column(name = "DESCRIPTION",length = 500)
     private String description;
     /**
-     *附件id
+     *附件
      */
     @Transient
-    private String attachmentId;
+    private String attachmentIds;
     /**
      *createTime
      */
     @Column(name = "CREATE_TIME")
     private Date createTime;
 
+    /**
+     *所属区域
+     */
+    @Column(name = "ADDRESS")
+    private Date address;
+
+    public Date getAddress() {
+        return address;
+    }
+
+    public void setAddress(Date address) {
+        this.address = address;
+    }
 
     public String getId() {
         return id;
@@ -126,12 +139,12 @@ public class VillageEnv implements Serializable {
         this.description = description;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 
     public Date getCreateTime() {

@@ -31,14 +31,13 @@ public class MonitorCase implements Serializable {
      * 2：已反馈
      */
     @Column(name = "status", length = 2)
-    private int status;
+    private Integer status;
 
     /**
-     * 企业，投诉对象
+     * 企业，投诉对象  数据库只保存id，name一般情况下不保存
      */
     @Column(name = "enterprise_id")
     private String enterpriseId;
-
     @Column(name = "enterprise_name")
     private String enterpriseName;
 
@@ -49,19 +48,18 @@ public class MonitorCase implements Serializable {
     private Date eventTime;
 
     /**
-     * 网格级别
+     * 网格级别，数据库只保存id，name一般情况下不保存
      */
     @Column(name = "block_level_id")
     private String blockLevelId;
-
     @Column(name = "block_level_name")
     private String blockLevelName;
+
     /**
-     * 所属网格
+     * 所属网格，数据库只保存id，name一般情况下不保存
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
-
     @Column(name = "block_name")
     private String blockName;
 
@@ -80,7 +78,10 @@ public class MonitorCase implements Serializable {
     @Column(name = "supervisor_phone")
     private String supervisorPhone;
 
-
+    /**
+     * 1.异常
+     * 2.超标
+     */
     @Column(name = "reason", length = 2)
     private String reason;
 
@@ -347,11 +348,11 @@ public class MonitorCase implements Serializable {
         this.sendRemark = sendRemark;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

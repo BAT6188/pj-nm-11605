@@ -33,6 +33,9 @@
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
+                    <button id="export" type="button" class="btn btn-sm btn-success">
+                        <span class="glyphicon glyphicon-export"></span>导出
+                    </button>
                 </p>
             </div>
             <div class="tableBox">

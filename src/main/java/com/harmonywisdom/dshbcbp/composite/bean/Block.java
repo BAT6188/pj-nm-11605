@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.composite.bean;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 一级网格
@@ -76,6 +77,23 @@ public class Block implements Serializable {
      */
     @Transient
     private String attachmentIds;
+
+    @Transient
+    private List<Block> children;
+
+    public Block(String id, String name) {
+        this.id=id;
+        this.orgName=name;
+    }
+    public Block(){}
+
+    public List<Block> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Block> children) {
+        this.children = children;
+    }
 
     public String getAttachmentIds() {
         return attachmentIds;

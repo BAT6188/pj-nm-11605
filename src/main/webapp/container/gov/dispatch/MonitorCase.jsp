@@ -26,7 +26,11 @@
         height: 47px;
     }
     a{
-        color: #1618c7;
+        color: #0b0c0d;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+        font-weight: bolder;
     }
 
 </style>
@@ -67,8 +71,8 @@
                             <label for="reason">原&nbsp;&nbsp;因：</label>
                             <select id="reason" name="reason" class="form-control" style="width: 301px;">
                                 <option value="">全部</option>
-                                <option value="异常">异常</option>
-                                <option value="超标">超标</option>
+                                <option value="1">异常</option>
+                                <option value="2">超标</option>
                             </select>
                         </div>
 
@@ -211,7 +215,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="smsSend" data-toggle="modal" data-target="#smsSendForm">短信发送</button>
-                <button type="button" class="btn btn-primary" id="send" data-toggle="modal" data-target="#selectPeopleForm">发送</button>
+                <button type="button" class="btn btn-primary" id="send">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->

@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_BlockFirst_save.action",
+        url: rootPath + "/action/S_composite_Block_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_BlockFirst_delete.action",
+        url: rootPath + "/action/S_composite_Block_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_BlockFirst_list.action",
+        url: rootPath+"/action/S_composite_Block_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -205,6 +205,7 @@ function setFormData(entity) {
     $("#orgAddress").val(entity.orgAddress);
     $("#position").val(entity.position);
     $("#areaPoints").val(entity.areaPoints);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -345,7 +346,9 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-$(".scrollContent").slimScroll({
+
+
+$(".tree-left").slimScroll({
     height:"100%",
     railOpacity:.9,
     alwaysVisible:!1
@@ -358,7 +361,7 @@ var setting = {
     },
     async: {
         enable: true,
-        url:rootPath + "/demo/ztree/ztreeData.json",
+        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
         autoParam:["id", "name", "level"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
@@ -371,4 +374,4 @@ function filter(treeId, parentNode, childNodes) {
     }
     return childNodes;
 }
-$.fn.zTree.init($("#treeDemo1"), setting);
+$.fn.zTree.init($("#blockTree"), setting);

@@ -1,9 +1,11 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.WorkSum;
 import com.harmonywisdom.dshbcbp.office.service.WorkSumService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -33,7 +35,7 @@ public class WorkSumAction extends BaseAction<WorkSum, WorkSumService> {
         }
         String pubTime = request.getParameter("pubTime");
         if (StringUtils.isNotBlank(pubTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.EQ,entity.getPubTime()));
+            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
         }
 
         QueryCondition condition=new QueryCondition();
@@ -41,6 +43,7 @@ public class WorkSumAction extends BaseAction<WorkSum, WorkSumService> {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("pubTime", Direction.DESC);
         return condition;
     }
 
