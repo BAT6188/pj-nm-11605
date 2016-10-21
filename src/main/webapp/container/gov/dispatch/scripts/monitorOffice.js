@@ -237,6 +237,8 @@ var ef = form.easyform({
 
         var entity = $("#eventMsg").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
+
         saveAjax(entity,function (msg) {
             //form.modal('hide');
             //gridTable.bootstrapTable('refresh');

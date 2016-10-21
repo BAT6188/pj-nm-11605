@@ -116,7 +116,7 @@ public class DispathTask implements Serializable {
     private String sendPhone;
 
     /**
-     * 发送备注
+     * 备注
      */
     @Column(name = "send_remark")
     private String sendRemark;
@@ -147,33 +147,10 @@ public class DispathTask implements Serializable {
     @Column(name = "target_linkphone", length = 11)
     private String targetLinkPhone;
 
-    /**
-     * 执法人员
-     */
-    @Column(name = "lawer_id", length = 32)
-    private String lawerId;
-    /**
-     * 执法人员姓名
-     */
-    @Column(name = "lawer_name", length = 20)
-    private String lawerName;
 
-    @Column(name = "exe_time")
-    private Date exeTime;
-    /**
-     * 执法情况
-     */
-    @Column(name = "exe_desc")
-    private String exeDesc;
-    /**
-     * 执法情况附件
-     */
-    @Column(name = "exe_attr_id", length = 32)
-    private int exeAttrId;
     /**
      * 1:未调度
      * 2:已发送
-     * 3:已调度
      * 3:已反馈
      * 4:已处罚
      * 5:已办结
@@ -399,45 +376,6 @@ public class DispathTask implements Serializable {
         this.sendRemark = sendRemark;
     }
 
-    public String getLawerId() {
-        return lawerId;
-    }
-
-    public void setLawerId(String lawerId) {
-        this.lawerId = lawerId;
-    }
-
-    public String getLawerName() {
-        return lawerName;
-    }
-
-    public void setLawerName(String lawerName) {
-        this.lawerName = lawerName;
-    }
-
-    public Date getExeTime() {
-        return exeTime;
-    }
-
-    public void setExeTime(Date exeTime) {
-        this.exeTime = exeTime;
-    }
-
-    public String getExeDesc() {
-        return exeDesc;
-    }
-
-    public void setExeDesc(String exeDesc) {
-        this.exeDesc = exeDesc;
-    }
-
-    public int getExeAttrId() {
-        return exeAttrId;
-    }
-
-    public void setExeAttrId(int exeAttrId) {
-        this.exeAttrId = exeAttrId;
-    }
 
     public String getStatus() {
         return status;

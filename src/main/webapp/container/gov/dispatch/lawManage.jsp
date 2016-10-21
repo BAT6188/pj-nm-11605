@@ -98,6 +98,9 @@
                     <button id="dealWith" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">
                         <i class="btnIcon edit-icon"></i><span>处置</span>
                     </button>
+                    <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
+                        <i class="btnIcon edit-icon"></i><span>反馈</span>
+                    </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>办结</span>
                     </button>
@@ -109,6 +112,252 @@
             </div>
         </div>
     </div>
+</div>
+
+<!--查看已反馈状态表单-->
+<div class="modal fade" id="feedbackStatusForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">执法详情</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" size="16" type="text" id="feedbackStatusForm_eventTime">
+                        </div>
+
+                        <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_answer" name="answer" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseId" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="feedbackStatusForm_enterpriseId" name="enterpriseId" class="form-control">
+                                <option value="1">aa</option>
+                                <option value="2">bb</option>
+                                <option value="3">cc</option>
+                            </select>
+                        </div>
+
+                        <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="feedbackStatusForm_source" name="source" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="feedbackStatusForm_blockLevelId" name="blockLevelId" class="form-control">
+                                <option value="1">网格级别1</option>
+                                <option value="2">网格级别2</option>
+                                <option value="3">网格级别3</option>
+                            </select>
+                        </div>
+
+                        <label for="blockId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
+                            <select id="feedbackStatusForm_blockId" name="blockId" class="form-control">
+                                <option value="1">网格1</option>
+                                <option value="2">网格2</option>
+                                <option value="3">网格3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisor" class="col-sm-2 control-label">监管人员<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_supervisor" name="supervisor" class="form-control"/>
+                        </div>
+
+                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_supervisorPhone" name="supervisorPhone" class="form-control"
+                            />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="senderName" class="col-sm-2 control-label">发送人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_senderName" name="senderName" class="form-control" disabled
+                            />
+                        </div>
+
+                        <label for="sendTime" class="col-sm-2 control-label">发送时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_sendTime" name="sendTime" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overValue" class="col-sm-2 control-label">超标值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_overValue" name="overValue" class="form-control"
+                            />
+                        </div>
+
+                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="feedbackStatusForm_thrValue" name="thrValue" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-sm-2 control-label">事件内容：</label>
+                        <div class="col-sm-10">
+                            <textarea id="feedbackStatusForm_content" name="content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
+                        <div class="col-sm-10">
+                            <textarea id="feedbackStatusForm_sendRemark" name="sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">执法记录-现场回传</h4>
+                    </div>
+                    <div class="tableBox">
+                        <table id="tableStatus" class="table table-striped table-responsive">
+                        </table>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--查看反馈表单-->
+<div class="modal fade" id="seeFeedbackForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">执执法记录-现场回传</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="lawerName" class="col-sm-2 control-label">现场执法人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="seeFeedbackForm_lawerName" name="lawerName" class="form-control"/>
+                        </div>
+
+                        <label for="phone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="seeFeedbackForm_phone" name="phone" class="form-control"
+                            />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exeTime" class="col-sm-2 control-label">执法时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" size="16" type="text" id="seeFeedbackForm_exeTime" name="exeTime" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exeDesc" class="col-sm-2 control-label">执法详情：</label>
+                        <div class="col-sm-10">
+                            <textarea id="seeFeedbackForm_exeDesc" name="exeDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--反馈表单-->
+<div class="modal fade" id="feedbackForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">执法反馈</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" id="dispathId" name="dispathId">
+
+                    <div class="form-group">
+                        <label for="lawerName" class="col-sm-2 control-label">现场执法人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="lawerName" name="lawerName" class="form-control"/>
+                        </div>
+
+                        <label for="phone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="phone" name="phone" class="form-control"
+                            />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exeTime" class="col-sm-2 control-label">执法时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="exeTime">
+                                <input class="form-control" size="16" type="text" id="exeTime" name="exeTime" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exeDesc" class="col-sm-2 control-label">执法详情：</label>
+                        <div class="col-sm-10">
+                            <textarea id="exeDesc" name="exeDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="feedbackTo" data-toggle="modal" data-target="#feedbackForm">反馈</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 
 <!--事件信息-->
@@ -127,11 +376,10 @@
                         <label for="eventTime" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
-                                <input class="form-control" size="16" type="text" value="" id="datetimepickerEventTime" readonly>
+                                <input class="form-control" size="16" type="text" id="eventTime" name="eventTime" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <input type="hidden" id="eventTime" name="eventTime" class="form-control"/>
                         </div>
 
                         <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
@@ -141,9 +389,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseId" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="enterpriseName" name="enterpriseName" class="form-control">
+                            <select id="enterpriseId" name="enterpriseId" class="form-control">
                                 <option value="1">aa</option>
                                 <option value="2">bb</option>
                                 <option value="3">cc</option>
@@ -157,18 +405,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLevelName" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelName" name="blockLevelName" class="form-control">
+                            <select id="blockLevelId" name="blockLevelId" class="form-control">
                                 <option value="1">网格级别1</option>
                                 <option value="2">网格级别2</option>
                                 <option value="3">网格级别3</option>
                             </select>
                         </div>
 
-                        <label for="blockName" class="col-sm-2 control-label"></label>
+                        <label for="blockId" class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
-                            <select id="blockName" name="blockName" class="form-control">
+                            <select id="blockId" name="blockId" class="form-control">
                                 <option value="1">网格1</option>
                                 <option value="2">网格2</option>
                                 <option value="3">网格3</option>
@@ -187,26 +435,46 @@
                             />
                         </div>
                     </div>
+
+
                     <div class="form-group">
-                        <label for="content" class="col-sm-2 control-label">事件内容<span class="text-danger">*</span>：</label>
+                        <label for="senderName" class="col-sm-2 control-label">发送人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="senderName" name="senderName" class="form-control" disabled
+                            />
+                        </div>
+
+                        <label for="sendTime" class="col-sm-2 control-label">发送时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="sendTime" name="sendTime" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overValue" class="col-sm-2 control-label">超标值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="overValue" name="overValue" class="form-control"
+                            />
+                        </div>
+
+                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="thrValue" name="thrValue" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-sm-2 control-label">事件内容：</label>
                         <div class="col-sm-10">
                             <textarea id="content" name="content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <hr/>
-
                     <div class="form-group">
-                        <label for="senderName" class="col-sm-2 control-label">发送人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="senderName" name="senderName" class="form-control"
-                            />
-                        </div>
-
-                        <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="sendPhone" name="sendPhone" class="form-control"/>
+                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
+                        <div class="col-sm-10">
+                            <textarea id="sendRemark" name="sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
