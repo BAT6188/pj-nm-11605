@@ -1,6 +1,8 @@
 <%@ page import="com.harmonywisdom.apportal.common.configuration.ConfigureManager" %>
 <%@ page import="com.harmonywisdom.apportal.sdk.person.IPerson" %>
 <%@ page import="com.harmonywisdom.dshbcbp.utils.ApportalUtil" %>
+<%@ page import="com.harmonywisdom.apportal.sdk.org.IOrg" %>
+<%@ page import="com.harmonywisdom.apportal.sdk.org.OrgServiceUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +12,16 @@
     IPerson person = ApportalUtil.getPerson(request);
     String userID = "";
     String userName = "";
+    String orgId="";
+    String orgCode="";
     if (person != null) {
         userID = person.getUserId();
         userName = person.getUserName();
+        orgId=person.getOrgId();
+
+        IOrg org = OrgServiceUtil.getOrgByOrgId(orgId);
+        orgCode = org.getOrgCode();
+
     }
 
 %>
@@ -22,6 +31,10 @@
     var SToken = '${param.SToken}';
     var userId = '<%=userID%>';
     var userName = '<%=userName%>';
+
+    var orgId='<%=orgId%>';
+    var orgCode='<%=orgCode%>';
+
 </script>
 
 <!--[if lt IE 9]>

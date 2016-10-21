@@ -1,5 +1,8 @@
 var gridTable = $('.tableTab'),
     selections = [];
+
+var status_search="";
+
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -65,7 +68,7 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                footerFormatter: totalTextFormatter
+                formatter: reasonFormatter
             },{
                 field: 'overValue',
                 title: '超标值',
@@ -150,7 +153,7 @@ function initTable() {
         var reason = $("#reason").val();
         // var age = $("#s_age").val();
         gridTable.bootstrapTable('refresh',{
-            query:{enterpriseName: searchEnterpriseName,reason:reason,startSendTime:start_sendTime,endSendTime:end_sendTime}
+            query:{enterpriseName: searchEnterpriseName,reason:reason,startSendTime:start_sendTime,endSendTime:end_sendTime,status_search:status_search}
         });
 
     });
@@ -223,6 +226,16 @@ function statusFormatter(value, row, index) {
     return html;
 }
 
+function reasonFormatter(value, row, index) {
+    var html
+    if(1==value){
+        html="异常"
+    }else if(2==value){
+        html="超标"
+    }
+    return html;
+}
+
 // 操作事件
 window.operateEvents = {
     'click .like': function (e, value, row, index) {
@@ -230,7 +243,6 @@ window.operateEvents = {
         refreshDemoForm(row);
     }
 };
-
 /**
  * 刷新表单数据
  * @param demo
@@ -249,14 +261,12 @@ function refreshDemoForm(demo) {
     $("#thrValue").val(demo.thrValue);
     $("#content").val(demo.content);
     $("#senderName").val(demo.senderName);
-    $("#sendTime").val(demo.sendTime);
+    $("#sendTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#sendRemark").val(demo.sendRemark);
 
 }
 
-$("#send").click(function () {
-    $("#monitorCaseId").val($("#id").val())
-});
+
 
 function totalTextFormatter(data) {
     return 'Total';
@@ -274,19 +284,50 @@ function totalPriceFormatter(data) {
 function getHeight() {
     return $(window).height() - $('h1').outerHeight(true);
 }
+
 initTable();
+
+//保存监控中心调度单
+function saveAjax(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_MonitorCase_saveMonitor.action",
+        type:"post",
+        data:entity,
+        dataType:"json",
+        success:callback
+    });
+}
+
 //初始化表单验证
 var ef = $("#systemSendForm").easyform({
     success:function (ef) {
-        var demo = {};
-        saveDemo(demo,function (msg) {
-            $('#systemSendForm').modal('hide');
-            gridTable.bootstrapTable('refresh');
+        //验证成功，打开选择人员 对话框
+        $('#selectPeopleForm').modal('show');
+
+        var id = $("#id").val();
+        var senderName = $("#senderName").val();
+        var sendTime = $("#sendTime").val();
+        var sendRemark = $("#sendRemark").val();
+
+        var entity = {senderName:senderName,sendTime:sendTime,sendRemark:sendRemark,id:id}
+        console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
+
+        saveAjax(entity,function (msg) {
+            //form.modal('hide');
+            //gridTable.bootstrapTable('refresh');
+
+            $("#monitorCaseId").val($("#id").val())
         });
     },
-    error:function (ef,input, rull) {
-        alert($(input).attr("id"));
+    error:function () {
+        console.log("error")
     }
+});
+
+//表单 保存按钮
+$("#send").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
 });
 
 function updateDemo(demo) {
@@ -335,18 +376,26 @@ $('#datetimepicker2').datetimepicker({
     showMeridian: 1
 });
 
+
 $(function(){
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var activeTab = $(e.target).attr("href");
 
         if("#noDispath"==activeTab){
+            status_search=0
+
             gridTable.bootstrapTable('hideColumn',"status");
             gridTable.bootstrapTable('showColumn',"operate");
         }else {
+            status_search='!0'
+
             gridTable.bootstrapTable('showColumn',"status");
             gridTable.bootstrapTable('hideColumn',"operate");
         }
 
+        gridTable.bootstrapTable('refresh',{
+            query:{status_search: status_search}
+        });
 
     });
 });

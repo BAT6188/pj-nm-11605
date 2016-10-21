@@ -8,6 +8,7 @@ import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
@@ -29,31 +30,60 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         return dispathTaskService;
     }
 
+    /**
+     * 调度单点调度按钮
+     */
     public void dispathTaskBtnSave(){
+        DispathTask dispathTask = dispathTaskService.findById(entity.getId());
+        entity.setSelectPeopleIds(dispathTask.getSelectPeopleIds());
+        if (StringUtils.isEmpty(entity.getEnterpriseName())){
+            entity.setEnterpriseName(dispathTask.getEnterpriseName());
+        }
+        if (StringUtils.isEmpty(entity.getBlockLevelName())){
+            entity.setBlockLevelName(dispathTask.getBlockLevelName());
+        }
+        if (StringUtils.isEmpty(entity.getBlockName())){
+            entity.setBlockName(dispathTask.getBlockName());
+        }
+        if(StringUtils.isEmpty(entity.getMonitorCaseId())){
+            entity.setBlockName(dispathTask.getMonitorCaseId());
+        }
         super.save();
     }
 
+    /**
+     * 执法管理列表的调度单选择人员，点发送按钮
+     */
     public void updateFromSendToBtn(){
+        String dispathTaskId = request.getParameter("dispathTaskId");
+        DispathTask dispathTask = dispathTaskService.findById(dispathTaskId);
+
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
-        entity.setEnvironmentalProtectionStationStaffIds(jsonIds);
+        dispathTask.setEnvironmentalProtectionStationStaffIds(jsonIds);
 
-        String dispathTaskId = request.getParameter("dispathTaskId");
-        entity.setId(dispathTaskId);
+        dispathTask.setStatus("2");
 
-        super.save();
+        String pk = this.getService().saveOrUpdate(dispathTask);
+        write(pk);
     }
 
+    /**
+     * 监控中心，监控办公室的调度单选择人员，点发送按钮
+     */
     @Override
     public void save() {
+        String monitorCaseId = request.getParameter("monitorCaseId");
+        MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
+
+        mc.setStatus(1);
+        monitorCaseService.update(mc);
+
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
         entity.setSelectPeopleIds(jsonIds);
 
-        String monitorCaseId = request.getParameter("monitorCaseId");
         entity.setMonitorCaseId(monitorCaseId);
-        MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
-
         entity.setEnterpriseId(mc.getEnterpriseId());
         entity.setEnterpriseName(mc.getEnterpriseName());
         entity.setSource(mc.getSource());
@@ -74,6 +104,8 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         entity.setSendTime(mc.getSendTime());
         entity.setSendPhone(mc.getSendPhone());
         entity.setSendRemark(mc.getSendRemark());
+
+        entity.setStatus("1");
 
         super.save();
     }
