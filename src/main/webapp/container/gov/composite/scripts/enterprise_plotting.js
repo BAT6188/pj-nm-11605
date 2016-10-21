@@ -30,9 +30,20 @@ var PlottingDialog = function(){
             $(".glyphicon-move").bind('click',function () {
                 that._plotting.mode('pan');
             });
+            var markers = [];
             $(".glyphicon-map-marker").bind('click',function () {
-                /*that._plotting.paper.clear();*/
+                debugger;
+                //清除已标绘元素
+                that._plottingEle.bind("mousedown",function () {
+                    if (markers.length>1) {
+                        var marker = markers.shift();
+                        marker.remove();
+                    }
+                });
                 that._plotting.mode('point');
+                that._plottingEle.bind("plotting",function (e,shape) {
+                    markers.push(shape);
+                })
 
             });
             that._model.find(".btn-save").bind('click', function (e) {
