@@ -65,7 +65,7 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date firstTime = sdf.parse(startYdate);
         Date endTime = sdf.parse(lastYdate);
-        Map<String,Object> result = new HashMap<>();
+        Map<String,Object> result = new HashMap<String,Object>();
 
         List<Object[]> list = pollutantPaymentService.findByPieChart(firstTime,endTime);
         if(list !=null && list.size()>0){
