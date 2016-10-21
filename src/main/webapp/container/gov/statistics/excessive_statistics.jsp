@@ -117,29 +117,6 @@
                     }
                 } );
             },
-//            source: [
-//                "Chinese",
-//                "English",
-//                "Spanish",
-//                "Russian",
-//                "French",
-//                "Japanese",
-//                "Korean",
-//                "German"
-//            ]
-//            minLength: 2
-//            select: function(event, ui) {
-//                // 这里的this指向当前输入框的DOM元素
-//                // event参数是事件对象
-//                // ui对象只有一个item属性，对应数据源中被选中的对象
-//
-//                $(this).value = ui.item.label;
-//                $("#s_name").val( ui.item.value );
-//                $("#s_name").html(ui.item.sayHi);
-//
-//                // 必须阻止默认行为，因为autocomplete默认会把ui.item.value设为输入框的value值
-//                event.preventDefault();
-//            }
         } );
     } );
 

@@ -71,7 +71,7 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <p>
-                        <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" class="form-control" />
+                        <label for="s_name">企业名称：</label> <input type="text" id="s_name" class="form-control" />
                     </p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -231,6 +231,57 @@
     </div><!-- /.modal -->
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/port/scripts/transport_efficient.js"></script>
+<script type="text/javascript">
+    $( function() {
+
+        $( "#s_name" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            console.log(data.rows[i].name);
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                result.push(data.rows[i].name);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            }
+
+        } );
+
+        $( "#enterpriseName" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            console.log(data.rows[i].name);
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                result.push(data.rows[i].name);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            }
+
+        } );
+    } );
+</script>
+
 
 </body>
 </html>

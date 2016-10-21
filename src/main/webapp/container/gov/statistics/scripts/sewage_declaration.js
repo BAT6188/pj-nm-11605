@@ -287,6 +287,14 @@ $(function(){
                     }
                 }
             },
+            lang: {
+                printChart:"打印图表",
+                downloadJPEG: "下载JPEG 图片" ,
+                downloadPDF: "下载PDF文档"  ,
+                downloadPNG: "下载PNG 图片"  ,
+                downloadSVG: "下载SVG 矢量图" ,
+                exportButtonTitle: "导出图片"
+            },
             series: series
         });
     }
@@ -300,7 +308,7 @@ $(function(){
                 type: 'pie'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: '2016年上半年企业排污缴费统计'
             },
             plotOptions: {
                 pie: {
@@ -338,7 +346,7 @@ $(function(){
                 type: 'line'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: '2016年上半年企业排污申报费用统计'
             },
             // subtitle: {
             //     text: 'Source: WorldClimate.com'
