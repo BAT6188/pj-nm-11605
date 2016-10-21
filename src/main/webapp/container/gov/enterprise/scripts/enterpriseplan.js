@@ -194,8 +194,12 @@ removeBtn.click(function () {
 $("#search").click(function () {
     var queryParams = {};
     var attnPerson = $("#s_attnPerson").val();
+    var recordDate = $("#t_recordDate").val();
     if (attnPerson){
         queryParams["attnPerson"] = attnPerson;
+    }
+    if (recordDate){
+        queryParams["recordDate"] = recordDate;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -223,6 +227,11 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('#recordDateContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#t_recordDateContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
