@@ -69,7 +69,7 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" id="grasForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="grasModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 800px">
+    <div class="modal-dialog" style="width: 850px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -89,7 +89,7 @@
                         <label for="name" class="col-sm-2 control-label">排口名称<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="name" name="name" class="form-control"
-                                   data-message="设施名称不能为空"
+                                   data-message="排口名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>

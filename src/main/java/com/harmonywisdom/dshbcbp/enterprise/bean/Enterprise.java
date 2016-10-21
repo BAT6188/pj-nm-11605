@@ -297,6 +297,12 @@ public class Enterprise implements Serializable {
     private String delOpinion;
 
     /**
+     * 所属网格
+     */
+    @Column(name = "relate_grid")
+    private String relateGrid;
+
+    /**
      * 平面图
      */
     @Column(name = "plane_map")
@@ -618,5 +624,13 @@ public class Enterprise implements Serializable {
 
     public void setPlaneMap(String planeMap) {
         this.planeMap = planeMap;
+    }
+
+    public String getRelateGrid() {
+        return relateGrid;
+    }
+
+    public void setRelateGrid(String relateGrid) {
+        this.relateGrid = relateGrid;
     }
 }

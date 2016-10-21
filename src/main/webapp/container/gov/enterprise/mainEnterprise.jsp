@@ -33,7 +33,17 @@
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/grasPortList.jsp?id=<%=id%>')">废气排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/waterPortList.jsp?id=<%=id%>')">废水排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/noisePortList.jsp?id=<%=id%>')">噪声源</a></li>
+                <li><a href="javascript:loadPageInEnterprise('basicInfo/fumesPortList.jsp?id=<%=id%>')">油烟排口(适用于酒店)</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/mainProductList.jsp?id=<%=id%>')">主要产品及规模</a></li>
+            </ul>
+        </div>
+        <div class="menuDiv">
+            <h3><a href="javascript:;">企业阀值管理</a></h3>
+            <ul>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/wasteWaterPT.jsp?id=<%=id%>')">废水阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/hepwgPT.jsp?id=<%=id%>')">火电厂废气阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/bwgPT.jsp?id=<%=id%>')">锅炉废气阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/fgPT.jsp?id=<%=id%>')">油烟阈值管理</a></li>
             </ul>
         </div>
         <div class="menuDiv">
@@ -41,7 +51,13 @@
             <ul>
                 <li><a href="javascript:loadPageInEnterprise('proDeviceInfo/boilerList.jsp?id=<%=id%>')">燃煤锅炉信息</a></li>
                 <li><a href="javascript:loadPageInEnterprise('proDeviceInfo/kilnList.jsp?id=<%=id%>')">窑炉信息</a></li>
-                <li><a href="javascript:;">其他生产设备信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('proDeviceInfo/otherProductList.jsp?id=<%=id%>')">其他生产设备信息</a></li>
+            </ul>
+        </div>
+        <div class="menuDiv">
+            <h3 onclick="loadPageInEnterprise('portStatusHistory/portStatusHistory.jsp?id=<%=id%>')"><a href="javascript:void(0)">超标记录</a></h3>
+            <ul>
+                <li class="curLi"><a href="javascript:loadPageInEnterprise('portStatusHistory/portStatusHistory.jsp?id=<%=id%>')">超标记录</a></li>
             </ul>
         </div>
         <div class="menuDiv">

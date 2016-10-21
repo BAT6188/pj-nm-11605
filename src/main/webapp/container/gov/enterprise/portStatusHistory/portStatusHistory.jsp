@@ -5,14 +5,14 @@
     <%
         String enterpriseId=request.getParameter("id");
     %>
-    <title>其他生产设备信息</title>
+    <title>超标记录</title>
     <script type="text/javascript">
         var enterpriseId='<%=enterpriseId%>';
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">其他生产设备信息列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">超标记录列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -27,12 +27,8 @@
                     <form class="form-horizontal" role="form" id="searchform">
                     <div class="form-inline">
                         <div class="form-group">
-                            <label for="status" class="labelMarginLeft">状态：</label>
-                            <select style="width: 300px;" class="form-control" id="searchStatus" name="status">
-                                <option value="">全部</option>
-                                <option value="1">在用</option>
-                                <option value="0">停用</option>
-                            </select>
+                            <label for="snumber" class="labelMarginLeft">排口编号：</label><input type="text" id="snumber" name="number" class="form-control">
+                            <label for="sname" class="labelMarginLeft">排口名称：</label><input type="text" id="sname" name="name" class="form-control">
                         </div>
                     </div>
                     </form>
@@ -40,17 +36,6 @@
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
-                <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#otherProductForm">
-                        <i class="btnIcon add-icon"></i><span>新建</span>
-                    </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#otherProductForm">
-                        <i class="btnIcon edit-icon"></i><span>修改</span>
-                    </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
-                        <i class="btnIcon delf-icon"></i><span>删除</span>
-                    </button>
-                </p>
             </div>
             <div class="tableBox">
                 <table id="table" class="table table-striped table-responsive">
@@ -65,7 +50,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加其他生产设备信息</h4>
+                <h4 class="modal-title form-title">超标记录信息</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
@@ -125,13 +110,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary saveBtn" id="save" style="display: none">保存</button>
-                <button id="cancelBtn" type="button" class="btn btn-default saveBtn" data-dismiss="modal" style="display: none">取消</button>
-                <button type="button" class="btn btn-default lookBtn" data-dismiss="modal" style="display: none">关闭</button>
+                <button type="button" class="btn btn-default lookBtn" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/proDeviceInfo/scripts/otherProductList.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/portStatusHistory/scripts/portStatusHistory.js"></script>
 </body>
 </html>

@@ -14,6 +14,7 @@ import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> {
     @AutoService
@@ -130,5 +131,10 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         enterprise.setDelTime(new Date());
         enterpriseService.update(enterprise);
         write(String.format("{\"success\": true, \"id\": \"%s\"}", entity.getId()));
+    }
+
+    public void getAll(){
+        List<Enterprise> enterprises = getService().findAll();
+        write(enterprises);
     }
 }

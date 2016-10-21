@@ -9,6 +9,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>HM_GIS</title>
     <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        /*<!--解决样式冲突问题-->*/
+        .titlebar>.hide{
+            display: block !important;
+        }
+    </style>
     <script src="<%=request.getContextPath()%>/demo/easyform/js/jquery-2.1.0.min.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-3.3.7/js/bootstrap.js"></script>
     <script type="text/javascript" src="script/minmap/init.js" ></script>

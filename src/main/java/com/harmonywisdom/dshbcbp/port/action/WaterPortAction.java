@@ -28,6 +28,9 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
+            param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getNumber())) {
             param.andParam(new QueryParam("number", QueryOperator.LIKE,"%"+entity.getNumber()+"%"));
         }

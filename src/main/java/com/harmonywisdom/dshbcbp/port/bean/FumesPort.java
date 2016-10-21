@@ -29,12 +29,6 @@ public class FumesPort implements Serializable {
     private String name;
 
     /**
-     * 性质
-     */
-    @Column(name = "nature",length = 100)
-    private String nature;
-
-    /**
      * 监测类型
      */
     @Column(name = "monitor_type",length = 100)
@@ -89,6 +83,12 @@ public class FumesPort implements Serializable {
     private Date createTime;
 
     /**
+     * 企业ID
+     */
+    @Column(name = "enterprise_id",length = 32)
+    private String enterpriseId;
+
+    /**
      * 附件
      */
     @Transient
@@ -116,14 +116,6 @@ public class FumesPort implements Serializable {
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    public String getNature() {
-        return nature;
-    }
-
-    public void setNature(String nature) {
-        this.nature = nature;
     }
 
     public String getMonitorType() {
@@ -204,5 +196,13 @@ public class FumesPort implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

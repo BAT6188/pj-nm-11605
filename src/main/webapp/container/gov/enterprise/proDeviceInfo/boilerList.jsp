@@ -183,7 +183,7 @@
 <script>
     $(function(){
         initSelect();
-        $('.form_date').datetimepicker({
+        $('#searchform').find('.form_date').datetimepicker({
             language:   'zh-CN',
             weekStart: 1,
             todayBtn:  1,

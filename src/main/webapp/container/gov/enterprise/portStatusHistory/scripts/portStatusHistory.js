@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#waterForm"),
-    formTitle = "废水排口",
+    form = $("#otherProductForm"),
+    formTitle = "超标记录",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_save.action",
+        url: rootPath + "/action/S_port_PortStatusHistory_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_WaterPort_delete.action",
+        url: rootPath + "/action/S_port_PortStatusHistory_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_WaterPort_list.action",
+        url: rootPath+"/action/S_port_PortStatusHistory_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -57,10 +57,9 @@ function initTable() {
             {
                 title: '排口编号',
                 field: 'number',
-                align: 'center',
-                valign: 'middle',
+                editable: false,
                 sortable: false,
-                visible:false
+                align: 'center'
             },
             {
                 title: '排口名称',
@@ -70,43 +69,26 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '排口位置',
-                field: 'position',
+                title: '超标时间',
+                field: 'model',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '排放方式',
-                field: 'dischargeMode',
+                title: '监测指标',
+                field: 'quantity',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:dischargeModeFormatter
+                align: 'center'
             },
             {
-                title: '排放去向',
-                field: 'dischargeDirection',
+                title: '状态',
+                field: 'status',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '排放标准',
-                field: 'dischargeStandard',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:dischargeStandardFormatter
-            },
-            {
-                title: '监测类型',
-                field: 'monitorType',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:monitorTypeFormatter
+                formatter: statusFormatter
             },
             {
                 field: 'operate',
@@ -124,13 +106,13 @@ function initTable() {
     }, 200);
 
     //列表checkbox选中事件
-    gridTable.on('check.bs.table uncheck.bs.table ' +
+    /*gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-    });
+    });*/
 
     $(window).resize(function () {
         // 重新设置表的高度
@@ -142,19 +124,14 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#waterForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#otherProductForm">查看</button>';
 }
-function dischargeModeFormatter(value, row, index){
-    return dict.get('dischargeMode',value);
+var statusType = {
+    '1':'在用',
+    '0':'停用'
 }
-function dischargeStandardFormatter(value, row, index){
-    return dict.get('waterDischargeStandard',value);
-}
-function monitorTypeFormatter(value, row, index){
-    return dict.get('monitorType',value);
-}
-function dischargeDirectionFormatter(value, row, index){
-    return dict.get('waterDischargeDirection',value);
+function statusFormatter(value, row, index){
+    return statusType[value];
 }
 // 列表操作事件
 window.operateEvents = {
@@ -190,12 +167,12 @@ function getHeight() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
+//removeBtn.prop('disabled', true);
+//updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-$("#add").bind('click',function () {
+/*$("#add").bind('click',function () {
     updateSuccessMsg = '添加'+formTitle+'成功!';
     $('.saveBtn').show();
     $('.lookBtn').hide();
@@ -206,11 +183,11 @@ $("#update").bind("click",function () {
     $('.saveBtn').show();
     $('.lookBtn').hide();
     setFormData(getSelections()[0]);
-});
+});*/
 /**
  * 列表工具栏 删除按钮
  */
-removeBtn.click(function () {
+/*removeBtn.click(function () {
     var ids = getIdSelections();
     $('.mainBox').BootstrapConfirm('确认要删除选择的数据吗？',function(){
         deleteAjax(ids,function (msg) {
@@ -222,9 +199,7 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
-});
-
-
+});*/
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
@@ -243,7 +218,7 @@ $("#searchFix").click(function () {
 });
 
 /**============表单初始化相关代码============**/
-var updateSuccessMsg = '提交成功';
+/*var updateSuccessMsg = '提交成功';
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
@@ -251,7 +226,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.find('#cancelBtn').trigger('click');
             $('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
             gridTable.bootstrapTable('refresh');
         });
@@ -262,7 +237,7 @@ var ef = form.easyform({
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
-});
+});*/
 /**
  * 设置表单数据
  * @param entity
@@ -304,7 +279,6 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
-    form.find(".formBtn").attr("disabled",disabled);
     form.find('.isRadio input').attr("disabled",disabled);
 }
 /**
@@ -384,8 +358,6 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true

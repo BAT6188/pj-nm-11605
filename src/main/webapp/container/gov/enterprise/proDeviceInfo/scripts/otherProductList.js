@@ -55,32 +55,47 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '主要产品（服务）',
-                field: 'product',
+                title: '设备名称',
+                field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '生产规模',
-                field: 'scope',
+                title: '设备编码',
+                field: 'code',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '主要原辅材料名称',
-                field: 'rawMaterial',
+                title: '设备型号',
+                field: 'model',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '耗量',
-                field: 'consumption',
+                title: '数量',
+                field: 'quantity',
                 editable: false,
                 sortable: false,
                 align: 'center'
+            },
+            {
+                title: '计量单位',
+                field: 'unit',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '状态',
+                field: 'status',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter: statusFormatter
             },
             {
                 field: 'operate',
@@ -117,6 +132,13 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#otherProductForm">查看</button>';
+}
+var statusType = {
+    '1':'在用',
+    '0':'停用'
+}
+function statusFormatter(value, row, index){
+    return statusType[value];
 }
 // 列表操作事件
 window.operateEvents = {
@@ -225,17 +247,6 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-//初始化日期组件
-$('#createTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#openDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
 /**
  * 设置表单数据
  * @param entity
@@ -277,23 +288,7 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
-
+    form.find('.isRadio input').attr("disabled",disabled);
 }
 /**
  * 重置表单
