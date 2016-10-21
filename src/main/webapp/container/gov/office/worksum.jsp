@@ -31,9 +31,9 @@
                                 <label for="s_type">工作类型：</label> <input type="text" id="s_type"  style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="">创建时间：</label>
+                                <label for="s_pubTime">发布时间：</label>
                                 <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="pubTime">
-                                    <input class="form-control" size="16" id="pubTime" name="pubTime"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="s_pubTime" name="pubTime"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -41,7 +41,7 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <p></p> <p></p>
+                <br/><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#workSumForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -51,6 +51,9 @@
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
+                    </button>
+                    <button id="export" type="button" class="btn btn-sm btn-success">
+                        <span class="glyphicon glyphicon-export"></span>导出
                     </button>
                 </p>
             </div>
@@ -62,7 +65,7 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" data-backdrop="static"  id="workSumForm" data-form-type="add"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade"  data-backdrop="static"  id="workSumForm" data-form-type="add"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog"  style="width: 900px">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,7 +75,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">标题*：</label>
+                        <label for="title" class="col-sm-2 control-label">标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -81,7 +84,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubTime" class="col-sm-2 control-label">发布时间*：</label>
+                        <label for="pubTime" class="col-sm-2 control-label">发布时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
@@ -93,14 +96,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位*：</label>
+                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
                                    data-message="发布单位不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="type" class="col-sm-2 control-label">类型*：</label>
+                        <label for="type" class="col-sm-2 control-label">类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="type" name="type"  class="form-control"
                                    data-message="类型不能为空"
@@ -109,7 +112,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="col-sm-2 control-label">描述*：</label>
+                        <label for="description" class="col-sm-2 control-label">描述<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea  id="description" name="description" class="form-control" rows="5"
                                        data-message="描述不能为空"

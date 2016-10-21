@@ -187,12 +187,12 @@ removeBtn.click(function () {
 $("#search").click(function () {
     var queryParams = {};
     var title = $("#s_title").val();
-    var pubTime = $("#s_pubTime").val();
+    var cTime = $("#s_pubTime").val();
     if (title){
         queryParams["title"] = title;
     }
-    if (pubTime){
-        queryParams["pubTime"] = pubTime;
+    if (cTime){
+        queryParams["cTime"] = cTime;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -220,6 +220,11 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('#pubTimeContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#s_pubTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2

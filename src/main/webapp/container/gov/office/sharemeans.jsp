@@ -16,14 +16,31 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="title">标题</label><input type="text" id="s_title" class="form-control" />
-                        <label for="type">资料类型</label><input type="text" id="s_type" class="form-control" />
-                        <label for="pubTime">发布时间</label>
-                        <input type="text" id="s_pubTime" class="form-control" />
-                    </p>
+                    <%--<p>--%>
+                        <%--<label for="title">标题</label><input type="text" id="s_title" class="form-control" />--%>
+                        <%--<label for="type">资料类型</label><input type="text" id="s_type" class="form-control" />--%>
+                        <%--<label for="pubTime">发布时间</label>--%>
+                        <%--<input type="text" id="s_pubTime" class="form-control" />--%>
+                    <%--</p>--%>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="s_title">标题：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="s_type">资料类型：</label> <input type="text" id="s_type"  style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="s_pubTime">发布时间：</label>
+                                <div id="s_pubTimeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="pubTime">
+                                    <input class="form-control" size="16" id="s_pubTime" name="pubTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                        </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <br/><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -33,6 +50,9 @@
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
+                    </button>
+                    <button id="export" type="button" class="btn btn-sm btn-success">
+                        <span class="glyphicon glyphicon-export"></span>导出
                     </button>
                 </p>
             </div>
