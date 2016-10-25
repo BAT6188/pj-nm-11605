@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="box box5">
-        <div class="nav linear ">
+        <div class="nav-menu linear ">
             <ul id="level2Menu" class="navList">
                 <%--<li class="list1 linear-hover"><a href="javascript:;">日程安排</a></li>
                 <li class="list2"><a href="javascript:;">委托监测</a></li>
