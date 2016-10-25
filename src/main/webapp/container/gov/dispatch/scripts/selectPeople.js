@@ -17,8 +17,8 @@ var setting = {
     },
     async: {
         enable: true,
-        //url:rootPath + "/action/S_dispatch_MonitorCase_getOrgPersonList.action",
-        url:rootPath + "/container/gov/dispatch/selectPeople.json",
+        url:rootPath + "/action/S_dispatch_MonitorCase_getOrgPersonList.action",
+        // url:rootPath + "/container/gov/dispatch/selectPeople.json",
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
