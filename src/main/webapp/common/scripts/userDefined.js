@@ -394,4 +394,9 @@ var pageUtils = {
         }
         return format;
     }
+
+    window.resetQuery= function() {
+        $(".queryBox").find("input[type!='radio'][type!='checkbox']").val("");
+    }
+
 })(jQuery);

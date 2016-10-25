@@ -1,6 +1,6 @@
 [
 
-  { "id":0, "pId":1, "name":"组织机构树", "isParent":true,"children": [
+  { "id":0, "pId":1, "name":"组织机构树", "parent":true,"children": [
     { "id":1, "name":"liuyifan","job":"天下第一"},
     { "id":22, "name":"zhangwuji","job":"明教教主"},
     { "id":3, "name":"zhaoming","job":"menggujunzhu"}

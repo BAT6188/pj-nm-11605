@@ -12,7 +12,7 @@ public class OrgPerson {
     private String id;
     private String name;
     private String job;
-    private boolean isParent;
+    private boolean parent;
 
     private List<OrgPerson> children;
 
@@ -41,11 +41,11 @@ public class OrgPerson {
     }
 
     public boolean isParent() {
-        return isParent;
+        return parent;
     }
 
     public void setParent(boolean parent) {
-        isParent = parent;
+        this.parent = parent;
     }
 
     public List<OrgPerson> getChildren() {

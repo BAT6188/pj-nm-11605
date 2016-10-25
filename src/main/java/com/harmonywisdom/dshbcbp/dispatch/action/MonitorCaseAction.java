@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseService> {
@@ -47,33 +48,32 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         for (Org org : allNotDelOrg) {
 
             OrgPerson orgPerson=new OrgPerson();
+            orgPerson.setParent(true);
             orgPerson.setId(org.getOrgId());
             orgPerson.setName(org.getOrgName());
 
             List<Person> personByOrgId = PersonServiceUtil.getPersonByOrgId(org.getOrgId());
             List<OrgPerson> children=new LinkedList<OrgPerson>();
             for (Person person : personByOrgId) {
-                orgPerson.setParent(true);
-
                 OrgPerson child=new OrgPerson();
                 child.setId(person.getPersonId());
                 child.setName(person.getUserName());
-                child.setJob(person.getExtattrMap().get("job").toString());
+                Map extattrMap = person.getExtattrMap();
+                if (extattrMap!=null){
+                    Object job = extattrMap.get("job");
+                    if (job!=null){
+                        child.setJob(job.toString());
+                    }
+                }
                 children.add(child);
 
             }
             orgPerson.setChildren(children);
 
             orgPersonList.add(orgPerson);
-
-            try {
-                response.setContentType("text/html;charset=utf-8");
-                PrintWriter writer = response.getWriter();
-                writer.write(JSON.toJSONString(orgPersonList));
-            } catch (IOException e) {
-                log.error("无法输出JSON信息", e);
-            }
         }
+        write(orgPersonList);
+
     }
 
     @Override

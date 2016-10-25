@@ -17,8 +17,8 @@ var setting = {
     },
     async: {
         enable: true,
-        //url:rootPath + "/action/S_dispatch_MonitorCase_getOrgPersonList.action",
-        url:rootPath + "/container/gov/dispatch/selectPeople.json",
+        url:rootPath + "/action/S_dispatch_MonitorCase_getOrgPersonList.action",
+        // url:rootPath + "/container/gov/dispatch/selectPeople.json",
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
@@ -114,8 +114,9 @@ function removeFromGrid() {
 }
 
 function zTreeOnClick(event, treeId, treeNode) {
-    if(!treeNode.isParent){
+    if(!treeNode.parent){
         appendToGrid(treeNode);
+        console.log("appendToGrid:"+JSON.stringify(treeNode))
     }
 
 };

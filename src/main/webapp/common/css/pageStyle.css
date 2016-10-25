@@ -240,15 +240,15 @@ span.text{
 /*
     综合监管系统
 */
-.nav{
+.nav-menu{
     height: 35px;
     text-align: center;
 }
-.nav ul{
+.nav-menu ul{
     display: inline-block;
     height: 100%;
 }
-.nav ul li{
+.nav-menu ul li{
     float: left;
     min-width: 170px;
     height: 100%;
