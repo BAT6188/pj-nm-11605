@@ -489,11 +489,6 @@ function getUploaderOptions(bussinessId) {
             endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
             method:"POST"
         },
-        validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
-        },
         debug: true
     };
 }
@@ -557,8 +552,6 @@ function getUploaderOptions2(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true
@@ -624,8 +617,6 @@ function getUploaderOptions3(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true
