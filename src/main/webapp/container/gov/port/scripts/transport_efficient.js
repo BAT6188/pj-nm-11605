@@ -231,9 +231,17 @@ removeBtn.click(function () {
 $("#search").click(function () {
     //查询之前重置table
     var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
+    var enterpriseName = $("#s_name").val();
+    var firstTime = $("#start_createTime").val();
+    var lastTime = $("#end_createTime").val();
     if (enterpriseName){
         queryParams["enterpriseName"] = enterpriseName;
+    }
+    if(firstTime){
+        queryParams["startYdate"] = firstTime;
+    }
+    if(lastTime){
+        queryParams["lastYdate"] = lastTime;
     }
     search(queryParams);
 });
@@ -262,17 +270,11 @@ $("#save").bind('click',function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#datetimepicker').datetimepicker({
+$('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#datetimepicker2').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
 /**
  * 按时间查询表单
  * @type {*|jQuery|HTMLElement}
@@ -329,7 +331,6 @@ statistical.find(".tm").bind('click',function(){
 
 //按月份查询
 statistical.find("li[class='month']").bind("click", function() {
-    alert(this.value);
     var mNum = parseInt(this.value);
     var m = mNum > 9 ? mNum : ("0"+mNum);
     var selYear = $('#selYear').text();
@@ -405,13 +406,6 @@ function disabledForm(disabled) {
 
 }
 
-//初始化日期组件
-$('.form_datetime').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    startView: 3,//月视图
-    minView: 3
-});
 
 /**
 * 重置表单

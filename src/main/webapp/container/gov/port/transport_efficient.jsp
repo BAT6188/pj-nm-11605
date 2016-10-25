@@ -84,13 +84,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">日期：</label>
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -125,9 +125,9 @@
                                         <span class="sr-only">切换下拉菜单</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a class="month" value="01" href="#">1月</a></li>
-                                        <li><a class="month" value="02" href="#">2月</a></li>
-                                        <li><a class="month" value="03" href="#">3月</a></li>
+                                        <li class="month" value="01"><a href="#">1月</a></li>
+                                        <li class="month" value="02"><a href="#">2月</a></li>
+                                        <li class="month" value="03"><a href="#">3月</a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group">
