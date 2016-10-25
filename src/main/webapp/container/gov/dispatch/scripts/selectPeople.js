@@ -114,8 +114,9 @@ function removeFromGrid() {
 }
 
 function zTreeOnClick(event, treeId, treeNode) {
-    if(!treeNode.isParent){
+    if(!treeNode.parent){
         appendToGrid(treeNode);
+        console.log("appendToGrid:"+JSON.stringify(treeNode))
     }
 
 };
