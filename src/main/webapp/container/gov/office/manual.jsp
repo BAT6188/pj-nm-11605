@@ -19,15 +19,32 @@
                 </div>
 
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="s_fileName">文件名称：</label> <input type="text" id="s_fileName" class="form-control" />
-                        <label for="s_type">公文类型：</label> <select style="width: 100%" class="form-control"  id="s_type" name="s_type">
-                        <option value="1">法律法规</option>
-                        <option value="2">行业标准</option>
-                        <option value="3">监察指南</option>
-                        <option value="4">知识案例</option>
-                    </select>
-                    </p>
+                    <%--<p>--%>
+                        <%--<label for="s_fileName">文件名称：</label> <input type="text" id="s_fileName" class="form-control" />--%>
+                        <%--<label for="s_type">公文类型：</label>
+                        <select style="width: 100%" class="form-control"  id="s_type" name="s_type">--%>
+                        <%--<option value="1">法律法规</option>--%>
+                        <%--<option value="2">行业标准</option>--%>
+                        <%--<option value="3">监察指南</option>--%>
+                        <%--<option value="4">知识案例</option>--%>
+                    <%--</select>--%>
+                    <%--</p>--%>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="s_fileName">文件名称：</label>
+                                <input type="text" id="s_fileName" style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="s_type">公文类型：</label>
+                                <select style="width: 180px;" class="form-control"  id="s_type" name="s_type">
+                                    <option value="">全部</option>
+                                    <option value="1">法律法规</option>
+                                    <option value="2">行业标准</option>
+                                    <option value="3">监察指南</option>
+                                    <option value="4">知识案例</option>
+                                    </select>
+                            </div>
+                        </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <p class="btnListP">

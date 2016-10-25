@@ -2,15 +2,13 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "网格人员",
+    formTitle = "农村生态环境监管",
     selections = [];
-
-
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_save.action",
+        url: rootPath + "/action/S_composite_VillageEnv_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +22,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_delete.action",
+        url: rootPath + "/action/S_composite_VillageEnv_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +34,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_Block_list.action",
+        url: rootPath+"/action/S_composite_VillageEnv_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,22 +57,22 @@ function initTable() {
                 visible:false
             },
             {
-                title: '单位名称',
-                field: 'orgName',
+                title: '乡镇名称',
+                field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '姓名',
+                title: '所属区域',
+                field: 'address',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '网格负责人',
                 field: 'principal',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '管辖网格',
-                field: 'areaDesc',
                 sortable: false,
                 align: 'center',
                 editable: false
@@ -85,6 +83,13 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
             }
         ]
     });
@@ -109,9 +114,12 @@ function initTable() {
         });
     });
 }
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">详情</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">视频</button>';
+
 }
 // 列表操作事件
 window.operateEvents = {
@@ -167,7 +175,28 @@ removeBtn.click(function () {
     });
 
 });
+
+
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    var queryParams = {};
+    var name = $("#s_name").val();
+    var principal = $("#s_principal").val();
+    if (name){
+        queryParams["name"] = name;
+    }
+    if (principal){
+        queryParams["principal"] = principal;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+});
+
 /**============表单初始化相关代码============**/
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
@@ -185,7 +214,6 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-
 /**
  * 设置表单数据
  * @param entity
@@ -198,13 +226,12 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#orgName").val(entity.orgName);
+    $("#name").val(entity.name);
+    $("#address").val(entity.address);
     $("#principal").val(entity.principal);
-    $("#areaDesc").val(entity.areaDesc);
     $("#principalPhone").val(entity.principalPhone);
-    $("#orgAddress").val(entity.orgAddress);
-    $("#position").val(entity.position);
-    $("#areaPoints").val(entity.areaPoints);
+    $("#points").val(entity.points);
+    $("#description").val(entity.description);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -223,19 +250,13 @@ function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
+        $('#pubTimeContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        $('#pubTimeContent').datetimepicker('remove');
     }
 
 }
@@ -346,32 +367,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-
-
-$(".tree-left").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
-});
-var setting = {
-    height:500,
-    width:150,
-    view: {
-        showLine: false
-    },
-    async: {
-        enable: true,
-        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
-        autoParam:["id", "name", "level"],
-        otherParam:{"otherParam":"zTreeAsyncTest"},
-        dataFilter: filter
-    }
-};
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
-}
-$.fn.zTree.init($("#blockTree"), setting);

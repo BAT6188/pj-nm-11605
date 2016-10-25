@@ -28,43 +28,45 @@
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
-                <%--<div class="sideTitle left">--%>
-                        <%--<span class="blueMsg">--%>
-                            <%--<img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>--%>
-                            <%--<span class="text">查询</span>--%>
-                        <%--</span>--%>
-                <%--</div>--%>
+                <div class="sideTitle left">
+                        <span class="blueMsg">
+                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
+                            <span class="text">查询</span>
+                        </span>
+                </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="">企业名称：</label> <input class="form-control" type="text"/>
-                        <label for="">是否缴费：</label>
-                        <select class="form-control" name="" id="">
-                            <option value="1">是</option>
-                            <option value="2">否</option>
-                        </select>
-                    </p>
-                    <p>
-                        <label for="startTime" class="col-sm-1 control-label text-right">日期:</label>
-                    <div class="col-sm-8">
-                        <div class="col-sm-4">
-                            <div id="datetimepicker" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
-                                <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly/>
+                    <form class="form-inline">
+                        <div class="form-group">
+                             <label for="s_name" class="ui-widget">企业名称：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                            <label for="">日期：</label>
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div id="datetimepicker2" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input" data-link-format="yyyy-mm">
-                                <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly/>
+                            -
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
+
                         </div>
-                    </div>
-                    <button type="button" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                    </p>
+
+                    </form>
+                    <p></p>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="">是否缴费：</label>
+                            <select class="form-control" name="" id="">
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </form>
 
                 </div>
+                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
             </div>
             <div class="tableBox">
                 <div class="chart-box">
@@ -101,6 +103,34 @@
 
 
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/sewage_declaration.js"></script>
+<script type="text/javascript">
+    $( function() {
+
+        $( "#s_name" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    dataType: "json",
+                    type:'post',
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            console.log(data.rows[i].name);
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                result.push(data.rows[i].name);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            },
+        } );
+    } );
+
+</script>
 
 </body>
 </html>

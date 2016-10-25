@@ -16,12 +16,27 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="t_recordDate">备案日期</label><input type="text" id="t_recordDate" class="form-control" />
-                        <label for="t_attnPerson">负责人</label><input type="text" id="t_attnPerson" class="form-control" />
-                    </p>
+                    <%--<p>--%>
+                        <%--<label for="t_recordDate">备案日期</label><input type="text" id="t_recordDate" class="form-control" />--%>
+                        <%--<label for="t_attnPerson">负责人</label><input type="text" id="t_attnPerson" class="form-control" />--%>
+                    <%--</p>--%>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="t_recordDate">备案日期：</label>
+                                <div id="t_recordDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="recordDate">
+                                    <input class="form-control" size="16" id="t_recordDate"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="t_attnPerson">负责人：</label><input type="text" id="t_attnPerson" class="form-control" />
+                            </div>
+                        </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <br/>
+                <br/>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>

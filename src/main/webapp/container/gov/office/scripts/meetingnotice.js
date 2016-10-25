@@ -68,7 +68,15 @@ function initTable() {
                 field: 'type',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="会场会议"
+                    }else if (2==value){
+                        value="视频会议"
+                    }
+                    return value;
+                }
             },
             {
                 title: '会议地点',
@@ -228,6 +236,12 @@ $('#timeContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
+$('#s_timeContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+
 
 /**
  * 设置表单数据

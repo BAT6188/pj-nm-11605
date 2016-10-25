@@ -1,16 +1,25 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "网格人员",
+    form = $("#hpForm"),
+    ysform = $("#ysForm"),
+    formTitle = "建设项目环评及验收信息",
     selections = [];
-
-
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_save.action",
+        url: rootPath + "/action/S_composite_BuildProject_saveHp.action",
+        type:"post",
+        data:entity,
+        dataType:"json",
+        success:callback
+    });
+}
+//保存ajax请求
+function saveYs(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_composite_BuildProject_saveYs.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +33,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_delete.action",
+        url: rootPath + "/action/S_composite_BuildProject_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +45,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_Block_list.action",
+        url: rootPath+"/action/S_composite_BuildProject_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,32 +68,52 @@ function initTable() {
                 visible:false
             },
             {
-                title: '单位名称',
-                field: 'orgName',
+                title: '项目名称',
+                field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '姓名',
-                field: 'principal',
+                title: '行政区',
+                field: 'area',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '批复时间',
+                field: 'replyTime',
+                sortable: false,
+                align: 'center',
                 editable: false,
-                sortable: false,
-                align: 'center'
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
             },
             {
-                title: '管辖网格',
-                field: 'areaDesc',
+                title: '建设性质',
+                field: 'buildNature',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="新建"
+                    }else if (2==value){
+                        value="改扩建"
+                    }else if (3==value){
+                        value="技术改造"
+                    }
+                    return value;
+                }
             },
             {
-                title: '联系方式',
-                field: 'principalPhone',
-                sortable: false,
+                field: 'operate',
+                title: '操作',
                 align: 'center',
-                editable: false
+                events: operateEvents,
+                formatter: operateFormatter
             }
         ]
     });
@@ -109,9 +138,10 @@ function initTable() {
         });
     });
 }
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#hpForm">详情</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -167,11 +197,36 @@ removeBtn.click(function () {
     });
 
 });
+
+
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    var queryParams = {};
+    var name = $("#s_name").val();
+    var buildNature = $("#s_buildNature").val();
+    var area = $("#s_area").val();
+    if (name){
+        queryParams["name"] = name;
+    }
+    if (buildNature){
+        queryParams["buildNature"] = buildNature;
+    }
+    if (area){
+        queryParams["area"] = area;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+});
+
 /**============表单初始化相关代码============**/
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
+        var entity = $("#hpForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
@@ -179,13 +234,45 @@ var ef = form.easyform({
         });
     }
 });
+//初始化表单验证
+var ys = form.easyform({
+    success:function (ef) {
+        var entity = $("#ysForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        saveYs(entity,function (msg) {
+            form.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        });
+    }
+});
 
 //表单 保存按钮
-$("#save").bind('click',function () {
+$("#hpsave").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
+//表单 保存按钮
+$("#ysSave").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ys.submit(false);
+});
 
+//初始化日期组件
+$('#replyTime1').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#replyTime').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#acceptTime').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 /**
  * 设置表单数据
  * @param entity
@@ -198,14 +285,35 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#orgName").val(entity.orgName);
-    $("#principal").val(entity.principal);
-    $("#areaDesc").val(entity.areaDesc);
-    $("#principalPhone").val(entity.principalPhone);
-    $("#orgAddress").val(entity.orgAddress);
-    $("#position").val(entity.position);
-    $("#areaPoints").val(entity.areaPoints);
-
+    $("#name").val(entity.name);
+    $("#EnvManagType").val(entity.EnvManagType);
+    $("#buildNature").val(entity.buildNature);
+    $("#area").val(entity.area);
+    $("#EnvInvestment").val(entity.EnvInvestment);
+    $("#industryType").val(entity.industryType);
+    $("#buildAddress").val(entity.buildAddress);
+    $("#content").val(entity.content);
+    $("#investment").val(entity.investment);
+    $("#proportion").val(entity.proportion);
+    $("#builderName").val(entity.builderName);
+    $("#builderTel").val(entity.builderTel);
+    $("#builderAddress").val(entity.builderAddress);
+    $("#builderZipCode").val(entity.builderZipCode);
+    $("#builderAP").val(entity.builderAP);
+    $("#builderLinkman").val(entity.builderLinkman);
+    $("#euName").val(entity.euName);
+    $("#euTel").val(entity.euTel);
+    $("#euAddress").val(entity.euAddress);
+    $("#certificateCode").val(entity.certificateCode);
+    $("#certificateMoney").val(entity.certificateMoney);
+    $("#replyTime").val(entity.replyTime);
+    $("#replyCode").val(entity.replyCode);
+    $("#replyOrg").val(entity.replyOrg);
+    $("#isLicense").val(entity.isLicense);
+    $("#replyOpinion").val(entity.replyOpinion);
+    $("#acceptTime").val(entity.acceptTime);
+    $("#acceptOrg").val(entity.acceptOrg);
+    $("#replyTime1").val(entity.replyTime);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -223,19 +331,20 @@ function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
+        $('#replyTimeContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#openDateContent').datetimepicker({
+        $('#acceptTime').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        $('#replyTimeContent').datetimepicker('remove');
+        $('#acceptTime').datetimepicker('remove');
+
     }
 
 }
@@ -244,7 +353,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
@@ -346,32 +455,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-
-
-$(".tree-left").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
-});
-var setting = {
-    height:500,
-    width:150,
-    view: {
-        showLine: false
-    },
-    async: {
-        enable: true,
-        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
-        autoParam:["id", "name", "level"],
-        otherParam:{"otherParam":"zTreeAsyncTest"},
-        dataFilter: filter
-    }
-};
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
-}
-$.fn.zTree.init($("#blockTree"), setting);

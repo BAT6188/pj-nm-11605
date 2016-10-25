@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.CreationMode;
 import com.harmonywisdom.dshbcbp.office.service.CreationModeService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -27,11 +28,10 @@ public class CreationModeAction extends BaseAction<CreationMode, CreationModeSer
         if (StringUtils.isNotBlank(entity.getTitle())) {
             params.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getTitle()));
         }
-
-        if (entity.getPubTime() != null) {
-            params.andParam(new QueryParam("pubTime", QueryOperator.LIKE,entity.getPubTime()));
+        String pubTime = request.getParameter("cTime");
+        if (StringUtils.isNotBlank(pubTime)) {
+            params.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
         }
-
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);

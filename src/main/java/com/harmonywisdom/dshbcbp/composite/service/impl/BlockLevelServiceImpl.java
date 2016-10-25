@@ -18,10 +18,8 @@ import java.util.List;
 public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> implements BlockLevelService {
     @Autowired
     private BlockLevelDAO blockLevelDAO;
-
     @Autowired
     private BlockService blockService;
-
     @Override
     protected BaseDAO<BlockLevel, String> getDAO() {
         return blockLevelDAO;
@@ -41,6 +39,29 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
                 List<ZNodeDTO> blockNodes = new ArrayList<ZNodeDTO>();
                 for (Block block : blocks) {
                     ZNodeDTO blockNode = new ZNodeDTO(block.getId(), block.getOrgName());
+                    blockNodes.add(blockNode);
+                }
+                levelNode.setChildren(blockNodes);
+            }
+            nodes.add(levelNode);
+        }
+        return nodes;
+    }
+
+    @Override
+    public List<Block> getBlock() {
+        List<Block> nodes = new ArrayList<Block>();
+        List<BlockLevel> levels = getDAO().findAll();
+
+        for (BlockLevel level: levels) {
+            //添加网格级别node
+            Block levelNode = new Block(level.getId(),level.getName());
+            //级别node下添加网格node
+            List<Block> blocks = blockService.find("where blockLevelId=?", level.getId());
+            if (blocks != null && blocks.size() > 0) {
+                List<Block> blockNodes = new ArrayList<Block>();
+                for (Block block : blocks) {
+                    Block blockNode = new Block(block.getId(), block.getOrgName());
                     blockNodes.add(blockNode);
                 }
                 levelNode.setChildren(blockNodes);

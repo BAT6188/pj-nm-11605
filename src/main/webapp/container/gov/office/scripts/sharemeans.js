@@ -103,15 +103,15 @@ function initTable() {
         var queryParams = {};
         var title = $("#s_title").val();
         var types =$("#s_type").val();
-        var pubTime = $("#s_pubTime").val();
+        var pTime = $("#s_pubTime").val();
         if (title){
             queryParams["title"] = title;
         }
         if (types){
             queryParams["type"] = types;
         }
-        if (pubTime) {
-            queryParams["pubTime"] = pubTime;
+        if (pTime) {
+            queryParams["pTime"] = pTime;
         }
         gridTable.bootstrapTable('refresh',{
             query:queryParams
@@ -221,7 +221,11 @@ $('#pubTimeContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
-
+$('#s_pubTimeContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 /**
  * 刷新表单数据
  * @param meeting

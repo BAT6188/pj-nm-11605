@@ -2,7 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "网格人员",
+    formTitle = "排污许可证信息",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_save.action",
+        url: rootPath + "/action/S_composite_PollutantLicense_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_delete.action",
+        url: rootPath + "/action/S_composite_PollutantLicense_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_Block_list.action",
+        url: rootPath+"/action/S_composite_PollutantLicense_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,33 +59,71 @@ function initTable() {
                 visible:false
             },
             {
-                title: '单位名称',
-                field: 'orgName',
+                title: '许可证编号',
+                field: 'code',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
-            {
-                title: '姓名',
-                field: 'principal',
+            },{
+                title: '许可证类型',
+                field: 'type',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="正式"
+                    }else if (2==value){
+                        value="临时"
+                    }
+                    return value;
+                }
             },
             {
-                title: '管辖网格',
-                field: 'areaDesc',
+                title: '有效起始日期',
+                field: 'startDate',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                title: '有效结束日期',
+                field: 'endDate',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                title: '发证机关',
+                field: 'pubOrg',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                title: '联系方式',
-                field: 'principalPhone',
+                title: '发证日期',
+                field: 'pubDate',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
             }
+
         ]
     });
     // sometimes footer render error.
@@ -109,6 +147,7 @@ function initTable() {
         });
     });
 }
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
@@ -167,7 +206,28 @@ removeBtn.click(function () {
     });
 
 });
+
+
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    var queryParams = {};
+    var type = $("#t_type").val();
+    var endDate = $("#t_endDate").val();
+    if (type){
+        queryParams["type"] = type;
+    }
+    if (endDate){
+        queryParams["endDate"] = endDate;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+});
+
 /**============表单初始化相关代码============**/
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
@@ -185,7 +245,27 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-
+//初始化日期组件
+$('#startDateContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#endDateContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#pubDateContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#t_endDateContent').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 /**
  * 设置表单数据
  * @param entity
@@ -198,13 +278,16 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#orgName").val(entity.orgName);
-    $("#principal").val(entity.principal);
-    $("#areaDesc").val(entity.areaDesc);
-    $("#principalPhone").val(entity.principalPhone);
-    $("#orgAddress").val(entity.orgAddress);
-    $("#position").val(entity.position);
-    $("#areaPoints").val(entity.areaPoints);
+    $("#code").val(entity.code);
+    $("#type").val(entity.type);
+    $("#startDate").val(pageUtils.sub10(entity.startDate));
+    $("#endDate").val(pageUtils.sub10(entity.endDate));
+    $("#pubOrg").val(entity.pubOrg);
+    $("#pubDate").val(pageUtils.sub10(entity.pubDate));
+    $("#sulfur").val(entity.sulfur);
+    $("#nitrogen").val(entity.nitrogen);
+    $("#oxygen").val(entity.oxygen);
+    $("#ammonia").val(entity.ammonia);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -223,19 +306,23 @@ function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
+        $('#startDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#openDateContent').datetimepicker({
+        $('#endDateContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#pubDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        $('#recordDateContent').datetimepicker('remove');
     }
 
 }
@@ -346,32 +433,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-
-
-$(".tree-left").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
-});
-var setting = {
-    height:500,
-    width:150,
-    view: {
-        showLine: false
-    },
-    async: {
-        enable: true,
-        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
-        autoParam:["id", "name", "level"],
-        otherParam:{"otherParam":"zTreeAsyncTest"},
-        dataFilter: filter
-    }
-};
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
-}
-$.fn.zTree.init($("#blockTree"), setting);

@@ -99,7 +99,7 @@
                             <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
                         <%--</div>--%>
                     <%--</div>--%>
-                <%--</div>--%>
+                </div>
             </div>
         </div>
     </div>
@@ -107,6 +107,34 @@
 
 
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/law_statistics.js"></script>
+<script type="text/javascript">
+    $( function() {
+
+        $( "#s_name" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    dataType: "json",
+                    type:'post',
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            console.log(data.rows[i].name);
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                result.push(data.rows[i].name);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            },
+        } );
+    } );
+
+</script>
 
 </body>
 </html>

@@ -1,9 +1,11 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.MeetingNotice;
 import com.harmonywisdom.dshbcbp.office.service.MeetingNoticeService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -27,12 +29,16 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
         if (StringUtils.isNotBlank(entity.getTitle())) {
             param.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getTitle()));
         }
+        String pubTime = request.getParameter("time");
+        if (StringUtils.isNotBlank(pubTime)) {
+            param.andParam(new QueryParam("time", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-//        condition.setOrderBy("time", Direction.DESC);
+        condition.setOrderBy("time", Direction.DESC);
         return condition;
     }
     @Override

@@ -16,10 +16,24 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="s_title">会议标题：</label> <input type="text" id="s_title" class="form-control" />
-                        <label for="s_time">日期：</label> <input type="text" id="s_time" class="form-control" />
-                    </p>
+                    <%--<p>--%>
+                        <%--<label for="s_title">会议标题：</label> <input type="text" id="s_title" class="form-control" />--%>
+                        <%--<label for="s_time">日期：</label> <input type="text" id="s_time" class="form-control" />--%>
+                    <%--</p>--%>
+
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="s_title">会议标题：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="s_time">日期：</label>
+                                <div id="s_timeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                                    <input class="form-control" size="16" id="s_time" name="s_time"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                        </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <p class="btnListP">
@@ -103,6 +117,7 @@
                     </div>
                     <div class="form-group">
                         <label for="time" class="col-sm-2 control-label">会议时间*：</label>
+                        <div class="col-sm-4">
                         <div id="timeContent" class="input-group date form_date" data-date="" data-link-field="time" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                             <input class="form-control" id="time" name="time" size="16" type="text" value="" readonly
                                    data-message="会议时间不能为空"
@@ -110,6 +125,7 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
+                            </div>
                     </div>
                     <div class="form-group">
                         <label for="content" class="col-sm-2 control-label">会议内容*：</label>

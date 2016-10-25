@@ -1,16 +1,16 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "网格人员",
+    form = $("#demoForm"),
+    formTitle = "Demo",
     selections = [];
 
 
 
-//保存ajax请求
+//保存表单ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_save.action",
+        url: rootPath + "/action/S_exelaw_PollutantPayment_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_delete.action",
+        url: rootPath + "/action/S_exelaw_PollutantPayment_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_Block_list.action",
+        url: rootPath+"/action/S_exelaw_PollutantPayment_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,33 +59,79 @@ function initTable() {
                 visible:false
             },
             {
-                title: '单位名称',
-                field: 'orgName',
+                field: 'enterpriseId',
                 editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '姓名',
-                field: 'principal',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '管辖网格',
-                field: 'areaDesc',
                 sortable: false,
                 align: 'center',
-                editable: false
+                visible:false
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '企业法人',
+                field: 'enterpriseAP',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 title: '联系方式',
-                field: 'principalPhone',
+                field: 'apPhone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费金额',
+                field: 'payMoney',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '登记日期',
+                field: 'registDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费日期',
+                field: 'payDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '距缴费日期',
+                field: 'rangeDays',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费状态',
+                field: 'paymentStatus',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    if (0==value){
+                        value="未缴费"
+                    }else if(1==value){
+                        value="已缴费"
+                    }else if(2==value){
+                        value="未按时缴费"
+                    }
+                    return value;
+                }
             }
+
         ]
     });
     // sometimes footer render error.
@@ -109,16 +155,7 @@ function initTable() {
         });
     });
 }
-// 生成列表操作方法
-function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
-}
-// 列表操作事件
-window.operateEvents = {
-    'click .view': function (e, value, row, index) {
-        setFormView(row);
-    }
-};
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -158,21 +195,61 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
 
+
 });
+
+
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    var queryParams = {};
+    var enterpriseName = $("#s_enterpriseName").val();
+    var paymentStatus = $("#s_paymentStatus").val();
+    if (enterpriseName){
+        queryParams["enterpriseName"] = enterpriseName;
+    }
+    if (paymentStatus){
+        queryParams["paymentStatus"] = paymentStatus;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+});
+
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+});
+
 /**============表单初始化相关代码============**/
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
+        var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        console.info("保存表单数据："+JSON.stringify(entity))
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -185,7 +262,6 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-
 /**
  * 设置表单数据
  * @param entity
@@ -194,17 +270,23 @@ $("#save").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#orgName").val(entity.orgName);
-    $("#principal").val(entity.principal);
-    $("#areaDesc").val(entity.areaDesc);
-    $("#principalPhone").val(entity.principalPhone);
-    $("#orgAddress").val(entity.orgAddress);
-    $("#position").val(entity.position);
-    $("#areaPoints").val(entity.areaPoints);
+
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#enterpriseId").val(entity.enterpriseId);
+
+    $("#enterpriseAP").val(entity.enterpriseAP);
+    $("#apPhone").val(entity.apPhone);
+    $("#payMoney").val(entity.payMoney);
+
+    $("#registDate").val(entity.registDate);
+    $("#payDate").val(entity.payDate);
+    $("#alertDate").val(entity.alertDate);
+    $("#realertDate").val(entity.realertDate);
+    $("#paymentStatus").val(entity.paymentStatus);
+    $("#remark").val(entity.remark);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -215,10 +297,17 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
 }
+/**
+ * 禁用表单
+ * @param disabled  true,false
+ */
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
@@ -243,10 +332,11 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
@@ -315,9 +405,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };
@@ -346,32 +434,41 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
+/**
+ * Autocomplete
+ */
+$( function() {
 
+    $("#enterpriseName").autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            ui.value=data.rows[i].name
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#enterpriseId").val(ui.item.id)
+        },
+    } );
+} );
 
-$(".tree-left").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
-});
-var setting = {
-    height:500,
-    width:150,
-    view: {
-        showLine: false
-    },
-    async: {
-        enable: true,
-        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
-        autoParam:["id", "name", "level"],
-        otherParam:{"otherParam":"zTreeAsyncTest"},
-        dataFilter: filter
-    }
-};
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
-}
-$.fn.zTree.init($("#blockTree"), setting);
+$(function () {
+    //设置提醒
+})

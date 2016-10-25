@@ -82,8 +82,6 @@ public class ProjectEIA implements Serializable {
     @Column(name = "REPLY_OPINION",length = 100)
     private String replyOpinion;
 
-    public BuildProject buildProject;
-
     public String getId() {
         return id;
     }
@@ -187,4 +185,6 @@ public class ProjectEIA implements Serializable {
     public void setReplyOpinion(String replyOpinion) {
         this.replyOpinion = replyOpinion;
     }
+
+
 }

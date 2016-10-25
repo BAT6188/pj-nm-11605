@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>人员信息管理</title>
+    <%@include file="/common/common_include.jsp"%>
+    <title>农村生态环境监管</title>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -17,9 +18,8 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <p>
-                        <label for="s_name">姓名：</label> <input type="text" id="s_name" class="form-control" />
-                        <label for="s_department">单位：</label> <input type="text" id="s_department" class="form-control" />
-                        <label for="s_position">职务：</label><input type="text" id="s_position" class="form-control" />
+                        <label for="s_name">乡镇名称：</label> <input type="text" id="s_name" class="form-control" />
+                        <label for="s_principal">网格负责人：</label> <input type="text" id="s_principal" class="form-control" />
                     </p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -51,58 +51,62 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加人员信息</h4>
+                <h4 class="modal-title form-title">添加农村生态环境监管</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">姓名*：</label>
+                        <label for="name" class="col-sm-2 control-label">乡镇名称*：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="name" name="name" class="form-control"
-                                   data-message="姓名不能为空"
+                                   data-message="乡镇名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="department" class="col-sm-2 control-label">所属部门*：</label>
+                        <label for="address" class="col-sm-2 control-label">所属区域*：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="department" name="department" class="form-control"
-                                   data-message="所属部门不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="position" class="col-sm-2 control-label">职务*：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="position" name="position" class="form-control"
-                                   data-message="职务不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                        <label for="address" class="col-sm-2 control-label">单位地址*：</label>
-                        <div class="col-sm-4">
-                            <input type="address" id="address" name="address" class="form-control"
-                                   data-message="单位地址不能为空"
+                            <input type="text" id="address" name="address" class="form-control"
+                                   data-message="所属区域不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tel" class="col-sm-2 control-label">座机号码*：</label>
+                        <label for="principal" class="col-sm-2 control-label">网格负责人*：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="tel" name="tel" class="form-control"
-                                   data-message="单位地址不能为空"
+                            <input type="text" id="principal" name="principal" class="form-control"
+                                   data-message="网格负责人不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="phone" class="col-sm-2 control-label">手机号码*：</label>
+                        <label for="principalPhone" class="col-sm-2 control-label">联系方式*：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="phone" name="phone" class="form-control"
-                                   data-message="单位地址不能为空"
+                            <input type="principalPhone" id="principalPhone" name="principalPhone" class="form-control"
+                                   data-message="联系方式不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="points" class="col-sm-2 control-label">位置标绘*：</label>
+                        <div class="col-sm-4">
+                            <input type="button" id="points" name="points" class="form-control"
+                             value="地图标绘"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="button" id="tel" name="tel" class="form-control"
+                                   value="摄像头标绘"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">农村环境详情*：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="description" name="description" class="form-control" rows="5"
+                                       data-message="农村环境详情不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                            ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -121,6 +125,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/detect/scripts/villageenv.js"></script>
 </body>
 </html>

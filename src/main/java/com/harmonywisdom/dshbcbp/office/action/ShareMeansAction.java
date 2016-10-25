@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.ShareMeans;
 import com.harmonywisdom.dshbcbp.office.service.ShareMeansService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -29,12 +30,16 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
-
+        String pubTime = request.getParameter("pTime");
+        if (StringUtils.isNotBlank(pubTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("pubTime", Direction.DESC);
         return condition;
     }
 

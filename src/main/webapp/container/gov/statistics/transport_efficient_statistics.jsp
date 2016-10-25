@@ -55,31 +55,43 @@
                     <li><a href="javascript:;">折线图</a></li>
                 </ul>
             </div>
-            <div class="chart-content">
-                <div class="chartBox chartBox1">
-                    <div class="chart">
-                        <img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>
-                    </div>
-                </div>
-                <div class="chartBox chartBox2">
-                    <div class="chart">
-                        <img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>
-                    </div>
-                </div>
-                <div class="chartBox chartBox3">
-                    <div class="chart">
-                        <img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>
-                    </div>
-                </div>
-            </div>
+            <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
         </div>
-    </div>
+        </div>
         </div>
     </div>
 </div>
 
 
 <script src="${pageContext.request.contextPath}/container/gov/statistics/scripts/transport_efficient_statistics.js"></script>
+<script type="text/javascript">
+    $( function() {
+
+        $( "#s_name" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    dataType: "json",
+                    type:'post',
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            console.log(data.rows[i].name);
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                result.push(data.rows[i].name);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            },
+        } );
+    } );
+
+</script>
 
 </body>
 </html>
