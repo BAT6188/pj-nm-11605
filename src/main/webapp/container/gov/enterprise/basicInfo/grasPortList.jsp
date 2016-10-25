@@ -24,6 +24,17 @@
                 $('#'+k).append(optionsHtml);
             });
         }
+        function makePlaneMap(){
+            PlottingDialog.dialog({
+                show:true,
+                mode:"marker",
+                attachmentId:enterpriseData.planeMap,
+                callback:function (marker) {
+                    var str = JSON.stringify(marker);
+                    form.find('#planeMapMark').val(str);
+                }
+            });
+        }
     </script>
 </head>
 <body>

@@ -141,18 +141,16 @@ public class GasPort implements Serializable {
     private String enterpriseId;
 
     /**
+     * 平面图标绘
+     */
+    @Column(name = "plane_map_mark",length = 1024)
+    private String planeMapMark;
+
+    /**
      * 附件
      */
     @Transient
     private String attachmentId;
-
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
 
     public String getId() {
         return id;
@@ -200,6 +198,14 @@ public class GasPort implements Serializable {
 
     public void setDischargeDirection(String dischargeDirection) {
         this.dischargeDirection = dischargeDirection;
+    }
+
+    public String getDischargeDevice() {
+        return dischargeDevice;
+    }
+
+    public void setDischargeDevice(String dischargeDevice) {
+        this.dischargeDevice = dischargeDevice;
     }
 
     public String getDischargeStandard() {
@@ -306,12 +312,12 @@ public class GasPort implements Serializable {
         this.isOxygen = isOxygen;
     }
 
-    public String getDischargeDevice() {
-        return dischargeDevice;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setDischargeDevice(String dischargeDevice) {
-        this.dischargeDevice = dischargeDevice;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getEnterpriseId() {
@@ -322,11 +328,19 @@ public class GasPort implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getPlaneMapMark() {
+        return planeMapMark;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setPlaneMapMark(String planeMapMark) {
+        this.planeMapMark = planeMapMark;
+    }
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
     }
 }

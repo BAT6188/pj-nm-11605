@@ -173,17 +173,23 @@ public class WaterPort implements Serializable {
     private String enterpriseId;
 
     /**
+     * 平面图标绘
+     */
+    @Column(name = "plane_map_mark",length = 1024)
+    private String planeMapMark;
+
+    /**
      * 附件
      */
     @Transient
     private String attachmentId;
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getId() {
+        return id;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNumber() {
@@ -210,6 +216,22 @@ public class WaterPort implements Serializable {
         this.position = position;
     }
 
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
     public String getDischargeMode() {
         return dischargeMode;
     }
@@ -234,6 +256,22 @@ public class WaterPort implements Serializable {
         this.dischargeStandard = dischargeStandard;
     }
 
+    public String getValley() {
+        return valley;
+    }
+
+    public void setValley(String valley) {
+        this.valley = valley;
+    }
+
+    public String getValleyFnType() {
+        return valleyFnType;
+    }
+
+    public void setValleyFnType(String valleyFnType) {
+        this.valleyFnType = valleyFnType;
+    }
+
     public String getMonitorType() {
         return monitorType;
     }
@@ -242,20 +280,44 @@ public class WaterPort implements Serializable {
         this.monitorType = monitorType;
     }
 
+    public String getSingleInstallType() {
+        return singleInstallType;
+    }
+
+    public void setSingleInstallType(String singleInstallType) {
+        this.singleInstallType = singleInstallType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getIsWaterIntake() {
+        return isWaterIntake;
+    }
+
+    public void setIsWaterIntake(String isWaterIntake) {
+        this.isWaterIntake = isWaterIntake;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Date getMonitorTime() {
         return monitorTime;
     }
 
     public void setMonitorTime(Date monitorTime) {
         this.monitorTime = monitorTime;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Double getFlow() {
@@ -322,6 +384,14 @@ public class WaterPort implements Serializable {
         this.isPh = isPh;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -330,75 +400,19 @@ public class WaterPort implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public String getPlaneMapMark() {
+        return planeMapMark;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setPlaneMapMark(String planeMapMark) {
+        this.planeMapMark = planeMapMark;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public String getAttachmentId() {
+        return attachmentId;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getValley() {
-        return valley;
-    }
-
-    public void setValley(String valley) {
-        this.valley = valley;
-    }
-
-    public String getValleyFnType() {
-        return valleyFnType;
-    }
-
-    public void setValleyFnType(String valleyFnType) {
-        this.valleyFnType = valleyFnType;
-    }
-
-    public String getSingleInstallType() {
-        return singleInstallType;
-    }
-
-    public void setSingleInstallType(String singleInstallType) {
-        this.singleInstallType = singleInstallType;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getIsWaterIntake() {
-        return isWaterIntake;
-    }
-
-    public void setIsWaterIntake(String isWaterIntake) {
-        this.isWaterIntake = isWaterIntake;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
     }
 }

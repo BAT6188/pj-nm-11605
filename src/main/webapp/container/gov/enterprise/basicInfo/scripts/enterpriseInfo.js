@@ -438,37 +438,37 @@ function setEditBtn(isFromEditBtn){
     }
 }
 /*获取企业信息*/
-var enterpriseData;
 function setEnterpriseForm(flag){
-    $.ajax({
+    var data=enterpriseData;
+    if(flag){
+        setLookBtn();
+    }else{
+        setEditBtn(false);
+    }
+    var inputs = $('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = data[tagId];
+        if($(v)[0].tagName=='select'){
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
+    $("input#isSpecial"+data.isSpecial).get(0).checked=true;
+    $("input#pollutantLevel"+data.pollutantLevel).get(0).checked=true;
+    var pollutantTypes = data.pollutantType.split(',');
+    $.each(pollutantTypes,function(k,v){
+        $("input#pollutantType"+ v.replace(/\s/g,'')).attr("checked", true);
+    })
+    /*$.ajax({
         url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
         type:"post",
         async:false,
         data:{"id":id},//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function(data){
-            enterpriseData = data;
-            if(flag){
-                setLookBtn();
-            }else{
-                setEditBtn(false);
-            }
-            var inputs = $('.form-control');
-            $.each(inputs,function(k,v){
-                var tagId = $(v).attr('id');
-                var value = data[tagId];
-                if($(v)[0].tagName=='select'){
-                    $(v).find("option[value='"+value+"']").attr("selected",true);
-                }else{
-                    $(v).val(value);
-                }
-            });
-            $("input#isSpecial"+data.isSpecial).get(0).checked=true;
-            $("input#pollutantLevel"+data.pollutantLevel).get(0).checked=true;
-            var pollutantTypes = data.pollutantType.split(',');
-            $.each(pollutantTypes,function(k,v){
-                $("input#pollutantType"+ v.replace(/\s/g,'')).attr("checked", true);
-            })
+
         }
-    });
+    });*/
 }

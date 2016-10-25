@@ -206,6 +206,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="planeMap" class="col-sm-2 control-label">平面图<span class="text-danger">(*)</span>：</label>
+                        <div class="col-sm-4" id="planeMap">
+                            <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
+                            <%--<button type="button" class="btn btn-info" onclick="makePlaneMap()">查看</button>--%>
+                            <button type="button" class="btn btn-primary" onclick="makePlaneMap()">标注</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
@@ -253,6 +261,7 @@
 </div>
 <!-- 所属流域模态框 end -->
 <%@include file="/common/gis/map_mark.jsp"%>
+<%@include file="/container/gov/composite/enterprise_plotting.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/waterPortList.js"></script>
 <script>
     $(function(){
@@ -339,6 +348,17 @@
                 }
             })
         })
+    }
+    function makePlaneMap(){
+        PlottingDialog.dialog({
+            show:true,
+            mode:"marker",
+            attachmentId:enterpriseData.planeMap,
+            callback:function (marker) {
+                var str = JSON.stringify(marker);
+                form.find('#planeMapMark').val(str);
+            }
+        });
     }
 </script>
 </body>
