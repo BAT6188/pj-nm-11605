@@ -279,7 +279,6 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
 
-    $("#datetimepickerEventTime").val(entity.eventTime);
     $("#eventTime").val(entity.eventTime);
     $("#answer").val(entity.answer);
     $("#enterpriseName").val(entity.enterpriseName);
@@ -305,19 +304,19 @@ function setFormView(entity) {
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
 }
-function disabledForm(disabled) {
-
-
-}
 /**
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     $("textarea").val("");
+
+
+    $("#eventTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
+    $("#answer").val(userName);
+    $("#senderName").val(userName);
+
     uploader = new qq.FineUploader(getUploaderOptions());
-    disabledForm(false);
 }
 
 //表单附件相关js
@@ -440,5 +439,114 @@ function appendOption(selector,options) {
 var code={code:"monitor_office_source"};
 var monitor_office_source=dict.getDctionnary(code)
 appendOption("#source",monitor_office_source)
+
+
+/**
+ * Autocomplete  enterpriseName
+ */
+$( function() {
+
+    $("#enterpriseName").autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            ui.value=data.rows[i].name
+                            ui.envPrincipal=data.rows[i].envPrincipal
+                            ui.epPhone=data.rows[i].epPhone
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#enterpriseId").val(ui.item.id)
+            $("#supervisor").val(ui.item.envPrincipal)
+            $("#supervisorPhone").val(ui.item.epPhone)
+        },
+    } );
+
+    $("#blockLeveName").autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_composite_BlockLevel_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            ui.value=data.rows[i].name
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#blockLevelId").val(ui.item.id)
+        },
+    } );
+
+    $("#blockName").autocomplete({
+        source: function( request, response ) {
+            var blockLevelId=$("#blockLevelId").val()
+            if (null==blockLevelId || ''== blockLevelId){
+                Ewin.alert({message:"请选择正确的网络级别"});
+                return ;
+            }
+
+            $.ajax( {
+                url: rootPath + "/action/S_composite_Block_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    orgName: request.term,
+                    blockLevelId:blockLevelId
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#blockId").val(ui.item.id)
+        },
+    } );
+
+
+
+
+
+} );
 
 

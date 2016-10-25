@@ -23,6 +23,8 @@
         color: #337ab7;
     }
 
+    .ui-autocomplete { z-index:2147483647;}
+
 
 </style>
 <body>
@@ -71,6 +73,7 @@
 
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button type="button" id="reset" class="btn btn-md btn-success queryBtn"><i class="btnIcon btnIcon-icon"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#eventMsg">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -106,12 +109,11 @@
                     <div class="form-group">
                         <label for="eventTime" class="col-sm-2 control-label">接电时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
-                                <input class="form-control" size="16" type="text" value="" id="datetimepickerEventTime" readonly>
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                                <input class="form-control" size="16" type="text" value="" id="eventTime" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <input type="hidden" id="eventTime" name="eventTime" class="form-control"/>
                         </div>
 
                         <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
@@ -121,13 +123,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseId" class="col-sm-2 control-label">投诉对象<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="enterpriseId" name="enterpriseId" class="form-control">
-                                <option value="1">aa</option>
-                                <option value="2">bb</option>
-                                <option value="3">cc</option>
-                            </select>
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" />
+                            <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
 
                         <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
@@ -137,22 +136,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <label for="blockLeveName" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control">
-                                <option value="1">网格级别1</option>
-                                <option value="2">网格级别2</option>
-                                <option value="3">网格级别3</option>
-                            </select>
+                            <input type="text" id="blockLeveName" name="blockLeveName" class="form-control" />
+                            <input type="hidden" id="blockLevelId" name="blockLevelId"/>
                         </div>
 
-                        <label for="blockId" class="col-sm-2 control-label"></label>
+                        <label for="blockName" class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
-                            <select id="blockId" name="blockId" class="form-control">
-                                <option value="1">网格1</option>
-                                <option value="2">网格2</option>
-                                <option value="3">网格3</option>
-                            </select>
+                            <input type="text" id="blockName" name="blockName" class="form-control" />
+                            <input type="hidden" id="blockId" name="blockId"/>
                         </div>
                     </div>
                     <div class="form-group">

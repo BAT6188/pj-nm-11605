@@ -3,12 +3,17 @@ var gridTable = $('.tableTab'),
 
 var status_search="";
 
-function initTable() {
+    function getTableHeight() {
+        console.log($('.dealBox').outerHeight(true) + $('.banner').outerHeight(true) + $('.linear').outerHeight(true));
+        return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true) - $('.linear').outerHeight(true) - 8;
+    }
+
+    function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_dispatch_MonitorCase_list.action?source=0",
-        height: pageUtils.getTableHeight(),
+        // height: getTableHeight,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
