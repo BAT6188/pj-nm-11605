@@ -102,6 +102,7 @@
                 $.ajax( {
                     url: rootPath + "/action/S_enterprise_Enterprise_list.action",
                     dataType: "json",
+                    type:'post',
                     data: {
                         name: request.term
                     },
