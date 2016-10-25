@@ -63,6 +63,9 @@
             padding-left: 11%;
             margin-top: 1%;
         }
+        .dealBox button {
+             min-width: 0px;
+        }
     </style>
 </head>
 <body>
