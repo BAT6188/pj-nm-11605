@@ -55,6 +55,7 @@
             position: absolute;
             left: 0px; top: 27px;
         }
+        .ui-autocomplete { z-index:2147483647; }
 
     </style>
 </head>
