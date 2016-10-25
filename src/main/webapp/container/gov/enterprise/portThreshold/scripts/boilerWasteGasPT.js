@@ -1,14 +1,14 @@
 /**
  * Created by Administrator on 2016/10/21.
  */
-var formDiv = $('#wasteWaterForm');
+var formDiv = $('#BWGForm');
 loadInfo();
 function loadInfo(){
     $.ajax({
         url: rootPath + "/action/S_port_PortThreshold_list.action",
         type:"post",
         async:false,
-        data:{"enterpriseId":enterpriseId,"type":"WW"},//阻止深度序列化，向后台传递数组
+        data:{"enterpriseId":enterpriseId,"type":"BWG"},//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function(data){
             if(data.total>0){
@@ -108,7 +108,7 @@ function saveAjax(entity, callback) {
         success:callback
     });
 }
-var thisUrl = rootPath +'/container/gov/enterprise/portThreshold/wasteWaterPT.jsp?id='+enterpriseId;
+var thisUrl = rootPath +'/container/gov/enterprise/portThreshold/boilerWasteGasPT.jsp?id='+enterpriseId;
 function reloadThisPage(){
     $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('.main-right').load(thisUrl); // ajax加载页面

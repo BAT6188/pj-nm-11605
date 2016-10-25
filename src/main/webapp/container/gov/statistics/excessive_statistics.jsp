@@ -21,6 +21,7 @@
         width: 33.33%;
         height: 100%;
     }
+    .ui-autocomplete { z-index:2147483647; }
 
 </style>
 </head>
@@ -102,6 +103,7 @@
                 $.ajax( {
                     url: rootPath + "/action/S_enterprise_Enterprise_list.action",
                     dataType: "json",
+                    type:'post',
                     data: {
                         name: request.term
                     },

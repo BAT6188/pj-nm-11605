@@ -101,7 +101,7 @@
                     <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
                         <i class="btnIcon edit-icon"></i><span>反馈</span>
                     </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
+                    <button id="overBtn" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>办结</span>
                     </button>
                 </p>
@@ -113,6 +113,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!--查看已反馈状态表单-->
 <div class="modal fade" id="feedbackStatusForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
@@ -282,7 +284,7 @@
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
-                            <div id="fine-uploader-gallery"></div>
+                            <div id="fine-uploader-gallery3"></div>
                         </div>
                     </div>
 
@@ -345,7 +347,7 @@
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
-                            <div id="fine-uploader-gallery"></div>
+                            <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
 
@@ -533,36 +535,8 @@
 </div>
 
 
-<!--查看 状态跟踪-->
-<div class="modal fade" id="officeForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 800px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">添加固体废物治理设施</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">设施名称：</label>
-                        <div class="col-sm-10">
-
-                            <input type="text" id="name" name="name" class="form-control"
-                                   data-message="设施名称不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                    </div>
 
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/lawManage.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/selectPeople.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>
