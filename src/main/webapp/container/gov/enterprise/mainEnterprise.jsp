@@ -41,9 +41,9 @@
             <h3><a href="javascript:;">企业阀值管理</a></h3>
             <ul>
                 <li><a href="javascript:loadPageInEnterprise('portThreshold/wasteWaterPT.jsp?id=<%=id%>')">废水阈值管理</a></li>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/hepwgPT.jsp?id=<%=id%>')">火电厂废气阈值管理</a></li>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/bwgPT.jsp?id=<%=id%>')">锅炉废气阈值管理</a></li>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/fgPT.jsp?id=<%=id%>')">油烟阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/hepWasteGasPT.jsp?id=<%=id%>')">火电厂废气阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/boilerWasteGasPT.jsp?id=<%=id%>')">锅炉废气阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/flueGasPT.jsp?id=<%=id%>')">油烟阈值管理</a></li>
             </ul>
         </div>
         <div class="menuDiv">
@@ -107,7 +107,7 @@
             </ul>
         </div>
     </div>
-    <div class="main-right right level3MenuContent" style="overflow-x: hidden;">
+    <div class="main-right right level3MenuContent">
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>

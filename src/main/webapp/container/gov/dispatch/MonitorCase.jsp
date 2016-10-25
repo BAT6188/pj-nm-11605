@@ -22,7 +22,7 @@
         padding: 10px;
     }
 
-    .nav{
+    .nav-tabs{
         height: 47px;
     }
     a{

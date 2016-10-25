@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 一级网格
+ * 四级网格
  */
 @Entity
-@Table(name = "HW_BLOCK_FIRST")
+@Table(name = "HW_BLOCK")
 public class Block implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -21,6 +21,12 @@ public class Block implements Serializable {
      */
     @Column(name = "BLOCK_LEVEL_ID",length = 100)
     private String blockLevelId;
+
+    /**
+     *网格级别名称
+     */
+    @Column(name = "BLOCK_LEVEL_NAME",length = 100)
+    private String blockLevelName;
     /**
      *单位名称
      */
@@ -197,5 +203,13 @@ public class Block implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
     }
 }

@@ -103,7 +103,7 @@ public class WaterPort implements Serializable {
     /**
      * 备注
      */
-    @Column(name = "remark",length = 200)
+    @Column(name = "remark",length = 512)
     private String remark;
 
     /**

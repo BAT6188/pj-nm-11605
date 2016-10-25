@@ -200,8 +200,8 @@ function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" onclick="jumpToUrl(\'/container/gov/enterprise/mainEnterprise.jsp?handleType=look&id='+row.id+'\')">查看</button>';
 }
 function jumpToUrl(url){
-    $('.content').html(pageUtils.loading()); // 设置页面加载时的loading图片
-    $('.content').load(rootPath+url); // ajax加载页面
+    $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
+    $('#level2content').load(rootPath+url); // ajax加载页面
 }
 // 列表操作事件
 window.operateEvents = {

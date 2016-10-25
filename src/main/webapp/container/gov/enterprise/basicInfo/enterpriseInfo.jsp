@@ -104,14 +104,15 @@
             </div>
             <label for="orgCode" class="col-sm-2 control-label">组织机构代码<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode"readonly>
+                <input type="text" class="form-control needshow" id="orgCode" name="orgCode">
+                <%--<div class="input-group">
+                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode">
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button">
                             选择
                         </button>
 					</span>
-                </div>
+                </div>--%>
             </div>
         </div>
         <div class="form-group">
@@ -276,14 +277,15 @@
         <div class="form-group">
             <label for="area" class="col-sm-2 control-label">行政区：</label>
             <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="area" name="area" readonly>
+                <input type="text" class="form-control needshow" id="area" name="area">
+                <%--<div class="input-group">
+                    <input type="text" class="form-control needshow" id="area" name="area">
 					<span class="input-group-btn">
 						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#areaModal">
                             选择
                         </button>
 					</span>
-                </div>
+                </div>--%>
             </div>
             <label for="industrialPark" class="col-sm-2 control-label">所在工业园区名称：</label>
             <div class="col-sm-4">
