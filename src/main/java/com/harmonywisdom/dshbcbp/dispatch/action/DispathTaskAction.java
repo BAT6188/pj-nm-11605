@@ -30,6 +30,16 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         return dispathTaskService;
     }
 
+    public void overStatus(){
+        String[] ids = this.getParamValues("ids");
+        for (String id : ids) {
+            DispathTask dt = dispathTaskService.findById(id);
+            dt.setStatus("5");
+            dispathTaskService.update(dt);
+        }
+
+    }
+
     /**
      * 调度单点调度按钮
      */
