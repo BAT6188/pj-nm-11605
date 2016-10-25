@@ -77,7 +77,6 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                visible:false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
                 }
@@ -88,7 +87,6 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                visible:false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
                 }
@@ -233,9 +231,17 @@ removeBtn.click(function () {
 $("#search").click(function () {
     //查询之前重置table
     var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
+    var enterpriseName = $("#s_name").val();
+    var firstTime = $("#start_createTime").val();
+    var lastTime = $("#end_createTime").val();
     if (enterpriseName){
         queryParams["enterpriseName"] = enterpriseName;
+    }
+    if(firstTime){
+        queryParams["startYdate"] = firstTime;
+    }
+    if(lastTime){
+        queryParams["lastYdate"] = lastTime;
     }
     search(queryParams);
 });
@@ -264,17 +270,11 @@ $("#save").bind('click',function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#datetimepicker').datetimepicker({
+$('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#datetimepicker2').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
 /**
  * 按时间查询表单
  * @type {*|jQuery|HTMLElement}
@@ -283,7 +283,7 @@ var yearUl = $('#year');
 
 var year = new Date().getFullYear();
 for ( var i = year; i >=2014; i--) {
-    $("<li class='year'>" + i + "</li>").appendTo(yearUl);
+    $("<li class='year'><a href='#'>" + i + "</a></li>").appendTo(yearUl);
 }
 
 var statistical = $("#statistical");
@@ -305,7 +305,7 @@ statistical.find(".tm").bind('click',function(){
     var seasons= $(this).text();
     var selYear = $('#selYear').text();
     if(selYear == "年份"){
-        alert("请选择年份");
+        Ewin.confirm({ message: "请选择年份!" });
         return ;
     }
     if(seasons == "第一季度"){
@@ -335,7 +335,7 @@ statistical.find("li[class='month']").bind("click", function() {
     var m = mNum > 9 ? mNum : ("0"+mNum);
     var selYear = $('#selYear').text();
     if(selYear == "年份"){
-        alert("请选择年份!");
+        Ewin.confirm({ message: "请选择年份!" });
         return;
     }
     var  day = new Date(selYear,m,0);
@@ -405,6 +405,7 @@ function disabledForm(disabled) {
     }
 
 }
+
 
 /**
 * 重置表单

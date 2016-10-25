@@ -56,13 +56,16 @@
             /*left: 0px; top: 27px;*/
         /*}*/
         .ui-autocomplete { z-index:2147483647; }
-        .nav ul {
-            display: none;
-        }
+        /*.nav ul {*/
+            /*display: none;*/
+        /*}*/
         #total{
-            padding-left:11%;
+            padding-left: 11%;
+            margin-top: 1%;
         }
-
+        .dealBox button {
+             min-width: 0px;
+        }
     </style>
 </head>
 <body>
@@ -77,66 +80,147 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="s_name">企业名称：</label> <input type="text" id="s_name" class="form-control" />
-                    </p>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="s_name" class="ui-widget">企业名称：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                            <%--<input id="selCompanyBtn" style="color: #fff;background-color: #449d44;border-color: #398439; width:15%;" type="button" value="选择" class="form-control" data-toggle="modal" data-target="#demoForm"/>--%>
+                        </div>
+                        <div class="form-group">
+                            <label for="">日期：</label>
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            -
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" id="reset" class="btn btn-default queryBtn"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+
 
 
                 <div id="total" class="k-toolbar k-grid-toolbar">
                     <table border="0px" cellspacing="1" cellpadding="0" overflow="hidden">
-                        <div  id="statistical">
-                            <ul class="nav nav-tabs" id="Hyear">
-                            <li class="dropdown" >
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    年份 <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" id="year">
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    第一季度 <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">1月份</a></li>
-                                    <li><a href="#">2月份</a></li>
-                                    <li><a href="#">3月份</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    第二季度 <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">4月份</a></li>
-                                    <li><a href="#">5月份</a></li>
-                                    <li><a href="#">6月份</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    第三季度 <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">7月份</a></li>
-                                    <li><a href="#">8月份</a></li>
-                                    <li><a href="#">9月份</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    第四季度 <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">10月份</a></li>
-                                    <li><a href="#">11月份</a></li>
-                                    <li><a href="#">12月份</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                            <div class="btn-group" id="statistical">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" id="selYear">年份</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">切换下拉菜单</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" id="year">
+
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default tm">第一季度</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">切换下拉菜单</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="month" value="01"><a href="#">1月</a></li>
+                                        <li class="month" value="02"><a href="#">2月</a></li>
+                                        <li class="month" value="03"><a href="#">3月</a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default tm">第二季度</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">切换下拉菜单</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="month" value="04"><a href="#">4月</a></li>
+                                        <li class="month" value="05"><a href="#">5月</a></li>
+                                        <li class="month" value="06"><a href="#">6月</a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default tm">第三季度</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">切换下拉菜单</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="month" value="07"><a href="#">7月</a></li>
+                                        <li class="month" value="08"><a href="#">8月</a></li>
+                                        <li class="month" value="09"><a href="#">9月</a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default tm">第四季度</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">切换下拉菜单</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="month" value="10"><a href="#">10月</a></li>
+                                        <li class="month" value="11"><a href="#">11月</a></li>
+                                        <li class="month" value="12"><a href="#">12月</a></li>
+                                    </ul>
+                            </div>
+                            <%--<ul class="nav nav-tabs" id="Hyear">--%>
+                            <%--<li class="dropdown" >--%>
+                                <%--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--%>
+                                    <%--年份 <span class="caret"></span>--%>
+                                <%--</a>--%>
+                                <%--<ul class="dropdown-menu" id="year">--%>
+                                <%--</ul>--%>
+                            <%--</li>--%>
+                            <%--<li class="dropdown">--%>
+                                <%--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--%>
+                                    <%--第一季度 <span class="caret"></span>--%>
+                                <%--</a>--%>
+                                <%--<ul class="dropdown-menu">--%>
+                                    <%--<li><a href="#">1月份</a></li>--%>
+                                    <%--<li><a href="#">2月份</a></li>--%>
+                                    <%--<li><a href="#">3月份</a></li>--%>
+                                <%--</ul>--%>
+                            <%--</li>--%>
+                            <%--<li class="dropdown">--%>
+                                <%--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--%>
+                                    <%--第二季度 <span class="caret"></span>--%>
+                                <%--</a>--%>
+                                <%--<ul class="dropdown-menu">--%>
+                                    <%--<li><a href="#">4月份</a></li>--%>
+                                    <%--<li><a href="#">5月份</a></li>--%>
+                                    <%--<li><a href="#">6月份</a></li>--%>
+                                <%--</ul>--%>
+                            <%--</li>--%>
+                            <%--<li class="dropdown">--%>
+                                <%--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--%>
+                                    <%--第三季度 <span class="caret"></span>--%>
+                                <%--</a>--%>
+                                <%--<ul class="dropdown-menu">--%>
+                                    <%--<li><a href="#">7月份</a></li>--%>
+                                    <%--<li><a href="#">8月份</a></li>--%>
+                                    <%--<li><a href="#">9月份</a></li>--%>
+                                <%--</ul>--%>
+                            <%--</li>--%>
+                            <%--<li class="dropdown">--%>
+                                <%--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--%>
+                                    <%--第四季度 <span class="caret"></span>--%>
+                                <%--</a>--%>
+                                <%--<ul class="dropdown-menu">--%>
+                                    <%--<li><a href="#">10月份</a></li>--%>
+                                    <%--<li><a href="#">11月份</a></li>--%>
+                                    <%--<li><a href="#">12月份</a></li>--%>
+                                <%--</ul>--%>
+                            <%--</li>--%>
+                        <%--</ul>--%>
                             <%--<ul id="Hyear">--%>
                                 <%--<li><a id="selYear" href="#">年份</a>--%>
                                     <%--<ul id="year">--%>
