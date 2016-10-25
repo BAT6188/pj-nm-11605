@@ -21,6 +21,12 @@ public class Block implements Serializable {
      */
     @Column(name = "BLOCK_LEVEL_ID",length = 100)
     private String blockLevelId;
+
+    /**
+     *网格级别名称
+     */
+    @Column(name = "BLOCK_LEVEL_NAME",length = 100)
+    private String blockLevelName;
     /**
      *单位名称
      */
@@ -197,5 +203,13 @@ public class Block implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
     }
 }
