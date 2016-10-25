@@ -108,7 +108,7 @@
             </ul>
         </div>
     </div>
-    <div class="main-right right level3MenuContent" style="overflow-x: hidden;">
+    <div class="main-right right level3MenuContent">
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
