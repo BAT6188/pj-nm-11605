@@ -21,6 +21,7 @@
         width: 33.33%;
         height: 100%;
     }
+    .ui-autocomplete { z-index:2147483647; }
 
 </style>
 </head>

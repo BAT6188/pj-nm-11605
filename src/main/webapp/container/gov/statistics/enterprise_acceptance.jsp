@@ -10,6 +10,9 @@
 <html>
 <head>
     <title>企业环评验收统计分析</title>
+    <style type="text/css">
+        .ui-autocomplete { z-index:2147483647; }
+    </style>
 </head>
 <body>
 <div class="content content1 clearfix">

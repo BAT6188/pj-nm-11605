@@ -10,6 +10,9 @@
 <html>
 <head>
     <title>执法同期对比分析</title>
+    <style type="text/css">
+        .ui-autocomplete { z-index:2147483647; }
+    </style>
 </head>
 <body>
 <div class="content content1 clearfix">
