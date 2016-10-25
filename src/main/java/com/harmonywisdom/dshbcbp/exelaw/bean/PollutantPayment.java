@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +15,9 @@ public class PollutantPayment implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    @Column(name = "enterprise_id", length = 32)
+    private String enterpriseId;
 
     @Column(name = "enterprise_name", length = 64)
     private String enterpriseName;
@@ -63,16 +63,36 @@ public class PollutantPayment implements Serializable {
     private String remark;
     /**
      * 缴费状态
-     * 1:已缴费，2：未缴费
+     * 0：未缴费， 1:已缴费， 2:未按时缴费
      */
     @Column(name="PAYMENT_STATUS")
-    private String payment_status;
+    private String paymentStatus;
 
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
 
-    @Column(name = "enterprise_id", length = 32)
-    private String enterpriseId;
+    /**
+     * 距缴费日期，例如：还有5天
+     */
+    @Transient
+    private String rangeDays;
+
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
+
+    public String getRangeDays() {
+        return rangeDays;
+    }
+
+    public void setRangeDays(String rangeDays) {
+        this.rangeDays = rangeDays;
+    }
 
     public String getId() {
         return id;
@@ -154,13 +174,6 @@ public class PollutantPayment implements Serializable {
         this.remark = remark;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
 
     public String getEnterpriseId() {
         return enterpriseId;
@@ -170,11 +183,11 @@ public class PollutantPayment implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
-    public String getPayment_status() {
-        return payment_status;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setPayment_status(String payment_status) {
-        this.payment_status = payment_status;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }
