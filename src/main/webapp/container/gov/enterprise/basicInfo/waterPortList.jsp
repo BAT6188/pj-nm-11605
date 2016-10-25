@@ -2,16 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%
-        String enterpriseId=request.getParameter("id");
-    %>
     <title>废水排口</title>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
     </script>
 </head>
 <body>
@@ -348,17 +345,6 @@
                 }
             })
         })
-    }
-    function makePlaneMap(){
-        PlottingDialog.dialog({
-            show:true,
-            mode:"marker",
-            attachmentId:enterpriseData.planeMap,
-            callback:function (marker) {
-                var str = JSON.stringify(marker);
-                form.find('#planeMapMark').val(str);
-            }
-        });
     }
 </script>
 </body>

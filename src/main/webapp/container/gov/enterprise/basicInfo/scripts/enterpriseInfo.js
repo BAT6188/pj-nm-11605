@@ -372,6 +372,7 @@ function setLookBtn(){
         $("#fine-uploader-planemap").find(".qq-upload-delete").hide();
     };
     planeMapUploader = new qq.FineUploader(pfuOptions);
+    $("#fine-uploader-planemap").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无平面图');
 
     var fuOptions = getUploaderOptions(enterpriseId);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -379,6 +380,7 @@ function setLookBtn(){
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
     /*上传*/
     $('#toEditForm').click(function(){
         $('#headTitle').html('编辑企业信息');
@@ -389,7 +391,7 @@ function setLookBtn(){
     })
 }
 function reloadThisPage(){
-    var thisUrl = rootPath +'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=look&id='+enterpriseId;
+    var thisUrl = rootPath +'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=look';
     //$(".main-right").load(url);
     $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('.main-right').load(thisUrl); // ajax加载页面

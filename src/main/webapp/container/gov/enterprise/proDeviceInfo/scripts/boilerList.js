@@ -285,6 +285,7 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);

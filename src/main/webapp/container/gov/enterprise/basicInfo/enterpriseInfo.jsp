@@ -12,10 +12,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>修改企业信息</title>
-    <%
-        String handleType=request.getParameter("handleType");
-        String enterpriseId=request.getParameter("id");
-    %>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
     <link href="<%=request.getContextPath()%>/common/scripts/notyf/notyf.min.css" rel="stylesheet">
@@ -25,8 +21,7 @@
     <%--select--%>
     <%--<jsp:include page="/common/common_select.jsp" flush="true"/>--%>
     <script type="text/javascript">
-        var handleType='<%=handleType%>';
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
     </script>
     <style>
         .Node-frame-menubar {

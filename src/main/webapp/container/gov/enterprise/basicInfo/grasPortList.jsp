@@ -2,13 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%
-        String enterpriseId=request.getParameter("id");
-    %>
     <title>废气排口</title>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
         $(function(){
             initSelect();
         });
@@ -22,17 +19,6 @@
                     optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
                 })
                 $('#'+k).append(optionsHtml);
-            });
-        }
-        function makePlaneMap(){
-            PlottingDialog.dialog({
-                show:true,
-                mode:"marker",
-                attachmentId:enterpriseData.planeMap,
-                callback:function (marker) {
-                    var str = JSON.stringify(marker);
-                    form.find('#planeMapMark').val(str);
-                }
             });
         }
     </script>
@@ -185,5 +171,22 @@
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/grasPortList.js"></script>
+<script type="text/javascript">
+    $(function(){
+        initSelect();
+    });
+    /*初始化选择菜单*/
+    function initSelect(){
+        var dictData = dict.getDctionnary({code:['grasDischargeStandard','monitorType','dischargeMode']});
+        /*数据字典*/
+        $.each(dictData,function(k,v){
+            var optionsHtml = '';
+            $.each(v,function(i,obj){
+                optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
+            })
+            $('#'+k).append(optionsHtml);
+        });
+    }
+</script>
 </body>
 </html>

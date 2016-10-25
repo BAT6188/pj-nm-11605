@@ -11,11 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>锅炉废气阀值管理</title>
-    <%
-        String enterpriseId=request.getParameter("id");
-    %>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
+        $('input[name="enterpriseId"]').val(enterpriseId);
     </script>
     <style>
         .list-group-item{
@@ -32,7 +30,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="BWG" />
                 <input type="hidden" name="pollutantCode" value="BWGSoot"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">锅炉烟尘</div>
                 <div class="form-group">
@@ -62,7 +60,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="BWG" />
                 <input type="hidden" name="pollutantCode" value="BWGSO2"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">锅炉二氧化硫</div>
                 <div class="form-group">
@@ -92,7 +90,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="BWG" />
                 <input type="hidden" name="pollutantCode" value="BWGNOx"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">锅炉氮氧化物</div>
                 <div class="form-group">
