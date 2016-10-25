@@ -2,12 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%
-        String enterpriseId=request.getParameter("id");
-    %>
     <title>其他生产设备信息</title>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
     </script>
 </head>
 <body>

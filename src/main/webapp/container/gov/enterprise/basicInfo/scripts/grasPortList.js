@@ -289,6 +289,7 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
@@ -399,4 +400,19 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+/**
+ * 平面图标注
+ */
+function makePlaneMap(){
+    PlottingDialog.dialog({
+        show:true,
+        mode:"marker",
+        attachmentId:enterpriseData.planeMap,
+        callback:function (marker) {
+            var str = JSON.stringify(marker);
+            form.find('#planeMapMark').val(str);
+        }
+    });
+}
 

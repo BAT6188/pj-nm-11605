@@ -15,7 +15,8 @@
         String enterpriseId=request.getParameter("id");
     %>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
+        $('input[name="enterpriseId"]').val(enterpriseId);
     </script>
     <style>
         .list-group-item{
@@ -32,7 +33,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="HWPWG" />
                 <input type="hidden" name="pollutantCode" value="HWPWGSoot"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">火电厂烟尘</div>
                 <div class="form-group">
@@ -62,7 +63,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="HWPWG" />
                 <input type="hidden" name="pollutantCode" value="HWPWGSO2"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">火电厂二氧化硫</div>
                 <div class="form-group">
@@ -92,7 +93,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="HWPWG" />
                 <input type="hidden" name="pollutantCode" value="HWPWGNOx"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">火电厂氮氧化物</div>
                 <div class="form-group">

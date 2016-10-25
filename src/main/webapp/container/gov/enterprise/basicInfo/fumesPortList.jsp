@@ -2,23 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%
-        String enterpriseId=request.getParameter("id");
-    %>
     <title>油烟排口</title>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
-        function makePlaneMap(){
-            PlottingDialog.dialog({
-                show:true,
-                mode:"marker",
-                attachmentId:enterpriseData.planeMap,
-                callback:function (marker) {
-                    var str = JSON.stringify(marker);
-                    form.find('#planeMapMark').val(str);
-                }
-            });
-        }
+        var enterpriseId=enterpriseData.id;
     </script>
 </head>
 <body>

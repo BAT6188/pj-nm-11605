@@ -11,11 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>废水阀值管理</title>
-    <%
-        String enterpriseId=request.getParameter("id");
-    %>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>';
+        var enterpriseId=enterpriseData.id;
+        $('input[name="enterpriseId"]').val(enterpriseId);
     </script>
     <style>
         .list-group-item{
@@ -32,7 +30,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="FG" />
                 <input type="hidden" name="pollutantCode" value="FGlb"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">油烟</div>
                 <div class="form-group">
@@ -62,7 +60,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="FG" />
                 <input type="hidden" name="pollutantCode" value="FGTem"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟气温度</div>
                 <div class="form-group">
@@ -92,7 +90,7 @@
                 <input type="hidden" name="id" class="form-control" />
                 <input type="hidden" name="type" value="FG" />
                 <input type="hidden" name="pollutantCode" value="FGhum"/>
-                <input type="hidden" name="enterpriseId" value="<%=enterpriseId%>"/>
+                <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟气湿度</div>
                 <div class="form-group">

@@ -44,26 +44,30 @@ function setLookType(){
 //初始化表单验证
 var ef = formDiv.easyform({
     success:function (ef) {
-        var entity = formDiv.formSerializeObject();
-        console.log(entity);
+
     }
 });
 $("#saveForm").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
-    var updateSuccessNumber = 0;
-    formDiv.find('form').each(function(){
-        var entity = $(this).formSerializeObject();
-        saveAjax(entity,function (msg) {
-            if(msg.success){
-                $(this).find('input[name="id"]').val(msg.id);
-                updateSuccessNumber +=1;
-            }
-            if(updateSuccessNumber==4){
-                setLookType();
-                formDiv.BootstrapAlertMsg('success',"保存数据成功!",2000);
-            }
-        });
-    })
+    if(checkInputs()){
+        var updateSuccessNumber = 0;
+        formDiv.find('form').each(function(){
+            var entity = $(this).formSerializeObject();
+            saveAjax(entity,function (msg) {
+                if(msg.success){
+                    $(this).find('input[name="id"]').val(msg.id);
+                    updateSuccessNumber +=1;
+                }
+                if(updateSuccessNumber==3){
+                    setLookType();
+                    formDiv.BootstrapAlertMsg('success',"保存数据成功!",2000);
+                }
+            });
+        })
+    }else{
+        return;
+    }
+
 });
 $('#resetEditForm').click(function(){
     formDiv.find('form').each(function(){
@@ -97,15 +101,25 @@ function setInputs(){
                 }
             }
         })
-        $(this).blur(function(){
-            if(this.value==""){
-                tip.show(this.title+"不能为空！");
-                $(this).focus();
-            }else{
-                tip.close();
-            }
-        })
     })
+}
+function checkInputs(){
+    var inputs = $('.form-group').find('input');
+    var inputLength = inputs.length;
+    var checkedLength = 0;
+    $.each(inputs,function(k,v){
+        var tip = $(this).easytip();
+        if(this.value==""){
+            tip.show(this.title+"不能为空！");
+        }else{
+            checkedLength +=1;
+        }
+    })
+    if(inputLength==checkedLength){
+        return true;
+    }else{
+        return false;
+    }
 }
 //保存ajax请求
 function saveAjax(entity, callback) {
