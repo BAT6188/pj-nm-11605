@@ -16,6 +16,19 @@
     <script type="text/javascript">
         var handleType='<%=handleType%>';
         var id='<%=id%>';
+        var enterpriseData;
+        $(function(){
+            $.ajax({
+                url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
+                type:"post",
+                async:false,
+                data:{"id":id},//阻止深度序列化，向后台传递数组
+                dataType:"json",
+                success:function(data){
+                    enterpriseData = data;
+                }
+            });
+        })
     </script>
     <style>
         .menuDiv h3{
