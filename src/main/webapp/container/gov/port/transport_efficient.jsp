@@ -23,39 +23,45 @@
             text-decoration: none;
             color:#000000;
         }
-        .menu{
-            margin:0px 0px;
-            padding-left:10px;
-            width:510px;
-            height:30px;
-            cursor:pointer
-        }
-        .menu ul{
-            margin:0px;
-            padding:0px;
-        }
-        .menu ul li{
-            position:relative;
-            float:left;
-            list-style:none;
-            padding:0px;
-            border:1px dotted;
-            font-size:12px;
-            width:80px;
-            text-align: center;
-            margin:0px;
-            background:#daecf4;
-        }
-        .menu ul li ul{
-            display:none;
-            z-index: 99999;
-        }
-        .menu ul li:hover ul{
-            display:block;
-            position: absolute;
-            left: 0px; top: 27px;
-        }
+        /*.menu{*/
+            /*margin:0px 0px;*/
+            /*padding-left:10px;*/
+            /*width:510px;*/
+            /*height:30px;*/
+            /*cursor:pointer*/
+        /*}*/
+        /*.menu ul{*/
+            /*margin:0px;*/
+            /*padding:0px;*/
+        /*}*/
+        /*.menu ul li{*/
+            /*position:relative;*/
+            /*float:left;*/
+            /*list-style:none;*/
+            /*padding:0px;*/
+            /*border:1px dotted;*/
+            /*font-size:12px;*/
+            /*width:80px;*/
+            /*text-align: center;*/
+            /*margin:0px;*/
+            /*background:#daecf4;*/
+        /*}*/
+        /*.menu ul li ul{*/
+            /*display:none;*/
+            /*z-index: 99999;*/
+        /*}*/
+        /*.menu ul li:hover ul{*/
+            /*display:block;*/
+            /*position: absolute;*/
+            /*left: 0px; top: 27px;*/
+        /*}*/
         .ui-autocomplete { z-index:2147483647; }
+        .nav ul {
+            display: none;
+        }
+        #total{
+            padding-left:11%;
+        }
 
     </style>
 </head>
@@ -76,44 +82,96 @@
                     </p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button type="button" id="reset" class="btn btn-default queryBtn"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+
+
                 <div id="total" class="k-toolbar k-grid-toolbar">
                     <table border="0px" cellspacing="1" cellpadding="0" overflow="hidden">
-                        <div class="menu" id="statistical">
-                            <ul id="Hyear">
-                                <li><a id="selYear" href="#">年份</a>
-                                    <ul id="year">
+                        <div  id="statistical">
+                            <ul class="nav nav-tabs" id="Hyear">
+                            <li class="dropdown" >
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    年份 <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" id="year">
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    第一季度 <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">1月份</a></li>
+                                    <li><a href="#">2月份</a></li>
+                                    <li><a href="#">3月份</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    第二季度 <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">4月份</a></li>
+                                    <li><a href="#">5月份</a></li>
+                                    <li><a href="#">6月份</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    第三季度 <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">7月份</a></li>
+                                    <li><a href="#">8月份</a></li>
+                                    <li><a href="#">9月份</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    第四季度 <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">10月份</a></li>
+                                    <li><a href="#">11月份</a></li>
+                                    <li><a href="#">12月份</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                            <%--<ul id="Hyear">--%>
+                                <%--<li><a id="selYear" href="#">年份</a>--%>
+                                    <%--<ul id="year">--%>
                                         <%--<li></li>--%>
-                                    </ul>
-                                </li>
-                                <li><a class="tm" href="#">第一季度</a>
-                                    <ul>
-                                        <li class="month" value="01">1月份</li>
-                                        <li class="month" value="02">2月份</li>
-                                        <li class="month" value="03">3月份</li>
-                                    </ul>
-                                </li>
-                                <li><a class="tm" href="#">第二季度</a>
-                                    <ul>
-                                        <li class="month" value="04">4月份</li>
-                                        <li class="month" value="05">5月份</li>
-                                        <li class="month" value="06">6月份</li>
-                                    </ul>
-                                </li>
-                                <li><a class="tm" href="#">第三季度</a>
-                                    <ul>
-                                        <li class="month" value="07">7月份</li>
-                                        <li class="month" value="08">8月份</li>
-                                        <li class="month" value="09">9月份</li>
-                                    </ul>
-                                </li>
-                                <li><a class="tm" href="#">第四季度</a>
-                                    <ul>
-                                        <li class="month" value="10">10月份</li>
-                                        <li class="month" value="11">11月份</li>
-                                        <li class="month" value="12">12月份</li>
-                                    </ul>
-                                </li>
-                            </ul>
+                                    <%--</ul>--%>
+                                <%--</li>--%>
+                                <%--<li><a class="tm" href="#">第一季度</a>--%>
+                                    <%--<ul>--%>
+                                        <%--<li class="month" value="01">1月份</li>--%>
+                                        <%--<li class="month" value="02">2月份</li>--%>
+                                        <%--<li class="month" value="03">3月份</li>--%>
+                                    <%--</ul>--%>
+                                <%--</li>--%>
+                                <%--<li><a class="tm" href="#">第二季度</a>--%>
+                                    <%--<ul>--%>
+                                        <%--<li class="month" value="04">4月份</li>--%>
+                                        <%--<li class="month" value="05">5月份</li>--%>
+                                        <%--<li class="month" value="06">6月份</li>--%>
+                                    <%--</ul>--%>
+                                <%--</li>--%>
+                                <%--<li><a class="tm" href="#">第三季度</a>--%>
+                                    <%--<ul>--%>
+                                        <%--<li class="month" value="07">7月份</li>--%>
+                                        <%--<li class="month" value="08">8月份</li>--%>
+                                        <%--<li class="month" value="09">9月份</li>--%>
+                                    <%--</ul>--%>
+                                <%--</li>--%>
+                                <%--<li><a class="tm" href="#">第四季度</a>--%>
+                                    <%--<ul>--%>
+                                        <%--<li class="month" value="10">10月份</li>--%>
+                                        <%--<li class="month" value="11">11月份</li>--%>
+                                        <%--<li class="month" value="12">12月份</li>--%>
+                                    <%--</ul>--%>
+                                <%--</li>--%>
+                            <%--</ul>--%>
                         </div>
                     </table>
                 </div>
@@ -123,6 +181,9 @@
                     </button>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
+                    </button>
+                    <button id="remove" type="button" class="btn btn-sm btn-danger">
+                        <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
                 </p>
             </div>
@@ -214,19 +275,26 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="remark" class="col-sm-2 control-label">备注：</label>
+                        <label for="remark" class="col-sm-2 control-label">备注*：</label>
                         <div class="col-sm-10">
-                            <textarea type="text" id="remark" name="remark" class="form-control" rows="5"
-                                   data-message="设计处理能力不为空"
-                                   data-easytip="position:top;class:easy-red;"
+                            <textarea  id="remark" name="remark" class="form-control" rows="5"
+                                       data-message="备注不能为空"
+                                       data-easytip="position:top;class:easy-red;"
                             ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer" >
                 <button type="button" class="btn btn-primary" id="save">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -282,6 +350,7 @@
             }
 
         } );
+
     } );
 </script>
 
