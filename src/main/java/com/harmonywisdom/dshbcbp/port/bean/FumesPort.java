@@ -89,18 +89,16 @@ public class FumesPort implements Serializable {
     private String enterpriseId;
 
     /**
+     * 平面图标绘
+     */
+    @Column(name = "plane_map_mark",length = 1024)
+    private String planeMapMark;
+
+    /**
      * 附件
      */
     @Transient
     private String attachmentId;
-
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
 
     public String getId() {
         return id;
@@ -118,20 +116,20 @@ public class FumesPort implements Serializable {
         this.number = number;
     }
 
-    public String getMonitorType() {
-        return monitorType;
-    }
-
-    public void setMonitorType(String monitorType) {
-        this.monitorType = monitorType;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMonitorType() {
+        return monitorType;
+    }
+
+    public void setMonitorType(String monitorType) {
+        this.monitorType = monitorType;
     }
 
     public Date getMonitorTime() {
@@ -204,5 +202,21 @@ public class FumesPort implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public String getPlaneMapMark() {
+        return planeMapMark;
+    }
+
+    public void setPlaneMapMark(String planeMapMark) {
+        this.planeMapMark = planeMapMark;
+    }
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
     }
 }

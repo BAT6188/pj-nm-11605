@@ -215,6 +215,12 @@ public class NoisePort implements Serializable {
     private String enterpriseId;
 
     /**
+     * 平面图标绘
+     */
+    @Column(name = "plane_map_mark",length = 1024)
+    private String planeMapMark;
+
+    /**
      * 附件
      */
     @Transient
@@ -242,6 +248,14 @@ public class NoisePort implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getNoiseType() {
@@ -468,6 +482,14 @@ public class NoisePort implements Serializable {
         this.nightMax = nightMax;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -476,27 +498,19 @@ public class NoisePort implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
+    public String getPlaneMapMark() {
+        return planeMapMark;
+    }
+
+    public void setPlaneMapMark(String planeMapMark) {
+        this.planeMapMark = planeMapMark;
+    }
+
     public String getAttachmentId() {
         return attachmentId;
     }
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }
