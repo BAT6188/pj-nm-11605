@@ -113,7 +113,7 @@ $(function(){
                 console.log(preMonth);
                 console.log(preValue);
 
-                var series1 = {name: "月份", data:preValue};
+                var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);
                 colMchart(preMonth,series);
             }
@@ -239,7 +239,7 @@ $(function(){
                 console.log(preValue);
 
 
-                var series1 = {name: "月份", data:preValue};
+                var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);
                 lineMchart(preMonth,series);
 

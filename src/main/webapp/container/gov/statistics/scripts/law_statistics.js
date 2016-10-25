@@ -116,7 +116,7 @@ $(function(){
                 console.log(preMonth);
                 console.log(preValue);
 
-                var series1 = {name: "月份", data:preValue};
+                var series1 = {name: "执法次数", data:preValue};
                 series.push(series1);
                 colMchart(preMonth,series);
             }
@@ -134,7 +134,7 @@ $(function(){
                 var categories = data['x'];
                 var series1 = data['y'];
                 var series = [{
-                    name:"超标次数:(次)",
+                    name:"执法次数:(次)",
                     data:[]
                 }];
                 var preMonth = [];//定义查询月份的数组
@@ -227,7 +227,7 @@ $(function(){
                 console.log(preValue);
 
 
-                var series1 = {name: "月份", data:preValue};
+                var series1 = {name: "执法次数", data:preValue};
                 series.push(series1);
                 lineMchart(preMonth,series);
 
