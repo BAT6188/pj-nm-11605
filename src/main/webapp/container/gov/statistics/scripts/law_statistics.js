@@ -82,8 +82,19 @@ $(function(){
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
                 var startMonth= startYdate.substring(5,7);
+                if(startMonth < 10){
+                    var sMonth = startMonth.substring(1)
+                }else{
+                    sMonth = startMonth;
+                }
                 var endMonth= lastYdate.substring(5,7);
-                for(var i = startMonth; i <= endMonth; i++){
+                if(endMonth <10){
+                    var lasMonth = endMonth.substring(1);
+                }else{
+                    lasMonth = endMonth
+                }
+
+                for(var i = sMonth; i <= lasMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -129,8 +140,19 @@ $(function(){
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
                 var startMonth= startYdate.substring(5,7);
+                if(startMonth < 10){
+                    var sMonth = startMonth.substring(1)
+                }else{
+                    sMonth = startMonth;
+                }
                 var endMonth= lastYdate.substring(5,7);
-                for(var i = startMonth; i <= endMonth; i++){
+                if(endMonth <10){
+                    var lasMonth = endMonth.substring(1);
+                }else{
+                    lasMonth = endMonth
+                }
+
+                for(var i = sMonth; i <= lasMonth; i++){
                     preMonth.push(i);
                     preValue.push(0);
                 }
@@ -254,7 +276,6 @@ $(function(){
 
     //饼状图highChart
     function pieMchart(series){
-        debugger;
         highchart.highcharts({
             chart: {
                 type: 'pie'
