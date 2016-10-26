@@ -118,6 +118,54 @@ public class BuildProject implements Serializable {
      */
     @Column(name = "ENTERPRISE_ID",length = 100)
     private String enterpriseId;
+    /**
+     * 审批类型
+     * 1：环评
+     * 2：验收
+     */
+    @Column(name = "type",length = 100)
+    private String type;
+    /**
+     * 批复时间
+     */
+    private Date time;
+
+    @Transient
+    private String startDate;
+    @Transient
+    private String endDate;
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getId() {
         return id;
