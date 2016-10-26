@@ -58,10 +58,10 @@
                     <p></p>
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="">是否缴费：</label>
-                            <select class="form-control" name="" id="">
-                                <option value="1">是</option>
-                                <option value="2">否</option>
+                            <label for="">缴费状态：</label>
+                            <select class="form-control" name="" id="payType">
+                                <option value="0">未缴费</option>
+                                <option value="1">已缴费</option>
                             </select>
                         </div>
                     </form>
@@ -74,9 +74,9 @@
                 <div class="chart-box">
                     <div class="chart-list">
                         <ul class="clearfix">
-                            <li id="columnBtn"><a href="javascript:;">柱状图</a></li>
-                            <li id="pieBtn"><a href="javascript:;">饼状图</a></li>
-                            <li id="lineBtn"><a href="javascript:;">折线图</a></li>
+                            <li id="columnBtn" data-checked="1"><a href="javascript:;">柱状图</a></li>
+                            <li id="pieBtn" data-checked="2"><a href="javascript:;">饼状图</a></li>
+                            <li id="lineBtn" data-checked="3"><a href="javascript:;">折线图</a></li>
                         </ul>
                     </div>
                     <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>

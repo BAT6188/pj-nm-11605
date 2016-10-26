@@ -11,18 +11,22 @@ public interface PollutantPaymentService extends IBaseService<PollutantPayment, 
     /**
      * 排污统计highCahrt
      * 获取柱状图数据
+     * @param name
+     * @param payType
      * @param firstTime
      * @param lastTime
      * @return
      */
-    List<Object[]>  findByColumnChart(Date firstTime, Date lastTime);
+    List<Object[]>  findByColumnChart(String name,String payType,String firstTime, String lastTime);
 
     /**
      * 排污统计highchart
      * 获取饼状图数据
+     * @param name
+     * @param payType
      * @param firstTime
-     * @param endTime
+     * @param lastTime
      * @return
      */
-    List<Object[]> findByPieChart(Date firstTime, Date endTime);
+    List<Object[]> findByPieChart(String name,String payType,String firstTime, String lastTime);
 }

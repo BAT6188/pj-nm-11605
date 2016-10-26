@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2016/10/12.
  */
+//@ sourceURL=sewage_declaration.js
 $(function(){
     var highchart = $("#container");
 
@@ -17,48 +18,71 @@ $(function(){
     });
     
     initPage();//页面初始化
+    var valueChart = '1';
 
     function initPage(){
         $('#columnBtn').css('background','#0099FF');
-        sewageColumnCahrt(startYdate,lastYdate);
+        search(valueChart,'','',startYdate,lastYdate);
+        // sewageColumnCahrt(startYdate,lastYdate);
+    }
+
+    var name;
+    //查询按钮
+    $("#search").bind('click',function(){
+        name = $("#s_name").val();
+        var payType = $("#payType").val();
+        var startYdate = $("#start_createTime").val();
+        var lastYdate = $("#end_createTime").val();
+        search(valueChart,name,payType,startYdate,lastYdate);
+    });
+
+    function search(valueChart,name,payType,startYdate,lastYdate){
+        if(valueChart == '2'){
+            sewagePieChart(name,payType,startYdate,lastYdate);
+        }else if(valueChart == '3'){
+            sewageLineCahrt(name,payType,startYdate,lastYdate);
+        }else{
+            sewageColumnCahrt(name,payType,startYdate,lastYdate);
+        }
+
+
     }
 
     //柱状图按钮
     $("#columnBtn").bind('click',function(){
+        valueChart = $("#columnBtn").attr("data-checked");
         $('#columnBtn').css('background','#0099FF');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#fff');
-        sewageColumnCahrt(startYdate,lastYdate);
+        search(valueChart,'','',startYdate,lastYdate);
     });
 
     //饼状图按钮
     $("#pieBtn").bind('click',function(){
+        valueChart = $("#pieBtn").attr("data-checked");
         $("#pieBtn").css('background','#0099FF');
         $('#columnBtn').css('background-color','#fff');
         $("#lineBtn").css('background','#fff');
-        sewagePieChart(startYdate,lastYdate);
-
+        search(valueChart,'','',startYdate,lastYdate);
     });
-
-
 
 
     //线状图按钮
     $("#lineBtn").bind('click',function(){
+        valueChart = $("#lineBtn").attr("data-checked");
         $('#columnBtn').css('background','#fff');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#0099FF');
-        sewageLineCahrt(startYdate,lastYdate);
-
+        search(valueChart,'','',startYdate,lastYdate);
     });
 
     //柱状图获取后台数据
-    function sewageColumnCahrt(startYdate,lastYdate){
+    function sewageColumnCahrt(name,payType,startYdate,lastYdate){
         $.ajax({
             url:rootPath + "/action/S_exelaw_PollutantPayment_getSewageColumn.action",
             type:'post',
             dataType:'json',
-            data:{startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:name,payType:payType,startYdate:startYdate,lastYdate:lastYdate},
             success:function(data){
                 var categories = data.x;
                 var series = [];
@@ -137,12 +161,12 @@ $(function(){
     
     
     //饼状图获取后台数据
-    function sewagePieChart(startYdate,lastYdate){
+    function sewagePieChart(name,payType,startYdate,lastYdate){
         $.ajax({
             url: rootPath + "/action/S_exelaw_PollutantPayment_getSewagePie.action",
             type:'post',
             dataType:'json',
-            data:{startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:name,payType:payType,startYdate:startYdate,lastYdate:lastYdate},
             success:function(data){
                 var categories = data['x'];
                 var series1 = data['y'];
@@ -150,10 +174,6 @@ $(function(){
                     name:"已缴费企业:(家)",
                     data:[]
                 }];
-                if(!series1){
-                    return " ";
-                }
-
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
                 var startMonth= startYdate.substring(5,7);
@@ -184,14 +204,12 @@ $(function(){
                                 preValue[j] = value[i];
                             }
                         }
-
                     }
                 }
                 console.log(preMonth);
                 console.log(preValue);
 
                 for (var i = 0; i < preValue.length; i++) {
-
                     series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                 }
                 pieMchart(series)
@@ -203,12 +221,12 @@ $(function(){
     
     
     //线状图获取后台数据
-    function sewageLineCahrt(startYdate,lastYdate){
+    function sewageLineCahrt(name,payType,startYdate,lastYdate){
         $.ajax({
             url:rootPath + "/action/S_exelaw_PollutantPayment_getSewageColumn.action",
             type:'post',
             dataType:'json',
-            data:{startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:name,payType:payType,startYdate:startYdate,lastYdate:lastYdate},
             success:function(data){
                 var categories = data.x;
                 var series = [];

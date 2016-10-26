@@ -104,16 +104,16 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
      * 排污统计
      * highchart获取柱状图数据,折线图数据
      */
-    public void getSewageColumn() throws ParseException {
+    public void getSewageColumn()  {
+        String name = request.getParameter("name");
+        String payType = request.getParameter("payType");
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date firstTime = sdf.parse(startYdate);
-        Date lastTime = sdf.parse(lastYdate);
+
         Map<String, Object> result = new HashMap<String, Object>();
 
 
-        List<Object[]> list = pollutantPaymentService.findByColumnChart(firstTime,lastTime);
+        List<Object[]> list = pollutantPaymentService.findByColumnChart(name,payType,startYdate,lastYdate);
         if (list != null && list.size() > 0) {
             Object[] xlist = new Object[list.size()];
             Object[] y1list = new Object[list.size()];
@@ -137,16 +137,15 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
      * 排污统计
      * highchart获取饼状图数据
      */
-    public void getSewagePie() throws ParseException {
+    public void getSewagePie()  {
+        String name = request.getParameter("name");
+        String payType = request.getParameter("payType");
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date firstTime = sdf.parse(startYdate);
-        Date endTime = sdf.parse(lastYdate);
         Map<String,Object> result = new HashMap<String,Object>();
 
-        List<Object[]> list = pollutantPaymentService.findByPieChart(firstTime,endTime);
+        List<Object[]> list = pollutantPaymentService.findByPieChart(name,payType,startYdate,lastYdate);
         if(list !=null && list.size()>0){
             Object[] xlist = new Object[list.size()];
             Object[] ylist = new Object[list.size()];

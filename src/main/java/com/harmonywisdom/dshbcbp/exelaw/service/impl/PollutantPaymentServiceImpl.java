@@ -26,31 +26,65 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
     /**
      * 排污统计highCahrt
      * 获取柱状图数据
+     * @param name
+     * @param payType
      * @param firstTime
      * @param lastTime
      * @return
      */
     @Override
-    public List<Object[]> findByColumnChart(Date firstTime, Date lastTime) {
+    public List<Object[]> findByColumnChart(String name,String payType,String firstTime, String lastTime) {
+        String whereSql = " where 1=1 ";
+        if (name != null && !"".equals(name)) {
+            whereSql += "AND enterprise_name LIKE '%" + name + "%'";
+        }else if(payType != null && !"".equals(payType)) {
+            if(payType == "0"){
+                whereSql += "AND PAYMENT_STATUS = '" + payType + "' AND AND PAYMENT_STATUS = '" + 2 + "' ";
+            }else{
+                whereSql += "AND PAYMENT_STATUS = '" + payType + "'";
+            }
+        }else if( firstTime !=null && !"".equals(firstTime)){
+            whereSql += "AND DATE_FORMAT(pay_date,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'";
+        } else if(lastTime != null && !"".equals(lastTime)) {
+            whereSql += "AND DATE_FORMAT(pay_date,'%Y-%m-%d') >= '" + firstTime + "'AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'";
+        }
+        whereSql += " GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(pay_date,'%m')AS MONTH," +
                 "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1'AND DATE_FORMAT(t0.pay_date,'%m') = DATE_FORMAT(t.pay_date,'%m'))," +
                 "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='2'AND DATE_FORMAT(t0.pay_date,'%m') = DATE_FORMAT(t.pay_date,'%m'))" +
-                "FROM `hw_pollutant_payment` t WHERE DATE_FORMAT(pay_date,'%Y-%m-%d')> ? AND DATE_FORMAT(pay_date,'%Y-%m-%d')<=? GROUP BY MONTH",firstTime,lastTime);
+                "FROM hw_pollutant_payment t" + whereSql);
        return list;
     }
 
     /**
      * 排污统计highChart
      * 获取饼状图数据
+     * @param name
+     * @param payType
      * @param firstTime
-     * @param endTime
+     * @param lastTime
      * @return
      */
     @Override
-    public List<Object[]> findByPieChart(Date firstTime, Date endTime) {
+    public List<Object[]> findByPieChart(String name,String payType,String firstTime, String lastTime) {
+        String whereSql = " where 1=1 ";
+        if (name != null && !"".equals(name)) {
+            whereSql += "AND enterprise_name LIKE '%" + name + "%'";
+        }else if(payType != null && !"".equals(payType)) {
+            if(payType == "0"){
+                whereSql += "AND PAYMENT_STATUS = '" + payType + "' AND AND PAYMENT_STATUS = '" + 2 + "' ";
+            }else{
+                whereSql += "AND PAYMENT_STATUS = '" + payType + "'";
+            }
+        }else if( firstTime !=null && !"".equals(firstTime)){
+            whereSql += " AND DATE_FORMAT(pay_date,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'";
+        } else if(lastTime != null && !"".equals(lastTime)) {
+            whereSql += "AND DATE_FORMAT(pay_date,'%Y-%m-%d') >= '" + firstTime + "'AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'";
+        }
+        whereSql += " GROUP BY MONTH ";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(pay_date,'%m')AS MONTH," +
                 "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1' AND DATE_FORMAT(t0.pay_date,'%m') = DATE_FORMAT(t.pay_date,'%m'))" +
-                "FROM `hw_pollutant_payment` t WHERE DATE_FORMAT(pay_date,'%Y-%m-%d')> '2016-01-01' AND DATE_FORMAT(pay_date,'%Y-%m-%d')<= '2016-12-30'GROUP BY MONTH");
+                "FROM `hw_pollutant_payment` t" + whereSql);
         return list;
     }
 }
