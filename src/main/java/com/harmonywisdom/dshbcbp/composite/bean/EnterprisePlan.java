@@ -50,6 +50,12 @@ public class EnterprisePlan implements Serializable {
      */
     @Column(name = "RECORD_DATE",length = 100)
     private Date recordDate;
+
+    @Transient
+    private String startDate;
+    @Transient
+    private String endDate;
+
     /**
      *附件
      */

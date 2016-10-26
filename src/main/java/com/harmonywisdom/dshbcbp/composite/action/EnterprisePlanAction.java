@@ -25,12 +25,19 @@ public class EnterprisePlanAction extends BaseAction<EnterprisePlan, EnterpriseP
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param=new QueryParam();
+        if(StringUtils.isNotBlank(entity.getEnterpriseId())){
+            param.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getAttnPerson())) {
             param.andParam(new QueryParam("attnPerson", QueryOperator.LIKE,entity.getAttnPerson()));
         }
-        String recordDate = request.getParameter("recordDate");
-        if (StringUtils.isNotBlank(recordDate)) {
-            param.andParam(new QueryParam("recordDate", QueryOperator.EQ, DateUtil.strToDate(recordDate,"yyyy-MM-dd")));
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        if (StringUtils.isNotBlank(startDate)) {
+            param.andParam(new QueryParam("recordDate", QueryOperator.GE, DateUtil.strToDate(startDate,"yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotBlank(endDate)) {
+            param.andParam(new QueryParam("recordDate", QueryOperator.LE, DateUtil.strToDate(endDate,"yyyy-MM-dd")));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {

@@ -23,7 +23,7 @@
                         <%--<input type="text" id="s_pubTime" class="form-control" />--%>
                     <%--</p>--%>
 
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
                                 <label for="s_title">标题：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
                             </div>
@@ -41,6 +41,7 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#workSumForm">

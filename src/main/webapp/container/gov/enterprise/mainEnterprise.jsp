@@ -85,15 +85,15 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">建设项目环评及其他许可情况</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('/buildproject.jsp')">建设项目环评及验收信息</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/pollutantlicense.jsp')">排污许可证信息</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/cleanLicense.jsp')">清洁生产审核</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/buildproject.jsp?id=<%=id%>')">建设项目环评及验收信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/pollutantlicense.jsp?id=<%=id%>')">排污许可证信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/cleanLicense.jsp?id=<%=id%>')">清洁生产审核</a></li>
             </ul>
         </div>
         <div class="menuDiv">
             <h3><a href="javascript:;">突发环境事件应急预案</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('/enterpriseplan.jsp')">突发环境事件应急预案</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/enterpriseplan.jsp?id=<%=id%>')">突发环境事件应急预案</a></li>
             </ul>
         </div>
         <div class="menuDiv">

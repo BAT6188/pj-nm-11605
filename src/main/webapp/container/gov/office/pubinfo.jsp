@@ -21,7 +21,7 @@
                         <%--<label for="s_type">信息类型：</label> <input type="text" id="s_type" class="form-control" />--%>
                         <%--<label for="s_pubTime">发布时间：</label>--%>
                     <%--</p>--%>
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
                                 <label for="s_title">标题：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
                             </div>
@@ -39,7 +39,8 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-               <br/> <br/>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <br/> <br/>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -70,7 +71,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">标题*：</label>
+                        <label for="title" class="col-sm-2 control-label">标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -79,7 +80,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubTime" class="col-sm-2 control-label">发布时间*：</label>
+                        <label for="pubTime" class="col-sm-2 control-label">发布时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
@@ -91,14 +92,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位*：</label>
+                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
                                    data-message="发布单位不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="type" class="col-sm-2 control-label">公告类型*：</label>
+                        <label for="type" class="col-sm-2 control-label">公告类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="type" name="type" class="form-control"
                                    data-message="公告类型不能为空"
@@ -107,7 +108,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="grade" class="col-sm-2 control-label">查看权限*：</label>
+                        <label for="grade" class="col-sm-2 control-label">查看权限<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <select style="width: 100%" class="form-control"  id="grade" name="grade">
                                 <option value="1">环保局</option>
@@ -119,7 +120,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="content" class="col-sm-2 control-label">公告详情*：</label>
+                        <label for="content" class="col-sm-2 control-label">公告详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea  id="content" name="content" class="form-control" rows="5"
                                        data-message="公告详情不能为空"

@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>建设项目环评及验收信息</title>
     <style>
         .tableDiv  .radio-inline label{margin-right: 25px;}
@@ -33,6 +32,13 @@
             padding: 4px 8px;
         }
     </style>
+
+    <%
+        String enterpriseId =request.getParameter("id");
+    %>
+    <script type="text/javascript">
+        var enterpriseId='<%=enterpriseId%>'
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -46,7 +52,7 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <form class="form-inline">
+                    <form class="form-inline" id="searchform">
                         <div class="form-group">
                             <label for="s_name">项目名称：</label> <input type="text" id="s_name" name="s_name" class="form-control" />
                         </div>
@@ -61,7 +67,7 @@
                         </div>
                     </form>
                     <p></p>
-                    <form class="form-inline">
+                    <form class="form-inline" id="searchform1">
                         <div class="form-group">
                             <label for="s_area">行政区：</label>
                             <input type="text" id="s_area" name="s_area" class="form-control" />
@@ -83,6 +89,7 @@
                     </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#hpForm">
@@ -128,6 +135,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
+                                                    <input type="hidden" id="type" name="type" value="1">
                                                     <input type="hidden" id="id" name="id">
                                                     <input type="hidden" id="removeId" name="removeId">
                                                     <input class="form-control" type="text" id="name" name="name"
@@ -724,6 +732,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/detect/scripts/buildproject.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/buildproject.js"></script>
 </body>
 </html>

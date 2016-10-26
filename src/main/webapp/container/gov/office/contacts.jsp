@@ -16,13 +16,15 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
+                    <form class="form-inline" id="searchform">
                         <label for="s_name">姓名：</label> <input type="text" id="s_name" class="form-control" />
                         <label for="s_department">单位：</label> <input type="text" id="s_department" class="form-control" />
                         <label for="s_position">职务：</label><input type="text" id="s_position" class="form-control" />
-                    </p>
+                    </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <br/><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -56,7 +58,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">姓名*：</label>
+                        <label for="name" class="col-sm-2 control-label">姓名<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -65,7 +67,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="department" class="col-sm-2 control-label">所属部门*：</label>
+                        <label for="department" class="col-sm-2 control-label">所属部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="department" name="department" class="form-control"
                                    data-message="所属部门不能为空"
@@ -74,14 +76,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="position" class="col-sm-2 control-label">职务*：</label>
+                        <label for="position" class="col-sm-2 control-label">职务<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="position" name="position" class="form-control"
                                    data-message="职务不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="address" class="col-sm-2 control-label">单位地址*：</label>
+                        <label for="address" class="col-sm-2 control-label">单位地址<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="address" id="address" name="address" class="form-control"
                                    data-message="单位地址不能为空"
@@ -90,14 +92,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tel" class="col-sm-2 control-label">座机号码*：</label>
+                        <label for="tel" class="col-sm-2 control-label">座机号码<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="tel" name="tel" class="form-control"
                                    data-message="单位地址不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="phone" class="col-sm-2 control-label">手机号码*：</label>
+                        <label for="phone" class="col-sm-2 control-label">手机号码<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="phone" name="phone" class="form-control"
                                    data-message="单位地址不能为空"
