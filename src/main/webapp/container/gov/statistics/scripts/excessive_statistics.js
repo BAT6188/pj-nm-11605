@@ -22,40 +22,61 @@ $(function(){
         });
 
         $('#columnBtn').css('background','#0099FF');
-        getColumnHighChartData('',startYdate,lastYdate);
+        // getColumnHighChartData('',startYdate,lastYdate);
+        search('','',startYdate,lastYdate);
     }
 
     //查询按钮
     $("#serachModel").bind('click',function(){
         var name = $("#s_name").val();
-        var startTime = $("#startTime").val();
-        var endTime = $("#endTime").val();
-        search(name,startTime,endTime);
+        var startYdate = $("#startTime").val();
+        var lastYdate = $("#endTime").val();
+        search('',name,startYdate,lastYdate);
     });
+
+
+    function search(valueChart,name,startYdate,lastYdate) {
+        if(valueChart == '2'){
+            getPieHighChartData('',startYdate,lastYdate)
+        }else if(valueChart == '3'){
+            getLineHighData(name,startYdate,lastYdate);
+        }else{
+            getColumnHighChartData(name,startYdate,lastYdate);
+        }
+    }
 
     //柱状图按钮
     $("#columnBtn").bind('click',function(){
+        var valueChart = $("#columnBtn").attr("data-checked");
         $('#columnBtn').css('background','#0099FF');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#fff');
-        getColumnHighChartData('',startYdate,lastYdate);
+        search(valueChart,name,startYdate,lastYdate);
+
+        // getColumnHighChartData('',startYdate,lastYdate);
     });
     
     //饼状图按钮
     $("#pieBtn").bind('click',function(){
+        var valueChart = $("#pieBtn").attr("data-checked");
         $("#pieBtn").css('background','#0099FF');
         $('#columnBtn').css('background-color','#fff');
         $("#lineBtn").css('background','#fff');
-        getPieHighChartData('',startYdate,lastYdate);
+        search(valueChart,name,startYdate,lastYdate);
+
+        // getPieHighChartData('',startYdate,lastYdate);
 
     });
 
     //线状图按钮
     $("#lineBtn").bind('click',function(){
+        var valueChart = $("#lineBtn").attr("data-checked");
         $('#columnBtn').css('background','#fff');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#0099FF');
-        getLineHighData('',startYdate,lastYdate);
+        search(valueChart,name,startYdate,lastYdate);
+
+        // getLineHighData(valueChart,'',startYdate,lastYdate);
     });
 
     /**

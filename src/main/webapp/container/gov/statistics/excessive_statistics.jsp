@@ -63,9 +63,9 @@
                     <div class="chart-box">
                         <div class="chart-list">
                             <ul class="clearfix" >
-                                <li id="columnBtn" data-checked="1"><a href="javascript:;">柱状图</a></li>
-                                <li id="pieBtn" data-checked="2"><a href="javascript:;">饼状图</a></li>
-                                <li id="lineBtn" data-checked="3"><a href="javascript:;">折线图</a></li>
+                                <li id="columnBtn"  data-checked="1"><a href="javascript:;">柱状图</a></li>
+                                <li id="pieBtn"  data-checked="2"><a href="javascript:;">饼状图</a></li>
+                                <li id="lineBtn"  data-checked="3"><a href="javascript:;">折线图</a></li>
                             </ul>
                         </div>
                         <%--<div class="chart-content">--%>
