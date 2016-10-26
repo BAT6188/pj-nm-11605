@@ -79,17 +79,14 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
     /**
      * highchart获取超标数据
      */
-    public void getColumnHighChart() throws ParseException {
+    public void getColumnHighChart() {
         Map<String,Object> result = new HashMap<String,Object>();
+        String name = request.getParameter("sName");
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
-        String name = request.getParameter("name");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date firstTime = sdf.parse(startYdate);
-        Date lastTime = sdf.parse(lastYdate);
 
-        List<Object[]> list = portStatusHistoryService.findColumnData(firstTime,lastTime);
+        List<Object[]> list = portStatusHistoryService.findColumnData(name,startYdate,lastYdate);
         if(list != null && list.size()>0){
             Object[] xlist = new Object[list.size()];
             Object[] ylist = new Object[list.size()];

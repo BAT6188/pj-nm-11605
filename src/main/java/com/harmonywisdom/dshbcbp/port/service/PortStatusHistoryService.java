@@ -13,5 +13,5 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
      * @param lastTime
      * @return
      */
-    List<Object[]> findColumnData(Date firstTime, Date lastTime);
+    List<Object[]> findColumnData(String name,String firstTime, String lastTime);
 }

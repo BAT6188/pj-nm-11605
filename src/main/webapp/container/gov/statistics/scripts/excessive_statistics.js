@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2016/10/10.
  */
+//@ sourceURL=excessive_statistics.js
 $(function(){
 
     var highchart = $("#container");
@@ -11,6 +12,7 @@ $(function(){
 
 
     initPage();//执行初始化
+    var valueChart = '1';
     function initPage(){
 
         //初始化日期组件
@@ -23,46 +25,46 @@ $(function(){
 
         $('#columnBtn').css('background','#0099FF');
         // getColumnHighChartData('',startYdate,lastYdate);
-        search('','',startYdate,lastYdate);
+        search(valueChart,'',startYdate,lastYdate);
     }
 
+    var sName;
     //查询按钮
-    $("#serachModel").bind('click',function(){
-        var name = $("#s_name").val();
-        var startYdate = $("#startTime").val();
-        var lastYdate = $("#endTime").val();
-        search('',name,startYdate,lastYdate);
+    $("#search").bind('click',function(){
+        sName = $("#s_name").val();
+        var startYdate = $("#start_createTime").val();
+        var lastYdate = $("#end_createTime").val();
+        search(valueChart,sName,startYdate,lastYdate);
     });
 
-
-    function search(valueChart,name,startYdate,lastYdate) {
+    function search(valueChart,sName,startYdate,lastYdate) {
         if(valueChart == '2'){
-            getPieHighChartData('',startYdate,lastYdate)
+            getPieHighChartData(sName,startYdate,lastYdate)
         }else if(valueChart == '3'){
-            getLineHighData(name,startYdate,lastYdate);
+            getLineHighData(sName,startYdate,lastYdate);
         }else{
-            getColumnHighChartData(name,startYdate,lastYdate);
+            getColumnHighChartData(sName,startYdate,lastYdate);
         }
     }
 
     //柱状图按钮
     $("#columnBtn").bind('click',function(){
-        var valueChart = $("#columnBtn").attr("data-checked");
+        valueChart = $("#columnBtn").attr("data-checked");
         $('#columnBtn').css('background','#0099FF');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#fff');
-        search(valueChart,name,startYdate,lastYdate);
+        search(valueChart,'',startYdate,lastYdate);
 
         // getColumnHighChartData('',startYdate,lastYdate);
     });
     
     //饼状图按钮
     $("#pieBtn").bind('click',function(){
-        var valueChart = $("#pieBtn").attr("data-checked");
+        valueChart = $("#pieBtn").attr("data-checked");
         $("#pieBtn").css('background','#0099FF');
         $('#columnBtn').css('background-color','#fff');
         $("#lineBtn").css('background','#fff');
-        search(valueChart,name,startYdate,lastYdate);
+        search(valueChart,'',startYdate,lastYdate);
 
         // getPieHighChartData('',startYdate,lastYdate);
 
@@ -70,11 +72,11 @@ $(function(){
 
     //线状图按钮
     $("#lineBtn").bind('click',function(){
-        var valueChart = $("#lineBtn").attr("data-checked");
+        valueChart = $("#lineBtn").attr("data-checked");
         $('#columnBtn').css('background','#fff');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#0099FF');
-        search(valueChart,name,startYdate,lastYdate);
+        search(valueChart,'',startYdate,lastYdate);
 
         // getLineHighData(valueChart,'',startYdate,lastYdate);
     });
@@ -82,11 +84,11 @@ $(function(){
     /**
      * 柱状图获取数据
      */
-    function getColumnHighChartData(name,startYdate,lastYdate){
+    function getColumnHighChartData(sName,startYdate,lastYdate){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
             type:"post",
-            data:{name:name,startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:sName,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function (data) {
                 var categories = data.x;
@@ -142,11 +144,11 @@ $(function(){
     }
 
     //获取饼状图数据
-    function getPieHighChartData(name,startYdate,lastYdate){
+    function getPieHighChartData(sName,startYdate,lastYdate){
         $.ajax({
             url: rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
             type:"post",
-            data:{name:name,startYdate:startYdate,lastYdate:lastYdate},
+            data:{sName:sName,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function(data){
                 var categories = data['x'];
@@ -155,10 +157,7 @@ $(function(){
                     name:"超标次数:(次)",
                     data:[]
                 }];
-                if(!series1){
-                    return " ";
-                }
-
+                
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
                 var startMonth= startYdate.substring(5,7);
@@ -206,11 +205,11 @@ $(function(){
     }
 
     //获取线状图数据
-    function getLineHighData(name,startYdate,lastYdate){
+    function getLineHighData(sName,startYdate,lastYdate){
         $.ajax({
             url: rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
             type:"post",
-            data:{name:name,startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:sName,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function(data){
                 var categories = data.x;
