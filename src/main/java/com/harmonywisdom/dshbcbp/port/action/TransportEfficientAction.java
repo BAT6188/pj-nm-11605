@@ -15,6 +15,9 @@ import org.apache.commons.lang.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TransportEfficientAction extends BaseAction<TransportEfficient, TransportEfficientService> {
     @AutoService
@@ -53,5 +56,32 @@ public class TransportEfficientAction extends BaseAction<TransportEfficient, Tra
         condition.setPaging(getPaging());
         return condition;
     }
+
+    /**
+     * highChart获取柱状图数据
+     */
+    public void getPortChart(){
+        String name = request.getParameter("name");
+        String startYdate = request.getParameter("startYdate");
+        String lastYdate = request.getParameter("lastYdate");
+
+        Map<String,Object> result = new HashMap<String ,Object>();
+
+        List<Object[]> list = transportEfficientService.findPortChart(name,startYdate,lastYdate);
+        if(list != null && list.size()>0){
+            Object[] xlist = new Object[list.size()];
+            Object[] ylist = new Object[list.size()];
+            for(int i = 0; i<list.size();i++){
+                Object[] oo = list.get(i);
+                xlist[i] = String.valueOf(oo[0]);
+                ylist[i] = String.valueOf(oo[1]);
+            }
+            result.put("x",xlist);
+            result.put("y",ylist);
+            }
+            write(result);
+
+    }
+
 
 }
