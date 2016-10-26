@@ -87,16 +87,19 @@ function initTable() {
     //处理删除按钮状态
     removeBtn.click(function () {
         var ids = getIdSelections();
-        deleteShareMeans(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
+        Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+            if (!e) {
+                return;
+            }
+            deleteShareMeans(ids,function (msg) {
+                gridTable.bootstrapTable('remove', {
+                    field: 'id',
+                    values: ids
+                });
+                removeBtn.prop('disabled', true);
             });
-            removeBtn.prop('disabled', true);
         });
-
     });
-
     /**============列表搜索相关处理============**/
 //搜索
     $("#search").click(function () {
@@ -116,6 +119,11 @@ function initTable() {
         gridTable.bootstrapTable('refresh',{
             query:queryParams
         });
+    });
+    //重置按钮处理
+    $("#reset").click(function () {
+        $('#searchform')[0].reset();
+        gridTable.bootstrapTable('resetSearch');
     });
 
     //表单弹出框 保存按钮
@@ -244,7 +252,20 @@ function setFormData(sharemeans) {
         $("#description").val(sharemeans.description);
         uploader = new qq.FineUploader(getUploaderOptions(id));
 }
-
+function setFormView(entity) {
+    setFormData(entity);
+    form.find(".form-title").text("查看"+formTitle);
+    disabledForm(true);
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+    form.find("#saveShareMeans").hide();
+    form.find(".btn-cancel").text("关闭");
+}
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
@@ -267,6 +288,8 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#saveShareMeans").show();
+    form.find(".btn-cancel").text("取消")
 }
 
 //附件相关js

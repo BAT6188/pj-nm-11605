@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>农村生态环境监管</title>
 </head>
 <body>

@@ -2,7 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%
+        String enterpriseId =request.getParameter("id");
+    %>
     <title>突发环境事件应急预案</title>
+    <script type="text/javascript">
+            var enterpriseId='<%=enterpriseId%>'
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -20,21 +26,28 @@
                         <%--<label for="t_recordDate">备案日期</label><input type="text" id="t_recordDate" class="form-control" />--%>
                         <%--<label for="t_attnPerson">负责人</label><input type="text" id="t_attnPerson" class="form-control" />--%>
                     <%--</p>--%>
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
-                                <label for="t_recordDate">备案日期：</label>
-                                <div id="t_recordDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="recordDate">
-                                    <input class="form-control" size="16" id="t_recordDate"  type="text" value="" readonly>
+                                <label for="">备案日期：</label>
+                                <div id="startTimeDatetimepicker" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="startDate">
+                                    <input class="form-control" id="startTime" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div id="endTimeDatetimepicker" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endDate">
+                                    <input class="form-control" id="endTime" size="16" type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="t_attnPerson">负责人：</label><input type="text" id="t_attnPerson" class="form-control" />
+                                <label for="t_attnPerson">经办人：</label><input type="text" id="t_attnPerson" class="form-control" />
                             </div>
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/>
                 <br/>
                 <p class="btnListP">
@@ -57,7 +70,7 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,7 +80,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">排污单位名称*：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">排污单位名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -78,7 +91,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="recordCode" class="col-sm-2 control-label">备案编号*：</label>
+                        <label for="recordCode" class="col-sm-2 control-label">备案编号<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                                 <input type="text" id="recordCode" name="recordCode" class="form-control"
                                        data-message="备案编号不能为空"
@@ -86,7 +99,7 @@
                                 />
 
                         </div>
-                        <label for="acceptOrg" class="col-sm-2 control-label">受理机关*：</label>
+                        <label for="acceptOrg" class="col-sm-2 control-label">受理机关<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="acceptOrg" name="acceptOrg" class="form-control"
                                    data-message="受理机关不能为空"
@@ -95,14 +108,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attnPerson" class="col-sm-2 control-label">经办人*：</label>
+                        <label for="attnPerson" class="col-sm-2 control-label">经办人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="attnPerson" name="attnPerson" class="form-control"
                                    data-message="经办人不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="attnPhone" class="col-sm-2 control-label">经办人电话*：</label>
+                        <label for="attnPhone" class="col-sm-2 control-label">经办人电话<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="attnPhone" name="attnPhone" class="form-control"
                                    data-message="经办人电话不能为空"
@@ -111,7 +124,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="recordDate" class="col-sm-2 control-label">备案日期*：</label>
+                        <label for="recordDate" class="col-sm-2 control-label">备案日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="recordDateContent" class="input-group date form_date" data-date="" data-link-field="recordDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="recordDate" name="recordDate" size="16" type="text" value="" readonly

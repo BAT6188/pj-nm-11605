@@ -24,6 +24,9 @@ public class PollutantLicenseAction extends BaseAction<PollutantLicense, Polluta
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param=new QueryParam();
+        if(StringUtils.isNotBlank(entity.getEnterpriseId())){
+            param.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }

@@ -41,7 +41,11 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temps = pageUtils.getBaseParams(param);
+            temps.enterpriseId = id;
+            return temps;
+        },
         columns: [
             {
                 title:"全选",
@@ -177,14 +181,18 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
-
 });
 
 
@@ -193,17 +201,26 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var attnPerson = $("#s_attnPerson").val();
-    var recordDate = $("#t_recordDate").val();
+    var attnPerson = $("#t_attnPerson").val();
+    var startDate = $("#startTime").val();
+    var endDate = $("#endTime").val();
     if (attnPerson){
         queryParams["attnPerson"] = attnPerson;
     }
-    if (recordDate){
-        queryParams["recordDate"] = recordDate;
+    if (startDate){
+        queryParams["startDate"] = startDate;
+    }
+    if (endDate){
+        queryParams["endDate"] = endDate;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
+});
+//重置按钮处理
+$("#reset").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
 });
 
 /**============表单初始化相关代码============**/
@@ -212,6 +229,7 @@ $("#search").click(function () {
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
+        entity.enterpriseId=enterpriseId;
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
@@ -219,19 +237,25 @@ var ef = form.easyform({
         });
     }
 });
-
 //表单 保存按钮
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
+
 //初始化日期组件
 $('#recordDateContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#t_recordDateContent').datetimepicker({
+
+$('#endTimeDatetimepicker').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+$('#startTimeDatetimepicker').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
@@ -255,7 +279,6 @@ function setFormData(entity) {
     $("#acceptOrg").val(entity.acceptOrg);
     $("#attnPerson").val(entity.attnPerson);
     $("#attnPhone").val(entity.attnPhone);
-
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -265,9 +288,12 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
@@ -291,6 +317,8 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
@@ -359,9 +387,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };

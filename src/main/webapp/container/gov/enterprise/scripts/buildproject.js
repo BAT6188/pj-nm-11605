@@ -50,7 +50,11 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temps = pageUtils.getBaseParams(param);
+            temps.enterpriseId = id;
+            return temps;
+        },
         columns: [
             {
                 title:"全选",
@@ -188,16 +192,19 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
-
 });
-
 
 
 /**============列表搜索相关处理============**/
@@ -220,6 +227,11 @@ $("#search").click(function () {
         query:queryParams
     });
 });
+$("#reset").click(function(){
+    $('#searchform')[0].reset();
+    $('#searchform1')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
+});
 
 /**============表单初始化相关代码============**/
 
@@ -228,6 +240,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#hpForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.enterpriseId=enterpriseId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -239,6 +252,7 @@ var ys = form.easyform({
     success:function (ef) {
         var entity = $("#ysForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.enterpriseId=enterpriseId;
         saveYs(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -323,9 +337,12 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#hpsave").hide();
+    form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
@@ -356,6 +373,8 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#hpsave").show();
+    form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
@@ -424,9 +443,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };

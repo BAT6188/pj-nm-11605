@@ -3,6 +3,12 @@
 <html>
 <head>
     <title>清洁生产审核</title>
+    <%
+        String enterpriseId =request.getParameter("id");
+    %>
+    <script type="text/javascript">
+        var enterpriseId='<%=enterpriseId%>'
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -22,14 +28,14 @@
                         <%--<label for="t_recordDate">有效期起始日期 ：</label><input type="text" id="t_recordDate" class="form-control" />--%>
                         <%--<label for="t_recordDate">有效期结束日期：</label><input type="text" id="t_recordDate" class="form-control" />--%>
                     <%--</p>--%>
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
                                 <label for="t_name">清洁生产审核名称：</label>
                                 <input type="text" id="t_name" class="form-control" />
                             </div>
                         </form>
                         <p/>
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform1">
                             <div class="form-group">
                                 <label for="t_startDate">有效期起始日期：</label>
                                 <div id="t_startDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="startDate">
@@ -49,6 +55,7 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
@@ -73,7 +80,7 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,7 +90,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">清洁生产审核名称*：</label>
+                        <label for="name" class="col-sm-2 control-label">清洁生产审核名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
@@ -94,7 +101,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="startDate" class="col-sm-2 control-label">有效起始日期*：</label>
+                        <label for="startDate" class="col-sm-2 control-label">有效起始日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="startDateContent" class="input-group date form_date" data-date="" data-link-field="startDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="startDate" name="startDate" size="16" type="text" value="" readonly
@@ -105,7 +112,7 @@
                             </div>
 
                         </div>
-                        <label for="endDate" class="col-sm-2 control-label">有效结束日期*：</label>
+                        <label for="endDate" class="col-sm-2 control-label">有效结束日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="endDateContent" class="input-group date form_date" data-date="" data-link-field="endDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="endDate" name="endDate" size="16" type="text" value="" readonly
@@ -117,14 +124,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pubOrg" class="col-sm-2 control-label">发证机关*：</label>
+                        <label for="pubOrg" class="col-sm-2 control-label">发证机关<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="pubOrg" name="pubOrg" class="form-control"
                                    data-message="发证机关不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubDate" class="col-sm-2 control-label">发证日期*：</label>
+                        <label for="pubDate" class="col-sm-2 control-label">发证日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="pubDateContent" class="input-group date form_date" data-date="" data-link-field="pubDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubDate" name="pubDate" size="16" type="text" value="" readonly
