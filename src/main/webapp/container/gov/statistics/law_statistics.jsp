@@ -61,12 +61,11 @@
                     <form class="form-inline">
                         <div class="form-group">
                             <label for="">执法类型：</label>
-                            <select class="form-control" name="" id="">
-                                <option value="1">信访</option>
-                                <option value="2">例行检查</option>
-                                <option value="3">12369</option>
-                                <option value="4">区长热线</option>
-                                <option value="5">市长热线</option>
+                            <select class="form-control" name="" id="lawType">
+                                <option value="1">12369</option>
+                                <option value="2">区长热线</option>
+                                <option value="3">市长热线</option>
+                                <option value="0">监测中心</option>
                             </select>
 
                         </div>
@@ -79,9 +78,9 @@
             <div class="chart-box">
                 <div class="chart-list">
                     <ul class="clearfix">
-                        <li id="columnBtn"><a href="javascript:;">柱状图</a></li>
-                        <li  id="pieBtn"><a href="javascript:;">饼状图</a></li>
-                        <li id="lineBtn"><a href="javascript:;">折线图</a></li>
+                        <li id="columnBtn" data-checked="1"><a href="javascript:;">柱状图</a></li>
+                        <li  id="pieBtn" data-checked="2"><a href="javascript:;">饼状图</a></li>
+                        <li id="lineBtn" data-checked="3"><a href="javascript:;">折线图</a></li>
                     </ul>
                 </div>
                 <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>

@@ -123,16 +123,14 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
     /**
      * 柱状图数据
      */
-    public void getColumnHighChart() throws ParseException {
+    public void getColumnHighChart() {
         Map<String,Object> result = new HashMap<String,Object>();
+        String name = request.getParameter("name");
+        String lawType = request.getParameter("lawType");
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date firstTime = sdf.parse(startYdate);
-        Date lastTime = sdf.parse(lastYdate);
-
-        List<Object[]> list = dispathTaskService.getByColumnData(firstTime,lastTime);
+        List<Object[]> list = dispathTaskService.getByColumnData(name,lawType,startYdate,lastYdate);
         if(list !=null && list.size()>0){
             Object[] xlist = new Object[list.size()];
             Object[] ylist = new Object[list.size()];

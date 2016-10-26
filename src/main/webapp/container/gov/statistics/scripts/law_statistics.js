@@ -1,8 +1,10 @@
 /**
  * Created by Administrator on 2016/10/13.
  */
+//@ sourceURL=law_statistics.js
 $(function(){
     var highchart = $("#container");
+    var valueChart = '1';
 
     //初始化日期组件
     $('.form_datetime').datetimepicker({
@@ -22,41 +24,66 @@ $(function(){
     function intoPage(){
 
         $('#columnBtn').css('background','#0099FF');
-        getColumnHighChartData(startYdate,lastYdate);
+        // getColumnHighChartData(startYdate,lastYdate);
+        search(valueChart,'','',startYdate,lastYdate);
 
     }
 
+    var name;
+    //查询按钮
+    $("#search").bind('click',function(){
+        name = $("#s_name").val();
+        var lawType = $("#lawType").val();
+        var startYdate = $("#start_createTime").val();
+        var lastYdate = $("#end_createTime").val();
+        search(valueChart,name,lawType,startYdate,lastYdate);
+    });
+    
+    function search(valueChart,name,lawType,startYdate,lastYdate){
+        if(valueChart == '2'){
+            getPieHighChartData(name,lawType,startYdate,lastYdate)
+        }else if(valueChart == '3'){
+            getLineHighData(name,lawType,startYdate,lastYdate);
+        }else{
+            getColumnHighChartData(name,lawType,startYdate,lastYdate);
+        }
+    }
+    
     //柱状图按钮
     $("#columnBtn").bind('click',function(){
+        valueChart = $("#columnBtn").attr("data-checked");
         $('#columnBtn').css('background','#0099FF');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#fff');
-        getColumnHighChartData(startYdate,lastYdate);
+        // getColumnHighChartData(startYdate,lastYdate);
+        search(valueChart,'','',startYdate,lastYdate);
+        
     });
-
-
-
+    
     //饼状图按钮
     $("#pieBtn").bind('click',function(){
+        valueChart = $("#pieBtn").attr("data-checked");
         $("#pieBtn").css('background','#0099FF');
         $('#columnBtn').css('background','#fff');
         $("#lineBtn").css('background','#fff');
-        getPieHighChartData(startYdate,lastYdate);
-
+        // getPieHighChartData(startYdate,lastYdate);
+        search(valueChart,'','',startYdate,lastYdate);
     });
 
 
 
     //线状图按钮
     $("#lineBtn").bind('click',function(){
+        valueChart = $("#lineBtn").attr("data-checked");
         $('#columnBtn').css('background','#fff');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#0099FF');
-        getLineHighData(startYdate,lastYdate);
+        // getLineHighData(startYdate,lastYdate);
+        search(valueChart,'','',startYdate,lastYdate);
     });
 
     //柱状图获取后台数据
-    function getColumnHighChartData(startYdate,lastYdate){
+    function getColumnHighChartData(name,lawType,startYdate,lastYdate){
         // var categories = ["1月","2月","3月","4月","5月","6月"];
         // var series = [];
         //
@@ -67,7 +94,7 @@ $(function(){
         $.ajax({
             url: rootPath + "/action/S_dispatch_DispathTask_getColumnHighChart.action",
             type:'post',
-            data:{startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:name,lawType:lawType,startYdate:startYdate,lastYdate:lastYdate},
             dataType:'json',
             success:function(data){
                 var categories = data.x;
@@ -124,11 +151,11 @@ $(function(){
     }
 
     //饼状图获取后台数据
-    function getPieHighChartData(startYdate,lastYdate){
+    function getPieHighChartData(name,lawType,startYdate,lastYdate){
         $.ajax({
             url: rootPath + "/action/S_dispatch_DispathTask_getColumnHighChart.action",
             type: 'post',
-            data: {startYdate: startYdate, lastYdate: lastYdate},
+            data: {name:name,lawType:lawType,startYdate: startYdate, lastYdate: lastYdate},
             dataType: 'json',
             success:function(data){
                 var categories = data['x'];
@@ -184,11 +211,11 @@ $(function(){
     }
     
     //线状图获取后台数据
-    function getLineHighData(startYdate,lastYdate){
+    function getLineHighData(name,lawType,startYdate,lastYdate){
         $.ajax({
             url: rootPath + "/action/S_dispatch_DispathTask_getColumnHighChart.action",
             type:"post",
-            data:{name:name,startYdate:startYdate,lastYdate:lastYdate},
+            data:{name:name,lawType:lawType,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function(data){
                 var categories = data.x;

@@ -14,5 +14,5 @@ public interface DispathTaskService extends IBaseService<DispathTask, String> {
      * @param lastTime
      * @return
      */
-    List<Object[]> getByColumnData(Date firstTime, Date lastTime);
+    List<Object[]> getByColumnData(String name,String lawType,String firstTime, String lastTime);
 }

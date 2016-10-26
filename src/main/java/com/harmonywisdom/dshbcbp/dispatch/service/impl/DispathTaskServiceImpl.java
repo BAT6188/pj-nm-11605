@@ -29,9 +29,19 @@ public class DispathTaskServiceImpl extends BaseService<DispathTask, String> imp
      * @return
      */
     @Override
-    public List<Object[]> getByColumnData(Date firstTime, Date lastTime) {
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%m')AS MONTH,COUNT(*)  FROM `HW_DISPATH_TASK`" +
-                "WHERE DATE_FORMAT(event_time,'%Y-%m-%d')> ? AND DATE_FORMAT(event_time,'%Y-%m-%d')<= ? GROUP BY MONTH",firstTime,lastTime);
+    public List<Object[]> getByColumnData(String name, String lawType, String firstTime, String lastTime) {
+        String whereSql = " where 1=1 ";
+        if(name !=null && !"".equals("name")){
+            whereSql += "AND enterprise_name LIKE '%" + name + "%'";
+        }else if(lawType != null && !"".equals("lawType")){
+            whereSql += "AND source = '" + lawType + "' ";
+        } else if( firstTime !=null && !"".equals(firstTime)){
+            whereSql += " AND DATE_FORMAT(event_time,'%Y-%m-%d') >='" + firstTime + "' DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'";
+        } else if(lastTime != null && !"".equals(lastTime)) {
+            whereSql += "DATE_FORMAT(event_time,'%Y-%m-%d') >= '" + firstTime + "'DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'";
+        }
+        whereSql += " GROUP BY MONTH";
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%m')AS MONTH,COUNT(*)  FROM `HW_DISPATH_TASK`" + whereSql);
         return list;
     }
 }
