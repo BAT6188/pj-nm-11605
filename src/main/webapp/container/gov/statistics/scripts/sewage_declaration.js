@@ -326,7 +326,13 @@ $(function(){
                 }
             },
             tooltip: {
-                valueSuffix: '家'
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 家</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             plotOptions: {
                 bar: {
@@ -372,6 +378,15 @@ $(function(){
                     showInLegend: true
                 }
             },
+            tooltip: {
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 家</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0 
+            },
             lang: {
                 printChart:"打印图表",
                 downloadJPEG: "下载JPEG 图片" ,
@@ -412,23 +427,22 @@ $(function(){
             },
             plotOptions: {
                 line: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.y:.1f} 家',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
+                        enabled: true
                     },
-                    showInLegend: true
                 }
             },
             legend: {
                 enabled: true
             },
             tooltip: {
-                pointFormat: '企业数量: <b>{point.y:.1f} 家</b>'
+                    shared: true,
+                    useHTML: true,
+                    headerFormat: '<small>{point.key}月</small><table>',
+                    pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                    '<td style="text-align: right"><b>{point.y} 家</b></td></tr>',
+                    footerFormat: '</table>',
+                    valueDecimals: 0
             },
             lang: {
                 printChart:"打印图表",

@@ -294,7 +294,17 @@ $(function(){
                 }
             },
             tooltip: {
-                pointFormat: '超标次数: <b>{point.y:.1f} 次</b>'
+                // pointFormatter: function() {
+                //     return '<span style="color:{'+this.series.color+'};width: 10%;"><b>'+(this.x+1)+'</b>月</span> '+
+                //         this.series.name+': <b>'+this.y+'</b><br/>.'
+                // }
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 次</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             plotOptions: {
                 column: {
@@ -339,6 +349,15 @@ $(function(){
                     showInLegend: true
                 }
             },
+            tooltip: {
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 次</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
+            },
             lang: {
                 printChart:"打印图表",
                 downloadJPEG: "下载JPEG 图片" ,
@@ -381,14 +400,19 @@ $(function(){
                     dataLabels: {
                         enabled: true
                     },
-                    enableMouseTracking: false
                 }
             },
             legend: {
                 enabled: true
             },
             tooltip: {
-                pointFormat: '超标次数: <b>{point.y:.1f} 次</b>'
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 次</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             lang: {
                 printChart:"打印图表",

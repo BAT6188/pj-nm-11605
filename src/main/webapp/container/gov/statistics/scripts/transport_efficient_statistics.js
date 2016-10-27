@@ -312,12 +312,13 @@ $(function(){
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
-                footerFormat: '</table>',
                 shared: true,
-                useHTML: true
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} %</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             plotOptions: {
                 column: {
@@ -347,12 +348,13 @@ $(function(){
                 text: '2016年各企业传输有效率平均值统计'
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
-                footerFormat: '</table>',
                 shared: true,
-                useHTML: true
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} %</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             plotOptions: {
                 pie: {
@@ -404,19 +406,19 @@ $(function(){
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
-                footerFormat: '</table>',
                 shared: true,
-                useHTML: true
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} %</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             plotOptions: {
                 line: {
                     dataLabels: {
                         enabled: true
                     },
-                    enableMouseTracking: false
                 }
             },
             legend: {
