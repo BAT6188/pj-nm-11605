@@ -137,4 +137,8 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         List<Enterprise> enterprises = getService().findAll();
         write(enterprises);
     }
+
+    public void getEnterprisePortZtree(){
+
+    }
 }
