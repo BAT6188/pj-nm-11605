@@ -9,6 +9,10 @@
 <html>
 <head>
     <%--<jsp:include page="/common/common_include.jsp" flush="true"/>--%>
+    <%
+        String handleType=request.getParameter("handleType");
+        String id=request.getParameter("id");
+    %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>修改企业信息</title>
@@ -22,6 +26,8 @@
     <%--<jsp:include page="/common/common_select.jsp" flush="true"/>--%>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
+        var handleTypeValue = "<%=handleType%>";
+        handleType = handleTypeValue=="null"?handleType:handleTypeValue;
     </script>
     <style>
         .Node-frame-menubar {
@@ -39,7 +45,7 @@
 </head>
 <body>
 <div class="form-div" style="width: 99%;">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active"></a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="z-index: 0"></a>
     <form class="form-horizontal" role="form" id="enterpriseForm" method="post" style="margin-top: 20px;">
         <input type="hidden" id="id" name="id" class="form-control" />
         <input type="hidden" id="createTime" name="createTime" class="form-control" />
@@ -61,6 +67,12 @@
                     <option value="0">未运营</option>
                 </select>
                 </fieldset>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">所属网格<span class="text-danger">(*)</span>：</label>
+            <div class="col-sm-4">
+                <input type="text" id="relateGrid" name="relateGrid" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="所属网格"/>
             </div>
         </div>
         <div class="form-group">

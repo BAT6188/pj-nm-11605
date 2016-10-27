@@ -54,7 +54,7 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" id="waterForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="waterModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 930px">
+    <div class="modal-dialog" style="width: 930px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

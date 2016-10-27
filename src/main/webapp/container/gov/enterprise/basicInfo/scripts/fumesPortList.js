@@ -60,7 +60,7 @@ function initTable() {
                 align: 'center',
                 valign: 'middle',
                 sortable: false,
-                visible:false
+                editable:false
             },
             {
                 title: '排口名称',

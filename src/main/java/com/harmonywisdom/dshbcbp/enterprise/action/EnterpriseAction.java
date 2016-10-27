@@ -140,4 +140,8 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             write(list);
         }
     }
+
+    public void getEnterprisePortZtree(){
+
+    }
 }
