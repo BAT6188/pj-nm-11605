@@ -53,28 +53,28 @@ function initTable() {
             },{
                 field: 'status',
                 title: '企业运行状态',
-                sortable: true,
+                sortable: false,
                 align: 'center',
                 formatter:statusFormatter
             }, {
                 field: 'name',
                 title: '排污单位名称',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'orgCode',
                 title: '组织机构代码',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'artificialPerson',
                 title: '企业法人',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'apPhone',
                 title: '联系方式',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'operate',

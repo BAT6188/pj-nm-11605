@@ -121,7 +121,7 @@ public class WaterPort implements Serializable {
     /**
      * 是否监测流量
      */
-    @Column(name = "is_flow")
+    @Column(name = "is_flow",length = 1)
     private String isFlow;
 
     /**
@@ -133,7 +133,7 @@ public class WaterPort implements Serializable {
     /**
      * 是否监测化学需氧量
      */
-    @Column(name = "is_oxygen")
+    @Column(name = "is_oxygen",length = 1)
     private String isOxygen;
 
     /**
@@ -145,7 +145,7 @@ public class WaterPort implements Serializable {
     /**
      * 是否监测氨氮
      */
-    @Column(name = "is_nitrogen")
+    @Column(name = "is_nitrogen",length = 1)
     private String isNitrogen;
 
     /**
@@ -157,7 +157,7 @@ public class WaterPort implements Serializable {
     /**
      * 是否监测ph值
      */
-    @Column(name = "is_ph")
+    @Column(name = "is_ph",length = 1)
     private String isPh;
 
     /**

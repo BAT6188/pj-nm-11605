@@ -75,22 +75,22 @@ function initTable() {
             {
                 field: 'name',
                 title: '单位名称',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'delOpinion',
                 title: '删除意见',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'artificialPerson',
                 title: '企业法人',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             }, {
                 field: 'delerName',
                 title: '操作人',
-                sortable: true,
+                sortable: false,
                 align: 'center'
             },
             {
@@ -101,7 +101,7 @@ function initTable() {
             {
                 field: 'status',
                 title: '企业运行状态',
-                sortable: true,
+                sortable: false,
                 align: 'center',
                 formatter: statusFormatter
             }

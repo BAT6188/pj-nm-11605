@@ -61,19 +61,19 @@ public class FumesPort implements Serializable {
     /**
      * 是否监测油烟
      */
-    @Column(name = "is_fumes")
+    @Column(name = "is_fumes",length = 1)
     private Double isFumes;
 
     /**
      * 是否监测烟气温度
      */
-    @Column(name = "is_temperature")
+    @Column(name = "is_temperature",length = 1)
     private Double isTemperature;
 
     /**
      * 是否监测烟气湿度
      */
-    @Column(name = "is_humidity")
+    @Column(name = "is_humidity",length = 1)
     private Double isHumidity;
 
     /**

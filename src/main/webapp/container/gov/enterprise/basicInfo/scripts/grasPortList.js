@@ -201,7 +201,7 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    $('.mainBox').BootstrapConfirm('确认要删除选择的数据吗？',function(){
+    /*$('.mainBox').BootstrapConfirm('确认要删除选择的数据吗？',function(){
         deleteAjax(ids,function (msg) {
             $('.mainBox').BootstrapAlertMsg('success','删除成功!',2000);
             gridTable.bootstrapTable('remove', {
@@ -210,7 +210,21 @@ removeBtn.click(function () {
             });
             removeBtn.prop('disabled', true);
         });
+    });*/
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            Ewin.alert('删除成功！');
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
+        });
     });
+
 });
 
 
@@ -240,7 +254,8 @@ var ef = form.easyform({
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             $(".modal").modal('hide');
-            $('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
+            //$('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
+            Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -405,14 +420,30 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
  * 平面图标注
  */
 function makePlaneMap(){
+    var planeMapMarkDate = $('#planeMapMark').val();
+    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
     PlottingDialog.dialog({
         show:true,
         mode:"marker",
+        data:data,
         attachmentId:enterpriseData.planeMap,
         callback:function (marker) {
             var str = JSON.stringify(marker);
             form.find('#planeMapMark').val(str);
         }
+    });
+}
+/**
+ * 查看平面图
+ */
+function lookPlaneMap(){
+    var planeMapMarkDate = $('#planeMapMark').val();
+    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+    PlottingDialog.dialog({
+        show:true,
+        mode:"view",
+        data:data,
+        attachmentId:enterpriseData.planeMap
     });
 }
 
