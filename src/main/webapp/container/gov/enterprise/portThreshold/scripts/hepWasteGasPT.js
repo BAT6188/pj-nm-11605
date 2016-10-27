@@ -2,6 +2,7 @@
  * Created by Administrator on 2016/10/21.
  */
 var formDiv = $('#HWPWGForm');
+var updateSuccessMsg = "保存成功！";
 loadInfo();
 function loadInfo(){
     $.ajax({
@@ -61,7 +62,7 @@ $("#saveForm").bind('click',function () {
                 }
                 if(updateSuccessNumber==3){
                     setLookType();
-                    formDiv.BootstrapAlertMsg('success',"保存数据成功!",2000);
+                    Ewin.alert(updateSuccessMsg);
                 }
             });
         })

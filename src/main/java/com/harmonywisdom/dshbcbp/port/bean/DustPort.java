@@ -85,43 +85,43 @@ public class DustPort implements Serializable {
     /**
      * 是否监测PM(mg/m3)
      */
-    @Column(name = "is_pm")
+    @Column(name = "is_pm",length = 1)
     private Double isPm;
 
     /**
      * 是否监测TSP(mg/m3)
      */
-    @Column(name = "is_tsp")
+    @Column(name = "is_tsp",length = 1)
     private Double isTsp;
 
     /**
      * 是否监测温度(.C)
      */
-    @Column(name = "is_temperature")
+    @Column(name = "is_temperature",length = 1)
     private Double isTemperature;
 
     /**
      * 是否监测湿度(%)
      */
-    @Column(name = "is_humidity")
+    @Column(name = "is_humidity",length = 1)
     private Double isHumidity;
 
     /**
      * 是否监测气压(hpa)
      */
-    @Column(name = "is_air_pressure")
+    @Column(name = "is_air_pressure",length = 1)
     private Double isAirPressure;
 
     /**
      * 是否监测风向(度)
      */
-    @Column(name = "is_wind_direction")
+    @Column(name = "is_wind_direction",length = 1)
     private Double isWindDirection;
 
     /**
      * 是否监测风速(m/s)
      */
-    @Column(name = "is_wind_speed")
+    @Column(name = "is_wind_speed",length = 1)
     private Double isWindSpeed;
 
     /**

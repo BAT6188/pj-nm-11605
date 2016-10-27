@@ -133,62 +133,62 @@ public class NoisePort implements Serializable {
     /**
      * 是否监测Leq(db)
      */
-    @Column(name = "is_leqdb")
-    private Double isLeqdb;
+    @Column(name = "is_leqdb",length = 1)
+    private String isLeqdb;
 
     /**
      * 是否监测sd
      */
-    @Column(name = "is_sd")
-    private Double isSd;
+    @Column(name = "is_sd",length = 1)
+    private String isSd;
 
     /**
      * 是否监测Lmax(dB)
      */
-    @Column(name = "is_lmax")
-    private Double isLmax;
+    @Column(name = "is_lmax",length = 1)
+    private String isLmax;
 
     /**
      * 是否监测Lmin(dB)
      */
-    @Column(name = "is_lmin")
-    private Double isLmin;
+    @Column(name = "is_lmin",length = 1)
+    private String isLmin;
 
     /**
      * 是否监测L5(dB)
      */
-    @Column(name = "is_lFive")
-    private Double isLFive;
+    @Column(name = "is_lFive",length = 1)
+    private String isLFive;
 
     /**
      * 是否监测L10(dB)
      */
-    @Column(name = "is_lTen")
-    private Double isLTen;
+    @Column(name = "is_lTen",length = 1)
+    private String isLTen;
 
     /**
      * 是否监测L50(dB)
      */
-    @Column(name = "is_lFifty")
-    private Double isLFifty;
+    @Column(name = "is_lFifty",length = 1)
+    private String isLFifty;
 
     /**
      * 是否监测L90(dB)
      */
-    @Column(name = "is_lNinety")
-    private Double isLNinety;
+    @Column(name = "is_lNinety",length = 1)
+    private String isLNinety;
 
     /**
      * 是否监测L95(dB)
      */
-    @Column(name = "is_lNinetyFive")
-    private Double isLNinetyFive;
+    @Column(name = "is_lNinetyFive",length = 1)
+    private String isLNinetyFive;
 
     /**
      * 是否监测Le
      */
-    @Column(name = "is_le")
-    private Double isLe;
+    @Column(name = "is_le",length = 1)
+    private String isLe;
 
     /**
      * 昼间上限(dB)
@@ -386,83 +386,83 @@ public class NoisePort implements Serializable {
         this.le = le;
     }
 
-    public Double getIsLeqdb() {
+    public String getIsLeqdb() {
         return isLeqdb;
     }
 
-    public void setIsLeqdb(Double isLeqdb) {
+    public void setIsLeqdb(String isLeqdb) {
         this.isLeqdb = isLeqdb;
     }
 
-    public Double getIsSd() {
+    public String getIsSd() {
         return isSd;
     }
 
-    public void setIsSd(Double isSd) {
+    public void setIsSd(String isSd) {
         this.isSd = isSd;
     }
 
-    public Double getIsLmax() {
+    public String getIsLmax() {
         return isLmax;
     }
 
-    public void setIsLmax(Double isLmax) {
+    public void setIsLmax(String isLmax) {
         this.isLmax = isLmax;
     }
 
-    public Double getIsLmin() {
+    public String getIsLmin() {
         return isLmin;
     }
 
-    public void setIsLmin(Double isLmin) {
+    public void setIsLmin(String isLmin) {
         this.isLmin = isLmin;
     }
 
-    public Double getIsLFive() {
+    public String getIsLFive() {
         return isLFive;
     }
 
-    public void setIsLFive(Double isLFive) {
+    public void setIsLFive(String isLFive) {
         this.isLFive = isLFive;
     }
 
-    public Double getIsLTen() {
+    public String getIsLTen() {
         return isLTen;
     }
 
-    public void setIsLTen(Double isLTen) {
+    public void setIsLTen(String isLTen) {
         this.isLTen = isLTen;
     }
 
-    public Double getIsLFifty() {
+    public String getIsLFifty() {
         return isLFifty;
     }
 
-    public void setIsLFifty(Double isLFifty) {
+    public void setIsLFifty(String isLFifty) {
         this.isLFifty = isLFifty;
     }
 
-    public Double getIsLNinety() {
+    public String getIsLNinety() {
         return isLNinety;
     }
 
-    public void setIsLNinety(Double isLNinety) {
+    public void setIsLNinety(String isLNinety) {
         this.isLNinety = isLNinety;
     }
 
-    public Double getIsLNinetyFive() {
+    public String getIsLNinetyFive() {
         return isLNinetyFive;
     }
 
-    public void setIsLNinetyFive(Double isLNinetyFive) {
+    public void setIsLNinetyFive(String isLNinetyFive) {
         this.isLNinetyFive = isLNinetyFive;
     }
 
-    public Double getIsLe() {
+    public String getIsLe() {
         return isLe;
     }
 
-    public void setIsLe(Double isLe) {
+    public void setIsLe(String isLe) {
         this.isLe = isLe;
     }
 
