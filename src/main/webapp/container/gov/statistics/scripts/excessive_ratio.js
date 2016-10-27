@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/10/13.
  */
-
+//@ sourceURL=excessive_ratio.js
 $(function(){
 
     var highchart = $("#container");
@@ -21,8 +21,7 @@ $(function(){
         minView: 4
 
     });
-
-
+    //默认获取上半年时间，和去年上半年时间
     var year = new Date().getFullYear();
     var startXdate = year-1 + '-'+ '01' + '-'+ '01';
     var lastXdate = year-1 + '-'+ '06' + '-'+ '30';
@@ -108,28 +107,27 @@ $(function(){
         $("#lineBtn").css('background','#0099FF');
         search(valueChart,startXdate,lastXdate,startSdate,lastSdate);
     });
-
-    function getColumnRatio(){
-        var categories = ["1月","2月","3月","4月","5月","6月"];
-        var series = [];
-
-        var tYear = {name: "2015年上半年", data: [1,2,3,3,4,3.55]};
-        var yYear = {name: "2016年上半年", data: [2,3,1.2,4.5,3.7,2.8]};
-        series.push(tYear);
-        series.push(yYear);
-
-        loadColumnChart(categories, series);
-        // $.ajax({
-        //     url:rootPath + "/action/S_port_PortStatusHistory_getColumnRatio.action",
-        //     type:'post',
-        //     data:{},
-        //     dataType:'json',
-        //     success:function(){
+    //柱状图获取后台数据
+    function getColumnRatio(name,startXdate,lastXdate,startSdate,lastSdate){
+        // var categories = ["1月","2月","3月","4月","5月","6月"];
+        // var series = [];
         //
-        //     }
-        // });
+        // var tYear = {name: "2015年上半年", data: [1,2,3,3,4,3.55]};
+        // var yYear = {name: "2016年上半年", data: [2,3,1.2,4.5,3.7,2.8]};
+        // series.push(tYear);
+        // series.push(yYear);
+        loadColumnChart(categories, series);
+        $.ajax({
+            url:rootPath + "/action/S_port_PortStatusHistory_getColumnRatio.action",
+            type:'post',
+            data:{name:name,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
+            dataType:'json',
+            success:function(data){
+        
+            }
+        });
     }
-
+    //饼状图获取后台数据
     function getPieRatio(){
         var categories = ["1月","2月","3月","4月","5月","6月"];
         var series1 = [];
@@ -145,7 +143,7 @@ $(function(){
 
     }
 
-
+    //线状图获取后台数据
     function getLineRatio(){
         var categories = ["1月","2月","3月","4月","5月","6月"];
         var series = [];

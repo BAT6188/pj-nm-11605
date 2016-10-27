@@ -112,4 +112,17 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
 //        write(result);
     }
 
+    /**
+     * 超标同期对比分析获取后台数据
+     */
+    public void getColumnRatio(){
+        String name = request.getParameter("name");
+        String startXdate = request.getParameter("startXdate");
+        String lastXdate = request.getParameter("lastXdate");
+        String startSdate = request.getParameter("startSdate");
+        String lastSdate = request.getParameter("lastSdate");
+
+
+    }
+
 }
