@@ -45,7 +45,8 @@ public class Block implements Serializable {
     /**
      *管辖区域标绘
      */
-    @Column(name = "AREA_POINTS",length = 100)
+    @Lob
+    @Column(name = "AREA_POINTS")
     private String areaPoints;
     /**
      *网格负责人

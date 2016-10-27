@@ -73,7 +73,7 @@ var MapMarkDialog = {
     },
     /**
      * 设置标绘模式
-     * @param mode point polyline polygon
+     * @param mode: point polyline polygon
      */
     setMode:function (mode) {
         $("." + mode).css('display','block').siblings().hide();

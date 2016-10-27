@@ -46,6 +46,13 @@ var pageUtils = {
             }
         });
     },
+    getStr:function (str) {
+        if (str){
+            return str;
+        }
+        return ""
+
+    },
     /**
      * 截取字符前10位 日期串获取前10位
      * @param str

@@ -133,8 +133,11 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         write(String.format("{\"success\": true, \"id\": \"%s\"}", entity.getId()));
     }
 
-    public void getAll(){
-        List<Enterprise> enterprises = getService().findAll();
-        write(enterprises);
+    public void findByIds(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            List<Enterprise> list = getService().findByIds(ids);
+            write(list);
+        }
     }
 }

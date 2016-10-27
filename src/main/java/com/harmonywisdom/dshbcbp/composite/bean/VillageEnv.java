@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.composite.bean;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 农村生态环境
@@ -43,6 +44,7 @@ public class VillageEnv implements Serializable {
     /**
      *位置坐标
      */
+    @Lob
     @Column(name = "POINTS",length = 100)
     private String points;
     /**
@@ -64,14 +66,17 @@ public class VillageEnv implements Serializable {
     /**
      *所属区域
      */
-    @Column(name = "ADDRESS")
-    private Date address;
+    @Column(name = "ADDRESS", length = 100)
+    private String address;
 
-    public Date getAddress() {
+    @Transient
+    private List<Video> videos;
+
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Date address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -153,5 +158,13 @@ public class VillageEnv implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public List<Video> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(List<Video> videos) {
+        this.videos = videos;
     }
 }
