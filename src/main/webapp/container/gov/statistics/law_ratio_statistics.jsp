@@ -11,6 +11,15 @@
 <head>
     <title>执法同期对比分析</title>
     <style type="text/css">
+        .chart-list {
+            text-align: center;
+            height: 42px;
+        }
+        .chart-list li {
+            float: left;
+            width: 33.33%;
+            height: 100%;
+        }
         .ui-autocomplete { z-index:2147483647; }
     </style>
 </head>
@@ -48,6 +57,16 @@
                     <p></p>
                     <form class="form-inline">
                         <div class="form-group">
+                            <label for="">执法类型：</label>
+                            <select class="form-control" name="" id="lawType">
+                                <option value="1">12369</option>
+                                <option value="2">区长热线</option>
+                                <option value="3">市长热线</option>
+                                <option value="0">监测中心</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group">
                             <label for="">同期对比：</label>
                             <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="startTime"  type="text" value="" readonly>
@@ -55,22 +74,13 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="endtime"  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">执法类型：</label>
-                            <select class="form-control" name="" id="">
-                                <option value="1">信访</option>
-                                <option value="2">例行检查</option>
-                                <option value="3">12369</option>
-                                <option value="4">区长热线</option>
-                                <option value="5">市长热线</option>
-                            </select>
-
+                            <button type="button" id="sbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>上半年</span></button>
+                            <button type="button" id="xbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>下半年</span></button>
+                            <%--<div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">--%>
+                                <%--<input class="form-control" size="16" id="endtime"  type="text" value="" readonly>--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>--%>
+                            <%--</div>--%>
                         </div>
                     </form>
                 </div>
@@ -83,28 +93,29 @@
         <div class="chart-box">
             <div class="chart-list">
                 <ul class="clearfix">
-                    <li class="active"><a href="javascript:;">柱状图</a></li>
-                    <li><a href="javascript:;">饼状图</a></li>
-                    <li><a href="javascript:;">折线图</a></li>
+                    <li id="columnBtn"  data-checked="1"><a href="javascript:;">柱状图</a></li>
+                    <li id="pieBtn"  data-checked="2"><a href="javascript:;">饼状图</a></li>
+                    <li id="lineBtn"  data-checked="3"><a href="javascript:;">折线图</a></li>
                 </ul>
             </div>
-            <div class="chart-content">
-                <div class="chartBox chartBox1">
-                    <div class="chart">
-                        <img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>
-                    </div>
-                </div>
-                <div class="chartBox chartBox2">
-                    <div class="chart">
-                        <img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>
-                    </div>
-                </div>
-                <div class="chartBox chartBox3">
-                    <div class="chart">
-                        <img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>
-                    </div>
-                </div>
-            </div>
+            <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
+            <%--<div class="chart-content">--%>
+                <%--<div class="chartBox chartBox1">--%>
+                    <%--<div class="chart">--%>
+                        <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="chartBox chartBox2">--%>
+                    <%--<div class="chart">--%>
+                        <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="chartBox chartBox3">--%>
+                    <%--<div class="chart">--%>
+                        <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -112,7 +123,7 @@
 </div>
 
 
-<script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/law_statistics.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/law_ratio_statistics.js"></script>
 <script type="text/javascript">
     $( function() {
 
