@@ -11,6 +11,15 @@
 <head>
     <title>企业环评验收统计分析</title>
     <style type="text/css">
+        .chart-list {
+            text-align: center;
+            height: 42px;
+        }
+        .chart-list li {
+            float: left;
+            width: 33.33%;
+            height: 100%;
+        }
         .ui-autocomplete { z-index:2147483647; }
     </style>
 </head>
@@ -53,28 +62,30 @@
             <div class="chart-box">
                 <div class="chart-list">
                     <ul class="clearfix">
-                        <li class="active"><a href="javascript:;">柱状图</a></li>
-                        <li><a href="javascript:;">饼状图</a></li>
-                        <li><a href="javascript:;">折线图</a></li>
+                        <li id="columnBtn"  data-checked="1"><a href="javascript:;">柱状图</a></li>
+                        <li id="pieBtn"  data-checked="2"><a href="javascript:;">饼状图</a></li>
+                        <li id="lineBtn"  data-checked="3"><a href="javascript:;">折线图</a></li>
                     </ul>
                 </div>
-                <div class="chart-content">
-                    <div class="chartBox chartBox1">
-                        <div class="chart">
-                            <img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>
-                        </div>
-                    </div>
-                    <div class="chartBox chartBox2">
-                        <div class="chart">
-                            <img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>
-                        </div>
-                    </div>
-                    <div class="chartBox chartBox3">
-                        <div class="chart">
-                            <img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>
-                        </div>
-                    </div>
-                </div>
+                <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
+
+                <%--<div class="chart-content">--%>
+                    <%--<div class="chartBox chartBox1">--%>
+                        <%--<div class="chart">--%>
+                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="chartBox chartBox2">--%>
+                        <%--<div class="chart">--%>
+                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="chartBox chartBox3">--%>
+                        <%--<div class="chart">--%>
+                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
             </div>
         </div>
     </div>

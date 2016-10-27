@@ -60,6 +60,7 @@
                         <div class="form-group">
                             <label for="">缴费状态：</label>
                             <select class="form-control" name="" id="payType">
+                                <option value=" ">请选择</option>
                                 <option value="0">未缴费</option>
                                 <option value="1">已缴费</option>
                             </select>
