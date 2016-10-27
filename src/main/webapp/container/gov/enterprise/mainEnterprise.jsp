@@ -124,6 +124,7 @@
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
+<%@include file="/container/gov/composite/enterprise_plotting.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/pageset.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/mainEnterprise.js"></script>
 <script type="text/javascript">

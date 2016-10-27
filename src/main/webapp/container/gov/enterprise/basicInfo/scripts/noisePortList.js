@@ -390,13 +390,29 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
  * 平面图标注
  */
 function makePlaneMap(){
+    var planeMapMarkDate = $('#planeMapMark').val();
+    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
     PlottingDialog.dialog({
         show:true,
         mode:"marker",
+        data:data,
         attachmentId:enterpriseData.planeMap,
         callback:function (marker) {
             var str = JSON.stringify(marker);
             form.find('#planeMapMark').val(str);
         }
+    });
+}
+/**
+ * 查看平面图
+ */
+function lookPlaneMap(){
+    var planeMapMarkDate = $('#planeMapMark').val();
+    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+    PlottingDialog.dialog({
+        show:true,
+        mode:"view",
+        data:data,
+        attachmentId:enterpriseData.planeMap
     });
 }

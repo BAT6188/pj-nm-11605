@@ -367,12 +367,19 @@ function setLookBtn(){
     $('.formBtn').attr('disabled','disabled');
     $('.lookBtn').show();
     /*设置上传*/
-    var pfuOptions = getPlaneMapUploaderOptions(enterpriseData.planeMap);
-    pfuOptions.callbacks.onSessionRequestComplete = function () {
-        $("#fine-uploader-planemap").find(".qq-upload-delete").hide();
-    };
-    planeMapUploader = new qq.FineUploader(pfuOptions);
-    $("#fine-uploader-planemap").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无平面图');
+    if(enterpriseData.planeMap){
+        $('#lookPlaneMapBtn').show();
+        $("#fine-uploader-planemap").hide();
+    }else{
+        $('#lookPlaneMapBtn').hide();
+        var pfuOptions = getPlaneMapUploaderOptions(enterpriseData.planeMap);
+        pfuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-planemap").find(".qq-upload-delete").hide();
+        };
+        planeMapUploader = new qq.FineUploader(pfuOptions);
+        $("#fine-uploader-planemap").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无平面图');
+        $("#fine-uploader-planemap").show();
+    }
 
     var fuOptions = getUploaderOptions(enterpriseId);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -398,6 +405,8 @@ function reloadThisPage(){
 }
 /*显示并设置保存和编辑状态按钮*/
 function setEditBtn(isFromEditBtn){
+    $('#lookPlaneMapBtn').hide();
+    $("#fine-uploader-planemap").show();
     planeMapUploader = new qq.FineUploader(getPlaneMapUploaderOptions(enterpriseData.planeMap));
     if(enterpriseData.planeMap!=""){
         $("#fine-uploader-planemap").find(".qq-upload-button").hide();
@@ -473,4 +482,14 @@ function setEnterpriseForm(flag){
 
         }
     });*/
+}
+/**
+ * 查看平面图
+ */
+function lookPlaneMap(){
+    PlottingDialog.dialog({
+        show:true,
+        mode:"view",
+        attachmentId:$('#planeMap').val()
+    });
 }

@@ -152,6 +152,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="planeMap" class="col-sm-2 control-label">平面图<span class="text-danger">(*)</span>：</label>
+                        <div class="col-sm-4" id="planeMap">
+                            <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
+                            <button type="button" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看平面图标注</button>
+                            <button type="button" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="attachmentId" name="attachmentId" class="form-control" data-easyform="null;">

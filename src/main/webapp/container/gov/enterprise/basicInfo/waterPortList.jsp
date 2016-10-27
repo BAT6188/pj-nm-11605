@@ -206,8 +206,8 @@
                         <label for="planeMap" class="col-sm-2 control-label">平面图<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4" id="planeMap">
                             <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
-                            <%--<button type="button" class="btn btn-info" onclick="makePlaneMap()">查看</button>--%>
-                            <button type="button" class="btn btn-primary" onclick="makePlaneMap()">标注</button>
+                            <button type="button" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看平面图标注</button>
+                            <button type="button" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -258,7 +258,6 @@
 </div>
 <!-- 所属流域模态框 end -->
 <%@include file="/common/gis/map_mark.jsp"%>
-<%@include file="/container/gov/composite/enterprise_plotting.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/waterPortList.js"></script>
 <script>
     $(function(){
