@@ -5,6 +5,7 @@ var gridTable = $('#table'),
     formTitle = "事件信息",
     selections = [];
 
+loadBlockLevelAndBlockOption();
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -141,7 +142,21 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#eventMsg">查看</button>';
+    /**
+     * 状态
+     * 0：未调度
+     * 1：已调度
+     * 2：已反馈
+     */
+    if (value==0){
+        value="未调度"
+    }else if (value==1){
+        value="已调度"
+    }else if (value==2){
+        // value='<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#eventMsg">已反馈</button>'
+        value='已反馈'
+    }
+    return value;
 }
 // 列表操作事件
 window.operateEvents = {
@@ -188,12 +203,17 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
 
 });
@@ -241,7 +261,7 @@ var ef = form.easyform({
 
         saveAjax(entity,function (msg) {
             //form.modal('hide');
-            //gridTable.bootstrapTable('refresh');
+            gridTable.bootstrapTable('refresh');
 
             $("#monitorCaseId").val(msg.id)
         });
@@ -275,7 +295,6 @@ $('#openDateContent').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
 
@@ -283,8 +302,10 @@ function setFormData(entity) {
     $("#answer").val(entity.answer);
     $("#enterpriseName").val(entity.enterpriseName);
     $("#source").val(entity.source);
-    $("#blockLevelName").val(entity.blockLevelName);
-    $("#blockName").val(entity.blockName);
+    // console.log("blockLevelId:"+$("#blockLevelId").html());
+    // console.log("blockId:"+$("#blockId").html());
+    $("#blockLevelId").val(entity.blockLevelId);
+    $("#blockId").val(entity.blockId);
     $("#supervisor").val(entity.supervisor);
     $("#supervisorPhone").val(entity.supervisorPhone);
     $("#content").val(entity.content);
@@ -296,7 +317,6 @@ function setFormData(entity) {
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
-    disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -425,6 +445,7 @@ $('.form_datetime').datetimepicker({
 });
 
 function appendOption(selector,options) {
+    $(selector).empty();
     $.each(options,function (i,v) {
         var option = $("<option>").val(v.code).text(v.name);
         $(selector).append(option);
@@ -434,7 +455,6 @@ function appendOption(selector,options) {
 var code={code:"monitor_office_source"};
 var monitor_office_source=dict.getDctionnary(code)
 appendOption("#source",monitor_office_source)
-
 
 /**
  * Autocomplete  enterpriseName
@@ -473,74 +493,6 @@ $( function() {
             $("#supervisorPhone").val(ui.item.epPhone)
         },
     } );
-
-    $("#blockLeveName").autocomplete({
-        source: function( request, response ) {
-            $.ajax( {
-                url: rootPath + "/action/S_composite_BlockLevel_list.action",
-                method:'post',
-                dataType: "json",
-                data: {
-                    name: request.term
-                },
-                success: function( data ) {
-                    for(var i = 0;i<data.rows.length;i++){
-                        var result = [];
-                        for(var i = 0; i <  data.rows.length; i++) {
-                            var ui={};
-                            ui.id=data.rows[i].id
-                            ui.value=data.rows[i].name
-                            result.push(ui);
-                        }
-                        response( result);
-                    }
-                }
-            } );
-        },
-        select: function( event, ui ) {
-            console.info(ui.item.id)
-            $("#blockLevelId").val(ui.item.id)
-        },
-    } );
-
-    $("#blockName").autocomplete({
-        source: function( request, response ) {
-            var blockLevelId=$("#blockLevelId").val()
-            if (null==blockLevelId || ''== blockLevelId){
-                Ewin.alert({message:"请选择正确的网络级别"});
-                return ;
-            }
-
-            $.ajax( {
-                url: rootPath + "/action/S_composite_Block_list.action",
-                method:'post',
-                dataType: "json",
-                data: {
-                    orgName: request.term,
-                    blockLevelId:blockLevelId
-                },
-                success: function( data ) {
-                    for(var i = 0;i<data.rows.length;i++){
-                        var result = [];
-                        for(var i = 0; i <  data.rows.length; i++) {
-                            var ui={};
-                            ui.id=data.rows[i].id
-                            result.push(ui);
-                        }
-                        response( result);
-                    }
-                }
-            } );
-        },
-        select: function( event, ui ) {
-            console.info(ui.item.id)
-            $("#blockId").val(ui.item.id)
-        },
-    } );
-
-
-
-
 
 } );
 
