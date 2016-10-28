@@ -110,7 +110,7 @@
                         <label for="eventTime" class="col-sm-2 control-label">接电时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
-                                <input class="form-control" size="16" type="text" value="" id="eventTime" readonly>
+                                <input class="form-control" size="16" type="text" value="" id="eventTime" name="eventTime" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -136,16 +136,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLeveName" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="blockLeveName" name="blockLeveName" class="form-control" />
-                            <input type="hidden" id="blockLevelId" name="blockLevelId"/>
+                            <select id="blockLevelId" name="blockLevelId" class="form-control">
+                            </select>
                         </div>
 
-                        <label for="blockName" class="col-sm-2 control-label"></label>
+                        <label for="blockId" class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
-                            <input type="text" id="blockName" name="blockName" class="form-control" />
-                            <input type="hidden" id="blockId" name="blockId"/>
+                            <select id="blockId" name="blockId" class="form-control">
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -269,6 +269,7 @@
         </div>
     </div>
 </div>
+<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/monitorOffice.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/selectPeople.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>

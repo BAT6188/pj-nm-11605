@@ -10,6 +10,10 @@ import com.harmonywisdom.apportal.sdk.person.domain.Person;
 import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
+import com.harmonywisdom.dshbcbp.composite.bean.Block;
+import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
+import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
+import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.bean.OrgPerson;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
@@ -24,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +39,12 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
     private MonitorCaseService monitorCaseService;
 
     @AutoService
+    private BlockLevelService blockLevelService;
+
+    @AutoService
+    private BlockService blockService;
+
+    @AutoService
     private AttachmentService attachmentService;
 
     @Override
@@ -41,6 +52,38 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         return monitorCaseService;
     }
 
+    /**
+     * 根据角色 执法大队领导 得到 人员
+     */
+    public void getExelawLeaderPersonList(){
+        OrgPerson orgPerson=new OrgPerson();
+        IOrg orgByOrgCode = OrgServiceUtil.getOrgByOrgCode("0170001300");
+        orgPerson.setId(orgByOrgCode.getOrgId());
+        orgPerson.setName(orgByOrgCode.getOrgName());
+        orgPerson.setParent(true);
+
+        List<OrgPerson> children=new ArrayList<>();
+        List<Person> exelawLeaderPersonList = PersonServiceUtil.getPersonByRoleCode("exelawLeader");
+        for (Person person : exelawLeaderPersonList) {
+            OrgPerson child=new OrgPerson();
+            child.setId(person.getUserId());
+            child.setName(person.getUserName());
+            child.setParent(false);
+            Map extattrMap = person.getExtattrMap();
+            if (extattrMap!=null){
+                Object job = extattrMap.get("job");
+                if (job!=null){
+                    child.setJob(job.toString());
+                }
+            }
+            children.add(child);
+        }
+        orgPerson.setChildren(children);
+        write(orgPerson);
+
+    }
+
+    @Deprecated
     public void getOrgPersonList(){
         List<OrgPerson> orgPersonList=new LinkedList<OrgPerson>();
 
@@ -91,12 +134,17 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         if(null==source){
             source="1";
         }
+        params.andParam(new QueryParam("source",QueryOperator.EQ,source));
 
-        String status_search = request.getParameter("status_search");
-        if (StringUtils.isEmpty(status_search)|| "0".equals(status_search)){
-            params.andParam(new QueryParam("status",QueryOperator.EQ,0));
-        }else {
-            params.andParam(new QueryParam("status",QueryOperator.NE,0));
+
+        //如果是监测中心的请求
+        if (source.equals("0")){
+            String status_search = request.getParameter("status_search");
+            if (StringUtils.isEmpty(status_search)|| "0".equals(status_search)){
+                params.andParam(new QueryParam("status",QueryOperator.EQ,0));
+            }else {
+                params.andParam(new QueryParam("status",QueryOperator.NE,0));
+            }
         }
 
 
@@ -127,7 +175,7 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
 
 
 
-        params.andParam(new QueryParam("source",QueryOperator.EQ,source));
+
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
@@ -142,12 +190,25 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
     @Override
     public void save() {
         //获取删除的附件IDS
-
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
+
+        String blockLevelId = entity.getBlockLevelId();
+        if (StringUtils.isNotEmpty(blockLevelId)){
+            BlockLevel bl = blockLevelService.findById(blockLevelId);
+            entity.setBlockLevelName(bl.getName());
+        }
+
+        String blockId = entity.getBlockId();
+        if (StringUtils.isNotEmpty(blockId)){
+            Block b = blockService.findById(blockId);
+            entity.setBlockName(b.getOrgName());
+        }
+
+        entity.setStatus(0);
 
         super.save();
 
