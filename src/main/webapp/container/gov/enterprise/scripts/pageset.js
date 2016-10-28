@@ -17,26 +17,6 @@ function loadHeight(){
 }
 window.onload=loadHeight();
 window.onresize=loadHeight;
-
-/* 侧边栏显示切换*/
-$(".wrap").bind("mouseleave",
-    function(e) {
-        var w = $(this).width();
-        var h = $(this).height();
-        var x = (e.pageX - this.offsetLeft - (w / 2)) * (w > h ? (h / w) : 1);
-        var y = (e.pageY - this.offsetTop - (h / 2)) * (h > w ? (w / h) : 1);
-        var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
-        var eventType = e.type;
-        var dirName = new Array('1','2','3','4');//上右下左
-        if(e.type == 'mouseleave'){
-            if(dirName[direction]=='4'){//判断为左侧移出
-                $(".siderNav").show();
-            }
-        }
-    });
-$(".siderNav").mouseleave(function(){
-    $(".siderNav").hide();
-});
 /* 内部横向小导航列表切换*/
 $(".navList li").each(function(){
     $(this).click(function(){
