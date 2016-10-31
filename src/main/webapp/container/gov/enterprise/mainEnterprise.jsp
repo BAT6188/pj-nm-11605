@@ -53,10 +53,10 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">企业阀值管理</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/wasteWaterPT.jsp')">废水阈值管理</a></li>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/hepWasteGasPT.jsp')">火电厂废气阈值管理</a></li>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/boilerWasteGasPT.jsp')">锅炉废气阈值管理</a></li>
-                <li><a href="javascript:loadPageInEnterprise('portThreshold/flueGasPT.jsp')">油烟阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/wasteWaterPT.jsp')">企业废水阈值管理</a></li>
+                <%--<li><a href="javascript:loadPageInEnterprise('portThreshold/hepWasteGasPT.jsp')">火电厂废气阈值管理</a></li>--%>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/wasteGasPT.jsp')">企业废气阈值管理</a></li>
+                <li><a href="javascript:loadPageInEnterprise('portThreshold/flueGasPT.jsp')">企业油烟阈值管理</a></li>
             </ul>
         </div>
         <div class="menuDiv">

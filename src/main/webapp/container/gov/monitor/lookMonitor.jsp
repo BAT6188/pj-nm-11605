@@ -14,20 +14,7 @@
     <title>企业台账</title>
     <jsp:include page="/common/common_ztree.jsp"></jsp:include>
     <script type="text/javascript">
-        var id='<%=id%>';
-        var enterpriseData;
-        $(function(){
-            $.ajax({
-                url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
-                type:"post",
-                async:false,
-                data:{"id":id},//阻止深度序列化，向后台传递数组
-                dataType:"json",
-                success:function(data){
-                    enterpriseData = data;
-                }
-            });
-        })
+        var enterpriseId='<%=id%>';
     </script>
     <style>
         .menuDiv h3{
@@ -39,51 +26,18 @@
 <div class="wrap">
     <div class="menu-left left">
         <div class="scrollContent" >
-            <ul id="treeDemo1" class="ztree"></ul>
+            <ul id="enterpriseZTree" class="ztree"></ul>
         </div>
     </div>
-    <div class="main-right right level3MenuContent">
+    <div id="level3MenuContent" class="main-right right">
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/scripts/lookMointor.js"></script>
 <script type="text/javascript">
-    $(".scrollContent").slimScroll({
-        height:"100%",
-        railOpacity:.9,
-        alwaysVisible:!1
-    });
+    $(function(){
 
-    var setting = {
-        data: {
-            simpleData: {
-                enable: true,
-                idKey: "code",
-                pIdKey: "parentCode",
-                rootPId: -1
-            }
-        },
-        height:500,
-        width:200,
-        view: {
-            showLine: false
-        },
-        async: {
-            enable: true,
-            url:rootPath + "/S_dict_Dict_multipleList.action",
-            autoParam:["code"],
-            otherParam:{"code":"industryType"},
-            dataFilter: null
-        },
-        callback: {
-            onDblClick: function(event, treeId, treeNode){
-                if(treeNode.check_Child_State == -1){
-                    $('#'+v).val(treeNode.name);
-                    $('#'+v+'ModalClose').trigger('click');
-                }
-            }
-        }
-    };
-    $.fn.zTree.init($("#treeDemo1"), setting);
+    })
 </script>
 </body>
 </html>

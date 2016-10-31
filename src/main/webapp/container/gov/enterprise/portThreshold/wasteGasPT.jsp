@@ -10,7 +10,10 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
-    <title>废水阀值管理</title>
+    <title>企业废气阀值管理</title>
+    <%
+        String enterpriseId=request.getParameter("id");
+    %>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
         $('input[name="enterpriseId"]').val(enterpriseId);
@@ -23,39 +26,39 @@
 </head>
 <body>
 <div class="form-div" style="width: 99%;">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active">废水阀值管理</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active">企业废气阀值管理</a>
     <div style="width: 90%">
-        <div id="wasteWaterForm">
+        <div id="wasteGasForm">
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <form class="form-horizontal" id="flowForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="dustForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="flow"/>
+                            <input type="hidden" name="type" value="wasteGas" />
+                            <input type="hidden" name="pollutantCode" value="dust"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
-                            <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">流量</div>
+                            <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟尘</div>
                             <div class="form-group">
-                                <label for="overValue" class="col-sm-4 control-label">流量超标值：</label>
+                                <label for="overValue" class="col-sm-4 control-label">烟尘超标值：</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="firstInput" name="overValue" title="流量超标值" class="form-control needCheck" readonly
+                                    <input type="text" id="firstInput" name="overValue" title="烟尘超标值" class="form-control needCheck" readonly
                                            data-message="不能为空"
                                            data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="maxValue" class="col-sm-4 control-label">流量异常上限值：</label>
+                                <label for="maxValue" class="col-sm-4 control-label">烟尘异常上限值：</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="maxValue" class="form-control needCheck" title="流量异常上限值" readonly
+                                    <input type="text" name="maxValue" class="form-control needCheck" title="烟尘异常上限值" readonly
                                            data-message="不能为空"
                                            data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="minValue" class="col-sm-4 control-label">流量异常下限值：</label>
+                                <label for="minValue" class="col-sm-4 control-label">烟尘异常下限值：</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="minValue" class="form-control needCheck" title="流量异常下限值" readonly
+                                    <input type="text" name="minValue" class="form-control needCheck" title="烟尘异常下限值" readonly
                                            data-message="不能为空"
                                            data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
                                 </div>
@@ -63,35 +66,107 @@
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form class="form-horizontal" id="oxygenForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="sulfurForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="oxygen"/>
+                            <input type="hidden" name="type" value="wasteGas" />
+                            <input type="hidden" name="pollutantCode" value="sulfur"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
-                            <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">化学需氧量(COD)</div>
+                            <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">二氧化硫</div>
                             <div class="form-group">
-                                <label for="overValue" class="col-sm-4 control-label">化学需氧量超标值：</label>
+                                <label for="overValue" class="col-sm-4 control-label">二氧化硫超标值：</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="overValue" class="form-control needCheck" title="化学需氧量超标值" readonly
+                                    <input type="text" name="overValue" class="form-control needCheck" title="二氧化硫超标值" readonly
                                            data-message="不能为空"
                                            data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="maxValue" class="col-sm-4 control-label">化学需氧量异常上限值：</label>
+                                <label for="maxValue" class="col-sm-4 control-label">二氧化硫异常上限值：</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="maxValue" class="form-control needCheck" title="化学需氧量异常上限值" readonly
+                                    <input type="text" name="maxValue" class="form-control needCheck" title="二氧化硫异常上限值" readonly
                                            data-message="不能为空"
                                            data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="minValue" class="col-sm-4 control-label">化学需氧量异常下限值：</label>
+                                <label for="minValue" class="col-sm-4 control-label">二氧化硫异常下限值：</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="minValue" class="form-control needCheck" title="化学需氧量异常下限值" readonly
+                                    <input type="text" name="minValue" class="form-control needCheck" title="二氧化硫异常下限值" readonly
                                            data-message="不能为空"
                                            data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <form id="nitrogenForm" role="form" method="post" style="margin-top: 20px;">
+                            <input type="hidden" name="id" class="form-control" />
+                            <input type="hidden" name="type" value="wasteGas" />
+                            <input type="hidden" name="pollutantCode" value="nitrogen"/>
+                            <input type="hidden" name="enterpriseId" value=""/>
+                            <input type="hidden" name="createTime" value="" class="form-control" />
+                            <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氮氧化物</div>
+                            <div class="form-group">
+                                <label for="overValue" class="col-sm-4 control-label">氮氧化物超标值：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="overValue" class="form-control needCheck" title="氮氧化物超标值" readonly
+                                           data-message="不能为空"
+                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="maxValue" class="col-sm-4 control-label">氮氧化物异常上限值：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="maxValue" class="form-control needCheck" title="氮氧化物异常上限值" readonly
+                                           data-message="不能为空"
+                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minValue" class="col-sm-4 control-label">氮氧化物异常下限值：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="minValue" class="form-control needCheck" title="氮氧化物异常下限值" readonly
+                                           data-message="不能为空"
+                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <form id="gasFlowForm" role="form" method="post" style="margin-top: 20px;">
+                            <input type="hidden" name="id" class="form-control" />
+                            <input type="hidden" name="type" value="wasteGas" />
+                            <input type="hidden" name="pollutantCode" value="gasFlow"/>
+                            <input type="hidden" name="enterpriseId" value=""/>
+                            <input type="hidden" name="createTime" value="" class="form-control" />
+                            <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">废气流量</div>
+                            <div class="form-group">
+                                <label for="overValue" class="col-sm-4 control-label">废气流量超标值：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="overValue" class="form-control needCheck" title="废气流量超标值" readonly
+                                           data-message="不能为空"
+                                           data-easytip="position:top;class:easy-red;" placeholder="（立方米/小时）"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="maxValue" class="col-sm-4 control-label">废气流量异常上限值：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="maxValue" class="form-control needCheck" title="废气流量异常上限值" readonly
+                                           data-message="不能为空"
+                                           data-easytip="position:top;class:easy-red;" placeholder="（立方米/小时）"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minValue" class="col-sm-4 control-label">废气流量异常下限值：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="minValue" class="form-control needCheck" title="废气流量异常下限值" readonly
+                                           data-message="不能为空"
+                                           data-easytip="position:top;class:easy-red;" placeholder="（立方米/小时）"/>
                                 </div>
                             </div>
                         </form>
@@ -99,78 +174,36 @@
                 </div>
             </div>
 
-            <div class="form-horizontal">
+            <form class="form-horizontal" id="oxygenForm" role="form" method="post" style="margin-top: 20px;">
+                <input type="hidden" name="id" class="form-control" />
+                <input type="hidden" name="type" value="wasteGas" />
+                <input type="hidden" name="pollutantCode" value="oxygen"/>
+                <input type="hidden" name="enterpriseId" value=""/>
+                <input type="hidden" name="createTime" value="" class="form-control" />
+                <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氧含量</div>
                 <div class="form-group">
-                    <div class="col-sm-6">
-                        <form id="nitrogenForm" role="form" method="post" style="margin-top: 20px;">
-                            <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="nitrogen"/>
-                            <input type="hidden" name="enterpriseId" value=""/>
-                            <input type="hidden" name="createTime" value="" class="form-control" />
-                            <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氨氮</div>
-                            <div class="form-group">
-                                <label for="overValue" class="col-sm-4 control-label">氨氮超标值：</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="overValue" class="form-control needCheck" title="氨氮超标值" readonly
-                                           data-message="不能为空"
-                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="maxValue" class="col-sm-4 control-label">氨氮异常上限值：</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="maxValue" class="form-control needCheck" title="氨氮异常上限值" readonly
-                                           data-message="不能为空"
-                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="minValue" class="col-sm-4 control-label">氨氮异常下限值：</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="minValue" class="form-control needCheck" title="氨氮异常下限值" readonly
-                                           data-message="不能为空"
-                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/立方米）"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-6">
-                        <form class="form-horizontal" id="phForm" role="form" method="post" style="margin-top: 20px;">
-                            <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="ph"/>
-                            <input type="hidden" name="enterpriseId" value=""/>
-                            <input type="hidden" name="createTime" value="" class="form-control" />
-                            <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">PH值</div>
-                            <div class="form-group">
-                                <label for="overValue" class="col-sm-4 control-label">PH值超标值：</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="overValue" class="form-control needCheck" title="PH值超标值" readonly
-                                           data-message="不能为空"
-                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/升）"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="maxValue" class="col-sm-4 control-label">PH值异常上限值：</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="maxValue" class="form-control needCheck" title="PH值异常上限值" readonly
-                                           data-message="不能为空"
-                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/升）"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="minValue" class="col-sm-4 control-label">PH值异常下限值：</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="minValue" class="form-control needCheck" title="PH值异常下限值" readonly
-                                           data-message="不能为空"
-                                           data-easytip="position:top;class:easy-red;" placeholder="（毫克/升）"/>
-                                </div>
-                            </div>
-                        </form>
+                    <label for="overValue" class="col-sm-2 control-label">氧含量超标值：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="overValue" class="form-control needCheck" title="氧含量超标值" readonly
+                               data-message="不能为空"
+                               data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="%"/>
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="maxValue" class="col-sm-2 control-label">氧含量异常上限值：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="maxValue" class="form-control needCheck" title="氧含量异常上限值" readonly
+                               data-message="不能为空"
+                               data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="%"/>
+                    </div>
+                    <label for="minValue" class="col-sm-2 control-label">废气流量异常下限值：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="minValue" class="form-control needCheck" title="氧含量异常下限值" readonly
+                               data-message="不能为空"
+                               data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="%"/>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="form-horizontal">
             <div class="form-group">
@@ -190,6 +223,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/portThreshold/scripts/wasteWaterPT.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/portThreshold/scripts/wasteGasPT.js"></script>
 </body>
 </html>

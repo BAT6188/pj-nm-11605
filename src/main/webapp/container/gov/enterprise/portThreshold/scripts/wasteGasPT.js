@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/10/21.
  */
-var formDiv = $('#wasteWaterForm');
+var formDiv = $('#wasteGasForm');
 var updateSuccessMsg = "保存成功！";
 loadInfo();
 function loadInfo(){
@@ -9,7 +9,7 @@ function loadInfo(){
         url: rootPath + "/action/S_port_PortThreshold_list.action",
         type:"post",
         async:false,
-        data:{"enterpriseId":enterpriseId,"type":"WW"},//阻止深度序列化，向后台传递数组
+        data:{"enterpriseId":enterpriseId,"type":"gas"},//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function(data){
             if(data.total>0){
@@ -60,10 +60,9 @@ $("#saveForm").bind('click',function () {
                     $(this).find('input[name="id"]').val(msg.id);
                     updateSuccessNumber +=1;
                 }
-                if(updateSuccessNumber==4){
+                if(updateSuccessNumber==5){
                     setLookType();
                     Ewin.alert(updateSuccessMsg);
-                    //formDiv.BootstrapAlertMsg('success',"保存数据成功!",2000);
                 }
             });
         })
@@ -99,7 +98,16 @@ function setInputs(){
                         this.value = "";
                     }
                 }else{
-                    tip.close();
+                    if(($(this).attr('data-easyform'))=='checknumber'){
+                        if(this.value>-1 && this.value<100){
+                            tip.close();
+                        }else{
+                            tip.show("请输入小于100的非负数！");
+                            this.value = "";
+                        }
+                    }else{
+                        tip.close();
+                    }
                 }
             }
         })
@@ -133,7 +141,7 @@ function saveAjax(entity, callback) {
         success:callback
     });
 }
-var thisUrl = rootPath +'/container/gov/enterprise/portThreshold/wasteWaterPT.jsp?id='+enterpriseId;
+var thisUrl = rootPath +'/container/gov/enterprise/portThreshold/wasteGasPT.jsp?id='+enterpriseId;
 function reloadThisPage(){
     $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('.main-right').load(thisUrl); // ajax加载页面

@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.enterprise.action;
 
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
@@ -141,7 +142,21 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         }
     }
 
+    /**
+     * 获取排口树结构
+     */
     public void getEnterprisePortZtree(){
+        String code = request.getParameter("code");
+        if(StringUtils.isNotBlank(code)){
+            write(enterpriseService.getEnterprisePortZtree(code));
+        }else{
+            DictBean bean = new DictBean();
+            bean.setCode(code);
+            bean.setName("没有查询到数据!");
+            bean.setParentCode("-1");
+            bean.setSerial(0);
+            write(bean);
+        }
 
     }
 }

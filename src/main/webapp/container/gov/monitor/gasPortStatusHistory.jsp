@@ -2,14 +2,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%--<jsp:include page="/common/common_include.jsp" flush="true"/>--%>
+    <%
+        String id=request.getParameter("id");
+        String name=request.getParameter("name");
+    %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
-    <title>污染源实时监控</title>
+    <title>废气排口实时数据</title>
+    <script type="text/javascript">
+        var portId='<%=id%>';
+        var portName='<%=name%>';
+        console.log(portId);
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 20px;">污染源列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">废气排口-><%=name%>实时数据</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -24,11 +32,12 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <label for="name">&nbsp;&nbsp;企业名称：</label><input type="text" id="name" name="name" class="form-control" />
-                                <label for="monitorTime" class="labelMarginLeft">超标状态：</label>
+                                <label for="monitorStatus" class="labelMarginLeft">超标状态：</label>
                                 <select style="width: 300px;" class="form-control" id="monitorStatus" name="monitorStatus">
                                     <option value="">全部</option>
-                                    <option value="01">未超标</option>
-                                    <option value="02">已超标</option>
+                                    <option value="over">超标</option>
+                                    <option value="max">异常上限</option>
+                                    <option value="min">异常下限</option>
                                 </select>
                             </div>
                         </div>
@@ -46,6 +55,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/scripts/mainMonitor.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/scripts/gasPortStatusHistory.js"></script>
 </body>
 </html>

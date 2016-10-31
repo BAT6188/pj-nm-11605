@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
-    <title>废水阀值管理</title>
+    <title>油烟阀值管理</title>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
         $('input[name="enterpriseId"]').val(enterpriseId);
@@ -23,13 +23,13 @@
 </head>
 <body>
 <div class="form-div" style="width: 99%;">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active">废水阀值管理</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active">油烟阀值管理</a>
     <div style="width: 90%">
         <div id="FGForm">
-            <form class="form-horizontal" id="FGlbForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="fumesForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="FG" />
-                <input type="hidden" name="pollutantCode" value="FGlb"/>
+                <input type="hidden" name="type" value="fumes" />
+                <input type="hidden" name="pollutantCode" value="fumes"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">油烟</div>
@@ -56,10 +56,10 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="FGTemForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="temperatureForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="FG" />
-                <input type="hidden" name="pollutantCode" value="FGTem"/>
+                <input type="hidden" name="type" value="fumes" />
+                <input type="hidden" name="pollutantCode" value="temperature"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟气温度</div>
@@ -86,10 +86,10 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="FGhumForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="humidityForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="FG" />
-                <input type="hidden" name="pollutantCode" value="FGhum"/>
+                <input type="hidden" name="type" value="fumes" />
+                <input type="hidden" name="pollutantCode" value="humidity"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟气湿度</div>
@@ -106,13 +106,13 @@
                     <div class="col-sm-4">
                         <input type="text" name="maxValue" class="form-control" title="烟气湿度异常上限值" readonly
                                data-message="不能为空"
-                               data-easytip="position:top;class:easy-red;" placeholder="（％）"/>
+                               data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="（％）"/>
                     </div>
                     <label for="minValue" class="col-sm-2 control-label">烟气湿度异常下限值：</label>
                     <div class="col-sm-4">
                         <input type="text" name="minValue" class="form-control" title="烟气湿度异常下限值" readonly
                                data-message="不能为空"
-                               data-easytip="position:top;class:easy-red;" placeholder="（％）"/>
+                               data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="（％）"/>
                     </div>
                 </div>
             </form>
