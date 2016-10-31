@@ -121,7 +121,7 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
     }
 
     /**
-     * 柱状图数据
+     * 执法统计highchart获取后台数据
      */
     public void getColumnHighChart() {
         Map<String,Object> result = new HashMap<String,Object>();
@@ -146,6 +146,41 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         write(result);
     }
 
+    /**
+     * 执法同期对比分析获取后台数据
+     */
+    public void getColumnRatio(){
+        String name = request.getParameter("name");
+        String lawType = request.getParameter("lawType");
+        String startXdate = request.getParameter("startXdate");
+        String lastXdate = request.getParameter("lastXdate");
+        String startSdate = request.getParameter("startSdate");
+        String lastSdate = request.getParameter("lastSdate");
 
+        Map<String,Object> result = new HashMap<>();
+
+        List<Object[]> list = dispathTaskService.findByColumnRatio(startXdate,lastXdate,startSdate,lastSdate,name,lawType);
+        if (list != null && list.size() > 0) {
+            Object[] xlist = new Object[list.size()];
+            Object[] y1list = new Object[list.size()];
+            Object[] y21list = new Object[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                Object[] oo = list.get(i);
+                xlist[i] = String.valueOf(oo[0]);
+                y1list[i] = String.valueOf(oo[1]);
+                y21list[i] = String.valueOf(oo[2]);
+
+            }
+            result.put("x", xlist);
+            result.put("y1", y1list);
+            result.put("y2", y21list);
+        }
+        write(result);
+    }
 
 }
+
+
+
+
+

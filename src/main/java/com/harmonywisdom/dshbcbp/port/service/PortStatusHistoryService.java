@@ -14,4 +14,15 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
      * @return
      */
     List<Object[]> findColumnData(String name,String firstTime, String lastTime);
+
+    /**
+     * 超标同期对比分析获取后台数据
+     * @param name
+     * @param startXdate
+     * @param lastXdate
+     * @param startSdate
+     * @param lastSdate
+     * @return
+     */
+    List<Object[]> findColumnRatio(String name, String startXdate, String lastXdate, String startSdate, String lastSdate);
 }

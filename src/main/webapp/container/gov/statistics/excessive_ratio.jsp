@@ -88,7 +88,13 @@
                             <li id="lineBtn"  data-checked="3"><a href="javascript:;">折线图</a></li>
                         </ul>
                     </div>
-                    <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
+                    <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
+                    <div style="width:50%; height:100%;float:left;">
+                        <div id="container1" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
+                    </div>
+                    <div style="width:50%; height:100%;float:right;">
+                        <div id="container2" style="min-width:100%;min-height:100%;text-align: center;width:100%;display:none;"></div>
+                    </div>
                     <%--<div class="chart-content">--%>
                         <%--<div class="chartBox chartBox1">--%>
                             <%--<div class="chart">--%>

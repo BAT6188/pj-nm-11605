@@ -28,10 +28,9 @@ $(function(){
         search(valueChart,'',startYdate,lastYdate);
     }
 
-    var sName;
     //查询按钮
     $("#search").bind('click',function(){
-        sName = $("#s_name").val();
+        var sName = $("#s_name").val();
         var startYdate = $("#start_createTime").val();
         var lastYdate = $("#end_createTime").val();
         search(valueChart,sName,startYdate,lastYdate);
@@ -88,7 +87,7 @@ $(function(){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnHighChart.action",
             type:"post",
-            data:{name:sName,startYdate:startYdate,lastYdate:lastYdate},
+            data:{sName:sName,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
             success:function (data) {
                 var categories = data.x;
