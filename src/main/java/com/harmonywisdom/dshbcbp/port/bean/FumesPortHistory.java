@@ -20,6 +20,12 @@ public class FumesPortHistory implements Serializable {
     private String id;
 
     /**
+     * 排口ID
+     */
+    @Column(name = "port_id",length = 32)
+    private String portId;
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -49,6 +55,14 @@ public class FumesPortHistory implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPortId() {
+        return portId;
+    }
+
+    public void setPortId(String portId) {
+        this.portId = portId;
     }
 
     public Date getMonitorTime() {

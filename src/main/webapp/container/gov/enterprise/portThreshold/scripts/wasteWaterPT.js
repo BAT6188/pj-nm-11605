@@ -9,7 +9,7 @@ function loadInfo(){
         url: rootPath + "/action/S_port_PortThreshold_list.action",
         type:"post",
         async:false,
-        data:{"enterpriseId":enterpriseId,"type":"WW"},//阻止深度序列化，向后台传递数组
+        data:{"enterpriseId":enterpriseId,"type":"wasteWater"},//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function(data){
             if(data.total>0){

@@ -32,6 +32,12 @@ public class NoisePortHistory implements Serializable {
     private String name;
 
     /**
+     * 监测点类型
+     */
+    @Column(name = "type",length = 1)
+    private String type; //0:企业噪声排口；1:政府监测点噪声排口
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -131,6 +137,14 @@ public class NoisePortHistory implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Date getMonitorTime() {

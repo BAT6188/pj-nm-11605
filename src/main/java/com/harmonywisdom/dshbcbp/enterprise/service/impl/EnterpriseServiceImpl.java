@@ -46,7 +46,7 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         List<DictBean> dictBeans = new ArrayList<DictBean>();
 
         Enterprise enterprise = enterpriseDAO.findById(id);
-        dictBeans.add(covertToDictBean(enterprise.getId(),enterprise.getName(),"-1",0));
+        dictBeans.add(covertToDictBean(enterprise.getId(),enterprise.getName(),"-1",0,"common/images/ztree/Factory_Yellow.png"));
 
         Integer serial = 1;
         /**
@@ -56,11 +56,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         gasPort.setEnterpriseId(id);
         List<GasPort> gasPortList = gasPortDAO.findBySample(gasPort);
         if(gasPortList.size()>0){
-            dictBeans.add(covertToDictBean("gasPort","废气排口",id,serial));
+            dictBeans.add(covertToDictBean("gasPort","废气排口",id,serial,"common/images/ztree/pictograms_aem.png"));
             serial +=1;
             for(int i=0;i<gasPortList.size();i++){
                 GasPort gp = gasPortList.get(i);
-                dictBeans.add(covertToDictBean(gp.getId(),gp.getName(),"gasPort",serial));
+                dictBeans.add(covertToDictBean(gp.getId(),gp.getName(),"gasPort",serial,"common/images/ztree/preferences_alt.png"));
                 serial +=1;
             }
         }
@@ -72,11 +72,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         waterPort.setEnterpriseId(id);
         List<WaterPort> waterPortList = waterPortDAO.findBySample(waterPort);
         if(waterPortList.size()>0){
-            dictBeans.add(covertToDictBean("waterPort","废水排口",id,serial));
+            dictBeans.add(covertToDictBean("waterPort","废水排口",id,serial,"common/images/ztree/Water_Steam.png"));
             serial +=1;
             for(int i=0;i<waterPortList.size();i++){
                 WaterPort wp = waterPortList.get(i);
-                dictBeans.add(covertToDictBean(wp.getId(),wp.getName(),"waterPort",serial));
+                dictBeans.add(covertToDictBean(wp.getId(),wp.getName(),"waterPort",serial,"common/images/ztree/preferences_alt.png"));
                 serial +=1;
             }
         }
@@ -88,11 +88,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         noisePort.setEnterpriseId(id);
         List<NoisePort> noisePortList = noisePortDAO.findBySample(noisePort);
         if(noisePortList.size()>0){
-            dictBeans.add(covertToDictBean("noisePort","噪声排口",id,serial));
+            dictBeans.add(covertToDictBean("noisePort","噪声排口",id,serial,"common/images/ztree/speaker_delete.png"));
             serial +=1;
             for(int i=0;i<noisePortList.size();i++){
                 NoisePort np = noisePortList.get(i);
-                dictBeans.add(covertToDictBean(np.getId(),np.getName(),"noisePort",serial));
+                dictBeans.add(covertToDictBean(np.getId(),np.getName(),"noisePort",serial,"common/images/ztree/preferences_alt.png"));
                 serial +=1;
             }
         }
@@ -104,11 +104,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         fumesPort.setEnterpriseId(id);
         List<FumesPort> fumesPortList = fumesPortDAO.findBySample(fumesPort);
         if(fumesPortList.size()>0){
-            dictBeans.add(covertToDictBean("fumesPort","油烟排口",id,serial));
+            dictBeans.add(covertToDictBean("fumesPort","油烟排口",id,serial,"common/images/ztree/cooker_hood.png"));
             serial +=1;
             for(int i=0;i<fumesPortList.size();i++){
                 FumesPort fp = fumesPortList.get(i);
-                dictBeans.add(covertToDictBean(fp.getId(),fp.getName(),"fumesPort",serial));
+                dictBeans.add(covertToDictBean(fp.getId(),fp.getName(),"fumesPort",serial,"common/images/ztree/preferences_alt.png"));
                 serial +=1;
             }
         }
@@ -124,11 +124,12 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
      * @param serial
      * @return
      */
-    private DictBean covertToDictBean(String code,String name,String parentCode,Integer serial) {
+    private DictBean covertToDictBean(String code,String name,String parentCode,Integer serial,String icon) {
         DictBean bean = new DictBean();
         bean.setCode(code);
         bean.setName(name);
         bean.setParentCode(parentCode);
+        bean.setIcon(icon);
         bean.setSerial(serial);
         return bean;
     }

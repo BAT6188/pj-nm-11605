@@ -29,32 +29,34 @@ var setting = {
     },
     callback: {
         onClick: function(event, treeId, treeNode){
-            console.log("事件---------------------");
-            console.log(event);
-            console.log("treeId---------------------");
-            console.log(treeId);
-            console.log("treeNode---------------------");
-            console.log(treeNode);
             loadPortStatusHistory(treeNode.parentCode,treeNode.code,treeNode.name);
+        },
+        onAsyncSuccess: function(event, treeId, treeNode, msg) {
+            treeObj.expandAll(true);
+            var node = treeObj.getNodeByTId("enterpriseZTree_3");
+            treeObj.selectNode(node,false);
+            loadPortStatusHistory(node.parentCode,node.code,node.name);
         }
     }
 };
 function loadPortStatusHistory(parentCode,code,name){
     switch(parentCode){
         case "gasPort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/gasPortStatusHistory.jsp?id="+code+"&name="+name);
+            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/gasPortStatusHistory.jsp?id="+code);
             break;
         case "waterPort":
-            Ewin.alert("waterPort暂无页面！");
+            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/waterPortStatusHistory.jsp?id="+code);
             break;
         case "noisePort":
-            Ewin.alert("noisePort暂无页面！");
+            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/noisePortStatusHistory.jsp?id="+code);
             break;
         case "fumesPort":
-            Ewin.alert("fumesPort暂无页面！");
+            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/fumesPortStatusHistory.jsp?id="+code);
             break;
         default:
             break;
     }
 }
-$.fn.zTree.init($("#enterpriseZTree"), setting);
+var treeObj = $.fn.zTree.init($("#enterpriseZTree"), setting);
+
+

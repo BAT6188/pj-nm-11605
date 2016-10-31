@@ -20,6 +20,18 @@ public class DustPortHistory implements Serializable {
     private String id;
 
     /**
+     * 排口ID
+     */
+    @Column(name = "port_id",length = 32)
+    private String portId;
+
+    /**
+     * 监测点
+     */
+    @Column(name = "name",length = 100)
+    private String name;
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -79,6 +91,22 @@ public class DustPortHistory implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPortId() {
+        return portId;
+    }
+
+    public void setPortId(String portId) {
+        this.portId = portId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getMonitorTime() {

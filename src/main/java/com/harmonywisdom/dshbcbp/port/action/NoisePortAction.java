@@ -78,4 +78,11 @@ public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
         }
         super.delete();
     }
+
+    /**
+     * 根据ID获取排口信息
+     */
+    public void getEntityById(){
+        write(noisePortService.findById(entity.getId()));
+    }
 }

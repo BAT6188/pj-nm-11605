@@ -1,63 +1,65 @@
 var gridTable = $('#table'),
     selections = [];
+$('#mapFrame').attr('width',$('#lookInMap').width()-180);
+$('#mapFrame').attr('height',$(window).height()-300);
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_GasPortHistory_list.action",
+        url: rootPath+"/action/S_enterprise_Enterprise_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.portId = portId;
             return temp;
         },
         columns: [
+            /*{
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:false,  //  true 单选， false多选
+                valign: 'middle'
+            },*/
             {
-                title: '监测时间',
-                field: 'monitorTime',
+                title: '企业名称',
+                field: 'name',
                 sortable: false,
                 editable: false,
                 align: 'center'
             },
             {
-                title: '氮氧化物（毫克/立方米）',
-                field: 'nitrogen',
+                title: '状态',
+                field: 'status',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '二氧化硫（毫克/立方米）',
-                field: 'sulfur',
+                title: '所属网格',
+                field: 'relateGrid',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '废气流量（立方米/小时）',
-                field: 'gasFlow',
+                title: '污染源状态',
+                field: 'status',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '烟尘（毫克/立方米）',
-                field: 'dust',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '氧含量（%）',
-                field: 'oxygen',
-                editable: false,
-                sortable: false,
-                align: 'center'
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                //events: operateEvents,
+                formatter: operateFormatter
             }
+
         ]
     });
     // sometimes footer render error.
@@ -75,8 +77,8 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/lookMonitor.jsp?id='+row.id+'\')">查看</button> ' +
-        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" data-toggle="modal">地图查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/enterpriseMointor/lookMonitor.jsp?id='+row.id+'\')">查看</button> ' +
+        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookInMap">地图查看</button>';
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
@@ -111,7 +113,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true)-160;
+    return $(window).height() - $('.dealBox').outerHeight(true)-170;
 }
 initTable();
 /**============列表工具栏处理============**/

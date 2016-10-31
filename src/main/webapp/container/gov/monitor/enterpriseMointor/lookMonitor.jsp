@@ -11,10 +11,13 @@
     <%
         String id=request.getParameter("id");
     %>
-    <title>企业台账</title>
+    <title>企业污染源实时监控</title>
     <jsp:include page="/common/common_ztree.jsp"></jsp:include>
     <script type="text/javascript">
         var enterpriseId='<%=id%>';
+        $(function(){
+            $('#level3MenuContent').html(pageUtils.loading());
+        })
     </script>
     <style>
         .menuDiv h3{
@@ -33,11 +36,6 @@
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/scripts/lookMointor.js"></script>
-<script type="text/javascript">
-    $(function(){
-
-    })
-</script>
+<script type="text/javascript"  charset="utf-8" src="<%=request.getContextPath()%>/container/gov/monitor/enterpriseMointor/scripts/lookMointor.js"></script>
 </body>
 </html>
