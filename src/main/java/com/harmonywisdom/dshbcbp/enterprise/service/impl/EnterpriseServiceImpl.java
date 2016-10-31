@@ -1,13 +1,18 @@
 package com.harmonywisdom.dshbcbp.enterprise.service.impl;
 
-import com.harmonywisdom.apportal.sdk.dictdata.domain.DictData;
 import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
+<<<<<<< Updated upstream
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.dao.*;
+=======
+import com.harmonywisdom.dshbcbp.port.bean.FumesPort;
+>>>>>>> Stashed changes
 import com.harmonywisdom.dshbcbp.port.bean.GasPort;
+import com.harmonywisdom.dshbcbp.port.bean.NoisePort;
+import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
 import com.harmonywisdom.dshbcbp.port.dao.FumesPortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.GasPortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.NoisePortDAO;
@@ -43,34 +48,92 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
     @Override
     public List<DictBean> getEnterprisePortZtree(String id) {
         List<DictBean> dictBeans = new ArrayList<DictBean>();
+
+        Enterprise enterprise = enterpriseDAO.findById(id);
+        dictBeans.add(covertToDictBean(enterprise.getId(),enterprise.getName(),"-1",0));
+
+        Integer serial = 1;
+        /**
+         * 废气排口数据
+         */
         GasPort gasPort = new GasPort();
         gasPort.setEnterpriseId(id);
         List<GasPort> gasPortList = gasPortDAO.findBySample(gasPort);
-        for(int i=0;i<gasPortList.size();i++){
-            dictBeans.add(covertToGasPort(gasPortList.get(i),i));
+        if(gasPortList.size()>0){
+            dictBeans.add(covertToDictBean("gasPort","废气排口",id,serial));
+            serial +=1;
+            for(int i=0;i<gasPortList.size();i++){
+                GasPort gp = gasPortList.get(i);
+                dictBeans.add(covertToDictBean(gp.getId(),gp.getName(),"gasPort",serial));
+                serial +=1;
+            }
         }
+
+        /**
+         * 废水排口数据
+         */
+        WaterPort waterPort = new WaterPort();
+        waterPort.setEnterpriseId(id);
+        List<WaterPort> waterPortList = waterPortDAO.findBySample(waterPort);
+        if(waterPortList.size()>0){
+            dictBeans.add(covertToDictBean("waterPort","废水排口",id,serial));
+            serial +=1;
+            for(int i=0;i<waterPortList.size();i++){
+                WaterPort wp = waterPortList.get(i);
+                dictBeans.add(covertToDictBean(wp.getId(),wp.getName(),"waterPort",serial));
+                serial +=1;
+            }
+        }
+
+        /**
+         * 噪声源
+         */
+        NoisePort noisePort = new NoisePort();
+        noisePort.setEnterpriseId(id);
+        List<NoisePort> noisePortList = noisePortDAO.findBySample(noisePort);
+        if(noisePortList.size()>0){
+            dictBeans.add(covertToDictBean("noisePort","噪声排口",id,serial));
+            serial +=1;
+            for(int i=0;i<noisePortList.size();i++){
+                NoisePort np = noisePortList.get(i);
+                dictBeans.add(covertToDictBean(np.getId(),np.getName(),"noisePort",serial));
+                serial +=1;
+            }
+        }
+
+        /**
+         * 油烟排口数据
+         */
+        FumesPort fumesPort = new FumesPort();
+        fumesPort.setEnterpriseId(id);
+        List<FumesPort> fumesPortList = fumesPortDAO.findBySample(fumesPort);
+        if(fumesPortList.size()>0){
+            dictBeans.add(covertToDictBean("fumesPort","油烟排口",id,serial));
+            serial +=1;
+            for(int i=0;i<fumesPortList.size();i++){
+                FumesPort fp = fumesPortList.get(i);
+                dictBeans.add(covertToDictBean(fp.getId(),fp.getName(),"fumesPort",serial));
+                serial +=1;
+            }
+        }
+
         return dictBeans;
     }
 
     /**
-     * 转换
-     * @param dictData
+     * 转换格式
+     * @param code
+     * @param name
+     * @param parentCode
+     * @param serial
      * @return
      */
-    private DictBean covertToDictBean(DictData dictData) {
+    private DictBean covertToDictBean(String code,String name,String parentCode,Integer serial) {
         DictBean bean = new DictBean();
-        bean.setCode(dictData.getDictdataCode());
-        bean.setName(dictData.getDictdataName());
-        bean.setParentCode(dictData.getDictdataText());
-        bean.setSerial(dictData.getSerialIndex());
-        return bean;
-    }
-    private DictBean covertToGasPort(GasPort gasPort,int index) {
-        DictBean bean = new DictBean();
-        bean.setCode(gasPort.getId());
-        bean.setName(gasPort.getName());
-        bean.setParentCode(gasPort.getEnterpriseId());
-        bean.setSerial(index);
+        bean.setCode(code);
+        bean.setName(name);
+        bean.setParentCode(parentCode);
+        bean.setSerial(serial);
         return bean;
     }
 
