@@ -10,6 +10,12 @@
 <div class="content clearfix">
     <div class="wrap">
         <div class="tree-left left">
+            <div class="input-group input-group-sm" style="z-index: 0;">
+                <input type="text" class="form-control" id="searchText" placeholder="查  询"/>
+                <span class="input-group-btn">
+                        <button class="btn btn-default" id="searchBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
             <div class="ztree oneImageTree">
             </div>
         </div>

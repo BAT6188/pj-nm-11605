@@ -46,6 +46,13 @@ var pageUtils = {
             }
         });
     },
+    getStr:function (str) {
+        if (str){
+            return str;
+        }
+        return ""
+
+    },
     /**
      * 截取字符前10位 日期串获取前10位
      * @param str
@@ -132,7 +139,7 @@ var pageUtils = {
         if(msg!=undefined && msg!=""){
             showMsg = msg;
         }
-        var returnMsg = '<table width=100% height=100% border=0 align=center valign=middle>'
+        var returnMsg = '<table id="loadingHTML" width=100% height=100% border=0 align=center valign=middle>'
         + '<tr height=50%><td align=center>&nbsp;</td></tr>'
         + '<tr><td align=center></td></tr>'
         + '<tr><td align=center>'+showMsg+'</td></tr>'

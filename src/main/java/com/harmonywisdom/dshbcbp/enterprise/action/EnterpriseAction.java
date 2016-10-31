@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.enterprise.action;
 
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
@@ -13,6 +14,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -68,11 +71,18 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         }
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
-        if(StringUtils.isNotBlank(startTime)){
-            param.andParam(new QueryParam("delTime", QueryOperator.GE,startTime));
-        }
-        if(StringUtils.isNotBlank(endTime)){
-            param.andParam(new QueryParam("delTime", QueryOperator.LE,endTime));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            if(StringUtils.isNotBlank(startTime)){
+                Date starttime = sdf.parse(startTime+" 00:00:00");
+                param.andParam(new QueryParam("delTime", QueryOperator.GE,starttime));
+            }
+            if(StringUtils.isNotBlank(endTime)){
+                Date endtime = sdf.parse(endTime+" 23:59:59");
+                param.andParam(new QueryParam("delTime", QueryOperator.LE,endtime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         QueryCondition condition = new QueryCondition();
@@ -133,8 +143,29 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         write(String.format("{\"success\": true, \"id\": \"%s\"}", entity.getId()));
     }
 
-    public void getAll(){
-        List<Enterprise> enterprises = getService().findAll();
-        write(enterprises);
+    public void findByIds(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            List<Enterprise> list = getService().findByIds(ids);
+            write(list);
+        }
+    }
+
+    /**
+     * 获取排口树结构
+     */
+    public void getEnterprisePortZtree(){
+        String code = request.getParameter("code");
+        if(StringUtils.isNotBlank(code)){
+            write(enterpriseService.getEnterprisePortZtree(code));
+        }else{
+            DictBean bean = new DictBean();
+            bean.setCode(code);
+            bean.setName("没有查询到数据!");
+            bean.setParentCode("-1");
+            bean.setSerial(0);
+            write(bean);
+        }
+
     }
 }

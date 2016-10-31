@@ -10,6 +10,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class BlockAction extends BaseAction<Block, BlockService> {
     @AutoService
     private BlockService blockService;
@@ -65,5 +67,13 @@ public class BlockAction extends BaseAction<Block, BlockService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    public void findByIds(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            List<Block> list = getService().findByIds(ids);
+            write(list);
+        }
     }
 }

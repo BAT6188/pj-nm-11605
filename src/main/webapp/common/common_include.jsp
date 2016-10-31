@@ -72,7 +72,7 @@
 <script src="<%=request.getContextPath()%>/common/scripts/bootstrap-datetimepicker2.3.11/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
 <script src="<%=request.getContextPath()%>/common/scripts/easyform/easyform.js"></script>
-<script src="<%=request.getContextPath()%>/common/scripts/userDefined.js"></script>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/common/scripts/userDefined.js"></script>
 <script src="${pageContext.request.contextPath}/common/scripts/highcharts/highcharts.js"></script>
 <script src="${pageContext.request.contextPath}/common/scripts/highcharts/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.js"></script>

@@ -52,4 +52,15 @@ public class BlockLevelAction extends BaseAction<BlockLevel, BlockLevelService> 
         List<Block> levels = getService().getBlock();
         write(levels);
     }
+
+    /**
+     * 获取一张图页面tree
+     */
+    public void getOneImageTree(){
+        String searText = request.getParameter("searchText");
+        List<ZNodeDTO> znodes = getService().getOneImageTree(searText);
+        write(znodes);
+
+
+    }
 }

@@ -78,4 +78,11 @@ public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
         }
         super.delete();
     }
+
+    /**
+     * 根据ID获取排口信息
+     */
+    public void getEntityById(){
+        write(fumesPortService.findById(entity.getId()));
+    }
 }

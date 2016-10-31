@@ -218,6 +218,7 @@ var ef = form.easyform({
 });
 //绑定markDialog关闭事件
 MapMarkDialog.closed(function (mark) {
+    console.log(mark);
     if (mark) {
         $("#longitude").val(mark.x);
         $("#latitude").val(mark.y);
@@ -228,7 +229,7 @@ MapMarkDialog.closed(function (mark) {
 });
 $('#mapMarkBtn').bind('click', function () {
     //设置标绘模式
-    MapMarkDialog.setMode("point");
+    MapMarkDialog.setMode("polygon");
     MapMarkDialog.open();
 });
 

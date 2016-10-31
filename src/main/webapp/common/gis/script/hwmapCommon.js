@@ -123,6 +123,27 @@ HwmapCommon = {
             }
             return {x: xSum / count, y: ySum / count};
         };
+        /**
+         * 字符转坐标对象
+         * @param str 坐标之间用;分隔，经纬度之间用,分隔
+         * @returns {Array}
+         */
+        this.MapTools.strToPoints = function (str) {
+
+            if (!str || str.indexOf(",") <= 0 || str.indexOf(";") <= 0) {
+                return;
+            }
+            var points = [];
+            var pointStrArr = str.split(";");
+            for(var i = 0; i < pointStrArr.length; i++) {
+                var xyStr = pointStrArr[i];
+                if (xyStr && xyStr.indexOf(",") > 0) {
+                    var xy = xyStr.split(",");
+                    points.push({x: parseFloat(xy[0]), y: parseFloat(xy[1])});
+                }
+            }
+            return points;
+        };
         //添加默认图层
         this.addLayer(this.DEFALUT_LAYER_ID);
 

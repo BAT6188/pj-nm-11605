@@ -29,6 +29,18 @@ public class DustPort implements Serializable {
     private String name;
 
     /**
+     * 经度
+     */
+    @Column(name = "longitude")
+    private Double longitude;
+
+    /**
+     * 纬度
+     */
+    @Column(name = "latitude")
+    private Double latitude;
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -302,5 +314,21 @@ public class DustPort implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 }

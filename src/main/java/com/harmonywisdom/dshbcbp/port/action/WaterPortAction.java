@@ -78,4 +78,11 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
         }
         super.delete();
     }
+
+    /**
+     * 根据ID获取排口信息
+     */
+    public void getEntityById(){
+        write(waterPortService.findById(entity.getId()));
+    }
 }

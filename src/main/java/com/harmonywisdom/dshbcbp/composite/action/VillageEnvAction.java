@@ -10,6 +10,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class VillageEnvAction extends BaseAction<VillageEnv, VillageEnvService> {
     @AutoService
     private VillageEnvService villageEnvService;
@@ -61,6 +63,14 @@ public class VillageEnvAction extends BaseAction<VillageEnv, VillageEnvService> 
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    public void findByIds(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            List<VillageEnv> list = getService().findByIds(ids);
+            write(list);
+        }
     }
 
 }

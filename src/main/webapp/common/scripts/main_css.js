@@ -23,11 +23,9 @@ $("#level2content").bind("mouseleave",
     function(e) {
         var w = $(this).width();
         var h = $(this).height();
-        console.log("mouse:" + e.pageX + "," + e.pageY);
         if (e.pageX > 10) {
             return;
         }
-        //console.log("offset:" + this.offsetLeft + "," + this.offsetTop);
         var x = (e.pageX - this.offsetLeft - (w / 2)) * (w > h ? (h / w) : 1);
         var y = (e.pageY - this.offsetTop - (h / 2)) * (h > w ? (w / h) : 1);
         var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
