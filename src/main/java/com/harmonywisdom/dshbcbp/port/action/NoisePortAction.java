@@ -12,6 +12,7 @@ import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
     @AutoService
@@ -87,5 +88,13 @@ public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
      */
     public void getEntityById(){
         write(noisePortService.findById(entity.getId()));
+    }
+
+    public void findByIds(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            List<NoisePort> list = getService().findByIds(ids);
+            write(list);
+        }
     }
 }

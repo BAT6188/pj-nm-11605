@@ -78,20 +78,18 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/enterpriseMointor/lookMonitor.jsp?id='+row.id+'\')">查看</button> ' +
-        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookInMap">地图查看</button>';
+        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" onclick="lookInMap(\''+row.id+'\')">地图查看</button>';
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('#level2content').load(rootPath+url); // ajax加载页面
 }
 // 列表操作事件
-window.operateEvents = {
-    'click .view': function (e, value, row, index) {
-        $('.saveBtn').hide();
-        $('.lookBtn').show();
-        setFormView(row);
-    }
-};
+function lookInMap(id){
+    alert("111111");
+    MapDialog.loadEnterprise(id);
+    MapDialog.open();
+}
 /**
  * 获取列表所有的选中数据id
  * @returns {*}

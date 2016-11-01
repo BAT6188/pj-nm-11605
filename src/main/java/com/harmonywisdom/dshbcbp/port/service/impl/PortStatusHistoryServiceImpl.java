@@ -54,20 +54,11 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         } else if(lastXdate != null && !"".equals(lastXdate)) {
             whereSql += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startXdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastXdate + "'";
         }
-        whereSql += " GROUP BY MONTH";
+        whereSql += "GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
 
-        String whereSql2 = " where 1=1 ";
-        whereSql2 += "AND STATUS='1'";
-        if(name != null && !"".equals(name)){
-            whereSql2 += "AND enterprise_name LIKE '%" + name + "%'";
-        }else if( startSdate !=null && !"".equals(startSdate)){
-            whereSql2 += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
-        } else if(lastSdate != null && !"".equals(lastSdate)) {
-            whereSql2 += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startSdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
-        }
-        whereSql2 += " GROUP BY MONTH";
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql2);
+
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
 
         List<Object[]> temp = new ArrayList<>();
         if (list2.size() < list.size()) {

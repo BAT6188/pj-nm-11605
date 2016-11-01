@@ -25,7 +25,7 @@
     <%--select--%>
     <%--<jsp:include page="/common/common_select.jsp" flush="true"/>--%>
     <script type="text/javascript">
-        var enterpriseId=enterpriseData.id;
+        var enterpriseId;
         var handleTypeValue = "<%=handleType%>";
         handleType = handleTypeValue=="null"?handleType:handleTypeValue;
     </script>
