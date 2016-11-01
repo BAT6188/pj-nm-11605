@@ -86,13 +86,7 @@ function setDialogTypeOne(dialog,options,callback){
                 rootPId: "-1",
             }
         },
-        async: {
-            enable: true,
-            url:rootPath + "/S_dict_Dict_getOrgPersonList.action",//"/container/gov/dispatch/selectPeople.json"
-            autoParam:["id", "name=n", "level=lv"],
-            otherParam:{"orgCode":orgCode},
-            dataFilter: filter
-        },
+        async: asyncData,
         callback: {
             onClick: zTreeOnClick
         }
