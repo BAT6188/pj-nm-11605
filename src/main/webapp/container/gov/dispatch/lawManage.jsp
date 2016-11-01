@@ -39,22 +39,27 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="enterpriseName">企业名称：</label> <input type="text" id="search_enterpriseName" name="search_enterpriseName" class="form-control" />
+                            <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="s_enterpriseName" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="search_source">信息来源：</label>
-                            <select id="search_source" name="search_source" class="form-control" style="width: 266px;">
+                            <label for="s_source">信息来源：</label>
+                            <select id="s_source" name="s_source" class="form-control" style="width: 266px;">
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
                                 <option value="3">市长热线</option>
+                                <option value="4">市现场监管</option>
+                                <option value="5">监控中心</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="search_status">反馈状态：</label>
-                            <select id="search_status" name="search_source" class="form-control" style="width: 266px;">
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
+                            <label for="s_status">反馈状态：</label>
+                            <select id="s_status" name="s_status" class="form-control" style="width: 266px;">
+                                <option value="1">未调度</option>
+                                <option value="2">已发送</option>
+                                <option value="3">已反馈</option>
+                                <option value="4">已处罚</option>
+                                <option value="5"已办结</option>
+
                             </select>
                         </div>
                     </form>
@@ -76,18 +81,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">所属区域：</label>
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id=""  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
+                            <label for="blockLevelId">所属区域：</label>
+                            <select id="blockLevelId" name="blockLevelId" class="form-control" style="width: 266px;">
+                            </select>
                             -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id=""  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
+                            <select id="blockId" name="blockId" class="form-control" style="width: 266px;">
+                            </select>
                         </div>
 
                     </form>
@@ -539,6 +538,7 @@
 
 
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/lawManage.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/selectPeople.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>
 </body>

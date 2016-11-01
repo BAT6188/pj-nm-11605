@@ -7,10 +7,11 @@ var gridTable = $('#table'),
 
 
 
-//保存表单ajax请求
+//保存ajax请求
 function saveAjax(entity, callback) {
+    console.log("点击保存并且发送按钮："+JSON.stringify(entity))
     $.ajax({
-        url: rootPath + "/action/S_exelaw_PollutantPayment_save.action",
+        url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +25,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_exelaw_PollutantPayment_delete.action",
+        url: rootPath + "/action/S_exelaw_TrustMonitor_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +37,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_exelaw_PollutantPayment_list.action",
+        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,13 +60,6 @@ function initTable() {
                 visible:false
             },
             {
-                field: 'enterpriseId',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                visible:false
-            },
-            {
                 title: '企业名称',
                 field: 'enterpriseName',
                 editable: false,
@@ -73,66 +67,35 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '企业法人',
-                field: 'enterpriseAP',
+                title: '监测内容',
+                field: 'monitorContent',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '监测时间',
+                field: 'monitorTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '申请人',
+                field: 'applicant',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '联系方式',
-                field: 'apPhone',
+                field: 'applicantPhone',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '缴费金额',
-                field: 'payMoney',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '登记日期',
-                field: 'registDate',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '缴费日期',
-                field: 'payDate',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '距缴费日期',
-                field: 'rangeDays',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '缴费状态',
-                field: 'paymentStatus',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    if (0==value){
-                        value="未缴费"
-                    }else if(1==value){
-                        value="已缴费"
-                    }else if(2==value){
-                        value="未按时缴费"
-                    }
-                    return value;
-                }
-            },
-            {
-                field: 'operate',
+                field: '反馈详情',
                 title: '操作',
                 align: 'center',
                 events: operateEvents,
@@ -173,7 +136,6 @@ window.operateEvents = {
         setFormView(row);
     }
 };
-
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -235,97 +197,22 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
-    var paymentStatus = $("#s_paymentStatus").val();
-    if (enterpriseName){
-        queryParams["enterpriseName"] = enterpriseName;
+    var s_enterpriseName = $("#s_enterpriseName").val();
+    var start_monitorTime = $("#start_monitorTime").val();
+    var end_monitorTime = $("#end_monitorTime").val();
+    if (s_enterpriseName){
+        queryParams["enterpriseName"] = s_enterpriseName;
     }
-    if (paymentStatus){
-        queryParams["paymentStatus"] = paymentStatus;
+    if (start_monitorTime){
+        queryParams["start_monitorTime"] = start_monitorTime;
     }
-    search(queryParams)
-});
-
-function search(queryParams) {
+    if (end_monitorTime){
+        queryParams["end_monitorTime"] = end_monitorTime;
+    }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
-}
-
-
-
-/**
- * 按时间查询表单
- * @type {*|jQuery|HTMLElement}
- */
-var yearUl = $('#year');
-
-var year = new Date().getFullYear();
-for ( var i = year; i >=2014; i--) {
-    $("<li class='year'><a href='#'>" + i + "</a></li>").appendTo(yearUl);
-}
-
-var dropdownMenu = $("#dropdownMenu");
-//按年份查询
-dropdownMenu.find("#year .year").bind('click',function(){
-    var year = parseInt($(this).text());
-    $('#selYear').text(year);
-    var startYdate = year +　'-'+'01' + '-'+'01';
-    var lastYdate = year + '-'+ '12' + '-'+ '31';
-    search({
-        startYdate:startYdate,
-        lastYdate:lastYdate
-
-    });
 });
-
-//按季度查询
-dropdownMenu.find(".tm").bind('click',function(){
-    var seasons= $(this).text();
-    var selYear = $('#selYear').text();
-    if(selYear == "年份"){
-        Ewin.confirm({ message: "请选择年份!" });
-        return ;
-    }
-    if(seasons == "第一季度"){
-        var startYdate = selYear + '-' +'01' + '-' + '01' ;
-        var lastYdate = selYear + '-' + '03' + '-' + '31';
-    }else if(seasons == "第二季度"){
-        var startYdate= selYear + '-' + '04' + '-' + '01';
-        var lastYdate = selYear + '-' + '06' + '-' + '30';
-    }else if(seasons == "第三季度"){
-        var startYdate = selYear + '-' + '07' + '-'+ '01';
-        var lastYdate = selYear + '-' + '09' + '-' + '30';
-    }else if(seasons = "第四季度"){
-        var startYdate = selYear + '-' + '10' + '-' + '01';
-        var lastYdate = selYear + '-' + '12' + '-'+ '31';
-    }
-    // search(startSdate, lastSdate);
-    search({
-        startYdate:startYdate,
-        lastYdate:lastYdate
-
-    });
-});
-
-//按月份查询
-dropdownMenu.find("li[class='month']").bind("click", function() {
-    var mNum = parseInt(this.value);
-    var m = mNum > 9 ? mNum : ("0"+mNum);
-    var selYear = $('#selYear').text();
-    if(selYear == "年份"){
-        Ewin.confirm({ message: "请选择年份!" });
-        return;
-    }
-    var  day = new Date(selYear,m,0);
-    var startYdate = selYear +'-'+ m + '-'+'01';
-    var lastYdate = selYear + '-' + m + '-' + day.getDate();//获取当月最后一天日期
-    search({
-        startYdate:startYdate,
-        lastYdate:lastYdate
-    });
-});
-
 
 //初始化日期组件
 $('.form_datetime').datetimepicker({
@@ -345,8 +232,6 @@ $('.form_datetime').datetimepicker({
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
-        console.info("保存表单数据："+JSON.stringify(entity))
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -354,8 +239,9 @@ var ef = form.easyform({
     }
 });
 
+
 //表单 保存按钮
-$("#save").bind('click',function () {
+$("#saveAndSend").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -370,22 +256,17 @@ function setFormData(entity) {
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-
     $("#enterpriseName").val(entity.enterpriseName);
     $("#enterpriseId").val(entity.enterpriseId);
+    $("#monitorContent").val(entity.monitorContent);
+    $("#applyOrg").val(entity.applyOrg);
+    $("#applicant").val(entity.applicant);
+    $("#applicantPhone").val(entity.applicantPhone);
+    $("#monitorTime").val(entity.monitorTime);
+    $("#trustOrgAddress").val(entity.trustOrgAddress);
+    $("#monitorAddress").val(entity.monitorAddress);
+    $("#monitorContentDetail").val(entity.monitorContentDetail);
 
-    $("#enterpriseAP").val(entity.enterpriseAP);
-    $("#apPhone").val(entity.apPhone);
-    $("#payMoney").val(entity.payMoney);
-
-    $("#registDate").val(entity.registDate);
-    $("#payDate").val(entity.payDate);
-    $("#alertDate").val(entity.alertDate);
-    $("#realertDate").val(entity.realertDate);
-    $("#paymentStatus").val(entity.paymentStatus);
-    $("#remark").val(entity.remark);
-
-    uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
     setFormData(entity);
@@ -395,18 +276,11 @@ function setFormView(entity) {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
-    uploader = new qq.FineUploader(fuOptions);
-    $(".qq-upload-button").hide();
-    form.find("#save").hide();
+    form.find("#saveAndSend").hide();
     form.find(".btn-cancel").text("关闭");
 }
-/**
- * 禁用表单
- * @param disabled  true,false
- */
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
-    form.find("select").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
@@ -431,9 +305,10 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
-    uploader = new qq.FineUploader(getUploaderOptions());
+    form.find("textarea").val("");
+    form.find("#applicant").val(userName)
     disabledForm(false);
-    form.find("#save").show();
+    form.find("#saveAndSend").show();
     form.find(".btn-cancel").text("取消");
 }
 
@@ -533,7 +408,7 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 });
 
 /**
- * Autocomplete
+ * Autocomplete  enterpriseName
  */
 $( function() {
 
@@ -553,6 +428,8 @@ $( function() {
                             var ui={};
                             ui.id=data.rows[i].id
                             ui.value=data.rows[i].name
+                            ui.envPrincipal=data.rows[i].envPrincipal
+                            ui.epPhone=data.rows[i].epPhone
                             result.push(ui);
                         }
                         response( result);
@@ -563,10 +440,9 @@ $( function() {
         select: function( event, ui ) {
             console.info(ui.item.id)
             $("#enterpriseId").val(ui.item.id)
+            $("#supervisor").val(ui.item.envPrincipal)
+            $("#supervisorPhone").val(ui.item.epPhone)
         },
     } );
-} );
 
-$(function () {
-    //设置提醒
-})
+} );

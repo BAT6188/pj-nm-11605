@@ -1,11 +1,22 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.apportal.sdk.org.IOrg;
+import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.IPerson;
+import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.role.IRole;
+import com.harmonywisdom.apportal.sdk.role.RoleServiceUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispathTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
+import com.harmonywisdom.framework.dao.QueryCondition;
+import com.harmonywisdom.framework.dao.QueryOperator;
+import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +35,51 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
 
     @AutoService
     private MonitorCaseService monitorCaseService;
+
+    /**
+     * 根据 组织机构和人员角色 获得 环保站组织机构和环保站站长角色的人员
+     */
+    public void getStreetLeaderList(){
+        List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId("402883b3577422f00157f9d874d103e9");
+        for (IOrg org : orgs) {
+            List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(org.getOrgId());
+            for (IPerson person : persons) {
+                List<IRole> roles = RoleServiceUtil.getRoleByUserId(person.getUserId());
+                for (IRole role : roles) {
+                    if ("streetLeader".equals(role.getRoleCode())){
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Override
+    protected QueryCondition getQueryCondition() {
+
+        QueryParam params = new QueryParam();
+
+        //根据登录人员角色和userId 筛选 只 执法管理领导 能够看到的数据
+        IPerson person = ApportalUtil.getPerson(request);
+        String userId = person.getUserId();
+        List<IRole> role = ApportalUtil.getRoleByPersonId(request);
+        for (IRole r : role) {
+            String roleCode = r.getRoleCode();
+            if ("exelawLeader".equals(roleCode)){
+                params.andParam(new QueryParam("selectPeopleIds", QueryOperator.LIKE,"%"+userId+"%"));
+                log.debug("根据登录人员角色和userId 筛选 只有 执法管理领导 能够看到的数据: 登录人员的userId为"+userId);
+            }
+        }
+
+
+        QueryCondition condition = new QueryCondition();
+        if (params.getField() != null) {
+            condition.setParam(params);
+        }
+        condition.setPaging(getPaging());
+        return condition;
+    }
 
     @Override
     protected DispathTaskService getService() {

@@ -1,4 +1,4 @@
-package com.harmonywisdom.dshbcbp.detect.bean;
+package com.harmonywisdom.dshbcbp.exelaw.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,21 +19,39 @@ public class TrustMonitor implements Serializable {
     @Column(length = 32)
     private String id;
 
-    /**
-     * 标题
-     */
-    @Column(name = "title")
-    private String title;
 
     @Column(name = "enterprise_id", length = 32)
     private String enterpriseId;
+
+    @Column(name = "enterprise_name", length = 100)
+    private String enterpriseName;
+
+
+    /**
+     * 申请单位
+     */
+    @Column(name = "apply_org")
+    private String applyOrg;
+
+    /**
+     * 申请人
+     */
+    @Column(name = "applicant")
+    private String applicant;
+
+    /**
+     * 申请人联系方式
+     */
+    @Column(name = "applicant_phone", length = 11)
+    private String applicantPhone;
+
     /**
      * 委托单位
      */
     @Column(name = "trust_org")
     private String trustOrg;
     /**
-     * 单位地址
+     * 委托单位地点
      */
     @Column(name = "trust_org_address")
     private String trustOrgAddress;
@@ -43,7 +61,7 @@ public class TrustMonitor implements Serializable {
     @Column(name = "truster")
     private String truster;
     /**
-     * 联系方式
+     * 委托人联系方式
      */
     @Column(name = "truster_phone", length = 11)
     private String trusterPhone;
@@ -53,15 +71,22 @@ public class TrustMonitor implements Serializable {
     @Column(name = "monitor_time")
     private Date monitorTime;
     /**
-     * 监测地址
+     * 监测地点
      */
     @Column(name = "monitor_address")
     private String monitorAddress;
     /**
-     * 监测内容详情
+     * 监测内容
      */
     @Column(name = "monitor_content")
     private String monitorContent;
+
+    /**
+     * 监测内容详情
+     */
+    @Column(name = "monitor_content_detail")
+    private String monitorContentDetail;
+
     /**
      * 审核人
      */
@@ -124,12 +149,36 @@ public class TrustMonitor implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getEnterpriseName() {
+        return enterpriseName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getApplyOrg() {
+        return applyOrg;
+    }
+
+    public void setApplyOrg(String applyOrg) {
+        this.applyOrg = applyOrg;
+    }
+
+    public String getApplicant() {
+        return applicant;
+    }
+
+    public void setApplicant(String applicant) {
+        this.applicant = applicant;
+    }
+
+    public String getApplicantPhone() {
+        return applicantPhone;
+    }
+
+    public void setApplicantPhone(String applicantPhone) {
+        this.applicantPhone = applicantPhone;
     }
 
     public String getEnterpriseId() {
@@ -282,5 +331,13 @@ public class TrustMonitor implements Serializable {
 
     public void setReportAttrId(int reportAttrId) {
         this.reportAttrId = reportAttrId;
+    }
+
+    public String getMonitorContentDetail() {
+        return monitorContentDetail;
+    }
+
+    public void setMonitorContentDetail(String monitorContentDetail) {
+        this.monitorContentDetail = monitorContentDetail;
     }
 }

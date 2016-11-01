@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.exelaw.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.exelaw.bean.PollutantPayment;
 import com.harmonywisdom.dshbcbp.exelaw.service.PollutantPaymentService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -27,6 +28,11 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
 
     @Override
     protected QueryCondition getQueryCondition() {
+        String startYdate = request.getParameter("startYdate");
+
+        String lastYdate = request.getParameter("lastYdate");
+
+
         QueryParam params = new QueryParam();
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
             params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
@@ -36,11 +42,21 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
             params.andParam(new QueryParam("paymentStatus", QueryOperator.EQ,entity.getPaymentStatus()));
         }
 
+        if (StringUtils.isNotBlank(startYdate)) {
+            startYdate+=" 00:00:00";
+            params.andParam(new QueryParam("payDate", QueryOperator.GE, DateUtil.strToDate(startYdate,"yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotBlank(lastYdate)) {
+            lastYdate+="23:59:59";
+            params.andParam(new QueryParam("payDate", QueryOperator.LE, DateUtil.strToDate(lastYdate,"yyyy-MM-dd")));
+        }
+
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("registDate", Direction.DESC);
         return condition;
     }
 
