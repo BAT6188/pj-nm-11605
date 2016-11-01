@@ -6,9 +6,6 @@ var gridTable = $('#table'),
     formTitle = "事件信息",
     selections = [];
 
-loadBlockLevelAndBlockOption()
-
-
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -291,8 +288,15 @@ $("#search").click(function () {
     var search_source = $("#search_source").val();
     var startConnTime=$("#start_connTime").val()
     var endConnTime=$("#end_connTime").val()
+    var blockLevelId=$(".s_blockLevelId").val()
+    var blockId=$(".s_blockId").val()
 
-    // var status = pageUtils.getRadioValue("s_status");
+    if (blockLevelId){
+        queryParams["blockLevelId"] = blockLevelId;
+    }
+    if (blockId){
+        queryParams["blockId"] = blockId;
+    }
     if (search_enterpriseName){
         queryParams["enterpriseName"] = search_enterpriseName;
     }
@@ -808,6 +812,12 @@ $("#overBtn").click(function () {
         });
 
     })
+})
+
+$(document).ready(function () {
+    var optionsSetting={code:"orgId",name:"orgName"}
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
+    loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
 })
 
 
