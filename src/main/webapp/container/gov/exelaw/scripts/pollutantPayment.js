@@ -130,6 +130,13 @@ function initTable() {
                     }
                     return value;
                 }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
             }
 
         ]
@@ -155,6 +162,17 @@ function initTable() {
         });
     });
 }
+
+// 生成列表操作方法
+function operateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+}
+// 列表操作事件
+window.operateEvents = {
+    'click .view': function (e, value, row, index) {
+        setFormView(row);
+    }
+};
 
 /**
  * 获取列表所有的选中数据id
@@ -225,10 +243,89 @@ $("#search").click(function () {
     if (paymentStatus){
         queryParams["paymentStatus"] = paymentStatus;
     }
+    search(queryParams)
+});
+
+function search(queryParams) {
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
+}
+
+
+
+/**
+ * 按时间查询表单
+ * @type {*|jQuery|HTMLElement}
+ */
+var yearUl = $('#year');
+
+var year = new Date().getFullYear();
+for ( var i = year; i >=2014; i--) {
+    $("<li class='year'><a href='#'>" + i + "</a></li>").appendTo(yearUl);
+}
+
+var dropdownMenu = $("#dropdownMenu");
+//按年份查询
+dropdownMenu.find("#year .year").bind('click',function(){
+    var year = parseInt($(this).text());
+    $('#selYear').text(year);
+    var startYdate = year +　'-'+'01' + '-'+'01';
+    var lastYdate = year + '-'+ '12' + '-'+ '31';
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+
+    });
 });
+
+//按季度查询
+dropdownMenu.find(".tm").bind('click',function(){
+    var seasons= $(this).text();
+    var selYear = $('#selYear').text();
+    if(selYear == "年份"){
+        Ewin.confirm({ message: "请选择年份!" });
+        return ;
+    }
+    if(seasons == "第一季度"){
+        var startYdate = selYear + '-' +'01' + '-' + '01' ;
+        var lastYdate = selYear + '-' + '03' + '-' + '31';
+    }else if(seasons == "第二季度"){
+        var startYdate= selYear + '-' + '04' + '-' + '01';
+        var lastYdate = selYear + '-' + '06' + '-' + '30';
+    }else if(seasons == "第三季度"){
+        var startYdate = selYear + '-' + '07' + '-'+ '01';
+        var lastYdate = selYear + '-' + '09' + '-' + '30';
+    }else if(seasons = "第四季度"){
+        var startYdate = selYear + '-' + '10' + '-' + '01';
+        var lastYdate = selYear + '-' + '12' + '-'+ '31';
+    }
+    // search(startSdate, lastSdate);
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+
+    });
+});
+
+//按月份查询
+dropdownMenu.find("li[class='month']").bind("click", function() {
+    var mNum = parseInt(this.value);
+    var m = mNum > 9 ? mNum : ("0"+mNum);
+    var selYear = $('#selYear').text();
+    if(selYear == "年份"){
+        Ewin.confirm({ message: "请选择年份!" });
+        return;
+    }
+    var  day = new Date(selYear,m,0);
+    var startYdate = selYear +'-'+ m + '-'+'01';
+    var lastYdate = selYear + '-' + m + '-' + day.getDate();//获取当月最后一天日期
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+    });
+});
+
 
 //初始化日期组件
 $('.form_datetime').datetimepicker({
@@ -292,7 +389,6 @@ function setFormData(entity) {
 }
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -310,6 +406,8 @@ function setFormView(entity) {
  */
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
