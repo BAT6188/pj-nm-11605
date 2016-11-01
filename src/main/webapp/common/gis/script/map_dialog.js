@@ -47,7 +47,7 @@ var MapDialog = {
             return false;
         }
         var that = this;
-        this.hwmap.addMarker({
+        that.hwmap.addMarker({
             id:enterprise.id,
             data:enterprise,
             imgSrc:"images/markers/company.png",
