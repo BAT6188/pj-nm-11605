@@ -23,6 +23,22 @@ public class Enterprise implements Serializable {
     private String name;
 
     /**
+     * 网格级别，数据库只保存id，name一般情况下不保存
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+
+    /**
+     * 所属网格，数据库只保存id，name一般情况下不保存
+     */
+    @Column(name = "block_id", length = 32)
+    private String blockId;
+    @Column(name = "block_name")
+    private String blockName;
+
+    /**
      * 企业运行状态
      * 1:运行中
      * 2:已停产
@@ -632,5 +648,37 @@ public class Enterprise implements Serializable {
 
     public void setRelateGrid(String relateGrid) {
         this.relateGrid = relateGrid;
+    }
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 }
