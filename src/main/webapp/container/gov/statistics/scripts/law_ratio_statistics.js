@@ -517,7 +517,7 @@ $(function(){
                 type: 'pie'
             },
             title: {
-                text: '2015年上半年执法统计'
+                text: '2016年上半年执法统计'
             },
             plotOptions: {
                 pie: {
