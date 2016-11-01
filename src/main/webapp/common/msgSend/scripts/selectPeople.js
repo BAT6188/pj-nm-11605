@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2016/10/17.
  */
+var sourceId_msgSend //源id
 (function($){
     $.fn.MsgSend = {
         init:function(type,options,callback){
@@ -23,7 +24,8 @@
             dialog.find('#formTitle').html(options.title);
             setDialogTypeOne(dialog,options.orgCode,callback);
             var msgSendTools = {
-                open:function(){
+                open:function(sourceId){
+                    sourceId_msgSend=sourceId;
                     dialog.modal('show');
                 }
             }
@@ -42,7 +44,7 @@ function setDialogTypeOne(dialog,orgCode,callback){
                 Ewin.alert("请选择人员");
                 return;
             }
-            callback(true,ids);
+            callback(true,ids,sourceId_msgSend);
             removeFromGrid();
             dialog.modal('hide');
         });
