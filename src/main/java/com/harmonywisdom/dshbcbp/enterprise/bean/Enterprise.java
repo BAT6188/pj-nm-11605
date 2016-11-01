@@ -23,7 +23,7 @@ public class Enterprise implements Serializable {
     private String name;
 
     /**
-     * 网格级别，数据库只保存id，name一般情况下不保存
+     * 网格级别
      */
     @Column(name = "block_level_id")
     private String blockLevelId;
@@ -31,7 +31,7 @@ public class Enterprise implements Serializable {
     private String blockLevelName;
 
     /**
-     * 所属网格，数据库只保存id，name一般情况下不保存
+     * 所属网格
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
