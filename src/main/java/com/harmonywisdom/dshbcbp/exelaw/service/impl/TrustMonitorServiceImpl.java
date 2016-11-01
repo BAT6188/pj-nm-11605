@@ -1,8 +1,8 @@
-package com.harmonywisdom.dshbcbp.detect.service.impl;
+package com.harmonywisdom.dshbcbp.exelaw.service.impl;
 
-import com.harmonywisdom.dshbcbp.detect.bean.TrustMonitor;
-import com.harmonywisdom.dshbcbp.detect.dao.TrustMonitorDAO;
-import com.harmonywisdom.dshbcbp.detect.service.TrustMonitorService;
+import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
+import com.harmonywisdom.dshbcbp.exelaw.dao.TrustMonitorDAO;
+import com.harmonywisdom.dshbcbp.exelaw.service.TrustMonitorService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;

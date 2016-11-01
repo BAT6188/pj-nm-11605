@@ -1,6 +1,6 @@
-package com.harmonywisdom.dshbcbp.detect.service;
+package com.harmonywisdom.dshbcbp.exelaw.service;
 
-import com.harmonywisdom.dshbcbp.detect.bean.TrustMonitor;
+import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
 import com.harmonywisdom.framework.service.IBaseService;
 
 public interface TrustMonitorService extends IBaseService<TrustMonitor, String> {

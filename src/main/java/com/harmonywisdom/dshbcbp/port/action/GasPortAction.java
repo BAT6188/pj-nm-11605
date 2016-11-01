@@ -77,4 +77,11 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
         }
         super.delete();
     }
+
+    /**
+     * 根据ID获取排口信息
+     */
+    public void getEntityById(){
+        write(gasPortService.findById(entity.getId()));
+    }
 }

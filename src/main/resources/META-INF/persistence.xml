@@ -73,6 +73,7 @@
         <class>com.harmonywisdom.dshbcbp.exelaw.bean.ProblemCorrect</class>
         <class>com.harmonywisdom.dshbcbp.exelaw.bean.PollutantPayment</class>
         <class>com.harmonywisdom.dshbcbp.exelaw.bean.SelfCheckReport</class>
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor</class>
 
         <!--调度系统-->
         <class>com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase</class>
@@ -81,7 +82,6 @@
 
         <!--综合监测-->
         <class>com.harmonywisdom.dshbcbp.detect.bean.Schedule</class>
-        <class>com.harmonywisdom.dshbcbp.detect.bean.TrustMonitor</class>
         <class>com.harmonywisdom.dshbcbp.detect.bean.EntMonitorTask</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

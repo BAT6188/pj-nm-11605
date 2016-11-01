@@ -6,8 +6,11 @@ import com.harmonywisdom.dshbcbp.port.service.PortStatusHistoryService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.vendor.OpenJpaDialect;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         return portStatusHistoryDAO;
     }
 
+
     /**
      * 超标柱状图数据
      * @param firstTime
@@ -29,17 +33,73 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
      */
     @Override
     public List<Object[]> findColumnData(String name,String firstTime, String lastTime) {
+        String whereSql = " AND 1=1 ";
+        whereSql += "AND STATUS='1'";
+        if(name != null && !"".equals(name)){
+            whereSql += "AND enterprise_name LIKE '%" + name + "%'";
+        }
+        whereSql += " GROUP BY MONTH";
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history` where DATE_FORMAT(start_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
+        return list;
+    }
+
+    @Override
+    public List<Object[]> findColumnRatio(String name, String startXdate, String lastXdate, String startSdate, String lastSdate) {
         String whereSql = " where 1=1 ";
         whereSql += "AND STATUS='1'";
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
-        }else if( firstTime !=null && !"".equals(firstTime)){
-            whereSql += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastTime + "'";
-        } else if(lastTime != null && !"".equals(lastTime)) {
-            whereSql += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + firstTime + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastTime + "'";
+        }else if( startXdate !=null && !"".equals(startXdate)){
+            whereSql += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + startXdate + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastXdate + "'";
+        } else if(lastXdate != null && !"".equals(lastXdate)) {
+            whereSql += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startXdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastXdate + "'";
         }
         whereSql += " GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
-        return list;
+
+        String whereSql2 = " where 1=1 ";
+        whereSql2 += "AND STATUS='1'";
+        if(name != null && !"".equals(name)){
+            whereSql2 += "AND enterprise_name LIKE '%" + name + "%'";
+        }else if( startSdate !=null && !"".equals(startSdate)){
+            whereSql2 += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
+        } else if(lastSdate != null && !"".equals(lastSdate)) {
+            whereSql2 += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startSdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
+        }
+        whereSql2 += " GROUP BY MONTH";
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql2);
+
+        List<Object[]> temp = new ArrayList<>();
+        if (list2.size() < list.size()) {
+            temp = list2;
+            list2 = list;
+            list = temp;
+        }
+        for (int i = 0; i < list2.size(); i++) {
+            Object[] a = list2.get(i);
+            String month = a[0].toString();
+            boolean flag = false;
+            for (int j = 0; j < list.size(); j++) {
+                Object[] b = list.get(j);
+                String month2 = b[0].toString();
+                if (month.equals(month2)) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                list.add(i,new Object[]{month,"0"});
+            }
+        }
+        List<Object[]> sList = new ArrayList<>();
+        for (int i =0; i < list.size(); i++) {
+            Object Obj[] = list.get(i);
+            Object Obj2[] = list2.get(i);
+            Object [] cc = {Obj[0],Obj[1],Obj2[1]};
+            sList.add(cc);
+        }
+        return sList;
     }
+
+
 }

@@ -305,7 +305,7 @@ statistical.find(".tm").bind('click',function(){
     var seasons= $(this).text();
     var selYear = $('#selYear').text();
     if(selYear == "年份"){
-        Ewin.confirm({ message: "请选择年份!" });
+        Ewin.alert({ message: "请选择年份!" });
         return ;
     }
     if(seasons == "第一季度"){
@@ -335,7 +335,7 @@ statistical.find("li[class='month']").bind("click", function() {
     var m = mNum > 9 ? mNum : ("0"+mNum);
     var selYear = $('#selYear').text();
     if(selYear == "年份"){
-        Ewin.confirm({ message: "请选择年份!" });
+        Ewin.alert({ message: "请选择年份!" });
         return;
     }
     var  day = new Date(selYear,m,0);

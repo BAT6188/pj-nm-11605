@@ -9,6 +9,9 @@ public class DictBean extends HashMap<String, String> implements Comparable<Dict
     public static final String CODE = "code";
     public static final String NAME = "name";
     public static final String PARENTCODE = "parentCode";
+    public static final String ICON = "icon";
+    public static final String ICONOPEN = "iconOpen";
+    public static final String ICONCLOSE = "iconClose";
 
     private double serial;
 
@@ -34,6 +37,30 @@ public class DictBean extends HashMap<String, String> implements Comparable<Dict
 
     public void setParentCode(String parentCode) {
         put(PARENTCODE, parentCode);
+    }
+
+    public String getIcon() {
+        return get(ICON);
+    }
+
+    public void setIcon(String icon) {
+        put(ICON, icon);
+    }
+
+    public String getIconOpen() {
+        return get(ICONOPEN);
+    }
+
+    public void setIconOpen(String iconOpen) {
+        put(ICONOPEN, iconOpen);
+    }
+
+    public String getIconClose() {
+        return get(ICONCLOSE);
+    }
+
+    public void setIconClose(String iconClose) {
+        put(ICONCLOSE, iconClose);
     }
 
     public double getSerial() {

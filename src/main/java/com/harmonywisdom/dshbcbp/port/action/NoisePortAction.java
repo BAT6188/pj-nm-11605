@@ -31,6 +31,9 @@ public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
         if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
             param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
+        if (StringUtils.isNotBlank(entity.getType())) {
+            param.andParam(new QueryParam("type", QueryOperator.EQ,entity.getType()));
+        }
         if (StringUtils.isNotBlank(entity.getNumber())) {
             param.andParam(new QueryParam("number", QueryOperator.LIKE,"%"+entity.getNumber()+"%"));
         }
@@ -77,5 +80,12 @@ public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    /**
+     * 根据ID获取排口信息
+     */
+    public void getEntityById(){
+        write(noisePortService.findById(entity.getId()));
     }
 }

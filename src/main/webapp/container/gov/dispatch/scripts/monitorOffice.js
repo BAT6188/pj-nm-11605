@@ -254,6 +254,7 @@ var ef = form.easyform({
     success:function (ef) {
         //验证成功，打开选择人员 对话框
         $('#selectPeopleForm').modal('show');
+        loadPersonUrl=rootPath + "/action/S_dispatch_DispathTask_getStreetLeaderList.action";
 
         var entity = $("#eventMsg").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();

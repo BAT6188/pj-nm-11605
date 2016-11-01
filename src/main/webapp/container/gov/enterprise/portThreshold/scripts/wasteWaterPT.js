@@ -9,7 +9,7 @@ function loadInfo(){
         url: rootPath + "/action/S_port_PortThreshold_list.action",
         type:"post",
         async:false,
-        data:{"enterpriseId":enterpriseId,"type":"WW"},//阻止深度序列化，向后台传递数组
+        data:{"enterpriseId":enterpriseId,"type":"wasteWater"},//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function(data){
             if(data.total>0){
@@ -81,7 +81,7 @@ $('#cancelEditForm').click(function(){
 })
 setInputs();
 function setInputs(){
-    var inputs = $('.form-group').find('input');
+    var inputs = formDiv.find('.needCheck');
     $.each(inputs,function(k,v){
         var tip = $(this).easytip();
         $(this).keyup(function(){
@@ -106,7 +106,7 @@ function setInputs(){
     })
 }
 function checkInputs(){
-    var inputs = $('.form-group').find('input');
+    var inputs = formDiv.find('.needCheck');
     var inputLength = inputs.length;
     var checkedLength = 0;
     $.each(inputs,function(k,v){

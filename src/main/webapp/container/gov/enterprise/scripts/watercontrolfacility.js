@@ -154,11 +154,9 @@ function initTable() {
     });
 }
 
-
-
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -211,13 +209,19 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
+
 
 });
 
@@ -297,16 +301,19 @@ function setFormData(entity) {
 
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看" + formTitle);
+    form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
 }
+
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
@@ -336,6 +343,8 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 }
 
 

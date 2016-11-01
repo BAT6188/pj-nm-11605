@@ -6,6 +6,15 @@
 </head>
 <style>
     .ui-autocomplete { z-index:2147483647; }
+
+    #total{
+        padding-left: 11%;
+        margin-top: 1%;
+    }
+
+    .dealBox button {
+        min-width: 0px;
+    }
 </style>
 <body>
 <div class="content content1 clearfix">
@@ -26,6 +35,7 @@
                             <div class="form-group">
                                 <label for="">是否缴费：</label>
                                 <select id="s_paymentStatus" class="form-control">
+                                <option value="">全部</option>
                                 <option value="0">未缴费</option>
                                 <option value="1">已缴费</option>
                                 <option value="2">未按时缴费</option>
@@ -36,6 +46,79 @@
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+
+                <div id="total" class="k-toolbar k-grid-toolbar">
+                    <label for="">缴费日期：</label>
+                    <table border="0px" cellspacing="1" cellpadding="0" overflow="hidden">
+                        <div class="btn-group" id="dropdownMenu">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="selYear">年份</button>
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">切换下拉菜单</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" id="year">
+
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default tm">第一季度</button>
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">切换下拉菜单</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="month" value="01"><a href="#">1月</a></li>
+                                    <li class="month" value="02"><a href="#">2月</a></li>
+                                    <li class="month" value="03"><a href="#">3月</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default tm">第二季度</button>
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">切换下拉菜单</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="month" value="04"><a href="#">4月</a></li>
+                                    <li class="month" value="05"><a href="#">5月</a></li>
+                                    <li class="month" value="06"><a href="#">6月</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default tm">第三季度</button>
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">切换下拉菜单</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="month" value="07"><a href="#">7月</a></li>
+                                    <li class="month" value="08"><a href="#">8月</a></li>
+                                    <li class="month" value="09"><a href="#">9月</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default tm">第四季度</button>
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">切换下拉菜单</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="month" value="10"><a href="#">10月</a></li>
+                                    <li class="month" value="11"><a href="#">11月</a></li>
+                                    <li class="month" value="12"><a href="#">12月</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </table>
+                </div>
+
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>

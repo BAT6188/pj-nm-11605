@@ -1,63 +1,67 @@
 var gridTable = $('#table'),
     selections = [];
+$('.form_date').datetimepicker({
+    language:   'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    forceParse: 0,
+    minuteStep:5,
+    pickerPosition: "bottom-left"
+});
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_enterprise_Enterprise_list.action",
+        url: rootPath+"/action/S_port_WaterPortHistory_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
+            temp.portId = portId;
             return temp;
         },
         columns: [
-            /*{
-                title:"全选",
-                checkbox: true,
-                align: 'center',
-                radio:false,  //  true 单选， false多选
-                valign: 'middle'
-            },*/
             {
-                title: '企业名称',
-                field: 'name',
+                title: '监测时间',
+                field: 'monitorTime',
                 sortable: false,
                 editable: false,
                 align: 'center'
             },
             {
-                title: '状态',
-                field: 'status',
+                title: '流量（升/秒）',
+                field: 'flow',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '所属网格',
-                field: 'relateGrid',
+                title: '化学需氧量（毫克/升）',
+                field: 'oxygen',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '污染源状态',
-                field: 'status',
+                title: '氨氮（毫克/升）',
+                field: 'nitrogen',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                title: 'ph值',
+                field: 'ph',
+                editable: false,
+                sortable: false,
+                align: 'center'
             }
-
         ]
     });
     // sometimes footer render error.
@@ -123,12 +127,36 @@ $("#search").click(function () {
     //查询之前重置table
     gridTable.bootstrapTable('resetSearch');
     var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    if(jsonData){
+        if(checkSearchForm(jsonData)){
+            gridTable.bootstrapTable('refresh',{
+                query:jsonData
+            });
+        }
+    }else{
+        gridTable.bootstrapTable('refresh',{
+            query:jsonData
+        });
+    }
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
     gridTable.bootstrapTable('resetSearch');
 });
+function checkSearchForm(jsonData){
+    if(jsonData.startTime<jsonData.endTime || (!jsonData.startTime && !jsonData.endTime)){
+        return true;
+    }else{
+        if(jsonData.startTime && !jsonData.endTime){
+            Ewin.alert("缺少结束时间！");
+        }
+        if(!jsonData.startTime && jsonData.endTime){
+            Ewin.alert("缺少开始时间！");
+        }
+        if(jsonData.startTime>jsonData.endTime){
+            Ewin.alert("开始时间要小于结束时间！");
+        }
+        return false;
+    }
+}

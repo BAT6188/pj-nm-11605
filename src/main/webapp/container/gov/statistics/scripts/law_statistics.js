@@ -304,8 +304,15 @@ $(function(){
             legend: {
                 enabled: true
             },
+            
             tooltip: {
-                pointFormat: '执法次数: <b>{point.y:.1f} 次</b>'
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 次</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             series: series
         });
@@ -337,6 +344,15 @@ $(function(){
                     },
                     showInLegend: true
                 }
+            },
+            tooltip: {
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 家</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             lang: {
                 printChart:"打印图表",
@@ -379,14 +395,19 @@ $(function(){
                     dataLabels: {
                         enabled: true
                     },
-                    enableMouseTracking: false
                 }
             },
             legend: {
                 enabled: true
             },
             tooltip: {
-                pointFormat: '超标次数: <b>{point.y:.1f} 次</b>'
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 次</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
             },
             lang: {
                 printChart:"打印图表",

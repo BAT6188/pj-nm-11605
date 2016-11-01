@@ -2,6 +2,11 @@
  * Created by Administrator on 2016/10/17.
  */
 
+//-------------加载组织机构、人员url，需要区分 flag哪个源的数据：  1-监控中心，监控办公室的调度单   2-执法管理列表的调度单--------------------//
+var loadPersonUrl;
+//---------------------------------//
+
+
 //-------------选择人员 ztree配置--------------------//
 $(".scrollContent").slimScroll({
     height:"100%",
@@ -17,8 +22,8 @@ var setting = {
     },
     async: {
         enable: true,
-        url:rootPath + "/action/S_dispatch_MonitorCase_getExelawLeaderPersonList.action",
-        // url:rootPath + "/container/gov/dispatch/selectPeople.json",
+        // url:loadPersonUrl,
+        url:rootPath + "/container/gov/dispatch/selectPeople.json",
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
@@ -115,6 +120,7 @@ function removeFromGrid() {
 
 function zTreeOnClick(event, treeId, treeNode) {
     if(!treeNode.parent){
+        console.log(treeNode);
         appendToGrid(treeNode);
         console.log("appendToGrid:"+JSON.stringify(treeNode))
     }
@@ -140,6 +146,8 @@ function sendToBtn(flag) {
         var monitorCaseId=$("#monitorCaseId").val();
         data+="&monitorCaseId="+monitorCaseId;
         url=rootPath + "/action/S_dispatch_DispathTask_save.action"
+
+        // loadPersonUrl=rootPath + "/action/S_dispatch_MonitorCase_getExelawLeaderPersonList.action";
     }else if(2==flag){
         var dispathTaskId=$("#dispathTaskId").val();
         data+="&dispathTaskId="+dispathTaskId;
