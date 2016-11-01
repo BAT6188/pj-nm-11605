@@ -5,7 +5,7 @@
     <title>噪声源</title>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script type="text/javascript">
-        var enterpriseId=enterpriseData.id;
+        //var enterpriseId=enterpriseData.id;
     </script>
 </head>
 <body>
@@ -60,23 +60,44 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="number" class="col-sm-2 control-label">噪声源编号<span class="text-danger">(*)</span>：</label>
+                        <%--<label for="number" class="col-sm-2 control-label">噪声源编号<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
                             <input type="text" id="number" name="number" class="form-control"
                                    data-message="噪声源编号不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
-                        </div>
-                        <label for="name" class="col-sm-2 control-label">噪声源名称<span class="text-danger">(*)</span>：</label>
+                        </div>--%>
+                        <label for="name" class="col-sm-2 control-label">噪声监测点<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="name" name="name" class="form-control"
-                                   data-message="噪声源名称不能为空"
+                                   data-message="监测点名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="position" class="col-sm-2 control-label">噪声源位置：</label>
+                        <label for="longitude" class="col-sm-2 control-label">经度：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="longitude" name="longitude" class="form-control" readonly
+                                   data-message="监测点经度不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                        <label for="latitude" class="col-sm-2 control-label">纬度：</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="latitude" name="latitude" readonly
+                                       data-message="监测点纬度不能为空"
+                                       data-easytip="position:top;class:easy-red;"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                                        标注
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="position" class="col-sm-2 control-label">监测点位置：</label>
                         <div class="col-sm-4">
                             <input type="text" id="position" name="position" class="form-control">
                         </div>
@@ -208,11 +229,13 @@
         </div>
     </div>
 </div>
+<%@include file="/common/msgSend/msgSend.jsp"%>
+<%@include file="/common/gis/map_mark.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/monitor/noiseMonitor/scripts/noisePort.js"></script>
 <script>
     $(function(){
         initSelect();
-        initZTree();
+        //initZTree();
     });
     /*初始化选择菜单*/
     function initSelect(){

@@ -29,6 +29,24 @@ public class NoisePort implements Serializable {
     private String name;
 
     /**
+     * 监测点类型
+     */
+    @Column(name = "type",length = 1)
+    private String type; //0:企业噪声排口；1:政府监测点噪声排口
+
+    /**
+     * 排口经度
+     */
+    @Column(name = "longitude")
+    private Double longitude;
+
+    /**
+     * 排口纬度
+     */
+    @Column(name = "latitude")
+    private Double latitude;
+
+    /**
      * 排口位置
      */
     @Column(name = "position",length = 100)
@@ -248,6 +266,14 @@ public class NoisePort implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getPosition() {
@@ -512,5 +538,21 @@ public class NoisePort implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 }

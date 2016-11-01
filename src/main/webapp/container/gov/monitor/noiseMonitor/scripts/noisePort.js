@@ -6,7 +6,29 @@ var gridTable = $('#table'),
     selections = [];
 
 
-
+initMapBtn();
+/*初始化标注按钮*/
+function initMapBtn(){
+    //绑定markDialog关闭事件
+    MapMarkDialog.closed(function (mark) {
+        if (mark) {
+            $("#longitude").val(mark.x);
+            $("#latitude").val(mark.y);
+        }else{
+            Ewin.alert({message:"请选择坐标"});
+            return false;
+        }
+    });
+    var model = $.fn.MsgSend.init(1,{orgCode:"0170001300",title:"测试短信发送",width:"90%"},function(e,data){
+        console.log(data);
+    });
+    $('#mapMarkBtn').bind('click', function () {
+        //设置标绘模式
+        /*MapMarkDialog.setMode("point");
+        MapMarkDialog.open();*/
+        model.open();
+    });
+}
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -43,7 +65,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
+            temp.type = 1;
             return temp;
         },
         columns: [
@@ -221,7 +243,7 @@ var updateSuccessMsg = '提交成功';
 var ef = form.easyform({
     success:function (ef) {
         var entity = form.find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
+        entity.type = 1;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             $(".modal").modal('hide');
