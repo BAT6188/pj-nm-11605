@@ -402,9 +402,32 @@ var pageUtils = {
         return format;
     }
 
-    window.resetQuery = function () {
+    /**
+     * 重置按钮
+     */
+    window.resetQuery=function() {
         $(".queryBox").find("input[type!='radio'][type!='checkbox']").val("");
-    };
-    console.log("git ceshi");
+    }
+
+
+    /**
+     * 加载<select>标签的选项
+     * @param selector
+     * @param optionsSetting  例如：{code:"id",name:"orgName"}
+     */
+    window.ajaxLoadOption=function(url,selector,optionsSetting){
+        $.ajax({
+            url: url,
+            type:"post",
+            dataType:"json",
+            success:function (options) {
+                $(selector).empty();
+                $.each(options,function (i,v) {
+                    var option = $("<option>").val(v[optionsSetting.code]).text(v[optionsSetting.name]);
+                    $(selector).append(option);
+                })
+            }
+        });
+    }
 
 })(jQuery);
