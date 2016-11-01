@@ -402,8 +402,9 @@ var pageUtils = {
         return format;
     }
 
-    window.resetQuery= function() {
+    window.resetQuery = function () {
         $(".queryBox").find("input[type!='radio'][type!='checkbox']").val("");
-    }
+    };
+    console.log("git ceshi");
 
 })(jQuery);
