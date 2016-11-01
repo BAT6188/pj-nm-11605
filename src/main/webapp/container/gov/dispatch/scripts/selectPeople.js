@@ -22,8 +22,8 @@ var setting = {
     },
     async: {
         enable: true,
-        url:loadPersonUrl,
-        // url:rootPath + "/container/gov/dispatch/selectPeople.json",
+        // url:loadPersonUrl,
+        url:rootPath + "/container/gov/dispatch/selectPeople.json",
         autoParam:["id", "name=n", "level=lv"],
         otherParam:{"otherParam":"zTreeAsyncTest"},
         dataFilter: filter
