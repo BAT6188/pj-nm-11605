@@ -47,6 +47,9 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,"%"+entity.getName()+"%"));
         }
+        if(StringUtils.isNotBlank(entity.getPollutantStatus())){
+            param.andParam(new QueryParam("pollutantStatus", QueryOperator.EQ,entity.getPollutantStatus()));
+        }
         if (StringUtils.isNotBlank(entity.getPollutantType())) {
             param.andParam(new QueryParam("pollutantType", QueryOperator.LIKE,"%"+entity.getPollutantType()+"%"));
         }
