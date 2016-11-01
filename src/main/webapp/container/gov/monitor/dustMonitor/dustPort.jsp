@@ -2,15 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>噪声源</title>
+    <title>沙尘暴监测点</title>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script type="text/javascript">
-        var enterpriseId=enterpriseData.id;
+
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0;">噪声源排口列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0;">沙尘暴监测点列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">

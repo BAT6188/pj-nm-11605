@@ -1,8 +1,9 @@
 /**
  * Created by liuyifan on 2016/10/26.
  * 级联加载 网格级别和网格
+ * blockLevelSelector和blockSelector建议用class选择器
  */
-function loadBlockLevelAndBlockOption() {
+function loadBlockLevelAndBlockOption(blockLevelSelector,blockSelector) {
     function appendOption(selector,options) {
         $(selector).empty();
         $.each(options,function (i,v) {
@@ -26,7 +27,7 @@ function loadBlockLevelAndBlockOption() {
                     v.code=v.id;
                     v.name=v.orgName;
                 })
-                appendOption("#blockId",data)
+                appendOption(blockSelector,data)
             }
         } );
     }
@@ -41,13 +42,13 @@ function loadBlockLevelAndBlockOption() {
             $.each(data,function (i,v) {
                 v.code=v.id;
             })
-            appendOption("#blockLevelId",data)
+            appendOption(blockLevelSelector,data)
             loadBlockOption(1)
         }
     } );
 
-    $("#blockLevelId").change(function(){
-        loadBlockOption($("#blockLevelId").val())
+    $(blockLevelSelector).change(function(){
+        loadBlockOption($(blockLevelSelector).val())
 
     });
 

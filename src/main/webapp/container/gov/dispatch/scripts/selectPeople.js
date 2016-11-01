@@ -120,6 +120,7 @@ function removeFromGrid() {
 
 function zTreeOnClick(event, treeId, treeNode) {
     if(!treeNode.parent){
+        console.log(treeNode);
         appendToGrid(treeNode);
         console.log("appendToGrid:"+JSON.stringify(treeNode))
     }

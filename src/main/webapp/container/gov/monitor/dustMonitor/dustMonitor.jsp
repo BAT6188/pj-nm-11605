@@ -63,6 +63,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/enterpriseMointor/scripts/noisePortStatusHistory.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/dustMonitor/scripts/dustPortStatusHistory.js"></script>
 </body>
 </html>
