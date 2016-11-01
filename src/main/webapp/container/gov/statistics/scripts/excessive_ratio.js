@@ -70,6 +70,7 @@ $(function(){
 
     });
 
+
     function search(valueChart,name,startXdate,lastXdate,startSdate,lastSdate){
         if(valueChart == '2'){
             highchart.hide();
@@ -90,8 +91,29 @@ $(function(){
         }
 
     }
-    
 
+    //同期对比上半年按钮
+    $("#sbYear").bind('click',function(){
+       var year = $("#startTime").val();
+        var startXdate = year-1 + '-'+ '01' + '-'+ '01';
+        var lastXdate = year-1 + '-'+ '06' + '-'+ '30';
+        var startSdate = year +　'-'+'01' + '-'+'01';
+        var lastSdate = year + '-'+ '06' + '-'+ '30';
+        search(valueChart,'',startXdate,lastXdate,startSdate,lastSdate);
+    });
+
+    //同期对比下半年按钮查询
+    $("#xbYear").bind('click',function(){
+        var year = $("#startTime").val();
+        var startXdate = year-1 + '-'+ '07' + '-'+ '01';
+        var lastXdate = year-1 + '-'+ '12' + '-'+ '31';
+        var startSdate = year +　'-'+'07' + '-'+'01';
+        var lastSdate = year + '-'+ '12' + '-'+ '31';
+        search(valueChart,'',startXdate,lastXdate,startSdate,lastSdate);
+    });
+
+
+    
     //柱状图按钮
     $("#columnBtn").bind('click',function(){
         valueChart = $("#columnBtn").attr("data-checked");
@@ -119,6 +141,7 @@ $(function(){
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#0099FF');
         search(valueChart,'',startXdate,lastXdate,startSdate,lastSdate);
+        search2(valueChart,startXdate,lastXdate,startSdate,lastSdate);
     });
     //柱状图获取后台数据
     function getColumnRatio(name,startXdate,lastXdate,startSdate,lastSdate){

@@ -59,16 +59,22 @@
                         <div class="form-group">
                             <label for="">执法类型：</label>
                             <select class="form-control" name="" id="lawType">
+                                <option value="">请选择</option>
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
                                 <option value="3">市长热线</option>
                                 <option value="0">监测中心</option>
                             </select>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                        <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
 
-                        </div>
+                    </form>
+                    <p></p>
+                    <form class="form-inline">
                         <div class="form-group">
                             <label for="">同期对比：</label>
-                            <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                            <div id="datetimepicker2" class="input-group date form_datetimes" data-date="" data-date-format="yyyy" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="startTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -77,15 +83,13 @@
                             <button type="button" id="sbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>上半年</span></button>
                             <button type="button" id="xbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>下半年</span></button>
                             <%--<div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">--%>
-                                <%--<input class="form-control" size="16" id="endtime"  type="text" value="" readonly>--%>
-                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--%>
-                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>--%>
+                            <%--<input class="form-control" size="16" id="endtime"  type="text" value="" readonly>--%>
+                            <%--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--%>
+                            <%--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>--%>
                             <%--</div>--%>
                         </div>
                     </form>
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
         </div>
     </div>

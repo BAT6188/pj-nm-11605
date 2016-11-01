@@ -62,6 +62,7 @@
                         <div class="form-group">
                             <label for="">执法类型：</label>
                             <select class="form-control" name="" id="lawType">
+                                <option value="">请选择</option>
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
                                 <option value="3">市长热线</option>
