@@ -94,7 +94,11 @@
                             console.log(data.rows[i].name);
                             var result = [];
                             for(var i = 0; i <  data.rows.length; i++) {
-                                result.push(data.rows[i].name);
+//                                result.push(data.rows[i].name);
+                                var ui={};
+                                ui.id=data.rows[i].id;
+                                ui.value=data.rows[i].name;
+                                result.push(ui);
                             }
                             response( result);
                         }
