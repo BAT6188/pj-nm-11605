@@ -6,6 +6,8 @@ var gridTable = $('#table'),
     formTitle = "事件信息",
     selections = [];
 
+loadBlockLevelAndBlockOption()
+
 
 //保存ajax请求
 function saveAjax(entity, callback) {
