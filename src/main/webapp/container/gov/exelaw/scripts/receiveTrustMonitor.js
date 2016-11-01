@@ -434,7 +434,7 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
-    loadBlockLevelAndBlockOption(".blockLevelId",".blockId")
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 })
 
 

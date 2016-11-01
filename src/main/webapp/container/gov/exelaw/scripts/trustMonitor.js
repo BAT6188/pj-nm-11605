@@ -446,3 +446,9 @@ $( function() {
     } );
 
 } );
+
+
+$(document).ready(function () {
+    var optionsSetting={code:"orgId",name:"orgName"}
+    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
+})
