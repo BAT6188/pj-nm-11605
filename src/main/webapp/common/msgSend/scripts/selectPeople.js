@@ -21,7 +21,7 @@
             var width = isNaN(options.width)?options.width:options.width+"px;";
             dialog.find('.modal-dialog').attr('style','width:'+width);
             dialog.find('#formTitle').html(options.title);
-            setDialogTypeOne(dialog,options.orgCode,callback);
+            setDialogTypeOne(dialog,options,callback);
             var msgSendTools = {
                 open:function(){
                     dialog.modal('show');
@@ -34,7 +34,7 @@
 
 //-------------加载组织机构、人员url，需要区分 flag哪个源的数据：  1-监控中心，监控办公室的调度单   2-执法管理列表的调度单--------------------//
 //-------------选择人员 ztree配置--------------------//
-function setDialogTypeOne(dialog,orgCode,callback){
+function setDialogTypeOne(dialog,options,callback){
     if (callback && callback instanceof Function) {
         $(dialog).find('#sendTo').click(function () {
             var ids = getIdsSelectionsFromGridSelectPeople();
@@ -53,6 +53,25 @@ function setDialogTypeOne(dialog,orgCode,callback){
         railOpacity:.9,
         alwaysVisible:!1
     });
+    var asyncData;
+    if(options.Async){
+        var async = options.Async;
+        asyncData={
+            enable: true,
+            url:async.url,//"/container/gov/dispatch/selectPeople.json"
+            autoParam:["id", "name=n", "level=lv"],
+            otherParam:async.params,
+            dataFilter: filter
+        }
+    }else{
+        asyncData={
+            enable: true,
+            url:rootPath + "/S_dict_Dict_getOrgPersonList.action",//"/container/gov/dispatch/selectPeople.json"
+            autoParam:["id", "name=n", "level=lv"],
+            otherParam:{"orgCode":options.orgCode},
+            dataFilter: filter
+        }
+    }
     var setting = {
         height:500,
         width:200,
