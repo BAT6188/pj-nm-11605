@@ -26,10 +26,34 @@ public class TrustMonitor implements Serializable {
     @Column(name = "enterprise_name", length = 100)
     private String enterpriseName;
 
+    /**
+     * 网格级别
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+
+    /**
+     * 所属网格
+     */
+    @Column(name = "block_id", length = 32)
+    private String blockId;
+    @Column(name = "block_name")
+    private String blockName;
+
+    /**
+     * 环保站 选择人员列表
+     */
+    @Column(name = "environmental_protection_station_select_person_list")
+    private String environmentalProtectionStationSelectPersonList;
+
 
     /**
      * 申请单位
      */
+    @Column(name = "apply_org_id")
+    private String applyOrgId;
     @Column(name = "apply_org")
     private String applyOrg;
 
@@ -339,5 +363,53 @@ public class TrustMonitor implements Serializable {
 
     public void setMonitorContentDetail(String monitorContentDetail) {
         this.monitorContentDetail = monitorContentDetail;
+    }
+
+    public String getEnvironmentalProtectionStationSelectPersonList() {
+        return environmentalProtectionStationSelectPersonList;
+    }
+
+    public void setEnvironmentalProtectionStationSelectPersonList(String environmentalProtectionStationSelectPersonList) {
+        this.environmentalProtectionStationSelectPersonList = environmentalProtectionStationSelectPersonList;
+    }
+
+    public String getApplyOrgId() {
+        return applyOrgId;
+    }
+
+    public void setApplyOrgId(String applyOrgId) {
+        this.applyOrgId = applyOrgId;
+    }
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 }

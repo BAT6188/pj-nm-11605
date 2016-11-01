@@ -9,7 +9,6 @@ var gridTable = $('#table'),
 
 //保存ajax请求
 function saveAjax(entity, callback) {
-    console.log("点击保存并且发送按钮："+JSON.stringify(entity))
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
         type:"post",
@@ -67,15 +66,18 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '监测内容',
-                field: 'monitorContent',
+                title: '企业所在网格',
+                field: 'blockName',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return value;
+                }
             },
             {
-                title: '监测时间',
-                field: 'monitorTime',
+                title: '申请单位',
+                field: 'applyOrg',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -95,8 +97,22 @@ function initTable() {
                 align: 'center'
             },
             {
-                field: '反馈详情',
-                title: '操作',
+                title: '监测内容',
+                field: 'monitorContent',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '监测时间',
+                field: 'monitorTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'operate',
+                title: '反馈状态',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
@@ -197,11 +213,20 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var s_enterpriseName = $("#s_enterpriseName").val();
+    var applyOrgId = $("#s_applyOrgId").val();
     var start_monitorTime = $("#start_monitorTime").val();
     var end_monitorTime = $("#end_monitorTime").val();
-    if (s_enterpriseName){
-        queryParams["enterpriseName"] = s_enterpriseName;
+    var blockLevelId = $(".s_blockLevelId").val();
+    var blockId = $(".s_blockId").val();
+
+    if (blockLevelId){
+        queryParams["blockLevelId"] = blockLevelId;
+    }
+    if (blockId){
+        queryParams["blockId"] = blockId;
+    }
+    if (applyOrgId){
+        queryParams["applyOrgId"] = applyOrgId;
     }
     if (start_monitorTime){
         queryParams["start_monitorTime"] = start_monitorTime;
@@ -232,6 +257,7 @@ $('.form_datetime').datetimepicker({
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -241,7 +267,7 @@ var ef = form.easyform({
 
 
 //表单 保存按钮
-$("#saveAndSend").bind('click',function () {
+$("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -253,35 +279,33 @@ $("#saveAndSend").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
+    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#enterpriseId").val(entity.enterpriseId);
-    $("#monitorContent").val(entity.monitorContent);
-    $("#applyOrg").val(entity.applyOrg);
-    $("#applicant").val(entity.applicant);
-    $("#applicantPhone").val(entity.applicantPhone);
-    $("#monitorTime").val(entity.monitorTime);
-    $("#trustOrgAddress").val(entity.trustOrgAddress);
-    $("#monitorAddress").val(entity.monitorAddress);
-    $("#monitorContentDetail").val(entity.monitorContentDetail);
+    $("#name").val(entity.name);
+    $("#age").val(entity.age);
+    $("#longitude").val(entity.longitude);
+    $("#latitude").val(entity.latitude);
 
+    uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
     setFormData(entity);
+    form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
-    form.find("#saveAndSend").hide();
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+    form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
-    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
@@ -304,11 +328,11 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
+    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find("textarea").val("");
-    form.find("#applicant").val(userName)
+    uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-    form.find("#saveAndSend").show();
+    form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }
 
@@ -407,48 +431,10 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/**
- * Autocomplete  enterpriseName
- */
-$( function() {
-
-    $("#enterpriseName").autocomplete({
-        source: function( request, response ) {
-            $.ajax( {
-                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
-                method:'post',
-                dataType: "json",
-                data: {
-                    name: request.term
-                },
-                success: function( data ) {
-                    for(var i = 0;i<data.rows.length;i++){
-                        var result = [];
-                        for(var i = 0; i <  data.rows.length; i++) {
-                            var ui={};
-                            ui.id=data.rows[i].id
-                            ui.value=data.rows[i].name
-                            ui.envPrincipal=data.rows[i].envPrincipal
-                            ui.epPhone=data.rows[i].epPhone
-                            result.push(ui);
-                        }
-                        response( result);
-                    }
-                }
-            } );
-        },
-        select: function( event, ui ) {
-            console.info(ui.item.id)
-            $("#enterpriseId").val(ui.item.id)
-            $("#supervisor").val(ui.item.envPrincipal)
-            $("#supervisorPhone").val(ui.item.epPhone)
-        },
-    } );
-
-} );
-
-
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
-    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
+    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 })
+
+
