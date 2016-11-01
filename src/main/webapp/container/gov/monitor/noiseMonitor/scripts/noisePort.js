@@ -2,7 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#noiseForm"),
-    formTitle = "噪声源",
+    formTitle = "噪声监测点",
     selections = [];
 
 
@@ -19,14 +19,10 @@ function initMapBtn(){
             return false;
         }
     });
-    var model = $.fn.MsgSend.init(1,{orgCode:"0170001300",title:"测试短信发送",width:"90%"},function(e,data){
-        console.log(data);
-    });
     $('#mapMarkBtn').bind('click', function () {
         //设置标绘模式
-        /*MapMarkDialog.setMode("point");
-        MapMarkDialog.open();*/
-        model.open();
+        MapMarkDialog.setMode("point");
+        MapMarkDialog.open();
     });
 }
 //保存ajax请求
@@ -84,7 +80,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '噪声源名称',
+                title: '监测点名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
@@ -299,6 +295,7 @@ function setFormView(entity) {
     $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
+    form.find('.formBtn').attr("disabled",disabled);
     form.find(".form-control").attr("disabled",disabled);
     form.find('.isRadio input').attr("disabled",disabled);
 }

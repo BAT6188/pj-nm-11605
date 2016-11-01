@@ -24,7 +24,7 @@
                     <p>
                     <form class="form-horizontal" role="form" id="searchform">
                         <label for="number">噪声源编号：</label> <input type="text" id="portNumber" name="number" class="form-control" />
-                        <label for="name">噪声源名称：</label> <input type="text" id="portName" name="name" class="form-control" />
+                        <label for="name">监测点名称：</label> <input type="text" id="portName" name="name" class="form-control" />
                     </form>
                     </p>
                 </div>
@@ -60,19 +60,17 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <%--<label for="number" class="col-sm-2 control-label">噪声源编号<span class="text-danger">(*)</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="hidden" id="id" name="id" class="form-control">
-                            <input type="hidden" id="createTime" name="createTime" class="form-control">
-                            <input type="text" id="number" name="number" class="form-control"
-                                   data-message="噪声源编号不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
-                        </div>--%>
                         <label for="name" class="col-sm-2 control-label">噪声监测点<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="name" name="name" class="form-control"
                                    data-message="监测点名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                        <label for="number" class="col-sm-2 control-label">噪声源编号<span class="text-danger">(*)</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="createTime" name="createTime" class="form-control">
+                            <input type="text" id="number" name="number" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -113,13 +111,6 @@
                             <select id="noiseDischargeStandard" name="dischargeStandard" class="form-control">
                             </select>
                         </div>
-                        <label for="monitorFrequency" class="col-sm-2 control-label">监测频次：</label>
-                        <div class="col-sm-4">
-                            <select id="monitorFrequency" name="monitorFrequency" class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="fnType" class="col-sm-2 control-label">功能区类别：</label>
                         <div class="col-sm-4">
                             <select id="noiseFnType" name="fnType" class="form-control">
@@ -203,14 +194,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="planeMap" class="col-sm-2 control-label">平面图<span class="text-danger">(*)</span>：</label>
-                        <div class="col-sm-4" id="planeMap">
-                            <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
-                            <button type="button" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看平面图标注</button>
-                            <button type="button" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
@@ -229,7 +212,6 @@
         </div>
     </div>
 </div>
-<%@include file="/common/msgSend/msgSend.jsp"%>
 <%@include file="/common/gis/map_mark.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/monitor/noiseMonitor/scripts/noisePort.js"></script>
 <script>
@@ -240,7 +222,7 @@
     /*初始化选择菜单*/
     function initSelect(){
         /*数据字典*/
-        var dictData = dict.getDctionnary({code:['noiseType','noiseDischargeStandard','noiseFnType','monitorFrequency']});
+        var dictData = dict.getDctionnary({code:['noiseType','noiseDischargeStandard','noiseFnType']});
         $.each(dictData,function(k,v){
             var optionsHtml = '';
             $.each(v,function(i,obj){

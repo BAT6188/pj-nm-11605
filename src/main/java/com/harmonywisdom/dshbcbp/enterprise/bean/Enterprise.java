@@ -47,6 +47,12 @@ public class Enterprise implements Serializable {
     private String status;
 
     /**
+     * 污染源状态
+     */
+    @Column(name = "pollutant_status",length = 1)
+    private String pollutantStatus;
+
+    /**
      *单位地址
      */
     @Column(name = "address")
@@ -313,12 +319,6 @@ public class Enterprise implements Serializable {
     private String delOpinion;
 
     /**
-     * 所属网格
-     */
-    @Column(name = "relate_grid")
-    private String relateGrid;
-
-    /**
      * 平面图
      */
     @Column(name = "plane_map")
@@ -346,12 +346,52 @@ public class Enterprise implements Serializable {
         this.name = name;
     }
 
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPollutantStatus() {
+        return pollutantStatus;
+    }
+
+    public void setPollutantStatus(String pollutantStatus) {
+        this.pollutantStatus = pollutantStatus;
     }
 
     public String getAddress() {
@@ -626,14 +666,6 @@ public class Enterprise implements Serializable {
         this.delOpinion = delOpinion;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
-
     public String getPlaneMap() {
         return planeMap;
     }
@@ -642,43 +674,11 @@ public class Enterprise implements Serializable {
         this.planeMap = planeMap;
     }
 
-    public String getRelateGrid() {
-        return relateGrid;
+    public String getAttachmentId() {
+        return attachmentId;
     }
 
-    public void setRelateGrid(String relateGrid) {
-        this.relateGrid = relateGrid;
-    }
-
-    public String getBlockLevelId() {
-        return blockLevelId;
-    }
-
-    public void setBlockLevelId(String blockLevelId) {
-        this.blockLevelId = blockLevelId;
-    }
-
-    public String getBlockLevelName() {
-        return blockLevelName;
-    }
-
-    public void setBlockLevelName(String blockLevelName) {
-        this.blockLevelName = blockLevelName;
-    }
-
-    public String getBlockId() {
-        return blockId;
-    }
-
-    public void setBlockId(String blockId) {
-        this.blockId = blockId;
-    }
-
-    public String getBlockName() {
-        return blockName;
-    }
-
-    public void setBlockName(String blockName) {
-        this.blockName = blockName;
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
     }
 }

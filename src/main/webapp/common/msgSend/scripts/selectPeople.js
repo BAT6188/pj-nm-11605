@@ -11,11 +11,11 @@
 
             }
             options = $.extend({}, {
-                title: "操作提示",
+                title: "组织机构人员选择",
                 //message: "提示内容",
                 btnok: "发送",
                 btncl: "取消",
-                width: 1000,
+                width: 850,
                 auto: false
             }, options || {});
             var width = isNaN(options.width)?options.width:options.width+"px;";
@@ -27,7 +27,6 @@
                     dialog.modal('show');
                 }
             }
-
             return msgSendTools;
         }
     }
