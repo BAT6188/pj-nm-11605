@@ -1,21 +1,21 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#demoForm"),
-    formTitle = "Demo",
+    form = $("#scfForm"),
+    formTitle = "空气质量监测",
     selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
-    console.log("点击保存并且发送按钮："+JSON.stringify(entity))
     $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
+        url: rootPath + "/action/S_port_AirQuality_save.action",
         type:"post",
         data:entity,
         dataType:"json",
         success:callback
     });
 }
+
 /**
  * 删除请求
  * @param ids 多个,号分隔
@@ -23,7 +23,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor_delete.action",
+        url: rootPath + "/action/S_port_AirQuality_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -35,8 +35,8 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action",
-        height: pageUtils.getTableHeight(),
+        url: rootPath+"/action/S_port_AirQuality_list.action",
+        height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -48,58 +48,20 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            },
-            {
+            }, {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
                 valign: 'middle',
-                sortable: false,
-                visible:false
+                sortable: false
             },
             {
-                title: '企业名称',
-                field: 'enterpriseName',
+                title: '空气AQI值',
+                field: 'airValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
-            {
-                title: '监测内容',
-                field: 'monitorContent',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },
-            {
-                title: '监测时间',
-                field: 'monitorTime',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '申请人',
-                field: 'applicant',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '联系方式',
-                field: 'applicantPhone',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                field: '反馈详情',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
             }
-
         ]
     });
     // sometimes footer render error.
@@ -114,19 +76,23 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
+
     });
 
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
+            height: getHeight()
         });
     });
 }
 
+
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -134,6 +100,7 @@ window.operateEvents = {
         setFormView(row);
     }
 };
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -154,7 +121,12 @@ function getSelections() {
     });
 }
 
+function getHeight() {
+    return $(window).height() - $('.dealBox').outerHeight(true) - 130;
+}
 initTable();
+
+
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -189,81 +161,39 @@ removeBtn.click(function () {
 
 });
 
-
-
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
+    //查询之前重置table
     var queryParams = {};
-    var s_enterpriseName = $("#s_enterpriseName").val();
-    var start_monitorTime = $("#start_monitorTime").val();
-    var end_monitorTime = $("#end_monitorTime").val();
-    if (s_enterpriseName){
-        queryParams["enterpriseName"] = s_enterpriseName;
-    }
-    if (start_monitorTime){
-        queryParams["start_monitorTime"] = start_monitorTime;
-    }
-    if (end_monitorTime){
-        queryParams["end_monitorTime"] = end_monitorTime;
-    }
+  
+    search(queryParams);
+});
+function search(params) {
     gridTable.bootstrapTable('refresh',{
-        query:queryParams
+        query:params
     });
-});
-
-//初始化日期组件
-$('.form_datetime').datetimepicker({
-    language:  'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    forceParse: 0,
-    showMeridian: 1
-});
-
-/**============配置组织发送弹出框============**/
-var options = {
-    orgCode:"0170001300",//组织机构代码(必填，组织机构代码)
-    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
-    width:"60%",        //宽度(可省略，默认值：850)
 }
-var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
-    var d=$.param({personIds:data},true)
-    d+="&sourceId="+sourceId;
-    console.log("发送："+d)
-    $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToEnvironmentalProtectionStationSelectPersonList.action",
-        type:"post",
-        data:d,
-        success:function (msg) {
-            form.modal('hide');
-        }
-    });
-});
 
 /**============表单初始化相关代码============**/
-
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#demoForm").find("form").formSerializeObject();
+        var entity = $("#scfForm").find("form").formSerializeObject();
+        entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
+            form.modal('hide');
             gridTable.bootstrapTable('refresh');
-
-            model.open(msg.id);//打开dialog
         });
     }
 });
 
-
 //表单 保存按钮
-$("#saveAndSend").bind('click',function () {
+$("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
+
 /**
  * 设置表单数据
  * @param entity
@@ -272,35 +202,31 @@ $("#saveAndSend").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
+    form.find(".form-title").text("修改空气质量");
     var id = entity.id;
     $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#enterpriseId").val(entity.enterpriseId);
-    $("#monitorContent").val(entity.monitorContent);
-    $("#applyOrg").val(entity.applyOrg);
-    $("#applicant").val(entity.applicant);
-    $("#applicantPhone").val(entity.applicantPhone);
-    $("#monitorTime").val(entity.monitorTime);
-    $("#trustOrgAddress").val(entity.trustOrgAddress);
-    $("#monitorAddress").val(entity.monitorAddress);
-    $("#monitorContentDetail").val(entity.monitorContentDetail);
-
+  
+    uploader = new qq.FineUploader(getUploaderOptions(id));
 }
+
 function setFormView(entity) {
     setFormData(entity);
+    form.find(".form-title").text("查看" + formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
-    form.find("#saveAndSend").hide();
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+    form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
+
 }
+
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
-    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
@@ -319,17 +245,21 @@ function disabledForm(disabled) {
     }
 
 }
+
+
 /**
- * 重置表单
- */
+* 重置表单
+*/
 function resetForm() {
+    form.find(".form-title").text("新增" + formTitle);
+    $("#remark").val("");
     form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find("textarea").val("");
-    form.find("#applicant").val(userName)
+    uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-    form.find("#saveAndSend").show();
+    form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }
+
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -397,7 +327,9 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            itemLimit: 5
+            // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
+            // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+            itemLimit: 3
         },
         debug: true
     };
@@ -417,7 +349,6 @@ function getAttachmentIds() {
     }
     return "";
 }
-
 /**
  * 绑定下载按钮事件
  */
@@ -426,48 +357,5 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/**
- * Autocomplete  enterpriseName
- */
-$( function() {
-
-    $("#enterpriseName").autocomplete({
-        source: function( request, response ) {
-            $.ajax( {
-                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
-                method:'post',
-                dataType: "json",
-                data: {
-                    name: request.term
-                },
-                success: function( data ) {
-                    for(var i = 0;i<data.rows.length;i++){
-                        var result = [];
-                        for(var i = 0; i <  data.rows.length; i++) {
-                            var ui={};
-                            ui.id=data.rows[i].id
-                            ui.value=data.rows[i].name
-                            ui.envPrincipal=data.rows[i].envPrincipal
-                            ui.epPhone=data.rows[i].epPhone
-                            result.push(ui);
-                        }
-                        response( result);
-                    }
-                }
-            } );
-        },
-        select: function( event, ui ) {
-            console.info(ui.item.id)
-            $("#enterpriseId").val(ui.item.id)
-            $("#supervisor").val(ui.item.envPrincipal)
-            $("#supervisorPhone").val(ui.item.epPhone)
-        },
-    } );
-
-} );
 
 
-$(document).ready(function () {
-    var optionsSetting={code:"orgId",name:"orgName"}
-    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
-})

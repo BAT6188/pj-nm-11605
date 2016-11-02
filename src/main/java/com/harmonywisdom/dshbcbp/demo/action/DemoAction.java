@@ -46,7 +46,6 @@ public class DemoAction extends BaseAction<Demo, DemoService> {
     @Override
     public void save() {
         //获取删除的附件IDS
-
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
