@@ -106,7 +106,10 @@ function initTable() {
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return pageUtils.sub16(value);
+                }
             },
             {
                 field: 'status',
