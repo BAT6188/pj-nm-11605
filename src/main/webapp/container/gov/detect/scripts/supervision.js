@@ -1,3 +1,4 @@
+//@ sourceURL=container/gov/detect/scripts/supervision.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -5,7 +6,7 @@ var gridTable = $('#table'),
     formTitle = "网格人员",
     selections = [];
 
-
+loadBlockLevelAndBlockOption();
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -41,7 +42,12 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+       // queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temps = pageUtils.getBaseParams(param);
+            temps.blockLevelId = ztreeId;
+            return temps;
+        },
         columns: [
             {
                 title:"全选",
@@ -138,8 +144,67 @@ function getSelections() {
         return row;
     });
 }
-
 initTable();
+var ztreeId;
+var ztreeName;
+var nextztreeid;
+var setting = {
+    height:800,
+    width:200,
+    view: {
+        showLine: true
+    },
+    data: {
+        keep: {
+            leaf: true
+        }
+    },
+    check:{
+        enable:true
+    },
+    async: {
+        enable: true,
+        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
+        autoParam: ["id"]
+    },
+    callback: {
+        onClick: zTreeOnClick
+    }
+};
+//异步加载fun
+function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
+    var treeObj = $.fn.zTree.getZTreeObj("ztree");
+    var nodes = treeObj.getSelectedNodes();
+    if (nodes.length>0) {
+        var selectNode = nodes[0];
+        treeObj.reAsyncChildNodes(selectNode,"refresh");
+    }
+}
+function zTreeOnClick(event, treeId, treeNode) {
+    ztreeId=treeNode.id;
+    ztreeName=treeNode.name;
+    gridTable.bootstrapTable('refresh');
+}
+
+$.fn.zTree.init($("#ztree"), setting);
+
+var selectTreeId;
+function getSelectTree(){
+    var treeObj = $.fn.zTree.getZTreeObj("ztree");
+    var sNodes = treeObj.getSelectedNodes();
+    //获得当前节点的下级节点
+    if (sNodes.length > 0) {
+        //当前节点
+        var node = sNodes[0].getPreNode();
+        //当前节点的父节点
+        var nodez=sNodes[0].getParentNode();
+        selectTreeId=node.id;
+        selectTreeId=nodez.id;
+    }
+}
+
+
+
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -158,14 +223,19 @@ $("#update").bind("click",function () {
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    deleteAjax(ids,function (msg) {
-        gridTable.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            zTreeOnAsyncSuccess();
+            removeBtn.prop('disabled', true);
         });
-        removeBtn.prop('disabled', true);
     });
-
 });
 /**============表单初始化相关代码============**/
 //初始化表单验证
@@ -173,8 +243,11 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.blockLevelId=ztreeId;
+        entity.blockLevelName=ztreeName;
         saveAjax(entity,function (msg) {
             form.modal('hide');
+            zTreeOnAsyncSuccess();
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -192,6 +265,7 @@ $("#save").bind('click',function () {
  * @returns {boolean}
  */
 function setFormData(entity) {
+    zTreeOnAsyncSuccess();
     resetForm();
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
@@ -201,6 +275,7 @@ function setFormData(entity) {
     $("#orgName").val(entity.orgName);
     $("#principal").val(entity.principal);
     $("#areaDesc").val(entity.areaDesc);
+    $("#blockLevelId").val(entity.blockLevelId);
     $("#principalPhone").val(entity.principalPhone);
     $("#orgAddress").val(entity.orgAddress);
     $("#position").val(entity.position);
@@ -221,23 +296,6 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
-
 }
 /**
  * 重置表单
@@ -247,8 +305,8 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-}
 
+}
 //表单附件相关js
 var uploader;//附件上传组件对象
 /**
@@ -315,9 +373,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };
@@ -345,33 +401,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
-
-
-
-$(".tree-left").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
-});
-var setting = {
-    height:500,
-    width:150,
-    view: {
-        showLine: false
-    },
-    async: {
-        enable: true,
-        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
-        autoParam:["id", "name", "level"],
-        otherParam:{"otherParam":"zTreeAsyncTest"},
-        dataFilter: filter
-    }
-};
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
-}
-$.fn.zTree.init($("#blockTree"), setting);

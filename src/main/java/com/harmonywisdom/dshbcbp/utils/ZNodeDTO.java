@@ -11,6 +11,8 @@ public class ZNodeDTO {
 
     private String name;
 
+    private Boolean isParent;
+
     private String type;
 
     private List<ZNodeDTO> children;
@@ -21,8 +23,16 @@ public class ZNodeDTO {
         this.id = id;
         this.name = name;
     }
+    public ZNodeDTO(String id, String name,Boolean isParent){
+        this(id,name);
+        this.isParent = isParent;
+    }
     public ZNodeDTO(String id, String name,String type){
         this(id,name);
+        this.type = type;
+    }
+    public ZNodeDTO(String id, String name,Boolean isParent,String type){
+        this(id,name,isParent);
         this.type = type;
     }
 
@@ -56,5 +66,13 @@ public class ZNodeDTO {
 
     public void setChildren(List<ZNodeDTO> children) {
         this.children = children;
+    }
+
+    public Boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(Boolean isParent) {
+        this.isParent = isParent;
     }
 }
