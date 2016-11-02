@@ -5,6 +5,10 @@ import com.harmonywisdom.dshbcbp.composite.service.ProjectEIAService;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> {
     @AutoService
     private ProjectEIAService projectEIAService;
@@ -12,5 +16,33 @@ public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> 
     @Override
     protected ProjectEIAService getService() {
         return projectEIAService;
+    }
+
+    /**
+     * highchart环评验收统计获取数据
+     */
+    public void getColRatio(){
+        String startdate = request.getParameter("startdate");
+        String lastdate = request.getParameter("lastdate");
+        String enterpriseId = request.getParameter("enterpriseId");
+        Map<String,Object> result = new HashMap<>();
+        List<Object[]> list = projectEIAService.findByRatio(startdate,lastdate,enterpriseId);
+
+        if (list != null && list.size() > 0) {
+            Object[] xlist = new Object[list.size()];
+            Object[] y1list = new Object[list.size()];
+            Object[] y21list = new Object[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                Object[] oo = list.get(i);
+                xlist[i] = String.valueOf(oo[0]);
+                y1list[i] = String.valueOf(oo[1]);
+                y21list[i] = String.valueOf(oo[2]);
+
+            }
+            result.put("x", xlist);
+            result.put("y1", y1list);
+            result.put("y2", y21list);
+        }
+        write(result);
     }
 }

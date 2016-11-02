@@ -38,6 +38,7 @@
                     <form class="form-inline">
                         <div class="form-group">
                             <label for="s_name">企业名称：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                            <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
                         <div class="form-group">
                             <label for="">日期：</label>
@@ -136,7 +137,7 @@
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/law_ratio_statistics.js"></script>
 <script type="text/javascript">
     $( function() {
-
+        var id;
         $( "#s_name" ).autocomplete({
             source: function( request, response ) {
                 $.ajax( {
@@ -147,16 +148,21 @@
                         name: request.term
                     },
                     success: function( data ) {
-                        for(var i = 0;i<data.rows.length;i++){
-                            console.log(data.rows[i].name);
                             var result = [];
                             for(var i = 0; i <  data.rows.length; i++) {
-                                result.push(data.rows[i].name);
+                                var ui={};
+                                ui.id=data.rows[i].id;
+                                ui.value=data.rows[i].name;
+                                result.push(ui);
                             }
                             response( result);
-                        }
                     }
                 } );
+            },
+            select: function( event, ui ) {
+                console.info(ui.item.id);
+                $("#enterpriseId").val(ui.item.id)
+
             },
         } );
     } );

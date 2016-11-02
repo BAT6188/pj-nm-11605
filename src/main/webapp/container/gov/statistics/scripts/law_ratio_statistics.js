@@ -473,7 +473,10 @@ $(function(){
                 }
             },
             xAxis: {
-                categories: categories
+                categories: categories,
+                title: {
+                    text: '月份'
+                }
             },
             yAxis: {
                 allowDecimals:false,//是否允许为小数
@@ -616,7 +619,10 @@ $(function(){
                 }
             },
             xAxis: {
-                categories: categories
+                categories: categories,
+                title: {
+                    text: '月份'
+                }
             },
             yAxis: {
                 allowDecimals:false,//是否允许为小数

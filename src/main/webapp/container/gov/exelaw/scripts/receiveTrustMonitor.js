@@ -1,8 +1,8 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#noiseForm"),
-    formTitle = "沙尘暴监测点",
+    form = $("#demoForm"),
+    formTitle = "Demo",
     selections = [];
 
 
@@ -10,7 +10,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_DustPort_save.action",
+        url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_DustPort_delete.action",
+        url: rootPath + "/action/S_exelaw_TrustMonitor_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,16 +36,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_DustPort_list.action",
-        height: getHeight(),
+        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action",
+        height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
-            return temp;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -55,38 +51,68 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '噪声源编号',
-                field: 'number',
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '噪声源名称',
-                field: 'name',
+                title: '企业所在网格',
+                field: 'blockName',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return value;
+                }
+            },
+            {
+                title: '申请单位',
+                field: 'applyOrg',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '噪声源类型',
-                field: 'noiseType',
+                title: '申请人',
+                field: 'applicant',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:noiseTypeFormatter
+                align: 'center'
             },
             {
-                title: '功能区类别',
-                field: 'fnType',
+                title: '联系方式',
+                field: 'applicantPhone',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:fnTypeFormatter
+                align: 'center'
+            },
+            {
+                title: '监测内容',
+                field: 'monitorContent',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '监测时间',
+                field: 'monitorTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'operate',
-                title: '操作',
+                title: '反馈状态',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
@@ -111,26 +137,18 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()
         });
     });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#noiseForm">查看</button>';
-}
-function noiseTypeFormatter(value, row, index){
-    return dict.get('noiseType',value);
-}
-function fnTypeFormatter(value, row, index){
-    return dict.get('noiseFnType',value);
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        $('.saveBtn').hide();
-        $('.lookBtn').show();
         setFormView(row);
     }
 };
@@ -154,9 +172,6 @@ function getSelections() {
     });
 }
 
-function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
-}
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
@@ -166,15 +181,9 @@ updateBtn.prop('disabled', true);
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
-    updateSuccessMsg = '添加'+formTitle+'成功!';
-    $('.saveBtn').show();
-    $('.lookBtn').hide();
     resetForm();
 });
 $("#update").bind("click",function () {
-    updateSuccessMsg = '修改'+formTitle+'成功!';
-    $('.saveBtn').show();
-    $('.lookBtn').hide();
     setFormData(getSelections()[0]);
 });
 /**
@@ -187,7 +196,6 @@ removeBtn.click(function () {
             return;
         }
         deleteAjax(ids,function (msg) {
-            Ewin.alert('删除成功！');
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -195,6 +203,8 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
+
+
 });
 
 
@@ -202,34 +212,59 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
+    var queryParams = {};
+    var applyOrgId = $("#s_applyOrgId").val();
+    var start_monitorTime = $("#start_monitorTime").val();
+    var end_monitorTime = $("#end_monitorTime").val();
+    var blockLevelId = $(".s_blockLevelId").val();
+    var blockId = $(".s_blockId").val();
+
+    if (blockLevelId){
+        queryParams["blockLevelId"] = blockLevelId;
+    }
+    if (blockId){
+        queryParams["blockId"] = blockId;
+    }
+    if (applyOrgId){
+        queryParams["applyOrgId"] = applyOrgId;
+    }
+    if (start_monitorTime){
+        queryParams["start_monitorTime"] = start_monitorTime;
+    }
+    if (end_monitorTime){
+        queryParams["end_monitorTime"] = end_monitorTime;
+    }
     gridTable.bootstrapTable('refresh',{
-        query:jsonData
+        query:queryParams
     });
 });
-//重置搜索
-$("#searchFix").click(function () {
-    $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 
 /**============表单初始化相关代码============**/
-var updateSuccessMsg = '提交成功';
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = form.find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
-        entity.attachmentId = getAttachmentIds();
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
-            Ewin.alert(updateSuccessMsg);
+            form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     }
 });
+
 
 //表单 保存按钮
 $("#save").bind('click',function () {
@@ -246,22 +281,13 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    var inputs = form.find('.form-control');
-    $.each(inputs,function(k,v){
-        var tagId = $(v).attr('name');
-        var value = entity[tagId];
-        if($(v)[0].tagName=='select'){
-            $(v).find("option[value='"+value+"']").attr("selected",true);
-        }else{
-            $(v).val(value);
-        }
-    });
-    var radios = form.find('.isRadio');
-    $.each(radios,function(k,v){
-        var tagId = $(v).attr('id');
-        var value = entity[tagId];
-        $("input#"+tagId+value).get(0).checked=true;
-    });
+    $("#id").val(entity.id);
+    $("#removeId").val("");
+    $("#name").val(entity.name);
+    $("#age").val(entity.age);
+    $("#longitude").val(entity.longitude);
+    $("#latitude").val(entity.latitude);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -271,24 +297,43 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
-    form.find(".form-control").attr("disabled",disabled);
-    form.find('.isRadio input').attr("disabled",disabled);
+    form.find("input").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#createTimeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openDateContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
+    }
+
 }
 /**
  * 重置表单
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find('form')[0].reset();
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
@@ -357,7 +402,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };
@@ -386,33 +431,10 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/**
- * 平面图标注
- */
-function makePlaneMap(){
-    var planeMapMarkDate = $('#planeMapMark').val();
-    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
-    PlottingDialog.dialog({
-        show:true,
-        mode:"marker",
-        data:data,
-        attachmentId:enterpriseData.planeMap,
-        callback:function (marker) {
-            var str = JSON.stringify(marker);
-            form.find('#planeMapMark').val(str);
-        }
-    });
-}
-/**
- * 查看平面图
- */
-function lookPlaneMap(){
-    var planeMapMarkDate = $('#planeMapMark').val();
-    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
-    PlottingDialog.dialog({
-        show:true,
-        mode:"view",
-        data:data,
-        attachmentId:enterpriseData.planeMap
-    });
-}
+$(document).ready(function () {
+    var optionsSetting={code:"orgId",name:"orgName"}
+    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
+})
+
+

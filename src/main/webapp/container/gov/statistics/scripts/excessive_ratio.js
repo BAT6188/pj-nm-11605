@@ -464,7 +464,8 @@ $(function(){
                 }
             },
             xAxis: {
-                categories: categories,title: {
+                categories: categories,
+                title: {
                     text: '月份'
                 }
             },

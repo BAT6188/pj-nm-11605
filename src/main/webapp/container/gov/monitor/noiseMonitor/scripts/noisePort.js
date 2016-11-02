@@ -2,11 +2,29 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#noiseForm"),
-    formTitle = "噪声源",
+    formTitle = "噪声监测点",
     selections = [];
 
 
-
+initMapBtn();
+/*初始化标注按钮*/
+function initMapBtn(){
+    //绑定markDialog关闭事件
+    MapMarkDialog.closed(function (mark) {
+        if (mark) {
+            $("#longitude").val(mark.x);
+            $("#latitude").val(mark.y);
+        }else{
+            Ewin.alert({message:"请选择坐标"});
+            return false;
+        }
+    });
+    $('#mapMarkBtn').bind('click', function () {
+        //设置标绘模式
+        MapMarkDialog.setMode("point");
+        MapMarkDialog.open();
+    });
+}
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -43,7 +61,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
+            temp.type = 1;
             return temp;
         },
         columns: [
@@ -62,7 +80,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '噪声源名称',
+                title: '监测点名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
@@ -221,7 +239,7 @@ var updateSuccessMsg = '提交成功';
 var ef = form.easyform({
     success:function (ef) {
         var entity = form.find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
+        entity.type = 1;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             $(".modal").modal('hide');
@@ -277,6 +295,7 @@ function setFormView(entity) {
     $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
+    form.find('.formBtn').attr("disabled",disabled);
     form.find(".form-control").attr("disabled",disabled);
     form.find('.isRadio input').attr("disabled",disabled);
 }

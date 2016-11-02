@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>申请委托监测</title>
+    <%@include file="/common/msgSend/msgSend.jsp"%>
     <style>
         .ui-autocomplete { z-index:2147483647;}
     </style>
@@ -90,8 +91,7 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applyOrg" name="applyOrg" class="form-control" data-message="申请单位不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
+                            <select id="applyOrgId" name="applyOrgId" style="width: 180px;" class="form-control"></select>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">申请人<span class="text-danger">*</span>：</label>

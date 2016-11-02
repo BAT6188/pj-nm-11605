@@ -25,7 +25,7 @@
     <%--select--%>
     <%--<jsp:include page="/common/common_select.jsp" flush="true"/>--%>
     <script type="text/javascript">
-        var enterpriseId=enterpriseData.id;
+        var enterpriseId;
         var handleTypeValue = "<%=handleType%>";
         handleType = handleTypeValue=="null"?handleType:handleTypeValue;
     </script>
@@ -72,7 +72,13 @@
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">所属网格<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
-                <input type="text" id="relateGrid" name="relateGrid" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="所属网格"/>
+                <select class="form-control needshow" id="blockLevelId" name="blockLevelId">
+                </select>
+            </div>
+            <label for="name" class="col-sm-2 control-label">所属网格<span class="text-danger">(*)</span>：</label>
+            <div class="col-sm-4">
+                <select class="form-control needshow" id="blockId" name="blockId">
+                </select>
             </div>
         </div>
         <div class="form-group">

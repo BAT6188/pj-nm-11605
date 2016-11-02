@@ -45,22 +45,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="lookInMap" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 95%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">地图显示</h4>
-            </div>
-            <div class="modal-body">
-                <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" frameborder="0"></iframe>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="/common/gis/map_dialog.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/enterpriseMointor/scripts/mainMonitor.js"></script>
 </body>
 </html>
