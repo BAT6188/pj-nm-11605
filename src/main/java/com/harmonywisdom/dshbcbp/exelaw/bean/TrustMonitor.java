@@ -24,6 +24,7 @@ public class TrustMonitor implements Serializable {
      * 2. 监察大队审批同意
      * 3. 监察大队审批不同意
      * 4. 监察大队发送给监测站办公室
+     * 5. 已反馈
      */
     @Column(length = 4)
     private String status;
@@ -150,32 +151,27 @@ public class TrustMonitor implements Serializable {
      * 反馈单位
      */
     @Column(name = "feedback_org")
-    private int feedbackOrg;
+    private String feedbackOrg;
     /**
      * 反馈内容
      */
     @Column(name = "feedback_content")
-    private int feedbackContent;
+    private String feedbackContent;
     /**
      * 监测详情
      */
     @Column(name = "result_desc")
-    private int resultDesc;
+    private String resultDesc;
     /**
      * 监测人
      */
     @Column(name = "monitor", length = 32)
-    private int monitor;
+    private String monitor;
     /**
      * 监测人联系方式
      */
     @Column(name = "monitor_phone", length = 11)
-    private int monitorPhone;
-    /**
-     * 监测报告（附件）
-     */
-    @Column(name = "report_attr_id", length = 32)
-    private int reportAttrId;
+    private String monitorPhone;
 
     @Transient
     private String attachmentIds;
@@ -325,52 +321,44 @@ public class TrustMonitor implements Serializable {
         this.attachmentId = attachmentId;
     }
 
-    public int getFeedbackOrg() {
+    public String getFeedbackOrg() {
         return feedbackOrg;
     }
 
-    public void setFeedbackOrg(int feedbackOrg) {
+    public void setFeedbackOrg(String feedbackOrg) {
         this.feedbackOrg = feedbackOrg;
     }
 
-    public int getFeedbackContent() {
+    public String getFeedbackContent() {
         return feedbackContent;
     }
 
-    public void setFeedbackContent(int feedbackContent) {
+    public void setFeedbackContent(String feedbackContent) {
         this.feedbackContent = feedbackContent;
     }
 
-    public int getResultDesc() {
+    public String getResultDesc() {
         return resultDesc;
     }
 
-    public void setResultDesc(int resultDesc) {
+    public void setResultDesc(String resultDesc) {
         this.resultDesc = resultDesc;
     }
 
-    public int getMonitor() {
+    public String getMonitor() {
         return monitor;
     }
 
-    public void setMonitor(int monitor) {
+    public void setMonitor(String monitor) {
         this.monitor = monitor;
     }
 
-    public int getMonitorPhone() {
+    public String getMonitorPhone() {
         return monitorPhone;
     }
 
-    public void setMonitorPhone(int monitorPhone) {
+    public void setMonitorPhone(String monitorPhone) {
         this.monitorPhone = monitorPhone;
-    }
-
-    public int getReportAttrId() {
-        return reportAttrId;
-    }
-
-    public void setReportAttrId(int reportAttrId) {
-        this.reportAttrId = reportAttrId;
     }
 
     public String getMonitorContentDetail() {
