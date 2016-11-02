@@ -83,12 +83,23 @@ public class DictAction extends ActionHelper implements Preparable {
     }
 
     public void getOrgPersonList(){
-        String orgCode = request.getParameter("orgCode");
-        List<OrgPerson> orgPersonList = findOrgPersonByOrgCode(orgCode,"-1");
+        List<OrgPerson> orgPersonList = new ArrayList<OrgPerson>();
+        String[] orgCode = getParamValues("orgCode");
+        String type = getParamValue("type");
+        if (orgCode.length == 1) {
+            orgPersonList = findOrgPersonByOrgCode(orgCode[0],"-1",type);
+        } else {
+            for (String code : orgCode) {
+                List<OrgPerson> thisOPList = findOrgPersonByOrgCode(code,"-1",type);
+                for(OrgPerson op:thisOPList){
+                    orgPersonList.add(op);
+                }
+            }
+        }
         write(orgPersonList);
     }
 
-    public List<OrgPerson> findOrgPersonByOrgCode(String orgCode,String orgParentId){
+    public List<OrgPerson> findOrgPersonByOrgCode(String orgCode,String orgParentId,String type){
         List<OrgPerson> orgPersonList = new ArrayList<>();
 
         IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
@@ -97,41 +108,38 @@ public class DictAction extends ActionHelper implements Preparable {
         org.setParentId(orgParentId);
         org.setName(iOrg.getOrgName());
         orgPersonList.add(org);
-        List<IPerson> personList = PersonServiceUtil.getPersonByOrgId(iOrg.getOrgId());
-        if(personList.size()>0){
-            for (IPerson iPerson:personList){
-                OrgPerson orgPerson = new OrgPerson();
-                orgPerson.setId(iPerson.getPersonId());
-                orgPerson.setName(iPerson.getUserName());
-                String job = (String) iPerson.getExtattrMap().get("job");
-                if(StringUtils.isNotBlank(job)){
-                    orgPerson.setJob(job);
-                }
-                orgPerson.setParentId(iOrg.getOrgId());
-                orgPersonList.add(orgPerson);
-            }
-        }else{
-            OrgPerson noOrg = new OrgPerson();
-            noOrg.setId("false");
-            noOrg.setParentId(iOrg.getOrgId());
-            noOrg.setName("没有查询到相关人员");
-            orgPersonList.add(noOrg);
-        }
-
-        List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
-        if(orgs.size()>0){
-            for(IOrg iOrgChild:orgs){
-                List<OrgPerson> orgPersons = findOrgPersonByOrgCode(iOrgChild.getOrgCode(),iOrg.getOrgId());
-                if(orgPersons.size()>0){
-                    for(OrgPerson op:orgPersons){
-                        orgPersonList.add(op);
+        if(StringUtils.isNotBlank(type) && (type.equals("1") || type.equals("2"))){
+            List<IPerson> personList = PersonServiceUtil.getPersonByOrgId(iOrg.getOrgId());
+            if(personList.size()>0){
+                for (IPerson iPerson:personList){
+                    OrgPerson orgPerson = new OrgPerson();
+                    orgPerson.setId(iPerson.getPersonId());
+                    orgPerson.setName(iPerson.getUserName());
+                    String job = (String) iPerson.getExtattrMap().get("job");
+                    if(StringUtils.isNotBlank(job)){
+                        orgPerson.setJob(job);
                     }
-                }else{
-                    OrgPerson noOrg = new OrgPerson();
-                    noOrg.setId("false");
-                    noOrg.setParentId(iOrgChild.getOrgId());
-                    noOrg.setName("没有查询到相关人员");
-                    orgPersonList.add(noOrg);
+                    orgPerson.setParentId(iOrg.getOrgId());
+                    orgPersonList.add(orgPerson);
+                }
+            }else{
+                OrgPerson noOrg = new OrgPerson();
+                noOrg.setId("false");
+                noOrg.setParentId(iOrg.getOrgId());
+                noOrg.setName("没有查询到相关人员");
+                orgPersonList.add(noOrg);
+            }
+        }
+        if(StringUtils.isNotBlank(type) && (type.equals("1") || type.equals("3"))){
+            List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
+            if(orgs.size()>0){
+                for(IOrg iOrgChild:orgs){
+                    List<OrgPerson> orgPersons = findOrgPersonByOrgCode(iOrgChild.getOrgCode(),iOrg.getOrgId(),"1");
+                    if(orgPersons.size()>0){
+                        for(OrgPerson op:orgPersons){
+                            orgPersonList.add(op);
+                        }
+                    }
                 }
             }
         }

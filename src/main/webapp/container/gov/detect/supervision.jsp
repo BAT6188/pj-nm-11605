@@ -2,16 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp" %>
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
     <title>网格人员</title>
 </head>
+
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="tree-left left">
-            <div id="blockTree" class="ztree">
+            <div id="ztree" class="ztree blockTree">
             </div>
         </div>
         <div class="main-right right">
@@ -45,16 +45,18 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="orgName" class="col-sm-2 control-label">单位名称：</label>
+                        <label for="orgName" class="col-sm-2 control-label">单位名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" id="blockLevelId" name="blockLevelId">
+                            <input type="hidden" id="blockLevelName" name="blockLevelName">
                             <input type="text" id="orgName" name="orgName" class="form-control"
                                    data-message="单位名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="principal" class="col-sm-2 control-label">姓名：</label>
+                        <label for="principal" class="col-sm-2 control-label">姓名<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="createTimeContent" class="input-group date form_date" data-date="" data-link-field="createTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input type="text" id="principal" name="principal" class="form-control"
@@ -65,31 +67,33 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="areaDesc" class="col-sm-2 control-label">管辖区域：</label>
+                        <label for="blockLevelId" class="col-sm-2 control-label">管辖区域：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="areaDesc" name="areaDesc" class="form-control"
-                                   data-message="管辖区域不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                            <%--<input type="text" id="areaDesc" name="areaDesc" class="form-control"--%>
+                            <%--data-message="管辖区域不能为空"--%>
+                            <%--data-easytip="position:top;class:easy-red;"--%>
+                            <%--/>--%>
+                                <select id="orgName" name="orgName" class="form-control">
+                                </select>
                         </div>
-                        <label for="principalPhone" class="col-sm-2 control-label">联系方式：</label>
+                        <label for="principalPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="openDateContent" class="input-group date form_date" data-date="" data-link-field="openDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input type="text" id="principalPhone" name="principalPhone" class="form-control"
                                        data-message="联系方式不能为空"
                                        data-easytip="position:top;class:easy-red;"
-                                />                            </div>
+                                /> </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="orgAddress" class="col-sm-2 control-label">单位地址：</label>
+                        <label for="orgAddress" class="col-sm-2 control-label">单位地址<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="orgAddress" name="orgAddress" class="form-control"
                                    data-message="单位地址不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="position" class="col-sm-2 control-label">职务：</label>
+                        <label for="position" class="col-sm-2 control-label">职务<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="position" name="position" class="form-control"
                                    data-message="职务不能为空"
@@ -98,7 +102,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="areaPoints" class="col-sm-2 control-label">管辖区域标会：</label>
+                        <label for="areaPoints" class="col-sm-2 control-label">管辖区域标会<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="text" id="areaPoints" name="areaPoints" class="form-control"
                                    data-message="管辖区域标会不能为空"
@@ -122,6 +126,7 @@
         </div>
     </div>
 </div>
+<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/supervision.js"></script>
 </body>
 </html>

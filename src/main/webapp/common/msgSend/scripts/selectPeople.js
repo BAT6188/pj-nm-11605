@@ -70,7 +70,7 @@ function setDialogTypeOne(dialog,options,callback){
             enable: true,
             url:rootPath + "/S_dict_Dict_getOrgPersonList.action",//"/container/gov/dispatch/selectPeople.json"
             autoParam:["id", "name=n", "level=lv"],
-            otherParam:{"orgCode":options.orgCode},
+            otherParam:options.params,
             dataFilter: filter
         }
     }

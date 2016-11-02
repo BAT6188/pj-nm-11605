@@ -998,6 +998,7 @@
 
 			var _tmpV = data.getRoot(setting)._ver;
 			$.ajax({
+				traditional:true,
 				contentType: setting.async.contentType,
                 cache: false,
 				type: setting.async.type,

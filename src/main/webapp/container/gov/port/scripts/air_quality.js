@@ -1,23 +1,21 @@
-//@ sourceURL=container/gov/detect/scripts/supervision.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "网格人员",
+    formTitle = "空气质量监测",
     selections = [];
-
-loadBlockLevelAndBlockOption();
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_save.action",
+        url: rootPath + "/action/S_port_AirQuality_save.action",
         type:"post",
         data:entity,
         dataType:"json",
         success:callback
     });
 }
+
 /**
  * 删除请求
  * @param ids 多个,号分隔
@@ -25,7 +23,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Block_delete.action",
+        url: rootPath + "/action/S_port_AirQuality_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -37,17 +35,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_Block_list.action",
-        height: pageUtils.getTableHeight(),
+        url: rootPath+"/action/S_port_AirQuality_list.action",
+        height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-       // queryParams:pageUtils.localParams,
-        queryParams:function (param) {
-            var temps = pageUtils.getBaseParams(param);
-            temps.blockLevelId = ztreeId;
-            return temps;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -55,42 +48,19 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            },
-            {
+            }, {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
                 valign: 'middle',
-                sortable: false,
-                visible:false
+                sortable: false
             },
             {
-                title: '单位名称',
-                field: 'orgName',
+                title: '空气AQI值',
+                field: 'airValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
-            {
-                title: '姓名',
-                field: 'principal',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '管辖网格',
-                field: 'areaDesc',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },
-            {
-                title: '联系方式',
-                field: 'principalPhone',
-                sortable: false,
-                align: 'center',
-                editable: false
             }
         ]
     });
@@ -106,15 +76,20 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
+
     });
 
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
+            height: getHeight()
         });
     });
 }
+
+
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
@@ -125,6 +100,7 @@ window.operateEvents = {
         setFormView(row);
     }
 };
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -144,65 +120,11 @@ function getSelections() {
         return row;
     });
 }
+
+function getHeight() {
+    return $(window).height() - $('.dealBox').outerHeight(true) - 130;
+}
 initTable();
-var ztreeId;
-var ztreeName;
-var nextztreeid;
-var setting = {
-    height:800,
-    width:200,
-    view: {
-        showLine: true
-    },
-    data: {
-        keep: {
-            leaf: true
-        }
-    },
-    check:{
-        enable:true
-    },
-    async: {
-        enable: true,
-        url:rootPath+"/action/S_composite_BlockLevel_getBlock.action",
-        autoParam: ["id"]
-    },
-    callback: {
-        onClick: zTreeOnClick
-    }
-};
-//异步加载fun
-function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
-    var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    var nodes = treeObj.getSelectedNodes();
-    if (nodes.length>0) {
-        var selectNode = nodes[0];
-        treeObj.reAsyncChildNodes(selectNode,"refresh");
-    }
-}
-function zTreeOnClick(event, treeId, treeNode) {
-    ztreeId=treeNode.id;
-    ztreeName=treeNode.name;
-    gridTable.bootstrapTable('refresh');
-}
-
-$.fn.zTree.init($("#ztree"), setting);
-
-var selectTreeId;
-function getSelectTree(){
-    var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    var sNodes = treeObj.getSelectedNodes();
-    //获得当前节点的下级节点
-    if (sNodes.length > 0) {
-        //当前节点
-        var node = sNodes[0].getPreNode();
-        //当前节点的父节点
-        var nodez=sNodes[0].getParentNode();
-        selectTreeId=node.id;
-        selectTreeId=nodez.id;
-    }
-}
-
 
 
 /**============列表工具栏处理============**/
@@ -232,22 +154,35 @@ removeBtn.click(function () {
                 field: 'id',
                 values: ids
             });
-            zTreeOnAsyncSuccess();
             removeBtn.prop('disabled', true);
         });
     });
+
+
 });
+
+/**============列表搜索相关处理============**/
+//搜索按钮处理
+$("#search").click(function () {
+    //查询之前重置table
+    var queryParams = {};
+  
+    search(queryParams);
+});
+function search(params) {
+    gridTable.bootstrapTable('refresh',{
+        query:params
+    });
+}
+
 /**============表单初始化相关代码============**/
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
-        entity.blockLevelId=ztreeId;
-        entity.blockLevelName=ztreeName;
+        entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
-            zTreeOnAsyncSuccess();
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -265,48 +200,67 @@ $("#save").bind('click',function () {
  * @returns {boolean}
  */
 function setFormData(entity) {
-    zTreeOnAsyncSuccess();
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
+    form.find(".form-title").text("修改空气质量");
     var id = entity.id;
     $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#orgName").val(entity.orgName);
-    $("#principal").val(entity.principal);
-    $("#areaDesc").val(entity.areaDesc);
-    $("#blockLevelId").val(entity.blockLevelId);
-    $("#principalPhone").val(entity.principalPhone);
-    $("#orgAddress").val(entity.orgAddress);
-    $("#position").val(entity.position);
-    $("#areaPoints").val(entity.areaPoints);
-
+  
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
+
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看"+formTitle);
+    form.find(".form-title").text("查看" + formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
+
 }
+
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#createTimeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openDateContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
+    }
+
 }
+
+
 /**
- * 重置表单
- */
+* 重置表单
+*/
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
+    form.find(".form-title").text("新增" + formTitle);
+    $("#remark").val("");
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 }
+
+
 //表单附件相关js
 var uploader;//附件上传组件对象
 /**
@@ -373,7 +327,9 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            itemLimit: 5
+            // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
+            // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+            itemLimit: 3
         },
         debug: true
     };
@@ -393,7 +349,6 @@ function getAttachmentIds() {
     }
     return "";
 }
-
 /**
  * 绑定下载按钮事件
  */
@@ -401,3 +356,6 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+
+

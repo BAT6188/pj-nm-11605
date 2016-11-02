@@ -52,25 +52,27 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
     }
 
     @Override
-    public List<Block> getBlock() {
-        List<Block> nodes = new ArrayList<Block>();
+    public List<ZNodeDTO> getBlock(String id) {
+        List<ZNodeDTO> nodes = new ArrayList<ZNodeDTO>();
         List<BlockLevel> levels = getDAO().findAll();
-
-        for (BlockLevel level: levels) {
-            //添加网格级别node
-            Block levelNode = new Block(level.getId(),level.getName());
-            //级别node下添加网格node
-            List<Block> blocks = blockService.find("where blockLevelId=?", level.getId());
-            if (blocks != null && blocks.size() > 0) {
-                List<Block> blockNodes = new ArrayList<Block>();
-                for (Block block : blocks) {
-                    Block blockNode = new Block(block.getId(), block.getOrgName());
-                    blockNodes.add(blockNode);
+        if(id==null){
+            //网格级别加载
+            for (BlockLevel level: levels) {
+                ZNodeDTO levelNode = new ZNodeDTO(level.getId(),level.getName(),true);
+                nodes.add(levelNode);
                 }
-                levelNode.setChildren(blockNodes);
+         } else {
+             //网格加载
+            List<Block> blocks = blockService.find("where blockLevelId=?", id);
+                if (blocks != null && blocks.size() > 0) {
+                    List<ZNodeDTO> blockNodes = new ArrayList<ZNodeDTO>();
+                    for (Block block : blocks) {
+                        ZNodeDTO blockNode = new ZNodeDTO(block.getId(), block.getOrgName());
+                        blockNodes.add(blockNode);
+                    }
+                    return blockNodes;
+                }
             }
-            nodes.add(levelNode);
-        }
         return nodes;
     }
 
@@ -95,21 +97,21 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         }
         List<ZNodeDTO> dustPorts = dustPortService.searchNode(searchText);
         if (dustPorts != null) {
-            ZNodeDTO dustMainNode = new ZNodeDTO(DustPort.class.getSimpleName(),"沙尘暴监测",DustPort.class.getSimpleName());
+            ZNodeDTO dustMainNode = new ZNodeDTO(DustPort.class.getSimpleName(),"沙尘暴监测",true,DustPort.class.getSimpleName());
             dustMainNode.setChildren(dustPorts);
             nodes.add(dustMainNode);
         }
         //查询企业
         List<ZNodeDTO> enterprises = enterpriseService.searchNode(searchText);
         if (enterprises != null) {
-            ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业",Enterprise.class.getSimpleName());
+            ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业",true,Enterprise.class.getSimpleName());
             enterpriseMainNode.setChildren(enterprises);
             nodes.add(enterpriseMainNode);
         }
         //查询农村生态环境
         List<ZNodeDTO> villages = villageEnvService.searchNode(searchText);
         if (villages != null) {
-            ZNodeDTO villageMainNode = new ZNodeDTO(VillageEnv.class.getSimpleName(),"农村生态环境",VillageEnv.class.getSimpleName());
+            ZNodeDTO villageMainNode = new ZNodeDTO(VillageEnv.class.getSimpleName(),"农村生态环境",true,VillageEnv.class.getSimpleName());
             villageMainNode.setChildren(villages);
             nodes.add(villageMainNode);
         }
