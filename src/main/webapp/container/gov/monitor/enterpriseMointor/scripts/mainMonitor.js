@@ -3,7 +3,7 @@ var gridTable = $('#table'),
 var options = {
     params:{
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
-        type:3
+        type:1
     },
     title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)

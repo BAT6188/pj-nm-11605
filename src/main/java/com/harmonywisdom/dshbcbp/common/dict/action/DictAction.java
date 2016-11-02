@@ -107,6 +107,7 @@ public class DictAction extends ActionHelper implements Preparable {
         org.setId(iOrg.getOrgId());
         org.setParentId(orgParentId);
         org.setName(iOrg.getOrgName());
+        org.setIcon("common/images/ztree/department.png");
         orgPersonList.add(org);
         if(StringUtils.isNotBlank(type) && (type.equals("1") || type.equals("2"))){
             List<IPerson> personList = PersonServiceUtil.getPersonByOrgId(iOrg.getOrgId());
@@ -120,6 +121,11 @@ public class DictAction extends ActionHelper implements Preparable {
                         orgPerson.setJob(job);
                     }
                     orgPerson.setParentId(iOrg.getOrgId());
+                    if(iPerson.getSex()==2){
+                        orgPerson.setIcon("common/images/ztree/female_lady_user_woman.png");
+                    }else{
+                        orgPerson.setIcon("common/images/ztree/head_male_man_user.png");
+                    }
                     orgPersonList.add(orgPerson);
                 }
             }else{
@@ -127,6 +133,7 @@ public class DictAction extends ActionHelper implements Preparable {
                 noOrg.setId("false");
                 noOrg.setParentId(iOrg.getOrgId());
                 noOrg.setName("没有查询到相关人员");
+                noOrg.setIcon("common/images/ztree/remind.png");
                 orgPersonList.add(noOrg);
             }
         }
