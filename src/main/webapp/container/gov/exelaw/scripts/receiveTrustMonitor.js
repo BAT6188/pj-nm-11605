@@ -1,14 +1,21 @@
 var gridTable = $('#table'),
-    removeBtn = $('#remove'),
-    updateBtn = $('#update'),
+    checkButton = $('#checkButton'),
     form = $("#demoForm"),
     formTitle = "Demo",
     selections = [];
 
+/**
+ * 切换共用的一个 uploader实例
+ * @param selector
+ */
+function uploaderToggle(selector) {
+    $(".uploaderToggle").attr("id","")
+    $(selector).attr("id","fine-uploader-gallery")
+}
 
 
 //保存ajax请求
-function saveAjax(entity, callback) {
+function saveAndAgreeAndSend(entity, callback) {
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
         type:"post",
@@ -17,20 +24,7 @@ function saveAjax(entity, callback) {
         success:callback
     });
 }
-/**
- * 删除请求
- * @param ids 多个,号分隔
- * @param callback
- */
-function deleteAjax(ids, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor_delete.action",
-        type:"post",
-        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:callback
-    });
-}
+
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
@@ -63,7 +57,11 @@ function initTable() {
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                events: approveAndSendEvents,
+                formatter: function (value, row, index) {
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="approveAndSend" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                }
             },
             {
                 title: '企业所在网格',
@@ -108,10 +106,13 @@ function initTable() {
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return pageUtils.sub16(value);
+                }
             },
             {
-                field: 'operate',
+                field: 'status',
                 title: '反馈状态',
                 align: 'center',
                 events: operateEvents,
@@ -128,10 +129,8 @@ function initTable() {
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
-        //有选中数据，启用删除按钮
-        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
-        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -142,14 +141,56 @@ function initTable() {
     });
 }
 
+// 列表操作事件
+window.approveAndSendEvents = {
+    'click .approveAndSend': function (e, value, row, index) {
+        setFormData(row);
+    }
+};
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+    if(undefined==value){
+        value="-"
+    }
+    if (value==2){
+        value="同意"
+    }else if(value==3){
+        value="不同意"
+    }else if(value==4){
+        value="已发送"
+    }else if(value==5){
+        value="已反馈"
+    }
+    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">'+value+'</div>';
 }
 // 列表操作事件
 window.operateEvents = {
-    'click .view': function (e, value, row, index) {
-        setFormView(row);
+    'click .view': function (e, value, entity, index) {
+        $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
+        $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+        $("#monitor").val(entity.monitor);
+        $("#monitorPhone").val(entity.monitorPhone);
+        $("#feedbackContent").val(entity.feedbackContent);
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
     }
 };
 /**
@@ -175,37 +216,39 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
-/**
- * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
- */
-$("#add").bind('click',function () {
-    resetForm();
-});
-$("#update").bind("click",function () {
-    setFormData(getSelections()[0]);
-});
-/**
- * 列表工具栏 删除按钮
- */
-removeBtn.click(function () {
-    var ids = getIdSelections();
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
-            return;
-        }
-        deleteAjax(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
-        });
-    });
+checkButton.prop('disabled', true);
+
+$("#checkButton").bind("click",function () {
+    var entity=getSelections()[0];
+
+    $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
+    $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+    $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+    $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+    $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+    $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+    $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+    $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+    $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+    $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+    $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+    $("#monitor").val(entity.monitor);
+    $("#monitorPhone").val(entity.monitorPhone);
+    $("#feedbackContent").val(entity.feedbackContent);
+
+    uploaderToggle(".bUploader")
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
 
 
 });
+
 
 
 
@@ -251,6 +294,30 @@ $('.form_datetime').datetimepicker({
     showMeridian: 1
 });
 
+/**============配置组织发送弹出框============**/
+var options = {
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:2
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
+    var d=$.param({personIds:data},true)
+    d+="&sourceId="+sourceId;
+    d+="&auditor="+userName;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitorOfficeAndMasterPersonList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            form.modal('hide');
+        }
+    });
+});
+
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
@@ -258,16 +325,16 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        saveAjax(entity,function (msg) {
-            form.modal('hide');
+        saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
+
+            model.open(msg.id);//打开dialog
         });
     }
 });
 
-
 //表单 保存按钮
-$("#save").bind('click',function () {
+$("#saveAndAgreeAndSend").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -279,15 +346,21 @@ $("#save").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#age").val(entity.age);
-    $("#longitude").val(entity.longitude);
-    $("#latitude").val(entity.latitude);
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#enterpriseId").val(entity.enterpriseId);
+    $("#monitorContent").val(entity.monitorContent);
+    $("#applyOrg").val(entity.applyOrg);
+    $("#applicant").val(entity.applicant);
+    $("#applicantPhone").val(entity.applicantPhone);
+    $("#monitorTime").val(entity.monitorTime);
+    $("#trustOrgAddress").val(entity.trustOrgAddress);
+    $("#monitorAddress").val(entity.monitorAddress);
+    $("#monitorContentDetail").val(entity.monitorContentDetail);
 
+    uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -328,13 +401,44 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-    form.find("#save").show();
-    form.find(".btn-cancel").text("取消");
 }
+
+
+/**============不同意表单============**/
+var auditForm=$("#auditForm")
+
+$("#saveAndNotAgree").click(function () {
+    $("#trustMonitorId").val($("#id").val())
+    $("#auditor").val(userName)
+    $("#auditTime").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    auditForm.modal('show');
+})
+
+//初始化表单验证
+var notAgreeForm = auditForm.easyform({
+    success:function (notAgreeForm) {
+        var entity = auditForm.find("form").formSerializeObject();
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_TrustMonitor_saveNotAgreeForm.action",
+            type:"post",
+            data:entity,
+            success:function (msg) {
+                auditForm.modal('hide');
+                form.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        });
+    }
+});
+
+
+//表单 保存按钮
+$("#save").bind('click',function () {
+    notAgreeForm.submit(false);
+});
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -434,6 +538,8 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
+    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
+
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 })
 

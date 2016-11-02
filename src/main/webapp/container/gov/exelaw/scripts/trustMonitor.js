@@ -5,8 +5,6 @@ var gridTable = $('#table'),
     formTitle = "Demo",
     selections = [];
 
-
-
 //保存ajax请求
 function saveAjax(entity, callback) {
     console.log("点击保存并且发送按钮："+JSON.stringify(entity))
@@ -95,8 +93,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                field: '反馈详情',
-                title: '操作',
+                title: '反馈详情',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
@@ -128,12 +125,46 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
-    'click .view': function (e, value, row, index) {
-        setFormView(row);
+    'click .view': function (e, value, entity, index) {
+        $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
+        $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+        $("#auditor").val(entity.auditor);
+        $("#auditorPhone").val(entity.auditorPhone);
+        if(entity.status==2){
+            $("#auditSuggestion").val("同意");
+        }else if(entity.status==3){
+            if(entity.auditSuggestion==''){
+                $("#auditSuggestion").val("不同意");
+            }else {
+                $("#auditSuggestion").val(entity.auditSuggestion);
+            }
+        }
+
+        $("#monitor").val(entity.monitor);
+        $("#monitorPhone").val(entity.monitorPhone);
+        $("#feedbackContent").val(entity.feedbackContent);
+
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
     }
 };
 /**
@@ -228,13 +259,25 @@ $('.form_datetime').datetimepicker({
 
 /**============配置组织发送弹出框============**/
 var options = {
-    orgCode:"0170001300",//组织机构代码(必填，组织机构代码)
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:2
+    },
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
-    console.log(sourceId);
-    console.log(data);//回调函数，data为所选人员ID
+    var d=$.param({personIds:data},true)
+    d+="&sourceId="+sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToEnvironmentalProtectionStationSelectPersonList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            form.modal('hide');
+        }
+    });
 });
 
 /**============表单初始化相关代码============**/
@@ -244,12 +287,9 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         saveAjax(entity,function (msg) {
-            // form.modal('hide');
             gridTable.bootstrapTable('refresh');
 
-            model.open(2);//打开dialog
-
-
+            model.open(msg.id);//打开dialog
         });
     }
 });

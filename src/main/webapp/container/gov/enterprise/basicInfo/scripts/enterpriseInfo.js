@@ -145,24 +145,17 @@ function getPlaneMapUploaderOptions(id) {
         },
         callbacks: {
             onComplete:function (id,fileName,msg,request) {
-                $('#planeMap').val(msg.id);
                 planeMapUploader.setUuid(id, msg.id);
-                $('#fine-uploader-planemap').find(".qq-upload-button").hide();
             },
-            onDeleteComplete:function (index,resp,msg) {
-                $('#fine-uploader-planemap').find(".qq-upload-button").show();
-                $('#planeMap').val("");
-                var reqObj = JSON.parse(resp.response);
-                if(reqObj.id!=""){
-                    var file = planeMapUploader.getUploads({id:index});
-                    var removeIds = $("#removeId").val();
-                    if (removeIds) {
-                        removeIds+= ("," + file.uuid)
-                    }else{
-                        removeIds = file.uuid;
-                    }
-                    $("#removeId").val(removeIds);
+            onDeleteComplete:function (id) {
+                var file = planeMapUploader.getUploads({id:id});
+                var removeIds = $("#removeId").val();
+                if (removeIds) {
+                    removeIds+= ("," + file.uuid)
+                }else{
+                    removeIds = file.uuid;
                 }
+                $("#removeId").val(removeIds);
             },
             onAllComplete: function (succeed) {
                 var self = this;
@@ -172,15 +165,18 @@ function getPlaneMapUploaderOptions(id) {
             }
         },
         request: {
-            endpoint: rootPath + '/Upload',
+            endpoint: rootPath + '/Upload?type=planeMap&businessId='+id,
+            paramsInBody:true,
             params: {
-                businessId:id
+                businessId:id,
+                type:"planeMap"
             }
         },
         session:{
-            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachmentByID.action',
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
             params: {
-                id:id
+                businessId:id,
+                attachmentType:"planeMap"
             }
         },
         deleteFile: {
@@ -191,7 +187,7 @@ function getPlaneMapUploaderOptions(id) {
         validation: {
             acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
             allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 1
+            itemLimit: 10
         },
         debug: true
     };
@@ -238,15 +234,17 @@ function getUploaderOptions(bussinessId) {
             }
         },
         request: {
-            endpoint: rootPath + '/Upload',
+            endpoint: rootPath + '/Upload?type=normalFile&businessId='+bussinessId,
             params: {
-                businessId:bussinessId
+                businessId:bussinessId,
+                type:"normalFile"
             }
         },
         session:{
             endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
             params: {
-                businessId:bussinessId
+                businessId:bussinessId,
+                attachmentType:"normalFile"
             }
         },
         deleteFile: {
@@ -262,15 +260,20 @@ function getUploaderOptions(bussinessId) {
 }
 
 function getAttachmentIds() {
+    var ids = [];
     var attachments = uploader.getUploads();
+    var pattachments = planeMapUploader.getUploads();
     if (attachments && attachments.length) {
-        var ids = [];
         for (var i = 0 ; i < attachments.length; i++){
             ids.push(attachments[i].uuid);
         }
-        return ids.join(",");
     }
-    return "";
+    if(pattachments && pattachments.length){
+        for (var i = 0 ; i < pattachments.length; i++){
+            ids.push(pattachments[i].uuid);
+        }
+    }
+    return ids.join(",");
 }
 /**
  * 绑定下载按钮事件
@@ -367,19 +370,14 @@ function setLookBtn(){
     $('.formBtn').attr('disabled','disabled');
     $('.lookBtn').show();
     /*设置上传*/
-    if(enterpriseData.planeMap){
-        $('#lookPlaneMapBtn').show();
-        $("#fine-uploader-planemap").hide();
-    }else{
-        $('#lookPlaneMapBtn').hide();
-        var pfuOptions = getPlaneMapUploaderOptions(enterpriseData.planeMap);
-        pfuOptions.callbacks.onSessionRequestComplete = function () {
-            $("#fine-uploader-planemap").find(".qq-upload-delete").hide();
-        };
-        planeMapUploader = new qq.FineUploader(pfuOptions);
-        $("#fine-uploader-planemap").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无平面图');
-        $("#fine-uploader-planemap").show();
-    }
+    //$('#lookPlaneMapBtn').hide();
+    var pfuOptions = getPlaneMapUploaderOptions(enterpriseData.id);
+    pfuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-planemap").find(".qq-upload-delete").hide();
+    };
+    planeMapUploader = new qq.FineUploader(pfuOptions);
+    $("#fine-uploader-planemap").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无平面图');
+    $("#fine-uploader-planemap").show();
 
     var fuOptions = getUploaderOptions(enterpriseData.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -405,13 +403,9 @@ function reloadThisPage(){
 }
 /*显示并设置保存和编辑状态按钮*/
 function setEditBtn(isFromEditBtn){
-    $('#lookPlaneMapBtn').hide();
+    //$('#lookPlaneMapBtn').hide();
     $("#fine-uploader-planemap").show();
-    console.log(enterpriseData);
-    planeMapUploader = new qq.FineUploader(getPlaneMapUploaderOptions(enterpriseData.planeMap));
-    if(enterpriseData.planeMap!=""){
-        $("#fine-uploader-planemap").find(".qq-upload-button").hide();
-    }
+    planeMapUploader = new qq.FineUploader(getPlaneMapUploaderOptions(enterpriseData.id));
     uploader = new qq.FineUploader(getUploaderOptions(enterpriseData.id));//附件上传组件对象
     $('.lookBtn').hide();
     $('.editBtn').show();

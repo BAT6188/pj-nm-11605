@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,10 +16,24 @@ public class TrustMonitor implements Serializable {
     @Column(length = 32)
     private String id;
 
+    /**
+     * 流程状态，审批意见
+     *
+     * 0. 申请委托检测未发送
+     * 1. 申请委托检测已发送
+     * 2. 监察大队审批同意
+     * 3. 监察大队审批不同意
+     * 4. 监察大队发送给监测站办公室
+     * 5. 已反馈
+     */
+    @Column(length = 4)
+    private String status;
 
+    /**
+     * 企业
+     */
     @Column(name = "enterprise_id", length = 32)
     private String enterpriseId;
-
     @Column(name = "enterprise_name", length = 100)
     private String enterpriseName;
 
@@ -47,6 +58,12 @@ public class TrustMonitor implements Serializable {
      */
     @Column(name = "environmental_protection_station_select_person_list")
     private String environmentalProtectionStationSelectPersonList;
+
+    /**
+     * 监测站办公室，监测站站长 人员列表
+     */
+    @Column(name = "monitor_office_and_master_person_list")
+    private String monitorOfficeAndMasterPersonList;
 
 
     /**
@@ -80,16 +97,6 @@ public class TrustMonitor implements Serializable {
     @Column(name = "trust_org_address")
     private String trustOrgAddress;
     /**
-     * 委托人
-     */
-    @Column(name = "truster")
-    private String truster;
-    /**
-     * 委托人联系方式
-     */
-    @Column(name = "truster_phone", length = 11)
-    private String trusterPhone;
-    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -112,25 +119,31 @@ public class TrustMonitor implements Serializable {
     private String monitorContentDetail;
 
     /**
-     * 审核人
+     * 审批人员
      */
     @Column(name = "auditor")
     private String auditor;
     /**
-     * 审核时间
+     * 审批时间
      */
     @Column(name = "audit_time")
     private Date auditTime;
     /**
-     * 审核人职务
+     * 审批人员职务
      */
     @Column(name = "audit_position")
     private String auditPosition;
     /**
-     * 联系方式
+     * 审批人员联系方式
      */
     @Column(name = "auditor_phone", length = 11)
     private String auditorPhone;
+
+    /**
+     * 审批意见
+     */
+    @Column(name = "audit_suggestion")
+    private String auditSuggestion;
 
     @Column(name = "attachment_id", length = 32)
     private String attachmentId;
@@ -138,32 +151,38 @@ public class TrustMonitor implements Serializable {
      * 反馈单位
      */
     @Column(name = "feedback_org")
-    private int feedbackOrg;
+    private String feedbackOrg;
     /**
      * 反馈内容
      */
     @Column(name = "feedback_content")
-    private int feedbackContent;
+    private String feedbackContent;
     /**
      * 监测详情
      */
     @Column(name = "result_desc")
-    private int resultDesc;
+    private String resultDesc;
     /**
      * 监测人
      */
     @Column(name = "monitor", length = 32)
-    private int monitor;
+    private String monitor;
     /**
-     * 联系方式
+     * 监测人联系方式
      */
     @Column(name = "monitor_phone", length = 11)
-    private int monitorPhone;
-    /**
-     * 监测报告（附件）
-     */
-    @Column(name = "report_attr_id", length = 32)
-    private int reportAttrId;
+    private String monitorPhone;
+
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;
@@ -171,6 +190,14 @@ public class TrustMonitor implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getMonitorOfficeAndMasterPersonList() {
+        return monitorOfficeAndMasterPersonList;
+    }
+
+    public void setMonitorOfficeAndMasterPersonList(String monitorOfficeAndMasterPersonList) {
+        this.monitorOfficeAndMasterPersonList = monitorOfficeAndMasterPersonList;
     }
 
     public String getEnterpriseName() {
@@ -229,21 +256,6 @@ public class TrustMonitor implements Serializable {
         this.trustOrgAddress = trustOrgAddress;
     }
 
-    public String getTruster() {
-        return truster;
-    }
-
-    public void setTruster(String truster) {
-        this.truster = truster;
-    }
-
-    public String getTrusterPhone() {
-        return trusterPhone;
-    }
-
-    public void setTrusterPhone(String trusterPhone) {
-        this.trusterPhone = trusterPhone;
-    }
 
     public Date getMonitorTime() {
         return monitorTime;
@@ -309,52 +321,44 @@ public class TrustMonitor implements Serializable {
         this.attachmentId = attachmentId;
     }
 
-    public int getFeedbackOrg() {
+    public String getFeedbackOrg() {
         return feedbackOrg;
     }
 
-    public void setFeedbackOrg(int feedbackOrg) {
+    public void setFeedbackOrg(String feedbackOrg) {
         this.feedbackOrg = feedbackOrg;
     }
 
-    public int getFeedbackContent() {
+    public String getFeedbackContent() {
         return feedbackContent;
     }
 
-    public void setFeedbackContent(int feedbackContent) {
+    public void setFeedbackContent(String feedbackContent) {
         this.feedbackContent = feedbackContent;
     }
 
-    public int getResultDesc() {
+    public String getResultDesc() {
         return resultDesc;
     }
 
-    public void setResultDesc(int resultDesc) {
+    public void setResultDesc(String resultDesc) {
         this.resultDesc = resultDesc;
     }
 
-    public int getMonitor() {
+    public String getMonitor() {
         return monitor;
     }
 
-    public void setMonitor(int monitor) {
+    public void setMonitor(String monitor) {
         this.monitor = monitor;
     }
 
-    public int getMonitorPhone() {
+    public String getMonitorPhone() {
         return monitorPhone;
     }
 
-    public void setMonitorPhone(int monitorPhone) {
+    public void setMonitorPhone(String monitorPhone) {
         this.monitorPhone = monitorPhone;
-    }
-
-    public int getReportAttrId() {
-        return reportAttrId;
-    }
-
-    public void setReportAttrId(int reportAttrId) {
-        this.reportAttrId = reportAttrId;
     }
 
     public String getMonitorContentDetail() {
@@ -411,5 +415,21 @@ public class TrustMonitor implements Serializable {
 
     public void setBlockName(String blockName) {
         this.blockName = blockName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAuditSuggestion() {
+        return auditSuggestion;
+    }
+
+    public void setAuditSuggestion(String auditSuggestion) {
+        this.auditSuggestion = auditSuggestion;
     }
 }
