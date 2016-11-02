@@ -22,10 +22,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             padding: 10px;
             color: #337ab7;
         }
+
+        .selectPeople {
+            z-index: 2061;
+        }
     </style>
 </head>
 <body>
-<div class="modal fade" id="selectPeopleDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
+<div class="modal fade selectPeople" id="selectPeopleDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:882px;">
         <div class="modal-content">
             <div class="modal-header">

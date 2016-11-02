@@ -5,6 +5,7 @@ var OneImagePage = function () {
         enterpriseLayer:"EnterpriseLayer",
         blockLayer:"BlockLayer",
         villageLayer:"VillageEnvLayer",
+        noisePortLayer:"NoisePortLayer",
         dustPortLayer:"DustPortLayer",
         videoPortLayer:"VideoLayer",
         height:$(window).height()-125,
@@ -61,6 +62,7 @@ var OneImagePage = function () {
                             }else{
                                 that.hwmap.removeOverlay(treeNode.id);//否清除对应的标绘
                             }
+                            that.hwmap.hideInfoWindow();
                         }
 
 
@@ -89,6 +91,96 @@ var OneImagePage = function () {
             mapWindow.initMapFinish = function (hwmapCommon) {
                 that.hwmap = hwmapCommon;
             };
+        },
+
+        /**
+         * 添加噪音排口
+         * @param ids
+         */
+        loadNoisePort:function (ids) {
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_port_NoisePort_findByIds.action",
+                type:"post",
+                dataType:"json",
+                data:$.param({'ids':ids},true),
+                success:function (result) {
+                    if (result && result.length > 0){
+                        for(var i = 0; i < result.length; i++){
+                            var noisePort = result[i];
+                            that.addNoisePortMark(noisePort);
+                        }
+                    }
+                }
+            });
+
+        },
+        addNoisePortMark:function (noisePort) {
+            var x = noisePort.longitude;
+            var y = noisePort.latitude;
+            if (!x || !y) {
+                return false;
+            }
+            var that = this;
+            this.hwmap.addMarker({
+                id:noisePort.id,
+                data:noisePort,
+                imgSrc:"images/markers/noise.png",
+                width:34,
+                height:39,
+                x:noisePort.longitude,
+                y:noisePort.latitude,
+                click:function (gra) {
+                    that.showNoisePortInfoWin(gra.data);
+                }
+            },this.noisePortLayer);
+        },
+        //噪声排口是否监测和监测值映射。方便加载
+        noiseMonitorMap:{
+            'isLeqdb': {'field':'leqdb','lable':'Leq(db)'},
+            'isSd': {'field':'sd','lable':'sd'},
+            'isLmax': {'field':'lmax','lable':'Lmax(dB)'},
+            'isLmin': {'field':'lmin','lable':'Lmin(dB)'},
+            'isLFive': {'field':'lFive','lable':'L5(dB)'},
+            'isLTen': {'field':'lTen','lable':'L10(dB)'},
+            'isLFifty': {'field':'lFifty','lable':'L50(dB)'},
+            'isLNinety': {'field':'lNinety','lable':'L90(dB)'},
+            'isLNinetyFive': {'field':'lNinetyFive','lable':'L95(dB)'},
+            'isLe': {'field':'le','lable':'Le'}
+
+        },
+        showNoisePortInfoWin:function(noisePort){
+
+            var height =250;
+            var infoHtml = "<div>";
+            infoHtml +="<table class='table'>" +
+                "<tr><td style='text-align: right;width: 100px;'>监测点:</td><td style='text-align: left;'>"+noisePort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+noisePort.monitorTime+"</td></tr>";
+
+            //展示噪声排口监测值
+            for(var isMonitor in this.noiseMonitorMap) {
+                if (noisePort[isMonitor] == "1") {
+                    var lable = this.noiseMonitorMap[isMonitor].lable;
+                    var valueField = this.noiseMonitorMap[isMonitor].field;
+                    var value = pageUtils.getStr(noisePort[valueField]);
+                    infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
+                }
+            }
+            infoHtml+="<tr><td style='text-align: right;'>昼间上限(dB):</td><td style='text-align: left;'>"+noisePort.dayMax+"</td></tr>"+
+                "<tr><td style='text-align: right;'>夜间上限(dB):</td><td style='text-align: left;'>"+noisePort.nightMax+"</td></tr>"+
+                "</table>";
+            infoHtml += "</div>";
+
+
+            //显示信息窗口
+            this.hwmap.showInfoWindow({
+                x:noisePort.longitude,
+                y:noisePort.latitude,
+                width:300,
+                height:height,
+                html:infoHtml,
+                title:"噪音监测设备"
+            });
         },
 
         /**
@@ -133,7 +225,7 @@ var OneImagePage = function () {
                 }
             },this.dustPortLayer);
         },
-        //噪声排口是否监测和监测值映射。方便加载
+        //沙尘暴排口是否监测和监测值映射。方便加载
         dustMonitorMap:{
             'isPm': {'field':'pm','label':'PM(mg/m3)'},
             'isTsp': {'field':'tsp','label':'TSP(mg/m3)'},
@@ -149,9 +241,9 @@ var OneImagePage = function () {
             var height =250;
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: left;width: 70px;'>监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
-                "<tr><td style='text-align: left;'>监测时间:</td><td style='text-align: left;'>"+dustPort.monitorTime+"</td></tr>"+
-                "<tr><td style='text-align: left;'>能见度:</td><td style='text-align: left;'>"+pageUtils.getStr(dustPort.visibility)+"</td></tr>";
+                "<tr><td style='text-align: right;width: 70px;'>监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+dustPort.monitorTime+"</td></tr>"+
+                "<tr><td style='text-align: right;'>能见度:</td><td style='text-align: left;'>"+pageUtils.getStr(dustPort.visibility)+"</td></tr>";
 
                 //展示噪声排口监测值
             for(var isMonitor in this.dustMonitorMap) {
@@ -159,12 +251,9 @@ var OneImagePage = function () {
                     var lable = this.dustMonitorMap[isMonitor].label;
                     var valueField = this.dustMonitorMap[isMonitor].field;
                     var value = pageUtils.getStr(dustPort[valueField]);
-                    infoHtml+="<tr><td style='text-align: left;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
+                    infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
                 }
             }
-            infoHtml+="<tr><td style='text-align: left;'>昼间上限(dB):</td><td style='text-align: left;'>"+pageUtils.getStr(dustPort.dayMax)+"</td></tr>"+
-                "<tr><td style='text-align: left;'>夜间上限(dB):</td><td style='text-align: left;'>"+pageUtils.getStr(dustPort.nightMax)+"</td></tr>"+
-                "</table>";
             infoHtml += "</div>";
 
 
@@ -346,9 +435,10 @@ var OneImagePage = function () {
                     if (result && result.length > 0){
                         for(var i = 0; i < result.length; i++){
                             var village = result[i];
-                            that.addVillageArea(village);
                             var videos = village.videos;
                             that.addVideos(videos);
+                            that.addVillageArea(village);
+
                         }
                     }
                 }

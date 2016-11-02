@@ -381,7 +381,7 @@ function setLookBtn(){
         $("#fine-uploader-planemap").show();
     }
 
-    var fuOptions = getUploaderOptions(enterpriseId);
+    var fuOptions = getUploaderOptions(enterpriseData.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
     };
@@ -407,11 +407,12 @@ function reloadThisPage(){
 function setEditBtn(isFromEditBtn){
     $('#lookPlaneMapBtn').hide();
     $("#fine-uploader-planemap").show();
+    console.log(enterpriseData);
     planeMapUploader = new qq.FineUploader(getPlaneMapUploaderOptions(enterpriseData.planeMap));
     if(enterpriseData.planeMap!=""){
         $("#fine-uploader-planemap").find(".qq-upload-button").hide();
     }
-    uploader = new qq.FineUploader(getUploaderOptions(enterpriseId));//附件上传组件对象
+    uploader = new qq.FineUploader(getUploaderOptions(enterpriseData.id));//附件上传组件对象
     $('.lookBtn').hide();
     $('.editBtn').show();
     initTimeInput();

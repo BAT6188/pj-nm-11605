@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2016/10/17.
  */
+var sourceId_msgSend //源id
 (function($){
     $.fn.MsgSend = {
         init:function(type,options,callback){
@@ -23,7 +24,8 @@
             dialog.find('#formTitle').html(options.title);
             setDialogTypeOne(dialog,options,callback);
             var msgSendTools = {
-                open:function(){
+                open:function(sourceId){
+                    sourceId_msgSend=sourceId;
                     dialog.modal('show');
                 }
             }
@@ -42,7 +44,7 @@ function setDialogTypeOne(dialog,options,callback){
                 Ewin.alert("请选择人员");
                 return;
             }
-            callback(true,ids);
+            callback(true,ids,sourceId_msgSend);
             removeFromGrid();
             dialog.modal('hide');
         });
@@ -68,7 +70,7 @@ function setDialogTypeOne(dialog,options,callback){
             enable: true,
             url:rootPath + "/S_dict_Dict_getOrgPersonList.action",//"/container/gov/dispatch/selectPeople.json"
             autoParam:["id", "name=n", "level=lv"],
-            otherParam:{"orgCode":options.orgCode},
+            otherParam:options.params,
             dataFilter: filter
         }
     }

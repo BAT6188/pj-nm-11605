@@ -82,10 +82,10 @@
 
                         <div class="form-group">
                             <label for="blockLevelId">所属区域：</label>
-                            <select id="blockLevelId" name="blockLevelId" class="form-control" style="width: 266px;">
+                            <select class="form-control s_blockLevelId" style="width: 266px;">
                             </select>
                             -
-                            <select id="blockId" name="blockId" class="form-control" style="width: 266px;">
+                            <select class="form-control s_blockId" style="width: 266px;">
                             </select>
                         </div>
 
@@ -409,19 +409,13 @@
                     <div class="form-group">
                         <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control">
-                                <option value="1">网格级别1</option>
-                                <option value="2">网格级别2</option>
-                                <option value="3">网格级别3</option>
+                            <select id="blockLevelId" name="blockLevelId" class="form-control" style="width: 266px;">
                             </select>
                         </div>
 
                         <label for="blockId" class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
                             <select id="blockId" name="blockId" class="form-control">
-                                <option value="1">网格1</option>
-                                <option value="2">网格2</option>
-                                <option value="3">网格3</option>
                             </select>
                         </div>
                     </div>

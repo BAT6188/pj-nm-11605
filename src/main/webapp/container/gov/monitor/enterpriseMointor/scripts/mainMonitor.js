@@ -1,5 +1,16 @@
 var gridTable = $('#table'),
     selections = [];
+var options = {
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:3
+    },
+    title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    console.log(data);//回调函数，data为所选人员ID
+});
 $('#mapFrame').attr('width',$('#lookInMap').width()-180);
 $('#mapFrame').attr('height',$(window).height()-300);
 /**============grid 列表初始化相关代码============**/
@@ -86,7 +97,6 @@ function jumpToUrl(url){
 }
 // 列表操作事件
 function lookInMap(id){
-    alert("111111");
     MapDialog.loadEnterprise(id);
     MapDialog.open();
 }
