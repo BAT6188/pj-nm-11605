@@ -63,6 +63,16 @@ var pageUtils = {
             return str.substr(0,10);
         }
     },
+    /**
+     * 截取字符前16位 年月日时分
+     * @param str
+     * @returns {string}
+     */
+    sub16:function (str) {
+        if(str){
+            return str.substr(0,16);
+        }
+    },
     //加载菜单
     _mainMenu: [],//主菜单
     _subMenu:{}, //子菜单
@@ -422,6 +432,7 @@ var pageUtils = {
             dataType:"json",
             success:function (options) {
                 $(selector).empty();
+                $(selector).append($("<option>").val('').text("全部"));
                 $.each(options,function (i,v) {
                     var option = $("<option>").val(v[optionsSetting.code]).text(v[optionsSetting.name]);
                     $(selector).append(option);
