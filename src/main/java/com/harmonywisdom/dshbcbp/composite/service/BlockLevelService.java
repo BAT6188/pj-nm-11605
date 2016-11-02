@@ -1,6 +1,5 @@
 package com.harmonywisdom.dshbcbp.composite.service;
 
-import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.service.IBaseService;
@@ -14,7 +13,7 @@ public interface BlockLevelService extends IBaseService<BlockLevel, String> {
       * @return
       */
      List<ZNodeDTO> getBlockTree();
-     List<Block> getBlock();
+     List<ZNodeDTO> getBlock(String id);
 
      /**
       * 获取一张图页面左侧树

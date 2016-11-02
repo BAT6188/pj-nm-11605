@@ -29,7 +29,9 @@ public class BlockAction extends BaseAction<Block, BlockService> {
         if (StringUtils.isNotBlank(entity.getOrgName())) {
             params.andParam(new QueryParam("orgName", QueryOperator.LIKE,entity.getOrgName()));
         }
-
+        if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
+            params.andParam(new QueryParam("blockLevelId", QueryOperator.LIKE,entity.getBlockLevelId()));
+        }
         if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
             params.andParam(new QueryParam("blockLevelId", QueryOperator.EQ,entity.getBlockLevelId()));
         }
