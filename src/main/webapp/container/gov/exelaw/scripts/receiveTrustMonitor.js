@@ -8,7 +8,7 @@ var gridTable = $('#table'),
 
 
 //保存ajax请求
-function saveAjax(entity, callback) {
+function saveAndAgreeAndSend(entity, callback) {
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
         type:"post",
@@ -63,7 +63,11 @@ function initTable() {
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                events: approveAndSendEvents,
+                formatter: function (value, row, index) {
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="approveAndSend" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                }
             },
             {
                 title: '企业所在网格',
@@ -141,6 +145,13 @@ function initTable() {
         });
     });
 }
+
+// 列表操作事件
+window.approveAndSendEvents = {
+    'click .approveAndSend': function (e, value, row, index) {
+        setFormData(row);
+    }
+};
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
@@ -251,6 +262,26 @@ $('.form_datetime').datetimepicker({
     showMeridian: 1
 });
 
+/**============配置组织发送弹出框============**/
+var options = {
+    orgCode:"0170001300",//组织机构代码(必填，组织机构代码)
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
+    var d=$.param({personIds:data},true)
+    d+="&sourceId="+sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitorOfficeAndMasterPersonList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            form.modal('hide');
+        }
+    });
+});
+
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
@@ -258,16 +289,17 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        saveAjax(entity,function (msg) {
-            form.modal('hide');
+        saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
+
+            model.open(msg.id);//打开dialog
         });
     }
 });
 
 
 //表单 保存按钮
-$("#save").bind('click',function () {
+$("#saveAndAgreeAndSend").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -279,14 +311,19 @@ $("#save").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#age").val(entity.age);
-    $("#longitude").val(entity.longitude);
-    $("#latitude").val(entity.latitude);
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#enterpriseId").val(entity.enterpriseId);
+    $("#monitorContent").val(entity.monitorContent);
+    $("#applyOrg").val(entity.applyOrg);
+    $("#applicant").val(entity.applicant);
+    $("#applicantPhone").val(entity.applicantPhone);
+    $("#monitorTime").val(entity.monitorTime);
+    $("#trustOrgAddress").val(entity.trustOrgAddress);
+    $("#monitorAddress").val(entity.monitorAddress);
+    $("#monitorContentDetail").val(entity.monitorContentDetail);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -328,13 +365,44 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-    form.find("#save").show();
-    form.find(".btn-cancel").text("取消");
 }
+
+
+/**============不同意表单============**/
+var auditForm=$("#auditForm")
+
+$("#saveAndNotAgree").click(function () {
+    $("#trustMonitorId").val($("#id").val())
+    $("#auditor").val(userName)
+    $("#auditTime").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    auditForm.modal('show');
+})
+
+//初始化表单验证
+var notAgreeForm = auditForm.easyform({
+    success:function (notAgreeForm) {
+        var entity = auditForm.find("form").formSerializeObject();
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_TrustMonitor_saveNotAgreeForm.action",
+            type:"post",
+            data:entity,
+            success:function (msg) {
+                auditForm.modal('hide');
+                form.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        });
+    }
+});
+
+
+//表单 保存按钮
+$("#save").bind('click',function () {
+    notAgreeForm.submit(false);
+});
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -434,6 +502,8 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
+    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
+
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 })
 

@@ -5,8 +5,6 @@ var gridTable = $('#table'),
     formTitle = "Demo",
     selections = [];
 
-
-
 //保存ajax请求
 function saveAjax(entity, callback) {
     console.log("点击保存并且发送按钮："+JSON.stringify(entity))
@@ -233,8 +231,17 @@ var options = {
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
-    console.log(sourceId);
-    console.log(data);//回调函数，data为所选人员ID
+    var d=$.param({personIds:data},true)
+    d+="&sourceId="+sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToEnvironmentalProtectionStationSelectPersonList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            form.modal('hide');
+        }
+    });
 });
 
 /**============表单初始化相关代码============**/
@@ -244,12 +251,9 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         saveAjax(entity,function (msg) {
-            // form.modal('hide');
             gridTable.bootstrapTable('refresh');
 
-            model.open(2);//打开dialog
-
-
+            model.open(msg.id);//打开dialog
         });
     }
 });
