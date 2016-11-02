@@ -57,6 +57,7 @@ public class PortStatusHistory implements Serializable {
 
     /**
      * 状态
+     * 0:正常
      * 1:超标
      * 2:异常
      */

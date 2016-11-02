@@ -70,7 +70,7 @@ function setDialogTypeOne(dialog,options,callback){
             enable: true,
             url:rootPath + "/S_dict_Dict_getOrgPersonList.action",//"/container/gov/dispatch/selectPeople.json"
             autoParam:["id", "name=n", "level=lv"],
-            otherParam:{"orgCode":options.orgCode},
+            otherParam:options.params,
             dataFilter: filter
         }
     }
@@ -94,7 +94,6 @@ function setDialogTypeOne(dialog,options,callback){
         }
     };
     function filter(treeId, parentNode, childNodes) {
-        console.log(childNodes);
         if (!childNodes) return null;
         for (var i=0, l=childNodes.length; i<l; i++) {
             childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
@@ -147,7 +146,6 @@ function setDialogTypeOne(dialog,options,callback){
     initSelectPeopleTable();
 
     function operateFormatter(value, row, index) {
-        console.log(row.id);
         return '<button type="button" class="close buttonClose" value="'+row.id+'"><span aria-hidden="true" title="删除">×</span></button>';
     }
     /**
@@ -188,7 +186,7 @@ function setDialogTypeOne(dialog,options,callback){
     }
 
     function zTreeOnClick(event, treeId, treeNode) {
-        if(!treeNode.parent){
+        if(treeNode.check_Child_State=="-1" && treeNode.id!="false"){
             appendToGrid(treeNode);
         }
     };

@@ -40,6 +40,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="Node-frame-menubar">
+                            <div class="padd" style="padding-bottom: 0px;">
+                                <div class="input-append row-fluid" style="margin-bottom: 0px;">
+                                    <input id="search_condition" type="text" placeholder="请输入搜索条件" class="span8" style="font-size:12px"/>
+                                    <button type="button" class="btn btn-info" onclick="search_ztree('treeDemo1', 'search_condition')">搜索</button>
+                                </div>
+                            </div>
                             <div class="scrollContent" >
                                 <ul id="treeDemo1" class="ztree"></ul>
                             </div>
@@ -64,5 +70,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <script src="<%=request.getContextPath()%>/common/msgSend/scripts/selectPeople.js"></script>
 <script src="<%=request.getContextPath()%>/common/msgSend/scripts/jsMap.js"></script>
+<script src="<%=request.getContextPath()%>/common/msgSend/scripts/selectTree.js"></script>
 </body>
 </html>

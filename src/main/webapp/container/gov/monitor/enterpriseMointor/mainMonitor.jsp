@@ -14,7 +14,7 @@
         <div class="mainBox">
             <div class="dealBox">
                 <div class="sideTitle left">
-                        <span class="blueMsg">
+                        <span class="blueMsg" onclick="model.open()">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
@@ -45,7 +45,9 @@
         </div>
     </div>
 </div>
+<%@include file="/common/msgSend/msgSend.jsp"%>
 <%@include file="/common/gis/map_dialog.jsp"%>
+<%@include file="/container/gov/composite/enterprise_plotting.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/enterpriseMointor/scripts/mainMonitor.js"></script>
 </body>
 </html>

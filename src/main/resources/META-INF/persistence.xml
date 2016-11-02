@@ -51,6 +51,8 @@
         <class>com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory</class>
         <!-- 传输有效率 -->
         <class>com.harmonywisdom.dshbcbp.port.bean.TransportEfficient</class>
+        <!-- 空气质量监控表-->
+        <class>com.harmonywisdom.dshbcbp.port.bean.AirQuality</class>
         <!--短信记录-->
         <class>com.harmonywisdom.dshbcbp.sms.bean.SmsRecord</class>
         <class>com.harmonywisdom.dshbcbp.sms.bean.SmsSendStatus</class>

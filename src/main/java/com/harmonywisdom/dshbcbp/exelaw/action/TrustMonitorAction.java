@@ -1,7 +1,9 @@
 package com.harmonywisdom.dshbcbp.exelaw.action;
 
+import com.alibaba.fastjson.JSON;
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
+import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
@@ -22,6 +24,9 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     private TrustMonitorService trustMonitorService;
 
     @AutoService
+    private AttachmentService attachmentService;
+
+    @AutoService
     private EnterpriseService enterpriseService;
 
     @Override
@@ -29,19 +34,77 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         return trustMonitorService;
     }
 
+    public void saveToMonitorOfficeAndMasterPersonList(){
+        String sourceId = request.getParameter("sourceId");
+        TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
+        trustMonitor.setStatus("2");
+
+        String[] personIds = getParamValues("personIds");
+        trustMonitor.setMonitorOfficeAndMasterPersonList(JSON.toJSONString(personIds));
+
+        String pk = trustMonitorService.saveOrUpdate(trustMonitor);
+        write(pk);
+    }
+
+    public void saveToEnvironmentalProtectionStationSelectPersonList(){
+        String sourceId = request.getParameter("sourceId");
+        TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
+        trustMonitor.setStatus("1");
+
+        String[] personIds = getParamValues("personIds");
+        trustMonitor.setEnvironmentalProtectionStationSelectPersonList(JSON.toJSONString(personIds));
+
+        String pk = trustMonitorService.saveOrUpdate(trustMonitor);
+        write(pk);
+    }
+
     /**
-     * 保存申请委托监测内容
+     * 保存审批不同意表单
      */
+    public void saveNotAgreeForm(){
+        String id = request.getParameter("trustMonitorId");
+        TrustMonitor trustMonitor = trustMonitorService.findById(id);
+        trustMonitor.setStatus("3");
+        trustMonitor.setAuditor(entity.getAuditor());
+        trustMonitor.setAuditTime(entity.getAuditTime());
+        trustMonitor.setAuditPosition(entity.getAuditPosition());
+        trustMonitor.setAuditorPhone(entity.getAuditorPhone());
+        trustMonitor.setAuditSuggestion(entity.getAuditSuggestion());
+
+        String pk = trustMonitorService.saveOrUpdate(trustMonitor);
+        write(pk);
+    }
+
     @Override
     public void save() {
         String enterpriseId = entity.getEnterpriseId();
-        Enterprise enterprise = enterpriseService.findById(enterpriseId);
-        entity.setBlockLevelId(enterprise.getBlockLevelId());
-        entity.setBlockLevelName(enterprise.getBlockLevelName());
-        entity.setBlockId(enterprise.getBlockId());
-        entity.setBlockName(enterprise.getBlockName());
+        if (StringUtils.isNotEmpty(enterpriseId)){
+            Enterprise enterprise = enterpriseService.findById(enterpriseId);
+            entity.setBlockLevelId(enterprise.getBlockLevelId());
+            entity.setBlockLevelName(enterprise.getBlockLevelName());
+            entity.setBlockId(enterprise.getBlockId());
+            entity.setBlockName(enterprise.getBlockName());
+        }
+
+        String applyOrgId = entity.getApplyOrgId();
+        if (StringUtils.isNotEmpty(applyOrgId)){
+            IOrg o = OrgServiceUtil.getOrgByOrgId(applyOrgId);
+            entity.setApplyOrg(o.getOrgName());
+        }
+
+
+        //获取删除的附件IDS
+        String attachmentIdsRemoveId = request.getParameter("removeId");
+        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
 
         super.save();
+
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+        }
     }
 
     /**
