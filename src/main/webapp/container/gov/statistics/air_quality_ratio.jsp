@@ -49,11 +49,30 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </div>
+                        <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                        <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                     </form>
                     <p></p>
+                    <form class="form-inline">
+
+                        <div class="form-group">
+                            <label for="">同期对比：</label>
+                            <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="startTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            -
+                            <button type="button" id="sbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>上半年</span></button>
+                            <button type="button" id="xbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>下半年</span></button>
+                            <%--<div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">--%>
+                                <%--<input class="form-control" size="16" id="endTime"  type="text" value="" readonly>--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>--%>
+                            <%--</div>--%>
+                        </div>
+                    </form>
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
             <div class="tableBox">
                 <div class="chart-box">
@@ -88,7 +107,7 @@
     </div>
 </div>
 
-<script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/air_quality_statistics.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/air_quality_ratio.js"></script>
 
 </body>
 </html>

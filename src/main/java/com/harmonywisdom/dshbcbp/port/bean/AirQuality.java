@@ -22,6 +22,13 @@ public class AirQuality implements Serializable {
     @Column(name="AIR_VALUE",length=100)
     private String airValue;
 
+    /**
+     * 更新时间
+     * @return
+     */
+    @Column(name="REC_TIME")
+    private Date rec_Time;
+
     public String getId() {
         return id;
     }
@@ -36,5 +43,13 @@ public class AirQuality implements Serializable {
 
     public void setAirValue(String airValue) {
         this.airValue = airValue;
+    }
+
+    public Date getRec_Time() {
+        return rec_Time;
+    }
+
+    public void setRec_Time(Date rec_Time) {
+        this.rec_Time = rec_Time;
     }
 }
