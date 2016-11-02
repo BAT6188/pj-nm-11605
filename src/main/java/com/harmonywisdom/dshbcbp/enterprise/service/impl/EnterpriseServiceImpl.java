@@ -56,11 +56,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         gasPort.setEnterpriseId(id);
         List<GasPort> gasPortList = gasPortDAO.findBySample(gasPort);
         if(gasPortList.size()>0){
-            dictBeans.add(covertToDictBean("gasPort","废气排口",id,serial,"common/images/ztree/pictograms_aem.png"));
+            dictBeans.add(covertToDictBean("gasPort","废气排口",id,serial,"common/images/ztree/department.png"));
             serial +=1;
             for(int i=0;i<gasPortList.size();i++){
                 GasPort gp = gasPortList.get(i);
-                dictBeans.add(covertToDictBean(gp.getId(),gp.getName(),"gasPort",serial,"common/images/ztree/preferences_alt.png"));
+                dictBeans.add(covertToDictBean(gp.getId(),gp.getName(),"gasPort",serial,"common/images/ztree/activity_monitor_screen.png"));
                 serial +=1;
             }
         }
@@ -72,11 +72,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         waterPort.setEnterpriseId(id);
         List<WaterPort> waterPortList = waterPortDAO.findBySample(waterPort);
         if(waterPortList.size()>0){
-            dictBeans.add(covertToDictBean("waterPort","废水排口",id,serial,"common/images/ztree/Water_Steam.png"));
+            dictBeans.add(covertToDictBean("waterPort","废水排口",id,serial,"common/images/ztree/department.png"));
             serial +=1;
             for(int i=0;i<waterPortList.size();i++){
                 WaterPort wp = waterPortList.get(i);
-                dictBeans.add(covertToDictBean(wp.getId(),wp.getName(),"waterPort",serial,"common/images/ztree/preferences_alt.png"));
+                dictBeans.add(covertToDictBean(wp.getId(),wp.getName(),"waterPort",serial,"common/images/ztree/activity_monitor_screen.png"));
                 serial +=1;
             }
         }
@@ -88,11 +88,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         noisePort.setEnterpriseId(id);
         List<NoisePort> noisePortList = noisePortDAO.findBySample(noisePort);
         if(noisePortList.size()>0){
-            dictBeans.add(covertToDictBean("noisePort","噪声排口",id,serial,"common/images/ztree/speaker_delete.png"));
+            dictBeans.add(covertToDictBean("noisePort","噪声排口",id,serial,"common/images/ztree/department.png"));
             serial +=1;
             for(int i=0;i<noisePortList.size();i++){
                 NoisePort np = noisePortList.get(i);
-                dictBeans.add(covertToDictBean(np.getId(),np.getName(),"noisePort",serial,"common/images/ztree/preferences_alt.png"));
+                dictBeans.add(covertToDictBean(np.getId(),np.getName(),"noisePort",serial,"common/images/ztree/activity_monitor_screen.png"));
                 serial +=1;
             }
         }
@@ -104,11 +104,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         fumesPort.setEnterpriseId(id);
         List<FumesPort> fumesPortList = fumesPortDAO.findBySample(fumesPort);
         if(fumesPortList.size()>0){
-            dictBeans.add(covertToDictBean("fumesPort","油烟排口",id,serial,"common/images/ztree/cooker_hood.png"));
+            dictBeans.add(covertToDictBean("fumesPort","油烟排口",id,serial,"common/images/ztree/department.png"));
             serial +=1;
             for(int i=0;i<fumesPortList.size();i++){
                 FumesPort fp = fumesPortList.get(i);
-                dictBeans.add(covertToDictBean(fp.getId(),fp.getName(),"fumesPort",serial,"common/images/ztree/preferences_alt.png"));
+                dictBeans.add(covertToDictBean(fp.getId(),fp.getName(),"fumesPort",serial,"common/images/ztree/activity_monitor_screen.png"));
                 serial +=1;
             }
         }

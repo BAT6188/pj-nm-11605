@@ -346,8 +346,8 @@
         <div class="form-group">
             <label for="planeMap" class="col-sm-2 control-label">平面图：</label>
             <div class="col-sm-10">
-                <input type="hidden" id="planeMap" name="planeMap" class="form-control">
-                <button type="button" id="lookPlaneMapBtn" class="btn btn-info" style="display: none" onclick="lookPlaneMap()">查看平面图</button>
+                <%--<input type="hidden" id="planeMap" name="planeMap" class="form-control">
+                <button type="button" id="lookPlaneMapBtn" class="btn btn-info" style="display: none" onclick="lookPlaneMap()">查看平面图</button>--%>
                 <%--<jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>--%>
                 <div id="fine-uploader-planemap"></div>
             </div>

@@ -19,6 +19,11 @@ public class Contacts implements Serializable {
     @Column(name = "NAME",length = 100)
     private String name;
     /**
+     *性别
+     */
+    @Column(name = "SEX",length = 1)
+    private String sex;
+    /**
      *部门
      */
     @Column(name = "DEPARTMENT",length = 100)
@@ -124,5 +129,13 @@ public class Contacts implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

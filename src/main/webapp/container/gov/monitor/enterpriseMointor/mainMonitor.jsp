@@ -47,6 +47,7 @@
 </div>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <%@include file="/common/gis/map_dialog.jsp"%>
+<%@include file="/container/gov/composite/enterprise_plotting.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/enterpriseMointor/scripts/mainMonitor.js"></script>
 </body>
 </html>

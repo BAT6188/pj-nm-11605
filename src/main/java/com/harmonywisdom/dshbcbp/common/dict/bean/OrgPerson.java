@@ -19,6 +19,10 @@ public class OrgPerson {
 
     private String department;
 
+    private String icon;
+    private String iconOpen;
+    private String iconClose;
+
     public String getId() {
         return id;
     }
@@ -73,5 +77,29 @@ public class OrgPerson {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIconOpen() {
+        return iconOpen;
+    }
+
+    public void setIconOpen(String iconOpen) {
+        this.iconOpen = iconOpen;
+    }
+
+    public String getIconClose() {
+        return iconClose;
+    }
+
+    public void setIconClose(String iconClose) {
+        this.iconClose = iconClose;
     }
 }
