@@ -2,7 +2,7 @@ var gridTable = $('#table'),
     selections = [];
 var options = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        orgCode:['0170001100'],//组织机构代码(必填，组织机构代码)
         type:1
     },
     title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)

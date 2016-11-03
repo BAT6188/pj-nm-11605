@@ -20,7 +20,7 @@ public class AirQuality implements Serializable {
      * 空气AQI值
      */
     @Column(name="AIR_VALUE",length=100)
-    private String airValue;
+    private Integer airValue;
 
     /**
      * 更新时间
@@ -37,11 +37,11 @@ public class AirQuality implements Serializable {
         this.id = id;
     }
 
-    public String getAirValue() {
+    public Integer getAirValue() {
         return airValue;
     }
 
-    public void setAirValue(String airValue) {
+    public void setAirValue(Integer airValue) {
         this.airValue = airValue;
     }
 

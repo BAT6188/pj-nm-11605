@@ -38,6 +38,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         String sourceId = request.getParameter("sourceId");
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
         trustMonitor.setStatus("2");
+        trustMonitor.setAuditor(entity.getAuditor());
 
         String[] personIds = getParamValues("personIds");
         trustMonitor.setMonitorOfficeAndMasterPersonList(JSON.toJSONString(personIds));
