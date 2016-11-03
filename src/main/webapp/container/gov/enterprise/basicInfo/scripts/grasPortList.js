@@ -1,3 +1,4 @@
+//@ sourceURL=grasPortList.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -315,8 +316,8 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find('form')[0].reset();
+    form.find("input[type!='radio'][type!='checkbox']").val("");
+    //form.find('form')[0].reset();
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
@@ -426,7 +427,7 @@ function makePlaneMap(){
         show:true,
         mode:"marker",
         data:data,
-        attachmentId:enterpriseData.planeMap,
+        attachmentId:pageUtils.findAttachmentIds(enterpriseId,"planeMap"),
         callback:function (marker) {
             var str = JSON.stringify(marker);
             form.find('#planeMapMark').val(str);

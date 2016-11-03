@@ -1,5 +1,24 @@
 var pageUtils = {
 
+    findAttachmentIds: function (businessId,attachmentType) {
+        var ids = [];
+        $.ajax({
+            url:rootPath + "/action/S_attachment_Attachment_listAttachment.action",
+            type:"post",
+            async:false,
+            dataType:"json",
+            data:{'businessId':businessId,'attachmentType':attachmentType},
+            success:function (result) {
+                if (result && result.length > 0){
+                    for(var i = 0; i < result.length; i++){
+                        ids.push(result[i].id);
+                    }
+                }
+            }
+        });
+        return ids;
+    },
+
     getTableHeight:function () {
         //console.log($('.dealBox').outerHeight(true)+$('.banner').outerHeight(true)+$('.linear').outerHeight(true));
         return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true)-8;

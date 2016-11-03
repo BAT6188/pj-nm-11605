@@ -21,6 +21,7 @@ public class AirQualityAction extends BaseAction<AirQuality, AirQualityService> 
 
 
     /**
+     * highchart
      * 空气质量获取后台数据
      */
     public void getColumnHighChart(){
@@ -44,6 +45,37 @@ public class AirQualityAction extends BaseAction<AirQuality, AirQualityService> 
         }
         write(result);
 
+    }
+
+    /**
+     * highchart
+     * 空气质量同期对比分析获取后台数据
+     */
+    public void getColumnAirRatio(){
+        String startXdate= request.getParameter("startXdate");
+        String lastXdate= request.getParameter("lastXdate");
+        String startSdate= request.getParameter("startSdate");
+        String lastSdate= request.getParameter("lastSdate");
+        String airType= request.getParameter("airType");
+
+        Map<String,Object> result = new HashMap<>();
+
+        List<Object[]> list = airQualityService.findByAirRadioData(startXdate,lastXdate,startSdate,lastSdate,airType);
+        if(list != null && list.size()>0){
+            Object[] xList = new Object[list.size()];
+            Object[] aList = new Object[list.size()];
+            Object[] bList = new Object[list.size()];
+            for(int i = 0;i < list.size();i++){
+                Object[] cc = list.get(i);
+                xList[i] = String.valueOf(cc[0]);
+                aList[i] = String.valueOf(cc[1]);
+                bList[i] = String.valueOf(cc[2]);
+            }
+            result.put("x",xList);
+            result.put("y1",aList);
+            result.put("y2",bList);
+        }
+        write(result);
 
     }
 

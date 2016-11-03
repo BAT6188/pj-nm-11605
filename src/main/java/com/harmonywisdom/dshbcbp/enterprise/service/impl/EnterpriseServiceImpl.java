@@ -4,10 +4,7 @@ import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
-import com.harmonywisdom.dshbcbp.port.bean.FumesPort;
-import com.harmonywisdom.dshbcbp.port.bean.GasPort;
-import com.harmonywisdom.dshbcbp.port.bean.NoisePort;
-import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
+import com.harmonywisdom.dshbcbp.port.bean.*;
 import com.harmonywisdom.dshbcbp.port.dao.FumesPortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.GasPortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.NoisePortDAO;
@@ -18,9 +15,7 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service("enterpriseService")
 public class EnterpriseServiceImpl extends BaseService<Enterprise, String> implements EnterpriseService {
@@ -116,6 +111,47 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         return dictBeans;
     }
 
+    @Override
+    public List<Map<String, String>> queryEnterpriseAlertStatus(String... ids) {
+        List<Map<String, String>> result = new ArrayList<>();
+        for (String id: ids) {
+            Map<String, String> enterpriseAlertStatus = new HashMap<>();
+            enterpriseAlertStatus.put("id", id);
+            enterpriseAlertStatus.put("status", queryEnterpriseAlertStatus(id));
+            result.add(enterpriseAlertStatus);
+        }
+        return result;
+    }
+
+    /**
+     * 查询单个企业报警状态
+     * @param id
+     * @return status
+     */
+    private String queryEnterpriseAlertStatus(String id) {
+        List<Object> gasPortAlertCountResult = gasPortDAO.queryNativeSQL("select count(*) from HW_DSHBCBP_GAS_PORT where enterprise_Id=?1 and port_Status=1",id);
+        int gasAlertCount = Integer.valueOf(gasPortAlertCountResult.get(0).toString());
+        if (gasAlertCount > 0) {
+            return PortStatusHistory.STATUS_OVER;
+        }
+        List<Object> waterPortAlertCount = waterPortDAO.queryNativeSQL("select count(*) from HW_DSHBCBP_WATER_PORT where enterprise_Id=?1 and port_Status=1",id);
+        int waterAlertCount = Integer.valueOf(waterPortAlertCount.get(0).toString());
+        if (waterAlertCount > 0) {
+            return PortStatusHistory.STATUS_OVER;
+        }
+        List<Object> fumesPortAlertCount = fumesPortDAO.queryNativeSQL("select count(*) from HW_DSHBCBP_FUMES_PORT where enterprise_Id=?1 and port_Status=1",id);
+        int fumesAlertCount = Integer.valueOf(fumesPortAlertCount.get(0).toString());
+        if (fumesAlertCount > 0) {
+            return PortStatusHistory.STATUS_OVER;
+        }
+        List<Object> noisePortAlertCount = noisePortDAO.queryNativeSQL("select count(*) from HW_DSHBCBP_NOISE_PORT where enterprise_Id=?1 and port_Status=1",id);
+        int noiseAlertCount = Integer.valueOf(noisePortAlertCount.get(0).toString());
+        if (noiseAlertCount > 0) {
+            return PortStatusHistory.STATUS_OVER;
+        }
+        return PortStatusHistory.STATUS_NORMAL;
+    }
+
     /**
      * 转换格式
      * @param code
@@ -136,7 +172,7 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
 
     @Override
     public List<ZNodeDTO> searchNode(String searchText) {
-        List<Enterprise> enterprises = getDAO().find("name like ?1", searchText);
+        List<Enterprise> enterprises = getDAO().find("name like ?1 and isDel=0", searchText);
         if (enterprises != null && enterprises.size() > 0) {
             List<ZNodeDTO> nodes = new ArrayList<>();
             for (Enterprise enterprise : enterprises) {

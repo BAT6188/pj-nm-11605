@@ -15,6 +15,10 @@ import java.util.Date;
 public class PortStatusHistory implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final String STATUS_NORMAL = "0";
+    public static final String STATUS_OVER = "1";
+    public static final String STATUS_WARNING = "2";
+
     @Id
     @Column(length = 32)
     private String id;
