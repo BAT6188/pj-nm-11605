@@ -61,8 +61,8 @@ public class PortStatusHistory implements Serializable {
      * 1:超标
      * 2:异常
      */
-    @Column(name = "status")
-    private String status;
+    @Column(name = "port_status")
+    private String portStatus;
 
     /**
      * 最小值
@@ -118,12 +118,12 @@ public class PortStatusHistory implements Serializable {
         this.pollutantCode = pollutantCode;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPortStatus() {
+        return portStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPortStatus(String portStatus) {
+        this.portStatus = portStatus;
     }
 
     public Double getMinValue() {

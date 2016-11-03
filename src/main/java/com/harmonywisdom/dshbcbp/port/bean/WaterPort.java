@@ -83,6 +83,15 @@ public class WaterPort implements Serializable {
     private String monitorType;
 
     /**
+     * 状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
+     */
+    @Column(name = "port_status")
+    private String portStatus;
+
+    /**
      * 标志牌安装形式
      */
     @Column(name = "single_install_type",length = 100)
@@ -312,20 +321,12 @@ public class WaterPort implements Serializable {
         this.remark = remark;
     }
 
-    public Date getMonitorTime() {
-        return monitorTime;
+    public String getPortStatus() {
+        return portStatus;
     }
 
-    public void setMonitorTime(Date monitorTime) {
-        this.monitorTime = monitorTime;
-    }
-
-    public Double getFlow() {
-        return flow;
-    }
-
-    public void setFlow(Double flow) {
-        this.flow = flow;
+    public void setPortStatus(String portStatus) {
+        this.portStatus = portStatus;
     }
 
     public String getIsFlow() {
@@ -336,14 +337,6 @@ public class WaterPort implements Serializable {
         this.isFlow = isFlow;
     }
 
-    public Double getOxygen() {
-        return oxygen;
-    }
-
-    public void setOxygen(Double oxygen) {
-        this.oxygen = oxygen;
-    }
-
     public String getIsOxygen() {
         return isOxygen;
     }
@@ -352,28 +345,12 @@ public class WaterPort implements Serializable {
         this.isOxygen = isOxygen;
     }
 
-    public Double getNitrogen() {
-        return nitrogen;
-    }
-
-    public void setNitrogen(Double nitrogen) {
-        this.nitrogen = nitrogen;
-    }
-
     public String getIsNitrogen() {
         return isNitrogen;
     }
 
     public void setIsNitrogen(String isNitrogen) {
         this.isNitrogen = isNitrogen;
-    }
-
-    public Double getPh() {
-        return ph;
-    }
-
-    public void setPh(Double ph) {
-        this.ph = ph;
     }
 
     public String getIsPh() {
@@ -414,5 +391,45 @@ public class WaterPort implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public Date getMonitorTime() {
+        return monitorTime;
+    }
+
+    public void setMonitorTime(Date monitorTime) {
+        this.monitorTime = monitorTime;
+    }
+
+    public Double getFlow() {
+        return flow;
+    }
+
+    public void setFlow(Double flow) {
+        this.flow = flow;
+    }
+
+    public Double getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(Double oxygen) {
+        this.oxygen = oxygen;
+    }
+
+    public Double getNitrogen() {
+        return nitrogen;
+    }
+
+    public void setNitrogen(Double nitrogen) {
+        this.nitrogen = nitrogen;
+    }
+
+    public Double getPh() {
+        return ph;
+    }
+
+    public void setPh(Double ph) {
+        this.ph = ph;
     }
 }

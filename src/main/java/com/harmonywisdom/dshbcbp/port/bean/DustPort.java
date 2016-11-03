@@ -47,6 +47,15 @@ public class DustPort implements Serializable {
     private Date monitorTime;
 
     /**
+     * 状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
+     */
+    @Column(name = "port_status")
+    private String portStatus;
+
+    /**
      * 能见度(km)
      */
     @Column(name = "visibility")
@@ -172,12 +181,28 @@ public class DustPort implements Serializable {
         this.name = name;
     }
 
-    public Double getVisibility() {
-        return visibility;
+    public String getNumber() {
+        return number;
     }
 
-    public void setVisibility(Double visibility) {
-        this.visibility = visibility;
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public Date getMonitorTime() {
@@ -188,60 +213,12 @@ public class DustPort implements Serializable {
         this.monitorTime = monitorTime;
     }
 
-    public Double getPm() {
-        return pm;
+    public String getPortStatus() {
+        return portStatus;
     }
 
-    public void setPm(Double pm) {
-        this.pm = pm;
-    }
-
-    public Double getTsp() {
-        return tsp;
-    }
-
-    public void setTsp(Double tsp) {
-        this.tsp = tsp;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
-    }
-
-    public Double getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(Double humidity) {
-        this.humidity = humidity;
-    }
-
-    public Double getAirPressure() {
-        return airPressure;
-    }
-
-    public void setAirPressure(Double airPressure) {
-        this.airPressure = airPressure;
-    }
-
-    public Double getWindDirection() {
-        return windDirection;
-    }
-
-    public void setWindDirection(Double windDirection) {
-        this.windDirection = windDirection;
-    }
-
-    public Double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public void setWindSpeed(Double windSpeed) {
-        this.windSpeed = windSpeed;
+    public void setPortStatus(String portStatus) {
+        this.portStatus = portStatus;
     }
 
     public Double getIsPm() {
@@ -300,14 +277,6 @@ public class DustPort implements Serializable {
         this.isWindSpeed = isWindSpeed;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -316,19 +285,67 @@ public class DustPort implements Serializable {
         this.createTime = createTime;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public Double getVisibility() {
+        return visibility;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setVisibility(Double visibility) {
+        this.visibility = visibility;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Double getPm() {
+        return pm;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setPm(Double pm) {
+        this.pm = pm;
+    }
+
+    public Double getTsp() {
+        return tsp;
+    }
+
+    public void setTsp(Double tsp) {
+        this.tsp = tsp;
+    }
+
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
+    }
+
+    public Double getAirPressure() {
+        return airPressure;
+    }
+
+    public void setAirPressure(Double airPressure) {
+        this.airPressure = airPressure;
+    }
+
+    public Double getWindDirection() {
+        return windDirection;
+    }
+
+    public void setWindDirection(Double windDirection) {
+        this.windDirection = windDirection;
+    }
+
+    public Double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(Double windSpeed) {
+        this.windSpeed = windSpeed;
     }
 }

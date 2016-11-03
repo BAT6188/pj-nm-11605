@@ -69,6 +69,15 @@ public class GasPort implements Serializable {
     private Date monitorTime;
 
     /**
+     * 状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
+     */
+    @Column(name = "port_status")
+    private String portStatus;
+
+    /**
      * 氮氧化物（毫克/立方米）
      */
     @Column(name = "nitrogen")
@@ -232,12 +241,12 @@ public class GasPort implements Serializable {
         this.monitorTime = monitorTime;
     }
 
-    public Double getNitrogen() {
-        return nitrogen;
+    public String getPortStatus() {
+        return portStatus;
     }
 
-    public void setNitrogen(Double nitrogen) {
-        this.nitrogen = nitrogen;
+    public void setPortStatus(String portStatus) {
+        this.portStatus = portStatus;
     }
 
     public String getIsNitrogen() {
@@ -248,28 +257,12 @@ public class GasPort implements Serializable {
         this.isNitrogen = isNitrogen;
     }
 
-    public Double getSulfur() {
-        return sulfur;
-    }
-
-    public void setSulfur(Double sulfur) {
-        this.sulfur = sulfur;
-    }
-
     public String getIsSulfur() {
         return isSulfur;
     }
 
     public void setIsSulfur(String isSulfur) {
         this.isSulfur = isSulfur;
-    }
-
-    public Double getGasFlow() {
-        return gasFlow;
-    }
-
-    public void setGasFlow(Double gasFlow) {
-        this.gasFlow = gasFlow;
     }
 
     public String getIsGasFlow() {
@@ -280,28 +273,12 @@ public class GasPort implements Serializable {
         this.isGasFlow = isGasFlow;
     }
 
-    public Double getDust() {
-        return dust;
-    }
-
-    public void setDust(Double dust) {
-        this.dust = dust;
-    }
-
     public String getIsDust() {
         return isDust;
     }
 
     public void setIsDust(String isDust) {
         this.isDust = isDust;
-    }
-
-    public Double getOxygen() {
-        return oxygen;
-    }
-
-    public void setOxygen(Double oxygen) {
-        this.oxygen = oxygen;
     }
 
     public String getIsOxygen() {
@@ -342,5 +319,45 @@ public class GasPort implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public Double getNitrogen() {
+        return nitrogen;
+    }
+
+    public void setNitrogen(Double nitrogen) {
+        this.nitrogen = nitrogen;
+    }
+
+    public Double getSulfur() {
+        return sulfur;
+    }
+
+    public void setSulfur(Double sulfur) {
+        this.sulfur = sulfur;
+    }
+
+    public Double getGasFlow() {
+        return gasFlow;
+    }
+
+    public void setGasFlow(Double gasFlow) {
+        this.gasFlow = gasFlow;
+    }
+
+    public Double getDust() {
+        return dust;
+    }
+
+    public void setDust(Double dust) {
+        this.dust = dust;
+    }
+
+    public Double getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(Double oxygen) {
+        this.oxygen = oxygen;
     }
 }
