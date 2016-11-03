@@ -25,6 +25,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
+            temp.isDel = '0';
             return temp;
         },
         columns: [

@@ -23,6 +23,8 @@ public class OrgPerson {
     private String iconOpen;
     private String iconClose;
 
+    private String pinyinCodes;
+
     public String getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class OrgPerson {
 
     public void setIconClose(String iconClose) {
         this.iconClose = iconClose;
+    }
+
+    public String getPinyinCodes() {
+        return pinyinCodes;
+    }
+
+    public void setPinyinCodes(String pinyinCodes) {
+        this.pinyinCodes = pinyinCodes;
     }
 }
