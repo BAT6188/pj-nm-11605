@@ -7,6 +7,7 @@ import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.service.IBaseService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EnterpriseService extends IBaseService<Enterprise, String> {
 
@@ -30,4 +31,11 @@ public interface EnterpriseService extends IBaseService<Enterprise, String> {
      * @return
      */
     public List<DictBean> getEnterprisePortZtree(String id);
+
+    /**
+     * 查询企业报警状态
+     * @param ids
+     * @return {enterpriseId,status}
+     */
+    List<Map<String,String>> queryEnterpriseAlertStatus(String... ids);
 }

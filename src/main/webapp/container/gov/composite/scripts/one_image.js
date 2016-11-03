@@ -1,7 +1,12 @@
 //@ sourceURL=one_image.js
 var OneImagePage = function () {
     var page = {
+        zTree:undefined,
         hwmap:undefined,
+        ENTERPRISE_FLAG:"Enterprise",
+        NOISEPORT_FLAG:"NoisePort",
+        DUSTPORT_FLAG:"DustPort",
+
         enterpriseLayer:"EnterpriseLayer",
         blockLayer:"BlockLayer",
         villageLayer:"VillageEnvLayer",
@@ -12,14 +17,21 @@ var OneImagePage = function () {
         init: function () {
             this.initMap();
             this.initTree();
-            //添加加载沙尘暴排口方法
-            //地图加载调试
+            var that = this;
+            //定时加载排口，企业报警
+            var alertTimer = setInterval(function () {
+                that.loadPortNewStatus();
+            }, 5000);
+            $(window).one("menuchange",function () {
+                clearInterval(alertTimer);
+            });
+
         },
         initTree:function () {
             var that = this;
             $(".tree-left").height(that.height);
             var ztreeEle = $(".oneImageTree");
-            var ztree = $.fn.zTree.init(ztreeEle, {
+            that.zTree = $.fn.zTree.init(ztreeEle, {
                 height:that.height,
                 width:200,
                 view: {
@@ -40,8 +52,6 @@ var OneImagePage = function () {
                         if (!nodes || nodes.length <=0) {
                             ztreeEle.BootstrapAlertMsg('success',"没有查询结果。",3000);
                         }
-
-
                     },
                     onCheck:function (event, treeId, treeNode) {
                         if (treeNode.checked) {//选中 加载对应的数据
@@ -55,7 +65,7 @@ var OneImagePage = function () {
                                 }
 
                             }
-                            that["load"+treeNode.type](ids);
+                            that["load"+treeNode.type+"ToMap"](ids);
                         }else{//取消选择 清除数据
                             if (treeNode.isParent){//如果是主节点，清空对应的图层
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
@@ -70,8 +80,8 @@ var OneImagePage = function () {
                 }
             });
             $("#searchBtn").bind("click",function () {
-                ztree.setting.async.otherParam = {"searchText": $("#searchText").val()};
-                ztree.reAsyncChildNodes(null, "refresh");
+                that.zTree.setting.async.otherParam = {"searchText": $("#searchText").val()};
+                that.zTree.reAsyncChildNodes(null, "refresh");
             })
         },
         initMap: function () {
@@ -90,14 +100,155 @@ var OneImagePage = function () {
             };
             mapWindow.initMapFinish = function (hwmapCommon) {
                 that.hwmap = hwmapCommon;
+                //默认显示 噪声 沙尘暴排口和 企业
+                var nnode = that.zTree.getNodesByParam("type",that.NOISEPORT_FLAG);
+                var dnode = that.zTree.getNodesByParam("type",that.DUSTPORT_FLAG);
+                var enode = that.zTree.getNodesByParam("type",that.ENTERPRISE_FLAG);
+                that.zTree.checkNode(nnode[0],true,true,true);
+                that.zTree.checkNode(dnode[0],true,true,true);
+                that.zTree.checkNode(enode[0],true,true,true);
             };
         },
 
+        getIds:function (datas) {
+            var ids = [];
+            for (var i = 0; i < datas.length; i++) {
+                if (datas[i]) {
+                    ids.push(datas[i].id);
+                }
+
+            }
+            return ids;
+        },
         /**
-         * 添加噪音排口
+         * 根据排口超标记录状态 设置标绘是否报警
+         * @param portStatus
+         */
+        setMarkerImage:function (markId, image) {
+            var mark = this.hwmap.getOverlay(markId);
+            if (!mark) {
+                return;
+            }
+            mark.imgSrc = image;
+            this.hwmap.updateMarker(mark);
+        },
+
+        /**
+         * 加载设备超标历史记录
+         * 并设置地图显示图标
+         */
+        loadPortNewStatus:function () {
+            this.loadEnterprisePortNewStatus();
+            this.loadNoisePortNewStatus();
+            this.loadDustPortNewStatus();
+        },
+        loadEnterprisePortNewStatus:function () {
+            var that = this;
+            //获取地图显示的markId
+            var markers = [];
+            var enterpriseMarkers = that.hwmap.getOverlays(that.enterpriseLayer);
+            //获取id 查询设备状态
+            var ids = that.getIds(enterpriseMarkers);
+            if (ids.length <= 0) {
+                return;
+            }
+            $.ajax({
+                url:rootPath + "/action/S_enterprise_Enterprise_queryEnterpriseAlertStatus.action",
+                type:"post",
+                dataType:"json",
+                data:$.param({'ids':ids},true),
+                success:function (enterpriseAlertStatus) {
+                    if (enterpriseAlertStatus && enterpriseAlertStatus.length > 0) {
+                        var statusMapImage = {
+                            '0': 'images/markers/company.png',
+                            '1': 'images/markers/company_alert.gif'
+                        };
+                        for (var i = 0; i < enterpriseAlertStatus.length; i++) {
+                            var eas = enterpriseAlertStatus[i];
+                            var image = statusMapImage[eas.status];
+                            if (!image) {
+                                image = 'images/markers/company.png';
+                            }
+                            that.setMarkerImage(eas.id, image);
+                        }
+                    }
+                }
+            });
+        },
+        /**
+         * 加载噪音排口 最新状态
+         * 并更新地图显示排口图标
+         */
+        loadNoisePortNewStatus:function () {
+            var that = this;
+            //获取地图显示的markId
+            var markers = [];
+            var noiseMarkers = that.hwmap.getOverlays(that.noisePortLayer);
+            //获取id 查询设备状态
+            var ids = that.getIds(noiseMarkers);
+            if (ids.length <= 0) {
+                return;
+            }
+            that.loadNoisePort(ids, function (noises) {
+                if (noises && noises.length > 0) {
+                    var statusMapImage = {
+                        '0': 'images/markers/noise.png',
+                        '1': 'images/markers/company_alert.gif',
+                        '2': 'images/markers/bike0.png'
+                    };
+                    for (var i = 0; i < noises.length; i++) {
+                        var noise = noises[i];
+                        var image = statusMapImage[noise.portStatus];
+                        if (!image) {
+                            image = 'images/markers/bike0.png';
+                        }
+                        that.setMarkerImage(noise.id, image);
+                    }
+                }
+            });
+        },
+
+        /**
+         * 加载噪音排口 最新状态
+         * 并更新地图显示排口图标
+         */
+        loadDustPortNewStatus:function () {
+            var that = this;
+            //获取地图显示的markId
+            var markers = [];
+            var dustMarkers = that.hwmap.getOverlays(that.dustPortLayer);
+            //获取id 查询设备状态
+            var ids = that.getIds(dustMarkers);
+            if (ids.length <= 0) {
+                return;
+            }
+            that.loadDustPort(ids, function (dusts) {
+                if (dusts && dusts.length > 0) {
+                    var statusMapImage = {
+                        '0': 'images/markers/dust.png',
+                        '1': 'images/markers/company_alert.gif',
+                        '2': 'images/markers/noise.png'
+                    };
+                    for (var i = 0; i < dusts.length; i++) {
+                        var dust = dusts[i];
+                        var image = statusMapImage[dust.portStatus];
+                        if (!image) {
+                            image = 'images/markers/bike0.png';
+                        }
+                        that.setMarkerImage(dust.id, image);
+                    }
+                }
+            });
+        },
+
+
+
+
+        /**
+         * 加载噪音排口
          * @param ids
          */
-        loadNoisePort:function (ids) {
+        loadNoisePort:function (ids,callback) {
             var that = this;
             $.ajax({
                 url:rootPath + "/action/S_port_NoisePort_findByIds.action",
@@ -105,15 +256,24 @@ var OneImagePage = function () {
                 dataType:"json",
                 data:$.param({'ids':ids},true),
                 success:function (result) {
-                    if (result && result.length > 0){
-                        for(var i = 0; i < result.length; i++){
-                            var noisePort = result[i];
-                            that.addNoisePortMark(noisePort);
-                        }
-                    }
+                    callback(result);
                 }
             });
 
+        },
+        /**
+         * 添加噪音排口到地图
+         */
+        loadNoisePortToMap:function (ids) {
+            var that = this;
+            this.loadNoisePort(ids,function (noises) {
+                if (noises && noises.length > 0){
+                    for(var i = 0; i < noises.length; i++){
+                        var noisePort = noises[i];
+                        that.addNoisePortMark(noisePort);
+                    }
+                }
+            });
         },
         addNoisePortMark:function (noisePort) {
             var x = noisePort.longitude;
@@ -125,7 +285,8 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:noisePort.id,
                 data:noisePort,
-                imgSrc:"images/markers/noise.png",
+                type:that.NOISEPORT_FLAG,
+                imaSrc:"images/markers/noise.png",
                 width:34,
                 height:39,
                 x:noisePort.longitude,
@@ -187,7 +348,7 @@ var OneImagePage = function () {
          * 添加沙尘暴排口
          * @param ids
          */
-        loadDustPort:function (ids) {
+        loadDustPort:function (ids,callback) {
             var that = this;
             $.ajax({
                 url:rootPath + "/action/S_port_DustPort_findByIds.action",
@@ -195,11 +356,22 @@ var OneImagePage = function () {
                 dataType:"json",
                 data:$.param({'ids':ids},true),
                 success:function (result) {
-                    if (result && result.length > 0){
-                        for(var i = 0; i < result.length; i++){
-                            var dustPort = result[i];
-                            that.addDustPortMark(dustPort);
-                        }
+                    callback(result);
+                }
+            });
+
+        },
+        /**
+         * 添加沙尘暴排口到地图
+         * @param ids
+         */
+        loadDustPortToMap:function (ids) {
+            var that = this;
+            that.loadDustPort(ids, function (dusts) {
+                if (dusts && dusts.length > 0) {
+                    for (var i = 0; i < dusts.length; i++) {
+                        var dustPort = dusts[i];
+                        that.addDustPortMark(dustPort);
                     }
                 }
             });
@@ -215,7 +387,8 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:dustPort.id,
                 data:dustPort,
-                imgSrc:"images/markers/dust.png",
+                type:that.DUSTPORT_FLAG,
+                imaSrc:"images/markers/dust.png",
                 width:33,
                 height:37,
                 x:dustPort.longitude,
@@ -338,7 +511,7 @@ var OneImagePage = function () {
         /**
          * 加载企业到地图
          */
-        loadEnterprise:function (ids) {
+        loadEnterpriseToMap:function (ids) {
             var that = this;
             $.ajax({
                 url:rootPath + "/action/S_enterprise_Enterprise_findByIds.action",
@@ -366,7 +539,8 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:enterprise.id,
                 data:enterprise,
-                imgSrc:"images/markers/company.png",
+                type:that.ENTERPRISE_FLAG,
+                imaSrc:"images/markers/company.png",
                 width:40,
                 height:40,
                 x:enterprise.longitude,
@@ -405,15 +579,17 @@ var OneImagePage = function () {
             $(infoDOM).find("#mainInfo").bind("click", function () {
                 EnterpriseInfoDialog.show(enterprise.id);
             });
+            var that = this;
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
-                if (!enterprise.planeMap) {
+                var attachIds = pageUtils.findAttachmentIds(enterprise.id, "planeMap");
+                if (attachIds.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
                     PlottingDialog.dialog({
                         show:true,
                         mode:"view",
-                        attachmentId:enterprise.planeMap
+                        attachmentId:attachIds
                     });
 
                 }
@@ -436,8 +612,8 @@ var OneImagePage = function () {
                         for(var i = 0; i < result.length; i++){
                             var village = result[i];
                             var videos = village.videos;
-                            that.addVideos(videos);
                             that.addVillageArea(village);
+                            that.addVideos(videos);
 
                         }
                     }
@@ -505,7 +681,7 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:video.id,
                 data:video,
-                imgSrc:"images/markers/camera.png",
+                imaSrc:"images/markers/camera.png",
                 width:32,
                 height:32,
                 x:video.longitude,
@@ -513,7 +689,7 @@ var OneImagePage = function () {
                 click:function (gra) {
                     that.showVideoInfoWin(gra.data);
                 }
-            },this.enterpriseLayer);
+            },this.villageLayer);
         },
         showVideoInfoWin:function(video){
             var height =150;

@@ -87,4 +87,85 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
 
 
     }
+
+    /**
+     * 空气质量同期对比分析获取数据
+     * @param startXdate
+     * @param lastXdate
+     * @param startSdate
+     * @param lastSdate
+     * @param airType
+     * @return
+     */
+    @Override
+    public List<Object[]> findByAirRadioData(String startXdate, String lastXdate, String startSdate, String lastSdate, String airType) {
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT" +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')" +
+                "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
+
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT" +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')" +
+                "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
+
+        String[] strAir = new String[]{"优", "良", "轻度污染", "中度污染", "重度污染", "严重污染"};
+
+        List<Object[]> aList = new ArrayList<>();
+        Object[] aResult = list.get(0);
+        Object[] bResult = list2.get(0);
+
+        if("1".equals(airType)){
+            Object[] you = {strAir[0],aResult[0],bResult[0]};
+            aList.add(you);
+            return aList;
+        }else if("2".equals(airType)){
+            Object[] liang = {strAir[1],aResult[1] ,bResult[1]};
+            aList.add(liang);
+            return aList;
+        }
+        else if("3".equals(airType)){
+            Object[] qing = {strAir[2],aResult[2],bResult[2]};
+            aList.add(qing);
+            return aList;
+        }
+        else if("4".equals(airType)){
+            Object[] zhong = {strAir[3],aResult[3],bResult[3]};
+            aList.add(zhong);
+            return aList;
+        }
+        else if("5".equals(airType)){
+            Object[] zd = {strAir[4],aResult[4],bResult[4]};
+            aList.add(zd);
+            return aList;
+        }
+        else if("6".equals(airType)) {
+            Object[] yz = {strAir[4], aResult[4], bResult[4]};
+            aList.add(yz);
+            return aList;
+        }else{
+            Object[] you = {strAir[0],aResult[0],bResult[0]};
+            Object[] liang = {strAir[1],aResult[1] ,bResult[1]};
+            Object[] qing = {strAir[2],aResult[2],bResult[2]};
+            Object[] zhong = {strAir[3],aResult[3],bResult[3]};
+            Object[] zd = {strAir[4],aResult[4],bResult[4]};
+            Object[] yz = {strAir[5],aResult[5],bResult[5]};
+            aList.add(you);
+            aList.add(liang);
+            aList.add(qing);
+            aList.add(zhong);
+            aList.add(zd);
+            aList.add(yz);
+            return aList;
+        }
+
+    }
 }

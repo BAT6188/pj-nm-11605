@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="script/minmap/init.js" ></script>
     <script type="text/javascript" src="script/index.js" ></script>
     <script type="text/javascript">
-		init('<%=request.getContextPath()%>/contents/gis/script/minmap','<%=basePath%>/contents/gis/3.11');
+		init('<%=request.getContextPath()%>/common/gis/script/minmap','<%=basePath%>/common/gis/3.11');
         var testmap = null;
 		function initmap()
 		{
@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				showNavigateBar: true,
 				showOverview : true,
 				showScale : true,
-				center : {x:13467561.573983135,y:3682851.8943095775},
+				center: {x: 12241037.503714196, y: 4840194.519315728},
 				zoomLevel:1,
 				showScale : true,
 				mapLoad : function(map){
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							},
 							getImageFunc: function (level, row, col) {
 								//return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-								return "http://dev1.zthz.com:9090/map_data_kunshan_ksdm/vector/" + level + "/" +col + "/"+row+".png";
+								return "http://dev1.zthz.com:9090/eerduosi_map_data/vector/" + level + "/" +col + "/"+row+".png";
 							}
 						}
 					}
@@ -95,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								]
 							},
 							getImageFunc: function (level, row, col) {
-								return "http://dev1.zthz.com:9090/map_data_kunshan_ksdm/vector/" + level + "/" +col + "/"+row+".png";
+								return "http://dev1.zthz.com:9090/eerduosi_map_data/vector/" + level + "/" +col + "/"+row+".png";
 								//return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
 							}
 						}

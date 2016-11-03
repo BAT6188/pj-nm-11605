@@ -29,6 +29,7 @@ function loadLevel2Menu(subMenus) {
         }
         //绑定事件
         level2MenuUl.find("li").bind('click',function () {
+            $(window).trigger("menuchange",[this]);
             $(this).addClass("linear-hover").siblings().removeClass("linear-hover");
             var url = $(this).attr("data-url");
             $("#level2content").html("");

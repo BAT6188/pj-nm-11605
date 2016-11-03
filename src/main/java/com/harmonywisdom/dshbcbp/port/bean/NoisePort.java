@@ -83,10 +83,13 @@ public class NoisePort implements Serializable {
     private String monitorFrequency;
 
     /**
-     * 监测时间
+     * 状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
      */
-    @Column(name = "monitor_time")
-    private Date monitorTime;
+    @Column(name = "port_status")
+    private String portStatus;
 
     /**
      * Leq(db)
@@ -324,92 +327,28 @@ public class NoisePort implements Serializable {
         this.monitorFrequency = monitorFrequency;
     }
 
-    public Date getMonitorTime() {
-        return monitorTime;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setMonitorTime(Date monitorTime) {
-        this.monitorTime = monitorTime;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
-    public Double getLeqdb() {
-        return leqdb;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLeqdb(Double leqdb) {
-        this.leqdb = leqdb;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public Double getSd() {
-        return sd;
+    public String getPortStatus() {
+        return portStatus;
     }
 
-    public void setSd(Double sd) {
-        this.sd = sd;
-    }
-
-    public Double getLmax() {
-        return lmax;
-    }
-
-    public void setLmax(Double lmax) {
-        this.lmax = lmax;
-    }
-
-    public Double getLmin() {
-        return lmin;
-    }
-
-    public void setLmin(Double lmin) {
-        this.lmin = lmin;
-    }
-
-    public Double getlFive() {
-        return lFive;
-    }
-
-    public void setlFive(Double lFive) {
-        this.lFive = lFive;
-    }
-
-    public Double getlTen() {
-        return lTen;
-    }
-
-    public void setlTen(Double lTen) {
-        this.lTen = lTen;
-    }
-
-    public Double getlFifty() {
-        return lFifty;
-    }
-
-    public void setlFifty(Double lFifty) {
-        this.lFifty = lFifty;
-    }
-
-    public Double getlNinety() {
-        return lNinety;
-    }
-
-    public void setlNinety(Double lNinety) {
-        this.lNinety = lNinety;
-    }
-
-    public Double getlNinetyFive() {
-        return lNinetyFive;
-    }
-
-    public void setlNinetyFive(Double lNinetyFive) {
-        this.lNinetyFive = lNinetyFive;
-    }
-
-    public Double getLe() {
-        return le;
-    }
-
-    public void setLe(Double le) {
-        this.le = le;
+    public void setPortStatus(String portStatus) {
+        this.portStatus = portStatus;
     }
 
     public String getIsLeqdb() {
@@ -540,19 +479,83 @@ public class NoisePort implements Serializable {
         this.attachmentId = attachmentId;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public Double getLeqdb() {
+        return leqdb;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setLeqdb(Double leqdb) {
+        this.leqdb = leqdb;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Double getSd() {
+        return sd;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setSd(Double sd) {
+        this.sd = sd;
+    }
+
+    public Double getLmax() {
+        return lmax;
+    }
+
+    public void setLmax(Double lmax) {
+        this.lmax = lmax;
+    }
+
+    public Double getLmin() {
+        return lmin;
+    }
+
+    public void setLmin(Double lmin) {
+        this.lmin = lmin;
+    }
+
+    public Double getlFive() {
+        return lFive;
+    }
+
+    public void setlFive(Double lFive) {
+        this.lFive = lFive;
+    }
+
+    public Double getlTen() {
+        return lTen;
+    }
+
+    public void setlTen(Double lTen) {
+        this.lTen = lTen;
+    }
+
+    public Double getlFifty() {
+        return lFifty;
+    }
+
+    public void setlFifty(Double lFifty) {
+        this.lFifty = lFifty;
+    }
+
+    public Double getlNinety() {
+        return lNinety;
+    }
+
+    public void setlNinety(Double lNinety) {
+        this.lNinety = lNinety;
+    }
+
+    public Double getlNinetyFive() {
+        return lNinetyFive;
+    }
+
+    public void setlNinetyFive(Double lNinetyFive) {
+        this.lNinetyFive = lNinetyFive;
+    }
+
+    public Double getLe() {
+        return le;
+    }
+
+    public void setLe(Double le) {
+        this.le = le;
     }
 }

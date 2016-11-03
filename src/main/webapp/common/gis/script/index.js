@@ -2,7 +2,7 @@
  * 增加一个图标
  */
 function addMarker(){
-	var point = new com.hw.map.HWPoint(-10,-10);
+	var point = new com.hw.map.HWPoint(12242537.58039429,4840079.8637733);
 	var marker = new com.hw.map.HWMarker("1",point,"images/markers/park2.png",30,30,0,0);
 	testmap.addMarker(marker);
 	marker.addEventListener(com.hw.map.HWMapEvents.GRAPHIC_MOUSE_CLICK,function(gra){
@@ -24,7 +24,7 @@ function updateMarker(){
 	}
 	var marker = window.testMarker;
 	marker.imgSrc = "images/markers/bike1.png";
-	marker.point = new com.hw.map.HWPoint(-1111140,-1111140);
+	marker.point = new com.hw.map.HWPoint(12242537.68039429,4840079.8637733);
 	testmap.updateMarker(marker);
 };
 function removeMarker(){
