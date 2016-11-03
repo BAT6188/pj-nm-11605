@@ -13,10 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortStatusHistoryService> {
     @AutoService
@@ -141,6 +138,16 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
             result.put("y2", y21list);
         }
         write(result);
+
+    }
+
+    /**
+     * 获取设备最新状态
+     */
+    public void getPortNewStatus(){
+        String[] ids = request.getParameterValues("ids");
+        List<String> idList = Arrays.asList(ids);
+        List<PortStatusHistory> statuses = getService().find("portId in ?1 or enterpriseId in ?2", idList, idList);
 
     }
 

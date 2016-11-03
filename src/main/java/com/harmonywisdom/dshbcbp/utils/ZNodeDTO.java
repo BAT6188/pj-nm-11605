@@ -13,6 +13,10 @@ public class ZNodeDTO {
 
     private Boolean isParent;
 
+    private Boolean checked;
+
+    private String icon;
+
     private String type;
 
     private List<ZNodeDTO> children;
@@ -26,6 +30,14 @@ public class ZNodeDTO {
     public ZNodeDTO(String id, String name,Boolean isParent){
         this(id,name);
         this.isParent = isParent;
+    }
+    public ZNodeDTO(String id, String name,Boolean isParent, Boolean checked){
+        this(id,name, isParent);
+        this.checked = checked;
+    }
+    public ZNodeDTO(String id, String name,Boolean isParent, Boolean checked,String type){
+        this(id,name, isParent, checked);
+        this.type = type;
     }
     public ZNodeDTO(String id, String name,String type){
         this(id,name);
@@ -74,5 +86,29 @@ public class ZNodeDTO {
 
     public void setIsParent(Boolean isParent) {
         this.isParent = isParent;
+    }
+
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

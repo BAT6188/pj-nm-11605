@@ -91,7 +91,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         //查询环保局排口信息，噪声和沙尘暴
         List<ZNodeDTO> noisePorts = noisePortService.searchNode(searchText);
         if (noisePorts != null) {
-            ZNodeDTO noiseMainNode = new ZNodeDTO(NoisePort.class.getSimpleName(),"噪声监测",NoisePort.class.getSimpleName());
+            ZNodeDTO noiseMainNode = new ZNodeDTO(NoisePort.class.getSimpleName(),"噪声监测",true,NoisePort.class.getSimpleName());
             noiseMainNode.setChildren(noisePorts);
             nodes.add(noiseMainNode);
         }

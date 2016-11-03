@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> {
     @AutoService
@@ -170,5 +171,16 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             write(bean);
         }
 
+    }
+
+    /**
+     * 查询企业报警状态
+     */
+    public void queryEnterpriseAlertStatus(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            List<Map<String,String>> list = getService().queryEnterpriseAlertStatus(ids);
+            write(list);
+        }
     }
 }
