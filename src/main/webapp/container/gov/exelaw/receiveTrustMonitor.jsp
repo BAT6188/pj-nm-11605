@@ -93,7 +93,7 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="applyOrgId" name="applyOrgId" style="width: 180px;" class="form-control"></select>
+                            <select id="applyOrgId" name="applyOrgId" style="width: 274px;" class="form-control"></select>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">申请人<span class="text-danger">*</span>：</label>
@@ -330,6 +330,7 @@
     </div>
 </div>
 
+<script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/exelaw/scripts/receiveTrustMonitor.js"></script>
 </body>
