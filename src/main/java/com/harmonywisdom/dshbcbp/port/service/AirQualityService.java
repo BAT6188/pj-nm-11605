@@ -17,4 +17,14 @@ public interface AirQualityService extends IBaseService<AirQuality, String> {
      */
     List<Object[]> findByAirData(String startYdate, String lastYdate, String airType);
 
+    /**
+     * 空气质量同期对比分析获取后台数据
+     * @param startXdate
+     * @param lastXdate
+     * @param startSdate
+     * @param lastSdate
+     * @param airType
+     * @return
+     */
+    List<Object[]> findByAirRadioData(String startXdate, String lastXdate, String startSdate, String lastSdate, String airType);
 }
