@@ -19,9 +19,13 @@ var OneImagePage = function () {
             this.initTree();
             var that = this;
             //定时加载排口，企业报警
-            setInterval(function () {
+            var alertTimer = setInterval(function () {
                 that.loadPortNewStatus();
             }, 5000);
+            $(window).one("menuchange",function () {
+                clearInterval(alertTimer);
+            });
+
         },
         initTree:function () {
             var that = this;
@@ -575,15 +579,17 @@ var OneImagePage = function () {
             $(infoDOM).find("#mainInfo").bind("click", function () {
                 EnterpriseInfoDialog.show(enterprise.id);
             });
+            var that = this;
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
-                if (!enterprise.planeMap) {
+                var attachIds = pageUtils.findAttachmentIds(enterprise.id, "planeMap");
+                if (attachIds.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
                     PlottingDialog.dialog({
                         show:true,
                         mode:"view",
-                        attachmentId:enterprise.planeMap
+                        attachmentId:attachIds
                     });
 
                 }

@@ -172,7 +172,7 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
 
     @Override
     public List<ZNodeDTO> searchNode(String searchText) {
-        List<Enterprise> enterprises = getDAO().find("name like ?1", searchText);
+        List<Enterprise> enterprises = getDAO().find("name like ?1 and isDel=0", searchText);
         if (enterprises != null && enterprises.size() > 0) {
             List<ZNodeDTO> nodes = new ArrayList<>();
             for (Enterprise enterprise : enterprises) {
