@@ -2,30 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>监察大队</title>
+    <title>监察大队办公室</title>
+    <%@include file="/common/msgSend/msgSend.jsp"%>
+
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
-
-    <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
-
-    <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
-    <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
 </head>
 <style>
-
-    .Node-frame-menubar {
-        width: 227px;
-        height: 500px;
-        float: left;
-        position: relative;
-        left: 0px;
-        border-right: 1px solid #e5e5e5;
-        padding: 10px;
-        color: #337ab7;
-    }
-
     .ui-autocomplete { z-index:2147483647;}
-
-
 </style>
 <body>
 <div class="content content1 clearfix">
@@ -41,11 +24,12 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="enterpriseName">投诉对象：</label> <input type="text" id="search_enterpriseName" name="search_enterpriseName" class="form-control" />
+                            <label for="">投诉对象：</label> <input type="text" id="search_enterpriseName" name="search_enterpriseName" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="search_source">信息来源：</label>
                             <select id="search_source" name="search_source" class="form-control" style="width: 266px;">
+                                <option value="">全部</option>
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
                                 <option value="3">市长热线</option>
@@ -125,7 +109,8 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" />
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
 
@@ -200,43 +185,6 @@
     </div><!-- /.modal -->
 </div>
 
-<!--人员选择-->
-<div class="modal fade" id="selectPeopleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:882px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
-                <input id="monitorCaseId" type="hidden"/>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="Node-frame-menubar">
-                            <div class="scrollContent" >
-                                <ul id="treeDemo1" class="ztree"></ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="mainBox">
-                            <div class="tableBox">
-                                <table id="selectPeopleTable" class="table table-striped table-responsive">
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="modal-footer" style="clear: both;">
-                <button type="button" class="btn btn-primary" id="sendTo" onclick="sendToBtn(1)" data-toggle="modal" data-target="#selectPeopleForm,#eventMsg">发送</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
 
 
 <!--查看 状态跟踪-->
@@ -271,7 +219,5 @@
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/monitorOffice.js"></script>
-<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/selectPeople.js"></script>
-<script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>
 </body>
 </html>
