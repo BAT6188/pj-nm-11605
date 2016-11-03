@@ -20,16 +20,11 @@ public class Feedback implements Serializable {
     private String id;
 
     /**
-     * hw_dispath_task 表id
+     * hw_dispatch_task 表id
      */
-    @Column(name = "dispath_id", length = 32)
-    private String dispathId;
+    @Column(name = "dispatch_id", length = 32)
+    private String dispatchId;
 
-    /**
-     * 现场执法人
-     */
-    @Column(name = "lawer_id", length = 32)
-    private String lawerId;
     /**
      * 现场执法人姓名
      */
@@ -47,6 +42,8 @@ public class Feedback implements Serializable {
      */
     @Column(name = "exe_time")
     private Date exeTime;
+
+
     /**
      * 执法情况,执法详情
      */
@@ -61,13 +58,6 @@ public class Feedback implements Serializable {
         this.id = id;
     }
 
-    public String getLawerId() {
-        return lawerId;
-    }
-
-    public void setLawerId(String lawerId) {
-        this.lawerId = lawerId;
-    }
 
     public String getLawerName() {
         return lawerName;
@@ -93,12 +83,12 @@ public class Feedback implements Serializable {
         this.exeDesc = exeDesc;
     }
 
-    public String getDispathId() {
-        return dispathId;
+    public String getDispatchId() {
+        return dispatchId;
     }
 
-    public void setDispathId(String dispathId) {
-        this.dispathId = dispathId;
+    public void setDispatchId(String dispathId) {
+        this.dispatchId = dispathId;
     }
 
     public String getPhone() {

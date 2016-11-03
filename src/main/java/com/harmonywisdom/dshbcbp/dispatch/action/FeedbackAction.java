@@ -1,8 +1,8 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
-import com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
-import com.harmonywisdom.dshbcbp.dispatch.service.DispathTaskService;
+import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.FeedbackService;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
@@ -12,7 +12,7 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
     private FeedbackService feedbackService;
 
     @AutoService
-    private DispathTaskService dispathTaskService;
+    private DispatchTaskService dispatchTaskService;
 
     @Override
     protected FeedbackService getService() {
@@ -21,10 +21,10 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
 
     @Override
     public void save() {
-        String dispathId = entity.getDispathId();
-        DispathTask dispathTask = dispathTaskService.findById(dispathId);
-        dispathTask.setStatus("3");
-        dispathTaskService.update(dispathTask);
+        String dispathId = entity.getDispatchId();
+        DispatchTask dispatchTask = dispatchTaskService.findById(dispathId);
+        dispatchTask.setStatus("3");
+        dispatchTaskService.update(dispatchTask);
 
         super.save();
     }
