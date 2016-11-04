@@ -1,5 +1,24 @@
 var pageUtils = {
 
+    findAttachmentIds: function (businessId,attachmentType) {
+        var ids = [];
+        $.ajax({
+            url:rootPath + "/action/S_attachment_Attachment_listAttachment.action",
+            type:"post",
+            async:false,
+            dataType:"json",
+            data:{'businessId':businessId,'attachmentType':attachmentType},
+            success:function (result) {
+                if (result && result.length > 0){
+                    for(var i = 0; i < result.length; i++){
+                        ids.push(result[i].id);
+                    }
+                }
+            }
+        });
+        return ids;
+    },
+
     getTableHeight:function () {
         //console.log($('.dealBox').outerHeight(true)+$('.banner').outerHeight(true)+$('.linear').outerHeight(true));
         return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true)-8;
@@ -240,7 +259,7 @@ var pageUtils = {
 (function ($) {
 
     window.Ewin = function () {
-        var html = '<div id="[Id]" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">' +
+        var html = '<div id="[Id]" class="modal fade" style="z-index:9999;" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog modal-sm">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
@@ -259,7 +278,7 @@ var pageUtils = {
             '</div>';
 
 
-        var dialogdHtml = '<div id="[Id]" class="modal fade" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="dailogModalLabel" aria-hidden="true">' +
+        var dialogdHtml = '<div id="[Id]" class="modal fade" style="z-index:9999;" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="dailogModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
@@ -317,7 +336,9 @@ var pageUtils = {
                 var modal = $('#' + id);
                 modal.find('.ok').removeClass('btn-success').addClass('btn-primary');
                 modal.find('.cancel').hide();
-
+                setTimeout(function(){
+                    modal.find('.ok').trigger('click');
+                },2000);
                 return {
                     id: id,
                     on: function (callback) {

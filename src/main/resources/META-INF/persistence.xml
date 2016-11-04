@@ -79,7 +79,7 @@
 
         <!--调度系统-->
         <class>com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase</class>
-        <class>com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask</class>
+        <class>com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask</class>
         <class>com.harmonywisdom.dshbcbp.dispatch.bean.Feedback</class>
 
         <!--综合监测-->

@@ -289,7 +289,7 @@ public class Enterprise implements Serializable {
     private Date createTime;
 
     /**
-     * 是否删除
+     * 是否删除 1:已删除; 0：未删除
      */
     @Column(name = "is_del",length = 1)
     private String isDel;

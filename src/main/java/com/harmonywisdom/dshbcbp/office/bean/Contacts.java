@@ -53,6 +53,13 @@ public class Contacts implements Serializable {
      */
     @Column(name = "ORG_ID",length = 100)
     private String orgId;
+
+    /**
+     * 拼音字符串，逗号分隔
+     */
+    @Column(name = "PINYIN_CODES",length = 100)
+    private String pinyinCodes;
+
     /**
      *附件
      */
@@ -137,5 +144,13 @@ public class Contacts implements Serializable {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getPinyinCodes() {
+        return pinyinCodes;
+    }
+
+    public void setPinyinCodes(String pinyinCodes) {
+        this.pinyinCodes = pinyinCodes;
     }
 }

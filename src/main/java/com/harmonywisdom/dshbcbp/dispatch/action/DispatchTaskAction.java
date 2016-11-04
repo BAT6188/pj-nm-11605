@@ -7,9 +7,11 @@ import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.apportal.sdk.role.IRole;
 import com.harmonywisdom.apportal.sdk.role.RoleServiceUtil;
-import com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask;
+import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
-import com.harmonywisdom.dshbcbp.dispatch.service.DispathTaskService;
+import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -18,23 +20,30 @@ import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskService> {
+public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskService> {
+
+    public static final String monitor_master="monitor_master";
+    public static final String env_pro_sta="env_pro_sta";
+
     @AutoService
-    private DispathTaskService dispathTaskService;
+    private DispatchTaskService dispatchTaskService;
 
     @AutoService
     private MonitorCaseService monitorCaseService;
+
+    @AutoService
+    private AttachmentService attachmentService;
+
+    @Override
+    protected DispatchTaskService getService() {
+        return dispatchTaskService;
+    }
 
     /**
      * 根据 组织机构和人员角色 获得 环保站组织机构和环保站站长角色的人员
@@ -57,80 +66,116 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
 
     @Override
     protected QueryCondition getQueryCondition() {
-
         QueryParam params = new QueryParam();
 
-        //根据登录人员角色和userId 筛选 只 执法管理领导 能够看到的数据
+        String role = request.getParameter("role");
         IPerson person = ApportalUtil.getPerson(request);
-        String userId = person.getUserId();
-        List<IRole> role = ApportalUtil.getRoleByPersonId(request);
-        for (IRole r : role) {
-            String roleCode = r.getRoleCode();
-            if ("exelawLeader".equals(roleCode)){
-                params.andParam(new QueryParam("selectPeopleIds", QueryOperator.LIKE,"%"+userId+"%"));
-                log.debug("根据登录人员角色和userId 筛选 只有 执法管理领导 能够看到的数据: 登录人员的userId为"+userId);
-            }
+        if (monitor_master.equals(role)){
+            params.andParam(new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%"));
+        }else if (env_pro_sta.equals(role)){
+            params.andParam(new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%"));
         }
 
+        String startEventTime = request.getParameter("startEventTime");
+        String endEventTime = request.getParameter("endEventTime");
+        String enterpriseName = entity.getEnterpriseName();
+        String source = entity.getSource();
+        String status = entity.getStatus();
+        String blockLevelId = entity.getBlockLevelId();
+        String blockId = entity.getBlockId();
 
+
+        if (org.apache.commons.lang.StringUtils.isNotBlank(startEventTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(startEventTime,"yyyy-MM-dd HH:mm")));
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(endEventTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(endEventTime,"yyyy-MM-dd HH:mm")));
+        }
+
+        if (org.apache.commons.lang.StringUtils.isNotBlank(enterpriseName)) {
+            params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE, "%"+enterpriseName+"%"));
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(source)) {
+            params.andParam(new QueryParam("source", QueryOperator.EQ, source));
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
+            params.andParam(new QueryParam("status", QueryOperator.EQ, status));
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(blockLevelId)) {
+            params.andParam(new QueryParam("blockLevelId", QueryOperator.EQ, blockLevelId));
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(blockId)) {
+            params.andParam(new QueryParam("blockId", QueryOperator.EQ, blockId));
+        }
+
+        //根据登录人员角色和userId 筛选 只 执法管理领导 能够看到的数据
+//        IPerson person = ApportalUtil.getPerson(request);
+//        String userId = person.getUserId();
+//        List<IRole> role = ApportalUtil.getRoleByPersonId(request);
+//        for (IRole r : role) {
+//            String roleCode = r.getRoleCode();
+//            if ("exelawLeader".equals(roleCode)){
+//                params.andParam(new QueryParam("selectPeopleIds", QueryOperator.LIKE,"%"+userId+"%"));
+//                log.debug("根据登录人员角色和userId 筛选 只有 执法管理领导 能够看到的数据: 登录人员的userId为"+userId);
+//            }
+//        }
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("eventTime", Direction.DESC);
         return condition;
-    }
-
-    @Override
-    protected DispathTaskService getService() {
-        return dispathTaskService;
     }
 
     public void overStatus(){
         String[] ids = this.getParamValues("ids");
         for (String id : ids) {
-            DispathTask dt = dispathTaskService.findById(id);
+            DispatchTask dt = dispatchTaskService.findById(id);
             dt.setStatus("5");
-            dispathTaskService.update(dt);
+            dispatchTaskService.update(dt);
         }
 
     }
 
     /**
-     * 调度单点调度按钮
+     * 点处置按钮
      */
     public void dispathTaskBtnSave(){
-        DispathTask dispathTask = dispathTaskService.findById(entity.getId());
-        entity.setSelectPeopleIds(dispathTask.getSelectPeopleIds());
-        if (StringUtils.isEmpty(entity.getEnterpriseName())){
-            entity.setEnterpriseName(dispathTask.getEnterpriseName());
+        String id = entity.getId();
+        DispatchTask dispatchTask = dispatchTaskService.findById(id);
+        dispatchTask.setContent(entity.getContent());
+        dispatchTask.setSendRemark(entity.getSendRemark());
+
+        //获取删除的附件IDS
+        String attachmentIdsRemoveId = request.getParameter("removeId");
+        if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-        if (StringUtils.isEmpty(entity.getBlockLevelName())){
-            entity.setBlockLevelName(dispathTask.getBlockLevelName());
+        if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(dispatchTask.getMonitorCaseId(),entity.getAttachmentIds().split(","));
         }
-        if (StringUtils.isEmpty(entity.getBlockName())){
-            entity.setBlockName(dispathTask.getBlockName());
-        }
-        if(StringUtils.isEmpty(entity.getMonitorCaseId())){
-            entity.setBlockName(dispathTask.getMonitorCaseId());
-        }
-        super.save();
+
+        dispatchTaskService.update(dispatchTask);
+
+        write(dispatchTask.getId());
     }
 
     /**
-     * 执法管理列表的调度单选择人员，点发送按钮
+     * 选择环保站人员，点发送按钮
      */
-    public void updateFromSendToBtn(){
-        String dispathTaskId = request.getParameter("dispathTaskId");
-        DispathTask dispathTask = dispathTaskService.findById(dispathTaskId);
+    public void saveToEnvProStaPersonList(){
+        String dispathTaskId = request.getParameter("sourceId");
+        DispatchTask dispatchTask = dispatchTaskService.findById(dispathTaskId);
 
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
-        dispathTask.setEnvironmentalProtectionStationStaffIds(jsonIds);
+        dispatchTask.setEnvProStaPersonList(jsonIds);
 
-        dispathTask.setStatus("2");
+        dispatchTask.setStatus("2");
 
-        String pk = this.getService().saveOrUpdate(dispathTask);
+        String pk = this.getService().saveOrUpdate(dispatchTask);
         write(pk);
     }
 
@@ -139,7 +184,7 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
      */
     @Override
     public void save() {
-        String monitorCaseId = request.getParameter("monitorCaseId");
+        String monitorCaseId = request.getParameter("sourceId");
         MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
 
         mc.setStatus(1);
@@ -147,7 +192,7 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
 
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
-        entity.setSelectPeopleIds(jsonIds);
+        entity.setMonitorMastorPersonList(jsonIds);
 
         entity.setMonitorCaseId(monitorCaseId);
         entity.setEnterpriseId(mc.getEnterpriseId());
@@ -186,7 +231,7 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
 
-        List<Object[]> list = dispathTaskService.getByColumnData(name,lawType,startYdate,lastYdate);
+        List<Object[]> list = dispatchTaskService.getByColumnData(name,lawType,startYdate,lastYdate);
         if(list !=null && list.size()>0){
             Object[] xlist = new Object[list.size()];
             Object[] ylist = new Object[list.size()];
@@ -215,7 +260,7 @@ public class DispathTaskAction extends BaseAction<DispathTask, DispathTaskServic
 
         Map<String,Object> result = new HashMap<>();
 
-        List<Object[]> list = dispathTaskService.findByColumnRatio(startXdate,lastXdate,startSdate,lastSdate,name,lawType);
+        List<Object[]> list = dispatchTaskService.findByColumnRatio(startXdate,lastXdate,startSdate,lastSdate,name,lawType);
         if (list != null && list.size() > 0) {
             Object[] xlist = new Object[list.size()];
             Object[] y1list = new Object[list.size()];

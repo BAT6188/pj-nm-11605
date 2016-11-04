@@ -321,17 +321,22 @@ HwmapCommon = {
         return flatOverlay;
 
     },
-    /**
-     * 获取所有标绘
-     * @param flat
-     * @returns {Array}
-     */
-    getAllOverlays: function (flat) {
+    getOverlays: function (layerId,flat) {
         var overlys = [];
-        for (var layerId in this._idMapLayer) {
+        if (layerId) {
             var layer = this.getLayer(layerId);
             for (var key in layer) {
-                overlys.push(this.getOverlay(key, flat));
+                var o = this.getOverlay(key, flat);
+                if (o) {
+                    overlys.push(this.getOverlay(key, flat));
+                }
+            }
+        }else{
+            for (var layerId in this._idMapLayer) {
+                var o = this.getOverlays(layerId, flat);
+                if (o) {
+                    overlys.push(o);
+                }
             }
         }
         return overlys;
@@ -380,7 +385,7 @@ HwmapCommon = {
      * id,
      * x,
      * y,
-     * imgSrc,
+     * imaSrc,
      * width,
      * height,
      * xOffset,
@@ -401,7 +406,7 @@ HwmapCommon = {
         if (!opt.point) {
             opt.point = this._createPoint(opt.x, opt.y);
         }
-        var marker = new com.hw.map.HWMarker(opt.id, opt.point, opt.imgSrc, opt.width, opt.height, opt.xOffset, opt.yOffset);
+        var marker = new com.hw.map.HWMarker(opt.id, opt.point, opt.imaSrc, opt.width, opt.height, opt.xOffset, opt.yOffset);
         this.hwmap.addMarker(marker);
         if ("function" == typeof(options.click)) {
             marker.addEventListener(com.hw.map.HWMapEvents.GRAPHIC_MOUSE_CLICK, opt.click);
@@ -413,7 +418,13 @@ HwmapCommon = {
             //});
         }
 
-        marker.data = opt.data;
+        //复制自定义配置属性
+        for(var field in opt){
+            if (marker[field]) {
+                continue;
+            }
+            marker[field] = opt[field];
+        }
         this._addOverlay(marker, layerId);
         if (options.callback) options.callback(marker);
         return marker;

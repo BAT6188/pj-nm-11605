@@ -3,12 +3,14 @@ package com.harmonywisdom.dshbcbp.exelaw.action;
 import com.alibaba.fastjson.JSON;
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
 import com.harmonywisdom.dshbcbp.exelaw.service.TrustMonitorService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -34,6 +36,9 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         return trustMonitorService;
     }
 
+    /**
+     * 保存 监测站办公室和监测站站长 人员列表
+     */
     public void saveToMonitorOfficeAndMasterPersonList(){
         String sourceId = request.getParameter("sourceId");
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
@@ -47,6 +52,9 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         write(pk);
     }
 
+    /**
+     * 保存 监察大队领导 人员列表
+     */
     public void saveToEnvironmentalProtectionStationSelectPersonList(){
         String sourceId = request.getParameter("sourceId");
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
@@ -76,6 +84,29 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         write(pk);
     }
 
+    /**
+     * 监察大队领导 接收委托监测表单 点同意按钮（只须保存附件）
+     */
+    public void saveAndAgreeAndSend(){
+        String id = entity.getId();
+
+        //获取删除的附件IDS
+        String attachmentIdsRemoveId = request.getParameter("removeId");
+        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(id,entity.getAttachmentIds().split(","));
+        }
+
+        write(trustMonitorService.findById(id));
+    }
+
+    /**
+     * 申请委托监测 环保站人员点击申请委托监测表单上的发送按钮
+     */
     @Override
     public void save() {
         String enterpriseId = entity.getEnterpriseId();
@@ -118,10 +149,16 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
 
     @Override
     protected QueryCondition getQueryCondition() {
+        String module = request.getParameter("module");
         String start_monitorTime = request.getParameter("start_monitorTime");
         String end_monitorTime = request.getParameter("end_monitorTime");
 
         QueryParam params = new QueryParam();
+        if ("receiveTrustMonitor".equals(module)){
+            IPerson person = ApportalUtil.getPerson(request);
+            params.andParam(new QueryParam("environmentalProtectionStationSelectPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+        }
+
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
             params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
         }

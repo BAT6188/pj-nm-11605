@@ -107,5 +107,15 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         return sList;
     }
 
+    @Override
+    public List<PortStatusHistory> findByPortids(String... portids) {
+        return getDAO().find("portId in ?1", Arrays.asList(portids));
+    }
+
+    @Override
+    public List<PortStatusHistory> findByEnterpriseids(String... enterpriseIds) {
+        return getDAO().find("enterpriseId in ?1", Arrays.asList(enterpriseIds));
+    }
+
 
 }

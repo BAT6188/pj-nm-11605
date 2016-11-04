@@ -1,3 +1,4 @@
+//@ sourceURL=enterprise_plotting.js
 var PlottingDialog = function(){
     var dialog = {
         _model:$("#plottingDialog"),
@@ -5,8 +6,9 @@ var PlottingDialog = function(){
         _plotting:undefined,
         _width:$(window).width()-100,
         _height:$(window).height()-200,
-        init:function () {
+        init:function (attachmentIds) {
             var that = this;
+            that._initPloting(attachmentIds);
             //初始化dialog大小
             that._model.find(".modal-dialog")
                 .width(that._width);
@@ -30,21 +32,20 @@ var PlottingDialog = function(){
             $(".glyphicon-move").bind('click',function () {
                 that._plotting.mode('pan');
             });
-            var markers = [];
-            $(".glyphicon-map-marker").bind('click',function () {
-                debugger;
-                //清除已标绘元素
-                that._plottingEle.bind("mousedown",function () {
-                    if (markers.length>1) {
-                        var marker = markers.shift();
-                        marker.remove();
-                    }
-                });
-                that._plotting.mode('point');
-                that._plottingEle.bind("plotting",function (e,shape) {
-                    markers.push(shape);
-                })
 
+            $(".glyphicon-map-marker").bind('click',function () {
+                that._plotting.mode('point');
+            });
+            //清除已标绘元素
+            var markers = [];
+            that._plottingEle.bind("mousedown",function () {
+                if (that._plotting.mode() == "point" && markers.length>1) {
+                    var marker = markers.shift();
+                    marker.remove();
+                }
+            });
+            that._plottingEle.bind("plotting", function (e, shape) {
+                markers.push(shape);
             });
             that._model.find(".btn-save").bind('click', function (e) {
                 var result = that._closed(JSON.stringify(that._plotting.data()[0]));
@@ -71,7 +72,10 @@ var PlottingDialog = function(){
         },
         _initPloting:function (attachmentId) {
             var that = this;
-            that._plottingEle.html("");
+            var parent = that._plottingEle.html("").parent();
+            var newEle = that._plottingEle.clone().appendTo(parent);
+            that._plottingEle.remove();
+            that._plottingEle = newEle;
             //初始化平面图
             that._plotting = that._plottingEle.plotting({
                 action: 'plotting',
@@ -91,7 +95,12 @@ var PlottingDialog = function(){
 
         },
         setAttachmentId:function (attachmentId) {
-            this._initPloting(attachmentId);
+            if (typeof(attachmentId) == "object") {
+                this.init(attachmentId[0]);
+            }else if (typeof(attachmentId) === "string") {
+                this.init(attachmentId);
+            }
+
         },
         show:function () {
             this._model.modal('show');
@@ -122,12 +131,26 @@ var PlottingDialog = function(){
                     if (options["show"] !== false) {
                         this.show();
                     }
+                    if (options["data"]) {
+                        var data = options["data"];
+                        if (typeof(data) === "string") {
+                            data = JSON.parse(data);
+                        }
+                        if (typeof(data) === "object") {
+                            data = [data];
+                        }
+                        var that = this;
+                        this._plottingEle.one("init",function () {
+                            that._plotting.data(data);
+                        });
+
+                    }
                 }
 
             }
         }
     };
-    dialog.init();
+
     return dialog;
 }();
 //查看调用

@@ -1,8 +1,13 @@
-var treeObj;
-$('#search_condition').keydown(function(event){
+$('#search_orgPeople').keydown(function(event){
     event=document.all?window.event:event;
     if((event.keyCode || event.which)==13){
-        search_ztree('treeDemo1', 'search_condition');
+        search_ztree('orgPeopleZtree', 'search_orgPeople');
+    }
+});
+$('#search_contacts').keydown(function(event){
+    event=document.all?window.event:event;
+    if((event.keyCode || event.which)==13){
+        search_ztree('contactsZtree', 'search_contacts');
     }
 });
 /**
@@ -10,6 +15,7 @@ $('#search_condition').keydown(function(event){
  * @param treeId
  */
 function expand_ztree(treeId){
+    var treeObj = $.fn.zTree.getZTreeObj(treeId);
     treeObj.expandAll(true);
 }
 /**
@@ -17,6 +23,7 @@ function expand_ztree(treeId){
  * @param treeId
  */
 function close_ztree(treeId){
+    var treeObj = $.fn.zTree.getZTreeObj(treeId);
     var nodes = treeObj.transformToArray(treeObj.getNodes());
     var nodeLength = nodes.length;
     for (var i = 0; i < nodeLength; i++) {
@@ -36,7 +43,7 @@ function close_ztree(treeId){
  * @param searchConditionId 文本框的id
  */
 function search_ztree(treeId, searchConditionId){
-    treeObj = $.fn.zTree.getZTreeObj(treeId);
+    var treeObj = $.fn.zTree.getZTreeObj(treeId);
     searchByFlag_ztree(treeId, searchConditionId, "");
 }
 
@@ -47,16 +54,23 @@ function search_ztree(treeId, searchConditionId){
  * @param flag                  需要高亮显示的节点标识
  */
 function searchByFlag_ztree(treeId, searchConditionId, flag){
+    var treeObj = $.fn.zTree.getZTreeObj(treeId);
     //<1>.搜索条件
     var searchCondition = $('#' + searchConditionId).val();
     //<2>.得到模糊匹配搜索条件的节点数组集合
     var highlightNodes = new Array();
     if (searchCondition != "") {
-        highlightNodes = treeObj.getNodesByParamFuzzy("name", searchCondition, null);
-        if(highlightNodes.length==0) {
-            flag=searchCondition;
+        //判断是否符合正则表达式
+        var reg= /^[A-Za-z]+$/;
+        if (reg.test(searchCondition)){
+            highlightNodes = treeObj.getNodesByParamFuzzy("pinyinCodes", searchCondition.toUpperCase(), null);
+            if(highlightNodes.length==0) {
+                highlightNodes = treeObj.getNodesByParamFuzzy("pinyinCodes", searchCondition.toLowerCase(), null);
+            }
+            flag= "\""+searchCondition+"\"对应的数据";
         }else{
-            flag=true;
+            highlightNodes = treeObj.getNodesByParamFuzzy("name", searchCondition, null);
+            flag=searchCondition;
         }
     }else{
         highlightNodes = null;
@@ -73,41 +87,65 @@ function searchByFlag_ztree(treeId, searchConditionId, flag){
  */
 var otherAddNode=null;
 function highlightAndExpand_ztree(treeId, highlightNodes, flag){
+    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    if(otherAddNode!=null){
+        treeObj.removeNode(otherAddNode);
+        otherAddNode = null;
+    }
     //<2>.收起树, 只展开根节点下的一级节点
     close_ztree(treeId);
     //<3>.把指定节点的样式更新为高亮显示，并展开
+    var noFind = true;
+    $("#"+treeId).find("li").hide();
+    $("#"+treeId).find("a.highlight").removeClass('highlight');
     if (highlightNodes!=null) {
-        $("#"+treeId).find("li").hide();
-        if(flag==true){
+        if(highlightNodes.length>0){
             for (var i = 0; i < highlightNodes.length; i++) {
-                $("#"+treeId).find("li#"+highlightNodes[i].tId).show();
-                expandParentNode(treeId,highlightNodes[i]);
-            }
-        }else{
-            if(otherAddNode!=null){
-                otherAddNode.name = "没有找到\""+flag+"\"";
-                treeObj.updateNode(otherAddNode);
-                $("#"+treeId).find("li#"+otherAddNode.tId).show();
-            }else{
-                otherAddNode=treeObj.addNodes(null, {id:"false",name:"没有找到\""+flag+"\"",icon:"common/images/ztree/Button_warning_icon.png"})[0];
+                var checkNode = highlightNodes[i];
+                if(checkNode.id!="false"){
+                    noFind = false;
+                    $("#"+treeId).find("a#"+checkNode.tId+"_a").addClass('highlight');
+                    if(checkNode.isParent){
+                        expandChildNodes(treeId,checkNode,true);
+                    }else{
+                        $("#"+treeId).find("li#"+checkNode.tId).show();
+                        expandParentNode(treeId,checkNode);
+                    }
+                }
             }
         }
-        treeObj.expandAll(true);
+        if(noFind) otherAddNode=treeObj.addNodes(null, {id:"false",name:"未找到 "+flag,icon:"common/images/ztree/Button_warning_icon.png"})[0];
     }else{
         $("#"+treeId).find("li").show();
-        if(otherAddNode!=null){
-            $("#"+treeId).find("li#"+otherAddNode.tId).hide();
-        }
-        treeObj.expandAll(true);
     }
+    treeObj.expandAll(true);
 }
 function expandParentNode(treeId,node){
     var parentNode = node.getParentNode();
     if(parentNode!=null){
         $("#"+treeId).find("li#"+parentNode.tId).show();
-        if(!parentNode.isFirstNode){
+        if(parentNode.parentId!="-1"){
             expandParentNode(treeId,parentNode);
         }
+    }
+}
+function expandChildNodes(treeId,node,first){
+    $("#"+treeId).find("li#"+node.tId).show();
+    if(node.parentTId!=null){
+        if(first) expandParentNode(treeId,node);
+        if(node.children.length>0){
+            for(var j=0;j<node.children.length;j++){
+                var childNode = node.children[j];
+                if(childNode.isParent){
+                    expandChildNodes(treeId,childNode,false);
+                }else{
+                    $("#"+treeId).find("li#"+childNode.tId).show();
+                }
+            }
+        }
+    }else{
+        console.log(node);
+        $("#"+treeId).find("li").show();
     }
 }
 /**

@@ -54,7 +54,7 @@ public class TrustMonitor implements Serializable {
     private String blockName;
 
     /**
-     * 环保站 选择人员列表
+     * 环保站选择的 监察大队人员列表
      */
     @Column(name = "environmental_protection_station_select_person_list")
     private String environmentalProtectionStationSelectPersonList;

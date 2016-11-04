@@ -1,12 +1,11 @@
 package com.harmonywisdom.dshbcbp.dispatch.service;
 
-import com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.framework.service.IBaseService;
 
-import java.util.Date;
 import java.util.List;
 
-public interface DispathTaskService extends IBaseService<DispathTask, String> {
+public interface DispatchTaskService extends IBaseService<DispatchTask, String> {
 
     /**
      * 执法统计

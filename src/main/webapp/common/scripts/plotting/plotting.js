@@ -261,6 +261,7 @@
                     }
                     shape.attr('fill-opacity', v['fill-opacity']);
                     shape.attr('stroke', v.stroke);
+                    that.el.trigger(PLOTTING, [shape]);
                 });
             } else {
                 // return the date

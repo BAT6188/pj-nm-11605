@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.dispatch.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,8 +8,8 @@ import java.util.Date;
  * 执法管理列表
  */
 @Entity
-@Table(name = "HW_DISPATH_TASK")
-public class DispathTask implements Serializable {
+@Table(name = "HW_DISPATCH_TASK")
+public class DispatchTask implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,11 +20,23 @@ public class DispathTask implements Serializable {
     @Column(name = "monitor_case_id")
     private String monitorCaseId;
 
+    /**
+     * 从监控中心，监察大队办公室发送过来的人员  监察大队长人员列表
+     */
+    @Column(name = "monitor_mastor_person_list")
+    private String monitorMastorPersonList;
+
+    /**
+     * 选择的发送给环保站的人员  环保站人员列表
+     */
+    @Column(name="env_pro_sta_person_list")
+    private String envProStaPersonList;
+
 
     /**
      * 事件来源，信息来源
-     * 监察大队办公司： 12369：1, 区长热线：2， 市长热线：3
-     * 监测中心：0
+     * 监察大队办公司： 1：12369   2：区长热线   3：市长热线   4：现场监察
+     * 监控中心：0
      */
     @Column(name = "source")
     private String source;
@@ -122,20 +131,6 @@ public class DispathTask implements Serializable {
     private String sendRemark;
 
 
-    /**
-     * 从监控中心，监察大队发送过来的选择的人员
-     */
-    @Column(name = "select_people_ids")
-    private String selectPeopleIds;
-
-    /**
-     * 选择的发送给环保站的人员
-     */
-    @Column(name="Environmental_protection_station_staff")
-    private String EnvironmentalProtectionStationStaffIds;
-
-
-
     ///////////////////////////////////////////////////
 
     /**
@@ -174,6 +169,17 @@ public class DispathTask implements Serializable {
     @Column(name = "handler_phone", length = 11)
     private String handlerPhone;
 
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
+
     public String getId() {
         return id;
     }
@@ -182,12 +188,12 @@ public class DispathTask implements Serializable {
         this.id = id;
     }
 
-    public String getSelectPeopleIds() {
-        return selectPeopleIds;
+    public String getMonitorMastorPersonList() {
+        return monitorMastorPersonList;
     }
 
-    public void setSelectPeopleIds(String selectPeopleIds) {
-        this.selectPeopleIds = selectPeopleIds;
+    public void setMonitorMastorPersonList(String selectPeopleIds) {
+        this.monitorMastorPersonList = selectPeopleIds;
     }
 
     public String getMonitorCaseId() {
@@ -409,11 +415,11 @@ public class DispathTask implements Serializable {
         this.handlerPhone = handlerPhone;
     }
 
-    public String getEnvironmentalProtectionStationStaffIds() {
-        return EnvironmentalProtectionStationStaffIds;
+    public String getEnvProStaPersonList() {
+        return envProStaPersonList;
     }
 
-    public void setEnvironmentalProtectionStationStaffIds(String environmentalProtectionStationStaffIds) {
-        EnvironmentalProtectionStationStaffIds = environmentalProtectionStationStaffIds;
+    public void setEnvProStaPersonList(String envProStaPersonList) {
+        this.envProStaPersonList = envProStaPersonList;
     }
 }
