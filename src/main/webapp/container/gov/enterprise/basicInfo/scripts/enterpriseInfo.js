@@ -363,6 +363,7 @@ function addEnterpriseForm(){
     $('#saveForm').click(function(){
         //验证表单，验证成功后触发ef.success方法保存数据
         $('#isDel').val('0');
+        $('#haveFumesPort').val("0");
         saveForm();
         //ef.submit(false);
     });

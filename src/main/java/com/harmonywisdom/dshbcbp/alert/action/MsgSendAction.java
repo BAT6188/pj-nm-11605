@@ -96,6 +96,12 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         return orgPersonList;
     }
 
+    /**
+     * 获取通讯录联系人
+     * @param orgCode
+     * @param orgParentId
+     * @return
+     */
     public List<OrgPerson> findOrgContactsPerson(String orgCode,String orgParentId){
         List<OrgPerson> orgPersonList = new ArrayList<>();
 
@@ -128,6 +134,14 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         return orgPersonList;
     }
 
+    /**
+     * 类型转换
+     * @param iOrg
+     * @param iPerson
+     * @param contacts
+     * @param parentId
+     * @return
+     */
     public OrgPerson coverToOrgPerson(IOrg iOrg,IPerson iPerson,Contacts contacts,String parentId){
         OrgPerson orgPerson = new OrgPerson();
         if(iOrg!=null){

@@ -1,17 +1,5 @@
 var gridTable = $('#table'),
     selections = [];
-var options = {
-    params:{
-        //orgCode:['0170001100'],//组织机构代码(必填，组织机构代码)
-        type:1
-    },
-    btnok:"确定发送",
-    title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)
-    width:"60%",        //宽度(可省略，默认值：850)
-}
-var model = $.fn.MsgSend.init(2,options,function(e,data){
-    console.log(data);//回调函数，data为所选人员ID
-});
 $('#mapFrame').attr('width',$('#lookInMap').width()-180);
 $('#mapFrame').attr('height',$(window).height()-300);
 /**============grid 列表初始化相关代码============**/
@@ -27,7 +15,7 @@ function initTable() {
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
             temp.isDel = '0';
-            temp.haveFumesPort = '0';
+            temp.haveFumesPort = '1';
             return temp;
         },
         columns: [
@@ -91,7 +79,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/enterpriseMointor/lookMonitor.jsp?id='+row.id+'\')">查看</button> ' +
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/fumesMonitor/lookFumesMonitor.jsp?id='+row.id+'\')">查看</button> ' +
         '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" onclick="lookInMap(\''+row.id+'\')">地图查看</button>';
 }
 function jumpToUrl(url){

@@ -12,14 +12,15 @@ var MapDialog = {
         });
         //获取map对象
         var mapWindow = mapFrame[0].contentWindow;
+        var hwmap;
         mapWindow.initMap = function (hwmapCommon,mapContainer) {
             $(mapContainer).width(mapFrame.width());
             $(mapContainer).height(mapFrame.height());
         };
         mapWindow.initMapFinish = function (hwmapCommon) {
-            that.hwmap = hwmapCommon;
+            hwmap = hwmapCommon;
         };
-        that.hwmap.clearOverlays();
+        hwmap.clearOverlays();
     },
     /**
      * 加载企业到地图
