@@ -266,9 +266,9 @@ var options = {
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
-var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
-    var d=$.param({personIds:data},true)
-    d+="&sourceId="+sourceId;
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d=$.param({personIds:data.ids},true)
+    d+="&sourceId="+data.sourceId;
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_saveToEnvironmentalProtectionStationSelectPersonList.action",

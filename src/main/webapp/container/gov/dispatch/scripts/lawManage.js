@@ -375,9 +375,9 @@ var options = {
     width:"60%",        //宽度(可省略，默认值：850)
 }
 
-var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
-    var d=$.param({ids:data},true)
-    d+="&sourceId="+sourceId;
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d=$.param({ids:data.ids},true)
+    d+="&sourceId="+data.sourceId;
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_dispatch_DispatchTask_saveToEnvProStaPersonList.action",
