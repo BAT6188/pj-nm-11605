@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.dispatch.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -49,6 +46,17 @@ public class Feedback implements Serializable {
      */
     @Column(name = "exe_desc")
     private String exeDesc;
+
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;

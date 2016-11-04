@@ -54,6 +54,7 @@
         <input type="hidden" id="delerName" name="delerName" class="form-control" />
         <input type="hidden" id="delTime" name="delTime" class="form-control" />
         <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
+        <input type="hidden" id="haveFumesPort" name="haveFumesPort" class="form-control" />
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">单位名称<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">

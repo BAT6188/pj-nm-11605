@@ -126,9 +126,10 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         String reason = entity.getReason();
         String startConnTime = entity.getStartConnTime();
         String endConnTime = entity.getEndConnTime();
-
         String startSendTime = entity.getStartSendTime();
         String endSendTime = entity.getEndSendTime();
+        String blockLevelId = entity.getBlockLevelId();
+        String blockId = entity.getBlockId();
 
         String source = entity.getSource();
         if(null==source){
@@ -152,30 +153,27 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         if(StringUtils.isNotEmpty(enterpriseName)){
             params.andParam(new QueryParam("enterpriseName",QueryOperator.LIKE,"%"+enterpriseName+"%"));
         }
-
         if (StringUtils.isNotEmpty(reason)){
             params.andParam(new QueryParam("reason",QueryOperator.EQ,reason));
         }
-
         if (StringUtils.isNotEmpty(startConnTime)){
             params.andParam(new QueryParam("eventTime",QueryOperator.GE, DateUtil.strToDate(startConnTime,"yyyy-MM-dd HH:mm")));
         }
-
         if (StringUtils.isNotEmpty(endConnTime)){
             params.andParam(new QueryParam("eventTime",QueryOperator.LE,DateUtil.strToDate(endConnTime,"yyyy-MM-dd HH:mm")));
         }
-
         if (StringUtils.isNotEmpty(startSendTime)){
             params.andParam(new QueryParam("sendTime",QueryOperator.GE, DateUtil.strToDate(startSendTime,"yyyy-MM-dd HH:mm")));
         }
-
         if (StringUtils.isNotEmpty(endSendTime)){
             params.andParam(new QueryParam("sendTime",QueryOperator.LE,DateUtil.strToDate(endSendTime,"yyyy-MM-dd HH:mm")));
         }
-
-
-
-
+        if (StringUtils.isNotEmpty(blockLevelId)){
+            params.andParam(new QueryParam("blockLevelId",QueryOperator.EQ,blockLevelId));
+        }
+        if (StringUtils.isNotEmpty(blockId)){
+            params.andParam(new QueryParam("blockId",QueryOperator.EQ,blockId));
+        }
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
@@ -222,9 +220,10 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         MonitorCase mc = monitorCaseService.findById(id);
         mc.setSenderName(entity.getSenderName());
         mc.setSendTime(entity.getSendTime());
+        mc.setContent(entity.getContent());
         mc.setSendRemark(entity.getSendRemark());
         monitorCaseService.update(mc);
-
+        write(mc);
     }
 
     /**
