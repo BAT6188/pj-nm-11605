@@ -148,26 +148,21 @@ var status_search="";
 
     //搜索
     $("#search").click(function () {
-        //查询之前重置table
         gridTable.bootstrapTable('resetSearch');
-        var searchEnterpriseName = $("#searchEnterpriseName").val();
-        var start_sendTime=$("#start_sendTime").val()
-        var end_sendTime=$("#end_sendTime").val()
-
-
-        var reason = $("#reason").val();
-        // var age = $("#s_age").val();
+        var enterpriseName = $("#searchEnterpriseName").val();
+        var startSendTime=$("#start_sendTime").val()
+        var endSendTime=$("#end_sendTime").val()
+        var reason = $("#s_reason").val();
+        var blockLevelId = $("#s_blockLevelId").val();
+        var blockId = $("#s_blockId").val();
         gridTable.bootstrapTable('refresh',{
-            query:{enterpriseName: searchEnterpriseName,reason:reason,startSendTime:start_sendTime,endSendTime:end_sendTime,status_search:status_search}
+            query:{enterpriseName: enterpriseName,reason:reason,
+                startSendTime:startSendTime,endSendTime:endSendTime,
+                blockLevelId:blockLevelId,blockId:blockId,
+                status_search:status_search}
         });
 
     });
-    //重置搜索
-    // $("#searchFix").click(function () {
-    //     $("#s_name").val("");
-    //     $("#s_age").val("");
-    //     gridTable.bootstrapTable('resetSearch');
-    // });
 
     //表单弹出框 保存按钮
     $("#saveDemo").bind('click',function () {
@@ -244,7 +239,6 @@ function reasonFormatter(value, row, index) {
 // 操作事件
 window.operateEvents = {
     'click .like': function (e, value, row, index) {
-        //alert('You click like action, row: ' + JSON.stringify(row));
         refreshDemoForm(row);
     }
 };
@@ -253,8 +247,6 @@ window.operateEvents = {
  * @param demo
  */
 function refreshDemoForm(demo) {
-    var id = "";
-    id = demo.id;
     $("#id").val(demo.id);
     $("#eventTime").val(demo.eventTime);
     $("#enterpriseName").val(demo.enterpriseName);
@@ -265,7 +257,7 @@ function refreshDemoForm(demo) {
     $("#overValue").val(demo.overValue);
     $("#thrValue").val(demo.thrValue);
     $("#content").val(demo.content);
-    $("#senderName").val(demo.senderName);
+    $("#senderName").val(userName);
     $("#sendTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#sendRemark").val(demo.sendRemark);
 
@@ -303,29 +295,46 @@ function saveAjax(entity, callback) {
     });
 }
 
+var options = {
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d=$.param({ids:data.ids},true)
+    d+="&sourceId="+data.sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_save.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            $("#systemSendForm").modal('hide');
+            gridTable.bootstrapTable("refresh")
+        }
+    });
+});
+
 //初始化表单验证
 var ef = $("#systemSendForm").easyform({
     success:function (ef) {
-        //验证成功，打开选择人员 对话框
-        $('#selectPeopleForm').modal('show');
-
         var id = $("#id").val();
         var senderName = $("#senderName").val();
         var sendTime = $("#sendTime").val();
+        var content = $("#content").val();
         var sendRemark = $("#sendRemark").val();
-
-        var entity = {senderName:senderName,sendTime:sendTime,sendRemark:sendRemark,id:id}
+        var entity = {senderName:senderName,sendTime:sendTime,
+            content:content,sendRemark:sendRemark,
+            id:id}
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
 
         saveAjax(entity,function (msg) {
-            //form.modal('hide');
-            //gridTable.bootstrapTable('refresh');
-
-            $("#monitorCaseId").val($("#id").val())
+            model.open(msg.id);//打开dialog
         });
-    },
-    error:function () {
-        console.log("error")
     }
 });
 
@@ -404,4 +413,9 @@ $(function(){
 
     });
 });
+
+
+$(document).ready(function () {
+    loadBlockLevelAndBlockOption("#s_blockLevelId","#s_blockId")
+})
 

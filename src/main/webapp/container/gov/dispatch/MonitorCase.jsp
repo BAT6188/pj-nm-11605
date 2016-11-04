@@ -1,30 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>监控中心</title>
-
-    <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
-
-    <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
-    <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
+    <%@include file="/common/msgSend/msgSend.jsp"%>
 </head>
 <style>
 
-    .Node-frame-menubar {
-        width: 227px;
-        height: 500px;
-        float: left;
-        position: relative;
-        left: 0px;
-        border-right: 1px solid #e5e5e5;
-        padding: 10px;
-    }
-
-    .nav-tabs{
-        height: 47px;
-    }
     a{
         color: #0b0c0d;
     }
@@ -68,8 +50,8 @@
                     <p></p>
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="reason">原&nbsp;&nbsp;因：</label>
-                            <select id="reason" name="reason" class="form-control" style="width: 301px;">
+                            <label for="">原&nbsp;&nbsp;因：</label>
+                            <select id="s_reason" name="reason" class="form-control" style="width: 301px;">
                                 <option value="">全部</option>
                                 <option value="1">异常</option>
                                 <option value="2">超标</option>
@@ -77,8 +59,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="blockNname">调度网格：</label>
-                            <input type="text" id="blockNname" class="form-control" />
+                            <label for="">调度网格：</label>
+                            <select id="s_blockLevelId" class="form-control"  style="width: 262px;">
+                            </select>
+                            -
+                            <select id="s_blockId" class="form-control"  style="width: 262px;">
+                            </select>
                         </div>
 
                     </form>
@@ -193,7 +179,7 @@
                     <div class="form-group">
                         <label for="senderName" class="col-sm-2 control-label">发送人：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="senderName" class="form-control" disabled
+                            <input type="text" id="senderName" class="form-control"
                             />
                         </div>
 
@@ -209,8 +195,6 @@
                             <textarea id="sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
-
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -221,47 +205,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
-<!--人员选择-->
-<div class="modal fade" id="selectPeopleForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:882px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="demoFormTitle2">人员选择</h4>
-                <input id="monitorCaseId" type="hidden"/>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="Node-frame-menubar">
-                            <div class="scrollContent" >
-                                <ul id="treeDemo1" class="ztree"></ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="mainBox">
-                            <div class="tableBox">
-                                <table id="selectPeopleTable" class="table table-striped table-responsive">
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="modal-footer" style="clear: both;">
-                <button type="button" class="btn btn-primary" id="sendTo" onclick="sendToBtn(1)" data-toggle="modal" data-target="#selectPeopleForm,#systemSendForm">发送</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
+<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/MonitorCase.js"></script>
-<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/selectPeople.js"></script>
-<script src="<%=request.getContextPath()%>/common/scripts/map.js"></script>
 </body>
 </html>
