@@ -39,7 +39,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }
         whereSql += " GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history` where DATE_FORMAT(start_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history` where DATE_FORMAT(start_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
         return list;
     }
 
@@ -55,10 +55,19 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
             whereSql += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startXdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastXdate + "'";
         }
         whereSql += "GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
 
-
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
+        String whereSql2 = " where 1=1 ";
+        whereSql2 += "AND STATUS='1'";
+        if(name != null && !"".equals(name)){
+            whereSql2 += "AND enterprise_name LIKE '%" + name + "%'";
+        }else if( startSdate !=null && !"".equals(startSdate)){
+            whereSql2 += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
+        } else if(lastSdate != null && !"".equals(lastSdate)) {
+            whereSql2 += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startSdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
+        }
+        whereSql2 += "GROUP BY MONTH";
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql2);
 
         List<Object[]> temp = new ArrayList<>();
         if (list2.size() < list.size()) {
@@ -68,25 +77,31 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         }
         for (int i = 0; i < list2.size(); i++) {
             Object[] a = list2.get(i);
-            String month = a[0].toString();
+            String months = a[0].toString();
+            String month = months.substring(5,7);
             boolean flag = false;
+            String lackDate = "";
             for (int j = 0; j < list.size(); j++) {
                 Object[] b = list.get(j);
-                String month2 = b[0].toString();
+                String months2 = b[0].toString();
+                String year = months2.substring(0,5);
+                String month2 = months2.substring(5,7);
                 if (month.equals(month2)) {
                     flag = true;
                     break;
                 }
+                lackDate = year+month;
             }
             if (!flag) {
-                list.add(i,new Object[]{month,"0"});
+                list.add(i,new Object[]{lackDate,"0"});
             }
         }
         List<Object[]> sList = new ArrayList<>();
         for (int i =0; i < list.size(); i++) {
-            Object Obj[] = list.get(i);
-            Object Obj2[] = list2.get(i);
-            Object [] cc = {Obj[0],Obj[1],Obj2[1]};
+            Object obj[] = list.get(i);
+            Object obj2[] = list2.get(i);
+            String x = "("+obj[0].toString()+")"+"-" + "("+obj2[0].toString()+")";
+            Object [] cc = {x,obj[1],obj2[1]};
             sList.add(cc);
         }
         return sList;

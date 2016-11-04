@@ -41,10 +41,10 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
             whereSql += "AND a1.ENTERPRISE_ID = '"+enterpriseId+"'";
         }
         whereSql +="GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%m')AS MONTH,COUNT(*) FROM HW_PROJECT_EIA t1 " +
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%Y-%m')AS MONTH,COUNT(*) FROM HW_PROJECT_EIA t1 " +
                 "LEFT JOIN HW_BUILD_PROJECT a1 ON t1.project_id=a1.id" + whereSql);
 
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%m')AS MONTH,COUNT(*) FROM HW_PROJECT_ACCEPTANCE t1 " +
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%Y-%m')AS MONTH,COUNT(*) FROM HW_PROJECT_ACCEPTANCE t1 " +
                 "LEFT JOIN HW_BUILD_PROJECT a1 ON t1.project_id=a1.id" + whereSql);
 
         List<Object[]> temp = new ArrayList<>();
