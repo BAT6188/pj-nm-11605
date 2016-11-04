@@ -261,7 +261,19 @@ $(function(){
                 }
                 console.log(preMonth);
                 console.log(preValue);
-
+                var month = categories;//后台取出的2组数据
+                var value = series1;
+                if(month && month.length>0){
+                    for(var i = 0; i < month.length;i++){
+                        var m = month[i];
+                        for (var j = 0; j < preMonth.length; j++){
+                            if (m == preMonth[j]) {
+                                preValue[j] = value[i];
+                            }
+                        }
+                    }
+                }
+                
                 for (var i = 0; i < preValue.length; i++) {
 
                     series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});

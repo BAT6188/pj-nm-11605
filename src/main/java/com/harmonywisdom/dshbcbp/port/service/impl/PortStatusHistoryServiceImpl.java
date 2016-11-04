@@ -43,6 +43,15 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         return list;
     }
 
+    /**
+     * 超标同期对比分析
+     * @param name
+     * @param startXdate
+     * @param lastXdate
+     * @param startSdate
+     * @param lastSdate
+     * @return
+     */
     @Override
     public List<Object[]> findColumnRatio(String name, String startXdate, String lastXdate, String startSdate, String lastSdate) {
         String whereSql = " where 1=1 ";
@@ -70,32 +79,35 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql2);
 
         List<Object[]> temp = new ArrayList<>();
-        if (list2.size() < list.size()) {
-            temp = list2;
-            list2 = list;
-            list = temp;
-        }
-        for (int i = 0; i < list2.size(); i++) {
-            Object[] a = list2.get(i);
-            String months = a[0].toString();
-            String month = months.substring(5,7);
-            boolean flag = false;
-            String lackDate = "";
-            for (int j = 0; j < list.size(); j++) {
-                Object[] b = list.get(j);
-                String months2 = b[0].toString();
-                String year = months2.substring(0,5);
-                String month2 = months2.substring(5,7);
-                if (month.equals(month2)) {
-                    flag = true;
-                    break;
+        do{
+            if (list2.size() < list.size()) {
+                temp = list2;
+                list2 = list;
+                list = temp;
+            }
+            for (int i = 0; i < list2.size(); i++) {
+                Object[] a = list2.get(i);
+                String months = a[0].toString();
+                String month = months.substring(5,7);
+                boolean flag = false;
+                String lackDate = "";
+                for (int j = 0; j < list.size(); j++) {
+                    Object[] b = list.get(j);
+                    String months2 = b[0].toString();
+                    String year = months2.substring(0,5);
+                    String month2 = months2.substring(5,7);
+                    if (month.equals(month2)) {
+                        flag = true;
+                        break;
+                    }
+                    lackDate = year+month;
                 }
-                lackDate = year+month;
+                if (!flag) {
+                    list.add(i,new Object[]{lackDate,"0"});
+                }
             }
-            if (!flag) {
-                list.add(i,new Object[]{lackDate,"0"});
-            }
-        }
+        }while(list.size() != list2.size());
+
         List<Object[]> sList = new ArrayList<>();
         for (int i =0; i < list.size(); i++) {
             Object obj[] = list.get(i);
