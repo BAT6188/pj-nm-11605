@@ -18,8 +18,8 @@ public class MonitorCase implements Serializable {
 
     /**
      * 事件来源，信息来源
-     * 监察大队办公司： 12369：1, 区长热线：2， 市长热线：3
-     * 监测中心：0
+     * 监察大队办公司： 1：12369   2：区长热线   3：市长热线   4：现场监察
+     * 监控中心：0
      */
     @Column(name = "source")
     private String source;
