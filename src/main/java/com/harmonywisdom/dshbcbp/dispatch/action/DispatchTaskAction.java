@@ -9,6 +9,10 @@ import com.harmonywisdom.apportal.sdk.role.IRole;
 import com.harmonywisdom.apportal.sdk.role.RoleServiceUtil;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
+import com.harmonywisdom.dshbcbp.composite.bean.Block;
+import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
+import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
+import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
@@ -22,14 +26,18 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskService> {
 
     public static final String monitor_master="monitor_master";
     public static final String env_pro_sta="env_pro_sta";
+
+    @AutoService
+    private BlockService blockService;
+
+    @AutoService
+    private BlockLevelService blockLevelService;
 
     @AutoService
     private DispatchTaskService dispatchTaskService;
@@ -63,6 +71,27 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
     }
 
+    /**
+     * 保存现场监察
+     */
+    public void saveXianChangJianChaAjax(){
+        entity.setSource("4");
+        entity.setAllPerson("1");
+
+        String blockLevelId = entity.getBlockLevelId();
+        String blockId = entity.getBlockId();
+        if (StringUtils.isNotEmpty(blockLevelId)){
+            BlockLevel blockLevel = blockLevelService.findById(blockLevelId);
+            entity.setBlockLevelName(blockLevel.getName());
+        }
+        if (StringUtils.isNotEmpty(blockId)){
+            Block block = blockService.findById(blockId);
+            entity.setBlockName(block.getOrgName());
+        }
+
+        super.save();
+    }
+
 
     @Override
     protected QueryCondition getQueryCondition() {
@@ -71,10 +100,13 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String role = request.getParameter("role");
         IPerson person = ApportalUtil.getPerson(request);
         if (monitor_master.equals(role)){
-            params.andParam(new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%"));
+            params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
         }else if (env_pro_sta.equals(role)){
-            params.andParam(new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%"));
+            params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
         }
+
+        //TODO 所有人可查看的数据
+        params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
 
         String startEventTime = request.getParameter("startEventTime");
         String endEventTime = request.getParameter("endEventTime");
@@ -128,6 +160,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         return condition;
     }
 
+    /**
+     * 办结管理
+     */
     public void overStatus(){
         String[] ids = this.getParamValues("ids");
         for (String id : ids) {
@@ -174,6 +209,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         dispatchTask.setEnvProStaPersonList(jsonIds);
 
         dispatchTask.setStatus("2");
+        dispatchTask.setSendTime(new Date());
 
         String pk = this.getService().saveOrUpdate(dispatchTask);
         write(pk);
