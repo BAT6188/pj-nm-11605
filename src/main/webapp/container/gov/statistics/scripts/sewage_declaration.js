@@ -103,23 +103,42 @@ $(function(){
                 var preMonth = [];//定义查询月份的数组
                 var preValue1 = [];//定义对应月份为0的一组数据
                 var preValue2 = [];//定义对应月份为0的一组数据
-                var startMonth= startYdate.substring(5,7);
-                if(startMonth < 10){
-                    var sMonth = startMonth.substring(1)
+                
+                var startMonth= startYdate.substring(0,7);
+                var strStartMonth = startMonth.replace('-','');
+
+                var endMonth= lastYdate.substring(0,7);
+                var strEndMonth= endMonth.replace('-','');
+
+                var startYear = startYdate.substring(0,4);
+                var endYear = lastYdate.substring(0,4);
+                if(startYear == endYear){
+                    for(var i = strStartMonth; i <= strEndMonth; i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue1.push(0);
+                        preValue2.push(0);
+                    }
                 }else{
-                    sMonth = startMonth;
+                    var startTime = startYear + '12';
+                    var firstTime = endYear +'01';
+                    for(var i=strStartMonth;i<=startTime;i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue1.push(0);
+                        preValue2.push(0);
+                    }
+                    for(var i=firstTime; i<=strEndMonth; i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue1.push(0);
+                        preValue2.push(0);
+                    }
                 }
-                var endMonth= lastYdate.substring(5,7);
-                if(endMonth <10){
-                    var lasMonth = endMonth.substring(1);
-                }else{
-                    lasMonth = endMonth
-                }
-                for(var i = sMonth; i <= lasMonth; i++){
-                    preMonth.push(i);
-                    preValue1.push(0);
-                    preValue2.push(0);
-                }
+                
                 var month = categories;//后台取出的2组数据
                 var value = ylist;
                 var arr_value = ylist2;
@@ -176,21 +195,37 @@ $(function(){
                 }];
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
-                var startMonth= startYdate.substring(5,7);
-                if(startMonth < 10){
-                    var sMonth = startMonth.substring(1)
+                
+                var startMonth= startYdate.substring(0,7);
+                var strStartMonth = startMonth.replace('-','');
+
+                var endMonth= lastYdate.substring(0,7);
+                var strEndMonth= endMonth.replace('-','');
+
+                var startYear = startYdate.substring(0,4);
+                var endYear = lastYdate.substring(0,4);
+                if(startYear == endYear){
+                    for(var i = strStartMonth; i <= strEndMonth; i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue.push(0);
+                    }
                 }else{
-                    sMonth = startMonth;
-                }
-                var endMonth= lastYdate.substring(5,7);
-                if(endMonth <10){
-                    var lasMonth = endMonth.substring(1);
-                }else{
-                    lasMonth = endMonth
-                }
-                for(var i = sMonth; i <= lasMonth; i++){
-                    preMonth.push(i);
-                    preValue.push(0);
+                    var startTime = startYear + '12';
+                    var firstTime = endYear +'01';
+                    for(var i=strStartMonth;i<=startTime;i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue.push(0);
+                    }
+                    for(var i=firstTime; i<=strEndMonth; i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue.push(0);
+                    }
                 }
                 console.log(preMonth);
                 console.log(preValue);
@@ -247,22 +282,39 @@ $(function(){
                 var preMonth = [];//定义查询月份的数组
                 var preValue1 = [];//定义对应月份为0的一组数据
                 var preValue2 = [];//定义对应月份为0的一组数据
-                var startMonth= startYdate.substring(5,7);
-                if(startMonth < 10){
-                    var sMonth = startMonth.substring(1)
+                var startMonth= startYdate.substring(0,7);
+                var strStartMonth = startMonth.replace('-','');
+
+                var endMonth= lastYdate.substring(0,7);
+                var strEndMonth= endMonth.replace('-','');
+
+                var startYear = startYdate.substring(0,4);
+                var endYear = lastYdate.substring(0,4);
+                if(startYear == endYear){
+                    for(var i = strStartMonth; i <= strEndMonth; i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue1.push(0);
+                        preValue2.push(0);
+                    }
                 }else{
-                    sMonth = startMonth;
-                }
-                var endMonth= lastYdate.substring(5,7);
-                if(endMonth <10){
-                    var lasMonth = endMonth.substring(1);
-                }else{
-                    lasMonth = endMonth
-                }
-                for(var i = sMonth; i <= lasMonth; i++){
-                    preMonth.push(i);
-                    preValue1.push(0);
-                    preValue2.push(0);
+                    var startTime = startYear + '12';
+                    var firstTime = endYear +'01';
+                    for(var i=strStartMonth;i<=startTime;i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue1.push(0);
+                        preValue2.push(0);
+                    }
+                    for(var i=firstTime; i<=strEndMonth; i++){
+                        i = i + "";
+                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                        preMonth.push(k);
+                        preValue1.push(0);
+                        preValue2.push(0);
+                    }
                 }
                 var month = categories;//后台取出的2组数据
                 var value = ylist;

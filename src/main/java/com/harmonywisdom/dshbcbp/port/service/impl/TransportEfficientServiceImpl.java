@@ -38,7 +38,7 @@ public class TransportEfficientServiceImpl extends BaseService<TransportEfficien
             whereSql += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + lastYdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastYdate + "'";
         }
         whereSql += " GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%m')AS MONTH," +
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH," +
                 "(SELECT AVG(RATIO) FROM `hw_dshbcbp_transport_efficient` t0 WHERE DATE_FORMAT(t0.start_time,'%m') = DATE_FORMAT(t.start_time,'%m'))" +
                 "FROM `hw_dshbcbp_transport_efficient` t " + whereSql);
         return list;

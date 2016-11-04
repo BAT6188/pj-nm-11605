@@ -2,9 +2,10 @@ var gridTable = $('#table'),
     selections = [];
 var options = {
     params:{
-        orgCode:['0170001100'],//组织机构代码(必填，组织机构代码)
+        //orgCode:['0170001100'],//组织机构代码(必填，组织机构代码)
         type:1
     },
+    btnok:"确定发送",
     title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
@@ -25,6 +26,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
+            temp.isDel = '0';
             return temp;
         },
         columns: [
