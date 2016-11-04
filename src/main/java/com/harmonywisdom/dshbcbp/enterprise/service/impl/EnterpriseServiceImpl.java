@@ -9,6 +9,7 @@ import com.harmonywisdom.dshbcbp.port.dao.FumesPortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.GasPortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.NoisePortDAO;
 import com.harmonywisdom.dshbcbp.port.dao.WaterPortDAO;
+import com.harmonywisdom.dshbcbp.utils.EntityUtil;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
@@ -92,6 +93,17 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
             }
         }
 
+        return dictBeans;
+    }
+
+    @Override
+    public List<DictBean> getFumesEnterprisePortZtree(String id) {
+        List<DictBean> dictBeans = new ArrayList<DictBean>();
+
+        Enterprise enterprise = enterpriseDAO.findById(id);
+        dictBeans.add(covertToDictBean(enterprise.getId(),enterprise.getName(),"-1",0,"common/images/ztree/Factory_Yellow.png"));
+
+        Integer serial = 1;
         /**
          * 油烟排口数据
          */
@@ -107,7 +119,6 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
                 serial +=1;
             }
         }
-
         return dictBeans;
     }
 
@@ -121,6 +132,12 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
             result.add(enterpriseAlertStatus);
         }
         return result;
+    }
+
+    @Override
+    public String updateEnterprise(Enterprise enterprise) {
+        Map<String,Object> map = EntityUtil.getUpdateMap(enterprise);
+        return String.valueOf(enterpriseDAO.executeJPQL(String.valueOf(map.get("upStr")),(Map<String, Object>)map.get("valMap")));
     }
 
     /**

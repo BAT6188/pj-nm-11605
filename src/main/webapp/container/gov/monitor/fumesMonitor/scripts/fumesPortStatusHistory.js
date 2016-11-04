@@ -1,79 +1,60 @@
 var gridTable = $('#table'),
     selections = [];
-var options = {
-    params:{
-        //orgCode:['0170001100'],//组织机构代码(必填，组织机构代码)
-        type:1
-    },
-    btnok:"确定发送",
-    title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)
-    width:"60%",        //宽度(可省略，默认值：850)
-}
-var model = $.fn.MsgSend.init(2,options,function(e,data){
-    console.log(data);//回调函数，data为所选人员ID
+$('.form_date').datetimepicker({
+    language:   'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    forceParse: 0,
+    minuteStep:5,
+    pickerPosition: "bottom-left"
 });
-$('#mapFrame').attr('width',$('#lookInMap').width()-180);
-$('#mapFrame').attr('height',$(window).height()-300);
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_enterprise_Enterprise_list.action",
+        url: rootPath+"/action/S_port_FumesPortHistory_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.isDel = '0';
-            temp.haveFumesPort = '0';
+            temp.portId = portId;
             return temp;
         },
         columns: [
-            /*{
-                title:"全选",
-                checkbox: true,
-                align: 'center',
-                radio:false,  //  true 单选， false多选
-                valign: 'middle'
-            },*/
             {
-                title: '企业名称',
-                field: 'name',
+                title: '监测时间',
+                field: 'monitorTime',
                 sortable: false,
                 editable: false,
                 align: 'center'
             },
             {
-                title: '状态',
-                field: 'status',
+                title: '油烟（mg/L）',
+                field: 'fumes',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '所属网格',
-                field: 'relateGrid',
+                title: '烟气温度（℃）',
+                field: 'temperature',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '污染源状态',
-                field: 'status',
+                title: '烟气湿度（％）',
+                field: 'humidity',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
-            {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                //events: operateEvents,
-                formatter: operateFormatter
             }
-
         ]
     });
     // sometimes footer render error.
@@ -91,18 +72,21 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/enterpriseMointor/lookMonitor.jsp?id='+row.id+'\')">查看</button> ' +
-        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" onclick="lookInMap(\''+row.id+'\')">地图查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/lookMonitor.jsp?id='+row.id+'\')">查看</button> ' +
+        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" data-toggle="modal">地图查看</button>';
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('#level2content').load(rootPath+url); // ajax加载页面
 }
 // 列表操作事件
-function lookInMap(id){
-    MapDialog.loadEnterprise(id);
-    MapDialog.open();
-}
+window.operateEvents = {
+    'click .view': function (e, value, row, index) {
+        $('.saveBtn').hide();
+        $('.lookBtn').show();
+        setFormView(row);
+    }
+};
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -124,7 +108,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true)-170;
+    return $(window).height() - $('.dealBox').outerHeight(true)-160;
 }
 initTable();
 /**============列表工具栏处理============**/
@@ -136,12 +120,36 @@ $("#search").click(function () {
     //查询之前重置table
     gridTable.bootstrapTable('resetSearch');
     var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    if(jsonData){
+        if(checkSearchForm(jsonData)){
+            gridTable.bootstrapTable('refresh',{
+                query:jsonData
+            });
+        }
+    }else{
+        gridTable.bootstrapTable('refresh',{
+            query:jsonData
+        });
+    }
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
     gridTable.bootstrapTable('resetSearch');
 });
+function checkSearchForm(jsonData){
+    if(jsonData.startTime<jsonData.endTime || (!jsonData.startTime && !jsonData.endTime)){
+        return true;
+    }else{
+        if(jsonData.startTime && !jsonData.endTime){
+            Ewin.alert("缺少结束时间！");
+        }
+        if(!jsonData.startTime && jsonData.endTime){
+            Ewin.alert("缺少开始时间！");
+        }
+        if(jsonData.startTime>jsonData.endTime){
+            Ewin.alert("开始时间要小于结束时间！");
+        }
+        return false;
+    }
+}

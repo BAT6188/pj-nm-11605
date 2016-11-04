@@ -66,6 +66,9 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getIsSpecial())) {
             param.andParam(new QueryParam("isSpecial", QueryOperator.EQ,entity.getIsSpecial()));
         }
+        if (StringUtils.isNotBlank(entity.getHaveFumesPort())) {
+            param.andParam(new QueryParam("haveFumesPort", QueryOperator.EQ,entity.getHaveFumesPort()));
+        }
         /*---删除排污档案查询条件---*/
         if (StringUtils.isNotBlank(entity.getDelOpinion())) {
             param.andParam(new QueryParam("delOpinion", QueryOperator.LIKE,"%"+entity.getDelOpinion()+"%"));
@@ -170,9 +173,23 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             bean.setSerial(0);
             write(bean);
         }
-
     }
-
+    /**
+     * 获取油烟排口树结构
+     */
+    public void getFumesEnterprisePortZtree(){
+        String code = request.getParameter("code");
+        if(StringUtils.isNotBlank(code)){
+            write(enterpriseService.getFumesEnterprisePortZtree(code));
+        }else{
+            DictBean bean = new DictBean();
+            bean.setCode(code);
+            bean.setName("没有查询到数据!");
+            bean.setParentCode("-1");
+            bean.setSerial(0);
+            write(bean);
+        }
+    }
     /**
      * 查询企业报警状态
      */

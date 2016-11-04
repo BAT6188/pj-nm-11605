@@ -17,13 +17,6 @@
             </div>
             <div class="modal-body" style="padding: 0;">
                 <iframe name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
-                <div class="navbar" style="display:block;">
-                    <ul>
-                        <li><span class="point"></span></li>
-                        <li><span class="polyline"></span></li>
-                        <li><span class="polygon"></span></li>
-                    </ul>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

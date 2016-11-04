@@ -325,6 +325,12 @@ public class Enterprise implements Serializable {
     private String planeMap;
 
     /**
+     * 是否含有油烟排口 0:不含;1：包含
+     */
+    @Column(name = "have_fumes_port")
+    private String haveFumesPort;
+
+    /**
      * 附件
      */
     @Transient
@@ -680,5 +686,13 @@ public class Enterprise implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public String getHaveFumesPort() {
+        return haveFumesPort;
+    }
+
+    public void setHaveFumesPort(String haveFumesPort) {
+        this.haveFumesPort = haveFumesPort;
     }
 }
