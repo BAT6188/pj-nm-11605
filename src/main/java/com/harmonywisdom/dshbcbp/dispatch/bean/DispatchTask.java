@@ -32,6 +32,12 @@ public class DispatchTask implements Serializable {
     @Column(name="env_pro_sta_person_list")
     private String envProStaPersonList;
 
+    /**
+     * 1：所有人都能看到这条数据
+     */
+    @Column(name = "all_person",length = 2)
+    private String allPerson;
+
 
     /**
      * 事件来源，信息来源
@@ -421,5 +427,13 @@ public class DispatchTask implements Serializable {
 
     public void setEnvProStaPersonList(String envProStaPersonList) {
         this.envProStaPersonList = envProStaPersonList;
+    }
+
+    public String getAllPerson() {
+        return allPerson;
+    }
+
+    public void setAllPerson(String allPerson) {
+        this.allPerson = allPerson;
     }
 }

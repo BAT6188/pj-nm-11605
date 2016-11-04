@@ -1,4 +1,5 @@
 var gridTable = $('#table'),
+    feedbackRecordTable=$("#feedbackRecordTable"),
     overBtn = $('#overBtn'),
     dealWithBtn = $('#dealWith'),
     feedbackBtn = $('#feedback'),
@@ -83,6 +84,10 @@ function initTable() {
                         value="区长热线"
                     }else if (3==value){
                         value="市长热线"
+                    }else if (4==value){
+                        value="现场监察"
+                    }else if (0==value){
+                        value="监控中心"
                     }
                     return value;
                 }
@@ -124,7 +129,7 @@ function initTable() {
                         value="已发送"
                     }else if(value==3){
                         value="已反馈"
-                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackStatusForm">'+value+'</a>'
+                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">'+value+'</a>'
                     }else if(value==4){
                         value="已处罚"
                     }else if(value==5){
@@ -178,6 +183,13 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 visible:false
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: lookOverEvents,
+                formatter: lookOverFormatter
             }
         ]
     });
@@ -204,24 +216,66 @@ function initTable() {
     });
 }
 
+function lookOverFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#eventMsg">查看</button>';
+}
+
+window.lookOverEvents = {
+    'click .lookOver': function (e, value, entity, index) {
+        resetEventMsgFormData();
+        if (!entity) {return false}
+        var id = entity.id;
+
+        eventMsgForm.find("input").attr("disabled",true);
+
+        $("#id").val(entity.id);
+        $("#eventTime").val(entity.eventTime);
+        $("#answer").val(entity.answer);
+        $("#enterpriseId").val(entity.enterpriseId);
+        $("#enterpriseName").val(entity.enterpriseName);
+        $("#source").val(entity.source);
+        $("#blockLevelId").val(entity.blockLevelId);
+        $("#blockId").val(entity.blockId);
+        $("#supervisor").val(entity.supervisor);
+        $("#supervisorPhone").val(entity.supervisorPhone);
+        $("#content").val(entity.content);
+        $("#sendRemark").val(entity.sendRemark);
+        $("#senderName").val(entity.senderName);
+        $("#senderId").val(entity.senderId);
+        $("#sendTime").val(entity.sendTime);
+
+
+        uploaderToggle(".aUploader")
+        var fuOptions = getUploaderOptions(entity.monitorCaseId);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+
+        $("#dispatch").hide();
+        $("#cancel").text("关闭")
+    }
+};
+
 
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
        console.log(JSON.stringify(row))
 
-        $("#feedbackStatusForm_eventTime").val(row.eventTime);
-        $("#feedbackStatusForm_answer").val(row.answer);
-        $("#feedbackStatusForm_enterpriseId").val(row.enterpriseId);
-        $("#feedbackStatusForm_source").val(row.source);
-        $("#feedbackStatusForm_blockLevelId").val(row.blockLevelId);
-        $("#feedbackStatusForm_blockId").val(row.blockId);
-        $("#feedbackStatusForm_supervisor").val(row.supervisor);
-        $("#feedbackStatusForm_supervisorPhone").val(row.supervisorPhone);
-        $("#feedbackStatusForm_content").val(row.content);
-        $("#feedbackStatusForm_senderName").val(row.senderName);
-        $("#feedbackStatusForm_senderId").val(row.senderId);
-        $("#feedbackStatusForm_sendTime").val(row.sendTime);
+        $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
+        $("#lookOverFeedbackForm_answer").val(row.answer);
+        $("#lookOverFeedbackForm_enterpriseName").val(row.enterpriseName);
+        $("#lookOverFeedbackForm_source").val(row.source);
+        $("#lookOverFeedbackForm_blockLevelId").val(row.blockLevelId);
+        $("#lookOverFeedbackForm_blockId").val(row.blockId);
+        $("#lookOverFeedbackForm_supervisor").val(row.supervisor);
+        $("#lookOverFeedbackForm_supervisorPhone").val(row.supervisorPhone);
+        $("#lookOverFeedbackForm_senderName").val(row.senderName);
+        $("#lookOverFeedbackForm_sendTime").val(row.sendTime);
+        $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
 
     }
 };
@@ -263,6 +317,8 @@ $("#feedback").bind("click",function () {
 
     uploaderToggle(".bUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
+
+    $("#feedbackTo").show();
 
 });
 
@@ -403,6 +459,9 @@ function setEventMsgFormData(entity) {
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(entity.monitorCaseId));
+
+    $("#dispatch").show();
+    $("#cancel").text("取消")
 }
 
 /**
@@ -429,6 +488,8 @@ var ef_feedbackForm = feedbackForm.easyform({
             dataType:"json",
             success:function (msg) {
                 feedbackForm.modal("hide")
+                gridTable.bootstrapTable('refresh');
+                feedbackRecordTable.bootstrapTable('refresh');
             }
         });
     },
@@ -564,31 +625,44 @@ var code={code:"monitor_office_source"};
 var monitor_office_source=dict.getDctionnary(code)
 appendOption("#source",monitor_office_source)
 
-
+/**
+ * 查看反馈表单事件
+ * @type {{[click .see]: Window.seeEvent.'click .see'}}
+ */
 window.seeEvent = {
     'click .see': function (e, value, row, index) {
         console.log(JSON.stringify(row))
 
-        $("#seeFeedbackForm_lawerName").val(row.lawerName)
-        $("#seeFeedbackForm_phone").val(row.phone)
-        $("#seeFeedbackForm_exeTime").val(row.exeTime)
-        $("#seeFeedbackForm_exeDesc").val(row.exeDesc)
-        $("#seeFeedbackForm_lawerName").val(row.lawerName)
-        uploader3 = new qq.FineUploader(getUploaderOptions3(row.id));
+        $("#lawerName").val(row.lawerName)
+        $("#phone").val(row.phone)
+        $("#exeTime").val(row.exeTime)
+        $("#exeDesc").val(row.exeDesc)
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(row.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+
+        $("#feedbackTo").hide();
     }
 };
-var tableStatus=$("#tableStatus")
-function initTableStatus() {
-    tableStatus.bootstrapTable({
+
+/***************** 执法记录-现场回传 ***************************/
+function initfeedbackRecordTable() {
+    feedbackRecordTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_dispatch_Feedback_list.action",
         method:'post',
         pagination:true,
-        clickToSelect:true,//单击行时checkbox选中
+        pageSize:5,
+        pageList:[5],
         queryParams:pageUtils.localParams,
         columns: [
-
             {
                 title: 'ID',
                 field: 'id',
@@ -634,7 +708,7 @@ function initTableStatus() {
                 align: 'center',
                 events: seeEvent,
                 formatter: function (value, row, index) {
-                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#seeFeedbackForm">详情</a>'
+                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#feedbackForm">详情</a>'
                     return html
                 }
             }
@@ -643,11 +717,11 @@ function initTableStatus() {
     });
     // sometimes footer render error.
     setTimeout(function () {
-        tableStatus.bootstrapTable('resetView');
+        feedbackRecordTable.bootstrapTable('resetView');
     }, 200);
 
 }
-initTableStatus()
+initfeedbackRecordTable()
 
 $("#overBtn").click(function () {
     Ewin.confirm({ title:"办结提示",message: "是否归入办结管理？" }).on(function (e) {
@@ -657,7 +731,7 @@ $("#overBtn").click(function () {
 
         var ids = getIdSelections();
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_overStatus.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_overStatus.action",
             type:"post",
             data:  $.param({ids:ids},true),
             success:function (msg) {
@@ -668,11 +742,55 @@ $("#overBtn").click(function () {
     })
 })
 
+/************  新增（现场监察）表单 ******************/
+var newXianChangJianChaForm=$("#newXianChangJianChaForm");
+$("#insert").click(function () {
+    newXianChangJianChaForm.find("input").attr("disabled",false);
+    newXianChangJianChaForm.find("textarea").attr("disabled",false);
+
+    $("#eventTime_newXianChangJianChaForm").val((new Date()).format("yyyy-MM-dd hh:mm"))
+})
+
+function saveXianChangJianChaAjax(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_saveXianChangJianChaAjax.action",
+        type:"post",
+        data:entity,
+        success:callback
+    });
+}
+
+//初始化表单验证
+var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
+    success:function (ef_newXianChangJianChaForm) {
+        var entity = newXianChangJianChaForm.find("form").formSerializeObject();
+        console.log("保存 现场监察："+JSON.stringify(entity))
+
+        saveXianChangJianChaAjax(entity,function (msg) {
+            newXianChangJianChaForm.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        });
+    },
+    error:function () {
+        console.log("error")
+    }
+});
+
+//表单 保存按钮
+$("#saveXianChangJianChaBtn").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef_newXianChangJianChaForm.submit(false);
+});
+
+
+
 
 $(document).ready(function () {
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
     loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
     loadBlockLevelAndBlockOption("#blockLevelId_feedback","#blockId_feedback")
+    loadBlockLevelAndBlockOption("#lookOverFeedbackForm_blockLevelId","#lookOverFeedbackForm_blockId")
+    loadBlockLevelAndBlockOption("#blockLevelId_newXianChangJianChaForm","#blockId_newXianChangJianChaForm")
 
     if("monitor_master"==role){
         $("#insert").hide();
@@ -681,6 +799,46 @@ $(document).ready(function () {
         $("#dealWith").hide();
     }
 })
+
+/**
+ * Autocomplete  enterpriseName
+ */
+$( function() {
+
+    $("#enterpriseName_newXianChangJianChaForm").autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            ui.value=data.rows[i].name
+                            ui.envPrincipal=data.rows[i].envPrincipal
+                            ui.epPhone=data.rows[i].epPhone
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#enterpriseId_newXianChangJianChaForm").val(ui.item.id)
+            $("#supervisor_newXianChangJianChaForm").val(ui.item.envPrincipal)
+            $("#supervisorPhone_newXianChangJianChaForm").val(ui.item.epPhone)
+        },
+    } );
+
+} );
 
 
 
