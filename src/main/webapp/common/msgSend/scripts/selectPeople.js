@@ -6,14 +6,17 @@ var sourceId_msgSend //源id
     $.fn.MsgSend = {
         init:function(type,options,callback){
             options = $.extend({}, {
-                title: "组织机构人员选择",
-                //message: "提示内容",
+                title: "人员选择",
+                url:rootPath + "/action/S_alert_MsgSend_getOrgPersonList.action",
+                params:{orgCode:["0170001000"],type:1},
                 btnok: "发送",
                 btncl: "取消",
                 width: 850,
                 auto: false
             }, options || {});
             var width = isNaN(options.width)?options.width:options.width+"px;";
+            options.params.orgCode = options.params.orgCode!=null?options.params.orgCode:["0170001000"];
+            options.params.type = options.params.type!=null?options.params.type:1;
 
             var dialog;
             var treeObj;
@@ -22,6 +25,7 @@ var sourceId_msgSend //源id
                 treeObj=setDialogTypeOne(dialog,options,callback);
             }else{
                 dialog = $('#selectContactsDialog');
+                options.params.findType="2";
                 treeObj=setDialogTypeTwo(dialog,options,callback);
             }
             dialog.find('.modal-dialog').attr('style','width:'+width);
@@ -31,7 +35,6 @@ var sourceId_msgSend //源id
                 open:function(sourceId){
                     sourceId_msgSend=sourceId;
                     dialog.modal('show');
-                    console.log($.fn.zTree.getZTreeObj("contactsZtree").getNodes());
                     treeObj.expandAll(true);
                 },
                 expandZtree:function(){
@@ -53,7 +56,11 @@ function setDialogTypeOne(dialog,options,callback){
                 Ewin.alert("请选择人员");
                 return;
             }
-            callback(true,ids,sourceId_msgSend);
+            var returnData={
+                ids:ids,
+                sourceId:sourceId_msgSend
+            }
+            callback(true,returnData);
             $('#search_orgPeople').val('');
             search_ztree('orgPeopleZtree', 'search_orgPeople');
             removeFromGrid();
@@ -66,25 +73,6 @@ function setDialogTypeOne(dialog,options,callback){
         railOpacity:.9,
         alwaysVisible:!1
     });
-    var asyncData;
-    if(options.Async){
-        var async = options.Async;
-        asyncData={
-            enable: true,
-            url:async.url,//"/container/gov/dispatch/selectPeople.json"
-            autoParam:["id", "name=n", "level=lv"],
-            otherParam:async.params,
-            dataFilter: filter
-        }
-    }else{
-        asyncData={
-            enable: true,
-            url:rootPath + "/action/S_alert_MsgSend_getOrgPersonList.action",//"/container/gov/dispatch/selectPeople.json"
-            autoParam:["id", "name=n", "level=lv"],
-            otherParam:options.params,
-            dataFilter: filter
-        }
-    }
     var setting = {
         height:500,
         width:200,
@@ -99,7 +87,13 @@ function setDialogTypeOne(dialog,options,callback){
                 rootPId: "-1",
             }
         },
-        async: asyncData,
+        async: {
+            enable: true,
+            url:options.url,//"/container/gov/dispatch/selectPeople.json"
+            autoParam:["id", "name=n", "level=lv"],
+            otherParam:options.params,
+            dataFilter: filter
+        },
         callback: {
             onClick: zTreeOnClick
         }
@@ -216,7 +210,7 @@ function setDialogTypeTwo(dialog,options,callback){
             var msg = $(dialog).find('#msgContents').val();
             var returnData={
                 ids:ids,
-                msg:msg,
+                info:msg,
                 sourceId:sourceId_msgSend
             }
             callback(true,returnData);
@@ -232,13 +226,7 @@ function setDialogTypeTwo(dialog,options,callback){
         railOpacity:.9,
         alwaysVisible:!1
     });
-    var asyncData={
-        enable: true,
-        url:rootPath + "/action/S_alert_MsgSend_getOrgContactsList.action",//"/container/gov/dispatch/selectPeople.json"
-        autoParam:["id", "name=n", "level=lv"],
-        otherParam:{orgCode:"0170001000"},
-        dataFilter: filter
-    }
+
     var setting = {
         height:500,
         width:200,
@@ -253,7 +241,13 @@ function setDialogTypeTwo(dialog,options,callback){
                 rootPId: "-1",
             }
         },
-        async: asyncData,
+        async: {
+            enable: true,
+            url:options.url,//"/container/gov/dispatch/selectPeople.json"
+            autoParam:["id", "name=n", "level=lv"],
+            otherParam:options.params,
+            dataFilter: filter
+        },
         callback: {
             onClick: zTreeOnClick
         }

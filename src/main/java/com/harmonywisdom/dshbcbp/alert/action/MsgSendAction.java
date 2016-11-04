@@ -23,18 +23,30 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
     protected ContactsService getService() {
         return contactsService;
     }
+
     /**
-     * 组织机构人员获取(系统发送)
+     * 人员获取
      */
     public void getOrgPersonList(){
         List<OrgPerson> orgPersonList = new ArrayList<OrgPerson>();
         String[] orgCode = request.getParameterValues("orgCode");
         String type = request.getParameter("type");
+        String findType = request.getParameter("findType");
+        findType = StringUtils.isNotBlank(findType)?findType:"null";
         if (orgCode.length == 1) {
-            orgPersonList = findOrgPersonByOrgCode(orgCode[0],"-1",type);
+            if(findType.equals("2")){
+                orgPersonList = findOrgContactsPerson(orgCode[0],"-1");
+            }else{
+                orgPersonList = findOrgPersonByOrgCode(orgCode[0],"-1",type);
+            }
         } else {
             for (String code : orgCode) {
-                List<OrgPerson> thisOPList = findOrgPersonByOrgCode(code,"-1",type);
+                List<OrgPerson> thisOPList = new ArrayList<OrgPerson>();
+                if(findType.equals("2")){
+                    thisOPList = findOrgContactsPerson(code,"-1");
+                }else{
+                    thisOPList = findOrgPersonByOrgCode(code,"-1",type);
+                }
                 for(OrgPerson op:thisOPList){
                     orgPersonList.add(op);
                 }
@@ -54,41 +66,18 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         List<OrgPerson> orgPersonList = new ArrayList<>();
 
         IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
-        OrgPerson org = new OrgPerson();
-        org.setId(iOrg.getOrgId());
-        org.setParentId(orgParentId);
-        org.setName(iOrg.getOrgName());
-        org.setIcon("common/images/ztree/department.png");
-        orgPersonList.add(org);
+        orgPersonList.add(coverToOrgPerson(iOrg,null,null,orgParentId));
 
         List<IPerson> personList = PersonServiceUtil.getPersonByOrgId(iOrg.getOrgId());
         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
         if(StringUtils.isNotBlank(type) && (type.equals("1") || type.equals("2"))){
             if(personList.size()>0){
                 for (IPerson iPerson:personList){
-                    OrgPerson orgPerson = new OrgPerson();
-                    orgPerson.setId(iPerson.getPersonId());
-                    orgPerson.setName(iPerson.getUserName());
-                    String job = (String) iPerson.getExtattrMap().get("job");
-                    if(StringUtils.isNotBlank(job)){
-                        orgPerson.setJob(job);
-                    }
-                    orgPerson.setParentId(iOrg.getOrgId());
-                    if(iPerson.getSex()==2){
-                        orgPerson.setIcon("common/images/ztree/female_lady_user_woman.png");
-                    }else{
-                        orgPerson.setIcon("common/images/ztree/head_male_man_user.png");
-                    }
-                    orgPersonList.add(orgPerson);
+                    orgPersonList.add(coverToOrgPerson(null,iPerson,null,iOrg.getOrgId()));
                 }
             }else{
                 if(orgs.size()==0){
-                    OrgPerson noOrg = new OrgPerson();
-                    noOrg.setId("false");
-                    noOrg.setParentId(iOrg.getOrgId());
-                    noOrg.setName("没有查询到相关人员");
-                    noOrg.setIcon("common/images/ztree/remind.png");
-                    orgPersonList.add(noOrg);
+                    orgPersonList.add(coverToOrgPerson(null,null,null,iOrg.getOrgId()));
                 }
             }
         }
@@ -107,25 +96,11 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         return orgPersonList;
     }
 
-    /**
-     * 获取组织机构通讯录人员
-     */
-    public void getOrgContactsList(){
-        String orgCode = request.getParameter("orgCode");
-        List<OrgPerson> orgPersonList = findOrgContactsPerson(orgCode,"-1");
-        write(orgPersonList);
-    }
     public List<OrgPerson> findOrgContactsPerson(String orgCode,String orgParentId){
         List<OrgPerson> orgPersonList = new ArrayList<>();
 
         IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
-        OrgPerson org = new OrgPerson();
-        org.setId(iOrg.getOrgId());
-        org.setParentId(orgParentId);
-        org.setName(iOrg.getOrgName());
-        org.setIcon("common/images/ztree/department.png");
-        org.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iOrg.getOrgName()));
-        orgPersonList.add(org);
+        orgPersonList.add(coverToOrgPerson(iOrg,null,null,orgParentId));
 
         Contacts contacts = new Contacts();
         contacts.setOrgId(iOrg.getOrgId());
@@ -133,30 +108,11 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
         if(contactsList.size()>0){
             for (Contacts c:contactsList){
-                OrgPerson orgPerson = new OrgPerson();
-                orgPerson.setId(c.getId());
-                orgPerson.setName(c.getName());
-                orgPerson.setJob(c.getPosition());
-                orgPerson.setParentId(iOrg.getOrgId());
-                orgPerson.setDepartment(c.getDepartment());
-                orgPerson.setMobilePhone(c.getPhone());
-                orgPerson.setOfficePhone(c.getTel());
-                orgPerson.setPinyinCodes(PinyinUtil.getAllPinYinCodes(c.getName()));
-                if(StringUtils.isNotBlank(c.getSex()) && c.getSex().equals("2")){
-                    orgPerson.setIcon("common/images/ztree/female_lady_user_woman.png");
-                }else{
-                    orgPerson.setIcon("common/images/ztree/head_male_man_user.png");
-                }
-                orgPersonList.add(orgPerson);
+                orgPersonList.add(coverToOrgPerson(null,null,c,iOrg.getOrgId()));
             }
         }else{
             if(orgs.size()==0){
-                OrgPerson noOrg = new OrgPerson();
-                noOrg.setId("false");
-                noOrg.setParentId(iOrg.getOrgId());
-                noOrg.setName("没有查询到相关人员");
-                noOrg.setIcon("common/images/ztree/remind.png");
-                orgPersonList.add(noOrg);
+                orgPersonList.add(coverToOrgPerson(null,null,null,iOrg.getOrgId()));
             }
         }
         if(orgs.size()>0){
@@ -170,5 +126,53 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             }
         }
         return orgPersonList;
+    }
+
+    public OrgPerson coverToOrgPerson(IOrg iOrg,IPerson iPerson,Contacts contacts,String parentId){
+        OrgPerson orgPerson = new OrgPerson();
+        if(iOrg!=null){
+            orgPerson.setId(iOrg.getOrgId());
+            orgPerson.setParentId(parentId);
+            orgPerson.setName(iOrg.getOrgName());
+            orgPerson.setIcon("common/images/ztree/department.png");
+            orgPerson.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iOrg.getOrgName()));
+        }
+        if(iPerson!=null){
+            orgPerson.setId(iPerson.getPersonId());
+            orgPerson.setName(iPerson.getUserName());
+            String job = (String) iPerson.getExtattrMap().get("job");
+            if(StringUtils.isNotBlank(job)){
+                orgPerson.setJob(job);
+            }
+            orgPerson.setParentId(parentId);
+            orgPerson.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iPerson.getUserName()));
+            if(iPerson.getSex()==2){
+                orgPerson.setIcon("common/images/ztree/female_lady_user_woman.png");
+            }else{
+                orgPerson.setIcon("common/images/ztree/head_male_man_user.png");
+            }
+        }
+        if(contacts!=null){
+            orgPerson.setId(contacts.getId());
+            orgPerson.setName(contacts.getName());
+            orgPerson.setJob(contacts.getPosition());
+            orgPerson.setParentId(parentId);
+            orgPerson.setDepartment(contacts.getDepartment());
+            orgPerson.setMobilePhone(contacts.getPhone());
+            orgPerson.setOfficePhone(contacts.getTel());
+            orgPerson.setPinyinCodes(PinyinUtil.getAllPinYinCodes(contacts.getName()));
+            if(StringUtils.isNotBlank(contacts.getSex()) && contacts.getSex().equals("2")){
+                orgPerson.setIcon("common/images/ztree/female_lady_user_woman.png");
+            }else{
+                orgPerson.setIcon("common/images/ztree/head_male_man_user.png");
+            }
+        }
+        if(iOrg == null && iPerson==null && contacts== null && StringUtils.isNotBlank(parentId)){
+            orgPerson.setId("false");
+            orgPerson.setParentId(parentId);
+            orgPerson.setName("没有查询到相关人员");
+            orgPerson.setIcon("common/images/ztree/remind.png");
+        }
+        return orgPerson;
     }
 }

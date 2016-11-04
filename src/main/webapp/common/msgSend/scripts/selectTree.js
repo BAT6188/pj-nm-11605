@@ -67,7 +67,7 @@ function searchByFlag_ztree(treeId, searchConditionId, flag){
             if(highlightNodes.length==0) {
                 highlightNodes = treeObj.getNodesByParamFuzzy("pinyinCodes", searchCondition.toLowerCase(), null);
             }
-            flag="拼音对应得数据";
+            flag= "\""+searchCondition+"\"对应的数据";
         }else{
             highlightNodes = treeObj.getNodesByParamFuzzy("name", searchCondition, null);
             flag=searchCondition;
@@ -114,7 +114,7 @@ function highlightAndExpand_ztree(treeId, highlightNodes, flag){
                 }
             }
         }
-        if(noFind) otherAddNode=treeObj.addNodes(null, {id:"false",name:"未找到\""+flag+"\"",icon:"common/images/ztree/Button_warning_icon.png"})[0];
+        if(noFind) otherAddNode=treeObj.addNodes(null, {id:"false",name:"未找到 "+flag,icon:"common/images/ztree/Button_warning_icon.png"})[0];
     }else{
         $("#"+treeId).find("li").show();
     }
@@ -124,7 +124,7 @@ function expandParentNode(treeId,node){
     var parentNode = node.getParentNode();
     if(parentNode!=null){
         $("#"+treeId).find("li#"+parentNode.tId).show();
-        if(!parentNode.isFirstNode){
+        if(parentNode.parentId!="-1"){
             expandParentNode(treeId,parentNode);
         }
     }
