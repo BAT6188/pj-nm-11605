@@ -156,7 +156,7 @@ $(function(){
     //柱状图highchart获取后台数据
     function getColumnRatio(name,lawType,startXdate,lastXdate,startSdate,lastSdate){
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnRatio.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnRatio.action",
             type: 'post',
             data: {name:name,lawType:lawType,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
             dataType: 'json',
@@ -277,7 +277,7 @@ $(function(){
         // loadPieChart1(categories, series1);
         // loadPieChart2(categories, series2);
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnRatio.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnRatio.action",
             type: 'post',
             data: {name:name,lawType:lawType,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
             dataType: 'json',
@@ -355,7 +355,7 @@ $(function(){
     //饼状图2获取数据
     function getPieRatio2(name,lawType,startXdate,lastXdate,startSdate,lastSdate){
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnRatio.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnRatio.action",
             type: 'post',
             data: {name:name,lawType:lawType,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
             dataType: 'json',
@@ -439,7 +439,7 @@ $(function(){
         // series.push(yYear);
         // loadLineChart(categories, series);
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnRatio.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnRatio.action",
             type:'post',
             dataType:'json',
             data:{name:name,lawType:lawType,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},

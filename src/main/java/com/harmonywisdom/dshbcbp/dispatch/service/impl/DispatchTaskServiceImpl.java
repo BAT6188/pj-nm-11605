@@ -1,8 +1,8 @@
 package com.harmonywisdom.dshbcbp.dispatch.service.impl;
 
-import com.harmonywisdom.dshbcbp.dispatch.bean.DispathTask;
-import com.harmonywisdom.dshbcbp.dispatch.dao.DispathTaskDAO;
-import com.harmonywisdom.dshbcbp.dispatch.service.DispathTaskService;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.dao.DispatchTaskDAO;
+import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service("dispathTaskService")
-public class DispathTaskServiceImpl extends BaseService<DispathTask, String> implements DispathTaskService {
+@Service("dispatchTaskService")
+public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> implements DispatchTaskService {
     @Autowired
-    private DispathTaskDAO dispathTaskDAO;
+    private DispatchTaskDAO dispathTaskDAO;
 
     @Override
-    protected BaseDAO<DispathTask, String> getDAO() {
+    protected BaseDAO<DispatchTask, String> getDAO() {
         return dispathTaskDAO;
     }
 

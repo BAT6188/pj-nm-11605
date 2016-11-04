@@ -92,7 +92,7 @@ $(function(){
         //
         // colMchart(categories, series);
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnHighChart.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnHighChart.action",
             type:'post',
             data:{name:name,lawType:lawType,startYdate:startYdate,lastYdate:lastYdate},
             dataType:'json',
@@ -167,7 +167,7 @@ $(function(){
     //饼状图获取后台数据
     function getPieHighChartData(name,lawType,startYdate,lastYdate){
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnHighChart.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnHighChart.action",
             type: 'post',
             data: {name:name,lawType:lawType,startYdate: startYdate, lastYdate: lastYdate},
             dataType: 'json',
@@ -241,7 +241,7 @@ $(function(){
     //线状图获取后台数据
     function getLineHighData(name,lawType,startYdate,lastYdate){
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_getColumnHighChart.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_getColumnHighChart.action",
             type:"post",
             data:{name:name,lawType:lawType,startYdate:startYdate,lastYdate:lastYdate},
             dataType:"json",
