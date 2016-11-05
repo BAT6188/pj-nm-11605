@@ -25,4 +25,8 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
      * @return
      */
     List<Object[]> findColumnRatio(String name, String startXdate, String lastXdate, String startSdate, String lastSdate);
+
+    List<PortStatusHistory> findByPortids(String... portids);
+
+    List<PortStatusHistory> findByEnterpriseids(String... enterpriseIds);
 }

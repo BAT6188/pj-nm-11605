@@ -41,34 +41,38 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
             whereSql += "AND a1.ENTERPRISE_ID = '"+enterpriseId+"'";
         }
         whereSql +="GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%m')AS MONTH,COUNT(*) FROM HW_PROJECT_EIA t1 " +
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%Y-%m')AS MONTH,COUNT(*) FROM HW_PROJECT_EIA t1 " +
                 "LEFT JOIN HW_BUILD_PROJECT a1 ON t1.project_id=a1.id" + whereSql);
 
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%m')AS MONTH,COUNT(*) FROM HW_PROJECT_ACCEPTANCE t1 " +
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(REPLY_TIME,'%Y-%m')AS MONTH,COUNT(*) FROM HW_PROJECT_ACCEPTANCE t1 " +
                 "LEFT JOIN HW_BUILD_PROJECT a1 ON t1.project_id=a1.id" + whereSql);
 
         List<Object[]> temp = new ArrayList<>();
-        if (list2.size() < list.size()) {
-            temp = list2;
-            list2 = list;
-            list = temp;
-        }
-        for (int i = 0; i < list2.size(); i++) {
-            Object[] a = list2.get(i);
-            String month = a[0].toString();
-            boolean flag = false;
-            for (int j = 0; j < list.size(); j++) {
-                Object[] b = list.get(j);
-                String month2 = b[0].toString();
-                if (month.equals(month2)) {
-                    flag = true;
-                    break;
+
+        do {
+            if (list2.size() < list.size()) {
+                temp = list2;
+                list2 = list;
+                list = temp;
+            }
+            for (int i = 0; i < list2.size(); i++) {
+                Object[] a = list2.get(i);
+                String month = a[0].toString();
+                boolean flag = false;
+                for (int j = 0; j < list.size(); j++) {
+                    Object[] b = list.get(j);
+                    String month2 = b[0].toString();
+                    if (month.equals(month2)) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    list.add(i,new Object[]{month,"0"});
                 }
             }
-            if (!flag) {
-                list.add(i,new Object[]{month,"0"});
-            }
-        }
+        } while (list.size() != list2.size());
+
         List<Object[]> sList = new ArrayList<>();
         for (int i =0; i < list.size(); i++) {
             Object Obj[] = list.get(i);

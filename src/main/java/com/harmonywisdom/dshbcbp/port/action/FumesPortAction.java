@@ -1,6 +1,8 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
+import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.port.bean.FumesPort;
 import com.harmonywisdom.dshbcbp.port.service.FumesPortService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -16,6 +18,8 @@ import java.util.Date;
 public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
     @AutoService
     private FumesPortService fumesPortService;
+    @AutoService
+    private EnterpriseService enterpriseService;
 
     @Override
     protected FumesPortService getService() {
@@ -58,12 +62,15 @@ public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
         if(entity.getCreateTime()==null){
             entity.setCreateTime(new Date());
         }
-
+        if(StringUtils.isNotBlank(entity.getId())){
+            Enterprise e = new Enterprise();
+            e.setId(entity.getEnterpriseId());
+            e.setHaveFumesPort("1");
+            enterpriseService.updateEnterprise(e);
+        }
         super.save();
-
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
-
         }
     }
 

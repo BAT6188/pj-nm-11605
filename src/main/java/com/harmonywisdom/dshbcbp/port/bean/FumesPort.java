@@ -37,8 +37,17 @@ public class FumesPort implements Serializable {
     /**
      * 监测时间
      */
-    @Column(name = "monitor_time")
-    private Date monitorTime;
+    //@Column(name = "monitor_time")
+    //private Date monitorTime;
+
+    /**
+     * 状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
+     */
+    @Column(name = "port_status")
+    private String portStatus;
 
     /**
      * 油烟
@@ -132,36 +141,12 @@ public class FumesPort implements Serializable {
         this.monitorType = monitorType;
     }
 
-    public Date getMonitorTime() {
-        return monitorTime;
+    public String getPortStatus() {
+        return portStatus;
     }
 
-    public void setMonitorTime(Date monitorTime) {
-        this.monitorTime = monitorTime;
-    }
-
-    public Double getFumes() {
-        return fumes;
-    }
-
-    public void setFumes(Double fumes) {
-        this.fumes = fumes;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
-    }
-
-    public Double getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(Double humidity) {
-        this.humidity = humidity;
+    public void setPortStatus(String portStatus) {
+        this.portStatus = portStatus;
     }
 
     public Double getIsFumes() {
@@ -218,5 +203,29 @@ public class FumesPort implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public Double getFumes() {
+        return fumes;
+    }
+
+    public void setFumes(Double fumes) {
+        this.fumes = fumes;
+    }
+
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
     }
 }

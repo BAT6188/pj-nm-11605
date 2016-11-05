@@ -4,20 +4,10 @@ var gridTable = $('#table'),
     formTitle = "Demo",
     selections = [];
 
-/**
- * 切换共用的一个 uploader实例
- * @param selector
- */
-function uploaderToggle(selector) {
-    $(".uploaderToggle").attr("id","")
-    $(selector).attr("id","fine-uploader-gallery")
-}
-
-
 //保存ajax请求
 function saveAndAgreeAndSend(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
+        url: rootPath + "/action/S_exelaw_TrustMonitor_saveAndAgreeAndSend.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -30,7 +20,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action",
+        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action?module=receiveTrustMonitor",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -150,9 +140,6 @@ window.approveAndSendEvents = {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    if(undefined==value){
-        value="-"
-    }
     if (value==2){
         value="同意"
     }else if(value==3){
@@ -161,6 +148,8 @@ function operateFormatter(value, row, index) {
         value="已发送"
     }else if(value==5){
         value="已反馈"
+    }else {
+        value="-"
     }
     return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">'+value+'</div>';
 }
@@ -262,6 +251,7 @@ $("#search").click(function () {
     var blockLevelId = $(".s_blockLevelId").val();
     var blockId = $(".s_blockId").val();
 
+    queryParams["module"] = "receiveTrustMonitor";
     if (blockLevelId){
         queryParams["blockLevelId"] = blockLevelId;
     }
@@ -303,9 +293,9 @@ var options = {
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
-var model = $.fn.MsgSend.init(1,options,function(e,data,sourceId){
-    var d=$.param({personIds:data},true)
-    d+="&sourceId="+sourceId;
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d=$.param({personIds:data.ids},true)
+    d+="&sourceId="+data.sourceId;
     d+="&auditor="+userName;
     console.log("发送："+d)
     $.ajax({
@@ -325,6 +315,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        console.log("同意并发送："+JSON.stringify(entity))
         saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
 
@@ -346,13 +337,18 @@ $("#saveAndAgreeAndSend").bind('click',function () {
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
+
+    disabledForm(true);
+    $("#id").attr("disabled",false);
+    $("#removeId").attr("disabled",false);
+
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
     $("#enterpriseName").val(entity.enterpriseName);
     $("#enterpriseId").val(entity.enterpriseId);
     $("#monitorContent").val(entity.monitorContent);
-    $("#applyOrg").val(entity.applyOrg);
+    $("#applyOrgId").val(entity.applyOrgId);
     $("#applicant").val(entity.applicant);
     $("#applicantPhone").val(entity.applicantPhone);
     $("#monitorTime").val(entity.monitorTime);
@@ -379,6 +375,8 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
@@ -402,7 +400,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
-    uploader = new qq.FineUploader(getUploaderOptions());
+    // uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
 

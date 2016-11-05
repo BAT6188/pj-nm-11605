@@ -149,6 +149,7 @@ function getPlaneMapUploaderOptions(id) {
             },
             onDeleteComplete:function (id) {
                 var file = planeMapUploader.getUploads({id:id});
+                deletePlaneMap[file.uuid] = true;
                 var removeIds = $("#removeId").val();
                 if (removeIds) {
                     removeIds+= ("," + file.uuid)
@@ -262,18 +263,35 @@ function getUploaderOptions(bussinessId) {
 function getAttachmentIds() {
     var ids = [];
     var attachments = uploader.getUploads();
-    var pattachments = planeMapUploader.getUploads();
     if (attachments && attachments.length) {
         for (var i = 0 ; i < attachments.length; i++){
             ids.push(attachments[i].uuid);
         }
     }
+    var pattachments = planeMapUploader.getUploads();
     if(pattachments && pattachments.length){
         for (var i = 0 ; i < pattachments.length; i++){
             ids.push(pattachments[i].uuid);
         }
     }
     return ids.join(",");
+}
+var deletePlaneMap={};
+function getplaneMapUploader(){
+    var ids = "";
+    var pattachments = planeMapUploader.getUploads();
+    if(pattachments && pattachments.length){
+        for (var i = 0 ; i < pattachments.length; i++){
+            if(deletePlaneMap && deletePlaneMap[pattachments[i].uuid]==undefined){
+                if(ids!=""){
+                    ids +=","+pattachments[i].uuid;
+                }else{
+                    ids +=pattachments[i].uuid;
+                }
+            }
+        }
+    }
+    return ids;
 }
 /**
  * 绑定下载按钮事件
@@ -307,6 +325,7 @@ function initEnterpriseForm(type){
 //初始化表单验证
 var isEditBtnFromlook = false;
 function saveForm(){
+    //$('#planeMap').val(getplaneMapUploader());
     $('#attachmentId').val(getAttachmentIds());
     if(checkForm('enterpriseForm')){
         $('#enterpriseForm').ajaxSubmit({
@@ -344,6 +363,7 @@ function addEnterpriseForm(){
     $('#saveForm').click(function(){
         //验证表单，验证成功后触发ef.success方法保存数据
         $('#isDel').val('0');
+        $('#haveFumesPort').val("0");
         saveForm();
         //ef.submit(false);
     });

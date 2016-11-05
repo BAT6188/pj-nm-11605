@@ -289,7 +289,7 @@ public class Enterprise implements Serializable {
     private Date createTime;
 
     /**
-     * 是否删除
+     * 是否删除 1:已删除; 0：未删除
      */
     @Column(name = "is_del",length = 1)
     private String isDel;
@@ -323,6 +323,12 @@ public class Enterprise implements Serializable {
      */
     @Column(name = "plane_map")
     private String planeMap;
+
+    /**
+     * 是否含有油烟排口 0:不含;1：包含
+     */
+    @Column(name = "have_fumes_port")
+    private String haveFumesPort;
 
     /**
      * 附件
@@ -680,5 +686,13 @@ public class Enterprise implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public String getHaveFumesPort() {
+        return haveFumesPort;
+    }
+
+    public void setHaveFumesPort(String haveFumesPort) {
+        this.haveFumesPort = haveFumesPort;
     }
 }

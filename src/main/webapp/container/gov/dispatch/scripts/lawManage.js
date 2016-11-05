@@ -1,41 +1,28 @@
 var gridTable = $('#table'),
+    feedbackRecordTable=$("#feedbackRecordTable"),
     overBtn = $('#overBtn'),
     dealWithBtn = $('#dealWith'),
     feedbackBtn = $('#feedback'),
-    form = $("#eventMsg"),
-    formTitle = "事件信息",
+    eventMsgForm = $("#eventMsg"),
+    feedbackForm=$("#feedbackForm"),
     selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_dispatch_DispathTask_dispathTaskBtnSave.action",
+        url: rootPath + "/action/S_dispatch_DispatchTask_dispathTaskBtnSave.action",
         type:"post",
         data:entity,
-        dataType:"json",
         success:callback
     });
 }
-/**
- * 删除请求
- * @param ids 多个,号分隔
- * @param callback
- */
-/*function deleteAjax(ids, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_dispatch_MonitorCase_delete.action",
-        type:"post",
-        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:callback
-    });
-}*/
+
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_DispathTask_list.action",
+        url: rootPath+"/action/S_dispatch_DispatchTask_list.action?role="+role,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -64,7 +51,7 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
+                    return pageUtils.sub16(value);
                 }
             },
             {
@@ -97,6 +84,10 @@ function initTable() {
                         value="区长热线"
                     }else if (3==value){
                         value="市长热线"
+                    }else if (4==value){
+                        value="现场监察"
+                    }else if (0==value){
+                        value="监控中心"
                     }
                     return value;
                 }
@@ -138,7 +129,7 @@ function initTable() {
                         value="已发送"
                     }else if(value==3){
                         value="已反馈"
-                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackStatusForm">'+value+'</a>'
+                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">'+value+'</a>'
                     }else if(value==4){
                         value="已处罚"
                     }else if(value==5){
@@ -192,6 +183,13 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 visible:false
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: lookOverEvents,
+                formatter: lookOverFormatter
             }
         ]
     });
@@ -218,24 +216,66 @@ function initTable() {
     });
 }
 
+function lookOverFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#eventMsg">查看</button>';
+}
+
+window.lookOverEvents = {
+    'click .lookOver': function (e, value, entity, index) {
+        resetEventMsgFormData();
+        if (!entity) {return false}
+        var id = entity.id;
+
+        eventMsgForm.find("input").attr("disabled",true);
+
+        $("#id").val(entity.id);
+        $("#eventTime").val(entity.eventTime);
+        $("#answer").val(entity.answer);
+        $("#enterpriseId").val(entity.enterpriseId);
+        $("#enterpriseName").val(entity.enterpriseName);
+        $("#source").val(entity.source);
+        $("#blockLevelId").val(entity.blockLevelId);
+        $("#blockId").val(entity.blockId);
+        $("#supervisor").val(entity.supervisor);
+        $("#supervisorPhone").val(entity.supervisorPhone);
+        $("#content").val(entity.content);
+        $("#sendRemark").val(entity.sendRemark);
+        $("#senderName").val(entity.senderName);
+        $("#senderId").val(entity.senderId);
+        $("#sendTime").val(entity.sendTime);
+
+
+        uploaderToggle(".aUploader")
+        var fuOptions = getUploaderOptions(entity.monitorCaseId);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+
+        $("#dispatch").hide();
+        $("#cancel").text("关闭")
+    }
+};
+
 
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
        console.log(JSON.stringify(row))
 
-        $("#feedbackStatusForm_eventTime").val(row.eventTime);
-        $("#feedbackStatusForm_answer").val(row.answer);
-        $("#feedbackStatusForm_enterpriseId").val(row.enterpriseId);
-        $("#feedbackStatusForm_source").val(row.source);
-        $("#feedbackStatusForm_blockLevelId").val(row.blockLevelId);
-        $("#feedbackStatusForm_blockId").val(row.blockId);
-        $("#feedbackStatusForm_supervisor").val(row.supervisor);
-        $("#feedbackStatusForm_supervisorPhone").val(row.supervisorPhone);
-        $("#feedbackStatusForm_content").val(row.content);
-        $("#feedbackStatusForm_senderName").val(row.senderName);
-        $("#feedbackStatusForm_senderId").val(row.senderId);
-        $("#feedbackStatusForm_sendTime").val(row.sendTime);
+        $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
+        $("#lookOverFeedbackForm_answer").val(row.answer);
+        $("#lookOverFeedbackForm_enterpriseName").val(row.enterpriseName);
+        $("#lookOverFeedbackForm_source").val(row.source);
+        $("#lookOverFeedbackForm_blockLevelId").val(row.blockLevelId);
+        $("#lookOverFeedbackForm_blockId").val(row.blockId);
+        $("#lookOverFeedbackForm_supervisor").val(row.supervisor);
+        $("#lookOverFeedbackForm_supervisorPhone").val(row.supervisorPhone);
+        $("#lookOverFeedbackForm_senderName").val(row.senderName);
+        $("#lookOverFeedbackForm_sendTime").val(row.sendTime);
+        $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
 
     }
 };
@@ -271,9 +311,14 @@ $("#dealWith").bind("click",function () {
 });
 
 $("#feedback").bind("click",function () {
-    $("#dispathId").val(getSelections()[0].id)
+    feedbackForm.find("input").val("")
+    feedbackForm.find("textarea").val("")
+    $("#dispatchId").val(getSelections()[0].id)
 
-    uploader2 = new qq.FineUploader(getUploaderOptions2());
+    uploaderToggle(".bUploader")
+    uploader = new qq.FineUploader(getUploaderOptions());
+
+    $("#feedbackTo").show();
 
 });
 
@@ -284,12 +329,15 @@ $("#feedback").bind("click",function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var search_enterpriseName = $("#search_enterpriseName").val();
-    var search_source = $("#search_source").val();
-    var startConnTime=$("#start_connTime").val()
-    var endConnTime=$("#end_connTime").val()
+    var s_enterpriseName = $("#s_enterpriseName").val();
+    var s_source = $("#s_source").val();
+    var s_status = $("#s_status").val();
+    var start_eventTime=$("#start_eventTime").val()
+    var end_eventTime=$("#end_eventTime").val()
     var blockLevelId=$(".s_blockLevelId").val()
     var blockId=$(".s_blockId").val()
+
+    queryParams['role']=role
 
     if (blockLevelId){
         queryParams["blockLevelId"] = blockLevelId;
@@ -297,41 +345,66 @@ $("#search").click(function () {
     if (blockId){
         queryParams["blockId"] = blockId;
     }
-    if (search_enterpriseName){
-        queryParams["enterpriseName"] = search_enterpriseName;
+    if (s_enterpriseName){
+        queryParams["enterpriseName"] = s_enterpriseName;
     }
-    if (search_source){
-        queryParams["source"] = search_source;
+    if (s_source){
+        queryParams["source"] = s_source;
     }
-    if (startConnTime){
-        queryParams["startConnTime"] = startConnTime;
+    if (s_status){
+        queryParams["status"] = s_status;
     }
-    if (endConnTime){
-        queryParams["endConnTime"] = endConnTime;
+    if (start_eventTime){
+        queryParams["startEventTime"] = start_eventTime;
+    }
+    if (end_eventTime){
+        queryParams["endEventTime"] = end_eventTime;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
 });
 
+/**============选择人员对话框============**/
+var options = {
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:3  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d=$.param({ids:data.ids},true)
+    d+="&sourceId="+data.sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_saveToEnvProStaPersonList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            eventMsgForm.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        }
+    });
+});
+
 /**============表单初始化相关代码============**/
-
 //初始化表单验证
-var ef_dispatch = form.easyform({
-    success:function (ef_dispatch) {
-        //debugger
-        //验证成功，打开选择人员 对话框
-        $('#selectPeopleForm').modal('show');
-
-        var entity = $("#eventMsg").find("form").formSerializeObject();
+var ef_eventMsgForm = eventMsgForm.easyform({
+    success:function (ef_eventMsgForm) {
+        var entity={}
+        entity.id=$("#id").val();
+        entity.content=$("#content").val();
+        entity.sendRemark=$("#sendRemark").val();
+        entity.removeId=$("#removeId").val();
         entity.attachmentIds = getAttachmentIds();
-        console.log("执法管理 调度单 点调度按钮，保存调度单信息："+JSON.stringify(entity))
+        console.log("点调度按钮，只保存能编辑的表单数据："+JSON.stringify(entity))
 
         saveAjax(entity,function (msg) {
-            //form.modal('hide');
-            //gridTable.bootstrapTable('refresh');
-
-            $("#dispathTaskId").val(msg.id)
+            gridTable.bootstrapTable('refresh');
+            model.open(msg);//打开dialog
         });
     },
     error:function () {
@@ -342,39 +415,11 @@ var ef_dispatch = form.easyform({
 //表单 保存按钮
 $("#dispatch").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
-    ef_dispatch.submit(false);
-});
-
-var ef_feedbackTo = $("#feedbackForm").easyform({
-    success:function (ef_feedbackTo) {
-
-        var entity = $("#feedbackForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds2();
-        console.log("执法管理 调度单 点调度按钮，保存调度单信息："+JSON.stringify(entity))
-
-        $.ajax({
-            url: rootPath + "/action/S_dispatch_Feedback_save.action",
-            type:"post",
-            data:entity,
-            dataType:"json",
-            success:function (msg) {
-                
-            }
-        });
-    },
-    error:function () {
-        console.log("error")
-    }
-});
-
-//表单 保存按钮
-$("#feedbackTo").bind('click',function () {
-    //验证表单，验证成功后触发ef.success方法保存数据
-    ef_feedbackTo.submit(false);
+    ef_eventMsgForm.submit(false);
 });
 
 /**
- * 设置调度表单数据
+ * 设置 处置按钮打开的对话框
  * @param entity
  * @returns {boolean}
  */
@@ -382,11 +427,14 @@ function setEventMsgFormData(entity) {
     resetEventMsgFormData();
     if (!entity) {return false}
     var id = entity.id;
-    $("#id").val(entity.id);
 
+    eventMsgForm.find("input").attr("disabled",true);
+
+    $("#id").val(entity.id);
     $("#eventTime").val(entity.eventTime);
     $("#answer").val(entity.answer);
     $("#enterpriseId").val(entity.enterpriseId);
+    $("#enterpriseName").val(entity.enterpriseName);
     $("#source").val(entity.source);
     $("#blockLevelId").val(entity.blockLevelId);
     $("#blockId").val(entity.blockId);
@@ -409,29 +457,59 @@ function setEventMsgFormData(entity) {
         $("#sendTime").val(entity.sendTime);
     }
 
-
-
+    uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(entity.monitorCaseId));
+
+    $("#dispatch").show();
+    $("#cancel").text("取消")
 }
 
-function disabledForm(disabled) {
-
-
-}
 /**
- * 重置调度表单
+ * 重置表单
  */
 function resetEventMsgFormData() {
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
 
+/**============表单初始化相关代码============**/
+var ef_feedbackForm = feedbackForm.easyform({
+    success:function (ef_feedbackForm) {
+
+        var entity = feedbackForm.find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        console.log("点反馈按钮："+JSON.stringify(entity))
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_Feedback_save.action",
+            type:"post",
+            data:entity,
+            dataType:"json",
+            success:function (msg) {
+                feedbackForm.modal("hide")
+                gridTable.bootstrapTable('refresh');
+                feedbackRecordTable.bootstrapTable('refresh');
+            }
+        });
+    },
+    error:function () {
+        console.log("error")
+    }
+});
+
+//表单 保存按钮
+$("#feedbackTo").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef_feedbackForm.submit(false);
+});
+
+
+
+
+
 //表单附件相关js
 var uploader;//附件上传组件对象
-var uploader2;
-var uploader3;
 /**
  * 获取上传组件options
  * @param bussinessId
@@ -499,135 +577,6 @@ function getUploaderOptions(bussinessId) {
     };
 }
 
-function getUploaderOptions2(bussinessId) {
-    return {
-        element: document.getElementById("fine-uploader-gallery2"),
-        template: 'qq-template',
-        chunking: {
-            enabled: false,
-            concurrent: {
-                enabled: true
-            }
-        },
-        resume: {
-            enabled: false
-        },
-        retry: {
-            enableAuto: false,
-            showButton: false
-        },
-        failedUploadTextDisplay: {
-            mode: 'custom'
-        },
-        callbacks: {
-            onComplete:function (id,fileName,msg,request) {
-                uploader2.setUuid(id, msg.id);
-            },
-            onDeleteComplete:function (id) {
-                var file = uploader2.getUploads({id:id});
-                var removeIds = $("#removeId").val();
-                if (removeIds) {
-                    removeIds+= ("," + file.uuid)
-                }else{
-                    removeIds = file.uuid;
-                }
-                $("#removeId").val(removeIds);
-            },
-            onAllComplete: function (succeed) {
-                var self = this;
-                $.each(succeed, function (k, v) {
-                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
-                });
-            }
-        },
-        request: {
-            endpoint: rootPath + '/Upload',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        session:{
-            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        deleteFile: {
-            enabled: true,
-            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
-            method:"POST"
-        },
-        validation: {
-            itemLimit: 3
-        },
-        debug: true
-    };
-}
-
-function getUploaderOptions3(bussinessId) {
-    return {
-        element: document.getElementById("fine-uploader-gallery3"),
-        template: 'qq-template',
-        chunking: {
-            enabled: false,
-            concurrent: {
-                enabled: true
-            }
-        },
-        resume: {
-            enabled: false
-        },
-        retry: {
-            enableAuto: false,
-            showButton: false
-        },
-        failedUploadTextDisplay: {
-            mode: 'custom'
-        },
-        callbacks: {
-            onComplete:function (id,fileName,msg,request) {
-                uploader3.setUuid(id, msg.id);
-            },
-            onDeleteComplete:function (id) {
-                var file = uploader3.getUploads({id:id});
-                var removeIds = $("#removeId").val();
-                if (removeIds) {
-                    removeIds+= ("," + file.uuid)
-                }else{
-                    removeIds = file.uuid;
-                }
-                $("#removeId").val(removeIds);
-            },
-            onAllComplete: function (succeed) {
-                var self = this;
-                $.each(succeed, function (k, v) {
-                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
-                });
-            }
-        },
-        request: {
-            endpoint: rootPath + '/Upload',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        session:{
-            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        deleteFile: {
-            enabled: true,
-            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
-            method:"POST"
-        },
-        validation: {
-            itemLimit: 3
-        },
-        debug: true
-    };
-}
 /**
  * 获取附件列表ids
  * @returns {*}
@@ -644,29 +593,6 @@ function getAttachmentIds() {
     return "";
 }
 
-function getAttachmentIds2() {
-    var attachments = uploader2.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
-        }
-        return ids.join(",");
-    }
-    return "";
-}
-
-function getAttachmentIds3() {
-    var attachments = uploader3.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
-        }
-        return ids.join(",");
-    }
-    return "";
-}
 
 /**
  * 绑定下载按钮事件
@@ -675,17 +601,6 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
-
-$("#fine-uploader-gallery2").on('click', '.qq-upload-download-selector', function () {
-    var uuid = uploader2.getUuid($(this.closest('li')).attr('qq-file-id'));
-    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-});
-
-$("#fine-uploader-gallery3").on('click', '.qq-upload-download-selector', function () {
-    var uuid = uploader3.getUuid($(this.closest('li')).attr('qq-file-id'));
-    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-});
-
 
 //初始化日期组件
 $('.form_datetime').datetimepicker({
@@ -710,31 +625,44 @@ var code={code:"monitor_office_source"};
 var monitor_office_source=dict.getDctionnary(code)
 appendOption("#source",monitor_office_source)
 
-
+/**
+ * 查看反馈表单事件
+ * @type {{[click .see]: Window.seeEvent.'click .see'}}
+ */
 window.seeEvent = {
     'click .see': function (e, value, row, index) {
         console.log(JSON.stringify(row))
 
-        $("#seeFeedbackForm_lawerName").val(row.lawerName)
-        $("#seeFeedbackForm_phone").val(row.phone)
-        $("#seeFeedbackForm_exeTime").val(row.exeTime)
-        $("#seeFeedbackForm_exeDesc").val(row.exeDesc)
-        $("#seeFeedbackForm_lawerName").val(row.lawerName)
-        uploader3 = new qq.FineUploader(getUploaderOptions3(row.id));
+        $("#lawerName").val(row.lawerName)
+        $("#phone").val(row.phone)
+        $("#exeTime").val(row.exeTime)
+        $("#exeDesc").val(row.exeDesc)
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(row.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+
+        $("#feedbackTo").hide();
     }
 };
-var tableStatus=$("#tableStatus")
-function initTableStatus() {
-    tableStatus.bootstrapTable({
+
+/***************** 执法记录-现场回传 ***************************/
+function initfeedbackRecordTable() {
+    feedbackRecordTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_dispatch_Feedback_list.action",
         method:'post',
         pagination:true,
-        clickToSelect:true,//单击行时checkbox选中
+        pageSize:5,
+        pageList:[5],
         queryParams:pageUtils.localParams,
         columns: [
-
             {
                 title: 'ID',
                 field: 'id',
@@ -780,7 +708,7 @@ function initTableStatus() {
                 align: 'center',
                 events: seeEvent,
                 formatter: function (value, row, index) {
-                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#seeFeedbackForm">详情</a>'
+                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#feedbackForm">详情</a>'
                     return html
                 }
             }
@@ -789,11 +717,11 @@ function initTableStatus() {
     });
     // sometimes footer render error.
     setTimeout(function () {
-        tableStatus.bootstrapTable('resetView');
+        feedbackRecordTable.bootstrapTable('resetView');
     }, 200);
 
 }
-initTableStatus()
+initfeedbackRecordTable()
 
 $("#overBtn").click(function () {
     Ewin.confirm({ title:"办结提示",message: "是否归入办结管理？" }).on(function (e) {
@@ -803,7 +731,7 @@ $("#overBtn").click(function () {
 
         var ids = getIdSelections();
         $.ajax({
-            url: rootPath + "/action/S_dispatch_DispathTask_overStatus.action",
+            url: rootPath + "/action/S_dispatch_DispatchTask_overStatus.action",
             type:"post",
             data:  $.param({ids:ids},true),
             success:function (msg) {
@@ -814,11 +742,103 @@ $("#overBtn").click(function () {
     })
 })
 
+/************  新增（现场监察）表单 ******************/
+var newXianChangJianChaForm=$("#newXianChangJianChaForm");
+$("#insert").click(function () {
+    newXianChangJianChaForm.find("input").attr("disabled",false);
+    newXianChangJianChaForm.find("textarea").attr("disabled",false);
+
+    $("#eventTime_newXianChangJianChaForm").val((new Date()).format("yyyy-MM-dd hh:mm"))
+})
+
+function saveXianChangJianChaAjax(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_saveXianChangJianChaAjax.action",
+        type:"post",
+        data:entity,
+        success:callback
+    });
+}
+
+//初始化表单验证
+var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
+    success:function (ef_newXianChangJianChaForm) {
+        var entity = newXianChangJianChaForm.find("form").formSerializeObject();
+        console.log("保存 现场监察："+JSON.stringify(entity))
+
+        saveXianChangJianChaAjax(entity,function (msg) {
+            newXianChangJianChaForm.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        });
+    },
+    error:function () {
+        console.log("error")
+    }
+});
+
+//表单 保存按钮
+$("#saveXianChangJianChaBtn").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef_newXianChangJianChaForm.submit(false);
+});
+
+
+
+
 $(document).ready(function () {
-    var optionsSetting={code:"orgId",name:"orgName"}
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
     loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
+    loadBlockLevelAndBlockOption("#blockLevelId_feedback","#blockId_feedback")
+    loadBlockLevelAndBlockOption("#lookOverFeedbackForm_blockLevelId","#lookOverFeedbackForm_blockId")
+    loadBlockLevelAndBlockOption("#blockLevelId_newXianChangJianChaForm","#blockId_newXianChangJianChaForm")
+
+    if("monitor_master"==role){
+        $("#insert").hide();
+        $("#feedback").hide();
+    }else if("env_pro_sta"==role){
+        $("#dealWith").hide();
+    }
 })
+
+/**
+ * Autocomplete  enterpriseName
+ */
+$( function() {
+
+    $("#enterpriseName_newXianChangJianChaForm").autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            ui.value=data.rows[i].name
+                            ui.envPrincipal=data.rows[i].envPrincipal
+                            ui.epPhone=data.rows[i].epPhone
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#enterpriseId_newXianChangJianChaForm").val(ui.item.id)
+            $("#supervisor_newXianChangJianChaForm").val(ui.item.envPrincipal)
+            $("#supervisorPhone_newXianChangJianChaForm").val(ui.item.epPhone)
+        },
+    } );
+
+} );
 
 
 

@@ -1,7 +1,7 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#eventMsg"),
+    eventMsgForm = $("#eventMsg"),
     formTitle = "事件信息",
     selections = [];
 
@@ -247,24 +247,41 @@ $("#search").click(function () {
     });
 });
 
+/**============选择人员对话框============**/
+var options = {
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d=$.param({ids:data.ids},true)
+    d+="&sourceId="+data.sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_save.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            eventMsgForm.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        }
+    });
+});
+
 /**============表单初始化相关代码============**/
-
 //初始化表单验证
-var ef = form.easyform({
+var ef = eventMsgForm.easyform({
     success:function (ef) {
-        //验证成功，打开选择人员 对话框
-        $('#selectPeopleForm').modal('show');
-        loadPersonUrl=rootPath + "/action/S_dispatch_DispathTask_getStreetLeaderList.action";
-
         var entity = $("#eventMsg").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
-
         saveAjax(entity,function (msg) {
-            //form.modal('hide');
             gridTable.bootstrapTable('refresh');
-
-            $("#monitorCaseId").val(msg.id)
+            model.open(msg.id);
         });
     },
     error:function () {
@@ -301,6 +318,7 @@ function setFormData(entity) {
 
     $("#eventTime").val(entity.eventTime);
     $("#answer").val(entity.answer);
+    $("#enterpriseId").val(entity.enterpriseId);
     $("#enterpriseName").val(entity.enterpriseName);
     $("#source").val(entity.source);
     // console.log("blockLevelId:"+$("#blockLevelId").html());
@@ -317,7 +335,6 @@ function setFormData(entity) {
 }
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看"+formTitle);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -329,7 +346,7 @@ function setFormView(entity) {
  * 重置表单
  */
 function resetForm() {
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
     $("textarea").val("");
 
 
@@ -480,6 +497,8 @@ $( function() {
                             ui.value=data.rows[i].name
                             ui.envPrincipal=data.rows[i].envPrincipal
                             ui.epPhone=data.rows[i].epPhone
+                            ui.blockLevelId=data.rows[i].blockLevelId
+                            ui.blockId=data.rows[i].blockId
                             result.push(ui);
                         }
                         response( result);
@@ -492,9 +511,16 @@ $( function() {
             $("#enterpriseId").val(ui.item.id)
             $("#supervisor").val(ui.item.envPrincipal)
             $("#supervisorPhone").val(ui.item.epPhone)
+            $("#blockLevelId").val(ui.item.blockLevelId)
+            $("#blockId").val(ui.item.blockId)
         },
     } );
 
 } );
+
+
+$(document).ready(function () {
+    loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
+})
 
 
