@@ -53,36 +53,31 @@ public class ProjectEIA implements Serializable {
     /**
      *批复时间
      */
-    @Column(name = "REPLY_TIME")
-    private Date replyTime;
+    @Column(name = "REPLY_EIA_TIME")
+    private Date replyEIATime;
     /**
      *批复文号
      */
-    @Column(name = "REPLY_CODE",length = 100)
-    private String replyCode;
+    @Column(name = "REPLY_EIA_CODE",length = 100)
+    private String replyEIACode;
     /**
      *审批部门
      */
-    @Column(name = "REPLY_ORG",length = 100)
-    private String replyOrg;
+    @Column(name = "REPLY_EIA_ORG",length = 100)
+    private String replyEIAOrg;
     /**
      *是否许可
      * 0:否
      * 1:是
      *
      */
-    @Column(name = "is_License",length = 100)
-    private String isLicense;
+    @Column(name = "is_EIA_License",length = 100)
+    private String isEIALicense;
     /**
      *批复意见
      */
     @Column(name = "REPLY_OPINION",length = 100)
     private String replyOpinion;
-    /**
-     *附件
-     */
-    @Transient
-    private String attachmentIds;
 
     @Transient
     private BuildProject buildProject;
@@ -96,13 +91,6 @@ public class ProjectEIA implements Serializable {
         this.buildProject = buildProject;
     }
 
-    public String getAttachmentIds() {
-        return attachmentIds;
-    }
-
-    public void setAttachmentIds(String attachmentIds) {
-        this.attachmentIds = attachmentIds;
-    }
 
     public String getId() {
         return id;
@@ -168,36 +156,36 @@ public class ProjectEIA implements Serializable {
         this.certificateMoney = certificateMoney;
     }
 
-    public Date getReplyTime() {
-        return replyTime;
+    public Date getReplyEIATime() {
+        return replyEIATime;
     }
 
-    public void setReplyTime(Date replyTime) {
-        this.replyTime = replyTime;
+    public void setReplyEIATime(Date replyEIATime) {
+        this.replyEIATime = replyEIATime;
     }
 
-    public String getReplyCode() {
-        return replyCode;
+    public String getReplyEIACode() {
+        return replyEIACode;
     }
 
-    public void setReplyCode(String replyCode) {
-        this.replyCode = replyCode;
+    public void setReplyEIACode(String replyEIACode) {
+        this.replyEIACode = replyEIACode;
     }
 
-    public String getReplyOrg() {
-        return replyOrg;
+    public String getReplyEIAOrg() {
+        return replyEIAOrg;
     }
 
-    public void setReplyOrg(String replyOrg) {
-        this.replyOrg = replyOrg;
+    public void setReplyEIAOrg(String replyEIAOrg) {
+        this.replyEIAOrg = replyEIAOrg;
     }
 
-    public String getIsLicense() {
-        return isLicense;
+    public String getIsEIALicense() {
+        return isEIALicense;
     }
 
-    public void setIsLicense(String isLicense) {
-        this.isLicense = isLicense;
+    public void setIsEIALicense(String isEIALicense) {
+        this.isEIALicense = isEIALicense;
     }
 
     public String getReplyOpinion() {

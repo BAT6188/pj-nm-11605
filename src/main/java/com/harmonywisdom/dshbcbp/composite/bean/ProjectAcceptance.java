@@ -23,44 +23,32 @@ public class ProjectAcceptance implements Serializable {
     /**
      *批复时间
      */
-    @Column(name = "REPLY_TIME")
-    private Date replyTime;
+    @Column(name = "REPLY_ACC_TIME")
+    private Date replyAccTime;
     /**
      *验收批复文号
      */
-    @Column(name = "REPLY_CODE",length = 100)
-    private String replyCode;
+    @Column(name = "REPLY_ACC_CODE",length = 100)
+    private String replyAccCode;
     /**
      *审批部门
      */
-    @Column(name = "REPLY_ORG",length = 100)
-    private String replyOrg;
+    @Column(name = "REPLY_ACC_ORG",length = 100)
+    private String replyAccOrg;
     /**
      *是否许可
      */
-    @Column(name = "IS_LICENSE",length = 100)
-    private String isLicense;
+    @Column(name = "IS_ACC_LICENSE",length = 100)
+    private String isAccLicense;
     /**
      *批复意见
      */
-    @Column(name = "REPLY_OPINION",length = 100)
-    private String replyOpinion;
+    @Column(name = "REPLY_ACC_OPINION",length = 100)
+    private String replyAccOpinion;
 
     @Transient
     public BuildProject buildProject;
-    /**
-     *附件
-     */
-    @Transient
-    private String attachmentIds;
 
-    public String getAttachmentIds() {
-        return attachmentIds;
-    }
-
-    public void setAttachmentIds(String attachmentIds) {
-        this.attachmentIds = attachmentIds;
-    }
 
     public String getId() {
         return id;
@@ -78,44 +66,44 @@ public class ProjectAcceptance implements Serializable {
         this.projectId = projectId;
     }
 
-    public Date getReplyTime() {
-        return replyTime;
+    public Date getReplyAccTime() {
+        return replyAccTime;
     }
 
-    public void setReplyTime(Date replyTime) {
-        this.replyTime = replyTime;
+    public void setReplyAccTime(Date replyAccTime) {
+        this.replyAccTime = replyAccTime;
     }
 
-    public String getReplyCode() {
-        return replyCode;
+    public String getReplyAccCode() {
+        return replyAccCode;
     }
 
-    public void setReplyCode(String replyCode) {
-        this.replyCode = replyCode;
+    public void setReplyAccCode(String replyAccCode) {
+        this.replyAccCode = replyAccCode;
     }
 
-    public String getReplyOrg() {
-        return replyOrg;
+    public String getReplyAccOrg() {
+        return replyAccOrg;
     }
 
-    public void setReplyOrg(String replyOrg) {
-        this.replyOrg = replyOrg;
+    public void setReplyAccOrg(String replyAccOrg) {
+        this.replyAccOrg = replyAccOrg;
     }
 
-    public String getIsLicense() {
-        return isLicense;
+    public String getIsAccLicense() {
+        return isAccLicense;
     }
 
-    public void setIsLicense(String isLicense) {
-        this.isLicense = isLicense;
+    public void setIsAccLicense(String isAccLicense) {
+        this.isAccLicense = isAccLicense;
     }
 
-    public String getReplyOpinion() {
-        return replyOpinion;
+    public String getReplyAccOpinion() {
+        return replyAccOpinion;
     }
 
-    public void setReplyOpinion(String replyOpinion) {
-        this.replyOpinion = replyOpinion;
+    public void setReplyAccOpinion(String replyAccOpinion) {
+        this.replyAccOpinion = replyAccOpinion;
     }
 
     public BuildProject getBuildProject() {
