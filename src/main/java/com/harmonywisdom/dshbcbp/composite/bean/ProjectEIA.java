@@ -71,12 +71,12 @@ public class ProjectEIA implements Serializable {
      * 1:是
      *
      */
-    @Column(name = "is_EIA_License",length = 100)
+    @Column(name = "IS_EIA_LICENSE",length = 100)
     private String isEIALicense;
     /**
      *批复意见
      */
-    @Column(name = "REPLY_OPINION",length = 100)
+    @Column(name = "REPLY_EIA_OPINION",length = 100)
     private String replyOpinion;
 
     @Transient
