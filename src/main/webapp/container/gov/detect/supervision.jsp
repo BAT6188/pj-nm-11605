@@ -35,7 +35,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
@@ -73,16 +73,34 @@
                             <%--data-message="管辖区域不能为空"--%>
                             <%--data-easytip="position:top;class:easy-red;"--%>
                             <%--/>--%>
-                                <select id="orgName" name="orgName" class="form-control">
+                                <select id="parentBlockId" name="parentBlockId" class="form-control">
                                 </select>
                         </div>
                         <label for="principalPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="openDateContent" class="input-group date form_date" data-date="" data-link-field="openDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input type="text" id="principalPhone" name="principalPhone" class="form-control"
-                                       data-message="联系方式不能为空"
+                                       data-easyform="regex:^1(3|4|5|7|8)\d{9}$;"
+                                       data-message="联系方式格式不正确"
                                        data-easytip="position:top;class:easy-red;"
                                 /> </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockLeader" class="col-sm-2 control-label">网格长<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="blockLeader" name="blockLeader" class="form-control"
+                                   data-message="网格长不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                        <label for="blockLeaderTel" class="col-sm-2 control-label">网格长电话<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="blockLeaderTel" name="blockLeaderTel" class="form-control"
+                                   data-easyform="regex:^1(3|4|5|7|8)\d{9}$;"
+                                   data-message="网格长电话格式不正确"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,7 +144,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/supervision.js"></script>
 </body>
 </html>

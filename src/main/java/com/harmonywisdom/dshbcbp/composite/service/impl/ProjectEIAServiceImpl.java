@@ -1,7 +1,9 @@
 package com.harmonywisdom.dshbcbp.composite.service.impl;
 
+import com.harmonywisdom.dshbcbp.composite.bean.BuildProject;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectEIA;
 import com.harmonywisdom.dshbcbp.composite.dao.ProjectEIADAO;
+import com.harmonywisdom.dshbcbp.composite.service.BuildProjectService;
 import com.harmonywisdom.dshbcbp.composite.service.ProjectEIAService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
@@ -15,6 +17,9 @@ import java.util.List;
 public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> implements ProjectEIAService {
     @Autowired
     private ProjectEIADAO projectEIADAO;
+
+    @Autowired
+    private BuildProjectService buildProjectService;
 
     @Override
     protected BaseDAO<ProjectEIA, String> getDAO() {
@@ -83,4 +88,17 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
 
         return sList;
     }
+
+    @Override
+    public ProjectEIA findByBuildProjectId(String buildProjectId) {
+        BuildProject project = buildProjectService.findById(buildProjectId);
+        List<ProjectEIA> eias=getDAO().find("projectId=?1", buildProjectId);
+        if (eias != null && eias.size() > 0) {
+            ProjectEIA eia = eias.get(0);
+            eia.setBuildProject(project);
+            return eia;
+        }
+        return null;
+    }
+
 }

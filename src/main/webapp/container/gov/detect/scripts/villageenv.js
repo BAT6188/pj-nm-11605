@@ -1,3 +1,4 @@
+//@ sourceURL=villageenv.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -115,15 +116,18 @@ function initTable() {
     });
 }
 
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">详情</button>';
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">视频</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">详情</button>'
+    +'&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" data-villageenv-id="'+row.id+'" data-toggle="modal" data-target="#lookVideo">视频</button>';
 
 }
+var villageEnvId;
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
+        VideoPage.villageEnvId = $(this).data("villageenv-id");
         setFormView(row);
     }
 };
@@ -232,7 +236,6 @@ function setFormData(entity) {
     $("#principalPhone").val(entity.principalPhone);
     $("#points").val(entity.points);
     $("#description").val(entity.description);
-
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -242,9 +245,12 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
@@ -266,8 +272,11 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".cancel").text("取消");
 }
 
 //表单附件相关js
@@ -336,9 +345,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };

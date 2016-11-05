@@ -128,6 +128,7 @@ public class BuildProject implements Serializable {
     /**
      * 批复时间
      */
+    @Column(name = "time",length = 100)
     private Date time;
 
     @Transient

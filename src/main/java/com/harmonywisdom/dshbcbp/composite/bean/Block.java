@@ -79,6 +79,16 @@ public class Block implements Serializable {
     private Date createTime;
 
     /**
+     * 网格长
+     */
+    @Column(name = "BLOCK_LEADER")
+    private String  blockLeader;
+    /**
+     * 网格长联系方式
+     */
+    @Column(name = "block_Leader_Tel")
+    private String  blockLeaderTel;
+    /**
      *附件
      */
     @Transient
@@ -211,5 +221,21 @@ public class Block implements Serializable {
 
     public void setBlockLevelName(String blockLevelName) {
         this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockLeader() {
+        return blockLeader;
+    }
+
+    public void setBlockLeader(String blockLeader) {
+        this.blockLeader = blockLeader;
+    }
+
+    public String getBlockLeaderTel() {
+        return blockLeaderTel;
+    }
+
+    public void setBlockLeaderTel(String blockLeaderTel) {
+        this.blockLeaderTel = blockLeaderTel;
     }
 }

@@ -8,7 +8,6 @@ import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +57,12 @@ public class BlockServiceImpl extends BaseService<Block, String> implements Bloc
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Block> findByLevelId(String id) {
+        List<Block> list=getDAO().queryJPQL("from Block where blockLevelId=?",id);
+        return list;
     }
 
     @Override

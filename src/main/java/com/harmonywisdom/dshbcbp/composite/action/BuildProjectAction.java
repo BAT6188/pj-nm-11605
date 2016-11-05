@@ -44,6 +44,10 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }
+
+        if (StringUtils.isNotBlank(entity.getType())) {
+            param.andParam(new QueryParam("type", QueryOperator.NE,0));
+        }
         if (StringUtils.isNotBlank(entity.getBuildNature())) {
             param.andParam(new QueryParam("buildNature", QueryOperator.EQ,entity.getBuildNature()));
         }
@@ -61,7 +65,7 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
     public void listProject(){
         getQueryCondition();
         List<BuildProject> list=buildProjectService.getAll();
-        write(true);
+        write(list);
     }
 
     public void saveHp() {
