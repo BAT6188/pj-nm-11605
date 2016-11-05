@@ -43,8 +43,6 @@ public class BlockAction extends BaseAction<Block, BlockService> {
         condition.setPaging(getPaging());
         return condition;
     }
-
-
     @Override
     public void save() {
         //获取删除的附件IDS
@@ -77,5 +75,11 @@ public class BlockAction extends BaseAction<Block, BlockService> {
             List<Block> list = getService().findByIds(ids);
             write(list);
         }
+    }
+
+    public void findLevelById(){
+        String id=request.getParameter("blockLevelId");
+        List<Block> list=getService().findByLevelId(id);
+        write(list);
     }
 }

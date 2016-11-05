@@ -8,4 +8,6 @@ import java.util.List;
 public interface BuildProjectService extends IBaseService<BuildProject, String> {
 
     List<BuildProject> getAll();
+
+
 }

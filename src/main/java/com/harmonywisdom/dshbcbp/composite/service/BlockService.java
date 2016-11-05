@@ -17,6 +17,13 @@ public interface BlockService extends IBaseService<Block, String> {
 
     /**
      *
+     * @param id
+     * @return
+     */
+    List<Block> findByLevelId(String id);
+
+    /**
+     *
      * @param ids
      * @return
      */

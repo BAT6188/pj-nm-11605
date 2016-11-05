@@ -190,6 +190,7 @@ var pageUtils = {
     $.fn.formSerializeObject = function(){
         var o = {};
         var a = this.serializeArray();
+        console.log(a);
         $.each(a, function() {
             if(this.value != undefined && this.value !=''){
                 if (o[this.name] !== undefined) {

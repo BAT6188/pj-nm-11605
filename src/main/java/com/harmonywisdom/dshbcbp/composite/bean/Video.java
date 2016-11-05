@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.composite.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -54,6 +51,19 @@ public class Video implements Serializable {
     @Column(name = "CREATE_TIME")
     private Date createTime;
 
+    /**
+     *附件
+     */
+    @Transient
+    private String attachmentIds;
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;

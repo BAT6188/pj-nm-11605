@@ -32,7 +32,19 @@
             padding: 4px 8px;
         }
     </style>
-
+    <style>
+        .Node-frame-menubar {
+            width: auto;
+            height: 400px;
+            position: relative;
+            left: 0px;
+            border-right: 1px solid #e5e5e5;
+            padding: 10px;
+        }
+        .list-group-item{
+            cursor: default;
+        }
+    </style>
     <%
         String enterpriseId =request.getParameter("id");
     %>
@@ -74,14 +86,14 @@
                         </div>
                         <div class="form-group">
                             <label for="">批复时间：</label>
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" id="start_sendTime" size="16" type="text" value="" readonly>
+                            <div  class="input-group date searchInput start_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                                <input class="form-control" size="16" id="startDate" name="startDate"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" id="end_sendTime" size="16" type="text" value="" readonly>
+                            <div class="input-group date searchInput end_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                                <input class="form-control" size="16" id="endDate" name="endDate"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -89,14 +101,17 @@
                     </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#hpForm">
                         <i class="btnIcon add-icon"></i><span>新增(环评)</span>
                     </button>
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ysForm">
+                    <button id="addYS" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ysForm">
                         <i class="btnIcon add-icon"></i><span>新增(验收)</span>
+                    </button>
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal">
+                        <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
@@ -115,7 +130,7 @@
 </div>
 
 <!--添加表单-->
-<div class="modal fade" data-backdrop="static" id="hpForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade buildForm" data-backdrop="static" id="hpForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -124,7 +139,7 @@
             </div>
             <div class="media-body">
                 <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
-                    <form class="form-horizontal" action="" style="margin: 0 10px;" role="form">
+                    <form class="form-horizontal"  action="" style="margin: 0 10px;" role="form">
                         <div class="row">
                             <div class="col-sm-12">
                                 <table class="table table-bordered table-responsive">
@@ -135,10 +150,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input type="hidden" id="type" name="type" value="1">
-                                                    <input type="hidden" id="id" name="id">
-                                                    <input type="hidden" id="removeId" name="removeId">
-                                                    <input class="form-control" type="text" id="name" name="name"
+                                                    <input type="hidden" class="basedata" id="type" name="type" value="1">
+                                                    <input type="hidden" class="basedata" id="id" name="id" value="zsdf">
+                                                    <input type="hidden" class="basedata"  name="removeId" value="sdfsdfs">
+                                                    <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
                                                            data-easytip="position:top;class:easy-red;"
                                                     />
@@ -148,11 +163,11 @@
                                         <td class="success text-red">环境保护管理类别:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
-                                                    <div class="radio-inline">
-                                                        <label for="EnvManagType"><input type="radio" id="EnvManagType" name="EnvManagType" value="1"/>报告书</label>
-                                                        <label for="EnvManagType"><input type="radio" id="EnvManagType" name="EnvManagType" value="2"/>报告表</label>
-                                                        <label for="EnvManagType"><input type="radio" id="EnvManagType" name="EnvManagType" value="3"/>登记表</label>
+                                                <div class="col-sm-11 basedata" name="envmanagtype">
+                                                    <div class="radio-inline ">
+                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType1" name="EnvManagType" value="1"/>报告书</label>
+                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType2" name="EnvManagType" value="2"/>报告表</label>
+                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType3" name="EnvManagType" value="3"/>登记表</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,11 +177,11 @@
                                         <td class="success text-red">项目性质:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
-                                                    <div class="radio-inline">
-                                                        <label for="buildNature"><input type="radio" id="buildNature" name="buildNature" value="1"/>新建</label>
-                                                        <label for="buildNature"><input type="radio" id="buildNature" name="buildNature" value="2"/>改扩建</label>
-                                                        <label for="buildNature"><input type="radio" id="buildNature" name="buildNature" value="3"/>技术改造</label>
+                                                <div class="col-sm-11 basedata" name="buildNature">
+                                                    <div class="radio-inline" >
+                                                        <label for="buildNature"><input type="radio" class="buildNature1" name="buildNature" value="1"/>新建</label>
+                                                        <label for="buildNature"><input type="radio" class="buildNature2" name="buildNature" value="2"/>改扩建</label>
+                                                        <label for="buildNature"><input type="radio" class="buildNature3" name="buildNature" value="3"/>技术改造</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -175,10 +190,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" id="area" name="area"
+                                                    <input class="form-control basedata" type="text" id="area" name="area"
                                                     />
                                                 </div>
-                                                <div class="col-sm-2 selectBtn">
+                                                <div class="col-sm-2 selectBtn basedata">
                                                     <button class="btn btn-sm btn-success">选择</button>
                                                 </div>
                                             </div>
@@ -189,7 +204,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="buildAddress" name="buildAddress" class="form-control" type="text"/>
+                                                    <input id="buildAddress" name="buildAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -197,10 +212,12 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="industryType" name="industryType" class="form-control" type="text"/>
+                                                    <input id="industryType" name="industryType" class="form-control basedata" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
-                                                    <button class="btn btn-sm btn-success">选择</button>
+                                                    <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                        选择
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -210,7 +227,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="content" name="content" class="form-control" type="text"/>
+                                                    <input id="content" name="content" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -218,7 +235,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="investment" name="investment" class="form-control" type="text"/>
+                                                    <input id="investment" name="investment" class="form-control basedata" type="number"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -228,7 +245,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="EnvInvestment" name="EnvInvestment" class="form-control" type="text"/>
+                                                    <input id="EnvInvestment" name="EnvInvestment" class="form-control basedata" type="number"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -236,7 +253,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="proportion" name="proportion" class="form-control" type="text"/>
+                                                    <input id="proportion" name="proportion" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -248,7 +265,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderName" name="builderName" class="form-control" type="text"/>
+                                                    <input id="builderName" name="builderName" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -256,7 +273,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderTel" name="builderTel" class="form-control" type="text"/>
+                                                    <input id="builderTel" name="builderTel" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -266,7 +283,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderAddress" name="builderAddress" class="form-control" type="text"/>
+                                                    <input id="builderAddress" name="builderAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -274,7 +291,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input  id="builderZipCode" name="builderZipCode" class="form-control" type="text"/>
+                                                    <input  id="builderZipCode" name="builderZipCode" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -284,7 +301,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderAP" name="builderAP" class="form-control" type="text"/>
+                                                    <input id="builderAP" name="builderAP" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -292,7 +309,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderLinkman" name="builderLinkman" class="form-control" type="text"/>
+                                                    <input id="builderLinkman" name="builderLinkman" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -303,7 +320,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input name="euName" id="euName" class="form-control" type="text"/>
+                                                    <input name="euName" id="euName" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -311,7 +328,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="euTel" name="euTel" class="form-control" type="text"/>
+                                                    <input id="euTel" name="euTel" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -321,7 +338,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="euAddress" name="euAddress" class="form-control" type="text"/>
+                                                    <input id="euAddress" name="euAddress" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -329,7 +346,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="euZipCode" name="euZipCode" class="form-control" type="text"/>
+                                                    <input id="euZipCode" name="euZipCode" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -339,7 +356,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="certificateCode" name="certificateCode" class="form-control" type="text"/>
+                                                    <input id="certificateCode" name="certificateCode" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -347,7 +364,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="certificateMoney" name="certificateMoney" class="form-control" type="text"/>
+                                                    <input id="certificateMoney" name="certificateMoney" class="form-control otherdata" type="number"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -359,7 +376,7 @@
                                             <div class="row">
                                                 <div class="col-sm-11">
                                                     <div id="replyTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control" id="replyTime" name="replyTime" size="16" type="text" value="" readonly
+                                                        <input class="form-control otherdata"  name="replyTime" size="16" type="text" value="" readonly
                                                               >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -391,10 +408,10 @@
                                         <td class="success">是否许可：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-11 otherdata" name="isLicense">
                                                     <div class="radio-inline">
-                                                        <label for="isLicense"><input type="radio" id="isLicense" name="isLicense" value="1"/>是</label>
-                                                        <label for="isLicense"><input type="radio" id="isLicense" name="isLicense" value="0"/>否</label>
+                                                        <label for="isLicense"><input type="radio" class="isLicense1" name="isLicense" value="1"/>是</label>
+                                                        <label for="isLicense"><input type="radio" class="isLicense0" name="isLicense" value="0"/>否</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -425,14 +442,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="hpsave">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary saveButton" id="hpsave">保存</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 <!--添加表单-->
-<div class="modal fade" data-backdrop="static" id="ysForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade buildForm" data-backdrop="static" id="ysForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -441,7 +458,7 @@
             </div>
             <div class="media-body">
                 <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
-                    <form class="form-horizontal" action="" style="margin: 0 10px;">
+                    <form class="form-horizontal" role="form" action="" style="margin: 0 10px;">
                         <div class="row">
                             <div class="col-sm-12">
                                 <table class="table table-bordered table-responsive">
@@ -452,10 +469,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input type="hidden" id="id" name="id">
-                                                    <input type="hidden" id="removeId" name="removeId">
-                                                    <input class="form-control" type="text" id="name" name="name"
-                                                    />
+                                                    <input type="hidden"  name="id" class="basedata">
+                                                    <input type="hidden"  name="type" class="basedata">
+                                                    <input type="hidden"  name="removeId" class="basedata">
+                                                    <input type="text"  name="name" class="form-control basedata"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
                                                     <button class="btn btn-sm btn-success">选择</button>
@@ -466,7 +483,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="name" name="name" class="form-control" type="text"/>
+                                                    <input  name="name" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -475,11 +492,11 @@
                                         <td class="success text-red">项目性质:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
-                                                    <div class="radio-inline">
-                                                        <label for="buildNature"><input type="radio" id="buildNature" name="buildNature" value="1"/>新建</label>
-                                                        <label for="buildNature"><input type="radio" id="buildNature" name="buildNature" value="2"/>改扩建</label>
-                                                        <label for="buildNature"><input type="radio" id="buildNature" name="radioGroup" value="3"/>技术改造</label>
+                                                <div class="col-sm-11 isRadio" name="buildNature">
+                                                    <div class="radio-inline" >
+                                                        <label for="buildNature"><input type="radio" class="buildNature1"  name="buildNature" value="1"/>新建</label>
+                                                        <label for="buildNature"><input type="radio" class="buildNature2"  name="buildNature" value="2"/>改扩建</label>
+                                                        <label for="buildNature"><input type="radio" class="buildNature3"  name="buildNature" value="3"/>技术改造</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -492,7 +509,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input  id="industryType" name="" class="form-control" type="text"/>
+                                                    <input   name="industryType" class="form-control" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
                                                     <button class="btn btn-sm btn-success">选择</button>
@@ -507,7 +524,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="area" name="area" class="form-control" type="text"/>
+                                                    <input name="area" class="form-control" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
                                                     <button class="btn btn-sm btn-success">选择</button>
@@ -518,7 +535,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="buildAddress" name="buildAddress" class="form-control" type="text"/>
+                                                    <input  name="buildAddress" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -528,7 +545,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="euName" name="euName" class="form-control" type="text"/>
+                                                    <input  name="euName" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -536,7 +553,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="replyCode" name="replyCode" class="form-control" type="text"/>
+                                                    <input  name="replyCode" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -546,19 +563,19 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control" size="6" type="text" id="replyTime"  name="replyTime" value="" readonly>
+                                                    <div id="TimeContent" class="input-group date form_date" data-date="" data-link-field="replyTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                                                        <input class="form-control"  name="replyTime" size="16" type="text" value="" readonly
+                                                        >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-                                                </div>
                                             </div>
                                         </td>
                                         <td class="success">竣工验收单位:</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="acceptOrg" name="acceptOrg" class="form-control" type="text"/>
+                                                    <input  name="acceptOrg" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -568,10 +585,11 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control" size="6" id="acceptTime" name="acceptTime" type="text" value="" readonly>
+                                                    <div id="acceptTimeContent" class="input-group date form_date" data-date="" data-link-field="acceptTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                                                        <input class="form-control"  name="acceptTime" size="16" type="text" value="" readonly
+                                                        >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -584,7 +602,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input class="form-control" type="text"/>
+                                                    <input name="investment" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -592,7 +610,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input class="form-control" type="text"/>
+                                                    <input name="EnvInvestment" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -603,15 +621,15 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderName" name="builderName"  class="form-control" type="text"/>
+                                                    <input  name="builderName"  class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">邮政编码:</td>
+                                        <td class="success ">邮政编码:</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderZipCode" name="builderZipCode" class="form-control" type="text"/>
+                                                    <input  name="builderZipCode" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -621,7 +639,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderAP" name="builderAP" class="form-control" type="text"/>
+                                                    <input  name="builderAP" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -629,7 +647,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderLinkman" name="builderLinkman" class="form-control" type="text"/>
+                                                    <input  name="builderLinkman" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -639,7 +657,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderTel" name="builderTel" class="form-control" type="text"/>
+                                                    <input  name="builderTel" class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -647,7 +665,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input name="builderAddress" id="builderAddress" class="form-control" type="text"/>
+                                                    <input name="builderAddress"  class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -658,10 +676,11 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control" size="6" id="replyTime1" name="replyTime" type="text" value="" readonly>
+                                                    <div id="replyTime_Content" class="input-group date form_date" data-date="" data-link-field="acceptTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                                                        <input class="form-control"  name="replyTime" size="16" type="text" value="" readonly
+                                                        >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -670,7 +689,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input name="replyCode" id="replyCode" class="form-control" type="text"/>
+                                                    <input name="replyCode"  class="form-control" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -680,7 +699,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="replyOrg" name="replyOrg" class="form-control" type="text"/>
+                                                    <input  name="replyOrg" class="form-control" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
                                                     <button class="btn btn-sm btn-success">选择</button>
@@ -690,10 +709,10 @@
                                         <td class="success">是否许可:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
-                                                    <div class="radio-inline">
-                                                        <label for="isLicense"><input type="radio" id="isLicense" name="isLicense" checked/>是</label>
-                                                        <label for="isLicense"><input type="radio" id="isLicense" name="isLicense"/>否</label>
+                                                <div class="col-sm-11 isRadio" name="isLicense">
+                                                    <div class="radio-inline " >
+                                                        <label for="isLicense"><input type="radio" class="isLicense1" name="isLicense" value="1" checked/>是</label>
+                                                        <label for="isLicense"><input type="radio" class="isLicense0" name="isLicense" value="0"/>否</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -704,7 +723,7 @@
                                         <td colspan="3">
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <textarea class="form-control" name="replyOpinion" id="replyOpinion" cols="30" rows="3"></textarea>
+                                                    <textarea class="form-control" name="replyOpinion"  cols="30" rows="3"></textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -712,10 +731,8 @@
                                     <tr>
                                         <td class="success">附件</td>
                                         <td class="align-left" colspan="4">
-                                            <div class="col-sm-10">
-                                                <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
-                                                <div id="fine-uploader-gallery"></div>
-                                            </div>
+                                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                                            <div id="fine-uploader-gallery"></div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -726,12 +743,42 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="ysSave">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary saveButton" id="ysSave">保存</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+<%----------------------------------------------------弹出框区域---------------------------------------------------------------------%>
+<!-- 行业类别模态框 start -->
+<div class="modal fade" id="industryTypeModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="myModalLabel">
+                    行业类别
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="Node-frame-menubar">
+                    <div class="scrollContent" >
+                        <ul id="industryTypeTree" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="industryTypeModalClose" type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="industryTypeModalSure" type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 行业类别模态框 end -->
+
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/buildproject.js"></script>
 </body>
 </html>

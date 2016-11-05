@@ -16,4 +16,6 @@ public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
      * @return
      */
     List<Object[]> findByRatio(String startdate, String lastdate, String enterpriseId);
+
+    ProjectEIA findByBuildProjectId(String buildProjectId);
 }

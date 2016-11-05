@@ -45,4 +45,9 @@ public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> 
         }
         write(result);
     }
+    public void findByBuildProjectId(){
+        String buildProjectId = request.getParameter("buildProjectId");
+        ProjectEIA eia = getService().findByBuildProjectId(buildProjectId);
+        write(eia);
+    }
 }

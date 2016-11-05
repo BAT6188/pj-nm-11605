@@ -6,8 +6,6 @@ var gridTable = $('#table'),
     formTitle = "网格人员",
     selections = [];
 
-loadBlockLevelAndBlockOption();
-
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -31,6 +29,7 @@ function deleteAjax(ids, callback) {
         dataType:"json",
         success:callback
     });
+    zTreeOnAsyncSuccess();
 }
 /**============grid 列表初始化相关代码============**/
 function initTable() {
@@ -80,10 +79,24 @@ function initTable() {
             },
             {
                 title: '管辖网格',
-                field: 'areaDesc',
+                field: 'parentBlockId',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter: function (value, row, index) {
+                    if (value==1){
+                        value="一级网格"
+                    }else if(value==2){
+                        value="二级网格"
+                    }else if(value==3){
+                        value="三级网格"
+                    }else if(value==4){
+                        value="四级网格"
+                    }else{
+                        value=""
+                    }
+                    return value
+                }
             },
             {
                 title: '联系方式',
@@ -168,43 +181,86 @@ var setting = {
         autoParam: ["id"]
     },
     callback: {
+        onAsyncSuccess: zTreeOnAsyncSuccess,
         onClick: zTreeOnClick
     }
 };
-//异步加载fun
+$.fn.zTree.init($("#ztree"), setting);
+//默认加载第一个节点
+var firstAsyncSuccessFlag = 0;
 function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
     var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    var nodes = treeObj.getSelectedNodes();
-    if (nodes.length>0) {
-        var selectNode = nodes[0];
-        treeObj.reAsyncChildNodes(selectNode,"refresh");
+    //调用默认展开第一个节点
+    if (firstAsyncSuccessFlag == 0) {
+        //获取全部节点数据
+        var nodes = treeObj.getNodes();
+        //展开当前选择的第一个节点
+        treeObj.expandNode(nodes[0], true);
+        //. 单独选中根节点中第一个节点
+        treeObj.selectNode(nodes[0]);
+        firstAsyncSuccessFlag = 1;
+        //获去第一个节点id
+        ztreeId=nodes[0].id;
     }
-}
-function zTreeOnClick(event, treeId, treeNode) {
-    ztreeId=treeNode.id;
-    ztreeName=treeNode.name;
+    //刷新表格列表
     gridTable.bootstrapTable('refresh');
 }
 
-$.fn.zTree.init($("#ztree"), setting);
-
-var selectTreeId;
-function getSelectTree(){
+//点击节点事件
+var blockLevelId;
+function zTreeOnClick(event, treeId, treeNode) {
+    ztreeId=treeNode.id;
+    ztreeName=treeNode.name;
+    selectZreeId();
+    gridTable.bootstrapTable('refresh');
+}
+//右侧列表添加数据刷新zTree
+function zTreeOnSuccess(){
     var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    var sNodes = treeObj.getSelectedNodes();
-    //获得当前节点的下级节点
-    if (sNodes.length > 0) {
-        //当前节点
-        var node = sNodes[0].getPreNode();
-        //当前节点的父节点
-        var nodez=sNodes[0].getParentNode();
-        selectTreeId=node.id;
-        selectTreeId=nodez.id;
+    var node = treeObj.getSelectedNodes();
+    if (node.length>0) {
+        var selectNode = node[0];
+        //. 重新异步加载当前选中的第一个节点
+        treeObj.reAsyncChildNodes(selectNode,"refresh");
     }
 }
-
-
-
+    //
+    function selectZreeId(){
+        var treeObj = $.fn.zTree.getZTreeObj("ztree");
+        var sNodes = treeObj.getSelectedNodes();
+        //获得当前节点的下级节点
+        if (sNodes.length > 0) {
+            //当前节点的前一个节点
+            var node = sNodes[0].getPreNode();
+            if(node==null){
+                //当前节点
+                // selectTreeId=treeNode.id;
+                return null
+            }else{
+                //当前选中节点的前一个节点id
+                blockLevelId=node.id;
+                return blockLevelId
+            }
+        }
+    }
+    //默认加载表单select赋值
+    function BlockOption(blockLevelId) {
+        if(blockLevelId==null){
+            $('#parentBlockId').prop('disabled', true)
+        }
+        $.ajax({
+            url: rootPath + "/action/S_composite_Block_findLevelById.action",
+            type:"post",
+            dataType:"json",
+            data: {blockLevelId: blockLevelId},
+            success: function (msg) {
+                for( var i=0;i<msg.length;i++){
+                    $('#parentBlockId').empty();
+                    $('#parentBlockId').append("<option value='"+ msg[i].id +"'>" + msg[i].orgName +"</option>")
+                }
+            }
+        });
+}
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -232,7 +288,7 @@ removeBtn.click(function () {
                 field: 'id',
                 values: ids
             });
-            zTreeOnAsyncSuccess();
+            zTreeOnSuccess();
             removeBtn.prop('disabled', true);
         });
     });
@@ -245,9 +301,13 @@ var ef = form.easyform({
         entity.attachmentIds = getAttachmentIds();
         entity.blockLevelId=ztreeId;
         entity.blockLevelName=ztreeName;
+        if(blockLevelId==null){
+            entity.parentBlockId="";
+        }
+        entity.parentBlockId=blockLevelId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
-            zTreeOnAsyncSuccess();
+            zTreeOnSuccess();
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -265,7 +325,7 @@ $("#save").bind('click',function () {
  * @returns {boolean}
  */
 function setFormData(entity) {
-    zTreeOnAsyncSuccess();
+    zTreeOnSuccess();
     resetForm();
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
@@ -276,6 +336,9 @@ function setFormData(entity) {
     $("#principal").val(entity.principal);
     $("#areaDesc").val(entity.areaDesc);
     $("#blockLevelId").val(entity.blockLevelId);
+    $("#blockLeaderTel").val(entity.blockLeaderTel);
+    $("#blockLeader").val(entity.blockLeader);
+
     $("#principalPhone").val(entity.principalPhone);
     $("#orgAddress").val(entity.orgAddress);
     $("#position").val(entity.position);
@@ -301,9 +364,11 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
+
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
+    BlockOption(blockLevelId);
     disabledForm(false);
 
 }

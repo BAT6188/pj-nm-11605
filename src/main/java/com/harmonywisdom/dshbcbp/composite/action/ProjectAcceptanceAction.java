@@ -13,4 +13,10 @@ public class ProjectAcceptanceAction extends BaseAction<ProjectAcceptance, Proje
     protected ProjectAcceptanceService getService() {
         return projectAcceptanceService;
     }
+
+    public void findByAcceptanceProjectId(){
+        String buildProjectId = request.getParameter("buildProjectId");
+        ProjectAcceptance acceptance = getService().findByBuildProjectId(buildProjectId);
+        write(acceptance);
+    }
 }

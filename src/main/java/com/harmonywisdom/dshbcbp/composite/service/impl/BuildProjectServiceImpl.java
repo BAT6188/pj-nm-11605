@@ -22,7 +22,7 @@ public class BuildProjectServiceImpl extends BaseService<BuildProject, String> i
 
     @Override
     public List<BuildProject> getAll() {
-        String sql="SELECT * FROM 'HW_BUILD_PROJECT' a LEFT JOIN  'HW_PROJECT_EIA' b ON a.'id'=b.'PROJECT_ID' LEFT JOIN 'HW_PROJECT_ACCEPTANCE' c ON a.'id'= c.'PROJECT_ID'";
+        String sql="SELECT * FROM HW_BUILD_PROJECT a INNER JOIN  HW_PROJECT_EIA t ON a.id=t.PROJECT_ID";
         List<BuildProject> priList=getDAO().queryNativeSQL(sql);
         return priList;
     }
