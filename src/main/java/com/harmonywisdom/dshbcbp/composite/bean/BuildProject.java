@@ -27,7 +27,7 @@ public class BuildProject implements Serializable {
      * 3:登记表
      */
     @Column(name = "ENV_MANAG_TYPE",length = 100)
-    private String EnvManagType;
+    private String envManagType;
     /**
      *建设性质
      */
@@ -62,7 +62,7 @@ public class BuildProject implements Serializable {
      *环保投资
      */
     @Column(name = "ENV_INVESTMENT",length = 100)
-    private String EnvInvestment;
+    private String envInvestment;
     /**
      *所占比例
      */
@@ -189,11 +189,19 @@ public class BuildProject implements Serializable {
     }
 
     public String getEnvManagType() {
-        return EnvManagType;
+        return envManagType;
     }
 
     public void setEnvManagType(String envManagType) {
-        EnvManagType = envManagType;
+        this.envManagType = envManagType;
+    }
+
+    public String getEnvInvestment() {
+        return envInvestment;
+    }
+
+    public void setEnvInvestment(String envInvestment) {
+        this.envInvestment = envInvestment;
     }
 
     public String getBuildNature() {
@@ -244,13 +252,6 @@ public class BuildProject implements Serializable {
         this.investment = investment;
     }
 
-    public String getEnvInvestment() {
-        return EnvInvestment;
-    }
-
-    public void setEnvInvestment(String envInvestment) {
-        EnvInvestment = envInvestment;
-    }
 
     public Double getProportion() {
         return proportion;
