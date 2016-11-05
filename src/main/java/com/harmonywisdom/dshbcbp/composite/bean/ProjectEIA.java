@@ -77,7 +77,7 @@ public class ProjectEIA implements Serializable {
      *批复意见
      */
     @Column(name = "REPLY_EIA_OPINION",length = 100)
-    private String replyOpinion;
+    private String replyEIAOpinion;
 
     @Transient
     private BuildProject buildProject;
@@ -188,13 +188,11 @@ public class ProjectEIA implements Serializable {
         this.isEIALicense = isEIALicense;
     }
 
-    public String getReplyOpinion() {
-        return replyOpinion;
+    public String getReplyEIAOpinion() {
+        return replyEIAOpinion;
     }
 
-    public void setReplyOpinion(String replyOpinion) {
-        this.replyOpinion = replyOpinion;
+    public void setReplyEIAOpinion(String replyEIAOpinion) {
+        this.replyEIAOpinion = replyEIAOpinion;
     }
-
-
 }
