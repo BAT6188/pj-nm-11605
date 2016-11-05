@@ -1,7 +1,6 @@
 package com.harmonywisdom.dshbcbp.composite.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
-import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.BuildProject;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectAcceptance;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectEIA;
@@ -24,6 +23,8 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
     private BuildProjectService buildProjectService;
 
     private ProjectEIA projectEIA;
+    private ProjectAcceptance projectAcceptance;
+
 
     @AutoService
     private ProjectEIAService projectEIAService;
@@ -76,12 +77,6 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         write(qr);
     }
 
-    public void listProject(){
-        getQueryCondition();
-        List<BuildProject> list=buildProjectService.getAll();
-        write(list);
-    }
-
     @Override
     public void save(){
         //获取删除的附件IDS
@@ -94,69 +89,7 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
-    }
-    public void saveHp() {
-        //获取删除的附件IDS
-        String attachmentIdsRemoveId = request.getParameter("removeId");
-        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
-            //删除附件
-            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
-        }
-        super.save();
-        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
-            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
-        }
-        //环评信息保存
-        String euName=request.getParameter("euName");
-        String euTel=request.getParameter("euTel");
-        String euAddress=request.getParameter("euAddress");
-        String certificateCode=request.getParameter("certificateCode");
-        String certificateMoney=request.getParameter("certificateMoney");
-        String replyTime=request.getParameter("replyTime");
-        String replyCode=request.getParameter("replyCode");
-        String replyOrg=request.getParameter("replyOrg");
-        String isLicense=request.getParameter("isLicense");
-        String replyOpinion=request.getParameter("replyOpinion");
-        ProjectEIA projectEIA=new ProjectEIA();
-        projectEIA.setProjectId(entity.getId());
-        projectEIA.setEuName(euName);
-        projectEIA.setEuTel(euTel);
-        projectEIA.setEuAddress(euAddress);
-        projectEIA.setCertificateCode(certificateCode);
-        projectEIA.setCertificateMoney(Double.valueOf(certificateMoney));
-        projectEIA.setReplyCode(replyCode);
-        projectEIA.setReplyTime(DateUtil.strToDate(replyTime,"yyyy-MM-dd"));
-        projectEIA.setReplyOrg(replyOrg);
-        projectEIA.setIsLicense(isLicense);
-        projectEIA.setReplyOpinion(replyOpinion);
-        projectEIAService.saveOrUpdate(projectEIA);
 
-
-    }
-    public void saveYs() {
-        //获取删除的附件IDS
-        String attachmentIdsRemoveId = request.getParameter("removeId");
-        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
-            //删除附件
-            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
-        }
-        super.save();
-        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
-            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
-        }
-        String replyTime=request.getParameter("replyTime");
-        String replyCode=request.getParameter("replyCode");
-        String replyOrg=request.getParameter("replyOrg");
-        String isLicense=request.getParameter("isLicense");
-        String replyOpinion=request.getParameter("replyOpinion");
-        ProjectAcceptance acceptance=new ProjectAcceptance();
-        acceptance.setProjectId(entity.getId());
-        acceptance.setReplyTime(DateUtil.strToDate(replyTime,"yyyy-MM-dd"));
-        acceptance.setReplyOrg(replyOrg);
-        acceptance.setReplyCode(replyCode);
-        acceptance.setIsLicense(isLicense);
-        acceptance.setReplyOpinion(replyOpinion);
-        projectAcceptanceService.saveOrUpdate(acceptance);
     }
 
     /**
