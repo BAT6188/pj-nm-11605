@@ -12,7 +12,9 @@ import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.annotation.AutoService;
+import com.harmonywisdom.framework.utils.ReflectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
@@ -62,12 +64,37 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         return condition;
     }
 
+    @Override
+    public void list(){
+        QueryResult<BuildProject> qr = this.query();
+        List<BuildProject> list = qr.getRows();
+        for(BuildProject bp:list){
+            bp.setProjectEIA(projectEIAService.findByBuildProjectId(bp.getId()));
+            bp.setProjectAcceptance(projectAcceptanceService.findByBuildProjectId(bp.getId()));
+        }
+        qr.setRows(list);
+        write(qr);
+    }
+
     public void listProject(){
         getQueryCondition();
         List<BuildProject> list=buildProjectService.getAll();
         write(list);
     }
 
+    @Override
+    public void save(){
+        //获取删除的附件IDS
+        String attachmentIdsRemoveId = request.getParameter("removeId");
+        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        super.save();
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+        }
+    }
     public void saveHp() {
         //获取删除的附件IDS
         String attachmentIdsRemoveId = request.getParameter("removeId");
@@ -142,5 +169,19 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    public ProjectEIA getProjectEIAModel() {
+        ProjectEIA projectEIA = new ProjectEIA();
+        try {
+            Class var1 = ProjectEIA.class;
+            if((var1 = (Class) ReflectionUtils.getGenericClass(this.getClass())).getDeclaredConstructor(new Class[0]) != null) {
+                projectEIA = (ProjectEIA) var1.newInstance();
+            }
+        } catch (Exception var2) {
+            this.log.error("没有无参数的构造方法, 无法创建Entity实例", var2);
+        }
+
+        return projectEIA;
     }
 }

@@ -86,13 +86,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">批复时间：</label>
-                            <div  class="input-group date start_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                            <div  class="input-group date searchInput start_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
                                 <input class="form-control" size="16" id="startDate" name="startDate"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date end_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                            <div class="input-group date searchInput end_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
                                 <input class="form-control" size="16" id="endDate" name="endDate"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -153,7 +153,7 @@
                                                     <input type="hidden" class="basedata" id="type" name="type" value="1">
                                                     <input type="hidden" class="basedata" id="id" name="id" value="zsdf">
                                                     <input type="hidden" class="basedata"  name="removeId" value="sdfsdfs">
-                                                    <input class="form-control basedata" type="text" id="name" name="name"
+                                                    <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
                                                            data-easytip="position:top;class:easy-red;"
                                                     />
@@ -163,11 +163,11 @@
                                         <td class="success text-red">环境保护管理类别:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 isRadio" name="envmanagtype">
+                                                <div class="col-sm-11 basedata" name="envmanagtype">
                                                     <div class="radio-inline ">
-                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType1 basedata" name="EnvManagType" value="1"/>报告书</label>
-                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType2 basedata" name="EnvManagType" value="2"/>报告表</label>
-                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType3 basedata" name="EnvManagType" value="3"/>登记表</label>
+                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType1" name="EnvManagType" value="1"/>报告书</label>
+                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType2" name="EnvManagType" value="2"/>报告表</label>
+                                                        <label for="EnvManagType"><input type="radio" class="EnvManagType3" name="EnvManagType" value="3"/>登记表</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,7 +177,7 @@
                                         <td class="success text-red">项目性质:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 isRadio" name="buildNature">
+                                                <div class="col-sm-11 basedata" name="buildNature">
                                                     <div class="radio-inline" >
                                                         <label for="buildNature"><input type="radio" class="buildNature1" name="buildNature" value="1"/>新建</label>
                                                         <label for="buildNature"><input type="radio" class="buildNature2" name="buildNature" value="2"/>改扩建</label>
@@ -190,10 +190,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" id="area" name="area"
+                                                    <input class="form-control basedata" type="text" id="area" name="area"
                                                     />
                                                 </div>
-                                                <div class="col-sm-2 selectBtn">
+                                                <div class="col-sm-2 selectBtn basedata">
                                                     <button class="btn btn-sm btn-success">选择</button>
                                                 </div>
                                             </div>
@@ -204,7 +204,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="buildAddress" name="buildAddress" class="form-control" type="text"/>
+                                                    <input id="buildAddress" name="buildAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -212,7 +212,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="industryType" name="industryType" class="form-control" type="text"/>
+                                                    <input id="industryType" name="industryType" class="form-control basedata" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
                                                     <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
@@ -227,7 +227,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="content" name="content" class="form-control" type="text"/>
+                                                    <input id="content" name="content" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -235,7 +235,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="investment" name="investment" class="form-control" type="number"/>
+                                                    <input id="investment" name="investment" class="form-control basedata" type="number"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -245,7 +245,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="EnvInvestment" name="EnvInvestment" class="form-control" type="number"/>
+                                                    <input id="EnvInvestment" name="EnvInvestment" class="form-control basedata" type="number"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -253,7 +253,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="proportion" name="proportion" class="form-control" type="text"/>
+                                                    <input id="proportion" name="proportion" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -265,7 +265,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderName" name="builderName" class="form-control" type="text"/>
+                                                    <input id="builderName" name="builderName" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -273,7 +273,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderTel" name="builderTel" class="form-control" type="text"/>
+                                                    <input id="builderTel" name="builderTel" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -283,7 +283,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderAddress" name="builderAddress" class="form-control" type="text"/>
+                                                    <input id="builderAddress" name="builderAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -291,7 +291,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input  id="builderZipCode" name="builderZipCode" class="form-control" type="text"/>
+                                                    <input  id="builderZipCode" name="builderZipCode" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -301,7 +301,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderAP" name="builderAP" class="form-control" type="text"/>
+                                                    <input id="builderAP" name="builderAP" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -309,7 +309,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="builderLinkman" name="builderLinkman" class="form-control" type="text"/>
+                                                    <input id="builderLinkman" name="builderLinkman" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -320,7 +320,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input name="euName" id="euName" class="form-control" type="text"/>
+                                                    <input name="euName" id="euName" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -328,7 +328,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="euTel" name="euTel" class="form-control" type="text"/>
+                                                    <input id="euTel" name="euTel" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -338,7 +338,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="euAddress" name="euAddress" class="form-control" type="text"/>
+                                                    <input id="euAddress" name="euAddress" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -346,7 +346,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="euZipCode" name="euZipCode" class="form-control" type="text"/>
+                                                    <input id="euZipCode" name="euZipCode" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -356,7 +356,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="certificateCode" name="certificateCode" class="form-control" type="text"/>
+                                                    <input id="certificateCode" name="certificateCode" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -364,7 +364,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input id="certificateMoney" name="certificateMoney" class="form-control" type="number"/>
+                                                    <input id="certificateMoney" name="certificateMoney" class="form-control otherdata" type="number"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -376,7 +376,7 @@
                                             <div class="row">
                                                 <div class="col-sm-11">
                                                     <div id="replyTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control"  name="replyTime" size="16" type="text" value="" readonly
+                                                        <input class="form-control otherdata"  name="replyTime" size="16" type="text" value="" readonly
                                                               >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -408,7 +408,7 @@
                                         <td class="success">是否许可：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 isRadio" name="isLicense">
+                                                <div class="col-sm-11 otherdata" name="isLicense">
                                                     <div class="radio-inline">
                                                         <label for="isLicense"><input type="radio" class="isLicense1" name="isLicense" value="1"/>是</label>
                                                         <label for="isLicense"><input type="radio" class="isLicense0" name="isLicense" value="0"/>否</label>
@@ -442,7 +442,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="hpsave">保存</button>
+                <button type="button" class="btn btn-primary saveButton" id="hpsave">保存</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
@@ -469,10 +469,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input type="hidden"  name="id" class="form-control">
-                                                    <input type="hidden"  name="type" class="form-control">
-                                                    <input type="hidden"  name="removeId">
-                                                    <input type="text"  name="name" class="form-control"/>
+                                                    <input type="hidden"  name="id" class="basedata">
+                                                    <input type="hidden"  name="type" class="basedata">
+                                                    <input type="hidden"  name="removeId" class="basedata">
+                                                    <input type="text"  name="name" class="form-control basedata"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
                                                     <button class="btn btn-sm btn-success">选择</button>
@@ -743,7 +743,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="ysSave">保存</button>
+                <button type="button" class="btn btn-primary saveButton" id="ysSave">保存</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->

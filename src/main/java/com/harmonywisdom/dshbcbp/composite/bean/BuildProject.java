@@ -135,6 +135,10 @@ public class BuildProject implements Serializable {
     private String startDate;
     @Transient
     private String endDate;
+    @Transient
+    private ProjectEIA projectEIA;
+    @Transient
+    private ProjectAcceptance projectAcceptance;
 
     public String getStartDate() {
         return startDate;
@@ -334,5 +338,21 @@ public class BuildProject implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public ProjectEIA getProjectEIA() {
+        return projectEIA;
+    }
+
+    public void setProjectEIA(ProjectEIA projectEIA) {
+        this.projectEIA = projectEIA;
+    }
+
+    public ProjectAcceptance getProjectAcceptance() {
+        return projectAcceptance;
+    }
+
+    public void setProjectAcceptance(ProjectAcceptance projectAcceptance) {
+        this.projectAcceptance = projectAcceptance;
     }
 }
