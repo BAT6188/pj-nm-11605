@@ -11,6 +11,11 @@ var VideoPage = function () {
                 return row.id
             });
         },
+        refreshGridTable:function(){
+            gridTableVideo.bootstrapTable('refresh',{
+                query:{villageEnvId:villageEnvId}
+            });
+        },
 
         /**
          *  获取列表所有的选中数据
@@ -252,15 +257,7 @@ var VideoPage = function () {
     /**============列表搜索相关处理============**/
 //搜索按钮处理
     $("#search").click(function () {
-        var queryParams = {};
-        var name = $("#s_name").val();
-        var principal = $("#s_principal").val();
-        if (name){
-            queryParams["name"] = name;
-        }
-        if (principal){
-            queryParams["principal"] = principal;
-        }
+
         gridTableVideo.bootstrapTable('refresh',{
             query:queryParams
         });
