@@ -598,11 +598,63 @@ var OneImagePage = function () {
                     var portsMap = that.findMarkedPorts(enterprise.id);
                     var markers = [];
                     if (portsMap) {
-                        var PORT_TITLE={};
-                        PORT_TITLE[that.PLANEMAP_PORTDATA_GAS_KEY] = "废气排口信息";
-                        PORT_TITLE[that.PLANEMAP_PORTDATA_WATER_KEY] = "废水排口信息";
-                        PORT_TITLE[that.PLANEMAP_PORTDATA_FUMES_KEY] = "油烟排口信息";
-                        PORT_TITLE[that.PLANEMAP_PORTDATA_NOISE_KEY] = "噪声排口信息";
+                        var portMarkerAttrUtil={
+                            defaultStatus:"0",
+                            getIconByStatus:function(portType,status){
+                                var markAttr = this[portType];
+                                if (!markAttr) {
+                                    return rootPath+"/common/gis/images/markers/mark-icon.png";
+                                }
+                                var iconSrc = markAttr.statusMapIcon[status];
+                                if (!iconSrc) {
+                                    iconSrc = markAttr.statusMapIcon[this.defaultStatus];
+                                }
+                                return iconSrc;
+                            },
+                            getTitle:function (portType) {
+                                var markAttr = this[portType];
+                                if (!markAttr) {
+                                    return "排口信息";
+                                }
+                                return markAttr.title;
+                            }
+
+                        };
+                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_GAS_KEY] = {
+                            title:"废气排口信息",
+                            statusMapIcon:{
+                                "0":rootPath+"/common/gis/images/markers/mark.png",
+                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                                "2":rootPath+"/common/gis/images/markers/state0.png"
+                            }
+                        };
+                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_WATER_KEY] = {
+                            title:"废水排口信息",
+                            statusMapIcon:{
+                                "0":rootPath+"/common/gis/images/markers/mark.png",
+                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                                "2":rootPath+"/common/gis/images/markers/state0.png"
+                            }
+
+                        };
+                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_FUMES_KEY] = {
+                            title:"油烟排口信息",
+                            statusMapIcon:{
+                                "0":rootPath+"/common/gis/images/markers/mark.png",
+                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                                "2":rootPath+"/common/gis/images/markers/state0.png"
+                            }
+
+                        };
+                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_NOISE_KEY] = {
+                            title:"噪声排口信息",
+                            statusMapIcon:{
+                                "0":rootPath+"/common/gis/images/markers/mark.png",
+                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                                "2":rootPath+"/common/gis/images/markers/state0.png"
+                            }
+
+                        };
                         for(var portType in portsMap) {
                             var ports = portsMap[portType];
                             if (ports && ports.length > 0) {
@@ -611,6 +663,7 @@ var OneImagePage = function () {
                                     if (port.planeMapMark) {
                                         var mark = JSON.parse(JSON.parse(port.planeMapMark));
                                         mark.id = port.id;
+                                        mark.src = portMarkerAttrUtil.getIconByStatus(portType, port.portStatus);
                                         mark.attrs = {
                                             portType:portType,
                                             port:port
@@ -622,7 +675,7 @@ var OneImagePage = function () {
                                             var html = that.getPortPopHtml(attrs.portType,attrs.port);
                                                 $this.popover({
                                                     html:true,
-                                                    title:PORT_TITLE[attrs.portType],
+                                                    title:portMarkerAttrUtil.getTitle(attrs.portType),
                                                     placement:"auto bottom",
                                                     content: html,
                                                     container:'body'
