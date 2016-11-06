@@ -60,7 +60,7 @@ var MapDialog = {
             click:function (gra) {
                 that.showEnterpriseInfoWin(gra.data);
             }
-        },this.enterpriseLayer);
+        },this.MAP_LAYER_ENTERPRISE);
     },
     showEnterpriseInfoWin:function(enterprise){
         var height =250;

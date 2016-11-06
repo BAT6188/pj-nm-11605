@@ -200,4 +200,12 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             write(list);
         }
     }
+
+    /**
+     * 查询企业所有已标绘排口
+     */
+    public void queryMarkedPortsByEid(){
+        Map<String, List> portsMap = getService().findMarkedPortsByEnterpriseId(entity.getId());
+        write(portsMap);
+    }
 }

@@ -3,16 +3,23 @@ var OneImagePage = function () {
     var page = {
         zTree:undefined,
         hwmap:undefined,
+        //数据类型标识
         ENTERPRISE_FLAG:"Enterprise",
         NOISEPORT_FLAG:"NoisePort",
         DUSTPORT_FLAG:"DustPort",
+        //地图图层
+        MAP_LAYER_ENTERPRISE:"EnterpriseLayer",
+        MAP_LAYER_BLOCK:"BlockLayer",
+        MAP_LAYER_VILLAGE:"VillageEnvLayer",
+        MAP_LAYER_VIDEOPORT:"VideoLayer",
+        MAP_LAYER_NOISEPORT:"NoisePortLayer",
+        MAP_LAYER_DUSTPORT:"DustPortLayer",
 
-        enterpriseLayer:"EnterpriseLayer",
-        blockLayer:"BlockLayer",
-        villageLayer:"VillageEnvLayer",
-        noisePortLayer:"NoisePortLayer",
-        dustPortLayer:"DustPortLayer",
-        videoPortLayer:"VideoLayer",
+        //平面图排口数据key
+        PLANEMAP_PORTDATA_GAS_KEY:"gasPorts",
+        PLANEMAP_PORTDATA_WATER_KEY:"waterPorts",
+        PLANEMAP_PORTDATA_FUMES_KEY:"fumesPorts",
+        PLANEMAP_PORTDATA_NOISE_KEY:"noisePorts",
         height:$(window).height()-125,
         init: function () {
             this.initMap();
@@ -146,7 +153,7 @@ var OneImagePage = function () {
             var that = this;
             //获取地图显示的markId
             var markers = [];
-            var enterpriseMarkers = that.hwmap.getOverlays(that.enterpriseLayer);
+            var enterpriseMarkers = that.hwmap.getOverlays(that.MAP_LAYER_ENTERPRISE);
             //获取id 查询设备状态
             var ids = that.getIds(enterpriseMarkers);
             if (ids.length <= 0) {
@@ -183,7 +190,7 @@ var OneImagePage = function () {
             var that = this;
             //获取地图显示的markId
             var markers = [];
-            var noiseMarkers = that.hwmap.getOverlays(that.noisePortLayer);
+            var noiseMarkers = that.hwmap.getOverlays(that.MAP_LAYER_NOISEPORT);
             //获取id 查询设备状态
             var ids = that.getIds(noiseMarkers);
             if (ids.length <= 0) {
@@ -216,7 +223,7 @@ var OneImagePage = function () {
             var that = this;
             //获取地图显示的markId
             var markers = [];
-            var dustMarkers = that.hwmap.getOverlays(that.dustPortLayer);
+            var dustMarkers = that.hwmap.getOverlays(that.MAP_LAYER_DUSTPORT);
             //获取id 查询设备状态
             var ids = that.getIds(dustMarkers);
             if (ids.length <= 0) {
@@ -294,20 +301,20 @@ var OneImagePage = function () {
                 click:function (gra) {
                     that.showNoisePortInfoWin(gra.data);
                 }
-            },this.noisePortLayer);
+            },this.MAP_LAYER_NOISEPORT);
         },
         //噪声排口是否监测和监测值映射。方便加载
-        noiseMonitorMap:{
-            'isLeqdb': {'field':'leqdb','lable':'Leq(db)'},
-            'isSd': {'field':'sd','lable':'sd'},
-            'isLmax': {'field':'lmax','lable':'Lmax(dB)'},
-            'isLmin': {'field':'lmin','lable':'Lmin(dB)'},
-            'isLFive': {'field':'lFive','lable':'L5(dB)'},
-            'isLTen': {'field':'lTen','lable':'L10(dB)'},
-            'isLFifty': {'field':'lFifty','lable':'L50(dB)'},
-            'isLNinety': {'field':'lNinety','lable':'L90(dB)'},
-            'isLNinetyFive': {'field':'lNinetyFive','lable':'L95(dB)'},
-            'isLe': {'field':'le','lable':'Le'}
+        NOISE_MONITOR_ITEM_MAP:{
+            'isLeqdb': {'field':'leqdb','label':'Leq(db)'},
+            'isSd': {'field':'sd','label':'sd'},
+            'isLmax': {'field':'lmax','label':'Lmax(dB)'},
+            'isLmin': {'field':'lmin','label':'Lmin(dB)'},
+            'isLFive': {'field':'lFive','label':'L5(dB)'},
+            'isLTen': {'field':'lTen','label':'L10(dB)'},
+            'isLFifty': {'field':'lFifty','label':'L50(dB)'},
+            'isLNinety': {'field':'lNinety','label':'L90(dB)'},
+            'isLNinetyFive': {'field':'lNinetyFive','label':'L95(dB)'},
+            'isLe': {'field':'le','label':'Le'}
 
         },
         showNoisePortInfoWin:function(noisePort){
@@ -319,10 +326,10 @@ var OneImagePage = function () {
                 "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+noisePort.monitorTime+"</td></tr>";
 
             //展示噪声排口监测值
-            for(var isMonitor in this.noiseMonitorMap) {
+            for(var isMonitor in this.NOISE_MONITOR_ITEM_MAP) {
                 if (noisePort[isMonitor] == "1") {
-                    var lable = this.noiseMonitorMap[isMonitor].lable;
-                    var valueField = this.noiseMonitorMap[isMonitor].field;
+                    var lable = this.NOISE_MONITOR_ITEM_MAP[isMonitor].label;
+                    var valueField = this.NOISE_MONITOR_ITEM_MAP[isMonitor].field;
                     var value = pageUtils.getStr(noisePort[valueField]);
                     infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
                 }
@@ -396,7 +403,7 @@ var OneImagePage = function () {
                 click:function (gra) {
                     that.showDustPortInfoWin(gra.data);
                 }
-            },this.dustPortLayer);
+            },this.MAP_LAYER_DUSTPORT);
         },
         //沙尘暴排口是否监测和监测值映射。方便加载
         dustMonitorMap:{
@@ -482,7 +489,7 @@ var OneImagePage = function () {
                     var block = gra.data;
                     that.showBlockInfoWin(block);
                 }
-            },that.blockLayer);
+            },that.MAP_LAYER_BLOCK);
         },
         showBlockInfoWin:function (block) {
             var height =227;
@@ -548,7 +555,7 @@ var OneImagePage = function () {
                 click:function (gra) {
                     that.showEnterpriseInfoWin(gra.data);
                 }
-            },this.enterpriseLayer);
+            },this.MAP_LAYER_ENTERPRISE);
         },
         showEnterpriseInfoWin:function(enterprise){
             var height =250;
@@ -582,20 +589,254 @@ var OneImagePage = function () {
             var that = this;
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
+                //获取企业平面图附件id
                 var attachIds = pageUtils.findAttachmentIds(enterprise.id, "planeMap");
+
                 if (attachIds.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
+                    var portsMap = that.findMarkedPorts(enterprise.id);
+                    var markers = [];
+                    if (portsMap) {
+                        var PORT_TITLE={};
+                        PORT_TITLE[that.PLANEMAP_PORTDATA_GAS_KEY] = "废气排口信息";
+                        PORT_TITLE[that.PLANEMAP_PORTDATA_WATER_KEY] = "废水排口信息";
+                        PORT_TITLE[that.PLANEMAP_PORTDATA_FUMES_KEY] = "油烟排口信息";
+                        PORT_TITLE[that.PLANEMAP_PORTDATA_NOISE_KEY] = "噪声排口信息";
+                        for(var portType in portsMap) {
+                            var ports = portsMap[portType];
+                            if (ports && ports.length > 0) {
+                                for(var i =0; i < ports.length; i++) {
+                                    var port = ports[i];
+                                    if (port.planeMapMark) {
+                                        var mark = JSON.parse(JSON.parse(port.planeMapMark));
+                                        mark.id = port.id;
+                                        mark.attrs = {
+                                            portType:portType,
+                                            port:port
+                                        };
+                                        mark.click = function () {
+                                            //添加提示框
+                                            var $this = $(this[0]);
+                                            var attrs = this.data("attrs");
+                                            var html = that.getPortPopHtml(attrs.portType,attrs.port);
+                                                $this.popover({
+                                                    html:true,
+                                                    title:PORT_TITLE[attrs.portType],
+                                                    placement:"auto bottom",
+                                                    content: html,
+                                                    container:'body'
+                                                });
+                                            $this.popover("toggle");
+                                        };
+                                        markers.push(mark);
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+
+                    //获取企业所有排口的标绘信息
                     PlottingDialog.dialog({
                         show:true,
                         mode:"view",
-                        attachmentId:attachIds
+                        data:markers,
+                        attachmentId:attachIds,
+                        closed:function (model) {
+                            //销毁绑定的提示框
+                            model.find("image").popover("destroy");
+                        }
                     });
 
                 }
 
 
             });
+        },
+
+        /**
+         * 获取企业排口弹出框提示html
+         * @param portType
+         * @param port
+         * @returns {string}
+         */
+        getPortPopHtml: function (portType, port) {
+            var popHtml = "";
+            if (portType == this.PLANEMAP_PORTDATA_GAS_KEY) {
+                popHtml = this.getGasPopHtml(port);
+            }else if(portType == this.PLANEMAP_PORTDATA_WATER_KEY){
+                popHtml = this.getWaterPopHtml(port);
+            }else if(portType == this.PLANEMAP_PORTDATA_FUMES_KEY){
+                popHtml = this.getFumesPopHtml(port);
+            }else if(portType == this.PLANEMAP_PORTDATA_NOISE_KEY){
+                popHtml = this.getNoisePopHtml(port);
+            }else{
+                popHtml += "<div>未找到的排口类型</div>";
+            }
+            return popHtml;
+
+        },
+        GAS_MONITOR_ITEM_MAP:{
+            'isNitrogen': {'field':'nitrogen','label':'氮氧化物(mg/m<sup>3</sup>)'},
+            'isSulfur': {'field':'sulfur','label':'二氧化硫(mg/m<sup>3</sup>)'},
+            'isGasFlow': {'field':'gasFlow','label':'废气流量(m<sup>3</sup>/h)'},
+            'isDust': {'field':'dust','label':'烟尘(mg/m<sup>3</sup>)'},
+            'isOxygen': {'field':'oxygen','label':'氧含量(%)'}
+        },
+        /**
+         * 获取企业平面图废气提示框
+         * @param port
+         */
+        getGasPopHtml:function (gasPort) {
+            var popHtml = "";
+            popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
+                "<tr><td style='text-align: right;width: 130px;'>排口名称:</td><td style='text-align: left;width: 130px;'>"+gasPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(gasPort.monitorTime)+"</td></tr>";
+
+            //展示噪声排口监测值
+            for(var isMonitor in this.GAS_MONITOR_ITEM_MAP) {
+                if (gasPort[isMonitor] == "1") {
+                    var lable = this.GAS_MONITOR_ITEM_MAP[isMonitor].label;
+                    var valueField = this.GAS_MONITOR_ITEM_MAP[isMonitor].field;
+                    var value = pageUtils.getStr(gasPort[valueField]);
+                    popHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
+                }
+            }
+            if (gasPort.portStatus == "1") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+            }else if (gasPort.portStatus == "2") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+            }else {
+
+            }
+
+            popHtml += "</table>";
+
+            return popHtml;
+        },
+        WATER_MONITOR_ITEM_MAP:{
+            'isFlow': {'field':'flow','label':'流量(L/s))'},
+            'isOxygen': {'field':'oxygen','label':'化学需氧量(mg/L)'},
+            'isNitrogen': {'field':'nitrogen','label':'氨氮(mg/L)'},
+            'isPh': {'field':'ph','label':'ph值(mg/L)'}
+        },
+        /**
+         * 获取企业平面图废气提示框
+         * @param port
+         */
+        getWaterPopHtml:function (waterPort) {
+            var popHtml = "";
+            popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
+                "<tr><td style='text-align: right;width: 130px;'>排口名称:</td><td style='text-align: left;width: 130px;'>"+waterPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(waterPort.monitorTime)+"</td></tr>";
+
+            //展示噪声排口监测值
+            for(var isMonitor in this.WATER_MONITOR_ITEM_MAP) {
+                if (waterPort[isMonitor] == "1") {
+                    var lable = this.WATER_MONITOR_ITEM_MAP[isMonitor].label;
+                    var valueField = this.WATER_MONITOR_ITEM_MAP[isMonitor].field;
+                    var value = pageUtils.getStr(waterPort[valueField]);
+                    popHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
+                }
+            }
+            if (waterPort.portStatus == "1") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+            }else if (waterPort.portStatus == "2") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+            }else {
+
+            }
+
+            popHtml += "</table>";
+
+            return popHtml;
+        },
+        FUMES_MONITOR_ITEM_MAP:{
+            'isFumes': {'field':'fumes','label':'油烟(mg/L)'},
+            'isTemperature': {'field':'temperature','label':'烟气温度(°C)'},
+            'isHumidity': {'field':'humidity','label':'烟气湿度(%)'}
+        },
+        /**
+         * 获取企业平面图废气提示框
+         * @param port
+         */
+        getFumesPopHtml:function (fumesPort) {
+            var popHtml = "";
+            popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
+                "<tr><td style='text-align: right;width: 130px;'>排口名称:</td><td style='text-align: left;width: 130px;'>"+fumesPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(fumesPort.monitorTime)+"</td></tr>";
+
+            //展示噪声排口监测值
+            for(var isMonitor in this.FUMES_MONITOR_ITEM_MAP) {
+                if (fumesPort[isMonitor] == "1") {
+                    var lable = this.FUMES_MONITOR_ITEM_MAP[isMonitor].label;
+                    var valueField = this.FUMES_MONITOR_ITEM_MAP[isMonitor].field;
+                    var value = pageUtils.getStr(fumesPort[valueField]);
+                    popHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
+                }
+            }
+            if (fumesPort.portStatus == "1") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+            }else if (fumesPort.portStatus == "2") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+            }else {
+
+            }
+
+            popHtml += "</table>";
+
+            return popHtml;
+        },
+        /**
+         * 获取企业平面图废气提示框
+         * @param port
+         */
+        getNoisePopHtml:function (noisePort) {
+            var popHtml = "";
+            popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
+                "<tr><td style='text-align: right;width: 130px;'>排口名称:</td><td style='text-align: left;width: 130px;'>"+noisePort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.monitorTime)+"</td></tr>";
+
+            //展示噪声排口监测值
+            for(var isMonitor in this.NOISE_MONITOR_ITEM_MAP) {
+                if (noisePort[isMonitor] == "1") {
+                    var lable = this.NOISE_MONITOR_ITEM_MAP[isMonitor].label;
+                    var valueField = this.NOISE_MONITOR_ITEM_MAP[isMonitor].field;
+                    var value = pageUtils.getStr(noisePort[valueField]);
+                    popHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
+                }
+            }
+            if (noisePort.portStatus == "1") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+            }else if (noisePort.portStatus == "2") {
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+            }else {
+
+            }
+
+            popHtml += "</table>";
+
+            return popHtml;
+        },
+        /**
+         * 查询企业所有已标绘的排口
+         * @param enterpriseId
+         */
+        findMarkedPorts:function (enterpriseId) {
+            var result;
+            $.ajax({
+                url:rootPath + "/action/S_enterprise_Enterprise_queryMarkedPortsByEid.action",
+                type:"post",
+                async:false,
+                dataType:"json",
+                data:{'id':enterpriseId},
+                success:function (portsMap) {
+                    result = portsMap
+                }
+            });
+            return result;
         },
         /**
          * 加载农村及摄像头
@@ -639,7 +880,7 @@ var OneImagePage = function () {
                     var village = gra.data;
                     that.showVillageInfoWin(village);
                 }
-            },that.villageLayer);
+            },that.MAP_LAYER_VILLAGE);
         },
         showVillageInfoWin:function(village){
             var height =260;
@@ -689,7 +930,7 @@ var OneImagePage = function () {
                 click:function (gra) {
                     that.showVideoInfoWin(gra.data);
                 }
-            },this.villageLayer);
+            },this.MAP_LAYER_VILLAGE);
         },
         showVideoInfoWin:function(video){
             var height =150;

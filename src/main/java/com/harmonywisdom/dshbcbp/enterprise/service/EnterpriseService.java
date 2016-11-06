@@ -46,4 +46,11 @@ public interface EnterpriseService extends IBaseService<Enterprise, String> {
     List<Map<String,String>> queryEnterpriseAlertStatus(String... ids);
 
     String updateEnterprise(Enterprise enterprise);
+
+    /**
+     * 查询企业所有已标绘排口
+     * @param enterpriseId
+     * @return{排口类型,对应排口list}
+     */
+    Map<String,List> findMarkedPortsByEnterpriseId(String enterpriseId);
 }
