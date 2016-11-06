@@ -23,6 +23,10 @@ var pageUtils = {
         //console.log($('.dealBox').outerHeight(true)+$('.banner').outerHeight(true)+$('.linear').outerHeight(true));
         return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true)-8;
     },
+    getFormHeight:function (fitHeight) {
+        var screenHeight = $(window).height()-220;
+        return screenHeight>fitHeight?fitHeight:screenHeight;
+    },
     /**
      * 转换bootstrapTable 参数为本地参数
      * @param params

@@ -323,7 +323,7 @@ var OneImagePage = function () {
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
                 "<tr><td style='text-align: right;width: 100px;'>监测点:</td><td style='text-align: left;'>"+noisePort.name+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+noisePort.monitorTime+"</td></tr>";
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.monitorTime)+"</td></tr>";
 
             //展示噪声排口监测值
             for(var isMonitor in this.NOISE_MONITOR_ITEM_MAP) {
@@ -334,20 +334,39 @@ var OneImagePage = function () {
                     infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
                 }
             }
-            infoHtml+="<tr><td style='text-align: right;'>昼间上限(dB):</td><td style='text-align: left;'>"+noisePort.dayMax+"</td></tr>"+
-                "<tr><td style='text-align: right;'>夜间上限(dB):</td><td style='text-align: left;'>"+noisePort.nightMax+"</td></tr>"+
-                "</table>";
+            infoHtml+="<tr><td style='text-align: right;'>昼间上限(dB):</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.dayMax)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>夜间上限(dB):</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.nightMax)+"</td></tr>";
+            if (noisePort.portStatus == "1") {
+                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>超标信息</button></td></tr>";
+            }else if (noisePort.portStatus == "2") {
+                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>异常信息</button></td></tr>";
+            }else {
+
+            }
+            infoHtml += "</table>";
+
             infoHtml += "</div>";
 
 
             //显示信息窗口
-            this.hwmap.showInfoWindow({
+            var infoWindowDom = this.hwmap.showInfoWindow({
                 x:noisePort.longitude,
                 y:noisePort.latitude,
                 width:300,
                 height:height,
                 html:infoHtml,
                 title:"噪音监测设备"
+            });
+            $(infoWindowDom).find(".show-status-btn").bind("click",function () {
+                var portId = $(this).data("port-id");
+                var text = $(this).text();
+                var result = PortStatusFormView.setPortId(portId);
+                if (result) {
+                    PortStatusFormView.open();
+                }else{
+                    Ewin.alert({message:"未找到"+text});
+                }
+
             });
         },
 
@@ -434,17 +453,36 @@ var OneImagePage = function () {
                     infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
                 }
             }
+            if (dustPort.portStatus == "1") {
+                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+dustPort.id+"'>超标信息</button></td></tr>";
+            }else if (dustPort.portStatus == "2") {
+                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+dustPort.id+"'>异常信息</button></td></tr>";
+            }else {
+
+            }
+            infoHtml += "</table>";
             infoHtml += "</div>";
 
 
             //显示信息窗口
-            this.hwmap.showInfoWindow({
+            var infoWindowDom = this.hwmap.showInfoWindow({
                 x:dustPort.longitude,
                 y:dustPort.latitude,
                 width:300,
                 height:height,
                 html:infoHtml,
                 title:"沙尘暴监测设备"
+            });
+            $(infoWindowDom).find(".show-status-btn").bind("click",function () {
+                var portId = $(this).data("port-id");
+                var text = $(this).text();
+                var result = PortStatusFormView.setPortId(portId);
+                if (result) {
+                    PortStatusFormView.open();
+                }else{
+                    Ewin.alert({message:"未找到"+text});
+                }
+
             });
         },
 
@@ -680,7 +718,21 @@ var OneImagePage = function () {
                                                     content: html,
                                                     container:'body'
                                                 });
-                                            $this.popover("toggle");
+                                            var popoverId = $this.popover("toggle").attr("aria-describedby");
+                                            var port = attrs.port;
+                                            if (port.portStatus != "0") {
+                                                $("#" + popoverId).find(".show-status-btn").bind("click", function () {
+                                                    var portId = $(this).data("port-id");
+                                                    var text = $(this).text();
+                                                    var result = PortStatusFormView.setPortId(portId);
+                                                    if (result) {
+                                                        PortStatusFormView.open();
+                                                    } else {
+                                                        Ewin.alert({message: "未找到" + text});
+                                                    }
+                                                });
+                                            }
+
                                         };
                                         markers.push(mark);
                                     }
@@ -758,9 +810,9 @@ var OneImagePage = function () {
                 }
             }
             if (gasPort.portStatus == "1") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+gasPort.id+"'>超标信息</button></td></tr>";
             }else if (gasPort.portStatus == "2") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+gasPort.id+"'>异常信息</button></td></tr>";
             }else {
 
             }
@@ -795,9 +847,9 @@ var OneImagePage = function () {
                 }
             }
             if (waterPort.portStatus == "1") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+waterPort.id+"'>超标信息</button></td></tr>";
             }else if (waterPort.portStatus == "2") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+waterPort.id+"'>异常信息</button></td></tr>";
             }else {
 
             }
@@ -831,9 +883,9 @@ var OneImagePage = function () {
                 }
             }
             if (fumesPort.portStatus == "1") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+fumesPort.id+"'>超标信息</button></td></tr>";
             }else if (fumesPort.portStatus == "2") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+fumesPort.id+"'>异常信息</button></td></tr>";
             }else {
 
             }
@@ -862,9 +914,9 @@ var OneImagePage = function () {
                 }
             }
             if (noisePort.portStatus == "1") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>超标信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>超标信息</button></td></tr>";
             }else if (noisePort.portStatus == "2") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm'>异常信息</button></td></tr>";
+                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>异常信息</button></td></tr>";
             }else {
 
             }
