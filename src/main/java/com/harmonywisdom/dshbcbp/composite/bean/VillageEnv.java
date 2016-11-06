@@ -44,8 +44,7 @@ public class VillageEnv implements Serializable {
     /**
      *位置坐标
      */
-    @Lob
-    @Column(name = "POINTS",length = 100)
+    @Column(name = "POINTS")
     private String points;
     /**
      *环境详情
