@@ -90,14 +90,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="points" class="col-sm-2 control-label">位置标绘<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="button" id="points" name="points" class="form-control"
-                             value="地图标绘"/>
-                        </div>
-                        <div class="col-sm-4">
-                            <input type="button" id="tel" name="tel" class="form-control"
-                                   value="摄像头标绘"/>
+                            <label for="points" class="col-sm-2 control-label">位置标绘<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                        <textarea  id="points" name="points" class="form-control" rows="3"
+                        ></textarea>
+                            <span class="input-group-btn">
+                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                                        标注
+                                    </button>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -141,6 +142,29 @@
         </div>
     </div>
     </div>
+<%@include file="/common/gis/map_mark.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/villageenv.js"></script>
+<script>
+    $(function(){
+        initMapBtn();
+    });
+    /*初始化标注按钮*/
+    function initMapBtn(){
+        $('#mapMarkBtn').bind('click', function () {
+            //设置标绘模式
+            //绑定markDialog关闭事件
+            MapMarkDialog.closed(function (mark) {
+                if (mark) {
+                    $("#points").val(mark);
+                }else{
+                    Ewin.alert({message:"请选择坐标"});
+                    return false;
+                }
+            });
+            MapMarkDialog.setMode("polygon");
+            MapMarkDialog.open();
+        })
+    }
+</script>
 </body>
 </html>

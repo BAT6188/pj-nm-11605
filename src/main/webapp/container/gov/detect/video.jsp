@@ -12,12 +12,6 @@
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
-                <div class="sideTitle left">
-                        <span class="blueMsg">
-                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
-                            <span class="text">查询</span>
-                        </span>
-                </div>
                 <p class="btnListP">
                     <button id="addVideo" type="button" class="btn btn-sm btn-success">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -78,7 +72,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="latitude" name="latitude" readonly>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                                    <button class="btn btn-default formBtn" type="button" id="mapVideoBtn">
                                         标注
                                     </button>
                                 </span>
@@ -101,7 +95,6 @@
         </div>
     </div>
 </div>
-<%@include file="/common/gis/map_mark.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/video.js"></script>
 <script>
     $(function(){
@@ -109,17 +102,17 @@
     });
     /*初始化标注按钮*/
     function initMapBtn(){
-        //绑定markDialog关闭事件
-        MapMarkDialog.closed(function (mark) {
-            if (mark) {
-                $("#longitude").val(mark.x);
-                $("#latitude").val(mark.y);
-            }else{
-                Ewin.alert({message:"请选择坐标"});
-                return false;
-            }
-        });
-        $('#mapMarkBtn').bind('click', function () {
+        $('#mapVideoBtn').bind('click', function () {
+            //绑定markDialog关闭事件
+            MapMarkDialog.closed(function (mark) {
+                if (mark) {
+                    $("#longitude").val(mark.x);
+                    $("#latitude").val(mark.y);
+                }else{
+                    Ewin.alert({message:"请选择坐标"});
+                    return false;
+                }
+            });
             //设置标绘模式
             MapMarkDialog.setMode("point");
             MapMarkDialog.open();

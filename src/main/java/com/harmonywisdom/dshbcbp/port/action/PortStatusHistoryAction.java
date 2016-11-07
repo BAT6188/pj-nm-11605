@@ -4,10 +4,7 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory;
 import com.harmonywisdom.dshbcbp.port.service.PortStatusHistoryService;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryOperator;
-import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
@@ -144,10 +141,15 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
     /**
      * 获取设备最新状态
      */
-    public void getPortNewStatus(){
-        String[] ids = request.getParameterValues("ids");
-        List<String> idList = Arrays.asList(ids);
-        List<PortStatusHistory> statuses = getService().find("portId in ?1 or enterpriseId in ?2", idList, idList);
+    public void getLastByPortId(){
+        String portId = request.getParameter("portId");
+        QueryResult<PortStatusHistory> result = getService().find("portId = ?1", new Paging(1),portId);
+        if (result.getRows() != null && result.getRows().size() > 0) {
+            PortStatusHistory lastStatus = result.getRows().get(0);
+            write(lastStatus);
+        }else {
+            write(false);
+        }
 
     }
 

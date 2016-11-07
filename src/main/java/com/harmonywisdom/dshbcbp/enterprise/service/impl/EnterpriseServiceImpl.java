@@ -206,4 +206,29 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         List<Enterprise> list = getDAO().find("id in ?1", Arrays.asList(ids));
         return list;
     }
+
+    @Override
+    public Map<String,List> findMarkedPortsByEnterpriseId(String enterpriseId) {
+        Map<String, List> portsMap = new HashMap<>();
+        List<GasPort> gasPorts = gasPortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
+        if (gasPorts != null && gasPorts.size() > 0) {
+            portsMap.put("gasPorts", gasPorts);
+        }
+
+        List<WaterPort> waterPorts = waterPortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
+        if (waterPorts != null && waterPorts.size() > 0) {
+            portsMap.put("waterPorts", waterPorts);
+        }
+
+        List<FumesPort> fumesPorts = fumesPortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
+        if (fumesPorts != null && fumesPorts.size() > 0) {
+            portsMap.put("fumesPorts", fumesPorts);
+        }
+
+        List<NoisePort> noisePorts = noisePortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
+        if (noisePorts != null && noisePorts.size() > 0) {
+            portsMap.put("noisePorts", noisePorts);
+        }
+        return portsMap;
+    }
 }

@@ -122,7 +122,7 @@ public class WaterPort implements Serializable {
     private Date monitorTime;
 
     /**
-     * 流量
+     * 流量(L/s)
      */
     @Column(name = "flow")
     private Double flow;
@@ -134,7 +134,7 @@ public class WaterPort implements Serializable {
     private String isFlow;
 
     /**
-     * 化学需氧量
+     * 化学需氧量(mg/L)
      */
     @Column(name = "oxygen")
     private Double oxygen;
@@ -146,7 +146,7 @@ public class WaterPort implements Serializable {
     private String isOxygen;
 
     /**
-     * 氨氮
+     * 氨氮(mg/L)
      */
     @Column(name = "nitrogen")
     private Double nitrogen;
@@ -158,7 +158,7 @@ public class WaterPort implements Serializable {
     private String isNitrogen;
 
     /**
-     * ph值
+     * ph值(mg/L)
      */
     @Column(name = "ph")
     private Double ph;

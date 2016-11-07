@@ -120,15 +120,18 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">详情</button>'
-    +'&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" data-villageenv-id="'+row.id+'" data-toggle="modal" data-target="#lookVideo">视频</button>';
+    +'&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning video" data-villageenv-id="'+row.id+'" data-toggle="modal" data-target="#lookVideo">视频</button>';
 
 }
 var villageEnvId;
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        VideoPage.villageEnvId = $(this).data("villageenv-id");
         setFormView(row);
+    },
+    'click .video': function (e, value, row, index) {
+        VideoPage.villageEnvId = $(this).data("villageenv-id");
+        VideoPage.refreshGridTable();
     }
 };
 /**

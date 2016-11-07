@@ -255,12 +255,26 @@
                             break;
                     }
                     var shape = that.paper[v.type].apply(that.paper, args);
+                    if (v.id) {
+                        shape.id = v.id;
+                    }
                     shape.data('attrs', v.attrs);
                     if ('none' !== v.fill) {
                         shape.attr('fill', v.fill);
                     }
                     shape.attr('fill-opacity', v['fill-opacity']);
                     shape.attr('stroke', v.stroke);
+
+                    //绑定事件
+                    if (typeof(v.click) === "function"){
+                        shape.click(v.click);
+                    }
+                    if (typeof(v.mouseover) === "function"){
+                        shape.mouseover(v.mouseover);
+                    }
+                    if (typeof(v.mouseout) === "function"){
+                        shape.mouseout(v.mouseout);
+                    }
                     that.el.trigger(PLOTTING, [shape]);
                 });
             } else {

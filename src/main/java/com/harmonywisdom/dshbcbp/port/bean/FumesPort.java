@@ -50,19 +50,19 @@ public class FumesPort implements Serializable {
     private String portStatus;
 
     /**
-     * 油烟
+     * 油烟(mg/L)
      */
     @Column(name = "fumes")
     private Double fumes;
 
     /**
-     * 烟气温度
+     * 烟气温度(°C)
      */
     @Column(name = "temperature")
     private Double temperature;
 
     /**
-     * 烟气湿度
+     * 烟气湿度(%)
      */
     @Column(name = "humidity")
     private Double humidity;

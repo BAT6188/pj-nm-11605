@@ -47,11 +47,13 @@ var PlottingDialog = function(){
             that._plottingEle.bind("plotting", function (e, shape) {
                 markers.push(shape);
             });
+            that._model.modal('hide')
             that._model.find(".btn-save").bind('click', function (e) {
                 var result = that._closed(JSON.stringify(that._plotting.data()[0]));
                 if (!(result === false)) {
                     that._model.modal('hide');
                 }
+
             });
         },
         /**
@@ -128,6 +130,12 @@ var PlottingDialog = function(){
                     if (options["callback"]) {
                         this.closed(options["callback"]);
                     }
+                    if (options["closed"]) {
+                        var that = this;
+                        this._model.on("hide.bs.modal",function () {
+                            options["closed"](that._model);
+                        });
+                    }
                     if (options["show"] !== false) {
                         this.show();
                     }
@@ -136,7 +144,9 @@ var PlottingDialog = function(){
                         if (typeof(data) === "string") {
                             data = JSON.parse(data);
                         }
-                        if (typeof(data) === "object") {
+                        if (Array.isArray(data)) {
+
+                        }else if (typeof(data) === "object") {
                             data = [data];
                         }
                         var that = this;
@@ -166,6 +176,8 @@ var PlottingDialog = function(){
     attachmentId:enterprise.planeMap,
     callback:function (marker) {
         console.dir(marker);
+    },
+    closed:function(){
     }
 });*/
 
