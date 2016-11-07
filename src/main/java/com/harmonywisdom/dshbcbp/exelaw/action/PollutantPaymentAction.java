@@ -47,7 +47,7 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
             params.andParam(new QueryParam("payDate", QueryOperator.GE, DateUtil.strToDate(startYdate,"yyyy-MM-dd")));
         }
         if (StringUtils.isNotBlank(lastYdate)) {
-            lastYdate+="23:59:59";
+            lastYdate+=" 23:59:59";
             params.andParam(new QueryParam("payDate", QueryOperator.LE, DateUtil.strToDate(lastYdate,"yyyy-MM-dd")));
         }
 
