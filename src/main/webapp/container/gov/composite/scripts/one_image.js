@@ -1,12 +1,18 @@
 //@ sourceURL=one_image.js
 var OneImagePage = function () {
+    var Constant = {
+        //数据类型标识
+        GASPORT_FLAG: "GasPort",
+        WATERPORT_FLAG: "WaterPort",
+        NOISEPORT_FLAG: "NoisePort",
+        DUSTPORT_FLAG: "DustPort",
+        FUMESPORT_FLAG: "FumesPort",
+        ENTERPRISE_FLAG: "Enterprise"
+    };
     var page = {
         zTree:undefined,
         hwmap:undefined,
-        //数据类型标识
-        ENTERPRISE_FLAG:"Enterprise",
-        NOISEPORT_FLAG:"NoisePort",
-        DUSTPORT_FLAG:"DustPort",
+
         //地图图层
         MAP_LAYER_ENTERPRISE:"EnterpriseLayer",
         MAP_LAYER_BLOCK:"BlockLayer",
@@ -15,11 +21,6 @@ var OneImagePage = function () {
         MAP_LAYER_NOISEPORT:"NoisePortLayer",
         MAP_LAYER_DUSTPORT:"DustPortLayer",
 
-        //平面图排口数据key
-        PLANEMAP_PORTDATA_GAS_KEY:"gasPorts",
-        PLANEMAP_PORTDATA_WATER_KEY:"waterPorts",
-        PLANEMAP_PORTDATA_FUMES_KEY:"fumesPorts",
-        PLANEMAP_PORTDATA_NOISE_KEY:"noisePorts",
         height:$(window).height()-125,
         init: function () {
             this.initMap();
@@ -27,7 +28,7 @@ var OneImagePage = function () {
             var that = this;
             //定时加载排口，企业报警
             var alertTimer = setInterval(function () {
-                that.loadPortNewStatus();
+                that.refreshPortStatusToMap();
             }, 5000);
             $(window).one("menuchange",function () {
                 clearInterval(alertTimer);
@@ -108,9 +109,9 @@ var OneImagePage = function () {
             mapWindow.initMapFinish = function (hwmapCommon) {
                 that.hwmap = hwmapCommon;
                 //默认显示 噪声 沙尘暴排口和 企业
-                var nnode = that.zTree.getNodesByParam("type",that.NOISEPORT_FLAG);
-                var dnode = that.zTree.getNodesByParam("type",that.DUSTPORT_FLAG);
-                var enode = that.zTree.getNodesByParam("type",that.ENTERPRISE_FLAG);
+                var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
+                var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
+                var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
                 that.zTree.checkNode(nnode[0],true,true,true);
                 that.zTree.checkNode(dnode[0],true,true,true);
                 that.zTree.checkNode(enode[0],true,true,true);
@@ -128,31 +129,37 @@ var OneImagePage = function () {
             return ids;
         },
         /**
-         * 根据排口超标记录状态 设置标绘是否报警
-         * @param portStatus
+         * 更新标绘信息
+         * @param markId 标绘id
+         * @param image 标绘图标
+         * @param data marker绑定数据
          */
-        setMarkerImage:function (markId, image) {
+        updateMarker:function (markId, image, data) {
             var mark = this.hwmap.getOverlay(markId);
             if (!mark) {
                 return;
             }
-            mark.imgSrc = image;
+            if (image) {
+                mark.imgSrc = image;
+            }
+            if (data) {
+                mark.data = data;
+            }
             this.hwmap.updateMarker(mark);
         },
 
         /**
-         * 加载设备超标历史记录
-         * 并设置地图显示图标
+         * 加载刷新设备状态
+         * 并设置地图显示图标 及弹窗显示
          */
-        loadPortNewStatus:function () {
-            this.loadEnterprisePortNewStatus();
-            this.loadNoisePortNewStatus();
-            this.loadDustPortNewStatus();
+        refreshPortStatusToMap:function () {
+            this.refreshEnterprisePortStatusToMap();
+            this.refreshNoisePortStatusToMap();
+            this.refreshDustPortStatusToMap();
         },
-        loadEnterprisePortNewStatus:function () {
+        refreshEnterprisePortStatusToMap:function () {
             var that = this;
             //获取地图显示的markId
-            var markers = [];
             var enterpriseMarkers = that.hwmap.getOverlays(that.MAP_LAYER_ENTERPRISE);
             //获取id 查询设备状态
             var ids = that.getIds(enterpriseMarkers);
@@ -166,30 +173,22 @@ var OneImagePage = function () {
                 data:$.param({'ids':ids},true),
                 success:function (enterpriseAlertStatus) {
                     if (enterpriseAlertStatus && enterpriseAlertStatus.length > 0) {
-                        var statusMapImage = {
-                            '0': 'images/markers/company.png',
-                            '1': 'images/markers/company_alert.gif'
-                        };
                         for (var i = 0; i < enterpriseAlertStatus.length; i++) {
                             var eas = enterpriseAlertStatus[i];
-                            var image = statusMapImage[eas.status];
-                            if (!image) {
-                                image = 'images/markers/company.png';
-                            }
-                            that.setMarkerImage(eas.id, image);
+                            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG,eas.status);
+                            that.updateMarker(eas.id, image);
                         }
                     }
                 }
             });
         },
         /**
-         * 加载噪音排口 最新状态
-         * 并更新地图显示排口图标
+         * 加载刷新噪音排口 状态
+         * 并更新地图显示排口图标 及弹窗显示
          */
-        loadNoisePortNewStatus:function () {
+        refreshNoisePortStatusToMap:function () {
             var that = this;
             //获取地图显示的markId
-            var markers = [];
             var noiseMarkers = that.hwmap.getOverlays(that.MAP_LAYER_NOISEPORT);
             //获取id 查询设备状态
             var ids = that.getIds(noiseMarkers);
@@ -198,31 +197,22 @@ var OneImagePage = function () {
             }
             that.loadNoisePort(ids, function (noises) {
                 if (noises && noises.length > 0) {
-                    var statusMapImage = {
-                        '0': 'images/markers/noise.png',
-                        '1': 'images/markers/company_alert.gif',
-                        '2': 'images/markers/bike0.png'
-                    };
                     for (var i = 0; i < noises.length; i++) {
                         var noise = noises[i];
-                        var image = statusMapImage[noise.portStatus];
-                        if (!image) {
-                            image = 'images/markers/bike0.png';
-                        }
-                        that.setMarkerImage(noise.id, image);
+                        var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.NOISEPORT_FLAG,noise.portStatus);
+                        that.updateMarker(noise.id, image, noise);
                     }
                 }
             });
         },
 
         /**
-         * 加载噪音排口 最新状态
-         * 并更新地图显示排口图标
+         * 加载刷新噪音排口 最新状态
+         * 并更新地图显示排口图标 及弹窗显示
          */
-        loadDustPortNewStatus:function () {
+        refreshDustPortStatusToMap:function () {
             var that = this;
             //获取地图显示的markId
-            var markers = [];
             var dustMarkers = that.hwmap.getOverlays(that.MAP_LAYER_DUSTPORT);
             //获取id 查询设备状态
             var ids = that.getIds(dustMarkers);
@@ -231,23 +221,62 @@ var OneImagePage = function () {
             }
             that.loadDustPort(ids, function (dusts) {
                 if (dusts && dusts.length > 0) {
-                    var statusMapImage = {
-                        '0': 'images/markers/dust.png',
-                        '1': 'images/markers/company_alert.gif',
-                        '2': 'images/markers/noise.png'
-                    };
                     for (var i = 0; i < dusts.length; i++) {
                         var dust = dusts[i];
-                        var image = statusMapImage[dust.portStatus];
-                        if (!image) {
-                            image = 'images/markers/bike0.png';
-                        }
-                        that.setMarkerImage(dust.id, image);
+                        var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.DUSTPORT_FLAG,dust.portStatus);
+                        that.updateMarker(dust.id, image, dust);
                     }
                 }
             });
         },
 
+        portStatusMapMarkerIconUtil:function () {
+            var iconUtil = {
+                _init:function () {
+                    this[Constant.GASPORT_FLAG] = {
+                        "0":rootPath+"/common/gis/images/markers/mark.png",
+                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                    };
+                    this[Constant.WATERPORT_FLAG] = {
+                        "0":rootPath+"/common/gis/images/markers/mark.png",
+                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                    };
+                    this[Constant.NOISEPORT_FLAG] = {
+                        '0': rootPath+'/common/gis/images/markers/noise.png',
+                        '1': rootPath+'/common/gis/images/markers/company_alert.gif',
+                        '2': rootPath+'/common/gis/images/markers/bike0.png'
+                    };
+                    this[Constant.DUSTPORT_FLAG] = {
+                        '0': rootPath+'/common/gis/images/markers/dust.png',
+                        '1': rootPath+'/common/gis/images/markers/company_alert.gif',
+                        '2': rootPath+'/common/gis/images/markers/noise.png'
+                    };
+                    this[Constant.FUMESPORT_FLAG] = {
+                        "0":rootPath+"/common/gis/images/markers/mark.png",
+                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
+                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                    };
+                    this[Constant.ENTERPRISE_FLAG] = {
+                        '0': rootPath+'/common/gis/images/markers/company.png',
+                        '1': rootPath+'/common/gis/images/markers/company_alert.gif'
+                    };
+                },
+                getIcon:function (type,status) {
+                    var iconMap = this[type];
+                    if (iconMap) {
+                        var icon = iconMap[status];
+                        if (!icon) {//没有找到状态图标，返回正常状态图标
+                            icon = iconMap["0"];
+                        }
+                        return icon;
+                    }
+                }
+            };
+            iconUtil._init();
+            return iconUtil;
+        }(),
 
 
 
@@ -256,7 +285,6 @@ var OneImagePage = function () {
          * @param ids
          */
         loadNoisePort:function (ids,callback) {
-            var that = this;
             $.ajax({
                 url:rootPath + "/action/S_port_NoisePort_findByIds.action",
                 type:"post",
@@ -289,11 +317,12 @@ var OneImagePage = function () {
                 return false;
             }
             var that = this;
+            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.NOISEPORT_FLAG,noisePort.portStatus);
             this.hwmap.addMarker({
                 id:noisePort.id,
                 data:noisePort,
-                type:that.NOISEPORT_FLAG,
-                imaSrc:"images/markers/noise.png",
+                type:Constant.NOISEPORT_FLAG,
+                imaSrc:image,
                 width:34,
                 height:39,
                 x:noisePort.longitude,
@@ -410,11 +439,12 @@ var OneImagePage = function () {
                 return false;
             }
             var that = this;
+            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.DUSTPORT_FLAG,dustPort.portStatus);
             this.hwmap.addMarker({
                 id:dustPort.id,
                 data:dustPort,
-                type:that.DUSTPORT_FLAG,
-                imaSrc:"images/markers/dust.png",
+                type:Constant.DUSTPORT_FLAG,
+                imaSrc:image,
                 width:33,
                 height:37,
                 x:dustPort.longitude,
@@ -584,7 +614,7 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:enterprise.id,
                 data:enterprise,
-                type:that.ENTERPRISE_FLAG,
+                type:Constant.ENTERPRISE_FLAG,
                 imaSrc:"images/markers/company.png",
                 width:40,
                 height:40,
@@ -636,63 +666,19 @@ var OneImagePage = function () {
                     var portsMap = that.findMarkedPorts(enterprise.id);
                     var markers = [];
                     if (portsMap) {
-                        var portMarkerAttrUtil={
-                            defaultStatus:"0",
-                            getIconByStatus:function(portType,status){
-                                var markAttr = this[portType];
-                                if (!markAttr) {
-                                    return rootPath+"/common/gis/images/markers/mark-icon.png";
-                                }
-                                var iconSrc = markAttr.statusMapIcon[status];
-                                if (!iconSrc) {
-                                    iconSrc = markAttr.statusMapIcon[this.defaultStatus];
-                                }
-                                return iconSrc;
-                            },
-                            getTitle:function (portType) {
-                                var markAttr = this[portType];
-                                if (!markAttr) {
-                                    return "排口信息";
-                                }
-                                return markAttr.title;
+                        function getTitle(portType) {
+                            var title = "排口信息";
+                            if (portType == Constant.GASPORT_FLAG) {
+                                return "废气"+title;
+                            }else if (portType == Constant.WATERPORT_FLAG) {
+                                return "废水"+title;
+                            }else if (portType == Constant.FUMESPORT_FLAG) {
+                                return "油烟"+title;
+                            }else if (portType == Constant.NOISEPORT_FLAG) {
+                                return "噪声"+title;
                             }
-
-                        };
-                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_GAS_KEY] = {
-                            title:"废气排口信息",
-                            statusMapIcon:{
-                                "0":rootPath+"/common/gis/images/markers/mark.png",
-                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                                "2":rootPath+"/common/gis/images/markers/state0.png"
-                            }
-                        };
-                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_WATER_KEY] = {
-                            title:"废水排口信息",
-                            statusMapIcon:{
-                                "0":rootPath+"/common/gis/images/markers/mark.png",
-                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                                "2":rootPath+"/common/gis/images/markers/state0.png"
-                            }
-
-                        };
-                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_FUMES_KEY] = {
-                            title:"油烟排口信息",
-                            statusMapIcon:{
-                                "0":rootPath+"/common/gis/images/markers/mark.png",
-                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                                "2":rootPath+"/common/gis/images/markers/state0.png"
-                            }
-
-                        };
-                        portMarkerAttrUtil[that.PLANEMAP_PORTDATA_NOISE_KEY] = {
-                            title:"噪声排口信息",
-                            statusMapIcon:{
-                                "0":rootPath+"/common/gis/images/markers/mark.png",
-                                "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                                "2":rootPath+"/common/gis/images/markers/state0.png"
-                            }
-
-                        };
+                            return title;
+                        }
                         for(var portType in portsMap) {
                             var ports = portsMap[portType];
                             if (ports && ports.length > 0) {
@@ -701,7 +687,7 @@ var OneImagePage = function () {
                                     if (port.planeMapMark) {
                                         var mark = JSON.parse(JSON.parse(port.planeMapMark));
                                         mark.id = port.id;
-                                        mark.src = portMarkerAttrUtil.getIconByStatus(portType, port.portStatus);
+                                        mark.src = that.portStatusMapMarkerIconUtil.getIcon(portType, port.portStatus);
                                         mark.attrs = {
                                             portType:portType,
                                             port:port
@@ -713,7 +699,7 @@ var OneImagePage = function () {
                                             var html = that.getPortPopHtml(attrs.portType,attrs.port);
                                                 $this.popover({
                                                     html:true,
-                                                    title:portMarkerAttrUtil.getTitle(attrs.portType),
+                                                    title:getTitle(attrs.portType),
                                                     placement:"auto bottom",
                                                     content: html,
                                                     container:'body'
@@ -769,13 +755,13 @@ var OneImagePage = function () {
          */
         getPortPopHtml: function (portType, port) {
             var popHtml = "";
-            if (portType == this.PLANEMAP_PORTDATA_GAS_KEY) {
+            if (portType == Constant.GASPORT_FLAG) {
                 popHtml = this.getGasPopHtml(port);
-            }else if(portType == this.PLANEMAP_PORTDATA_WATER_KEY){
+            }else if(portType == Constant.WATERPORT_FLAG){
                 popHtml = this.getWaterPopHtml(port);
-            }else if(portType == this.PLANEMAP_PORTDATA_FUMES_KEY){
+            }else if(portType == Constant.FUMESPORT_FLAG){
                 popHtml = this.getFumesPopHtml(port);
-            }else if(portType == this.PLANEMAP_PORTDATA_NOISE_KEY){
+            }else if(portType == Constant.NOISEPORT_FLAG){
                 popHtml = this.getNoisePopHtml(port);
             }else{
                 popHtml += "<div>未找到的排口类型</div>";

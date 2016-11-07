@@ -75,7 +75,20 @@
     </filter>
     <filter-mapping>
         <filter-name>AgentFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/container/gov/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AgentFilter</filter-name>
+        <url-pattern>/index.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CompanyFilter</filter-name>
+        <filter-class>com.harmonywisdom.dshbcbp.enterprise.filter.CompanyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CompanyFilter</filter-name>
+        <url-pattern>/container/company/*</url-pattern>
     </filter-mapping>
 
 </web-app>

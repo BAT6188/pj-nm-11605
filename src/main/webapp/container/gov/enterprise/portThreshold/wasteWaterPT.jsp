@@ -29,10 +29,10 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <form class="form-horizontal" id="flowForm" role="form" method="post" style="margin-top: 20px;">
+                        <form class="form-horizontal" id="wwFlowForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="flow"/>
+                            <input type="hidden" name="type" value="ww" />
+                            <input type="hidden" name="pollutantCode" value="wwFlow"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">流量</div>
@@ -63,10 +63,10 @@
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form class="form-horizontal" id="oxygenForm" role="form" method="post" style="margin-top: 20px;">
+                        <form class="form-horizontal" id="wwOxygenForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="oxygen"/>
+                            <input type="hidden" name="type" value="ww" />
+                            <input type="hidden" name="pollutantCode" value="wwOxygen"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">化学需氧量(COD)</div>
@@ -102,10 +102,10 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <form id="nitrogenForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="wwNitrogenForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="nitrogen"/>
+                            <input type="hidden" name="type" value="ww" />
+                            <input type="hidden" name="pollutantCode" value="wwNitrogen"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氨氮</div>
@@ -136,10 +136,10 @@
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form class="form-horizontal" id="phForm" role="form" method="post" style="margin-top: 20px;">
+                        <form class="form-horizontal" id="wwPhForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteWater" />
-                            <input type="hidden" name="pollutantCode" value="ph"/>
+                            <input type="hidden" name="type" value="ww" />
+                            <input type="hidden" name="pollutantCode" value="wwPh"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">PH值</div>

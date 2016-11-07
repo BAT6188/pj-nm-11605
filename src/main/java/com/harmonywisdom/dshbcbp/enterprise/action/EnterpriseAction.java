@@ -1,11 +1,14 @@
 package com.harmonywisdom.dshbcbp.enterprise.action;
 
 import com.harmonywisdom.apportal.sdk.person.IPerson;
+import com.harmonywisdom.core.user.IUserProfile;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -113,8 +116,14 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             entity.setCreateTime(new Date());
         }
 
+        String entityId = entity.getId();
         super.save();
-
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        if(StringUtils.isNotBlank(entityId)){
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_UPDATE,"企业台账","基本信息",entity.getId());
+        }else{
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_ADD,"企业台账","基本信息",entity.getId());
+        }
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
         }
@@ -132,6 +141,8 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
         }
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","基本信息","Enterprise",deleteId,null);
         super.delete();
     }
 
@@ -208,4 +219,34 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         Map<String, List> portsMap = getService().findMarkedPortsByEnterpriseId(entity.getId());
         write(portsMap);
     }
+
+    /**
+     * 企业登入
+     */
+    public void doLogin(){
+        String userName = getParamValue("j_username");
+        String password = getParamValue("j_password");
+        if(org.apache.commons.lang3.StringUtils.isBlank(userName) || org.apache.commons.lang3.StringUtils.isBlank(password)){
+            return;
+        }
+        Map<String,Object> flag = getService().doLogin(userName,password);
+        switch ((Integer)flag.get("status")){
+            case -2:
+                //用户名称错误
+                write(-2);
+                break;
+            case 1:
+                //成功
+                request.getSession().removeAttribute(IUserProfile.J2EE_USER_NAME);//清空政府端的session
+                request.getSession().setAttribute("session",flag.get("session"));
+                write(1);
+                break;
+            default:
+                //登入失败次数
+                write((Integer)flag.get("status"));
+        }
+
+
+    }
+
 }

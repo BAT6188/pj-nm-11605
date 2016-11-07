@@ -151,7 +151,7 @@ $(function(){
 
                 var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);
-                colMchart(preMonth,series);
+                colMchart(preMonth,series,startYdate,lastYdate);
             }
         });
     }
@@ -226,7 +226,7 @@ $(function(){
 
                     series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                 }
-                pieMchart(series);
+                pieMchart(series,startYdate,lastYdate);
             }
         });
     }
@@ -302,7 +302,7 @@ $(function(){
 
                 var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);
-                lineMchart(preMonth,series);
+                lineMchart(preMonth,series,startYdate,lastYdate);
 
             }
         })
@@ -313,13 +313,19 @@ $(function(){
      * @param categories
      * @param series
      */
-    function colMchart(preMonth,series) {
+    function colMchart(preMonth,series,startYdate,lastYdate) {
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年上半年超标统计'
+        }else{
+            titleSub = startYdate+'至'+lastYdate+'超标统计';
+        }
+
         highchart.highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: titleSub
             },
             xAxis: {
                 categories: preMonth,
@@ -368,13 +374,19 @@ $(function(){
     /**
      * 饼状图highchart
      */
-    function pieMchart(series){
+    function pieMchart(series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年上半年超标统计'
+        }else{
+            titleSub = startYdate+'至'+lastYdate+'超标统计';
+        }
+
         highchart.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: titleSub
             },
             plotOptions: {
                 pie: {
@@ -414,13 +426,18 @@ $(function(){
     /**
      * 折线图highchart
      */
-    function lineMchart(preMonth,series){
+    function lineMchart(preMonth,series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年上半年超标统计'
+        }else{
+            titleSub = startYdate+'至'+lastYdate+'超标统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'line'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Source: WorldClimate.com'

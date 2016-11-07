@@ -64,7 +64,18 @@ $.extend(dict,{
         }
         return name;
     },
-
+    getDctionnaryName : function(dic , code){
+        var name = "";
+        var obj = dic;
+        var len = obj.length;
+        for(var i = 0 ; i < len ; i++){
+            if(obj[i].code == code){
+                name = obj[i].name;
+                break;
+            }
+        }
+        return name;
+    },
     init: function(dictCodes){
         //获取没有缓存的字典码
         var noCacheCodes = [];

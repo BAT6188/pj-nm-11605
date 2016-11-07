@@ -254,7 +254,7 @@ $(function(){
                 var series2 = {name: "2016上半年", color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
-                loadColumnChart(preMonth, series);
+                loadColumnChart(preMonth, series,startSdate,lastSdate);
             }
         });
     }
@@ -330,7 +330,7 @@ $(function(){
 
                    series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                }
-               loadPieChart1(series);
+               loadPieChart1(series,startXdate,lastXdate);
            }
        });
 
@@ -406,7 +406,7 @@ $(function(){
 
                     series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                 }
-                loadPieChart2(series);
+                loadPieChart2(series,startSdate,lastSdate);
             }
         });
 
@@ -526,7 +526,7 @@ $(function(){
                 var series2 = {name: "2016上半年", color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
-                loadLineChart(preMonth, series);
+                loadLineChart(preMonth, series,startSdate,lastSdate);
             }
             
         });
@@ -536,7 +536,12 @@ $(function(){
 
 
     //柱状图highchart
-    function loadColumnChart(categories,series){
+    function loadColumnChart(categories,series,startSdate,lastSdate){
+        if(startSdate == '2016-01-01'){
+            titleSub = '2015年上半年与2016年上半年超标统计对比分析'
+        }else{
+            titleSub = startSdate+'至'+lastSdate+'同期超标统计对比分析';
+        }
         highchart.highcharts({
             chart: {
                 type: 'column',
@@ -557,7 +562,7 @@ $(function(){
                 exportButtonTitle: "导出图片"
             },
             title: {
-                text: '2015年上半年与2016年上半年超标统计对比分析'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
@@ -581,7 +586,7 @@ $(function(){
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px"></span><table>',
+                headerFormat: '<small>{point.key}月</small><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                 '<td style="padding:0"><b>{point.y} </b></td></tr>',
                 footerFormat: '</table>',
@@ -594,13 +599,18 @@ $(function(){
     }
 
     //饼状图1highchart
-    function loadPieChart1(series){
+    function loadPieChart1(series,startXdate,lastXdate){
+        if(startXdate == '2015-01-01'){
+            titleSub = '2015年上半年超标统计对比分析'
+        }else{
+            titleSub = startXdate+'至'+lastXdate+'同期超标统计对比分析';
+        }
         highchart1.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2015年上半年超标统计对比分析'
+                text: titleSub
             },
             plotOptions: {
                 pie: {
@@ -637,13 +647,18 @@ $(function(){
 
     }
     //饼状图2
-    function loadPieChart2(series){
+    function loadPieChart2(series,startSdate,lastSdate){
+        if(startSdate == '2016-01-01'){
+            titleSub = '2016年上半年超标统计对比分析'
+        }else{
+            titleSub = startSdate+'至'+lastSdate+'同期超标统计对比分析';
+        }
         highchart2.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2016年上半年超标统计对比分析'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
@@ -687,7 +702,12 @@ $(function(){
 
     
     //线状图highchart
-    function loadLineChart(categories, series){
+    function loadLineChart(categories, series,startSdate,lastSdate){
+        if(startSdate == '2016-01-01'){
+            titleSub = '2015年上半年与2016年上半年超标统计对比分析'
+        }else{
+            titleSub = startSdate+'至'+lastSdate+'同期超标统计对比分析';
+        }
         highchart.highcharts({
             chart: {
                 type: 'line',
@@ -707,7 +727,7 @@ $(function(){
                 exportButtonTitle: "导出图片"
             },
             title: {
-                text: '2016年上半年与2015年上半年超标统计对比分析'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
@@ -731,7 +751,7 @@ $(function(){
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px"></span><table>',
+                headerFormat: '<small>{point.key}月</small><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                 '<td style="padding:0"><b>{point.y} </b></td></tr>',
                 footerFormat: '</table>',

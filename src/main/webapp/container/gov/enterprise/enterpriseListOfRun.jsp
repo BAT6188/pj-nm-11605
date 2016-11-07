@@ -69,7 +69,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="resetSearch" type="button" class="btn btn-default" >重置</button>
+                <button id="resetSearch" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success">
                         <i class="btnIcon add-icon"></i><span>新增</span>

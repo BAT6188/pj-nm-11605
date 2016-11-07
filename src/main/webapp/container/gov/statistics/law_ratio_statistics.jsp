@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <label for="">同期对比：</label>
                             <div id="datetimepicker2" class="input-group date form_datetimes" data-date="" data-date-format="yyyy" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="startTime"  type="text" value="" readonly placeholder="年份">
+                                <input class="form-control" size="16" id="startTime"  type="text" value="" readonly placeholder="请选择年份">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
