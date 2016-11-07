@@ -281,18 +281,6 @@ $('.form_datetime').datetimepicker({
     showMeridian: 1
 });
 
-function appendOption(selector,options) {
-    $.each(options,function (i,v) {
-        var option = $("<option>").val(v.code).text(v.name);
-        $(selector).append(option);
-    })
-}
-
-var code={code:"monitor_office_source"};
-var monitor_office_source=dict.getDctionnary(code)
-appendOption("#source",monitor_office_source)
-
-
 $(document).ready(function () {
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 })
