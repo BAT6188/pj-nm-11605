@@ -147,6 +147,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (org.apache.commons.lang.StringUtils.isNotBlank(blockId)) {
             params.andParam(new QueryParam("blockId", QueryOperator.EQ, blockId));
         }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getId())) {
+            params.andParam(new QueryParam("id", QueryOperator.EQ, entity.getId()));
+        }
 
         //根据登录人员角色和userId 筛选 只 执法管理领导 能够看到的数据
 //        IPerson person = ApportalUtil.getPerson(request);

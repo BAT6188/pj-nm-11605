@@ -35,7 +35,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_exelaw_Punish_list.action",
+        url: rootPath+"/action/S_exelaw_Punish_list.action?dispatchTaskId="+dispatchTaskId,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -327,12 +327,28 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 
     $("#filingDate").val((new Date()).format("yyyy-MM-dd hh:mm"))
+
+    if(dispatchTaskId){
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
+            type:"post",
+            data:{id:dispatchTaskId},
+            success:function (d) {
+                d=JSON.parse(d)
+                if (d.total>0){
+                    var row=d.rows[0]
+                    setFormValueFromSelected(row)
+                }
+            }
+        });
+    }
 }
 
 //表单附件相关js
@@ -542,18 +558,18 @@ function getLawTableSelections() {
 
 $("#selected").click(function () {
     var rows=getLawTableSelections();
-    console.log(rows)
     if (rows.length>0){
         var row=rows[0]
-        $("#dispatchTaskId").val(row.id)
-        $("#caseName").val(row.enterpriseName+"处罚")
-        $("#caseSource").val(row.source)
-        $("#caseReason").val(row.reason)
-
+        setFormValueFromSelected(row)
         $("#lawListForm").modal('hide');
     }
 
-
-
 })
+
+function setFormValueFromSelected(row) {
+    $("#dispatchTaskId").val(row.id)
+    $("#caseName").val(row.enterpriseName+"处罚")
+    $("#caseSource").val(row.source)
+    $("#caseReason").val(row.reason)
+}
 

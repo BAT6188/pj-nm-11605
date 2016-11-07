@@ -2,6 +2,8 @@ package com.harmonywisdom.dshbcbp.exelaw.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.Punish;
 import com.harmonywisdom.dshbcbp.exelaw.service.PunishService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -17,6 +19,9 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
     private PunishService punishService;
 
     @AutoService
+    private DispatchTaskService dispatchTaskService;
+
+    @AutoService
     private AttachmentService attachmentService;
 
     @Override
@@ -29,6 +34,9 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
         QueryParam params = new QueryParam();
         String start_filingDate = request.getParameter("start_filingDate");
         String end_filingDate = request.getParameter("end_filingDate");
+        if (StringUtils.isNotBlank(entity.getDispatchTaskId())) {
+            params.andParam(new QueryParam("dispatchTaskId", QueryOperator.EQ, entity.getDispatchTaskId()));
+        }
         if (StringUtils.isNotBlank(entity.getCaseName())) {
             params.andParam(new QueryParam("caseName", QueryOperator.LIKE, "%"+entity.getCaseName()+"%"));
         }
@@ -49,6 +57,14 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
 
     @Override
     public void save() {
+        String dispatchTaskId = entity.getDispatchTaskId();
+        if (StringUtils.isNotEmpty(dispatchTaskId)){
+            DispatchTask dispatchTask = dispatchTaskService.findById(dispatchTaskId);
+            if (dispatchTask!=null){
+                dispatchTask.setStatus("4");
+                dispatchTaskService.update(dispatchTask);
+            }
+        }
         //获取删除的附件IDS
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){

@@ -1,3 +1,4 @@
+//@ sourceURL=lawManage.js
 var gridTable = $('#table'),
     feedbackRecordTable=$("#feedbackRecordTable"),
     overBtn = $('#overBtn'),
@@ -146,15 +147,15 @@ function initTable() {
                 align: 'center',
                 editable: false
             },
+
             {
-                field: 'status',
+                field: '',
                 title: '行政处罚',
                 sortable: false,
                 align: 'center',
                 editable: false,
-                events: operateEvents,
+                events: punishEvents,
                 formatter: function (value, row, index) {
-
                     /**
                      * 1:未调度
                      * 2:已发送
@@ -163,16 +164,20 @@ function initTable() {
                      * 5:已办结
                      * 状态
                      */
-                    if (value==4){
-                        value='<a class="btn btn-md btn-warning">已处罚</a>'
-                    }else{
-                        value="未处罚"
-                        // value='<a class="btn btn-md btn-warning" href='+rootPath+'"/container/gov/exelaw/punish.jsp">已处罚</a>'
-                        var url=rootPath+"/container/gov/exelaw/punish.jsp",
-                        value="<a class='btn btn-md btn-warning' href="+url+">已处罚</a>"
+                    if (row.status==1){
+                        value="未调度"
+                    }else if(row.status==2){
+                        value="已发送"
+                    }else if(value==3){
+                        row.status="已反馈"
+                        value='已反馈'
+                    }else if(row.status==4){
+                        value="已处罚"
+                    }else if(row.status==5){
+                        value="已办结"
                     }
 
-                    return value
+                    return "<a class='btn btn-md btn-warning punish'>"+value+"</a>"
                 }
             },
             {
@@ -280,12 +285,18 @@ window.lookOverEvents = {
         $("#cancel").text("关闭")
     }
 };
+window.punishEvents = {
+    'click .punish': function (e, value, row, index) {
+        var url = rootPath + "/container/gov/exelaw/punish.jsp?id=" + row.id;
+        pageUtils.toUrl(url);
 
+    }
+};
 
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-       console.log(JSON.stringify(row))
+        console.log(JSON.stringify(row));
 
         $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
         $("#lookOverFeedbackForm_answer").val(row.answer);
