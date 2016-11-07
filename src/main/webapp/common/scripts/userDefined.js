@@ -1,5 +1,18 @@
 var pageUtils = {
 
+    /**
+     *  从配置字典中加载select标签选项
+     * @param selector
+     * @param code  code={code:"monitor_office_source"};
+     */
+    appendOptionFromDictCode:function(selector,code) {
+        var options=dict.getDctionnary(code)
+        $.each(options,function (i,v) {
+            var option = $("<option>").val(v.code).text(v.name);
+            $(selector).append(option);
+        })
+    },
+
     toUrl:function (url) {
         $("#level2content").load(url);
     },
