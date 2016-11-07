@@ -1,5 +1,8 @@
 var pageUtils = {
 
+    toUrl:function (url) {
+        $("#level2content").load(url);
+    },
     findAttachmentIds: function (businessId,attachmentType) {
         var ids = [];
         $.ajax({
