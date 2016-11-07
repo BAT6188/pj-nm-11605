@@ -331,10 +331,51 @@ public class Enterprise implements Serializable {
     private String haveFumesPort;
 
     /**
+     * 用户登录名
+     */
+    @Column(name="USERNAME",length=100)
+    private String userName;
+
+    /**
+     * 用户登录密码
+     */
+    @Column(name="PASSWORD",length=100)
+    private String password;
+    /**
+     * 用户登录确认密码
+     */
+    @Column(name="SEC_PASSWORD",length=100)
+    private String secpassword;
+
+    /**
      * 附件
      */
     @Transient
     private String attachmentId;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSecpassword() {
+        return secpassword;
+    }
+
+    public void setSecpassword(String secpassword) {
+        this.secpassword = secpassword;
+    }
 
     public String getId() {
         return id;

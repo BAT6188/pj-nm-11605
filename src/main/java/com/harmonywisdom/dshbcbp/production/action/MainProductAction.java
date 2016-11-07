@@ -1,8 +1,12 @@
 package com.harmonywisdom.dshbcbp.production.action;
 
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.production.bean.MainProduct;
 import com.harmonywisdom.dshbcbp.production.service.MainProductService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -59,7 +63,14 @@ public class MainProductAction extends BaseAction<MainProduct, MainProductServic
             entity.setCreateTime(new Date());
         }
 
+        String entityId = entity.getId();
         super.save();
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        if(StringUtils.isNotBlank(entityId)){
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_UPDATE,"企业台账","主要产品信息",entity.getId());
+        }else{
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_ADD,"企业台账","主要产品信息",entity.getId());
+        }
 
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
@@ -77,5 +88,7 @@ public class MainProductAction extends BaseAction<MainProduct, MainProductServic
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","主要产品信息","FumesPort",deleteId,null);
     }
 }

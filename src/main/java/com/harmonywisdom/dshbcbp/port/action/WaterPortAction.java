@@ -1,8 +1,12 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
 import com.harmonywisdom.dshbcbp.port.service.WaterPortService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -59,7 +63,14 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
             entity.setCreateTime(new Date());
         }
 
+        String entityId = entity.getId();
         super.save();
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        if(StringUtils.isNotBlank(entityId)){
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_UPDATE,"企业台账","废水排口信息",entity.getId());
+        }else{
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_ADD,"企业台账","废水排口信息",entity.getId());
+        }
 
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
@@ -77,6 +88,8 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","废水排口","FumesPort",deleteId,null);
     }
 
     /**

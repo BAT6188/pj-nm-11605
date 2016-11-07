@@ -10,13 +10,13 @@ $(document).ready(function() {
         //提交登入
         $.ajax({
             //timeout: 30000,
-            url: rootPath + "/action/S_equipment_Company_doLogin.action",
+            url: rootPath + "/action/S_enterprise_Enterprise_doLogin.action",
             type: "post",
             data: params,
             dataType: "json",
             success: function (statusCode) {
                 if(statusCode == 1){
-                    window.location.href = rootPath + '/container/company/main.jsp';
+                    window.location.href = rootPath + '/container/company/login/main.jsp';
                 }else{
                     $("#message").html("用户名或密码有误,请再次输入！");
                 }
@@ -26,10 +26,7 @@ $(document).ready(function() {
             }
         });
     });
-
-    $("#doRegister").click(function () {
-        window.location.href = rootPath + "/login/register.jsp";
-    });
+    
 
     $('body').keyup(function (e) {
         if (e.keyCode === 13) {

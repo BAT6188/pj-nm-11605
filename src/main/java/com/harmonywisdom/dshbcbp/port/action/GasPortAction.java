@@ -1,8 +1,12 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.port.bean.GasPort;
 import com.harmonywisdom.dshbcbp.port.service.GasPortService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -16,7 +20,6 @@ import java.util.Date;
 public class GasPortAction extends BaseAction<GasPort, GasPortService> {
     @AutoService
     private GasPortService gasPortService;
-
     @Override
     protected GasPortService getService() {
         return gasPortService;
@@ -58,8 +61,15 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
         if(entity.getCreateTime()==null){
             entity.setCreateTime(new Date());
         }
-        super.save();
 
+        String entityId = entity.getId();
+        super.save();
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        if(StringUtils.isNotBlank(entityId)){
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_UPDATE,"企业台账","废气排口信息",entity.getId());
+        }else{
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_ADD,"企业台账","废气排口信息",entity.getId());
+        }
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
 
@@ -76,6 +86,8 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","废气排口","FumesPort",deleteId,null);
     }
 
     /**

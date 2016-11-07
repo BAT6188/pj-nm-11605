@@ -67,9 +67,12 @@ public class ApportalUtil {
 	@SuppressWarnings("unchecked")
 	public static IPerson getPerson(HttpServletRequest request) {
 		UserProfile userProfile = getUserProfile(request);
-		IPerson person  = PersonServiceUtil.getPerson(userProfile.getPersonId());
-		return person;
-	}		
+		if (userProfile != null) {
+			IPerson person  = PersonServiceUtil.getPerson(userProfile.getPersonId());
+			return person;
+		}
+		return null;
+	}
 	
 	/**
 	 * 批量取得字典项集合数据,Map格式

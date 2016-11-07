@@ -32,10 +32,10 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <form id="dustForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="wgDustForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteGas" />
-                            <input type="hidden" name="pollutantCode" value="dust"/>
+                            <input type="hidden" name="type" value="wg" />
+                            <input type="hidden" name="pollutantCode" value="wgDust"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟尘</div>
@@ -66,10 +66,10 @@
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form id="sulfurForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="wgSulfurForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteGas" />
-                            <input type="hidden" name="pollutantCode" value="sulfur"/>
+                            <input type="hidden" name="type" value="wg" />
+                            <input type="hidden" name="pollutantCode" value="wgSulfur"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">二氧化硫</div>
@@ -104,10 +104,10 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <form id="nitrogenForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="wgNitrogenForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteGas" />
-                            <input type="hidden" name="pollutantCode" value="nitrogen"/>
+                            <input type="hidden" name="type" value="wg" />
+                            <input type="hidden" name="pollutantCode" value="wgNitrogen"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氮氧化物</div>
@@ -138,10 +138,10 @@
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form id="gasFlowForm" role="form" method="post" style="margin-top: 20px;">
+                        <form id="wgFlowForm" role="form" method="post" style="margin-top: 20px;">
                             <input type="hidden" name="id" class="form-control" />
-                            <input type="hidden" name="type" value="wasteGas" />
-                            <input type="hidden" name="pollutantCode" value="gasFlow"/>
+                            <input type="hidden" name="type" value="wg" />
+                            <input type="hidden" name="pollutantCode" value="wgFlow"/>
                             <input type="hidden" name="enterpriseId" value=""/>
                             <input type="hidden" name="createTime" value="" class="form-control" />
                             <div class="alert alert-success" style="margin-left: 0px;text-align: center;font-size: 15px;">废气流量</div>
@@ -174,10 +174,10 @@
                 </div>
             </div>
 
-            <form class="form-horizontal" id="oxygenForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="wgOxygenForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="wasteGas" />
-                <input type="hidden" name="pollutantCode" value="oxygen"/>
+                <input type="hidden" name="type" value="wg" />
+                <input type="hidden" name="pollutantCode" value="wgOxygen"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氧含量</div>
