@@ -212,22 +212,22 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         Map<String, List> portsMap = new HashMap<>();
         List<GasPort> gasPorts = gasPortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
         if (gasPorts != null && gasPorts.size() > 0) {
-            portsMap.put("gasPorts", gasPorts);
+            portsMap.put(GasPort.class.getSimpleName(), gasPorts);
         }
 
         List<WaterPort> waterPorts = waterPortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
         if (waterPorts != null && waterPorts.size() > 0) {
-            portsMap.put("waterPorts", waterPorts);
+            portsMap.put(WaterPort.class.getSimpleName(), waterPorts);
         }
 
         List<FumesPort> fumesPorts = fumesPortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
         if (fumesPorts != null && fumesPorts.size() > 0) {
-            portsMap.put("fumesPorts", fumesPorts);
+            portsMap.put(FumesPort.class.getSimpleName(), fumesPorts);
         }
 
         List<NoisePort> noisePorts = noisePortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
         if (noisePorts != null && noisePorts.size() > 0) {
-            portsMap.put("noisePorts", noisePorts);
+            portsMap.put(NoisePort.class.getSimpleName(), noisePorts);
         }
         return portsMap;
     }
