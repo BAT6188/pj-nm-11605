@@ -147,11 +147,33 @@ function initTable() {
                 editable: false
             },
             {
-                field: 'reason',
+                field: 'status',
                 title: '行政处罚',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                events: operateEvents,
+                formatter: function (value, row, index) {
+
+                    /**
+                     * 1:未调度
+                     * 2:已发送
+                     * 3:已反馈
+                     * 4:已处罚
+                     * 5:已办结
+                     * 状态
+                     */
+                    if (value==4){
+                        value='<a class="btn btn-md btn-warning">已处罚</a>'
+                    }else{
+                        value="未处罚"
+                        // value='<a class="btn btn-md btn-warning" href='+rootPath+'"/container/gov/exelaw/punish.jsp">已处罚</a>'
+                        var url=rootPath+"/container/gov/exelaw/punish.jsp",
+                        value="<a class='btn btn-md btn-warning' href="+url+">已处罚</a>"
+                    }
+
+                    return value
+                }
             },
             {
                 field: 'monitorCaseId',

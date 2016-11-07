@@ -7,6 +7,8 @@ import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -114,8 +116,14 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             entity.setCreateTime(new Date());
         }
 
+        String entityId = entity.getId();
         super.save();
-
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        if(StringUtils.isNotBlank(entityId)){
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_UPDATE,"企业台账","基本信息",entity.getId());
+        }else{
+            CommonUtil.insertBaseOpLog(iPerson.getPersonId(), Constants.OPTYPE_ADD,"企业台账","基本信息",entity.getId());
+        }
         if(StringUtils.isNotBlank(entity.getAttachmentId())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
         }
@@ -133,6 +141,8 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
         }
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","基本信息","Enterprise",deleteId,null);
         super.delete();
     }
 

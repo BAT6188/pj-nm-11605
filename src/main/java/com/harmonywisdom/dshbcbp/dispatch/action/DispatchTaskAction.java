@@ -97,16 +97,24 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
 
+        /**
+         * 三种角色：
+         * 1. monitor_master
+         * 2. env_pro_sta
+         * 3. allPerson
+         */
         String role = request.getParameter("role");
         IPerson person = ApportalUtil.getPerson(request);
-        if (monitor_master.equals(role)){
-            params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
-        }else if (env_pro_sta.equals(role)){
-            params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
-        }
+        if (StringUtils.isNotEmpty(role)){
+            if (monitor_master.equals(role)){
+                params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+            }else if (env_pro_sta.equals(role)){
+                params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+            }
 
-        //TODO 所有人可查看的数据
-        params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
+            //TODO 所有人可查看的数据
+            params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
+        }
 
         String startEventTime = request.getParameter("startEventTime");
         String endEventTime = request.getParameter("endEventTime");

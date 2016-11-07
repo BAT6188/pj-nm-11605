@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +15,18 @@ public class Punish implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 调度任务id
+     */
+    @Column(name = "dispatch_task_id", length = 32)
+    private String dispatchTaskId;
+
+    /**
+     * 立案号
+     */
+    @Column(length = 32)
+    private String code;
 
     /**
      * 案件名称
@@ -44,21 +53,35 @@ public class Punish implements Serializable {
      */
     @Column(name = "case_reason")
     private String caseReason;
+
     /**
      * 违反条款
      */
     @Column(name = "provision")
     private String provision;
+
     /**
-     * 执行情况
+     * 履行情况
+     * 1 代履行
+     * 2 自觉履行
+     * 3 申请法院强制执行
+     * 4 尚未执行
+     * 5 无须执行
+     * 6 已无法执行
      */
     @Column(name = "exe_desc")
     private String exeDesc;
+
     /**
      * 处罚类型
+     * 1. 罚款
+     * 2. 警告
+     * 3. 责令停产整顿
+     * 4. 责令停产、停业、关闭
      */
     @Column(name = "type", length = 2)
     private String type;
+
     /**
      * 处罚金额
      */
@@ -82,24 +105,17 @@ public class Punish implements Serializable {
     /**
      * 结案日期
      */
-    @Column(name = "closeed_date")
-    private Date closeedDate;
+    @Column(name = "closed_date")
+    private Date closedDate;
     /**
      * 决定书处罚内容
      */
     @Column(name = "content")
     private String content;
-    /**
-     * 附件
-     */
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
 
-    /**
-     * 调度任务id
-     */
-    @Column(name = "dispath_task_id", length = 32)
-    private String dispathTaskId;
+
+    @Transient
+    private String attachmentIds;
 
     public String getId() {
         return id;
@@ -205,12 +221,12 @@ public class Punish implements Serializable {
         this.attn = attn;
     }
 
-    public Date getCloseedDate() {
-        return closeedDate;
+    public Date getClosedDate() {
+        return closedDate;
     }
 
-    public void setCloseedDate(Date closeedDate) {
-        this.closeedDate = closeedDate;
+    public void setClosedDate(Date closedDate) {
+        this.closedDate = closedDate;
     }
 
     public String getContent() {
@@ -221,22 +237,27 @@ public class Punish implements Serializable {
         this.content = content;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 
-    public String getDispathTaskId() {
-        return dispathTaskId;
+    public String getDispatchTaskId() {
+        return dispatchTaskId;
     }
 
-    public void setDispathTaskId(String dispathTaskId) {
-        this.dispathTaskId = dispathTaskId;
+    public void setDispatchTaskId(String dispatchTaskId) {
+        this.dispatchTaskId = dispatchTaskId;
     }
 
+    public String getCode() {
+        return code;
+    }
 
-
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

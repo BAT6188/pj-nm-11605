@@ -26,10 +26,10 @@
     <a id="headTitle" href="javascript:void(0)" class="list-group-item active">油烟阀值管理</a>
     <div style="width: 90%">
         <div id="FGForm">
-            <form class="form-horizontal" id="fumesForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="fgFumesForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="fumes" />
-                <input type="hidden" name="pollutantCode" value="fumes"/>
+                <input type="hidden" name="type" value="fg" />
+                <input type="hidden" name="pollutantCode" value="fgFumes"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">油烟</div>
@@ -56,10 +56,10 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="temperatureForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="fgTemperatureForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="fumes" />
-                <input type="hidden" name="pollutantCode" value="temperature"/>
+                <input type="hidden" name="type" value="fg" />
+                <input type="hidden" name="pollutantCode" value="fgTemperature"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟气温度</div>
@@ -86,10 +86,10 @@
                     </div>
                 </div>
             </form>
-            <form class="form-horizontal" id="humidityForm" role="form" method="post" style="margin-top: 20px;">
+            <form class="form-horizontal" id="fgHumidityForm" role="form" method="post" style="margin-top: 20px;">
                 <input type="hidden" name="id" class="form-control" />
-                <input type="hidden" name="type" value="fumes" />
-                <input type="hidden" name="pollutantCode" value="humidity"/>
+                <input type="hidden" name="type" value="fg" />
+                <input type="hidden" name="pollutantCode" value="fgHumidity"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
                 <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">烟气湿度</div>

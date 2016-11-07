@@ -32,10 +32,17 @@ var setting = {
             loadPortStatusHistory(treeNode.parentCode,treeNode.code,treeNode.name);
         },
         onAsyncSuccess: function(event, treeId, treeNode, msg) {
-            treeObj.expandAll(true);
             var node = treeObj.getNodeByTId("enterpriseZTree_3");
-            treeObj.selectNode(node,false);
-            loadPortStatusHistory(node.parentCode,node.code,node.name);
+            if(node){
+                treeObj.expandAll(true);
+                treeObj.selectNode(node,false);
+                loadPortStatusHistory(node.parentCode,node.code,node.name);
+            }else{
+                Ewin.alert({message:"没有查询到与该企业相关的排口信息!<br/>稍后将自动返回...",hideTimes:1500}).on(function(e){
+                    $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
+                    $('#level2content').load(rootPath+"/container/gov/monitor/enterpriseMointor/mainMonitor.jsp"); // ajax加载页面
+                });
+            }
         }
     }
 };
