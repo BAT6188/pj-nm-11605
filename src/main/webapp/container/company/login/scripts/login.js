@@ -16,7 +16,7 @@ $(document).ready(function() {
             dataType: "json",
             success: function (statusCode) {
                 if(statusCode == 1){
-                    window.location.href = rootPath + '/container/company/login/main.jsp';
+                    window.location.href = rootPath + '/container/company/login/index.jsp';
                 }else{
                     $("#message").html("用户名或密码有误,请再次输入！");
                 }
