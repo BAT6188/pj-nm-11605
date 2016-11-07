@@ -248,12 +248,11 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#age").val(entity.age);
-    $("#longitude").val(entity.longitude);
-    $("#latitude").val(entity.latitude);
+    for(p in entity){
+        var selector="#"+p
+        $(selector).val(entity[p])
+    }
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
