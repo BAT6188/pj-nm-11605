@@ -7,7 +7,8 @@ var OneImagePage = function () {
         NOISEPORT_FLAG: "NoisePort",
         DUSTPORT_FLAG: "DustPort",
         FUMESPORT_FLAG: "FumesPort",
-        ENTERPRISE_FLAG: "Enterprise"
+        ENTERPRISE_FLAG: "Enterprise",
+        CLOCK_DELAY:5000
     };
     var page = {
         zTree:undefined,
@@ -29,7 +30,7 @@ var OneImagePage = function () {
             //定时加载排口，企业报警
             var alertTimer = setInterval(function () {
                 that.refreshPortStatusToMap();
-            }, 5000);
+            }, Constant.CLOCK_DELAY);
             $(window).one("menuchange",function () {
                 clearInterval(alertTimer);
             });
@@ -663,88 +664,117 @@ var OneImagePage = function () {
                 if (attachIds.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
-                    var portsMap = that.findMarkedPorts(enterprise.id);
-                    var markers = [];
-                    if (portsMap) {
-                        function getTitle(portType) {
-                            var title = "排口信息";
-                            if (portType == Constant.GASPORT_FLAG) {
-                                return "废气"+title;
-                            }else if (portType == Constant.WATERPORT_FLAG) {
-                                return "废水"+title;
-                            }else if (portType == Constant.FUMESPORT_FLAG) {
-                                return "油烟"+title;
-                            }else if (portType == Constant.NOISEPORT_FLAG) {
-                                return "噪声"+title;
-                            }
-                            return title;
-                        }
-                        for(var portType in portsMap) {
-                            var ports = portsMap[portType];
-                            if (ports && ports.length > 0) {
-                                for(var i =0; i < ports.length; i++) {
-                                    var port = ports[i];
-                                    if (port.planeMapMark) {
-                                        var mark = JSON.parse(JSON.parse(port.planeMapMark));
-                                        mark.id = port.id;
-                                        mark.src = that.portStatusMapMarkerIconUtil.getIcon(portType, port.portStatus);
-                                        mark.attrs = {
-                                            portType:portType,
-                                            port:port
-                                        };
-                                        mark.click = function () {
-                                            //添加提示框
-                                            var $this = $(this[0]);
-                                            var attrs = this.data("attrs");
-                                            var html = that.getPortPopHtml(attrs.portType,attrs.port);
-                                                $this.popover({
-                                                    html:true,
-                                                    title:getTitle(attrs.portType),
-                                                    placement:"auto bottom",
-                                                    content: html,
-                                                    container:'body'
-                                                });
-                                            var popoverId = $this.popover("toggle").attr("aria-describedby");
-                                            var port = attrs.port;
-                                            if (port.portStatus != "0") {
-                                                $("#" + popoverId).find(".show-status-btn").bind("click", function () {
-                                                    var portId = $(this).data("port-id");
-                                                    var text = $(this).text();
-                                                    var result = PortStatusFormView.setPortId(portId);
-                                                    if (result) {
-                                                        PortStatusFormView.open();
-                                                    } else {
-                                                        Ewin.alert({message: "未找到" + text});
-                                                    }
-                                                });
-                                            }
 
-                                        };
-                                        markers.push(mark);
-                                    }
-
-                                }
-                            }
-
-                        }
-                    }
-
+                    var markers = that.getPlaneMapPortMakerByEid(enterprise.id);
                     //获取企业所有排口的标绘信息
                     PlottingDialog.dialog({
                         show:true,
                         mode:"view",
                         data:markers,
                         attachmentId:attachIds,
-                        closed:function (model) {
-                            //销毁绑定的提示框
-                            model.find("image").popover("destroy");
+                        closed:function (modal) {
+                            //隐藏提示框
+                            $("#planeMap_popover").hide();
+                            //清除定时器
+                            if (PlottingDialog.planeMapAlerClock) {
+                                clearInterval(PlottingDialog.planeMapAlerClock);
+                            }
                         }
                     });
+                    //定时平面图设备状态刷新
+                    PlottingDialog.planeMapAlerClock  = setInterval(function () {
+                        var markers = that.getPlaneMapPortMakerByEid(enterprise.id);
+                        PlottingDialog.data(markers);
+                    }, Constant.CLOCK_DELAY);
+
 
                 }
 
 
             });
+        },
+
+        /**
+         * 获取企业平面图标绘makers
+         * @param eid
+         */
+        getPlaneMapPortMakerByEid:function (eid) {
+            var that = this;
+            var portsMap = that.findMarkedPorts(eid);
+            var markers = [];
+            if (portsMap) {
+                function getTitle(portType) {
+                    var title = "排口信息";
+                    if (portType == Constant.GASPORT_FLAG) {
+                        return "废气"+title;
+                    }else if (portType == Constant.WATERPORT_FLAG) {
+                        return "废水"+title;
+                    }else if (portType == Constant.FUMESPORT_FLAG) {
+                        return "油烟"+title;
+                    }else if (portType == Constant.NOISEPORT_FLAG) {
+                        return "噪声"+title;
+                    }
+                    return title;
+                }
+                for(var portType in portsMap) {
+                    var ports = portsMap[portType];
+                    if (ports && ports.length > 0) {
+                        for(var i =0; i < ports.length; i++) {
+                            var port = ports[i];
+                            if (port.planeMapMark) {
+                                //设置marker属性
+                                var mark = JSON.parse(JSON.parse(port.planeMapMark));
+                                mark.id = port.id;
+                                mark.src = that.portStatusMapMarkerIconUtil.getIcon(portType, port.portStatus);
+                                mark.attrs = {
+                                    portType:portType,
+                                    port:port,
+                                    popoverIsShow:false
+                                };
+                                mark.click = function (e) {
+
+                                    //添加提示框
+                                    var $this = $(this.node);
+                                    var attrs = this.data("attrs");
+                                    var html = that.getPortPopHtml(attrs.portType,attrs.port);
+                                    //更新位置
+                                    var offset = $this.position();
+                                    console.log(offset.top + "," + offset.left);
+
+                                    $("#planeMap_popover").css("top",offset.top-40);
+                                    $("#planeMap_popover").css("left",offset.left-40);
+                                    //$("#planeMap_popover").css("left",offset.left);
+                                    $("#planeMap_popover").find(".popover-title").text(getTitle(attrs.portType));
+                                    $("#planeMap_popover").find(".popover-content").html(html);
+                                    $("#planeMap_popover").toggle();
+
+
+                                    var port = attrs.port;
+                                    if (port.portStatus != "0") {
+                                        //绑定超标信息按钮事件
+                                        $("#planeMap_popover").find(".show-status-btn").bind("click", function () {
+                                            var portId = $(this).data("port-id");
+                                            var text = $(this).text();
+                                            var result = PortStatusFormView.setPortId(portId);
+                                            if (result) {
+                                                PortStatusFormView.open();
+                                            } else {
+                                                Ewin.alert({message: "未找到" + text});
+                                            }
+                                        });
+                                    }
+
+                                };
+                                markers.push(mark);
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            return markers;
+
         },
 
         /**

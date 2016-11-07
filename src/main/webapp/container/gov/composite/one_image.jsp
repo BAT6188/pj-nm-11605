@@ -31,6 +31,13 @@
 
     </div>
 </div>
+<div class="popover fade bottom in" role="tooltip" id="planeMap_popover" style="display: none; top: 361px; left: 499px;">
+    <div class="arrow" style="left: 21%;"></div>
+    <h3 class="popover-title">废气排口信息</h3>
+    <div class="popover-content" style="overflow-y: auto">
+
+    </div>
+</div>
 
 <%@include file="/container/gov/composite/enterprise_info_dialog.jsp" %>
 <%@include file="/container/gov/composite/portstatus_form_view.jsp" %>

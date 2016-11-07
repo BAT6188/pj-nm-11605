@@ -1,16 +1,17 @@
 //@ sourceURL=enterprise_plotting.js
 var PlottingDialog = function(){
     var dialog = {
-        _model:$("#plottingDialog"),
+        modal:$("#plottingDialog"),
         _plottingEle:$('#plottingPaper'),
         _plotting:undefined,
+        _shapes:[],//已标绘图形
         _width:$(window).width()-100,
         _height:$(window).height()-200,
         init:function (attachmentIds) {
             var that = this;
             that._initPloting(attachmentIds);
             //初始化dialog大小
-            that._model.find(".modal-dialog")
+            that.modal.find(".modal-dialog")
                 .width(that._width);
             that._plottingEle.height(that._height);
 
@@ -37,21 +38,24 @@ var PlottingDialog = function(){
                 that._plotting.mode('point');
             });
             //清除已标绘元素
-            var markers = [];
             that._plottingEle.bind("mousedown",function () {
-                if (that._plotting.mode() == "point" && markers.length>1) {
-                    var marker = markers.shift();
+                if (that._plotting.mode() == "point" && that._shapes.length>1) {
+                    var marker = that._shapes.shift();
                     marker.remove();
                 }
             });
             that._plottingEle.bind("plotting", function (e, shape) {
-                markers.push(shape);
+                that._shapes.push(shape);
             });
-            that._model.modal('hide')
-            that._model.find(".btn-save").bind('click', function (e) {
+            that.modal.on('hidden.bs.modal',function () {
+                //清除plotting对象
+                that._plotting = undefined;
+            });
+            that.modal.modal('hide');
+            that.modal.find(".btn-save").bind('click', function (e) {
                 var result = that._closed(JSON.stringify(that._plotting.data()[0]));
                 if (!(result === false)) {
-                    that._model.modal('hide');
+                    that.modal.modal('hide');
                 }
 
             });
@@ -63,12 +67,12 @@ var PlottingDialog = function(){
         setMode:function (mode) {
             if (mode == "marker") {
                 $(".glyphicon-map-marker").show();
-                this._model.find(".btn-save").show("hide");
-                this._model.find(".btn-cancel").text("取消");
+                this.modal.find(".btn-save").show("hide");
+                this.modal.find(".btn-cancel").text("取消");
             }else if (mode == "view") {
                 $(".glyphicon-map-marker").hide();
-                this._model.find(".btn-save").hide();
-                this._model.find(".btn-cancel").text("关闭");
+                this.modal.find(".btn-save").hide();
+                this.modal.find(".btn-cancel").text("关闭");
             }
 
         },
@@ -79,7 +83,7 @@ var PlottingDialog = function(){
             that._plottingEle.remove();
             that._plottingEle = newEle;
             //初始化平面图
-            that._plotting = that._plottingEle.plotting({
+            var plotting = that._plottingEle.plotting({
                 action: 'plotting',
                 bg: rootPath+'/action/S_attachment_Attachment_download.action?id='+attachmentId,
                 icon:{
@@ -93,7 +97,10 @@ var PlottingDialog = function(){
                 width: that._width,
                 height: that._height
             }).data('Plotting');
-            that._plotting.mode('pan');
+            plotting.mode('pan');
+            this._plottingEle.one("init",function () {
+                that._plotting = plotting;
+            });
 
         },
         setAttachmentId:function (attachmentId) {
@@ -105,7 +112,7 @@ var PlottingDialog = function(){
 
         },
         show:function () {
-            this._model.modal('show');
+            this.modal.modal('show');
         },
         _closed:function (points,okBtn) {
 
@@ -132,8 +139,8 @@ var PlottingDialog = function(){
                     }
                     if (options["closed"]) {
                         var that = this;
-                        this._model.on("hide.bs.modal",function () {
-                            options["closed"](that._model);
+                        this.modal.on("hide.bs.modal",function () {
+                            options["closed"](that.modal);
                         });
                     }
                     if (options["show"] !== false) {
@@ -141,23 +148,46 @@ var PlottingDialog = function(){
                     }
                     if (options["data"]) {
                         var data = options["data"];
-                        if (typeof(data) === "string") {
-                            data = JSON.parse(data);
-                        }
-                        if (Array.isArray(data)) {
-
-                        }else if (typeof(data) === "object") {
-                            data = [data];
-                        }
-                        var that = this;
-                        this._plottingEle.one("init",function () {
-                            that._plotting.data(data);
-                        });
+                        this.data(data, true);
 
                     }
                 }
 
             }
+        },
+        /**
+         * 添加数据
+         * @param data
+         * @param isClear 是否清空已有数据
+         */
+        data:function (data,isClear) {
+            if (isClear === true) {
+                this._clearShapes();
+            }
+            if (typeof(data) === "string") {
+                data = JSON.parse(data);
+            }
+            if (Array.isArray(data)) {
+
+            }else if (typeof(data) === "object") {
+                data = [data];
+            }
+            var that = this;
+            if (that._plotting) {
+                that._plotting.data(data);
+            }else{
+                this._plottingEle.one("init",function () {
+                    that._plotting.data(data);
+                });
+            }
+
+        },
+        _clearShapes:function () {
+            for(var i =0; i < this._shapes.length; i++){
+                var shape = this._shapes[i];
+                shape.remove();
+            }
+            this._shapes = [];
         }
     };
 

@@ -1,3 +1,4 @@
+//@ sourceURL=plotting.js
 (function ($) {
     var defaultOptions = {
             /**
@@ -254,10 +255,24 @@
                             args = [v.x, v.y, v.width, v.height];
                             break;
                     }
-                    var shape = that.paper[v.type].apply(that.paper, args);
+                    //如果存在更新数据
+                    var shape = undefined;
                     if (v.id) {
-                        shape.id = v.id;
+                        shape = that.paper.getById(v.id);
                     }
+                    //不存在创建
+                    if (!shape) {
+                        shape = that.paper[v.type].apply(that.paper, args);
+                        if (v.id) {
+                            shape.id = v.id;
+                        }
+                    }else{
+                        if (v.src) {//更新src
+                            shape.attr("src",v.src);
+                        }
+                    }
+
+
                     shape.data('attrs', v.attrs);
                     if ('none' !== v.fill) {
                         shape.attr('fill', v.fill);
@@ -267,12 +282,15 @@
 
                     //绑定事件
                     if (typeof(v.click) === "function"){
+                        shape.unclick();
                         shape.click(v.click);
                     }
                     if (typeof(v.mouseover) === "function"){
+                        shape.unmouseover();
                         shape.mouseover(v.mouseover);
                     }
                     if (typeof(v.mouseout) === "function"){
+                        shape.unmouseout();
                         shape.mouseout(v.mouseout);
                     }
                     that.el.trigger(PLOTTING, [shape]);
