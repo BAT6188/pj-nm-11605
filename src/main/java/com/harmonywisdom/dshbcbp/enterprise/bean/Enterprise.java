@@ -48,6 +48,9 @@ public class Enterprise implements Serializable {
 
     /**
      * 污染源状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
      */
     @Column(name = "pollutant_status",length = 1)
     private String pollutantStatus;

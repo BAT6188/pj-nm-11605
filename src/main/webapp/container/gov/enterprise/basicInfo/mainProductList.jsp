@@ -62,6 +62,7 @@
                         <label for="product" class="col-sm-3 control-label">主要产品（服务）<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-9">
                             <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="enterpriseId" name="enterpriseId" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
                             <input type="text" id="product" name="product" class="form-control"
                                    data-message="主要产品（服务）不能为空"

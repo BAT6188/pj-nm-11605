@@ -79,6 +79,7 @@
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
+                            <input type="hidden" id="enterpriseId" name="enterpriseId" class="form-control">
                             <input type="text" id="number" name="number" class="form-control"
                                    data-message="排口编号不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
@@ -179,22 +180,5 @@
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/grasPortList.js"></script>
-<script type="text/javascript">
-    $(function(){
-        initSelect();
-    });
-    /*初始化选择菜单*/
-    function initSelect(){
-        var dictData = dict.getDctionnary({code:['grasDischargeStandard','monitorType','dischargeMode']});
-        /*数据字典*/
-        $.each(dictData,function(k,v){
-            var optionsHtml = '';
-            $.each(v,function(i,obj){
-                optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
-            })
-            $('#'+k).append(optionsHtml);
-        });
-    }
-</script>
 </body>
 </html>
