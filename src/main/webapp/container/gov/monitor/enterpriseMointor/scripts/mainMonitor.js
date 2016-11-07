@@ -46,11 +46,21 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '状态',
+                title: '企业状态',
                 field: 'status',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function(value, row, index) {
+                    switch(value){
+                        case "0":
+                            return '未运行';
+                        case "1":
+                            return '运行中';
+                        default:
+                            return '状态不明';
+                    }
+                }
             },
             {
                 title: '所属网格',
@@ -61,10 +71,22 @@ function initTable() {
             },
             {
                 title: '污染源状态',
-                field: 'status',
+                field: 'pollutantStatus',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function(value, row, index) {
+                    switch(value){
+                        case "0":
+                            return '<img src="container/gov/enterprise/images/blueCircle.png" style="width: 20px;height: 20px;">';
+                        case "1":
+                            return '<img src="container/gov/enterprise/images/readCircle.png" style="width: 20px;height: 20px;">';
+                        case "2":
+                            return '<img src="container/gov/enterprise/images/yelloCircle.png" style="width: 20px;height: 20px;">';
+                        default:
+                            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+                    }
+                }
             },
             {
                 field: 'operate',

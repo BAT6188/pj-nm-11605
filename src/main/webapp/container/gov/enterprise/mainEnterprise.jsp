@@ -46,6 +46,7 @@
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/grasPortList.jsp')">废气排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/waterPortList.jsp')">废水排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/noisePortList.jsp')">噪声源</a></li>
+                <li><a href="javascript:loadPageInEnterprise('basicInfo/enterpriseVideo.jsp')">摄像头</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/fumesPortList.jsp')">油烟排口(适用于酒店)</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/mainProductList.jsp')">主要产品及规模</a></li>
             </ul>

@@ -26,6 +26,12 @@ public class VideoAction extends BaseAction<Video, VideoService> {
         if (StringUtils.isNotBlank(entity.getUnitId())) {
             param.andParam(new QueryParam("unitId", QueryOperator.EQ,entity.getUnitId()));
         }
+        if (StringUtils.isNotBlank(entity.getNumber())) {
+            param.andParam(new QueryParam("number", QueryOperator.LIKE,"%"+entity.getNumber()+"%"));
+        }
+        if (StringUtils.isNotBlank(entity.getVideoType())) {
+            param.andParam(new QueryParam("videoType", QueryOperator.EQ,entity.getVideoType()));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);

@@ -17,10 +17,10 @@
         </div>
         <div class="opDiv right">
             <ul>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
-                <li class="divider"><i class="short-divider"></i></li>
-                <li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>
-                <li><a href="#" class="msg-icon"><span class="new-icon">0</span></a></li>
+                <%--<li><a href="#"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>--%>
+                <%--<li class="divider"><i class="short-divider"></i></li>--%>
+                <%--<li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>--%>
+                <%--<li><a href="#" class="msg-icon"><span class="new-icon">0</span></a></li>--%>
                 <li class="divider"><i class="long-divider"></i></li>
                 <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "${pageContext.request.contextPath}/container/company/login/login.jsp";' alt="退出登陆"/></a></li>
             </ul>
@@ -29,10 +29,11 @@
     <div class="box box5">
         <div class="nav-menu linear ">
             <ul id="level2Menu" class="navList">
-                <%--<li class="list1 linear-hover"><a href="javascript:;">日程安排</a></li>
-                <li class="list2"><a href="javascript:;">委托监测</a></li>
-                <li class="list2"><a href="javascript:;">企业委托监测</a></li>
-                <li class="list2"><a href="javascript:;">空气质量监测</a></li>--%>
+                <%--<li class="list1 linear-hover"><a href="javascript:;">首页</a></li>--%>
+                <%--<li class="list1 "><a href="javascript:;">预警及排污超标处理情况报送</a></li>--%>
+                <%--<li class="list2 "><a href="javascript:;">隐患自查自报</a></li>--%>
+                <%--<li class="list2 "><a href="javascript:;">信息公告</a></li>--%>
+                <%--<li class="list2 "><a href="javascript:;">一企一档企业台账</a></li>--%>
             </ul>
         </div>
         <div id="level2content" class="content show clearfix" style="margin: 5px 5px 8px;">
@@ -51,8 +52,9 @@
         </div>
     </div>
 </div>
-<script src="common/scripts/main_css.js"></script>
-<script src="common/scripts/main.js"></script>
+
+<script src="<%=request.getContextPath()%>/container/company/login/scripts/index.js"></script>
+<script src="<%=request.getContextPath()%>/common/scripts/main_css.js"></script>
 <script>
 </script>
 </body>
