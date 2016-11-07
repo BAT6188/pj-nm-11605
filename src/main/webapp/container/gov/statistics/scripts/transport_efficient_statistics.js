@@ -151,7 +151,7 @@ $(function(){
 
                 var series1 = {name: '传输有效率', color: 'rgb(124, 181, 236)', data: preValue};
                 series.push(series1);
-                colMchart(preMonth,series);
+                colMchart(preMonth,series,startYdate,lastYdate);
             }
 
         });
@@ -234,7 +234,7 @@ $(function(){
                 for (var i = 0; i < preValue.length; i++) {
                     series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                 }
-                pieMchart(series);
+                pieMchart(series,startYdate,lastYdate);
             }
         });
     }
@@ -312,7 +312,7 @@ $(function(){
 
                 var series1 = {name: "传输有效率", data:preValue};
                 series.push(series1);
-                lineMchart(preMonth,series);
+                lineMchart(preMonth,series,startYdate,lastYdate);
 
             }
         })
@@ -321,13 +321,19 @@ $(function(){
     /**
      * 柱状图highChart
      */
-    function colMchart(preMonth,series){
+    function colMchart(preMonth,series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年各企业传输有效率平均值统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月各企业传输有效率平均值统计';
+        }
+
         highchart.highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: '2016年各企业传输有效率平均值统计'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Source: WorldClimate.com'
@@ -381,13 +387,18 @@ $(function(){
     }
 
     //饼状图highChart
-    function pieMchart(series){
+    function pieMchart(series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年各企业传输有效率平均值统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月各企业传输有效率平均值统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2016年各企业传输有效率平均值统计'
+                text: titleSub
             },
             tooltip: {
                 shared: true,
@@ -425,13 +436,18 @@ $(function(){
     }
 
     //线状图highChart
-    function lineMchart(preMonth,series){
+    function lineMchart(preMonth,series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年各企业传输有效率平均值统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月各企业传输有效率平均值统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'line'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Source: WorldClimate.com'
