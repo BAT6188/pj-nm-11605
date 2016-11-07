@@ -159,7 +159,7 @@ $(function(){
 
                 var series1 = {name: "执法次数", data:preValue};
                 series.push(series1);
-                colMchart(preMonth,series);
+                colMchart(preMonth,series,startYdate,lastYdate);
             }
         });
     }
@@ -232,7 +232,7 @@ $(function(){
                 for (var i = 0; i < preValue.length; i++) {
                     series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
                 }
-                pieMchart(series);
+                pieMchart(series,startYdate,lastYdate);
             }
         });
 
@@ -309,7 +309,7 @@ $(function(){
 
                 var series1 = {name: "执法次数", data:preValue};
                 series.push(series1);
-                lineMchart(preMonth,series);
+                lineMchart(preMonth,series,startYdate,lastYdate);
 
             }
         })
@@ -317,13 +317,18 @@ $(function(){
 
 
     //柱状图highchart
-    function colMchart(preMonth, series){
+    function colMchart(preMonth, series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016上半年执法统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月执法统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: '2016上半年执法统计'
+                text: titleSub
             },
             xAxis: {
                 categories: preMonth,
@@ -370,13 +375,18 @@ $(function(){
     }
 
     //饼状图highChart
-    function pieMchart(series){
+    function pieMchart(series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016上半年执法统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月执法统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: titleSub
             },
             // tooltip: {
             //     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -418,13 +428,18 @@ $(function(){
     
 
     //线状图highChart
-    function lineMchart(preMonth,series){
+    function lineMchart(preMonth,series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016上半年执法统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月执法统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'line'
             },
             title: {
-                text: '2016年上半年超标统计'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Source: WorldClimate.com'

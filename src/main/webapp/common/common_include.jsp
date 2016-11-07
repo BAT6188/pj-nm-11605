@@ -23,11 +23,17 @@
         orgCode = org.getOrgCode();
 
     }
+    ConfigureManager manager = ConfigureManager.getInstance();
+    String apportalRootPath = "";
+    if (manager != null && manager.getSsoConfig() != null) {
+        apportalRootPath = manager.getSsoConfig().getSsoGateWaySite();
+    }
+
 
 %>
 <script type="text/javascript" >
     var rootPath = '<%=request.getContextPath()%>';
-    var apportalRootPath = '<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>';
+    var apportalRootPath = '<%=apportalRootPath%>';
     var SToken = '${param.SToken}';
     var userId = '<%=userID%>';
     var userName = '<%=userName%>';

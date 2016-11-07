@@ -100,7 +100,7 @@ $(function(){
                 }
                 var series1 = {name: "空气质量", data:ylist};
                 series.push(series1);
-                colMchart(categories,series);
+                colMchart(categories,series,startYdate,lastYdate);
 
             }
         });
@@ -127,7 +127,7 @@ $(function(){
 
                     series[0].data.push({name:categories[i],y: parseInt(series1[i])});
                 }
-                pieMchart(series);
+                pieMchart(series,startYdate,lastYdate);
 
             }
         });
@@ -150,7 +150,7 @@ $(function(){
                 }
                 var series1 = {name: "空气质量", data:ylist};
                 series.push(series1);
-                lineMchart(categories,series);
+                lineMchart(categories,series,startYdate,lastYdate);
 
             }
         });
@@ -159,13 +159,19 @@ $(function(){
     }
 
     //柱状图highchart
-    function colMchart(categories, series){
+    function colMchart(categories, series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016上半年空气质量(AQI)统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月空气质量(AQI)统计';
+        }
+
         highchart.highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: '2016上半年空气质量(AQI)统计'
+                text: titleSub
             },
             xAxis: {
                 categories: categories,
@@ -212,13 +218,19 @@ $(function(){
     }
     
     //饼状图
-    function pieMchart(series){
+    function pieMchart(series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016上半年空气质量(AQI)统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月空气质量(AQI)统计';
+        }
+
         highchart.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2016年上半年空气质量(AQI)统计'
+                text: titleSub
             },
             // tooltip: {
             //     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -260,13 +272,18 @@ $(function(){
 
 
     //线状图highChart
-    function lineMchart(categories,series){
+    function lineMchart(categories,series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016上半年空气质量(AQI)统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月空气质量(AQI)统计';
+        }
         highchart.highcharts({
             chart: {
                 type: 'line'
             },
             title: {
-                text: '2016年上半年空气质量(AQI)统计'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Source: WorldClimate.com'

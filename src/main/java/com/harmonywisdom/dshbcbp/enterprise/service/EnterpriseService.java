@@ -53,4 +53,16 @@ public interface EnterpriseService extends IBaseService<Enterprise, String> {
      * @return{排口类型,对应排口list}
      */
     Map<String,List> findMarkedPortsByEnterpriseId(String enterpriseId);
+
+    /**
+     * 企业用户登录
+     * @param userName 登录名称
+     * @param password
+     * @return
+     * key->status
+     *  -2用户名错误 -1：密码错误 1:登陆成功
+     */
+    Map<String,Object> doLogin(String userName, String password);
+
+    Enterprise getByUserName(String userName);
 }

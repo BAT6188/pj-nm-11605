@@ -88,6 +88,27 @@ $(function(){
 
     }
 
+    //同期对比上半年按钮
+    $("#sbYear").bind('click',function(){
+        var year = $("#startTime").val();
+        var startXdate = year-1 + '-'+ '01' + '-'+ '01';
+        var lastXdate = year-1 + '-'+ '06' + '-'+ '30';
+        var startSdate = year +　'-'+'01' + '-'+'01';
+        var lastSdate = year + '-'+ '06' + '-'+ '30';
+        search(valueChart,startXdate,lastXdate,startSdate,lastSdate,'');
+    });
+
+    //同期对比下半年按钮查询
+    $("#xbYear").bind('click',function(){
+        var year = $("#startTime").val();
+        var startXdate = year-1 + '-'+ '07' + '-'+ '01';
+        var lastXdate = year-1 + '-'+ '12' + '-'+ '31';
+        var startSdate = year +　'-'+'07' + '-'+'01';
+        var lastSdate = year + '-'+ '12' + '-'+ '31';
+        search(valueChart,startXdate,lastXdate,startSdate,lastSdate,'');
+    });
+
+
     //柱状图按钮
     $("#columnBtn").bind('click',function(){
         valueChart = $("#columnBtn").attr("data-checked");
@@ -153,7 +174,7 @@ $(function(){
                 var series2 = {name: "现期空气质量",color: '#FF8800', data:zlist};
                 series.push(series1);
                 series.push(series2);
-                colMchart(categories,series);
+                colMchart(categories,series,startSdate,lastSdate);
 
             }
         });
@@ -179,7 +200,7 @@ $(function(){
                         series[0].data.push({name:categories[i],y: parseInt(series1[i])});
                     }
                 }
-                loadPieChart1(series);
+                loadPieChart1(series,startXdate,lastXdate);
             }
         });
 
@@ -207,7 +228,7 @@ $(function(){
                         series[0].data.push({name:categories[i],y: parseInt(series1[i])});
                     }
                 }
-                loadPieChart2(series);
+                loadPieChart2(series,startSdate,lastSdate);
             }
         });
 
@@ -242,7 +263,7 @@ $(function(){
                 var series2 = {name: "现期空气质量",color: '#FF8800', data:zlist};
                 series.push(series1);
                 series.push(series2);
-                loadLineChart(categories,series);
+                loadLineChart(categories,series,startSdate,lastSdate);
 
             }
         });
@@ -250,13 +271,18 @@ $(function(){
 
 
     //柱状图highchart
-    function colMchart(categories, series){
+    function colMchart(categories, series,startSdate,lastSdate){
+        if(startSdate == '2016-01-01'){
+            titleSub = '2015上半年与2016上半年空气质量(AQI)统计对比分析'
+        }else{
+            titleSub = startSdate+'月至'+lastSdate+'月同期超标统计对比分析';
+        }
         highchart.highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: '2015上半年与2016上半年空气质量(AQI)统计分析'
+                text: titleSub
             },
             xAxis: {
                 categories: categories,
@@ -301,13 +327,18 @@ $(function(){
     }
 
     //饼状图1highchart
-    function loadPieChart1(series){
+    function loadPieChart1(series,startXdate,lastXdate){
+        if(startXdate == '2015-01-01'){
+            titleSub = '2015年上半年空气质量统计对比分析'
+        }else{
+            titleSub = startXdate+'月至'+lastXdate+'月空气质量统计对比分析';
+        }
         highchart1.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2015年上半年空气质量统计'
+                text: titleSub
             },
             plotOptions: {
                 pie: {
@@ -345,13 +376,18 @@ $(function(){
     }
 
     //饼状图2highchart
-    function loadPieChart2(series){
+    function loadPieChart2(series,startSdate,lastSdate){
+        if(startSdate == '2016-01-01'){
+            titleSub = '2016年空气质量统计对比分析'
+        }else{
+            titleSub = startSdate+'月至'+lastSdate+'月同期空气质量统计对比分析';
+        }
         highchart2.highcharts({
             chart: {
                 type: 'pie'
             },
             title: {
-                text: '2016年上半年空气质量统计'
+                text: titleSub
             },
             plotOptions: {
                 pie: {
@@ -389,7 +425,12 @@ $(function(){
     }
 
     //线状图highchart
-    function loadLineChart(categories, series){
+    function loadLineChart(categories, series,startSdate,lastSdate){
+        if(startSdate == '2016-01-01'){
+            titleSub = '2015上半年与2016上半年空气质量(AQI)统计对比分析'
+        }else{
+            titleSub = startSdate+'月至'+lastSdate+'月同期空气质量(AQI)统计对比分析';
+        }
         $('#container').highcharts({
             chart: {
                 type: 'line',
@@ -409,7 +450,7 @@ $(function(){
                 exportButtonTitle: "导出图片"
             },
             title: {
-                text: '2015上半年与2016上半年空气质量(AQI)统计分析'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
