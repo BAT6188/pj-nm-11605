@@ -231,4 +231,43 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         }
         return portsMap;
     }
+
+    /**
+     *
+     * @param userName 登录名称
+     * @param password
+     * @return
+     */
+    @Override
+    public Map<String, Object> doLogin(String userName, String password) {
+        Map<String,Object> map = new HashMap<String, Object>();
+        Enterprise u = this.getByUserName(userName);
+        if(u!=null){
+            if(u.getPassword().equals(password)){
+                //密码正确，登入成功后要清空登入失败次数字段
+                map.put("status",1);
+                map.put("session",u);
+                return map;
+            }else{
+                //密码错误，返回当前用户登入的剩余的次数
+                map.put("status",-1);
+                return map;
+            }
+        }else{
+            //企业组织机构代码错误
+            map.put("status",-2);
+            return map;
+        }
+    }
+
+    @Override
+    public Enterprise getByUserName(String userName) {
+        List<Enterprise> companyList = getDAO().queryJPQL("from Enterprise t where t.userName = ?", userName);
+        if (companyList != null && companyList.size() > 0) {
+            return companyList.get(0);
+        }
+
+        return null;
+    }
+
 }

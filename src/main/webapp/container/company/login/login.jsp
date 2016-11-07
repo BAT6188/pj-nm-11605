@@ -11,8 +11,11 @@
     <meta charset="utf-8">
     <title>东胜环保</title>
     <link href="<%=request.getContextPath()%>/common/css/pageStyle.css" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>/container/company/style/login.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/container/company/login/style/login.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/demo/easyform/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript">
+        var rootPath = '<%=request.getContextPath()%>';
+    </script>
 </head>
 <body>
 <div class="content clearfix">
@@ -41,6 +44,6 @@
     </div>
 </div>
 <p class="copyrightP"><span>版权所有：东胜环保局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/company/scripts/login.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/company/login/scripts/login.js"></script>
 
 </body></html>
