@@ -1,8 +1,7 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
-    updateBtn = $('#update'),
     form = $("#demoForm"),
-    formTitle = "Demo",
+    formTitle = "行政处罚信息",
     selections = [];
 
 
@@ -10,7 +9,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_demo_Demo_save.action",
+        url: rootPath + "/action/S_exelaw_Punish_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +23,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_demo_Demo_delete.action",
+        url: rootPath + "/action/S_exelaw_Punish_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,7 +35,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_demo_Demo_list.action",
+        url: rootPath+"/action/S_exelaw_Punish_list.action?dispatchTaskId="+dispatchTaskId,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,21 +58,53 @@ function initTable() {
                 visible:false
             },
             {
-                title: '名称',
-                field: 'name',
+                title: '案件名称',
+                field: 'caseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '年龄',
-                field: 'age',
+                title: '案由',
+                field: 'caseReason',
                 sortable: false,
                 align: 'center',
+                editable: false
+            },
+            {
+                title: '立案时间',
+                field: 'filingDate',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return value;
-                }
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '处罚类型',
+                field: 'type',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '结案日期',
+                field: 'closedDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '履行情况',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '案件来源',
+                field: 'caseSource',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'operate',
@@ -95,8 +126,6 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
-        //选中一条数据启用修改按钮
-        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -141,15 +170,11 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
     resetForm();
-});
-$("#update").bind("click",function () {
-    setFormData(getSelections()[0]);
 });
 /**
  * 列表工具栏 删除按钮
@@ -178,13 +203,17 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var name = $("#s_name").val();
-    var age = $("#s_age").val();
-    if (name){
-        queryParams["name"] = name;
+    var s_caseName = $("#s_caseName").val();
+    var start_filingDate = $("#start_filingDate").val();
+    var end_filingDate = $("#end_filingDate").val();
+    if (s_caseName){
+        queryParams["caseName"] = s_caseName;
     }
-    if (age){
-        queryParams["age"] = age;
+    if (start_filingDate){
+        queryParams["start_filingDate"] = start_filingDate;
+    }
+    if (end_filingDate){
+        queryParams["end_filingDate"] = end_filingDate;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -216,22 +245,6 @@ var ef = form.easyform({
         });
     }
 });
-//绑定markDialog关闭事件
-MapMarkDialog.closed(function (mark) {
-    console.log(mark);
-    if (mark) {
-        $("#longitude").val(mark.x);
-        $("#latitude").val(mark.y);
-    }else{
-        Ewin.alert({message:"请选择坐标"});
-        return false;
-    }
-});
-$('#mapMarkBtn').bind('click', function () {
-    //设置标绘模式
-    MapMarkDialog.setMode("polygon");
-    MapMarkDialog.open();
-});
 
 //表单 保存按钮
 $("#save").bind('click',function () {
@@ -254,6 +267,22 @@ function setFormData(entity) {
         $(selector).val(entity[p])
     }
 
+    // $("#caseName").val(entity.caseName);
+    // $("#filingDate").val(entity.filingDate);
+    // $("#code").val(entity.code);
+    // $("#decideCode").val(entity.decideCode);
+    // $("#caseSource").val(entity.caseSource);
+    // $("#caseReason").val(entity.caseReason);
+    // $("#provision").val(entity.provision);
+    // $("#exeDesc").val(entity.exeDesc);
+    // $("#type").val(entity.type);
+    // $("#money").val(entity.money);
+    // $("#exeDate").val(entity.exeDate);
+    // $("#endDate").val(entity.endDate);
+    // $("#attn").val(entity.attn);
+    // $("#closedDate").val(entity.closedDate);
+    // $("#content").val(entity.content);
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -272,6 +301,8 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
+
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
@@ -296,10 +327,28 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
+
+    $("#filingDate").val((new Date()).format("yyyy-MM-dd hh:mm"))
+
+    if(dispatchTaskId){
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
+            type:"post",
+            data:{id:dispatchTaskId},
+            success:function (d) {
+                d=JSON.parse(d)
+                if (d.total>0){
+                    var row=d.rows[0]
+                    setFormValueFromSelected(row)
+                }
+            }
+        });
+    }
 }
 
 //表单附件相关js
@@ -396,4 +445,131 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+
+/********************  选择执法列表  ********************/
+var lawTable = $('#lawTable')
+function initlawTable() {
+    lawTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_dispatch_DispatchTask_list.action",
+        method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:true,  //  true 单选， false多选
+                valign: 'middle'
+            },
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '事件时间',
+                field: 'eventTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub16(value);
+                }
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '信息来源',
+                field: 'source',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="12369"
+                    }else if (2==value){
+                        value="区长热线"
+                    }else if (3==value){
+                        value="市长热线"
+                    }else if (4==value){
+                        value="现场监察"
+                    }else if (0==value){
+                        value="监控中心"
+                    }
+                    return value;
+                }
+            },
+            {
+                field: 'reason',
+                title: '原因',
+                sortable: false,
+                align: 'center',
+                editable: false
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        gridTable.bootstrapTable('resetView');
+    }, 200);
+
+    $(window).resize(function () {
+        // 重新设置表的高度
+        gridTable.bootstrapTable('resetView', {
+            height: pageUtils.getTableHeight()
+        });
+    });
+}
+initlawTable();
+$("#sc").click(function () {
+    var queryParams = {};
+    var s_enterpriseName = $("#s_enterpriseName").val();
+    var s_source = $("#s_source").val();
+    if (s_enterpriseName){
+        queryParams["enterpriseName"] = s_enterpriseName;
+    }
+    if (s_source){
+        queryParams["source"] = s_source;
+    }
+    lawTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
+})
+
+function getLawTableSelections() {
+    return $.map(lawTable.bootstrapTable('getSelections'), function (row) {
+        return row;
+    });
+}
+
+$("#selected").click(function () {
+    var rows=getLawTableSelections();
+    if (rows.length>0){
+        var row=rows[0]
+        setFormValueFromSelected(row)
+        $("#lawListForm").modal('hide');
+    }
+
+})
+
+function setFormValueFromSelected(row) {
+    $("#dispatchTaskId").val(row.id)
+    $("#caseName").val(row.enterpriseName+"处罚")
+    $("#caseSource").val(row.source)
+    $("#caseReason").val(row.reason)
+}
 

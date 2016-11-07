@@ -1,5 +1,18 @@
 var pageUtils = {
 
+    /**
+     *  从配置字典中加载select标签选项
+     * @param selector
+     * @param code  code={code:"monitor_office_source"};
+     */
+    appendOptionFromDictCode:function(selector,code) {
+        var options=dict.getDctionnary(code)
+        $.each(options,function (i,v) {
+            var option = $("<option>").val(v.code).text(v.name);
+            $(selector).append(option);
+        })
+    },
+
     toUrl:function (url) {
         $("#level2content").load(url);
     },
@@ -337,7 +350,8 @@ var pageUtils = {
             alert: function (options) {
                 if (typeof options == 'string') {
                     options = {
-                        message: options
+                        message: options,
+                        hideTimes:2000
                     };
                 }
                 var id = init(options);
@@ -346,7 +360,7 @@ var pageUtils = {
                 modal.find('.cancel').hide();
                 setTimeout(function(){
                     modal.find('.ok').trigger('click');
-                },2000);
+                },options.hideTimes);
                 return {
                     id: id,
                     on: function (callback) {

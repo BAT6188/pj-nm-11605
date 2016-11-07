@@ -50,7 +50,26 @@ public class Video implements Serializable {
      */
     @Column(name = "CREATE_TIME")
     private Date createTime;
-
+    /**
+     *摄像头编号
+     */
+    @Column(name = "NUMBER",length = 100)
+    private String number;
+    /**
+     * 摄像头位置
+     */
+    @Column(name = "POSITION",length = 100)
+    private String position;
+    /**
+     * 摄像头类型 1：企业摄像头；0：单位摄像头
+     */
+    @Column(name = "VIDEO_TYPE",length = 1)
+    private String videoType;
+    /**
+     * 平面图标绘
+     */
+    @Column(name = "plane_map_mark",length = 1024)
+    private String planeMapMark;
     /**
      *附件
      */
@@ -127,5 +146,37 @@ public class Video implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getVideoType() {
+        return videoType;
+    }
+
+    public void setVideoType(String videoType) {
+        this.videoType = videoType;
+    }
+
+    public String getPlaneMapMark() {
+        return planeMapMark;
+    }
+
+    public void setPlaneMapMark(String planeMapMark) {
+        this.planeMapMark = planeMapMark;
     }
 }

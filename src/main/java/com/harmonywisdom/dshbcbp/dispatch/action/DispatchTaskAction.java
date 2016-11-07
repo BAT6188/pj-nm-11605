@@ -97,16 +97,24 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
 
+        /**
+         * 三种角色：
+         * 1. monitor_master
+         * 2. env_pro_sta
+         * 3. allPerson
+         */
         String role = request.getParameter("role");
         IPerson person = ApportalUtil.getPerson(request);
-        if (monitor_master.equals(role)){
-            params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
-        }else if (env_pro_sta.equals(role)){
-            params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
-        }
+        if (StringUtils.isNotEmpty(role)){
+            if (monitor_master.equals(role)){
+                params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+            }else if (env_pro_sta.equals(role)){
+                params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+            }
 
-        //TODO 所有人可查看的数据
-        params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
+            //TODO 所有人可查看的数据
+            params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
+        }
 
         String startEventTime = request.getParameter("startEventTime");
         String endEventTime = request.getParameter("endEventTime");
@@ -138,6 +146,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         if (org.apache.commons.lang.StringUtils.isNotBlank(blockId)) {
             params.andParam(new QueryParam("blockId", QueryOperator.EQ, blockId));
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getId())) {
+            params.andParam(new QueryParam("id", QueryOperator.EQ, entity.getId()));
         }
 
         //根据登录人员角色和userId 筛选 只 执法管理领导 能够看到的数据
