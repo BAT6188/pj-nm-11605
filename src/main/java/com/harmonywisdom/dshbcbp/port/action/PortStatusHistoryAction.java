@@ -8,9 +8,9 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortStatusHistoryService> {
     @AutoService
@@ -30,11 +30,23 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
             param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
+        if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
+            param.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,"%"+entity.getEnterpriseName()+"%"));
+        }
         if (StringUtils.isNotBlank(entity.getPortNumber())) {
             param.andParam(new QueryParam("portNumber", QueryOperator.LIKE,"%"+entity.getPortNumber()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getPortName())) {
             param.andParam(new QueryParam("portName", QueryOperator.LIKE,"%"+entity.getPortName()+"%"));
+        }
+        if (StringUtils.isNotBlank(entity.getEnterpriseType())) {
+            param.andParam(new QueryParam("enterpriseType", QueryOperator.LIKE,entity.getEnterpriseType()));
+        }
+        if (StringUtils.isNotBlank(entity.getBlockLevelName())) {
+            param.andParam(new QueryParam("blockLevelName", QueryOperator.EQ,entity.getBlockLevelName()));
+        }
+        if (StringUtils.isNotBlank(entity.getBlockName())) {
+            param.andParam(new QueryParam("blockName", QueryOperator.EQ,entity.getBlockName()));
         }
 
         QueryCondition condition = new QueryCondition();

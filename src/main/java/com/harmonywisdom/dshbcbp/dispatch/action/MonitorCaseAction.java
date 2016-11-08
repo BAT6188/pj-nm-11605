@@ -14,15 +14,16 @@ import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
 import com.harmonywisdom.dshbcbp.composite.service.BlockService;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.bean.OrgPerson;
+import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
+import com.harmonywisdom.dshbcbp.dispatch.service.FeedbackService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryOperator;
-import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,6 +38,12 @@ import java.util.Map;
 public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseService> {
     @AutoService
     private MonitorCaseService monitorCaseService;
+
+    @AutoService
+    private DispatchTaskService dispatchTaskService;
+
+    @AutoService
+    private FeedbackService feedbackService;
 
     @AutoService
     private BlockLevelService blockLevelService;
@@ -117,6 +124,23 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         }
         write(orgPersonList);
 
+    }
+
+    /**
+     * 根据monitorCaseId查询环保站反馈列表
+     */
+    public void queryFeedbackListByMonitorCaseId(){
+        String monitorCaseId = request.getParameter("id");
+        DispatchTask dispatchTask=new DispatchTask();
+        dispatchTask.setMonitorCaseId(monitorCaseId);
+        List<DispatchTask> rows = dispatchTaskService.findBySample(dispatchTask);
+        if (rows.size()>0){
+            DispatchTask d=rows.get(0);
+            Feedback fb=new Feedback();
+            fb.setDispatchId(d.getId());
+            QueryResult<Feedback> queryResult = feedbackService.findBySample(fb, getPaging());
+            write(queryResult);
+        }
     }
 
     @Override
@@ -205,8 +229,6 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
             Block b = blockService.findById(blockId);
             entity.setBlockName(b.getOrgName());
         }
-
-        entity.setStatus(0);
 
         super.save();
 

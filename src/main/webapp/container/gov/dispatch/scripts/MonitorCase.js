@@ -1,4 +1,5 @@
 var gridTable = $('.tableTab'),
+    feedbackRecordTable=$("#feedbackRecordTable"),
     selections = [];
 
 var status_search="";
@@ -93,6 +94,16 @@ var status_search="";
                 align: 'center',
                 events: operateEvents,
                 formatter: statusFormatter,
+                visible:false
+            },
+            {
+                field: 'queryFeedback',
+                title: '操作',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: queryFeedbackEvents,
+                formatter: queryFeedbackFormatter,
                 visible:false
             },{
                 title: 'supervisorPhone',
@@ -242,6 +253,18 @@ window.operateEvents = {
         refreshDemoForm(row);
     }
 };
+
+
+// 生成列表操作方法
+function queryFeedbackFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">查看反馈</button>';
+}
+// 列表操作事件
+window.queryFeedbackEvents = {
+    'click .view': function (e, value, row, index) {
+        feedbackRecordTable.bootstrapTable('refresh',{query:{id:row.id}})
+    }
+};
 /**
  * 刷新表单数据
  * @param demo
@@ -295,6 +318,21 @@ function saveAjax(entity, callback) {
     });
 }
 
+/************  短信发送  ****************/
+var options_sms = {
+    params:{
+        // orgCode:[],//组织机构代码(必填，组织机构代码)
+        //type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送第一个参数为2
+    console.log(data);//回调函数，data为所选人员ID
+});
+
+/************  组织机构发送  ****************/
 var options = {
     params:{
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
@@ -319,6 +357,9 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
     });
 });
 
+
+/**============表单初始化相关代码============**/
+var buttonToggle;
 //初始化表单验证
 var ef = $("#systemSendForm").easyform({
     success:function (ef) {
@@ -333,13 +374,25 @@ var ef = $("#systemSendForm").easyform({
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
 
         saveAjax(entity,function (msg) {
-            model.open(msg.id);//打开dialog
+            gridTable.bootstrapTable('refresh');
+            if (buttonToggle=="#send"){
+                model.open(msg.id);
+            }else if(buttonToggle=="#smsSend"){
+                model_sms.open(msg.id);
+            }
         });
     }
 });
 
 //表单 保存按钮
 $("#send").bind('click',function () {
+    buttonToggle="#send"
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+
+$('#smsSend').bind('click',function () {
+    buttonToggle="#smsSend"
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -399,11 +452,13 @@ $(function(){
             status_search=0
 
             gridTable.bootstrapTable('hideColumn',"status");
+            gridTable.bootstrapTable('hideColumn',"queryFeedback");
             gridTable.bootstrapTable('showColumn',"operate");
         }else {
             status_search='!0'
 
             gridTable.bootstrapTable('showColumn',"status");
+            gridTable.bootstrapTable('showColumn',"queryFeedback");
             gridTable.bootstrapTable('hideColumn',"operate");
         }
 
@@ -418,4 +473,101 @@ $(function(){
 $(document).ready(function () {
     loadBlockLevelAndBlockOption("#s_blockLevelId","#s_blockId")
 })
+
+/***************** 执法反馈列表 ***************************/
+/**
+ * 查看反馈表单事件
+ * @type {{[click .see]: Window.seeEvent.'click .see'}}
+ */
+window.seeEvent = {
+    'click .see': function (e, value, row, index) {
+        console.log(JSON.stringify(row))
+
+        $("#lawerName").val(row.lawerName)
+        $("#phone").val(row.phone)
+        $("#exeTime").val(row.exeTime)
+        $("#exeDesc").val(row.exeDesc)
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(row.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+    }
+};
+
+function initfeedbackRecordTable() {
+    feedbackRecordTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_dispatch_MonitorCase_queryFeedbackListByMonitorCaseId.action",
+        method:'post',
+        pagination:true,
+        pageSize:5,
+        pageList:[5],
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '现场执法人',
+                field: 'lawerName',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '联系方式',
+                field: 'phone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '执法时间',
+                field: 'exeTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '执法详情',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                visible:false
+            },
+            {
+                title: '查看',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: seeEvent,
+                formatter: function (value, row, index) {
+                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#feedbackForm">详情</a>'
+                    return html
+                }
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        feedbackRecordTable.bootstrapTable('resetView');
+    }, 200);
+
+}
+initfeedbackRecordTable()
+
 

@@ -130,14 +130,13 @@ function initTable() {
                         value="已发送"
                     }else if(value==3){
                         value="已反馈"
-                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">'+value+'</a>'
                     }else if(value==4){
                         value="已处罚"
                     }else if(value==5){
                         value="已办结"
                     }
 
-                    return value
+                    return '<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">'+value+'</a>'
                 }
             },
             {
@@ -168,8 +167,7 @@ function initTable() {
                         value="未调度"
                     }else if(row.status==2){
                         value="已发送"
-                    }else if(value==3){
-                        row.status="已反馈"
+                    }else if(row.status==3){
                         value='已反馈'
                     }else if(row.status==4){
                         value="已处罚"
@@ -309,6 +307,8 @@ window.operateEvents = {
         $("#lookOverFeedbackForm_senderName").val(row.senderName);
         $("#lookOverFeedbackForm_sendTime").val(row.sendTime);
         $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
+
+        feedbackRecordTable.bootstrapTable('refresh',{query:{dispatchId:row.id}})
 
     }
 };
