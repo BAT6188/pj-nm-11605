@@ -29,7 +29,7 @@ var subMenu = {
         {
             id:"0005",
             text:"一企一档企业台账",
-            url:"/dshbcbp/container/company/companyAccount/mainEnterprise.jsp?handleType=<%=edit%>"
+            url:"/dshbcbp/container/company/companyAccount/mainEnterprise.jsp"
         }
     ]
 };
