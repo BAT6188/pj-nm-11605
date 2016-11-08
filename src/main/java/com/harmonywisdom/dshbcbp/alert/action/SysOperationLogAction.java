@@ -2,6 +2,8 @@ package com.harmonywisdom.dshbcbp.alert.action;
 
 import com.harmonywisdom.dshbcbp.alert.bean.SysOperationLog;
 import com.harmonywisdom.dshbcbp.alert.service.SysOperationLogService;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
@@ -18,6 +20,21 @@ public class SysOperationLogAction extends BaseAction<SysOperationLog, SysOperat
     @Override
     protected SysOperationLogService getService() {
         return sysOperationLogService;
+    }
+
+    public void saveOperationLog(){
+        String opType = entity.getOpType();
+        if ("1".equals(opType)){
+            opType=Constants.OPTYPE_ADD;
+        }else if ("2".equals(opType)){
+            opType=Constants.OPTYPE_UPDATE;
+        }else if ("3".equals(opType)){
+            opType=Constants.OPTYPE_DELETE;
+        }else if ("4".equals(opType)){
+            opType=Constants.OPTYPE_SEND;
+        }
+        CommonUtil.commonOperationLog(request, opType,entity.getOpModule(),entity.getOpContent(),entity.getRefTableId());
+        write("ok");
     }
 
     @Override
