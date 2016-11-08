@@ -523,6 +523,7 @@ var ef_feedbackForm = feedbackForm.easyform({
                 feedbackForm.modal("hide")
                 gridTable.bootstrapTable('refresh');
                 feedbackRecordTable.bootstrapTable('refresh');
+                pageUtils.saveOperationLog({opType:'1',opModule:'执法管理',opContent:'添加执法反馈',refTableId:''})
             }
         });
     },

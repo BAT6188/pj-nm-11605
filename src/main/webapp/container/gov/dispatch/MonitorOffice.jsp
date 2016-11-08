@@ -90,6 +90,7 @@
                 <form class="form-horizontal" role="form">
                     <input type="hidden" id="id" name="id">
                     <input type="hidden" id="removeId" name="removeId">
+                    <input type="hidden" id="status" name="status">
                     <div class="form-group">
                         <label for="eventTime" class="col-sm-2 control-label">接电时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -178,7 +179,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="smsSend">短信发送</button>
-                <button type="button" class="btn btn-primary" id="save" >发送</button>
+                <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
