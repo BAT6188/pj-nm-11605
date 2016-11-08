@@ -41,6 +41,14 @@ var pageUtils = {
     },
     findAttachmentIds: function (businessId,attachmentType) {
         var ids = [];
+        var attachments = this.findAttachment(businessId, attachmentType);
+        for (var i = 0; i < attachments.length; i++) {
+            ids.push(attachments[i].id);
+        }
+        return ids;
+    },
+    findAttachment: function (businessId,attachmentType) {
+        var attachments = [];
         $.ajax({
             url:rootPath + "/action/S_attachment_Attachment_listAttachment.action",
             type:"post",
@@ -50,12 +58,12 @@ var pageUtils = {
             success:function (result) {
                 if (result && result.length > 0){
                     for(var i = 0; i < result.length; i++){
-                        ids.push(result[i].id);
+                        attachments.push(result[i]);
                     }
                 }
             }
         });
-        return ids;
+        return attachments;
     },
 
     getTableHeight:function () {
@@ -233,7 +241,6 @@ var pageUtils = {
     $.fn.formSerializeObject = function(){
         var o = {};
         var a = this.serializeArray();
-        console.log(a);
         $.each(a, function() {
             if(this.value != undefined && this.value !=''){
                 if (o[this.name] !== undefined) {
@@ -374,16 +381,17 @@ var pageUtils = {
                 if (typeof options == 'string') {
                     options = {
                         message: options,
-                        hideTimes:2000
+                        hideTimes:5000
                     };
                 }
+                var defaultHideTime = options.hideTimes>0?options.hideTimes:5000;
                 var id = init(options);
                 var modal = $('#' + id);
                 modal.find('.ok').removeClass('btn-success').addClass('btn-primary');
                 modal.find('.cancel').hide();
                 setTimeout(function(){
                     modal.find('.ok').trigger('click');
-                },options.hideTimes);
+                },defaultHideTime);
                 return {
                     id: id,
                     on: function (callback) {

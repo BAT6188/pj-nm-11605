@@ -2,6 +2,7 @@
  * Created by Administrator on 2016/10/9.
  */
 var enterpriseForm =$('#enterpriseForm');
+setBlock('#blockLevelId','#blockId');
 initZTree();
 initSelect();
 initMapBtn();
@@ -34,27 +35,41 @@ function initSelect(){
         })
         $('#'+k).append(optionsHtml);
     });
-    /*var selects = $('select');
-    $.each(selects,function(k,v){
-        var thisId = $(v).attr('id');
-        var thisOptionLength = $(v)[0].options.length;
-        if(thisOptionLength>12){
-            $('#'+thisId).select2({
-                language: "zh-CN",
-                height:"20px",
-                placeholder: "请选择",
-                minimumResultsForSearch: 2,
-                allowClear: true
+}
+function setBlock(pSelector,cSelector){
+    var pBlock = $(pSelector),cBlock = $(cSelector),blockMap={};
+    var blockLevel = searchForAjax("/action/S_composite_BlockLevel_list.action",null);
+    if(blockLevel.total){
+        pBlock.append($("<option>").val("").text("---请选择---"));
+        $.each(blockLevel.rows,function(k,v){
+            pBlock.append($("<option>").val(v.id).text(v.name));
+            var child = searchForAjax("/action/S_composite_Block_findLevelById.action",{blockLevelId: v.id});
+            blockMap[v.id] = child;
+        });
+        pBlock.change(function(){
+            var pid = $(this).val();
+            var childData = blockMap[pid];
+            cBlock.empty();
+            cBlock.append($("<option>").val("").text("---请选择---"));
+            $.each(childData,function(k,v){
+                cBlock.append($("<option>").val(v.id).text(v.orgName));
             });
-        }else{
-            $('#'+thisId).select2({
-                language: "zh-CN",
-                placeholder: "请选择",
-                minimumResultsForSearch: Infinity,
-                allowClear: true
-            });
+        });
+    }
+}
+function searchForAjax(url,entity) {
+    var returnData;
+    $.ajax({
+        url: rootPath + url,
+        method:'post',
+        async :false,
+        data:entity,
+        dataType:"json",
+        success:function(data) {
+            returnData = data;
         }
-    })*/
+    });
+    return returnData;
 }
 /*初始化 树结构*/
 $(".scrollContent").slimScroll({
@@ -336,6 +351,7 @@ function saveForm(){
             success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
                 if(data.success){
                     if(isEditBtnFromlook){
+                        resetEnterpriseData();
                         reloadThisPage();
                     }else{
                         pageUtils.loadPageOfContent('#level2content',enterpriseListOfRunUrl);
@@ -475,7 +491,15 @@ function setEnterpriseForm(flag){
     $.each(inputs,function(k,v){
         var tagId = $(v).attr('id');
         var value = data[tagId];
-        if($(v)[0].tagName=='select'){
+        if(v.tagName=='SELECT'){
+            if(tagId=="blockLevelId"){
+                var childData = searchForAjax("/action/S_composite_Block_findLevelById.action",{blockLevelId: value});
+                $('#blockId').empty();
+                $('#blockId').append($("<option>").val("").text("---请选择---"));
+                $.each(childData,function(k,v){
+                    $('#blockId').append($("<option>").val(v.id).text(v.orgName));
+                });
+            }
             $(v).find("option[value='"+value+"']").attr("selected",true);
         }else{
             $(v).val(value);
@@ -487,16 +511,6 @@ function setEnterpriseForm(flag){
     $.each(pollutantTypes,function(k,v){
         $("input#pollutantType"+ v.replace(/\s/g,'')).attr("checked", true);
     })
-    /*$.ajax({
-        url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
-        type:"post",
-        async:false,
-        data:{"id":id},//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:function(data){
-
-        }
-    });*/
 }
 /**
  * 查看平面图
@@ -506,5 +520,18 @@ function lookPlaneMap(){
         show:true,
         mode:"view",
         attachmentId:$('#planeMap').val()
+    });
+}
+
+function resetEnterpriseData(){
+    $.ajax({
+        url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfo.action",
+        type:"post",
+        async:false,
+        data:{"id":id},//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function(data){
+            enterpriseData = data;
+        }
     });
 }

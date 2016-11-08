@@ -41,7 +41,11 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function(param){
+            var temp = pageUtils.getBaseParams(param);
+            temp.enterpriseId = id;
+            return temp;
+        },
         columns: [
             {
                 title:"全选",

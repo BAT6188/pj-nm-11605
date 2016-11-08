@@ -3,6 +3,10 @@
 <html>
 <head>
     <title>噪声治理设施</title>
+    <script type="text/javascript">
+        var enterpriseId=enterpriseData.id;
+        console.log(enterpriseId);
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">

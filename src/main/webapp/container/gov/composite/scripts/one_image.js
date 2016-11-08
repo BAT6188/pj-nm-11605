@@ -658,10 +658,10 @@ var OneImagePage = function () {
             var that = this;
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
-                //获取企业平面图附件id
-                var attachIds = pageUtils.findAttachmentIds(enterprise.id, "planeMap");
+                //获取企业平面图附件
+                var attachments = pageUtils.findAttachment(enterprise.id, "planeMap");
 
-                if (attachIds.length <= 0) {
+                if (attachments.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
 
@@ -671,7 +671,11 @@ var OneImagePage = function () {
                         show:true,
                         mode:"view",
                         data:markers,
-                        attachmentId:attachIds,
+                        attachments:attachments,
+                        change:function () {
+                            //隐藏提示框
+                            $("#planeMap_popover").hide();
+                        },
                         closed:function (modal) {
                             //隐藏提示框
                             $("#planeMap_popover").hide();
@@ -723,7 +727,10 @@ var OneImagePage = function () {
                             var port = ports[i];
                             if (port.planeMapMark) {
                                 //设置marker属性
-                                var mark = JSON.parse(JSON.parse(port.planeMapMark));
+                                var mark = JSON.parse(port.planeMapMark);
+                                if (typeof mark == "string") {
+                                    continue;
+                                }
                                 mark.id = port.id;
                                 mark.src = that.portStatusMapMarkerIconUtil.getIcon(portType, port.portStatus);
                                 mark.attrs = {
@@ -739,8 +746,6 @@ var OneImagePage = function () {
                                     var html = that.getPortPopHtml(attrs.portType,attrs.port);
                                     //更新位置
                                     var offset = $this.position();
-                                    console.log(offset.top + "," + offset.left);
-
                                     $("#planeMap_popover").css("top",offset.top-40);
                                     $("#planeMap_popover").css("left",offset.left-40);
                                     //$("#planeMap_popover").css("left",offset.left);

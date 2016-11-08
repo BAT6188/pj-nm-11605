@@ -26,6 +26,9 @@ public class GasControlFacilityAction extends BaseAction<GasControlFacility, Gas
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
+        if(StringUtils.isNotBlank(entity.getEnterpriseId())){
+            params.andParam(new QueryParam("enterpriseId",QueryOperator.LIKE,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getName())) {
             params.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }

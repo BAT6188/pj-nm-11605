@@ -1,11 +1,17 @@
 <%@ page import="com.harmonywisdom.apportal.common.configuration.ConfigureManager" %>
+<%@ page import="com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <%@include file="/common/common_include.jsp"%>
+    <%
+        Enterprise enterprise = (Enterprise) request.getSession().getAttribute("session");
+    %>
     <script>
         var menuCode = '${param.menuCode}';
+        var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
+        console.log(enterpriseId);
     </script>
     <title>东胜环保</title>
 </head>

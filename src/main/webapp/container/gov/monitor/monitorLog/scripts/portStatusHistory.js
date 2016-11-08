@@ -4,7 +4,17 @@ var gridTable = $('#table'),
     form = $("#otherProductForm"),
     formTitle = "超标记录",
     selections = [];
-
+$('.form_date').datetimepicker({
+    language:   'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    pickerPosition: "bottom-left"
+});
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
@@ -67,7 +77,7 @@ function initTable() {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
-                events: operateEvents,
+                //events: operateEvents,
                 formatter: operateFormatter
             }
         ]

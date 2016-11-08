@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.port.action;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory;
 import com.harmonywisdom.dshbcbp.port.service.PortStatusHistoryService;
+import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
@@ -47,6 +48,15 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         }
         if (StringUtils.isNotBlank(entity.getBlockName())) {
             param.andParam(new QueryParam("blockName", QueryOperator.EQ,entity.getBlockName()));
+        }
+
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if(StringUtils.isNotBlank(startTime)){
+            param.andParam(new QueryParam("startTime", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
+        }
+        if(StringUtils.isNotBlank(endTime)){
+            param.andParam(new QueryParam("startTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
         }
 
         QueryCondition condition = new QueryCondition();

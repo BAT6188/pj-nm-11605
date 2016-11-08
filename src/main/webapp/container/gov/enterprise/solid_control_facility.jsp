@@ -3,6 +3,10 @@
 <html>
 <head>
     <title>固体废物治理设施</title>
+    <script type="text/javascript">
+        var enterpriseId=enterpriseData.id;
+        console.log(enterpriseId);
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
