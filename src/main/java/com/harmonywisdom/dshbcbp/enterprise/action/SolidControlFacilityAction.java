@@ -23,6 +23,9 @@ public class SolidControlFacilityAction extends BaseAction<SolidControlFacility,
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
+        if(StringUtils.isNotBlank(entity.getEnterpriseId())){
+            param.andParam(new QueryParam("enterpriseId",QueryOperator.LIKE,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }

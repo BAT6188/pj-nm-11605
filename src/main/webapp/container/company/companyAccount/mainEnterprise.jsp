@@ -42,7 +42,7 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">基础信息</a></h3>
             <ul>
-                <li class="curLi"><a href="javascript:loadPageInEnterprise('enterpriseInfo.jsp?handleType=<%=handleType%>')">基本信息</a></li>
+                <li class="curLi"><a href="javascript:loadPageInEnterprise('companyAccount/enterpriseInfo.jsp?handleType=<%=handleType%>')">基本信息</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/grasPortList.jsp')">废气排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/waterPortList.jsp')">废水排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/noisePortList.jsp')">噪声源</a></li>
@@ -134,10 +134,10 @@
     mSwitch.setPrevious(false);
     mSwitch.init();
     $(function(){
-        loadPageInEnterprise('enterpriseInfo.jsp?handleType='+handleType+'&id='+id);
+        loadPageInEnterprise('companyAccount/enterpriseInfo.jsp?handleType='+handleType+'&id='+id);
     });
     function loadPageInEnterprise(url){
-        var headUrl = rootPath +"/container/company/companyAccount/";
+        var headUrl = rootPath +"/container/company/";
         //$(".main-right").load(url);
         $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
         $('.level3MenuContent').load(headUrl+url); // ajax加载页面

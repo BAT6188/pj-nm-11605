@@ -1,8 +1,9 @@
-var gridTable = $('#table'),
-    removeBtn = $('#remove'),
-    updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "固体废物治理设施",
+var gridTable = $('#videoTable'),
+    removeBtn = $('#removeVideo'),
+    updateBtn = $('#updateVideo'),
+    addBtn = $('#addVideo'),
+    form = $("#videoForm"),
+    formTitle = "摄像头",
     selections = [];
 
 
@@ -10,7 +11,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_SolidControlFacility_save.action",
+        url: rootPath + "/action/S_composite_Video_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -24,7 +25,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_enterprise_SolidControlFacility_delete.action",
+        url: rootPath + "/action/S_composite_Video_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,14 +37,15 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_enterprise_SolidControlFacility_list.action",
-        height: pageUtils.getTableHeight(),
+        url: rootPath+"/action/S_composite_Video_list.action",
+        height: pageUtils.getTableHeight()-40,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function(param){
+        queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
+            temp.unitId = enterpriseId;
+            temp.videoType = 1;
             return temp;
         },
         columns: [
@@ -55,53 +57,34 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: 'ID',
-                field: 'id',
+                title: '摄像头编号',
+                field: 'number',
                 align: 'center',
                 valign: 'middle',
                 sortable: false,
                 visible:false
             },
             {
-                title: '设施名称',
+                title: '摄像头名称',
                 field: 'name',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '建设日期',
-                field: 'createTime',
-                sortable: false,
-                align: 'center',
+                title: '摄像头位置',
+                field: 'position',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                sortable: false,
+                align: 'center'
             },
             {
-                title: '投运日期',
-                field: 'openDate',
-                sortable: false,
-                align: 'center',
+                title: '监测类型',
+                field: 'monitorType',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-            {
-                title: '设计处理能力',
-                field: 'ability',
                 sortable: false,
                 align: 'center',
-                editable: false
-            },
-            {
-                title: '运行情况',
-                field: 'status',
-                sortable: false,
-                align: 'center',
-                editable: false
+                formatter:monitorTypeFormatter
             },
             {
                 field: 'operate',
@@ -130,18 +113,24 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
+            height: getHeight()
         });
     });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#videoForm">查看</button>'; //+
+    //'<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="makePlaneMap()">标注平面图</button>';
+}
+function monitorTypeFormatter(value, row, index){
+    return dict.get('monitorType',value);
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
+        $('.saveBtn').hide();
+        $('.lookBtn').show();
         setFormView(row);
     }
 };
@@ -165,6 +154,9 @@ function getSelections() {
     });
 }
 
+function getHeight() {
+    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
+}
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
@@ -173,15 +165,21 @@ updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-$("#add").bind('click',function () {
+addBtn.bind('click',function () {
+    updateSuccessMsg = '添加'+formTitle+'成功!';
+    $('.saveBtn').show();
+    $('.lookBtn').hide();
     resetForm();
 });
-$("#update").bind("click",function () {
+updateBtn.bind("click",function () {
+    updateSuccessMsg = '修改'+formTitle+'成功!';
+    $('.saveBtn').show();
+    $('.lookBtn').hide();
     setFormData(getSelections()[0]);
 });
 /**
-* 列表工具栏 删除按钮
-*/
+ * 列表工具栏 删除按钮
+ */
 removeBtn.click(function () {
     var ids = getIdSelections();
     Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
@@ -189,6 +187,7 @@ removeBtn.click(function () {
             return;
         }
         deleteAjax(ids,function (msg) {
+            Ewin.alert('删除成功！');
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -196,8 +195,6 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
-
-
 });
 
 
@@ -205,33 +202,31 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#s_name").val();
-    var crafts = $("#s_crafts").val();
-    var status = pageUtils.getRadioValue("s_status");
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (crafts){
-        queryParams["crafts"] = crafts;
-    }
-    if (status) {
-        queryParams["status"] = status;
-    }
+    //查询之前重置table
+    gridTable.bootstrapTable('resetSearch');
+    var jsonData = $('#searchform').formSerializeObject();
     gridTable.bootstrapTable('refresh',{
-        query:queryParams
+        query:jsonData
     });
+});
+//重置搜索
+$("#searchFix").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
 });
 
 /**============表单初始化相关代码============**/
-
+var updateSuccessMsg = '提交成功';
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
+        var entity = form.find("form").formSerializeObject();
+        entity.unitId = enterpriseId;
+        entity.videoType = 1;
+        entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            form.modal('hide');
+            $(".modal").modal('hide');
+            Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -241,17 +236,6 @@ var ef = form.easyform({
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
-});
-//初始化日期组件
-$('#createTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#openDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
 });
 /**
  * 设置表单数据
@@ -263,16 +247,22 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#createTime").val(pageUtils.sub10(entity.createTime));
-
-    pageUtils.setRadioValue("status",entity.status);
-    $("#openDate").val(pageUtils.sub10(entity.openDate));
-    $("#crafts").val(entity.crafts);
-    $("#ability").val(entity.ability);
-    $("#realAbility").val(entity.realAbility);
+    var inputs = form.find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        var value = entity[tagId];
+        if($(v)[0].tagName=='select'){
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
+    var radios = form.find('.isRadio');
+    $.each(radios,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = entity[tagId];
+        $("input#"+tagId+value).get(0).checked=true;
+    });
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -282,43 +272,25 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    form.find("#save").hide();
-    form.find(".btn-cancel").text("关闭");
+    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
-
+    form.find(".form-control").attr("disabled",disabled);
+    form.find(".formBtn").attr("disabled",disabled);
+    form.find('.isRadio input').attr("disabled",disabled);
 }
 /**
  * 重置表单
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    //form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find('form')[0].reset();
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-    form.find("#save").show();
-    form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
@@ -387,8 +359,6 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true
@@ -418,3 +388,33 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
+/**
+ * 平面图标注
+ */
+function makePlaneMap(){
+    var planeMapMarkDate = $('#planeMapMark').val();
+    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+    PlottingDialog.dialog({
+        show:true,
+        mode:"marker",
+        data:data,
+        attachmentId:enterpriseData.planeMap,
+        callback:function (marker) {
+            var str = JSON.stringify(marker);
+            form.find('#planeMapMark').val(str);
+        }
+    });
+}
+/**
+ * 查看平面图
+ */
+function lookPlaneMap(){
+    var planeMapMarkDate = $('#planeMapMark').val();
+    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+    PlottingDialog.dialog({
+        show:true,
+        mode:"view",
+        data:data,
+        attachmentId:enterpriseData.planeMap
+    });
+}

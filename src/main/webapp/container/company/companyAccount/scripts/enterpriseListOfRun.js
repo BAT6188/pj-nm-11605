@@ -186,11 +186,11 @@ function initModel(){
 }
 /*企业运行状态*/
 function  statusFormatter(value, row, index){
-   
+
 }
 // 生成操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" onclick="jumpToUrl(\'/container/gov/enterprise/mainEnterprise.jsp?handleType=look&id='+row.id+'\')">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" onclick="jumpToUrl(\'/container/company/companyAccount/mainEnterprise.jsp?handleType=look&id='+row.id+'\')">查看</button>';
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
