@@ -77,7 +77,7 @@
                 <h4 class="modal-title form-title">添加摄像头</h4>
             </div>
             <div class="modal-body">
-                <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
+                <%--<div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
                     <form class="form-horizontal"  action="" style="margin: 0 10px;" role="form">
                         <div class="row">
                             <div class="col-sm-12">
@@ -145,8 +145,8 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <%--<form class="form-horizontal" role="form">
+                </div>--%>
+                <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="number" class="col-sm-2 control-label">摄像头编号<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
@@ -192,7 +192,7 @@
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
-                </form>--%>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveBtn" id="save" style="display: none">保存</button>
@@ -202,7 +202,6 @@
         </div>
     </div>
 </div>
-
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/enterpriseVideo.js"></script>
 </body>
 </html>
