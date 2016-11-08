@@ -235,33 +235,33 @@ var OneImagePage = function () {
             var iconUtil = {
                 _init:function () {
                     this[Constant.GASPORT_FLAG] = {
-                        "0":rootPath+"/common/gis/images/markers/mark.png",
-                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                        "0":rootPath+"/common/gis/images/markers/gas_n.png",
+                        "1":rootPath+"/common/gis/images/markers/gas_w.gif",
+                        "2":rootPath+"/common/gis/images/markers/gas_e.png"
                     };
                     this[Constant.WATERPORT_FLAG] = {
-                        "0":rootPath+"/common/gis/images/markers/mark.png",
-                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                        "0":rootPath+"/common/gis/images/markers/water_n.png",
+                        "1":rootPath+"/common/gis/images/markers/water_w.gif",
+                        "2":rootPath+"/common/gis/images/markers/water_e.png"
                     };
                     this[Constant.NOISEPORT_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/noise.png',
-                        '1': rootPath+'/common/gis/images/markers/company_alert.gif',
-                        '2': rootPath+'/common/gis/images/markers/bike0.png'
+                        '0': rootPath+'/common/gis/images/markers/noise_n.png',
+                        '1': rootPath+'/common/gis/images/markers/noise_w.gif',
+                        '2': rootPath+'/common/gis/images/markers/noise_e.png'
                     };
                     this[Constant.DUSTPORT_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/dust.png',
-                        '1': rootPath+'/common/gis/images/markers/company_alert.gif',
-                        '2': rootPath+'/common/gis/images/markers/noise.png'
+                        '0': rootPath+'/common/gis/images/markers/dust_n.png',
+                        '1': rootPath+'/common/gis/images/markers/dust_w.gif',
+                        '2': rootPath+'/common/gis/images/markers/dust_e.png'
                     };
                     this[Constant.FUMESPORT_FLAG] = {
-                        "0":rootPath+"/common/gis/images/markers/mark.png",
-                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                        "0":rootPath+"/common/gis/images/markers/fumes_n.png",
+                        "1":rootPath+"/common/gis/images/markers/fumes_w.gif",
+                        "2":rootPath+"/common/gis/images/markers/fumes_e.png"
                     };
                     this[Constant.ENTERPRISE_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/company.png',
-                        '1': rootPath+'/common/gis/images/markers/company_alert.gif'
+                        '0': rootPath+'/common/gis/images/markers/enterprise_n.png',
+                        '1': rootPath+'/common/gis/images/markers/enterprise_w.gif'
                     };
                 },
                 getIcon:function (type,status) {
@@ -612,11 +612,12 @@ var OneImagePage = function () {
                 return false;
             }
             var that = this;
+            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG);
             this.hwmap.addMarker({
                 id:enterprise.id,
                 data:enterprise,
                 type:Constant.ENTERPRISE_FLAG,
-                imaSrc:"images/markers/company.png",
+                imaSrc:image,
                 width:40,
                 height:40,
                 x:enterprise.longitude,
