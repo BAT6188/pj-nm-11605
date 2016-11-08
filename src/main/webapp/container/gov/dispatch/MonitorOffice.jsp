@@ -177,7 +177,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="smsSend" data-toggle="modal" data-target="#smsSendForm">短信发送</button>
+                <button type="button" class="btn btn-primary" id="smsSend">短信发送</button>
                 <button type="button" class="btn btn-primary" id="save" >发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>

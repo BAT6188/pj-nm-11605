@@ -256,7 +256,21 @@ $("#search").click(function () {
     });
 });
 
-/**============选择人员对话框============**/
+/**============短信选择人员对话框============**/
+var options_sms = {
+    params:{
+        // orgCode:[],//组织机构代码(必填，组织机构代码)
+        //type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送第一个参数为2
+    console.log(data);//回调函数，data为所选人员ID
+});
+
+/**============组织机构选择人员对话框============**/
 var options = {
     params:{
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
@@ -282,6 +296,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 });
 
 /**============表单初始化相关代码============**/
+var buttonToggle;
 //初始化表单验证
 var ef = eventMsgForm.easyform({
     success:function (ef) {
@@ -290,7 +305,12 @@ var ef = eventMsgForm.easyform({
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
-            model.open(msg.id);
+            if (buttonToggle=="#save"){
+                model.open(msg.id);
+            }else if(buttonToggle=="#smsSend"){
+                model_sms.open(msg.id);
+            }
+
         });
     },
     error:function () {
@@ -299,10 +319,17 @@ var ef = eventMsgForm.easyform({
 });
 
 //表单 保存按钮
-$("#save").bind('click',function () {
+$('#save').bind('click',function () {
+    buttonToggle="#save"
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
+$('#smsSend').bind('click',function () {
+    buttonToggle="#smsSend"
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+
 //初始化日期组件
 $('#createTimeContent').datetimepicker({
     language:   'zh-CN',
