@@ -41,361 +41,462 @@
         .list-group-item{
             cursor: default;
         }
+        .tableDiv  .radio-inline label{margin-right: 25px;}
+        .tableDiv .table>tbody>tr>td{
+            vertical-align: middle;
+            padding: 4px;
+        }
+        .success{
+            width: 20%;
+            text-align: right;
+            font-size: 15px;
+        }
+        .tableDiv .input-group.date{
+            width: 270px;
+        }
+        .tableDiv td div{
+            margin: 5px;
+        }
+        .tableDiv table{
+            border-radius: 20px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+        }
+        .text-red{
+            color: #e4393c;
+        }
+        .col-sm-2.selectBtn{
+            padding-left: 0px;
+        }
+        .tableDiv .radio-inline{
+            width: 100%;
+            text-align: left;
+        }
+        .align-left{
+            text-align: left;
+        }
+        .tableDiv .form-control{
+            padding: 4px 8px;
+        }
     </style>
 </head>
 <body>
-<div class="form-div" style="width: 99%;">
+<div class="media-body" style="width: 99%;background-color: white">
     <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="z-index: 0"></a>
-    <form class="form-horizontal" role="form" id="enterpriseForm" method="post" style="margin-top: 20px;">
-        <input type="hidden" id="id" name="id" class="form-control" />
-        <input type="hidden" id="createTime" name="createTime" class="form-control" />
-        <input type="hidden" id="isDel" name="isDel" class="form-control" />
-        <input type="hidden" id="delerCode" name="delerCode" class="form-control" />
-        <input type="hidden" id="delerName" name="delerName" class="form-control" />
-        <input type="hidden" id="delTime" name="delTime" class="form-control" />
-        <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
-        <input type="hidden" id="haveFumesPort" name="haveFumesPort" class="form-control" />
-        <input type="hidden" id="userName" name="userName" class="form-control" />
-        <input type="hidden" id="password" name="password" class="form-control" />
-        <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">单位名称<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="name" name="name" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位名称"/>
-            </div>
-            <label for="status" class="col-sm-2 control-label">企业运行状态：</label>
-            <div class="col-sm-4">
-                <fieldset class="fieldset">
-                <select class="form-control needshow" id="status" name="status">
-                    <option value="1">运营中</option>
-                    <option value="0">未运营</option>
-                </select>
-                </fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">所属网格<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <select class="form-control needshow" id="blockLevelId" name="blockLevelId">
-                </select>
-            </div>
-            <label for="name" class="col-sm-2 control-label">所属网格<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <select class="form-control needshow" id="blockId" name="blockId">
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="address" class="col-sm-2 control-label">单位地址<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="address" name="address" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位地址"/>
-            </div>
-            <label for="pollutantCode" class="col-sm-2 control-label">污染源代码<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="污染源代码"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="longitude" class="col-sm-2 control-label">经度：</label>
-            <div class="col-sm-4">
-                <input type="text" id="longitude" name="longitude" class="form-control" readonly
-                       data-easyform="null;"/>
-            </div>
-            <label for="latitude" class="col-sm-2 control-label">纬度：</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="latitude" name="latitude" readonly
-                           data-easyform="null;"/>
-					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
-                            标注
-                        </button>
-					</span>
+    <div class="tableDiv" style="overflow-y: auto;overflow-x: hidden;margin: 10px;">
+        <form class="form-horizontal"  role="form" id="enterpriseForm" method="post">
+            <input type="hidden" id="id" name="id" class="form-control" />
+            <input type="hidden" id="createTime" name="createTime" class="form-control" />
+            <input type="hidden" id="isDel" name="isDel" class="form-control" />
+            <input type="hidden" id="delerCode" name="delerCode" class="form-control" />
+            <input type="hidden" id="delerName" name="delerName" class="form-control" />
+            <input type="hidden" id="delTime" name="delTime" class="form-control" />
+            <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
+            <input type="hidden" id="haveFumesPort" name="haveFumesPort" class="form-control" />
+            <input type="hidden" id="userName" name="userName" class="form-control" />
+            <input type="hidden" id="password" name="password" class="form-control" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-responsive">
+                        <tbody>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>单位名称</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="name" name="name" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位名称"/>
+                                </div>
+                            </td>
+                            <td  class="success">企业运行状态</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <fieldset class="fieldset">
+                                        <select class="form-control needshow" id="status" name="status">
+                                            <option value="1">运营中</option>
+                                            <option value="0">未运营</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">网格级别</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <select class="form-control needshow" id="blockLevelId" name="blockLevelId">
+                                    </select>
+                                </div>
+                            </td>
+                            <td  class="success">所属网格</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <select class="form-control needshow" id="blockId" name="blockId">
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">经度</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="longitude" name="longitude" class="form-control" readonly
+                                           data-easyform="null;"/>
+                                </div>
+                            </td>
+                            <td  class="success">纬度</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="latitude" name="latitude" readonly
+                                               data-easyform="null;"/>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                                                标注
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>单位地址</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="address" name="address" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="单位地址"/>
+                                </div>
+                            </td>
+                            <td  class="success">污染源代码</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="污染源代码"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">邮政编码</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="zipCode" name="zipCode" class="form-control needshow needCheck" data-message="" data-easyform="number" title="邮政编码"/>
+                                </div>
+                            </td>
+                            <td  class="success">组织机构代码</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode">
+                                    <%--<div class="input-group">
+                                        <input type="text" class="form-control needshow" id="orgCode" name="orgCode">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default formBtn" type="button">
+                                                选择
+                                            </button>
+                                        </span>
+                                    </div>--%>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>法定代表人</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人">
+                                </div>
+                            </td>
+                            <td  class="success"><span class="text-danger">(*)</span>法定代表人职务</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="apPosition" name="apPosition" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人职务"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">法定代表人电话</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="apPhone" name="apPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>环保负责人</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="环保负责人"/>
+                                </div>
+                            </td>
+                            <td  class="success"><span class="text-danger">(*)</span>环保负责人职务</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="epPosition" name="epPosition" class="form-control needshow"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">环保负责人电话</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="epPhone" name="epPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>污染源类型</td>
+                            <td colspan="3">
+                                <div class="col-sm-12" id="pollutantType">
+                                    <fieldset class="fieldset">
+                                        <label class="checkbox-inline" style="margin-left: 20px;">
+                                            <input type="checkbox" id="pollutantType01" name="pollutantType" value="01" class="needCheck" data-message="" data-easyform="checkbox" title="污染源类型">废水
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType02" name="pollutantType" value="02">废气
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType03" name="pollutantType" value="03">污水处理厂
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType04" name="pollutantType" value="04">重金属
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType05" name="pollutantType" value="05">畜禽养殖
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType06" name="pollutantType" value="06">固废
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType07" name="pollutantType" value="07">危险废物
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType08" name="pollutantType" value="08">省级实验室
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType09" name="pollutantType" value="09">二级以上医院
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="pollutantType10" name="pollutantType" value="10">其他
+                                        </label></fieldset>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>污染源管理级别</td>
+                            <td colspan="3">
+                                <div class="col-sm-12" id="pollutantLevel">
+                                    <fieldset class="fieldset">
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" class="needCheck" data-message="" data-easyform="radio" title="污染源管理级别">国控
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="pollutantLevel" id="pollutantLevel02" value="02">省（区）控
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="pollutantLevel" id="pollutantLevel03" value="03">市控
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="pollutantLevel" id="pollutantLevel04" value="04">其他
+                                        </label></fieldset>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">排污单位监管类型</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <fieldset class="fieldset">
+                                        <select class="form-control needshow"  id="superviseType" name="superviseType">
+                                            <option value="">---请选择---</option>
+                                            <option value="01">重点排污单位</option>
+                                            <option value="02">一般排污单位</option>
+                                        </select></fieldset>
+                                </div>
+                            </td>
+                            <td  class="success"><span class="text-danger">(*)</span>是否特殊监管对象</td>
+                            <td>
+                                <div class="col-sm-12" id="isSpecial">
+                                    <fieldset class="fieldset">
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="isSpecial" id="isSpecial1" value="1" class="needCheck" data-easyform="radio" title="是否特殊监管对象" data-message="请选择是否特殊监管对象">是
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="isSpecial" id="isSpecial0" value="0">否
+                                        </label></fieldset>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>登记注册类型</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <fieldset class="fieldset">
+                                        <select class="form-control needshow"  id="registType" name="registType">
+                                        </select></fieldset>
+                                </div>
+                            </td>
+                            <td  class="success"><span class="text-danger">(*)</span>登记注册时间</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="registTime" name="registTime" value="" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">隶属关系</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <fieldset class="fieldset">
+                                        <select class="form-control needshow"  id="affiliation" name="affiliation">
+                                            <option value="">---请选择---</option>
+                                        </select></fieldset>
+                                </div>
+                            </td>
+                            <td  class="success">排污单位规模</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <fieldset class="fieldset">
+                                        <select class="form-control needshow"  id="scale" name="scale">
+                                            <option value="">---请选择---</option>
+                                        </select></fieldset>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">行业类别</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="industryType" name="industryType" readonly>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                选择
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="success">所属流域</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="valley" name="valley" readonly>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#valleyModal">
+                                                选择
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">行政区</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control needshow" id="area" name="area">
+                                    <%--<div class="input-group">
+                                        <input type="text" class="form-control needshow" id="area" name="area">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#areaModal">
+                                                选择
+                                            </button>
+                                        </span>
+                                    </div>--%>
+                                </div>
+                            </td>
+                            <td  class="success">所在工业园区名称</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <fieldset class="fieldset">
+                                        <select class="form-control needshow"  id="industrialPark" name="industrialPark">
+                                            <option value="">---请选择---</option>
+                                        </select></fieldset>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">建成时间（开业时间）</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="openDate" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="openDate" name="openDate" value="" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td  class="success">最近扩建时间</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <div id="datetimepicker3" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="extensionDate" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="extensionDate" name="extensionDate" value="" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">平面图</td>
+                            <td colspan="3">
+                                <div class="col-sm-12">
+                                    <%--<input type="hidden" id="planeMap" name="planeMap" class="form-control">
+                                    <button type="button" id="lookPlaneMapBtn" class="btn btn-info" style="display: none" onclick="lookPlaneMap()">查看平面图</button>--%>
+                                    <%--<jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>--%>
+                                    <div id="fine-uploader-planemap"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">附件区</td>
+                            <td colspan="3">
+                                <div class="col-sm-12">
+                                    <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
+                                    <input type="hidden" id="removeId" name="removeId" class="form-control">
+                                    <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                                    <div id="fine-uploader-gallery"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success">排污单位介绍</td>
+                            <td colspan="3">
+                                <div class="col-sm-12">
+                                    <textarea class="form-control needshow" id="orgInfo" name="orgInfo" rows="3"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="success">周边环境敏感点</td>
+                            <td colspan="3">
+                                <div class="col-sm-12">
+                                    <textarea class="form-control needshow" id="envDesc" name="envDesc" rows="3"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <button id="saveForm" type="button" class="btn btn-success addBtn" style="display: none">保存</button>
+                        <button id="editForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>
+                        <button id="toEditForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="resetAddForm" type="button" class="btn btn-default addBtn" style="display: none">置空</button>
+                        <button id="resetEditForm" type="button" class="btn btn-default editBtn" style="display: none">置空</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="cancelAddForm" type="button" class="btn btn-warning addBtn" style="display: none">取消</button>
+                        <button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>
+                        <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none">返回</button>
+                    </div>
+                    <div class="col-sm-3"></div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="zipCode" class="col-sm-2 control-label">邮政编码：</label>
-            <div class="col-sm-4">
-                <input type="text" id="zipCode" name="zipCode" class="form-control needshow needCheck" data-message="" data-easyform="number" title="邮政编码"/>
-            </div>
-            <label for="orgCode" class="col-sm-2 control-label">组织机构代码<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control needshow" id="orgCode" name="orgCode">
-                <%--<div class="input-group">
-                    <input type="text" class="form-control needshow" id="orgCode" name="orgCode">
-					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button">
-                            选择
-                        </button>
-					</span>
-                </div>--%>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="artificialPerson" class="col-sm-2 control-label">法定代表人<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="artificialPerson" name="artificialPerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人">
-            </div>
-            <label for="apPosition" class="col-sm-2 control-label">法定代表人职务<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="apPosition" name="apPosition" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="法定代表人职务"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="apPhone" class="col-sm-2 control-label">法定代表人电话：</label>
-            <div class="col-sm-4">
-                <input type="text" id="apPhone" name="apPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
-            </div>
-            <div class="col-sm-6"></div>
-        </div>
-        <div class="form-group">
-            <label for="envPrincipal" class="col-sm-2 control-label">环保负责人<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="环保负责人"/>
-            </div>
-            <label for="epPosition" class="col-sm-2 control-label">环保负责人职务<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <input type="text" id="epPosition" name="epPosition" class="form-control needshow"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="epPhone" class="col-sm-2 control-label">环保负责人电话：</label>
-            <div class="col-sm-4">
-                <input type="text" id="epPhone" name="epPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
-            </div>
-            <div class="col-sm-6"></div>
-        </div>
-        <div class="form-group">
-            <label for="pollutantType" class="col-sm-2 control-label">污染源类型<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-10" id="pollutantType">
-                <fieldset class="fieldset">
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType01" name="pollutantType" value="01" class="needCheck" data-message="" data-easyform="checkbox" title="污染源类型">废水
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType02" name="pollutantType" value="02">废气
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType03" name="pollutantType" value="03">污水处理厂
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType04" name="pollutantType" value="04">重金属
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType05" name="pollutantType" value="05">畜禽养殖
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType06" name="pollutantType" value="06">固废
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType07" name="pollutantType" value="07">危险废物
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType08" name="pollutantType" value="08">省级实验室
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType09" name="pollutantType" value="09">二级以上医院
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="pollutantType10" name="pollutantType" value="10">其他
-                </label></fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="pollutantLevel" class="col-sm-2 control-label">污染源管理级别<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-10" id="pollutantLevel">
-                <fieldset class="fieldset">
-                <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel01" value="01" class="needCheck" data-message="" data-easyform="radio" title="污染源管理级别">国控
-                </label>
-                <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel02" value="02">省（区）控
-                </label>
-                <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel03" value="03">市控
-                </label>
-                <label class="checkbox-inline">
-                    <input type="radio" name="pollutantLevel" id="pollutantLevel04" value="04">其他
-                </label></fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="superviseType" class="col-sm-2 control-label">排污单位监管类型：</label>
-            <div class="col-sm-4">
-                <fieldset class="fieldset">
-                <select class="form-control needshow"  id="superviseType" name="superviseType">
-                    <option value="">---请选择---</option>
-                    <option value="01">重点排污单位</option>
-                    <option value="02">一般排污单位</option>
-                </select></fieldset>
-            </div>
-            <label for="isSpecial" class="col-sm-2 control-label">是否特殊监管对象<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4" id="isSpecial">
-                <fieldset class="fieldset">
-                <label class="checkbox-inline">
-                    <input type="radio" name="isSpecial" id="isSpecial1" value="1" class="needCheck" data-easyform="radio" title="是否特殊监管对象" data-message="请选择是否特殊监管对象">是
-                </label>
-                <label class="checkbox-inline">
-                    <input type="radio" name="isSpecial" id="isSpecial0" value="0">否
-                </label></fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="registType" class="col-sm-2 control-label">登记注册类型：</label>
-            <div class="col-sm-4">
-                <fieldset class="fieldset">
-                <select class="form-control needshow"  id="registType" name="registType">
-                    <option value="">---请选择---</option>
-                </select></fieldset>
-            </div>
-            <label for="registTime" class="col-sm-2 control-label">登记注册时间<span class="text-danger">(*)</span>：</label>
-            <div class="col-sm-4">
-                <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" id="registTime" name="registTime" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="affiliation" class="col-sm-2 control-label">隶属关系：</label>
-            <div class="col-sm-4">
-                <fieldset class="fieldset">
-                <select class="form-control needshow"  id="affiliation" name="affiliation">
-                    <option value="">---请选择---</option>
-                </select></fieldset>
-            </div>
-            <label for="scale" class="col-sm-2 control-label">排污单位规模：</label>
-            <div class="col-sm-4">
-                <fieldset class="fieldset">
-                <select class="form-control needshow"  id="scale" name="scale">
-                    <option value="">---请选择---</option>
-                </select></fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="industryType" class="col-sm-2 control-label">行业类别：</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="industryType" name="industryType" readonly>
-					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
-                            选择
-                        </button>
-					</span>
-                </div>
-            </div>
-            <label class="col-sm-2 control-label"></label>
-            <div class="col-sm-4">
-
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="area" class="col-sm-2 control-label">行政区：</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control needshow" id="area" name="area">
-                <%--<div class="input-group">
-                    <input type="text" class="form-control needshow" id="area" name="area">
-					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#areaModal">
-                            选择
-                        </button>
-					</span>
-                </div>--%>
-            </div>
-            <label for="industrialPark" class="col-sm-2 control-label">所在工业园区名称：</label>
-            <div class="col-sm-4">
-                <fieldset class="fieldset">
-                <select class="form-control needshow"  id="industrialPark" name="industrialPark">
-                    <option value="">---请选择---</option>
-                </select></fieldset>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="valley" class="col-sm-2 control-label">所属流域：</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="valley" name="valley" readonly>
-					<span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#valleyModal">
-                            选择
-                        </button>
-					</span>
-                </div>
-            </div>
-            <label class="col-sm-2 control-label"></label>
-            <div class="col-sm-4">
-
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="openDate" class="col-sm-2 control-label">建成时间（开业时间）：</label>
-            <div class="col-sm-4">
-                <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="openDate" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" id="openDate" name="openDate" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-            </div>
-            <label for="extensionDate" class="col-sm-2 control-label">最近扩建时间：</label>
-            <div class="col-sm-4">
-                <div id="datetimepicker3" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="extensionDate" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" id="extensionDate" name="extensionDate" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="planeMap" class="col-sm-2 control-label">平面图：</label>
-            <div class="col-sm-10">
-                <%--<input type="hidden" id="planeMap" name="planeMap" class="form-control">
-                <button type="button" id="lookPlaneMapBtn" class="btn btn-info" style="display: none" onclick="lookPlaneMap()">查看平面图</button>--%>
-                <%--<jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>--%>
-                <div id="fine-uploader-planemap"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="attachmentId" class="col-sm-2 control-label">附件区：</label>
-            <div class="col-sm-10">
-                <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
-                <input type="hidden" id="removeId" name="removeId" class="form-control">
-                <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
-                <div id="fine-uploader-gallery"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="orgInfo" class="col-sm-2 control-label">排污单位介绍：</label>
-            <div class="col-sm-10">
-                <textarea class="form-control needshow" id="orgInfo" name="orgInfo" rows="3"></textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="envDesc" class="col-sm-2 control-label">周边环境敏感点：</label>
-            <div class="col-sm-10">
-                <textarea class="form-control needshow" id="envDesc" name="envDesc" rows="3"></textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2">
-                <button id="saveForm" type="button" class="btn btn-success addBtn" style="display: none">保存</button>
-                <button id="editForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>
-                <button id="toEditForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
-            </div>
-            <div class="col-sm-2">
-                <button id="resetAddForm" type="button" class="btn btn-default addBtn" style="display: none">置空</button>
-                <button id="resetEditForm" type="button" class="btn btn-default editBtn" style="display: none">置空</button>
-            </div>
-            <div class="col-sm-2">
-                <button id="cancelAddForm" type="button" class="btn btn-warning addBtn" style="display: none">取消</button>
-                <button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>
-                <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none">返回</button>
-            </div>
-            <div class="col-sm-3"></div>
-        </div>
-        </fieldset>
-    </form>
+        </form>
+    </div>
 </div>
 
 <%----------------------------------------------------弹出框区域---------------------------------------------------------------------%>
