@@ -271,6 +271,7 @@ window.queryFeedbackEvents = {
  */
 function refreshDemoForm(demo) {
     $("#id").val(demo.id);
+    $("#status").val(demo.status);
     $("#eventTime").val(demo.eventTime);
     $("#enterpriseName").val(demo.enterpriseName);
     $("#blockName").val(demo.blockName);
@@ -330,6 +331,7 @@ var options_sms = {
 
 var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送第一个参数为2
     console.log(data);//回调函数，data为所选人员ID
+    pageUtils.saveOperationLog({opType:'4',opModule:'监控中心',opContent:'短信发送数据',refTableId:''})
 });
 
 /************  组织机构发送  ****************/
@@ -353,6 +355,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         success:function (msg) {
             $("#systemSendForm").modal('hide');
             gridTable.bootstrapTable("refresh")
+            pageUtils.saveOperationLog({opType:'4',opModule:'监控中心',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -368,14 +371,26 @@ var ef = $("#systemSendForm").easyform({
         var sendTime = $("#sendTime").val();
         var content = $("#content").val();
         var sendRemark = $("#sendRemark").val();
+        var status = $("#status").val();
+
         var entity = {senderName:senderName,sendTime:sendTime,
             content:content,sendRemark:sendRemark,
-            id:id}
+            status:status,id:id}
+
+        if (buttonToggle=="#save"){
+            entity.sendType="#save"
+            if('0'!=entity.status){
+                Ewin.alert("已调度状态不允许修改或再次发送");
+                return;
+            }
+        }else if(buttonToggle=="#smsSend"){
+            entity.sendType="#smsSend"
+        }
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
 
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
-            if (buttonToggle=="#send"){
+            if (buttonToggle=="#save"){
                 model.open(msg.id);
             }else if(buttonToggle=="#smsSend"){
                 model_sms.open(msg.id);
@@ -386,7 +401,7 @@ var ef = $("#systemSendForm").easyform({
 
 //表单 保存按钮
 $("#send").bind('click',function () {
-    buttonToggle="#send"
+    buttonToggle="#save"
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
