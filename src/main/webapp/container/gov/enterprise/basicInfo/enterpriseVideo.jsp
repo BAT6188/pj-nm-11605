@@ -15,7 +15,6 @@
             /*数据字典*/
             var optionsHtml = '';
             $.each(dictData,function(i,obj){
-                console.log(obj);
                 optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
             })
             $('#monitorType').append(optionsHtml);
@@ -38,8 +37,8 @@
                 <div class="queryBox marginLeft0">
                     <p>
                     <form class="form-inline" role="form" id="searchform">
-                        <label for="number">排口编号：</label> <input type="text" id="portNumber" name="number" class="form-control" />
-                        <label for="name">排口名称：</label> <input type="text" id="portName" name="name" class="form-control" />
+                        <label for="number">摄像头编号：</label> <input type="text" id="portNumber" name="number" class="form-control" />
+                        <label for="name">摄像头名称：</label> <input type="text" id="portName" name="name" class="form-control" />
                     </form>
                     </p>
                 </div>
