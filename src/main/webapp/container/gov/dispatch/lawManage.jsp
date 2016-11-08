@@ -204,7 +204,7 @@
     </div><!-- /.modal -->
 </div>
 
-<!--查看反馈表单-->
+<!--查看反馈表单列表-->
 <div class="modal fade" id="lookOverFeedbackForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:842px;">
         <div class="modal-content">
@@ -235,7 +235,7 @@
 
                         <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="lookOverFeedbackForm_source" class="form-control" style="width: 266px;">
+                            <select id="lookOverFeedbackForm_source" class="form-control">
                                 <option value="1">12369</option>
                                 option value="2">区长热线</option>
                                 <option value="3">市长热线</option>
@@ -325,7 +325,7 @@
     </div><!-- /.modal -->
 </div>
 
-<!--点反馈按钮打开反馈表单 或 查看反馈表单-->
+<!--点反馈按钮打开反馈表单添加反馈信息 或 查看反馈表单详情-->
 <div class="modal fade" id="feedbackForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:842px;">
         <div class="modal-content">
