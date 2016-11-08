@@ -20,6 +20,11 @@
             $('#monitorType').append(optionsHtml);
         }
     </script>
+    <style>
+        .table-responsive .success{
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body>
@@ -72,7 +77,76 @@
                 <h4 class="modal-title form-title">添加摄像头</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
+                    <form class="form-horizontal"  action="" style="margin: 0 10px;" role="form">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-responsive">
+                                    <tbody>
+                                    <tr>
+                                        <td class="success"><span class="text-danger">(*)</span>摄像头编号</td>
+                                        <td>
+                                            <div class="col-sm-12">
+                                                <input type="hidden" id="id" name="id" class="form-control">
+                                                <input type="hidden" id="unitId" name="unitId" class="form-control">
+                                                <input type="hidden" id="createTime" name="createTime" class="form-control">
+                                                <input type="text" id="number" name="number" class="form-control"
+                                                       data-message="编号不能为空"
+                                                       data-easytip="position:top;class:easy-red;"/>
+                                            </div>
+                                        </td>
+                                        <td  class="success"><span class="text-danger">(*)</span>摄像头名称</td>
+                                        <td>
+                                            <div class="col-sm-12">
+                                                <input type="text" id="name" name="name" class="form-control"
+                                                       data-message="名称不能为空"
+                                                       data-easytip="position:top;class:easy-red;"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success">排口位置</td>
+                                        <td>
+                                            <div class="col-sm-12">
+                                                <input type="text" id="position" name="position" class="form-control">
+                                            </div>
+                                        </td>
+                                        <td  class="success">监测类型</td>
+                                        <td>
+                                            <div class="col-sm-12">
+                                                <select id="monitorType" name="monitorType" class="form-control">
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success">平面图</td>
+                                        <td colspan="3">
+                                            <div class="col-sm-12" id="planeMap">
+                                                <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
+                                                <button type="button" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看平面图标注</button>
+                                                <button type="button" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success">附件区</td>
+                                        <td colspan="3">
+                                            <div class="col-sm-12">
+                                                <input type="hidden" id="attachmentId" name="attachmentId" class="form-control">
+                                                <input type="hidden" id="removeId" name="removeId" class="form-control">
+                                                <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                                                <div id="fine-uploader-gallery"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <%--<form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="number" class="col-sm-2 control-label">摄像头编号<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
@@ -87,8 +161,7 @@
                         <div class="col-sm-4">
                             <input type="text" id="name" name="name" class="form-control"
                                    data-message="名称不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                                   data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -119,7 +192,7 @@
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
-                </form>
+                </form>--%>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveBtn" id="save" style="display: none">保存</button>

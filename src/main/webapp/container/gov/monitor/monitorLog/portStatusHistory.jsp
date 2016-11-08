@@ -4,7 +4,43 @@
 <head>
     <title>超标记录</title>
     <script type="text/javascript">
-
+        $(function(){
+            setBlock('#blockLevelId','#blockId');
+        });
+        function setBlock(pSelector,cSelector){
+            var pBlock = $(pSelector),cBlock = $(cSelector),blockMap={};
+            var blockLevel = searchForAjax("/action/S_composite_BlockLevel_list.action",null);
+            if(blockLevel.total){
+                $.each(blockLevel.rows,function(k,v){
+                    pBlock.append($("<option>").val(v.id).text(v.name));
+                    var child = searchForAjax("/action/S_composite_Block_findLevelById.action",{blockLevelId: v.id});
+                    blockMap[v.id] = child;
+                });
+                pBlock.change(function(){
+                    var pid = $(this).val();
+                    var childData = blockMap[pid];
+                    cBlock.empty();
+                    cBlock.append($("<option>").val("").text("全部"));
+                    $.each(childData,function(k,v){
+                        cBlock.append($("<option>").val(v.id).text(v.orgName));
+                    });
+                });
+            }
+        }
+        function searchForAjax(url,entity) {
+            var returnData;
+            $.ajax({
+                url: rootPath + url,
+                method:'post',
+                async :false,
+                data:entity,
+                dataType:"json",
+                success:function(data) {
+                    returnData = data;
+                }
+            });
+            return returnData;
+        }
     </script>
 </head>
 <body>
@@ -23,19 +59,30 @@
                     <form class="form-horizontal" role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="enterpriseName" class="labelMarginLeft">企业名称：</label><input type="text" id="enterpriseName" name="enterpriseName" class="form-control">
-                                <label for="isSpecial" class="labelMarginLeft">企业类型：</label>
-                                <select style="width: 300px;" class="form-control"  id="isSpecial" name="isSpecial">
+                                <label for="enterpriseName">&nbsp;企业名称：</label><input type="text" id="enterpriseName" name="enterpriseName" class="form-control" style="margin-left: 6px;">
+                                <label for="enterpriseType" class="labelMarginLeft">企业类型：</label>
+                                <select style="width: 300px;" class="form-control"  id="enterpriseType" name="enterpriseType">
                                     <option value="">全部</option>
-                                    <option value="1">是</option>
-                                    <option value="0">否</option>
                                 </select>
                             </div>
                         </div>
                         <p></p>
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="monitorTime">监测时间段：</label>
+                                <label for="blockLevelId">&nbsp;所属网格：</label>
+                                <select class="form-control" id="blockLevelId" name="blockLevelId" style="width: 243px;">
+                                    <option value="">全部</option>
+                                </select>
+                                —
+                                <select class="form-control" id="blockId" name="blockId" style="width: 243px;">
+                                    <option value="">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="monitorTime">超标时间段：</label>
                                 <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd hh:ii">
                                     <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
