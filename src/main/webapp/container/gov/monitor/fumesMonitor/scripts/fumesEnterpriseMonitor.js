@@ -102,7 +102,7 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/fumesMonitor/lookFumesMonitor.jsp?id='+row.id+'\')">查看</button> ' +
-        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view" onclick="lookInMap(\''+row.id+'\')">地图查看</button>';
+        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view">地图查看</button>'; // onclick="lookInMap(\''+row.id+'\')"
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片

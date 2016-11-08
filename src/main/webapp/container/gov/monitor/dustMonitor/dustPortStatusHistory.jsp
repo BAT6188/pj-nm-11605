@@ -7,14 +7,14 @@
     %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
-    <title>噪声源排口实时数据</title>
+    <title>沙尘暴实时数据</title>
     <script type="text/javascript">
 
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;z-index: 0;">噪声源->“<span id="portName"></span>” 实时数据</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;z-index: 0;">沙尘暴实时数据</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">

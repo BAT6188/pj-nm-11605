@@ -16,14 +16,13 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_NoisePortHistory_list.action",
+        url: rootPath+"/action/S_port_DustPortHistory_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.type = 1;
             return temp;
         },
         columns: [
@@ -42,85 +41,57 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: 'Leq(db)',
-                field: 'leqdb',
+                title: 'PM10(mg/m3)',
+                field: 'pm',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'sd',
-                field: 'sd',
+                title: '能见度(km)',
+                field: 'visibility',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'Lmax(dB)',
-                field: 'lmax',
+                title: 'TSP(mg/m3)',
+                field: 'tsp',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'Lmin(dB)',
-                field: 'lmin',
+                title: '湿度(%)',
+                field: 'humidity',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'L5(dB)',
-                field: 'lFive',
+                title: '温度(.C)',
+                field: 'temperature',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'L10(dB)',
-                field: 'lTen',
+                title: '气压(hpa)',
+                field: 'airPressure',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'L50(dB)',
-                field: 'lFifty',
+                title: '风向(度)',
+                field: 'windDirection',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: 'L90(dB)',
-                field: 'lNinety',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: 'L95(dB)',
-                field: 'lNinetyFive',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: 'Le',
-                field: 'le',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '昼间上限(dB)',
-                field: 'dayMax',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '夜间上限(dB)',
-                field: 'nightMax',
+                title: '风速(m/s)',
+                field: 'windSpeed',
                 editable: false,
                 sortable: false,
                 align: 'center'

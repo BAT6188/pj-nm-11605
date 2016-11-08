@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 18px;z-index: 0">污染源列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">餐饮油烟企业列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -46,7 +46,7 @@
         </div>
     </div>
 </div>
-<%@include file="/common/gis/map_dialog.jsp"%>
+<%--<%@include file="/common/gis/map_dialog.jsp"%>--%>
 <%@include file="/container/gov/composite/enterprise_plotting.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/fumesMonitor/scripts/fumesEnterpriseMonitor.js"></script>
 </body>

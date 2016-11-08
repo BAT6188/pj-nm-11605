@@ -30,13 +30,13 @@ public class PortStatusHistory implements Serializable {
     private String portId;
 
     /**
-     * 关联设备ID
+     * 关联设备number
      */
     @Column(name = "port_number")
     private String portNumber;
 
     /**
-     * 关联设备ID
+     * 关联设备name
      */
     @Column(name = "port_name")
     private String portName;
@@ -52,6 +52,24 @@ public class PortStatusHistory implements Serializable {
      */
     @Column(name = "enterprise_name")
     private String enterpriseName;
+
+    /**
+     * 关联企业名称
+     */
+    @Column(name = "enterprise_type")
+    private String enterpriseType;
+
+    /**
+     * 网格级别
+     */
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+
+    /**
+     * 所属网格
+     */
+    @Column(name = "block_name")
+    private String blockName;
 
     /**
      * 污染物编码
@@ -200,5 +218,29 @@ public class PortStatusHistory implements Serializable {
 
     public void setPortName(String portName) {
         this.portName = portName;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getEnterpriseType() {
+        return enterpriseType;
+    }
+
+    public void setEnterpriseType(String enterpriseType) {
+        this.enterpriseType = enterpriseType;
     }
 }

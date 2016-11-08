@@ -1,60 +1,16 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#dustForm"),
-    formTitle = "沙尘暴监测点",
+    form = $("#otherProductForm"),
+    formTitle = "超标记录",
     selections = [];
 
-
-initMapBtn();
-/*初始化标注按钮*/
-function initMapBtn(){
-    //绑定markDialog关闭事件
-    MapMarkDialog.closed(function (mark) {
-        if (mark) {
-            $("#longitude").val(mark.x);
-            $("#latitude").val(mark.y);
-        }else{
-            Ewin.alert({message:"请选择坐标"});
-            return false;
-        }
-    });
-    $('#mapMarkBtn').bind('click', function () {
-        //设置标绘模式
-        MapMarkDialog.setMode("point");
-        MapMarkDialog.open();
-    });
-}
-//保存ajax请求
-function saveAjax(entity, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_port_DustPort_save.action",
-        type:"post",
-        data:entity,
-        dataType:"json",
-        success:callback
-    });
-}
-/**
- * 删除请求
- * @param ids 多个,号分隔
- * @param callback
- */
-function deleteAjax(ids, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_port_DustPort_delete.action",
-        type:"post",
-        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:callback
-    });
-}
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_DustPort_list.action",
+        url: rootPath+"/action/S_port_PortStatusHistory_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
@@ -72,41 +28,48 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '监测点编号',
-                field: 'number',
+                title: '企业名称',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '监测点名称',
-                field: 'name',
+                title: '所属网格',
+                field: 'blockLevelName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '经度',
-                field: 'longitude',
+                title: '超标时间',
+                field: 'startTime',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '纬度',
-                field: 'latitude',
+                title: '监测指标',
+                field: 'pollutantCode',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                field: 'portStatus',
-                title: '当前状态',
+                title: '状态',
+                field: 'status',
                 editable: false,
                 sortable: false,
                 align: 'center',
+                formatter: statusFormatter
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
             }
-
         ]
     });
     // sometimes footer render error.
@@ -115,13 +78,13 @@ function initTable() {
     }, 200);
 
     //列表checkbox选中事件
-    gridTable.on('check.bs.table uncheck.bs.table ' +
+    /*gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-    });
+    });*/
 
     $(window).resize(function () {
         // 重新设置表的高度
@@ -133,22 +96,23 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#dustForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#otherProductForm">查看</button>';
 }
-function noiseTypeFormatter(value, row, index){
-    return dict.get('noiseType',value);
+var statusType = {
+    '1':'在用',
+    '0':'停用'
 }
-function fnTypeFormatter(value, row, index){
-    return dict.get('noiseFnType',value);
+function statusFormatter(value, row, index){
+    return statusType[value];
 }
 // 列表操作事件
-window.operateEvents = {
+/*window.operateEvents = {
     'click .view': function (e, value, row, index) {
         $('.saveBtn').hide();
         $('.lookBtn').show();
         setFormView(row);
     }
-};
+};*/
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -175,12 +139,12 @@ function getHeight() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
+//removeBtn.prop('disabled', true);
+//updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-$("#add").bind('click',function () {
+/*$("#add").bind('click',function () {
     updateSuccessMsg = '添加'+formTitle+'成功!';
     $('.saveBtn').show();
     $('.lookBtn').hide();
@@ -191,18 +155,15 @@ $("#update").bind("click",function () {
     $('.saveBtn').show();
     $('.lookBtn').hide();
     setFormData(getSelections()[0]);
-});
+});*/
 /**
  * 列表工具栏 删除按钮
  */
-removeBtn.click(function () {
+/*removeBtn.click(function () {
     var ids = getIdSelections();
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
-            return;
-        }
+    $('.mainBox').BootstrapConfirm('确认要删除选择的数据吗？',function(){
         deleteAjax(ids,function (msg) {
-            Ewin.alert('删除成功！');
+            $('.mainBox').BootstrapAlertMsg('success','删除成功!',2000);
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -210,9 +171,7 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
-});
-
-
+});*/
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
@@ -231,7 +190,7 @@ $("#searchFix").click(function () {
 });
 
 /**============表单初始化相关代码============**/
-var updateSuccessMsg = '提交成功';
+/*var updateSuccessMsg = '提交成功';
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
@@ -239,8 +198,8 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
-            Ewin.alert(updateSuccessMsg);
+            form.find('#cancelBtn').trigger('click');
+            $('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -250,7 +209,7 @@ var ef = form.easyform({
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
-});
+});*/
 /**
  * 设置表单数据
  * @param entity
@@ -289,7 +248,6 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
@@ -401,33 +359,3 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/**
- * 平面图标注
- */
-function makePlaneMap(){
-    var planeMapMarkDate = $('#planeMapMark').val();
-    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
-    PlottingDialog.dialog({
-        show:true,
-        mode:"marker",
-        data:data,
-        attachmentId:enterpriseData.planeMap,
-        callback:function (marker) {
-            var str = JSON.stringify(marker);
-            form.find('#planeMapMark').val(str);
-        }
-    });
-}
-/**
- * 查看平面图
- */
-function lookPlaneMap(){
-    var planeMapMarkDate = $('#planeMapMark').val();
-    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
-    PlottingDialog.dialog({
-        show:true,
-        mode:"view",
-        data:data,
-        attachmentId:enterpriseData.planeMap
-    });
-}
