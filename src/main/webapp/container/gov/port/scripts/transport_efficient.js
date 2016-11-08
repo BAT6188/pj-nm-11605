@@ -96,21 +96,31 @@ function initTable() {
                 title: '传输率',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return value + "%";
+                }
             },
             {
                 field: 'efficient',
                 title: '有效率',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return value + "%";
+                }
             },
             {
                 field: 'ratio',
                 title: '传输有效率',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    debugger;
+                    return value + "%";
+                }
             },
             {
                 field: 'remark',

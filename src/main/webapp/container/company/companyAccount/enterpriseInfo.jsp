@@ -55,8 +55,6 @@
         <input type="hidden" id="delTime" name="delTime" class="form-control" />
         <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
         <input type="hidden" id="haveFumesPort" name="haveFumesPort" class="form-control" />
-        <input type="hidden" id="userName" name="userName" class="form-control" />
-        <input type="hidden" id="password" name="password" class="form-control" />
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">单位名称<span class="text-danger">(*)</span>：</label>
             <div class="col-sm-4">
@@ -483,6 +481,6 @@
 </div>
 <!-- 所属流域模态框 end -->
 <%@include file="/common/gis/map_mark.jsp"%>
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/enterpriseInfo.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/company/companyAccount/scripts/enterpriseInfo.js"></script>
 </body>
 </html>
