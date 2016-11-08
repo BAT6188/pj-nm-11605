@@ -1,4 +1,5 @@
 var gridTable = $('.tableTab'),
+    feedbackRecordTable=$("#feedbackRecordTable"),
     selections = [];
 
 var status_search="";
@@ -93,6 +94,16 @@ var status_search="";
                 align: 'center',
                 events: operateEvents,
                 formatter: statusFormatter,
+                visible:false
+            },
+            {
+                field: 'queryFeedback',
+                title: '操作',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: queryFeedbackEvents,
+                formatter: queryFeedbackFormatter,
                 visible:false
             },{
                 title: 'supervisorPhone',
@@ -240,6 +251,18 @@ function reasonFormatter(value, row, index) {
 window.operateEvents = {
     'click .like': function (e, value, row, index) {
         refreshDemoForm(row);
+    }
+};
+
+
+// 生成列表操作方法
+function queryFeedbackFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">查看反馈</button>';
+}
+// 列表操作事件
+window.queryFeedbackEvents = {
+    'click .view': function (e, value, row, index) {
+        feedbackRecordTable.bootstrapTable('refresh',{query:{id:row.id}})
     }
 };
 /**
@@ -399,11 +422,13 @@ $(function(){
             status_search=0
 
             gridTable.bootstrapTable('hideColumn',"status");
+            gridTable.bootstrapTable('hideColumn',"queryFeedback");
             gridTable.bootstrapTable('showColumn',"operate");
         }else {
             status_search='!0'
 
             gridTable.bootstrapTable('showColumn',"status");
+            gridTable.bootstrapTable('showColumn',"queryFeedback");
             gridTable.bootstrapTable('hideColumn',"operate");
         }
 
@@ -418,4 +443,101 @@ $(function(){
 $(document).ready(function () {
     loadBlockLevelAndBlockOption("#s_blockLevelId","#s_blockId")
 })
+
+/***************** 执法反馈列表 ***************************/
+/**
+ * 查看反馈表单事件
+ * @type {{[click .see]: Window.seeEvent.'click .see'}}
+ */
+window.seeEvent = {
+    'click .see': function (e, value, row, index) {
+        console.log(JSON.stringify(row))
+
+        $("#lawerName").val(row.lawerName)
+        $("#phone").val(row.phone)
+        $("#exeTime").val(row.exeTime)
+        $("#exeDesc").val(row.exeDesc)
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(row.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+    }
+};
+
+function initfeedbackRecordTable() {
+    feedbackRecordTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_dispatch_MonitorCase_queryFeedbackListByMonitorCaseId.action",
+        method:'post',
+        pagination:true,
+        pageSize:5,
+        pageList:[5],
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '现场执法人',
+                field: 'lawerName',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '联系方式',
+                field: 'phone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '执法时间',
+                field: 'exeTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '执法详情',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                visible:false
+            },
+            {
+                title: '查看',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: seeEvent,
+                formatter: function (value, row, index) {
+                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#feedbackForm">详情</a>'
+                    return html
+                }
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        feedbackRecordTable.bootstrapTable('resetView');
+    }, 200);
+
+}
+initfeedbackRecordTable()
+
 
