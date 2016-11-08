@@ -18,6 +18,14 @@ var pageUtils = {
     },
     findAttachmentIds: function (businessId,attachmentType) {
         var ids = [];
+        var attachments = this.findAttachment(businessId, attachmentType);
+        for (var i = 0; i < attachments.length; i++) {
+            ids.push(attachments[i].id);
+        }
+        return ids;
+    },
+    findAttachment: function (businessId,attachmentType) {
+        var attachments = [];
         $.ajax({
             url:rootPath + "/action/S_attachment_Attachment_listAttachment.action",
             type:"post",
@@ -27,12 +35,12 @@ var pageUtils = {
             success:function (result) {
                 if (result && result.length > 0){
                     for(var i = 0; i < result.length; i++){
-                        ids.push(result[i].id);
+                        attachments.push(result[i]);
                     }
                 }
             }
         });
-        return ids;
+        return attachments;
     },
 
     getTableHeight:function () {
