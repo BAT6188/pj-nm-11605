@@ -129,14 +129,14 @@ function initTable() {
                     }else if(value==2){
                         value="已发送"
                     }else if(value==3){
-                        value="已反馈"
+                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">已反馈</a>'
                     }else if(value==4){
                         value="已处罚"
                     }else if(value==5){
                         value="已办结"
                     }
 
-                    return '<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">'+value+'</a>'
+                    return value
                 }
             },
             {
@@ -170,12 +170,12 @@ function initTable() {
                     }else if(row.status==3){
                         value='已反馈'
                     }else if(row.status==4){
-                        value="已处罚"
+                        value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else if(row.status==5){
                         value="已办结"
                     }
 
-                    return "<a class='btn btn-md btn-warning punish'>"+value+"</a>"
+                    return value
                 }
             },
             {
@@ -252,6 +252,8 @@ window.lookOverEvents = {
         var id = entity.id;
 
         eventMsgForm.find("input").attr("disabled",true);
+        eventMsgForm.find("textarea").attr("disabled",true);
+        eventMsgForm.find("select").attr("disabled",true);
 
         $("#id").val(entity.id);
         $("#eventTime").val(entity.eventTime);

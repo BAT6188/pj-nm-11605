@@ -8,14 +8,52 @@ $(function(){
     var highchart1 = $("#container1");
     var highchart2 = $("#container2");
 
+    //默认获取上半年时间，和去年上半年时间
+    var year = new Date().getFullYear();
+    var startXdate = year-1 + '-'+ '01' + '-'+ '01';
+    var lastXdate = year-1 + '-'+ '06' + '-'+ '30';
+    var startSdate = year +　'-'+'01' + '-'+'01';
+    var lastSdate = year + '-'+ '06' + '-'+ '30';
 
     //初始化日期组件
-    $('.form_datetime').datetimepicker({
+    $('.form_datetime1').datetimepicker({
         language:   'zh-CN',
         autoclose: 1,
         startView: 3,//月视图
-        minView: 3
+        minView: 3,
+        weekStart: 1,
+        autoclose: true,
+        todayBtn: 'linked'
     });
+    
+    $("#start_createTime").bind("change",function () {
+        var startTime = $(this).val();
+        if (!startTime) {
+            return;
+        }
+        var year = startTime.substr(0, 4);
+        var years = parseInt(year) +1;
+        var month = parseInt(startTime.substr(5, 2));
+        var endTimeStartMonth = month;
+        if (month == 12) {
+            endTimeStartMonth = month;
+        }else{
+            endTimeStartMonth = month+3
+        }
+        $('.form_datetime2').datetimepicker('setStartDate', year+"-"+endTimeStartMonth);
+        $('.form_datetime2').datetimepicker('setEndDate', years+"-"+"01");
+    });
+ 
+    $('.form_datetime2').datetimepicker({
+        language:   'zh-CN',
+        startView: 3,//月视图
+        minView: 3,
+        weekStart: 1,
+        autoclose: true,
+        todayBtn: 'linked'
+    });
+
+
 
     $('.form_datetimes').datetimepicker({
         language:   'zh-CN',
@@ -24,12 +62,7 @@ $(function(){
         minView: 4
 
     });
-    //默认获取上半年时间，和去年上半年时间
-    var year = new Date().getFullYear();
-    var startXdate = year-1 + '-'+ '01' + '-'+ '01';
-    var lastXdate = year-1 + '-'+ '06' + '-'+ '30';
-    var startSdate = year +　'-'+'01' + '-'+'01';
-    var lastSdate = year + '-'+ '06' + '-'+ '30';
+
 
     //执行初始化
     initPage();
