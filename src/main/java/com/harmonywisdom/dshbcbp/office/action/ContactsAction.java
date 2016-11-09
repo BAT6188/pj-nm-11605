@@ -76,4 +76,12 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
         }
         super.delete();
     }
+
+    /**
+     * 从网格中移除人员
+     */
+    public void removeContactFromBlock(){
+        String deleteId = request.getParameter("deletedId");
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.removeContactFromBlock(deleteId)));
+    }
 }

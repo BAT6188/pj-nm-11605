@@ -200,9 +200,9 @@
         </div>
     </div>
 </div>
-<%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
-<script>
+<%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
+<%--<script>
     var options = {
         title:"测试组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
         width:"60%",        //宽度(可省略，默认值：850)
@@ -210,6 +210,6 @@
     var model = $.fn.MsgSend.init(1,options,function(e,data){ //短信发送第一个参数为2
         console.log(data);//回调函数，data为所选人员ID
     });
-</script>
+</script>--%>
 </body>
 </html>

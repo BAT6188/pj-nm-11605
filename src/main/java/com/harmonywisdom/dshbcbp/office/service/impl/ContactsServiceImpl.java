@@ -17,4 +17,15 @@ public class ContactsServiceImpl extends BaseService<Contacts, String> implement
     protected BaseDAO<Contacts, String> getDAO() {
         return contactsDAO;
     }
+
+    @Override
+    public String removeContactFromBlock(String idString) {
+        String[] ids = idString.split(",");
+        if(ids.length>0){
+            for(String id:ids){
+                contactsDAO.executeJPQL("update Contacts set blockLevelId=null,blockId=null where id=?",id);
+            }
+        }
+        return idString;
+    }
 }

@@ -313,7 +313,25 @@ removeBtn.click(function () {
         });
     });
 });
-
+removePersonBtn.click(function () {
+    var ids = getIdSelections();
+    Ewin.confirm({ message: "确认要将所选人员从当前网格中移除？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        $.ajax({
+            url: rootPath + "/action/S_office_Contacts_removeContactFromBlock.action",
+            type:"post",
+            async:false,
+            data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
+            dataType:"json",
+            success:function (data) {
+                searchForm();
+                removePersonBtn.prop('disabled', true);
+            }
+        });
+    });
+});
 
 
 /**============列表搜索相关处理============**/
@@ -375,6 +393,7 @@ function setFormData(entity) {
                     $('#blockId').append($("<option>").val(v.id).text(v.name));
                 });
             }
+            if(value==null) value="";
             $(v).find("option[value='"+value+"']").attr("selected",true);
         }else{
             $(v).val(value);
