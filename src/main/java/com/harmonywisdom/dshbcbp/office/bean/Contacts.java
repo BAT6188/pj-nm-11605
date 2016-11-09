@@ -55,6 +55,24 @@ public class Contacts implements Serializable {
     private String orgId;
 
     /**
+     *关联apportal用户id
+     */
+    @Column(name = "APPORTAL_USER_Id",length = 100)
+    private String apportalUserId;
+
+    /**
+     * 网格级别
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+
+    /**
+     * 所属网格
+     */
+    @Column(name = "block_id")
+    private String blockId;
+
+    /**
      * 拼音字符串，逗号分隔
      */
     @Column(name = "PINYIN_CODES",length = 100)
@@ -152,5 +170,29 @@ public class Contacts implements Serializable {
 
     public void setPinyinCodes(String pinyinCodes) {
         this.pinyinCodes = pinyinCodes;
+    }
+
+    public String getApportalUserId() {
+        return apportalUserId;
+    }
+
+    public void setApportalUserId(String apportalUserId) {
+        this.apportalUserId = apportalUserId;
+    }
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
     }
 }
