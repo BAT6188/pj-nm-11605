@@ -398,7 +398,7 @@ function makePlaneMap(){
         show:true,
         mode:"marker",
         data:data,
-        attachmentId:enterpriseData.planeMap,
+        attachments:pageUtils.findAttachment(enterpriseData.id,"planeMap"),
         callback:function (marker) {
             var str = JSON.stringify(marker);
             form.find('#planeMapMark').val(str);
