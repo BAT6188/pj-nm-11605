@@ -52,13 +52,13 @@ var MsgSend = {};
 function setDialogTypeOne(dialog,options,callback){
     if (callback && callback instanceof Function) {
         $(dialog).find('.sendToButton').click(function () {
-            var ids = getIdsSelectionsFromGridSelectPeople();
-            if(ids.length==0){
+            var persons = getIdsSelectionsFromGridSelectPeople();
+            if(persons.length==0){
                 Ewin.alert("请选择人员");
                 return;
             }
             var returnData={
-                ids:ids,
+                personObj:persons[0],
                 sourceId:sourceId_msgSend
             }
             callback(true,returnData);
@@ -125,7 +125,12 @@ function setDialogTypeOne(dialog,options,callback){
                     align: 'center',
                     radio:false,  //  true 单选， false多选
                     valign: 'middle'
-                },{
+                }, {
+                    title: 'id',
+                    field: 'id',
+                    visible:false
+                },
+                {
                     title: '已选名单',
                     field: 'name',
                     editable: false,
@@ -160,7 +165,7 @@ function setDialogTypeOne(dialog,options,callback){
      */
     function getIdsSelectionsFromGridSelectPeople() {
         return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
-            return row.id
+            return row;
         });
     }
 
@@ -190,9 +195,14 @@ function setDialogTypeOne(dialog,options,callback){
         gridSelectPeopleTable.bootstrapTable('removeAll');
         jsMap.removeAll();
     }
-
+    var selectedId="";
     function zTreeOnClick(event, treeId, treeNode) {
         if(treeNode.check_Child_State=="-1" && treeNode.id!="false"){
+            if(selectedId!=""){
+                jsMap.remove(selectedId);
+                gridSelectPeopleTable.bootstrapTable('removeAll');
+            }
+            selectedId = treeNode.id;
             appendToGrid(treeNode);
         }
     };
