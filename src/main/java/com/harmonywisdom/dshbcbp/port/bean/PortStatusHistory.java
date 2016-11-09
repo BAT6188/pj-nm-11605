@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -115,6 +112,47 @@ public class PortStatusHistory implements Serializable {
      */
     @Column(name = "solution")
     private String solution;
+
+    /**
+     * 标题
+     * @return
+     */
+    @Column(name = "RES_TITLE")
+    private String res_title;
+
+    /**
+     * 发布单位
+     * @return
+     */
+    @Column(name="PUBLISHING_UNIT")
+    private String publishingUnit;
+
+    /**
+     * 发布时间
+     * @return
+     */
+    @Column(name = "RELEASE_TIME")
+    private Date release_time;
+
+    /**
+     * 发布人
+     * @return
+     */
+    @Column(name = "RELEASE_PERSON")
+    private String release_person;
+
+    /**
+     * 实时数据
+     * @return
+     */
+    @Column(name = "REALTIME_DATA")
+    private String realtimeData;
+
+    /**
+     * 附件
+     **/
+    @Transient
+    private String attachmentId;
 
     public String getId() {
         return id;
@@ -242,5 +280,53 @@ public class PortStatusHistory implements Serializable {
 
     public void setEnterpriseType(String enterpriseType) {
         this.enterpriseType = enterpriseType;
+    }
+
+    public String getRes_title() {
+        return res_title;
+    }
+
+    public void setRes_title(String res_title) {
+        this.res_title = res_title;
+    }
+
+    public String getPublishingUnit() {
+        return publishingUnit;
+    }
+
+    public void setPublishingUnit(String publishingUnit) {
+        this.publishingUnit = publishingUnit;
+    }
+
+    public Date getRelease_time() {
+        return release_time;
+    }
+
+    public void setRelease_time(Date release_time) {
+        this.release_time = release_time;
+    }
+
+    public String getRelease_person() {
+        return release_person;
+    }
+
+    public void setRelease_person(String release_person) {
+        this.release_person = release_person;
+    }
+
+    public String getRealtimeData() {
+        return realtimeData;
+    }
+
+    public void setRealtimeData(String realtimeData) {
+        this.realtimeData = realtimeData;
+    }
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
     }
 }

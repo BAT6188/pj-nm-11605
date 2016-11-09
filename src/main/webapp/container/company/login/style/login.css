@@ -104,9 +104,9 @@ p.tipMsg{
 }
 
 .client-type{
-    color: red;
+    color: #bb0000;
     font-weight: bold;
-    font-size: 26px;
+    font-size: 24px;
     font-style: italic;
     width:80px;
     height: 32px;
