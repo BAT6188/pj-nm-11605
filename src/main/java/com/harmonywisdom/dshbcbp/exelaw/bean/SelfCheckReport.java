@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,6 +21,29 @@ public class SelfCheckReport implements Serializable {
 
     @Column(name = "enterprise_name", length = 32)
     private String enterpriseName;
+
+    /**
+     * 反馈状态：0未反馈  1已反馈
+     */
+    @Column(name = "status", length = 2)
+    private String status;
+
+    /**
+     * 网格级别，
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+
+    /**
+     * 所属网格，
+     */
+    @Column(name = "block_id", length = 32)
+    private String blockId;
+    @Column(name = "block_name")
+    private String blockName;
+
     /** 隐患名称*/
     @Column(name = "name")
     private String name;
@@ -49,11 +69,9 @@ public class SelfCheckReport implements Serializable {
     @Column(name = "solution")
     private String solution;
 
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
-    /** 反馈单位*/
-    @Column(name = "feedback_org")
-    private String feedbackOrg;
+    @Transient
+    private String attachmentIds;
+
     /** 反馈时间*/
     @Column(name = "feedback_time")
     private Date feedbackTime;
@@ -149,21 +167,14 @@ public class SelfCheckReport implements Serializable {
         this.solution = solution;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 
-    public String getFeedbackOrg() {
-        return feedbackOrg;
-    }
-
-    public void setFeedbackOrg(String feedbackOrg) {
-        this.feedbackOrg = feedbackOrg;
-    }
 
     public Date getFeedbackTime() {
         return feedbackTime;
@@ -179,5 +190,45 @@ public class SelfCheckReport implements Serializable {
 
     public void setFeedbackContent(String feedbackContent) {
         this.feedbackContent = feedbackContent;
+    }
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
