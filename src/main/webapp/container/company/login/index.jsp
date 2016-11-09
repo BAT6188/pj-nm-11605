@@ -14,11 +14,25 @@
         console.log(enterpriseId);
     </script>
     <title>东胜环保</title>
+    <style type="text/css">
+        .client-type{
+            color: #bb0000;
+            font-weight: bold;
+            font-size: 24px;
+            font-style: italic;
+            width:80px;
+            height: 32px;
+            position: absolute;
+            left: 36%;
+            top: 3%;
+        }
+    </style>
 </head>
 <body style="overflow: hidden">
 <div class="container">
     <div class="banner clearfix">
         <div class="logoDiv left">
+            <div class="client-type">企业端</div>
             <img src="<%=request.getContextPath()%>/common/images/indexlogo.png" alt=""/>
         </div>
         <div class="opDiv right">
