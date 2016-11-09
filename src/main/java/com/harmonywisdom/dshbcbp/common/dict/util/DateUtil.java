@@ -11,6 +11,8 @@ import java.util.Date;
  */
 public class DateUtil {
 
+	public static final String format1 ="yyyy-MM-dd HH:mm";
+
 	/**
      * 将字符串转化为日期
      * @param dateStr

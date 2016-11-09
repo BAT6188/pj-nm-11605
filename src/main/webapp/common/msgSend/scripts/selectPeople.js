@@ -251,6 +251,7 @@ function setDialogTypeTwo(dialog,options,callback){
                 data:{'senderId':userId,'senderName':userName,'content':smsContent,"receivers":JSON.stringify(receivers)},
                 success:function (sendStatuses) {
                     if (sendStatuses && sendStatuses.length > 0) {
+                        $("#msgContents").val("");
                         Ewin.alert("短信发送成功");
                     }
                 }
