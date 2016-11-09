@@ -58,7 +58,7 @@ function setDialogTypeOne(dialog,options,callback){
                 return;
             }
             var returnData={
-                personObj:persons,
+                personObj:persons[0],
                 sourceId:sourceId_msgSend
             }
             callback(true,returnData);
