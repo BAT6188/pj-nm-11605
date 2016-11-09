@@ -8,12 +8,14 @@ var OneImagePage = function () {
         DUSTPORT_FLAG: "DustPort",
         FUMESPORT_FLAG: "FumesPort",
         ENTERPRISE_FLAG: "Enterprise",
+        VIDEO_FLAG: "Video",
         CLOCK_DELAY:5000
     };
     var page = {
         zTree:undefined,
         hwmap:undefined,
-
+        ztreeFinished:false,
+        hwmapFinished:false,
         //地图图层
         MAP_LAYER_ENTERPRISE:"EnterpriseLayer",
         MAP_LAYER_BLOCK:"BlockLayer",
@@ -60,6 +62,15 @@ var OneImagePage = function () {
                         var nodes = JSON.parse(msg);
                         if (!nodes || nodes.length <=0) {
                             ztreeEle.BootstrapAlertMsg('success',"没有查询结果。",3000);
+                        }
+                        that.ztreeFinished = true;
+                        //清空地图数据
+                        if (that.hwmap) {
+                            that.hwmap.clear();
+                        }
+                        //如果地图加载完成，默认选中监控节点
+                        if (that.hwmapFinished) {
+                            that.selectAllMonitorNode();
                         }
                     },
                     onCheck:function (event, treeId, treeNode) {
@@ -109,14 +120,26 @@ var OneImagePage = function () {
             };
             mapWindow.initMapFinish = function (hwmapCommon) {
                 that.hwmap = hwmapCommon;
-                //默认显示 噪声 沙尘暴排口和 企业
-                var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
-                var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
-                var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
-                that.zTree.checkNode(nnode[0],true,true,true);
-                that.zTree.checkNode(dnode[0],true,true,true);
-                that.zTree.checkNode(enode[0],true,true,true);
+                that.hwmapFinished = true;
+                //如果左侧树加载完成，默认选中监控节点
+                if (that.ztreeFinished) {
+                    that.selectAllMonitorNode();
+                }
+
             };
+        },
+        /**
+         * 默认选中所有监控节点
+         */
+        selectAllMonitorNode:function () {
+            var that = this;
+            //默认显示 噪声 沙尘暴排口和 企业
+            var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
+            var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
+            var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
+            that.zTree.checkNode(nnode[0],true,true,true);
+            that.zTree.checkNode(dnode[0],true,true,true);
+            that.zTree.checkNode(enode[0],true,true,true);
         },
 
         getIds:function (datas) {
@@ -262,6 +285,9 @@ var OneImagePage = function () {
                     this[Constant.ENTERPRISE_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/enterprise_n.png',
                         '1': rootPath+'/common/gis/images/markers/enterprise_w.gif'
+                    };
+                    this[Constant.VIDEO_FLAG] = {
+                        '0': rootPath+'/common/gis/images/markers/camera.png'
                     };
                 },
                 getIcon:function (type,status) {
@@ -745,7 +771,7 @@ var OneImagePage = function () {
                                     var $this = $(this.node);
                                     var attrs = this.data("attrs");
                                     var html = that.getPortPopHtml(attrs.portType,attrs.port);
-                                    //更新位置
+                                    //更新弹出窗口位置
                                     var offset = $this.position();
                                     $("#planeMap_popover").css("top",offset.top-40);
                                     $("#planeMap_popover").css("left",offset.left-40);
@@ -756,7 +782,7 @@ var OneImagePage = function () {
 
 
                                     var port = attrs.port;
-                                    if (port.portStatus != "0") {
+                                    if (attrs.portType != Constant.VIDEO_FLAG && port.portStatus != "0") {
                                         //绑定超标信息按钮事件
                                         $("#planeMap_popover").find(".show-status-btn").bind("click", function () {
                                             var portId = $(this).data("port-id");
@@ -768,9 +794,18 @@ var OneImagePage = function () {
                                                 Ewin.alert({message: "未找到" + text});
                                             }
                                         });
+                                    }else if (attrs.portType == Constant.VIDEO_FLAG){//视频设备
+                                        //绑定查看视频按钮事件
+                                        $("#planeMap_popover").find(".show-video-btn").bind("click", function () {
+                                            //查看视频
+                                            console.log("弹出查看视频窗口");
+                                        });
+                                    }else{
+
                                     }
 
                                 };
+
                                 markers.push(mark);
                             }
 
@@ -799,8 +834,10 @@ var OneImagePage = function () {
                 popHtml = this.getFumesPopHtml(port);
             }else if(portType == Constant.NOISEPORT_FLAG){
                 popHtml = this.getNoisePopHtml(port);
+            }else if(portType == Constant.VIDEO_FLAG){
+                popHtml = this.getVideoPopHtml(port);
             }else{
-                popHtml += "<div>未找到的排口类型</div>";
+                popHtml += "<div>未找到的设备类型</div>";
             }
             return popHtml;
 
@@ -947,8 +984,18 @@ var OneImagePage = function () {
 
             return popHtml;
         },
+        getVideoPopHtml:function (video) {
+            var popHtml = "";
+            popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
+            "<tr><td style='text-align: left;width: 90px;'>摄像头名称:</td><td style='text-align: left;'>"+pageUtils.getStr(video.name)+"</td></tr>"+
+            "<tr><td style='text-align: left;'>所属单位:</td><td style='text-align: left;'>"+pageUtils.getStr(video.unitName)+"</td></tr>";
+            popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-video-btn' data-port-id='"+video.equipmentId+"'>查看监控</button></td></tr>";
+            popHtml += "</table>";
+
+            return popHtml;
+        },
         /**
-         * 查询企业所有已标绘的排口
+         * 查询企业所有已标绘的排口，及视频
          * @param enterpriseId
          */
         findMarkedPorts:function (enterpriseId) {

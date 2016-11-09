@@ -1,6 +1,8 @@
 package com.harmonywisdom.dshbcbp.enterprise.service.impl;
 
 import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
+import com.harmonywisdom.dshbcbp.composite.bean.Video;
+import com.harmonywisdom.dshbcbp.composite.service.VideoService;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
@@ -30,6 +32,10 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
     private FumesPortDAO fumesPortDAO;
     @Autowired
     private NoisePortDAO noisePortDAO;
+
+    @Autowired
+    private VideoService videoService;
+
 
 
     @Override
@@ -228,6 +234,10 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         List<NoisePort> noisePorts = noisePortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
         if (noisePorts != null && noisePorts.size() > 0) {
             portsMap.put(NoisePort.class.getSimpleName(), noisePorts);
+        }
+        List<Video> videos = videoService.find("unitId=?1 and planeMapMark is not null",enterpriseId);
+        if (videos != null && videos.size() > 0) {
+            portsMap.put(Video.class.getSimpleName(), videos);
         }
         return portsMap;
     }

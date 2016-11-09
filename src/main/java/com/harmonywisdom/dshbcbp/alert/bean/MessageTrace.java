@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 提醒消息状态跟踪
@@ -40,6 +41,13 @@ public class MessageTrace implements Serializable {
      **/
     @Column(name = "RECEIVE_STATUS", length = 1)
     private String receiveStatus;
+
+    /**
+     * 接收时间
+     */
+    @Column(name = "RECEIVE_TIME")
+    private Date receiveTime;
+
 
     public String getId() {
         return id;
