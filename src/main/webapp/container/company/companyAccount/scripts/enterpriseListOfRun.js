@@ -108,12 +108,12 @@ function initTable() {
     });
     //处理新增按钮
     add.click(function(){
-        jumpToUrl('/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add');
+        jumpToUrl('/container/company/companyAccount/enterpriseInfo.jsp?handleType=add');
     });
     /*处理更新按钮*/
     updateBtn.click(function(){
         var id = getIdSelections();
-        jumpToUrl('/container/gov/enterprise/mainEnterprise.jsp?handleType=edit&id='+id);
+        jumpToUrl('/container/company/companyAccount/mainEnterprise.jsp?handleType=edit&id='+id);
     });
     //处理删除按钮状态
     removeBtn.click(function () {
