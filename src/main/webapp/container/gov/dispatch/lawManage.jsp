@@ -431,7 +431,7 @@
                     <div class="form-group">
                         <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control" style="width: 266px;">
+                            <select id="blockLevelId" name="blockLevelId" class="form-control">
                             </select>
                         </div>
 
