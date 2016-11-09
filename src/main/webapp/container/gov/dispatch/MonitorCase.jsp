@@ -112,6 +112,7 @@
                 <h4 class="modal-title" id="demoFormTitle">调度单</h4>
                 <input type="hidden" id="id">
                 <input type="hidden" id="removeId">
+                <input type="hidden" id="status" name="status">
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">

@@ -1,7 +1,8 @@
 /**
  * Created by Administrator on 2016/10/17.
  */
-var sourceId_msgSend //源id
+var sourceId_msgSend; //源id
+var MsgSend = {};
 (function($){
     $.fn.MsgSend = {
         init:function(type,options,callback){
@@ -20,10 +21,10 @@ var sourceId_msgSend //源id
 
             var dialog;
             var treeObj;
-            if(type==1){
+            if(type==1){//系统发送
                 dialog = $('#selectOrgPeopleDialog');
                 treeObj=setDialogTypeOne(dialog,options,callback);
-            }else{
+            }else{//短信发送
                 dialog = $('#selectContactsDialog');
                 options.params.findType="2";
                 treeObj=setDialogTypeTwo(dialog,options,callback);
@@ -106,6 +107,7 @@ function setDialogTypeOne(dialog,options,callback){
         return childNodes;
     }
     var treeObj = $.fn.zTree.init($("#orgPeopleZtree"), setting);
+    MsgSend.tree = treeObj;
     setTimeout(function () {
         treeObj.expandAll(true);
     },500)
@@ -197,22 +199,52 @@ function setDialogTypeOne(dialog,options,callback){
 
     return treeObj;
 }
-
 /**************通讯录选择***************************/
 function setDialogTypeTwo(dialog,options,callback){
     if (callback && callback instanceof Function) {
         $(dialog).find('.sendToButton').click(function () {
+            var smsContent = $("#msgContents").val();
+
+            if(!smsContent){
+                Ewin.alert("请填写短信内容");
+                return;
+            }
             var ids = getIdsSelectionsFromGridSelectPeople();
             if(ids.length==0){
                 Ewin.alert("请选择人员");
                 return;
             }
             var msg = $(dialog).find('#msgContents').val();
-            var returnData={
-                ids:ids,
-                info:msg,
-                sourceId:sourceId_msgSend
+            var returnData = {
+                ids: ids,
+                info: msg,
+                sourceId: sourceId_msgSend
+            };
+            //发送短信
+            var selectPeoples = getSelectPeoples();
+            //转换短信接收人结构
+            var receivers = [];
+            var RECEIVER_SOURCE_CONTACTS = "2";
+            for(var i =0; i < selectPeoples.length; i++){
+                var people = selectPeoples[i];
+                var receiver = {};
+                receiver.receiverId = people.id;
+                receiver.receiverName = people.name;
+                receiver.receiverPhone = people.mobilePhone;
+                receiver.receiverSource = RECEIVER_SOURCE_CONTACTS;
+                receivers.push(receiver);
             }
+            $.ajax({
+                url:rootPath + "/action/S_sms_SmsRecord_sendSms.action",
+                type:"post",
+                dataType:"json",
+                data:{'senderId':userId,'senderName':userName,'content':smsContent,"receivers":JSON.stringify(receivers)},
+                success:function (sendStatuses) {
+                    if (sendStatuses && sendStatuses.length > 0) {
+                        Ewin.alert("短信发送成功");
+                    }
+                }
+            });
             callback(true,returnData);
             $('#search_contacts').val('');
             search_ztree('contactsZtree', 'search_contacts');
@@ -260,6 +292,7 @@ function setDialogTypeTwo(dialog,options,callback){
         return childNodes;
     }
     var treeObj = $.fn.zTree.init($("#contactsZtree"), setting);
+    MsgSend.tree = treeObj;
     setTimeout(function () {
         treeObj.expandAll(true);
     },500);
@@ -334,6 +367,11 @@ function setDialogTypeTwo(dialog,options,callback){
     function getIdsSelectionsFromGridSelectPeople() {
         return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
             return row.id
+        });
+    }
+    function getSelectPeoples() {
+        return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
+            return row
         });
     }
 

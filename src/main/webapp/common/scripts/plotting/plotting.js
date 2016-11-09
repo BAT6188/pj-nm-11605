@@ -111,6 +111,13 @@
 
             that._attachEvent();
         },
+        offset:function () {
+            if (arguments.length == 1) {
+                var offset = arguments[0];
+                this.options.icon.offset = offset;
+            }
+            return this.options.icon.offset;
+        },
 
         setBackground: function (bg) {
             var that = this,

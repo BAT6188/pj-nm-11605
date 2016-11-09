@@ -42,7 +42,7 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">基础信息</a></h3>
             <ul>
-                <li class="curLi"><a href="javascript:loadPageInEnterprise('enterpriseInfo.jsp?handleType=<%=handleType%>')">基本信息</a></li>
+                <li class="curLi"><a href="javascript:loadPageInEnterprise('companyAccount/enterpriseInfo.jsp?handleType=<%=handleType%>')">基本信息</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/grasPortList.jsp')">废气排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/waterPortList.jsp')">废水排口</a></li>
                 <li><a href="javascript:loadPageInEnterprise('basicInfo/noisePortList.jsp')">噪声源</a></li>
@@ -77,24 +77,24 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">污染防治设施建设和运营信息</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('/watercontrolfacility.jsp')">水污染治理设施建设和运营情况</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/gascontrolfacility.jsp')">大气污染治理设施建设和运营情况</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/solid_control_facility.jsp')">固体废物贮存及治理设施建设和运营情况</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/sound_control_facility.jsp')">噪声污染治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/pollutionInstallation/watercontrolfacility.jsp')">水污染治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/pollutionInstallation/gascontrolfacility.jsp')">大气污染治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/pollutionInstallation/solid_control_facility.jsp')">固体废物贮存及治理设施建设和运营情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/pollutionInstallation/sound_control_facility.jsp')">噪声污染治理设施建设和运营情况</a></li>
             </ul>
         </div>
         <div class="menuDiv">
             <h3><a href="javascript:;">建设项目环评及其他许可情况</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('/buildproject.jsp?id=')">建设项目环评及验收信息</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/pollutantlicense.jsp?id=')">排污许可证信息</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/cleanLicense.jsp?id=')">清洁生产审核</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/buildproject.jsp')">建设项目环评及验收信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/pollutantlicense.jsp')">排污许可证信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/cleanLicense.jsp')">清洁生产审核</a></li>
             </ul>
         </div>
         <div class="menuDiv">
             <h3><a href="javascript:;">突发环境事件应急预案</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('/enterpriseplan.jsp?id=')">突发环境事件应急预案</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/emergencyPlan/enterpriseplan.jsp')">突发环境事件应急预案</a></li>
             </ul>
         </div>
         <div class="menuDiv">
@@ -134,10 +134,10 @@
     mSwitch.setPrevious(false);
     mSwitch.init();
     $(function(){
-        loadPageInEnterprise('enterpriseInfo.jsp?handleType='+handleType+'&id='+id);
+        loadPageInEnterprise('companyAccount/enterpriseInfo.jsp?handleType='+handleType+'&id='+id);
     });
     function loadPageInEnterprise(url){
-        var headUrl = rootPath +"/container/company/companyAccount/";
+        var headUrl = rootPath +"/container/company/";
         //$(".main-right").load(url);
         $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
         $('.level3MenuContent').load(headUrl+url); // ajax加载页面

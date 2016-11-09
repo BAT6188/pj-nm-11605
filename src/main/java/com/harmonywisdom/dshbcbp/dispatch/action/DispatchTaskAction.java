@@ -234,9 +234,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String monitorCaseId = request.getParameter("sourceId");
         MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
 
-        mc.setStatus(1);
-        monitorCaseService.update(mc);
-
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
         entity.setMonitorMastorPersonList(jsonIds);
@@ -262,10 +259,12 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         entity.setSendTime(mc.getSendTime());
         entity.setSendPhone(mc.getSendPhone());
         entity.setSendRemark(mc.getSendRemark());
-
-        entity.setStatus("1");
-
+        entity.setStatus(DispatchTask.status_1);
         super.save();
+
+        mc.setDispatchId(entity.getId());
+        mc.setStatus(MonitorCase.status_1);
+        monitorCaseService.update(mc);
     }
 
     /**

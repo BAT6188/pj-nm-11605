@@ -20,8 +20,8 @@
 <body>
 <div class="content clearfix">
     <div class="login-title">
-        <div class="client-type">企业端</div>
-        <img src="<%=request.getContextPath()%>/common/images/titlelogo.png" alt="">
+        <%--<div class="client-type">企业端</div>--%>
+        <img src="<%=request.getContextPath()%>/container/company/login/images/titlelogo_qiye.png" alt="">
     </div>
     <div class="login-box">
         <div class="login">

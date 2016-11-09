@@ -12,17 +12,28 @@ import java.util.Date;
 public class MonitorCase implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 未调度
+     */
+    public static final String status_0="0";
+    /**
+     * 已调度
+     */
+    public static final String status_1="1";
+    /**
+     * 已反馈
+     */
+    public static final String status_2="2";
+
     @Id
     @Column(length = 32)
     private String id;
 
     /**
-     * 事件来源，信息来源
-     * 监察大队办公司： 1：12369   2：区长热线   3：市长热线   4：现场监察
-     * 监控中心：0
+     * hw_dispatch_task 表id
      */
-    @Column(name = "source")
-    private String source;
+    @Column(name = "dispatch_id", length = 32)
+    private String dispatchId;
 
     /**
      * 状态
@@ -31,7 +42,15 @@ public class MonitorCase implements Serializable {
      * 2：已反馈
      */
     @Column(name = "status", length = 2)
-    private Integer status;
+    private String status;
+
+    /**
+     * 事件来源，信息来源
+     * 监察大队办公司： 1：12369   2：区长热线   3：市长热线   4：现场监察
+     * 监控中心：0
+     */
+    @Column(name = "source")
+    private String source;
 
     /**
      * 企业，投诉对象  数据库只保存id，name一般情况下不保存
@@ -348,11 +367,19 @@ public class MonitorCase implements Serializable {
         this.sendRemark = sendRemark;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDispatchId() {
+        return dispatchId;
+    }
+
+    public void setDispatchId(String dispatchId) {
+        this.dispatchId = dispatchId;
     }
 }

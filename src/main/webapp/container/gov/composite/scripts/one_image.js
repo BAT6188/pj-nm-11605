@@ -13,7 +13,8 @@ var OneImagePage = function () {
     var page = {
         zTree:undefined,
         hwmap:undefined,
-
+        ztreeFinished:false,
+        hwmapFinished:false,
         //地图图层
         MAP_LAYER_ENTERPRISE:"EnterpriseLayer",
         MAP_LAYER_BLOCK:"BlockLayer",
@@ -60,6 +61,15 @@ var OneImagePage = function () {
                         var nodes = JSON.parse(msg);
                         if (!nodes || nodes.length <=0) {
                             ztreeEle.BootstrapAlertMsg('success',"没有查询结果。",3000);
+                        }
+                        that.ztreeFinished = true;
+                        //清空地图数据
+                        if (that.hwmap) {
+                            that.hwmap.clear();
+                        }
+                        //如果地图加载完成，默认选中监控节点
+                        if (that.hwmapFinished) {
+                            that.selectAllMonitorNode();
                         }
                     },
                     onCheck:function (event, treeId, treeNode) {
@@ -109,14 +119,26 @@ var OneImagePage = function () {
             };
             mapWindow.initMapFinish = function (hwmapCommon) {
                 that.hwmap = hwmapCommon;
-                //默认显示 噪声 沙尘暴排口和 企业
-                var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
-                var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
-                var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
-                that.zTree.checkNode(nnode[0],true,true,true);
-                that.zTree.checkNode(dnode[0],true,true,true);
-                that.zTree.checkNode(enode[0],true,true,true);
+                that.hwmapFinished = true;
+                //如果左侧树加载完成，默认选中监控节点
+                if (that.ztreeFinished) {
+                    that.selectAllMonitorNode();
+                }
+
             };
+        },
+        /**
+         * 默认选中所有监控节点
+         */
+        selectAllMonitorNode:function () {
+            var that = this;
+            //默认显示 噪声 沙尘暴排口和 企业
+            var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
+            var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
+            var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
+            that.zTree.checkNode(nnode[0],true,true,true);
+            that.zTree.checkNode(dnode[0],true,true,true);
+            that.zTree.checkNode(enode[0],true,true,true);
         },
 
         getIds:function (datas) {
@@ -235,33 +257,33 @@ var OneImagePage = function () {
             var iconUtil = {
                 _init:function () {
                     this[Constant.GASPORT_FLAG] = {
-                        "0":rootPath+"/common/gis/images/markers/mark.png",
-                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                        "0":rootPath+"/common/gis/images/markers/gas_n.png",
+                        "1":rootPath+"/common/gis/images/markers/gas_w.gif",
+                        "2":rootPath+"/common/gis/images/markers/gas_e.png"
                     };
                     this[Constant.WATERPORT_FLAG] = {
-                        "0":rootPath+"/common/gis/images/markers/mark.png",
-                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                        "0":rootPath+"/common/gis/images/markers/water_n.png",
+                        "1":rootPath+"/common/gis/images/markers/water_w.gif",
+                        "2":rootPath+"/common/gis/images/markers/water_e.png"
                     };
                     this[Constant.NOISEPORT_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/noise.png',
-                        '1': rootPath+'/common/gis/images/markers/company_alert.gif',
-                        '2': rootPath+'/common/gis/images/markers/bike0.png'
+                        '0': rootPath+'/common/gis/images/markers/noise_n.png',
+                        '1': rootPath+'/common/gis/images/markers/noise_w.gif',
+                        '2': rootPath+'/common/gis/images/markers/noise_e.png'
                     };
                     this[Constant.DUSTPORT_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/dust.png',
-                        '1': rootPath+'/common/gis/images/markers/company_alert.gif',
-                        '2': rootPath+'/common/gis/images/markers/noise.png'
+                        '0': rootPath+'/common/gis/images/markers/dust_n.png',
+                        '1': rootPath+'/common/gis/images/markers/dust_w.gif',
+                        '2': rootPath+'/common/gis/images/markers/dust_e.png'
                     };
                     this[Constant.FUMESPORT_FLAG] = {
-                        "0":rootPath+"/common/gis/images/markers/mark.png",
-                        "1":rootPath+"/common/gis/images/markers/company_alert.gif",
-                        "2":rootPath+"/common/gis/images/markers/state0.png"
+                        "0":rootPath+"/common/gis/images/markers/fumes_n.png",
+                        "1":rootPath+"/common/gis/images/markers/fumes_w.gif",
+                        "2":rootPath+"/common/gis/images/markers/fumes_e.png"
                     };
                     this[Constant.ENTERPRISE_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/company.png',
-                        '1': rootPath+'/common/gis/images/markers/company_alert.gif'
+                        '0': rootPath+'/common/gis/images/markers/enterprise_n.png',
+                        '1': rootPath+'/common/gis/images/markers/enterprise_w.gif'
                     };
                 },
                 getIcon:function (type,status) {
@@ -612,11 +634,12 @@ var OneImagePage = function () {
                 return false;
             }
             var that = this;
+            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG);
             this.hwmap.addMarker({
                 id:enterprise.id,
                 data:enterprise,
                 type:Constant.ENTERPRISE_FLAG,
-                imaSrc:"images/markers/company.png",
+                imaSrc:image,
                 width:40,
                 height:40,
                 x:enterprise.longitude,
@@ -658,10 +681,10 @@ var OneImagePage = function () {
             var that = this;
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
-                //获取企业平面图附件id
-                var attachIds = pageUtils.findAttachmentIds(enterprise.id, "planeMap");
+                //获取企业平面图附件
+                var attachments = pageUtils.findAttachment(enterprise.id, "planeMap");
 
-                if (attachIds.length <= 0) {
+                if (attachments.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
 
@@ -671,7 +694,11 @@ var OneImagePage = function () {
                         show:true,
                         mode:"view",
                         data:markers,
-                        attachmentId:attachIds,
+                        attachments:attachments,
+                        change:function () {
+                            //隐藏提示框
+                            $("#planeMap_popover").hide();
+                        },
                         closed:function (modal) {
                             //隐藏提示框
                             $("#planeMap_popover").hide();
@@ -723,7 +750,10 @@ var OneImagePage = function () {
                             var port = ports[i];
                             if (port.planeMapMark) {
                                 //设置marker属性
-                                var mark = JSON.parse(JSON.parse(port.planeMapMark));
+                                var mark = JSON.parse(port.planeMapMark);
+                                if (typeof mark == "string") {
+                                    continue;
+                                }
                                 mark.id = port.id;
                                 mark.src = that.portStatusMapMarkerIconUtil.getIcon(portType, port.portStatus);
                                 mark.attrs = {
@@ -739,8 +769,6 @@ var OneImagePage = function () {
                                     var html = that.getPortPopHtml(attrs.portType,attrs.port);
                                     //更新位置
                                     var offset = $this.position();
-                                    console.log(offset.top + "," + offset.left);
-
                                     $("#planeMap_popover").css("top",offset.top-40);
                                     $("#planeMap_popover").css("left",offset.left-40);
                                     //$("#planeMap_popover").css("left",offset.left);

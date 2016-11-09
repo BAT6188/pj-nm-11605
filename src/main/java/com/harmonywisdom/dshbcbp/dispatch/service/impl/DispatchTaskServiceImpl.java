@@ -36,7 +36,7 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }else if(lawType != null && !"".equals(lawType)) {
-            whereSql += "AND source = '" + lawType + "' ";
+            whereSql += "AND source = '" + lawType + "'";
         }
 //        } else if( firstTime !=null && !"".equals(firstTime)){
 //            whereSql += " AND DATE_FORMAT(event_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'";
@@ -44,7 +44,7 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
 //            whereSql += "AND DATE_FORMAT(event_time,'%Y-%m-%d') >= '" + firstTime + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'";
 //        }
         whereSql += "GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*) FROM `HW_DISPATH_TASK` where DATE_FORMAT(event_time,'%Y-%m-%d') >= '" + firstTime +"' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*) FROM `hw_dispatch_task` where DATE_FORMAT(event_time,'%Y-%m-%d') >= '" + firstTime +"' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
         return list;
     }
 
@@ -67,9 +67,9 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
             whereSql += "AND source = '" + lawType + "' ";
         }
         whereSql += "GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*) FROM `HW_DISPATH_TASK` where DATE_FORMAT(event_time,'%Y-%m-%d') >='" +startXdate+ "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '"+lastXdate + "'" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*) FROM `hw_dispatch_task` where DATE_FORMAT(event_time,'%Y-%m-%d') >='" +startXdate+ "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '"+lastXdate + "'" + whereSql);
 
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `HW_DISPATH_TASK` where DATE_FORMAT(event_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastSdate + "'" + whereSql);
+        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dispatch_task` where DATE_FORMAT(event_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastSdate + "'" + whereSql);
 
         List<Object[]> temp = new ArrayList<>();
         if (list2.size() < list.size()) {

@@ -25,6 +25,9 @@ public class WaterControlFacilityAction extends BaseAction<WaterControlFacility,
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
+        if(StringUtils.isNotBlank(entity.getEnterpriseId())){
+            params.andParam(new QueryParam("enterpriseId",QueryOperator.LIKE,entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotBlank(entity.getName())) {
             params.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }

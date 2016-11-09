@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2016/10/9.
  */
+//@ sourceURL=enterpriseListOfRun.js
 var enterpriseForm =$('#enterpriseForm');
 initZTree();
 initSelect();
@@ -381,7 +382,7 @@ function editEnterpriseForm(){
     $('#headTitle').html('编辑企业信息');
     setEnterpriseForm(false);
 }
-var enterpriseListOfRunUrl = rootPath +'/container/gov/enterprise/enterpriseAccount.jsp';
+var enterpriseListOfRunUrl = rootPath +'/container/company/companyAccount/mainEnterprise.jsp';
 /*显示并设置查看状态按钮*/
 function setLookBtn(){
     $("select").prop("disabled", true);

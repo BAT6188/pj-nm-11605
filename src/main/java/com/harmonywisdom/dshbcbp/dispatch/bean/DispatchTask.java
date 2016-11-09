@@ -12,9 +12,43 @@ import java.util.Date;
 public class DispatchTask implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 未调度
+     */
+    public static final String status_1="1";
+    /**
+     * 已发送
+     */
+    public static final String status_2="2";
+    /**
+     *已反馈
+     */
+    public static final String status_3="3";
+    /**
+     *已处罚
+     */
+    public static final String status_4="4";
+    /**
+     *已办结
+     */
+    public static final String status_5="5";
+
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 1:未调度
+     * 2:已发送
+     * 3:已反馈
+     * 4:已处罚
+     * 5:已办结
+     * 状态
+     */
+    @Column(name = "status", length = 2)
+    private String status;
+
+    //////////////////////////////////////////////////////////
 
 
     @Column(name = "monitor_case_id")
@@ -149,16 +183,7 @@ public class DispatchTask implements Serializable {
     private String targetLinkPhone;
 
 
-    /**
-     * 1:未调度
-     * 2:已发送
-     * 3:已反馈
-     * 4:已处罚
-     * 5:已办结
-     * 状态
-     */
-    @Column(name = "status", length = 2)
-    private String status;
+
     /**
      * 处理人id
      */

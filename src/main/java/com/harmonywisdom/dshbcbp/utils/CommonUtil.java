@@ -7,6 +7,7 @@ import com.harmonywisdom.dshbcbp.alert.service.SysOperationLogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -19,6 +20,19 @@ public class CommonUtil {
     @Resource
     public void setDataService(SysOperationLogService sysOperationLogService) {
         CommonUtil.sysOperationLogService = sysOperationLogService;
+    }
+
+    /**
+     * 操作日志
+     * @param request
+     * @param opType 操作类型 Constants.OPTYPE_ADD_**
+     * @param model 操作模块
+     * @param content 操作内容
+     * @return
+     */
+    public static String commonOperationLog(HttpServletRequest request, String opType, String model, String content,String refTableId){
+        IPerson iPerson = ApportalUtil.getPerson(request);
+        return insertBaseOpLog(iPerson.getPersonId(),opType,model,content,refTableId);
     }
 
     /**

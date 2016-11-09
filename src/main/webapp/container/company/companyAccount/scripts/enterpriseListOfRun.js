@@ -108,12 +108,12 @@ function initTable() {
     });
     //处理新增按钮
     add.click(function(){
-        jumpToUrl('/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add');
+        jumpToUrl('/container/company/companyAccount/enterpriseInfo.jsp?handleType=add');
     });
     /*处理更新按钮*/
     updateBtn.click(function(){
         var id = getIdSelections();
-        jumpToUrl('/container/gov/enterprise/mainEnterprise.jsp?handleType=edit&id='+id);
+        jumpToUrl('/container/company/companyAccount/mainEnterprise.jsp?handleType=edit&id='+id);
     });
     //处理删除按钮状态
     removeBtn.click(function () {
@@ -186,11 +186,11 @@ function initModel(){
 }
 /*企业运行状态*/
 function  statusFormatter(value, row, index){
-   
+
 }
 // 生成操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" onclick="jumpToUrl(\'/container/gov/enterprise/mainEnterprise.jsp?handleType=look&id='+row.id+'\')">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" onclick="jumpToUrl(\'/container/company/companyAccount/mainEnterprise.jsp?handleType=look&id='+row.id+'\')">查看</button>';
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片

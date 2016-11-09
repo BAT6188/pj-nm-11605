@@ -15,7 +15,10 @@ function saveAjax(entity, callback) {
         type:"post",
         data:entity,
         dataType:"json",
-        success:callback
+        success:callback,
+        error:function (msg) {
+            console.error(msg)
+        }
     });
 }
 /**
@@ -222,6 +225,8 @@ removeBtn.click(function () {
                 values: ids
             });
             removeBtn.prop('disabled', true);
+
+            pageUtils.saveOperationLog({opType:'3',opModule:'监察大队办公室',opContent:'删除数据',refTableId:''})
         });
     });
 
@@ -268,6 +273,7 @@ var options_sms = {
 
 var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送第一个参数为2
     console.log(data);//回调函数，data为所选人员ID
+    pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'短信发送数据',refTableId:''})
 });
 
 /**============组织机构选择人员对话框============**/
@@ -291,6 +297,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         success:function (msg) {
             eventMsgForm.modal('hide');
             gridTable.bootstrapTable('refresh');
+            pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -301,9 +308,20 @@ var buttonToggle;
 var ef = eventMsgForm.easyform({
     success:function (ef) {
         var entity = $("#eventMsg").find("form").formSerializeObject();
+
+        if (buttonToggle=="#save"){
+            entity.sendType="#save"
+            if('0'!=entity.status){
+                Ewin.alert("已调度状态不允许修改或再次发送");
+                return;
+            }
+        }else if(buttonToggle=="#smsSend"){
+            entity.sendType="#smsSend"
+        }
         entity.attachmentIds = getAttachmentIds();
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
         saveAjax(entity,function (msg) {
+            pageUtils.saveOperationLog({opType:'1',opModule:'监察大队办公室',opContent:'新增数据',refTableId:''})
             gridTable.bootstrapTable('refresh');
             if (buttonToggle=="#save"){
                 model.open(msg.id);
@@ -357,8 +375,6 @@ function setFormData(entity) {
     $("#enterpriseId").val(entity.enterpriseId);
     $("#enterpriseName").val(entity.enterpriseName);
     $("#source").val(entity.source);
-    // console.log("blockLevelId:"+$("#blockLevelId").html());
-    // console.log("blockId:"+$("#blockId").html());
     $("#blockLevelId").val(entity.blockLevelId);
     $("#blockId").val(entity.blockId);
     $("#supervisor").val(entity.supervisor);
@@ -366,6 +382,7 @@ function setFormData(entity) {
     $("#content").val(entity.content);
     $("#senderName").val(entity.senderName);
     $("#sendPhone").val(entity.sendPhone);
+    $("#status").val(entity.status);
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));
@@ -386,7 +403,7 @@ function resetForm() {
     eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
     $("textarea").val("");
 
-
+    $("#status").val('0');
     $("#eventTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#answer").val(userName);
     $("#senderName").val(userName);

@@ -341,6 +341,10 @@ HwmapCommon = {
         }
         return overlys;
     },
+    clear:function () {
+        this.clearOverlays();
+        this.hideInfoWindow();
+    },
     /**
      * 清除所有标记
      * @returns

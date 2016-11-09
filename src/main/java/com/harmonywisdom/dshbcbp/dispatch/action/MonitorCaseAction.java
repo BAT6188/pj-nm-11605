@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.apportal.common.util.ExceptionBase;
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.org.domain.Org;
@@ -22,6 +23,8 @@ import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.FeedbackService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.CommonUtil;
+import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
@@ -36,6 +39,7 @@ import java.util.Map;
 
 
 public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseService> {
+
     @AutoService
     private MonitorCaseService monitorCaseService;
 
@@ -131,15 +135,15 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
      */
     public void queryFeedbackListByMonitorCaseId(){
         String monitorCaseId = request.getParameter("id");
-        DispatchTask dispatchTask=new DispatchTask();
-        dispatchTask.setMonitorCaseId(monitorCaseId);
-        List<DispatchTask> rows = dispatchTaskService.findBySample(dispatchTask);
-        if (rows.size()>0){
-            DispatchTask d=rows.get(0);
-            Feedback fb=new Feedback();
-            fb.setDispatchId(d.getId());
-            QueryResult<Feedback> queryResult = feedbackService.findBySample(fb, getPaging());
-            write(queryResult);
+        if (StringUtils.isNotEmpty(monitorCaseId)){
+            MonitorCase monitorCase = monitorCaseService.findById(monitorCaseId);
+            String dispatchId = monitorCase.getDispatchId();
+            if (StringUtils.isNotEmpty(dispatchId)){
+                Feedback fb=new Feedback();
+                fb.setDispatchId(dispatchId);
+                QueryResult<Feedback> queryResult = feedbackService.findBySample(fb, getPaging());
+                write(queryResult);
+            }
         }
     }
 
@@ -156,22 +160,18 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         String blockId = entity.getBlockId();
 
         String source = entity.getSource();
-        if(null==source){
-            source="1";
-        }
-        params.andParam(new QueryParam("source",QueryOperator.EQ,source));
+        if(null==source){//如果是监察大队办公室的查询
+            params.andParam(new QueryParam("source",QueryOperator.NE,"0"));
+        }else if (source.equals("0")){ //如果是监测中心的查询
+            params.andParam(new QueryParam("source",QueryOperator.EQ,"0"));
 
-
-        //如果是监测中心的请求
-        if (source.equals("0")){
             String status_search = request.getParameter("status_search");
-            if (StringUtils.isEmpty(status_search)|| "0".equals(status_search)){
-                params.andParam(new QueryParam("status",QueryOperator.EQ,0));
-            }else {
-                params.andParam(new QueryParam("status",QueryOperator.NE,0));
+            if (StringUtils.isEmpty(status_search)|| "0".equals(status_search)){//监控中心 未调度
+                params.andParam(new QueryParam("status",QueryOperator.EQ,"0"));
+            }else {//监控中心 已调度
+                params.andParam(new QueryParam("status",QueryOperator.NE,"0"));
             }
         }
-
 
 
         if(StringUtils.isNotEmpty(enterpriseName)){
@@ -209,43 +209,69 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         return condition;
     }
 
+    /**
+     * 监察大队办公室 新增或修改事件信息 都必须是 未调度状态 的事件信息
+     */
     @Override
     public void save() {
-        //获取删除的附件IDS
-        String attachmentIdsRemoveId = request.getParameter("removeId");
-        if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
-            //删除附件
-            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+
+        String sendType = request.getParameter("sendType");
+        if ("#smsSend".equals(sendType)){
+            write(entity);
+            return;
+        }else if ("#save".equals(sendType)){
+            if (!MonitorCase.status_0.equals(entity.getStatus())){
+                log.error("新增或修改事件信息 都必须是 未调度状态 的事件信息");
+                return;
+            }
+            //获取删除的附件IDS
+            String attachmentIdsRemoveId = request.getParameter("removeId");
+            if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
+                //删除附件
+                attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+            }
+
+            String blockLevelId = entity.getBlockLevelId();
+            if (StringUtils.isNotEmpty(blockLevelId)){
+                BlockLevel bl = blockLevelService.findById(blockLevelId);
+                entity.setBlockLevelName(bl.getName());
+            }
+
+            String blockId = entity.getBlockId();
+            if (StringUtils.isNotEmpty(blockId)){
+                Block b = blockService.findById(blockId);
+                entity.setBlockName(b.getOrgName());
+            }
+
+
+            super.save();
+            if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
+                attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+            }
         }
 
-        String blockLevelId = entity.getBlockLevelId();
-        if (StringUtils.isNotEmpty(blockLevelId)){
-            BlockLevel bl = blockLevelService.findById(blockLevelId);
-            entity.setBlockLevelName(bl.getName());
-        }
-
-        String blockId = entity.getBlockId();
-        if (StringUtils.isNotEmpty(blockId)){
-            Block b = blockService.findById(blockId);
-            entity.setBlockName(b.getOrgName());
-        }
-
-        super.save();
-
-        if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
-            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
-        }
     }
 
     public void saveMonitor(){
-        String id = entity.getId();
-        MonitorCase mc = monitorCaseService.findById(id);
-        mc.setSenderName(entity.getSenderName());
-        mc.setSendTime(entity.getSendTime());
-        mc.setContent(entity.getContent());
-        mc.setSendRemark(entity.getSendRemark());
-        monitorCaseService.update(mc);
-        write(mc);
+        String sendType = request.getParameter("sendType");
+        if ("#smsSend".equals(sendType)){
+            write(entity);
+            return;
+        }else if ("#save".equals(sendType)){
+            if (!MonitorCase.status_0.equals(entity.getStatus())){
+                log.error("新增或修改事件信息 都必须是 未调度状态 的事件信息");
+                return;
+            }
+
+            String id = entity.getId();
+            MonitorCase mc = monitorCaseService.findById(id);
+            mc.setSenderName(entity.getSenderName());
+            mc.setSendTime(entity.getSendTime());
+            mc.setContent(entity.getContent());
+            mc.setSendRemark(entity.getSendRemark());
+            monitorCaseService.update(mc);
+            write(mc);
+        }
     }
 
     /**

@@ -17,12 +17,12 @@
         </div>
         <div class="opDiv right">
             <ul>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
+                <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
                 <li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>
-                <li><a href="#" class="msg-icon"><span class="new-icon">0</span></a></li>
+                <li><a href="javascript:void(0);" class="msg-icon"><span class="new-icon">0</span></a></li>
                 <li class="divider"><i class="long-divider"></i></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
+                <li><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
             </ul>
         </div>
     </div>
@@ -51,6 +51,7 @@
         </div>
     </div>
 </div>
+<%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="common/scripts/main_css.js"></script>
 <script src="common/scripts/main.js"></script>
 <script>

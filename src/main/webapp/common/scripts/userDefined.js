@@ -1,6 +1,29 @@
 var pageUtils = {
 
     /**
+     * 操作日志
+     * @param log {opType:'1',opModule:'监控中心',opContent:'',refTableId:''}
+     * @param opType 操作类型 1新增，2修改，3删除，4发送
+     * @param model 操作模块 (如：企业台账，阀值管理。。)
+     * @param content 操作内容 (自定义 如"id为***的基本信息")
+     * @param refTableId 关联数据ID(可为null)
+     * @return
+     */
+    saveOperationLog:function (log) {
+        $.ajax({
+            url:rootPath + "/action/S_alert_SysOperationLog_saveOperationLog.action",
+            type:"post",
+            data:log,
+            success:function (msg) {
+                if (msg=='ok'){
+                    console.log("日志保存成功")
+                }
+
+            }
+        });
+    },
+
+    /**
      *  从配置字典中加载select标签选项
      * @param selector
      * @param code  code={code:"monitor_office_source"};
@@ -18,6 +41,14 @@ var pageUtils = {
     },
     findAttachmentIds: function (businessId,attachmentType) {
         var ids = [];
+        var attachments = this.findAttachment(businessId, attachmentType);
+        for (var i = 0; i < attachments.length; i++) {
+            ids.push(attachments[i].id);
+        }
+        return ids;
+    },
+    findAttachment: function (businessId,attachmentType) {
+        var attachments = [];
         $.ajax({
             url:rootPath + "/action/S_attachment_Attachment_listAttachment.action",
             type:"post",
@@ -27,12 +58,12 @@ var pageUtils = {
             success:function (result) {
                 if (result && result.length > 0){
                     for(var i = 0; i < result.length; i++){
-                        ids.push(result[i].id);
+                        attachments.push(result[i]);
                     }
                 }
             }
         });
-        return ids;
+        return attachments;
     },
 
     getTableHeight:function () {

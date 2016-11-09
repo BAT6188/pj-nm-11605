@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2016/10/17
@@ -8,6 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <%
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String Date = sdf.format(new Date());
+    %>
     <title>空气质量统计</title>
     <style type="text/css">
         .chart-list {
@@ -48,13 +53,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">日期：</label>
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                            <div id="datetimepicker1" class="input-group date form_datetime1" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly placeholder="开始时间">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
+                            <div class="input-group date form_datetime2" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly placeholder="结束时间">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -69,7 +74,7 @@
                         <div class="form-group">
                             <label for="">同期对比：</label>
                             <div id="datetimepicker2" class="input-group date form_datetimes" data-date="" data-date-format="yyyy" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="startTime"  type="text" value="" readonly placeholder="请选择年份">
+                                <input class="form-control" size="16" id="startTime"  type="text" value="<%=Date%>" readonly placeholder="请选择年份">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
