@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 系统内消息提醒；
@@ -50,6 +51,13 @@ public class Message implements Serializable {
      */
     @Column(name = "BUSINESS_ID", length = 32)
     private String businessId;
+
+    /**
+     * 系统创建时间
+     */
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
+
 
     public String getId() {
         return id;
@@ -97,5 +105,13 @@ public class Message implements Serializable {
 
     public void setBusinessId(String businessId) {
         this.businessId = businessId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

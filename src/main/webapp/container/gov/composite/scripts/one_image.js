@@ -64,7 +64,9 @@ var OneImagePage = function () {
                         }
                         that.ztreeFinished = true;
                         //清空地图数据
-                        that.hwmap.clear();
+                        if (that.hwmap) {
+                            that.hwmap.clear();
+                        }
                         //如果地图加载完成，默认选中监控节点
                         if (that.hwmapFinished) {
                             that.selectAllMonitorNode();
