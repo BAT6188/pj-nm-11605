@@ -13,7 +13,8 @@ var OneImagePage = function () {
     var page = {
         zTree:undefined,
         hwmap:undefined,
-
+        ztreeFinished:false,
+        hwmapFinished:false,
         //地图图层
         MAP_LAYER_ENTERPRISE:"EnterpriseLayer",
         MAP_LAYER_BLOCK:"BlockLayer",
@@ -60,6 +61,13 @@ var OneImagePage = function () {
                         var nodes = JSON.parse(msg);
                         if (!nodes || nodes.length <=0) {
                             ztreeEle.BootstrapAlertMsg('success',"没有查询结果。",3000);
+                        }
+                        that.ztreeFinished = true;
+                        //清空地图数据
+                        that.hwmap.clear();
+                        //如果地图加载完成，默认选中监控节点
+                        if (that.hwmapFinished) {
+                            that.selectAllMonitorNode();
                         }
                     },
                     onCheck:function (event, treeId, treeNode) {
@@ -109,14 +117,26 @@ var OneImagePage = function () {
             };
             mapWindow.initMapFinish = function (hwmapCommon) {
                 that.hwmap = hwmapCommon;
-                //默认显示 噪声 沙尘暴排口和 企业
-                var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
-                var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
-                var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
-                that.zTree.checkNode(nnode[0],true,true,true);
-                that.zTree.checkNode(dnode[0],true,true,true);
-                that.zTree.checkNode(enode[0],true,true,true);
+                that.hwmapFinished = true;
+                //如果左侧树加载完成，默认选中监控节点
+                if (that.ztreeFinished) {
+                    that.selectAllMonitorNode();
+                }
+
             };
+        },
+        /**
+         * 默认选中所有监控节点
+         */
+        selectAllMonitorNode:function () {
+            var that = this;
+            //默认显示 噪声 沙尘暴排口和 企业
+            var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
+            var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
+            var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
+            that.zTree.checkNode(nnode[0],true,true,true);
+            that.zTree.checkNode(dnode[0],true,true,true);
+            that.zTree.checkNode(enode[0],true,true,true);
         },
 
         getIds:function (datas) {
