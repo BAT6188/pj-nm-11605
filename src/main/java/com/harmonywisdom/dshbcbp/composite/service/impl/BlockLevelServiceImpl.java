@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.composite.service.impl;
 
+import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.bean.VillageEnv;
@@ -117,5 +118,21 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         }
 
         return nodes;
+    }
+
+    @Override
+    public List<ZtreeObj> getAllBlockZtree() {
+        List<ZtreeObj> ztreeObjs = new ArrayList<>();
+        List<BlockLevel> blockLevels = blockLevelDAO.findAll();
+        for (BlockLevel bl:blockLevels){
+            ztreeObjs.add(new ZtreeObj(bl.getId(),bl.getName(),"-1"));
+            List<Block> blocks = blockService.findByLevelId(bl.getId());
+            if(blocks.size()>0){
+                for(Block b:blocks){
+                    ztreeObjs.add(new ZtreeObj(b.getId(),b.getOrgName(),bl.getId()));
+                }
+            }
+        }
+        return ztreeObjs;
     }
 }

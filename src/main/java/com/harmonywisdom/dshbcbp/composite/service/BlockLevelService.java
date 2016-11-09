@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.composite.service;
 
+import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.service.IBaseService;
@@ -21,4 +22,5 @@ public interface BlockLevelService extends IBaseService<BlockLevel, String> {
       */
      List<ZNodeDTO> getOneImageTree(String searchText);
 
+     List<ZtreeObj> getAllBlockZtree();
 }

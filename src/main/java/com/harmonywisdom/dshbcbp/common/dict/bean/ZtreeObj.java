@@ -3,7 +3,7 @@ package com.harmonywisdom.dshbcbp.common.dict.bean;
 /**
  * Created by Administrator on 2016/11/1.
  */
-public class OrgPerson {
+public class ZtreeObj {
 
     private String id;
 
@@ -110,6 +110,38 @@ public class OrgPerson {
     }
 
     public void setPinyinCodes(String pinyinCodes) {
+        this.pinyinCodes = pinyinCodes;
+    }
+
+    public ZtreeObj() {
+    }
+
+    public ZtreeObj(String id, String name, String parentId) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+    }
+
+    public ZtreeObj(String id, String name, String parentId, String icon, String iconOpen, String iconClose) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.icon = icon;
+        this.iconOpen = iconOpen;
+        this.iconClose = iconClose;
+    }
+
+    public ZtreeObj(String id, String name, String job, String parentId, String mobilePhone, String officePhone, String department, String icon, String iconOpen, String iconClose, String pinyinCodes) {
+        this.id = id;
+        this.name = name;
+        this.job = job;
+        this.parentId = parentId;
+        this.mobilePhone = mobilePhone;
+        this.officePhone = officePhone;
+        this.department = department;
+        this.icon = icon;
+        this.iconOpen = iconOpen;
+        this.iconClose = iconClose;
         this.pinyinCodes = pinyinCodes;
     }
 }

@@ -62,4 +62,8 @@ public class BlockLevelAction extends BaseAction<BlockLevel, BlockLevelService> 
 
 
     }
+
+    public void getAllBlocksZtree(){
+        write(blockLevelService.getAllBlockZtree());
+    }
 }
