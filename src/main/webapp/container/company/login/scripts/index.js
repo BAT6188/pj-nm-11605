@@ -19,7 +19,7 @@ var subMenu = {
         {
             id:"0003",
             text:"隐患自查自报",
-            url:""
+            url:"/dshbcbp/container/company/dangerInspection/dangerInspection.jsp"
         },
         {
             id:"0004",

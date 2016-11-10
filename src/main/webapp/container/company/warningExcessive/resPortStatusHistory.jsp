@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label for="release_time" class="col-sm-2 control-label form_datetime">发布时间：<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <div id="datetimepicker2" class="input-group date col-md-10 form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="release_time" name="release_time" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <label for="release_person" class="col-sm-2 control-label">发布人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <input type="text" id="release_person" name="release_person" class="form-control"
                                    data-message="工艺处理不为空"
                                    data-easytip="position:top;class:easy-red;"

@@ -1,25 +1,27 @@
 /**
- * Created by Administrator on 2016/11/9.
+ * Created by Administrator on 2016/11/10.
  */
-//@ sourceURL=resPortStatusHistory.js
+//@ sourceURL=dangerInspection.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "预警报送",
+    feedbackBtn = $('#feedback'),
+    form = $("#demoForm"),
+    formTitle = "隐患自查自报",
     selections = [];
+
+
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_PortStatusHistory_save.action",
+        url: rootPath + "/action/S_exelaw_SelfCheckReport_save.action",
         type:"post",
         data:entity,
         dataType:"json",
         success:callback
     });
 }
-
 /**
  * 删除请求
  * @param ids 多个,号分隔
@@ -27,7 +29,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_PortStatusHistory_delete.action",
+        url: rootPath + "/action/S_exelaw_SelfCheckReport_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -39,16 +41,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_PortStatusHistory_list.action",
-        height: getHeight(),
+        url: rootPath+"/action/S_exelaw_SelfCheckReport_list.action?enterpriseId="+enterpriseId,
+        height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function(param){
-            var temp = pageUtils.getBaseParams(param);
-            // temp.enterpriseId = id;
-            return temp;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -56,7 +54,8 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            }, {
+            },
+            {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
@@ -65,89 +64,59 @@ function initTable() {
                 visible:false
             },
             {
-                field: 'res_title',
-                title: '标题',
+                title: '企业名称',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                field: 'publishingUnit',
-                title: '发布单位',
+                title: '隐患名称',
+                field: 'name',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                field: 'release_time',
-                title: '发布时间',
-                sortable: false,
-                align: 'center',
+                title: '隐患部位',
+                field: 'place',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-
-            {
-                field: 'release_person',
-                title: '发布人',
                 sortable: false,
-                align: 'center',
-                editable: false
+                align: 'center'
             },
             {
-                field: 'contact',
+                title: '整改负责人',
+                field: 'principal',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '联系方式',
+                field: 'linkPhone',
+                editable: false,
                 sortable: false,
-                align: 'center',
-                editable: false
+                align: 'center'
             },
             {
-                field: 'isNoTickling',
-                title: '是否反馈',
-                sortable: false,
-                align: 'center',
+                title: '发现日期',
+                field: 'findDate',
                 editable: false,
-                formatter : function(value, row, index){
-                    /**
-                     * 1:已反馈
-                     * 2：未反馈
-                     */
-                    if(value == 1){
-                        value = "已反馈"
-                    }else if(value == 2){
-                        value = "未反馈"
-                    }else if(value ==""){
-                        value = "未反馈"
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'status',
+                title: '反馈状态',
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if (0==value){
+                        value="未反馈"
+                    }else {
+                        value="已反馈"
                     }
                     return value;
-
                 }
-            },
-            {
-                field: 'attachmentId',
-                title: '附件ID',
-                sortable: false,
-                align: 'center',
-                editable: true,
-                visible:false
-            },
-            {
-                field: 'solution',
-                title: '解决方案',
-                sortable: false,
-                align: 'center',
-                editable: true,
-                visible:false
-            },
-            {
-                field: 'enterpriseId',
-                title: '企业Id',
-                sortable: false,
-                align: 'center',
-                editable: true,
-                visible:false
             },
             {
                 field: 'operate',
@@ -156,6 +125,7 @@ function initTable() {
                 events: operateEvents,
                 formatter: operateFormatter
             }
+
         ]
     });
     // sometimes footer render error.
@@ -170,21 +140,20 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-
-
+        feedbackBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()
         });
     });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -192,7 +161,6 @@ window.operateEvents = {
         setFormView(row);
     }
 };
-
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -213,16 +181,12 @@ function getSelections() {
     });
 }
 
-function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 13;
-}
 initTable();
-
-
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
+feedbackBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
@@ -230,7 +194,6 @@ $("#add").bind('click',function () {
     resetForm();
 });
 $("#update").bind("click",function () {
-    resetForm();
     setFormData(getSelections()[0]);
 });
 /**
@@ -254,37 +217,49 @@ removeBtn.click(function () {
 
 });
 
+
+
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
     var queryParams = {};
-    var res_title = $("#res_title").val();
-    var start_createTime = $("#start_createTime").val();
-    var end_createTime = $("#start_createTime").val();
-    
-    
-    // var status = pageUtils.getRadioValue("s_status");
-    if (res_title){
-        queryParams["res_title"] = res_title;
+    var name = $("#s_name").val();
+    var start_findDate = $("#start_findDate").val();
+    var end_findDate = $("#end_findDate").val();
+    if (name){
+        queryParams["name"] = name;
     }
-    if (start_createTime){
-        queryParams["start_createTime"] = start_createTime;
+    if (start_findDate){
+        queryParams["start_findDate"] = start_findDate;
     }
-    if (end_createTime) {
-        queryParams["end_createTime"] = end_createTime;
+    if (end_findDate){
+        queryParams["end_findDate"] = end_findDate;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
 });
 
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+});
+
 /**============表单初始化相关代码============**/
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
-        entity.attachmentId = getAttachmentIds();
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        entity.enterpriseId=enterpriseId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -297,69 +272,24 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-$("#update").bind('click',function(){
-    
-    var id = getIdSelections()[0];
-    getSelectId(id);
-
-});
-
-function getSelectId(id){
-    $("#send").bind('click',function(){
-        $.ajax({
-            url: rootPath + "/action/S_port_PortStatusHistory_updateSendStatus.action",
-            type:"post",
-            dataType:'json',
-            data:{id:id},
-            success:function (data) {
-                form.modal('hide');
-                gridTable.bootstrapTable('refresh');
-            }
-        })
-        
-    });
-
-}
-
-//初始化日期组件
-$('.form_datetime').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
 /**
  * 设置表单数据
  * @param entity
  * @returns {boolean}
  */
-$("#update").bind('click',function(){
-    $("#release_time").val((new Date()).format("yyyy-MM-dd hh:mm"))
-});
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("处置" + formTitle);
+    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#title").val(entity.res_title);
-    $("#publishingUnit").val(entity.publishingUnit);
-    $("#release_time").val(pageUtils.sub10(entity.release_time));
-    $("#release_person").val(entity.release_person);
-    $("#contact").val(entity.contact);
-    $("#realtimeData").val(entity.realtimeData);
-    $("#maxValue").val(entity.maxValue);
-    $("#solution").val(entity.solution);
-    $("#isNoTickling").val(entity.isNoTickling);
-    if(entity.isNoTickling == 1){
-        form.find("#send").hide();
-    }else{
-        form.find("#send").show();
+    $("#removeId").val("");
+    for(p in entity){
+        var selector="#"+p
+        $(selector).val(entity[p])
     }
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
-
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
@@ -372,46 +302,29 @@ function setFormView(entity) {
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
     form.find("#save").hide();
-    form.find("#send").hide();
     form.find(".btn-cancel").text("关闭");
-    gridTable.bootstrapTable('refresh');
-}
 
+    $("#demoForm").find(".query").show()
+}
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
 
 }
-
-
 /**
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增" + formTitle);
+    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
-}
 
+    $("#demoForm").find(".query").hide()
+}
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -479,9 +392,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };
@@ -509,4 +420,41 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+/**********  反馈  *************/
+$("#feedback").click(function () {
+    $("#feedbackTime_feedbackForm").val((new Date()).format("yyyy-MM-dd hh:mm"));
+
+})
+var feedbackForm=$("#feedbackForm");
+var ef_feedback = feedbackForm.easyform({
+    success:function (ef_feedback) {
+        var enterpriseName = $("#enterpriseName").val();
+        var feedbackTime = $("#feedbackTime_feedbackForm").val();
+        var feedbackContent = $("#feedbackContent_feedbackForm").val();
+        var id=getIdSelections()[0];
+
+        var entity={};
+        entity.enterpriseName = enterpriseName;
+        entity.feedbackTime=feedbackTime;
+        entity.feedbackContent=feedbackContent;
+        entity.id=id;
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_SelfCheckReport_saveFeedback.action",
+            type:"post",
+            data:entity,
+            success:function (msg) {
+                feedbackForm.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        });
+
+
+    }
+});
+
+$("#saveFeedback").click(function () {
+    ef_feedback.submit(false);
+})
+
 
