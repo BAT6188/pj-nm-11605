@@ -58,7 +58,6 @@ function setDialogTypeOne(dialog,options,callback){
                 Ewin.alert("请选择人员");
                 return;
             }
-            if(!options.choseMore)persons = persons[0];
             var returnData={
                 personObj:persons,
                 sourceId:sourceId_msgSend

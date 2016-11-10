@@ -24,10 +24,18 @@ public class TrustMonitor implements Serializable {
      * 2. 监察大队审批同意
      * 3. 监察大队审批不同意
      * 4. 监察大队发送给监测站办公室
-     * 5. 已反馈
+     * 5. 监测站办公室发送给监测站站长
+     * 6. 监测站站长发送给检测人员
+     * 7. 检测人员反馈
      */
     @Column(length = 4)
     private String status;
+
+    /**
+     * 是否是企业委托监测数据：1是   null或0不是
+     */
+    @Column(name = "enterprise_self",length = 2)
+    private String enterpriseSelf;
 
     /**
      * 企业
@@ -60,10 +68,22 @@ public class TrustMonitor implements Serializable {
     private String environmentalProtectionStationSelectPersonList;
 
     /**
-     * 监测站办公室，监测站站长 人员列表
+     * 监测站办公室人员列表
      */
-    @Column(name = "monitor_office_and_master_person_list")
-    private String monitorOfficeAndMasterPersonList;
+    @Column(name = "monitoring_station_office_person_list")
+    private String monitoringStationOfficePersonList;
+
+    /**
+     * 监测站站长人员列表
+     */
+    @Column(name = "monitoring_station_master_person_list")
+    private String monitoringStationMasterPersonList;
+
+    /**
+     * 检测人员列表
+     */
+    @Column(name = "monitoring_station_person_list")
+    private String monitoringStationPersonList;
 
 
     /**
@@ -192,12 +212,12 @@ public class TrustMonitor implements Serializable {
         this.id = id;
     }
 
-    public String getMonitorOfficeAndMasterPersonList() {
-        return monitorOfficeAndMasterPersonList;
+    public String getMonitoringStationOfficePersonList() {
+        return monitoringStationOfficePersonList;
     }
 
-    public void setMonitorOfficeAndMasterPersonList(String monitorOfficeAndMasterPersonList) {
-        this.monitorOfficeAndMasterPersonList = monitorOfficeAndMasterPersonList;
+    public void setMonitoringStationOfficePersonList(String monitorOfficeAndMasterPersonList) {
+        this.monitoringStationOfficePersonList = monitorOfficeAndMasterPersonList;
     }
 
     public String getEnterpriseName() {
@@ -431,5 +451,29 @@ public class TrustMonitor implements Serializable {
 
     public void setAuditSuggestion(String auditSuggestion) {
         this.auditSuggestion = auditSuggestion;
+    }
+
+    public String getMonitoringStationMasterPersonList() {
+        return monitoringStationMasterPersonList;
+    }
+
+    public void setMonitoringStationMasterPersonList(String monitoringStationMasterPersonList) {
+        this.monitoringStationMasterPersonList = monitoringStationMasterPersonList;
+    }
+
+    public String getMonitoringStationPersonList() {
+        return monitoringStationPersonList;
+    }
+
+    public void setMonitoringStationPersonList(String monitoringStationPersonList) {
+        this.monitoringStationPersonList = monitoringStationPersonList;
+    }
+
+    public String getEnterpriseSelf() {
+        return enterpriseSelf;
+    }
+
+    public void setEnterpriseSelf(String enterpriseSelf) {
+        this.enterpriseSelf = enterpriseSelf;
     }
 }

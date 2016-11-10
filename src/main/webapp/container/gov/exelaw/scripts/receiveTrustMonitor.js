@@ -294,7 +294,7 @@ var options = {
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({personIds:data.ids},true)
+    var d=$.param({personIds:data.personObj.id},true)
     d+="&sourceId="+data.sourceId;
     d+="&auditor="+userName;
     console.log("发送："+d)
