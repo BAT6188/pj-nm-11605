@@ -117,7 +117,7 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">自查自报</a></h3>
             <ul>
-                <li><a href="javascript:;">自查自报</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/selfCheckReport.jsp?id=<%=id%>')">自查自报</a></li>
             </ul>
         </div>
     </div>

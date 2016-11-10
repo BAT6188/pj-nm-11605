@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.detect.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,18 +17,27 @@ public class Schedule implements Serializable {
     private String id;
 
     /**
-     * 标题
+     * 提醒状态。 暂时不用
+     * 0未提醒  1已提醒
      */
-    @Column(name = "tilte", length = 64)
-    private String tilte;
+    @Column(name = "status", length = 2)
+    private String status;
+
+    /**
+     * 日程提醒名称
+     */
+    @Column(name = "title", length = 64)
+    private String title;
     /**
      * 提醒时间
      */
     @Column(name = "alert_time")
     private Date alertTime;
     /**
-     * 人员姓名
+     * 设置提醒人员
      */
+    @Column(name = "seterId", length = 32)
+    private String seterId;
     @Column(name = "seter", length = 32)
     private String seter;
     /**
@@ -45,16 +51,15 @@ public class Schedule implements Serializable {
     @Column(name = "link_phone", length = 11)
     private String linkPhone;
 
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
     /**
      * 备注
      */
     @Column(name = "remark")
     private String remark;
 
-    @Column(name = "create_time")
-    private Date createTime;
+    @Transient
+    private String attachmentIds;
+
 
     public String getId() {
         return id;
@@ -64,12 +69,20 @@ public class Schedule implements Serializable {
         this.id = id;
     }
 
-    public String getTilte() {
-        return tilte;
+    public String getStatus() {
+        return status;
     }
 
-    public void setTilte(String tilte) {
-        this.tilte = tilte;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getAlertTime() {
@@ -104,13 +117,6 @@ public class Schedule implements Serializable {
         this.linkPhone = linkPhone;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
 
     public String getRemark() {
         return remark;
@@ -120,11 +126,19 @@ public class Schedule implements Serializable {
         this.remark = remark;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
+
+    public String getSeterId() {
+        return seterId;
+    }
+
+    public void setSeterId(String seterId) {
+        this.seterId = seterId;
     }
 }

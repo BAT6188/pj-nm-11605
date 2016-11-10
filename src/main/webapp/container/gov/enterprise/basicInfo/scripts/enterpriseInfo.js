@@ -492,7 +492,7 @@ function setEnterpriseForm(flag){
         var tagId = $(v).attr('id');
         var value = data[tagId];
         if(v.tagName=='SELECT'){
-            if(tagId=="blockLevelId"){
+            if(tagId=="blockLevelId" && value!=null){
                 var childData = searchForAjax("/action/S_composite_Block_findLevelById.action",{blockLevelId: value});
                 $('#blockId').empty();
                 $('#blockId').append($("<option>").val("").text("---请选择---"));

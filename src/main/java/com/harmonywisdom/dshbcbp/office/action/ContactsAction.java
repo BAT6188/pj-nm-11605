@@ -33,6 +33,15 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
         if (StringUtils.isNotBlank(entity.getDepartment())) {
             param.andParam(new QueryParam("department", QueryOperator.LIKE,entity.getDepartment()));
         }
+        if (StringUtils.isNotBlank(entity.getOrgId())) {
+            param.andParam(new QueryParam("orgId", QueryOperator.EQ,entity.getOrgId()));
+        }
+        if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
+            param.andParam(new QueryParam("blockLevelId", QueryOperator.EQ,entity.getBlockLevelId()));
+        }
+        if (StringUtils.isNotBlank(entity.getBlockId())) {
+            param.andParam(new QueryParam("blockId", QueryOperator.EQ,entity.getBlockId()));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
@@ -66,5 +75,13 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    /**
+     * 从网格中移除人员
+     */
+    public void removeContactFromBlock(){
+        String deleteId = request.getParameter("deletedId");
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.removeContactFromBlock(deleteId)));
     }
 }

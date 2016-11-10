@@ -14,6 +14,10 @@ import java.io.Serializable;
 public class SmsSendStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public final static String SEND_STATUS_SENT = "1";
+    public final static String SEND_STATUS_RECEIVED = "2";
+    public final static String SEND_STATUS_FAILED = "3";
+
     @Id
     @Column(length = 32)
     private String id;

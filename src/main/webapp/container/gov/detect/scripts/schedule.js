@@ -1,9 +1,8 @@
-var gridTable = $('#videoTable'),
-    removeBtn = $('#removeVideo'),
-    updateBtn = $('#updateVideo'),
-    addBtn = $('#addVideo'),
-    form = $("#videoForm"),
-    formTitle = "摄像头",
+var gridTable = $('#table'),
+    removeBtn = $('#remove'),
+    updateBtn = $('#update'),
+    form = $("#demoForm"),
+    formTitle = "日程提醒",
     selections = [];
 
 
@@ -11,7 +10,7 @@ var gridTable = $('#videoTable'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Video_save.action",
+        url: rootPath + "/action/S_detect_Schedule_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -25,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_Video_delete.action",
+        url: rootPath + "/action/S_detect_Schedule_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -37,17 +36,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_Video_list.action",
-        height: pageUtils.getTableHeight()-40,
+        url: rootPath+"/action/S_detect_Schedule_list.action",
+        height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = pageUtils.getBaseParams(param);
-            temp.unitId = enterpriseId;
-            temp.videoType = 1;
-            return temp;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -57,35 +51,58 @@ function initTable() {
                 valign: 'middle'
             },
             {
-                title: '摄像头编号',
-                field: 'number',
+                title: 'ID',
+                field: 'id',
                 align: 'center',
                 valign: 'middle',
                 sortable: false,
                 visible:false
             },
             {
-                title: '摄像头名称',
-                field: 'name',
+                title: '日程提醒名称',
+                field: 'title',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '摄像头位置',
+                title: '提醒时间',
+                field: 'alertTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '设置提醒人员',
+                field: 'seter',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '职务',
                 field: 'position',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '监测类型',
-                field: 'monitorType',
+                title: '联系方式',
+                field: 'linkPhone',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:monitorTypeFormatter
+                align: 'center'
             },
+            // {
+            //     title: '提醒状态',
+            //     field: 'status',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false,
+            //     formatter:function (value, row, index) {
+            //         return value;
+            //     }
+            // },
             {
                 field: 'operate',
                 title: '操作',
@@ -113,24 +130,18 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()
         });
     });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#videoForm">查看</button>'; //+
-    //'<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="makePlaneMap()">标注平面图</button>';
-}
-function monitorTypeFormatter(value, row, index){
-    return dict.get('monitorType',value);
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        $('.saveBtn').hide();
-        $('.lookBtn').show();
         setFormView(row);
     }
 };
@@ -154,9 +165,6 @@ function getSelections() {
     });
 }
 
-function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
-}
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
@@ -165,16 +173,10 @@ updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-addBtn.bind('click',function () {
-    updateSuccessMsg = '添加'+formTitle+'成功!';
-    $('.saveBtn').show();
-    $('.lookBtn').hide();
+$("#add").bind('click',function () {
     resetForm();
 });
-updateBtn.bind("click",function () {
-    updateSuccessMsg = '修改'+formTitle+'成功!';
-    $('.saveBtn').show();
-    $('.lookBtn').hide();
+$("#update").bind("click",function () {
     setFormData(getSelections()[0]);
 });
 /**
@@ -187,7 +189,6 @@ removeBtn.click(function () {
             return;
         }
         deleteAjax(ids,function (msg) {
-            Ewin.alert('删除成功！');
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -195,6 +196,8 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
+
+
 });
 
 
@@ -202,31 +205,46 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
+    var queryParams = {};
+    var title = $("#s_title").val();
+    var start_alertTime = $("#start_alertTime").val();
+    var end_alertTime = $("#end_alertTime").val();
+    if (title){
+        queryParams["title"] = title;
+    }
+    if (start_alertTime){
+        queryParams["start_alertTime"] = start_alertTime;
+    }
+    if (end_alertTime){
+        queryParams["end_alertTime"] = end_alertTime;
+    }
     gridTable.bootstrapTable('refresh',{
-        query:jsonData
+        query:queryParams
     });
 });
-//重置搜索
-$("#searchFix").click(function () {
-    $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 
 /**============表单初始化相关代码============**/
-var updateSuccessMsg = '提交成功';
+
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = form.find("form").formSerializeObject();
-        entity.unitId = enterpriseId;
-        entity.videoType = 1;
-        entity.attachmentId = getAttachmentIds();
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.seter=$("#seter").val();
+        entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
-            Ewin.alert(updateSuccessMsg);
+            form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -247,22 +265,12 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    var inputs = form.find('.form-control');
-    $.each(inputs,function(k,v){
-        var tagId = $(v).attr('name');
-        var value = entity[tagId];
-        if($(v)[0].tagName=='select'){
-            $(v).find("option[value='"+value+"']").attr("selected",true);
-        }else{
-            $(v).val(value);
-        }
-    });
-    var radios = form.find('.isRadio');
-    $.each(radios,function(k,v){
-        var tagId = $(v).attr('id');
-        var value = entity[tagId];
-        $("input#"+tagId+value).get(0).checked=true;
-    });
+    $("#removeId").val("");
+    for(p in entity){
+        var selector="#"+p
+        $(selector).val(entity[p])
+    }
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -272,25 +280,31 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
+
+    $("#select").attr("disabled",true)
 }
 function disabledForm(disabled) {
-    form.find(".form-control").attr("disabled",disabled);
-    form.find(".formBtn").attr("disabled",disabled);
-    form.find('.isRadio input').attr("disabled",disabled);
+    form.find("input").attr("disabled",disabled);
 }
 /**
  * 重置表单
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find('form')[0].reset();
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#seter").attr("disabled",true);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
+
+    $("#select").attr("disabled",false)
 }
 
 //表单附件相关js
@@ -359,7 +373,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };
@@ -388,33 +402,26 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
 
-/**
- * 平面图标注
- */
-function makePlaneMap(){
-    var planeMapMarkDate = $('#planeMapMark').val();
-    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
-    PlottingDialog.dialog({
-        show:true,
-        mode:"marker",
-        data:data,
-        attachments:pageUtils.findAttachment(enterpriseData.id,"planeMap"),
-        callback:function (marker) {
-            var str = JSON.stringify(marker);
-            form.find('#planeMapMark').val(str);
-        }
-    });
+/***********  组织机构人员选择  *************/
+var options = {
+    params:{
+        // orgCode:[],//组织机构代码(必填，组织机构代码)
+        type:1  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
 }
-/**
- * 查看平面图
- */
-function lookPlaneMap(){
-    var planeMapMarkDate = $('#planeMapMark').val();
-    var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
-    PlottingDialog.dialog({
-        show:true,
-        mode:"view",
-        data:data,
-        attachmentId:enterpriseData.planeMap
-    });
-}
+
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    console.log(data)
+    $("#seter").val("刘译繁")
+    $("#seterId").val("1")
+    $("#position").val("局座")
+    $("#linkPhone").val("1352652456")
+});
+
+$("#select").click(function () {
+    model.open();
+})
+
+

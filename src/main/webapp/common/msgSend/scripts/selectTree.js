@@ -15,7 +15,7 @@ $('#search_contacts').keydown(function(event){
  * @param treeId
  */
 function expand_ztree(treeId){
-    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    var treeObj = MsgSend.tree;
     treeObj.expandAll(true);
 }
 /**
@@ -23,7 +23,8 @@ function expand_ztree(treeId){
  * @param treeId
  */
 function close_ztree(treeId){
-    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    //var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    var treeObj = MsgSend.tree;
     var nodes = treeObj.transformToArray(treeObj.getNodes());
     var nodeLength = nodes.length;
     for (var i = 0; i < nodeLength; i++) {
@@ -43,7 +44,7 @@ function close_ztree(treeId){
  * @param searchConditionId 文本框的id
  */
 function search_ztree(treeId, searchConditionId){
-    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    var treeObj = MsgSend.tree;
     searchByFlag_ztree(treeId, searchConditionId, "");
 }
 
@@ -54,7 +55,7 @@ function search_ztree(treeId, searchConditionId){
  * @param flag                  需要高亮显示的节点标识
  */
 function searchByFlag_ztree(treeId, searchConditionId, flag){
-    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    var treeObj = MsgSend.tree;
     //<1>.搜索条件
     var searchCondition = $('#' + searchConditionId).val();
     //<2>.得到模糊匹配搜索条件的节点数组集合
@@ -87,7 +88,8 @@ function searchByFlag_ztree(treeId, searchConditionId, flag){
  */
 var otherAddNode=null;
 function highlightAndExpand_ztree(treeId, highlightNodes, flag){
-    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    //var treeObj = $.fn.zTree.getZTreeObj(treeId);
+    var treeObj = MsgSend.tree;
     if(otherAddNode!=null){
         treeObj.removeNode(otherAddNode);
         otherAddNode = null;

@@ -1,10 +1,129 @@
 var gridTable = $('#table'),
+    addBtn = $("#add"),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
+    addPersonBtn = $('#addPerson'),
+    removePersonBtn = $('#removePerson'),
     form = $("#scfForm"),
     formTitle = "人员管理",
+    thisOrgId="",
     selections = [];
 
+$(".scrollContent").slimScroll({
+    height:"100%",
+    railOpacity:.9,
+    alwaysVisible:!1
+});
+var setting = {
+    height:500,
+    width:200,
+    view: {
+        showLine: true
+    },
+    data:{
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: "-1",
+        }
+    },
+    async: {
+        enable: true,
+        url:rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
+        autoParam:["id", "name=n", "level=lv"],
+        otherParam:{orgCode:["0170001000"]},
+        dataFilter: filter
+    },
+    callback: {
+        onClick: function(event, treeId, treeNode) {
+            $('.hidden').val("");
+            if(treeNode.parentId!="-1"){
+                thisOrgId=treeNode.id;
+                $('#s_orgId').val(treeNode.id);
+                searchForm();
+                addBtn.prop('disabled',false);
+            }else{
+                $('#s_orgId').val("");
+                searchForm();
+                addBtn.prop('disabled',true);
+            }
+        },
+        onAsyncSuccess:function(event, treeId, treeNode, msg) {
+            $('.scrollContent').find('table').remove();
+            orgTreeObj.expandAll(true);
+        }
+    }
+};
+var blockSetting = {
+    height:500,
+    width:200,
+    view: {
+        showLine: true
+    },
+    data:{
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: "-1",
+        }
+    },
+    async: {
+        enable: true,
+        url:rootPath + "/action/S_composite_BlockLevel_getAllBlocksZtree.action",//"/container/gov/dispatch/selectPeople.json"
+        autoParam:["id", "name=n", "level=lv"],
+        otherParam:{},
+        dataFilter: filter
+    },
+    callback: {
+        onClick: function(event, treeId, treeNode) {
+            $('.hidden').val("");
+            if(treeNode.parentId!="-1"){
+                addPersonBtn.prop('disabled', false);
+                $('#s_blockId').val(treeNode.id);
+                searchForm();
+            }else{
+                addPersonBtn.prop('disabled', true);
+                $('#s_blockLevelId').val(treeNode.id);
+                searchForm();
+            }
+        },
+        onAsyncSuccess:function(event, treeId, treeNode, msg) {
+            //$('.scrollContent').find('table').remove();
+            setBlock('#blockLevelId','#blockId');
+            blockTreeObj.expandAll(true);
+        }
+    }
+};
+function filter(treeId, parentNode, childNodes) {
+    if (!childNodes) return null;
+    for (var i=0, l=childNodes.length; i<l; i++) {
+        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+    }
+    return childNodes;
+}
+var orgTreeObj = $.fn.zTree.init($("#orgZtree"), setting);
+var blockTreeObj = $.fn.zTree.init($("#blockZtree"), blockSetting);
+function setBlock(pSelector,cSelector){
+    var pBlock = $(pSelector),cBlock = $(cSelector);
+    var blockLevel = blockTreeObj.getNodes();
+    console.log(blockLevel);
+    if(blockLevel){
+         $.each(blockLevel,function(k,v){
+            pBlock.append($("<option>").val(v.id).text(v.name));
+         });
+         pBlock.change(function(){
+             var pid = $(this).val();
+             var childData = blockTreeObj.getNodeByParam("id", pid, null).children;
+             cBlock.empty();
+             cBlock.append($("<option>").val("").text(""));
+             $.each(childData,function(k,v){
+                cBlock.append($("<option>").val(v.id).text(v.name));
+             });
+         });
+     }
+}
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -115,6 +234,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        removePersonBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
@@ -160,15 +280,19 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
+addBtn.prop('disabled', true);
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
+addPersonBtn.prop('disabled', true);
+removePersonBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-$("#add").bind('click',function () {
+addBtn.bind('click',function () {
     resetForm();
+    form.find('#orgId').val(thisOrgId);
 });
-$("#update").bind("click",function () {
+updateBtn.bind("click",function () {
     setFormData(getSelections()[0]);
 });
 /**
@@ -189,29 +313,38 @@ removeBtn.click(function () {
         });
     });
 });
-
+removePersonBtn.click(function () {
+    var ids = getIdSelections();
+    Ewin.confirm({ message: "确认要将所选人员从当前网格中移除？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        $.ajax({
+            url: rootPath + "/action/S_office_Contacts_removeContactFromBlock.action",
+            type:"post",
+            async:false,
+            data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
+            dataType:"json",
+            success:function (data) {
+                searchForm();
+                removePersonBtn.prop('disabled', true);
+            }
+        });
+    });
+});
 
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#s_name").val();
-    var department = $("#s_department").val();
-    var position =$("#s_position").val();
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (department){
-        queryParams["department"] = department;
-    }
-    if (position) {
-        queryParams["position"] = position;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    searchForm();
 });
+function searchForm(){
+    var jsonData = $('#searchform').formSerializeObject();
+    gridTable.bootstrapTable('refresh',{
+        query:jsonData
+    });
+}
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
@@ -227,6 +360,7 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
+            searchForm();
         });
     }
 });
@@ -246,14 +380,25 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#department").val(entity.department);
-    $("#position").val(entity.position);
-    $("#address").val(entity.address);
-    $("#tel").val(entity.tel);
-    $("#phone").val(entity.phone);
+    var inputs = form.find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        var value = entity[tagId];
+        if(v.tagName=='SELECT'){
+            if(tagId=="blockLevelId" && value!=null){
+                var childData = blockTreeObj.getNodeByParam("id", value, null).children;
+                $('#blockId').empty();
+                $('#blockId').append($("<option>").val("").text(""));
+                $.each(childData,function(k,v){
+                    $('#blockId').append($("<option>").val(v.id).text(v.name));
+                });
+            }
+            if(value==null) value="";
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -272,7 +417,7 @@ function setFormView(entity) {
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
+    form.find(".form-control").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#pubTimeContent').datetimepicker({
