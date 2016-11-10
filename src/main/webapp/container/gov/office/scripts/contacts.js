@@ -1,4 +1,5 @@
 var gridTable = $('#table'),
+    choseTable = $('#choseTable'),
     addBtn = $("#add"),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -92,6 +93,7 @@ function blockTreeOnClick(event, treeId, treeNode) {
     if(treeNode.parentId!="-1"){
         addPersonBtn.prop('disabled', false);
         $('#s_blockId').val(treeNode.id);
+        $('#s_blockLevelId').val(treeNode.parentId);
         searchForm();
     }else{
         addPersonBtn.prop('disabled', true);
@@ -234,12 +236,69 @@ function initTable() {
             }
         ]
     });
+    choseTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_office_Contacts_list.action",
+        height: 400,
+        method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:function (param) {
+            var temp = pageUtils.getBaseParams(param);
+            temp.blockNeed = true;
+            return temp;
+        },
+        columns: [
+            {
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:false,  //  true 单选， false多选
+                valign: 'middle'
+            },
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '名称',
+                field: 'name',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '部门名称',
+                field: 'department',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '职务',
+                field: 'position',
+                sortable: false,
+                align: 'center',
+                editable: false
+            }
+        ]
+    });
     // sometimes footer render error.
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
     }, 200);
 
     //列表checkbox选中事件
+    choseTable.on('check.bs.table uncheck.bs.table ' +
+        'check-all.bs.table uncheck-all.bs.table', function () {
+        //有选中数据，启用删除按钮
+        $('#addPersonToBlock').prop('disabled', !choseTable.bootstrapTable('getSelections').length);
+    });
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
@@ -275,6 +334,11 @@ window.operateEvents = {
 function getIdSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         return row.id
+    });
+}
+function getChoseTableIdSelections() {
+    return $.map(choseTable.bootstrapTable('getSelections'), function (row) {
+        return row.id;
     });
 }
 
@@ -358,6 +422,9 @@ var model = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个
         }
     });
 });
+addPersonBtn.click(function(){
+    choseTable.bootstrapTable('refresh');
+});
 refPersonBtn.click(function(){
     var ids = getIdSelections();
     model.open(ids[0]);
@@ -381,12 +448,36 @@ removePersonBtn.click(function () {
         });
     });
 });
-
+$('#addPersonToBlock').click(function(){
+    $.ajax({
+        url: rootPath + "/action/S_office_Contacts_addContactsToBlock.action",
+        type:"post",
+        async:false,
+        data:$.param({
+            ids:getChoseTableIdSelections(),
+            blockLevelId:$('#s_blockLevelId').val(),
+            blockId:$('#s_blockId').val(),
+        },true),
+        //阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function (data) {
+            $('#chosePersonForm').modal('hide');
+            searchForm();
+            $('#addPersonToBlock').prop('disabled', true);
+        }
+    });
+});
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
     searchForm();
+});
+$("#chosePersonFormSearch").click(function(){
+    var jsonData = $('#searchChosePersonform').formSerializeObject();
+    choseTable.bootstrapTable('refresh',{
+        query:jsonData
+    });
 });
 function searchForm(){
     var jsonData = $('#searchform').formSerializeObject();
@@ -397,7 +488,11 @@ function searchForm(){
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
+});
+$("#chosePersonFormReset").click(function () {
+    $('#searchChosePersonform')[0].reset();
+    choseTable.bootstrapTable('refresh');
 });
 /**============表单初始化相关代码============**/
 

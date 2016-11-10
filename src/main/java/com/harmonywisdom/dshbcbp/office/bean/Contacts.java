@@ -89,6 +89,8 @@ public class Contacts implements Serializable {
      */
     @Transient
     private String attachmentIds;
+    @Transient
+    private String[] ids;
 
     public String getId() {
         return id;
@@ -208,5 +210,13 @@ public class Contacts implements Serializable {
 
     public void setApportalUserName(String apportalUserName) {
         this.apportalUserName = apportalUserName;
+    }
+
+    public String[] getIds() {
+        return ids;
+    }
+
+    public void setIds(String[] ids) {
+        this.ids = ids;
     }
 }

@@ -44,6 +44,11 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
         if (StringUtils.isNotBlank(entity.getBlockId())) {
             param.andParam(new QueryParam("blockId", QueryOperator.EQ,entity.getBlockId()));
         }
+        String blockNeed = getParamValue("blockNeed");
+        if (StringUtils.isNotBlank(blockNeed)) {
+            param.andParam(new QueryParam("blockLevelId", QueryOperator.IS,""));
+            param.andParam(new QueryParam("blockId", QueryOperator.IS,""));
+        }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
@@ -83,7 +88,7 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
      * 从网格中移除人员
      */
     public void removeContactFromBlock(){
-        String deleteId = request.getParameter("deletedId");
+        String[] deleteId = request.getParameterValues("deletedId");
         write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.removeContactFromBlock(deleteId)));
     }
 
@@ -99,5 +104,12 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
         }else{
             write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.updateContact(this.entity)));
         }
+    }
+
+    /**
+     * 将联系人批量添加网格
+     */
+    public void addContactsToBlock(){
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.addContactsToBlock(this.entity)));
     }
 }

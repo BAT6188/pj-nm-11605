@@ -37,6 +37,8 @@ function initTable() {
         sidePagination:"server",
         url: rootPath+"/action/S_alert_SysOperationLog_list.action",
         height: getHeight(),
+        pageSize:15,
+        pageList:[10,15,20,25,50,100],
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -102,7 +104,7 @@ function initTable() {
     //搜索
     $("#search").click(function () {
         //查询之前重置table
-        gridTable.bootstrapTable('resetSearch');
+        //gridTable.bootstrapTable('resetSearch');
         var jsonData = $('#searchform').formSerializeObject();
         gridTable.bootstrapTable('refresh',{
             query:jsonData
@@ -111,7 +113,7 @@ function initTable() {
     //重置搜索
     $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('resetSearch');
+        gridTable.bootstrapTable('refresh');
     });
 }
 

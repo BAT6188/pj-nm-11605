@@ -80,10 +80,10 @@
                 <div class="mainBox">
                     <div class="dealBox">
                         <div class="sideTitle left">
-                        <span class="blueMsg">
-                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
-                            <span class="text">查询</span>
-                        </span>
+                            <span class="blueMsg">
+                                <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
+                                <span class="text">查询</span>
+                            </span>
                         </div>
                         <div class="queryBox marginLeft0">
                             <form class="form-inline" id="searchform">
@@ -108,7 +108,7 @@
                             <button id="remove" type="button" class="btn btn-sm btn-danger orgBtn">
                                 <i class="btnIcon delf-icon"></i><span>删除</span>
                             </button>
-                            <button id="addPerson" type="button" class="btn btn-sm btn-success blockBtn" style="display: none;">
+                            <button id="addPerson" type="button" class="btn btn-sm btn-success blockBtn" data-toggle="modal" data-target="#chosePersonForm" style="display: none;">
                                 <i class="btnIcon add-icon"></i><span>添加</span>
                             </button>
                             <button id="refPerson" type="button" class="btn btn-sm btn-warning blockBtn" style="display: none;">
@@ -228,6 +228,47 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" data-backdrop="static" id="chosePersonForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="chosePersonModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title form-title">添加人员到网格</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mainBox">
+                                <div class="dealBox">
+                                    <div class="queryBox marginLeft0">
+                                        <form class="form-inline" id="searchChosePersonform">
+                                            <label for="s_name">姓名：</label> <input type="text" name="name" class="form-control" />
+                                            <label for="s_department">单位：</label> <input type="text" name="department" class="form-control" />
+                                            <p></p>
+                                            <label for="s_position">职务：</label> <input type="text"name="position" class="form-control" />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="chosePersonFormSearch" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                                            <button type="button" class="btn btn-default queryBtn" id="chosePersonFormReset" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                                        </form>
+                                    </div>
+                                    <br/><br>
+                                </div>
+                                <div class="tableBox">
+                                    <table id="choseTable" class="table table-striped table-responsive">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addPersonToBlock" disabled="disabled">确认添加</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>

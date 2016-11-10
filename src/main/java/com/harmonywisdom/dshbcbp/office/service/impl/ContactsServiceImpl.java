@@ -22,19 +22,33 @@ public class ContactsServiceImpl extends BaseService<Contacts, String> implement
     }
 
     @Override
-    public String removeContactFromBlock(String idString) {
-        String[] ids = idString.split(",");
+    public String removeContactFromBlock(String[] ids) {
+        String returnString = "";
         if(ids.length>0){
             for(String id:ids){
-                contactsDAO.executeJPQL("update Contacts set blockLevelId=null,blockId=null where id=?",id);
+                returnString +=contactsDAO.executeJPQL("update Contacts set blockLevelId=null,blockId=null where id=?",id);
             }
         }
-        return idString;
+        return returnString;
     }
 
     @Override
     public String updateContact(Contacts contacts) {
         Map<String,Object> map = EntityUtil.getUpdateMap(contacts);
         return String.valueOf(contactsDAO.executeJPQL(String.valueOf(map.get("upStr")),(Map<String, Object>)map.get("valMap")));
+    }
+
+    @Override
+    public String addContactsToBlock(Contacts contacts) {
+        String[] ids = contacts.getIds();
+        if(ids.length>0){
+            contacts.setIds(null);
+            for(String id:ids){
+                contacts.setId(id);
+                Map<String,Object> map = EntityUtil.getUpdateMap(contacts);
+                contactsDAO.executeJPQL(String.valueOf(map.get("upStr")),(Map<String, Object>)map.get("valMap"));
+            }
+        }
+        return contacts.getId();
     }
 }
