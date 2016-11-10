@@ -259,17 +259,20 @@ removeBtn.click(function () {
 $("#search").click(function () {
     //查询之前重置table
     var queryParams = {};
-    var name = $("#s_name").val();
-    var crafts = $("#s_crafts").val();
-    var status = pageUtils.getRadioValue("s_status");
-    if (name){
-        queryParams["name"] = name;
+    var res_title = $("#res_title").val();
+    var start_createTime = $("#start_createTime").val();
+    var end_createTime = $("#start_createTime").val();
+    
+    
+    // var status = pageUtils.getRadioValue("s_status");
+    if (res_title){
+        queryParams["res_title"] = res_title;
     }
-    if (crafts){
-        queryParams["crafts"] = crafts;
+    if (start_createTime){
+        queryParams["start_createTime"] = start_createTime;
     }
-    if (status) {
-        queryParams["status"] = status;
+    if (end_createTime) {
+        queryParams["end_createTime"] = end_createTime;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
