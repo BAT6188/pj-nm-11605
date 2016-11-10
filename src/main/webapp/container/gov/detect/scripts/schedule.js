@@ -413,11 +413,11 @@ var options = {
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    console.log(data)
-    $("#seter").val("刘译繁")
-    $("#seterId").val("1")
-    $("#position").val("局座")
-    $("#linkPhone").val("1352652456")
+    var personObj = data.personObj;
+    $("#seter").val(personObj.name)
+    $("#seterId").val(personObj.id)
+    $("#position").val(personObj.job)
+    $("#linkPhone").val(personObj.mobilePhone)
 });
 
 $("#select").click(function () {
