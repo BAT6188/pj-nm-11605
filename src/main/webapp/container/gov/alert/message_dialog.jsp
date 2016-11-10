@@ -19,7 +19,6 @@
                 <table class="table table-responsive">
                     <tbody>
                         <%--<tr>
-                            <td><i class="panelList-icon mail-icon"></i></td>
                             <td><span>消息类型</span></td>
                             <td><span>消息标题</span></td>
                             <td><span>消息内容</span></td>
@@ -27,6 +26,7 @@
                             <td><span class="text-danger">未接收</span></td>
                             <td><button type="button" class="btn btn-primary btn-sm">详情</button></td>
                         </tr>--%>
+                    <tr><td colspan="6" class="text-center">暂无消息</td></tr>
                     </tbody>
                 </table>
             </div>

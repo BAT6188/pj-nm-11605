@@ -28,7 +28,7 @@ var MessageDialog = function () {
                         viewedUnReceiveTraceIds.push(msgTrace.id);
                     }
                 }
-                //that.setMsgTraceReceive(viewedUnReceiveTraceIds);
+                that.setMsgTraceReceive(viewedUnReceiveTraceIds);
             });
         },
         modal:function () {
@@ -86,22 +86,45 @@ var MessageDialog = function () {
                 });
             }
         },
-        loadMsgListToTable:function(userId) {
+        loadMsgListToTable:function(userId,page) {
             var that = this;
-            that.setLoadedMsgTraceList([]);
-            that.getUserMsgList(userId,function (msgTraceList) {
-                //载入显示列表
-
+            //that.setLoadedMsgTraceList([]);
+            function loadMsgTraceToTable(msgTraceList){
                 if (msgTraceList && msgTraceList.length > 0) {
                     for(var i =0; i < msgTraceList.length; i++) {
                         that.addMsgToTable(msgTraceList[i]);
                     }
-
+                    var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' class='text-center'>点击加载更多历史消息</a>");
+                    moreLink.bind("click",function () {
+                        that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
+                            loadMsgTraceToTable(historyMsgTraceList);
+                        });
+                    });
+                    that._msgTableBody.find("tr:last td").html(moreLink);
                 }else{
-                    that._msgTableBody.html("<tr><td class='text-center'>暂无消息</td></tr>");
-                    that._msgTableBody.html("<tr><td class='text-center'>暂无消息</td></tr>");
+                    that._msgTableBody.find("tr:last td").html("没有更多消息了");
                 }
-            })
+            }
+            //第一次载入未消息
+            that.getUserMsgList(userId, function (newMsgTraceList) {
+                if (newMsgTraceList && newMsgTraceList.length >0) {
+                    //如果有新消息清空列表只显示新消息
+                    that.setLoadedMsgTraceList([]);
+                    that._msgTableBody.html("");
+                    var moreLink = $("<tr><td colspan='6' class='text-center'><a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a></td></tr>");
+                    moreLink.bind("click",function () {
+                        that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
+                            loadMsgTraceToTable(historyMsgTraceList);
+                        });
+                    });
+                    that._msgTableBody.append(moreLink);
+
+                    loadMsgTraceToTable(newMsgTraceList);
+                }else{
+                    that.getUserHistoryMsgList(userId,loadMsgTraceToTable)
+                }
+
+            });
         },
         getUserMsgList:function (userId,callback) {
             $.ajax({
@@ -114,16 +137,36 @@ var MessageDialog = function () {
                 }
             });
         },
+        getUserHistoryMsgList:function (userId,callback) {
+            var msgTraceList = this.getLoadedMsgTraceList();
+            var oldMsgCreateTime = "";//当前已显示的最旧一条消息id
+            if (msgTraceList && msgTraceList.length > 0) {
+                var msg = msgTraceList[msgTraceList.length-1].message;
+                oldMsgCreateTime = msg.createTime;
+            }else{
+                oldMsgCreateTime = new Date().format("yyyy-MM-dd hh:mm:ss");
+            }
+            $.ajax({
+                url:rootPath + "/action/S_alert_MessageTrace_getHistoryByUserId.action",
+                type:"post",
+                dataType:"json",
+                data:{"userId":userId,"oldMsgCreateTime":oldMsgCreateTime},
+                success:function (msgTraceList) {
+                    callback(msgTraceList);
+                }
+            });
+        },
         addMsgToTable:function(msgTrace) {
             var that = this;
             if (msgTrace && msgTrace.message){
                 var msg = msgTrace.message;
                 var receiveStatusName = "";
                 var dictCodeMsgReceiveStatus = 'msg_receive_status';
-                if (msgTrace.receiveStatus) {
-                    receiveStatusName = dict.get(dictCodeMsgReceiveStatus,msgTrace.receiveStatus);
-                }else {//默认显示未接收
+                var unReceive = (!msgTrace.receiveStatus || msgTrace.receiveStatus ==that.RECEIVE_STATUS_UNRECEIVE);
+                if (unReceive) {//显示未接收
                     receiveStatusName = dict.get(dictCodeMsgReceiveStatus,that.RECEIVE_STATUS_UNRECEIVE);
+                }else {//已接收
+                    receiveStatusName = dict.get(dictCodeMsgReceiveStatus,msgTrace.receiveStatus);
                 }
                 var dictCodeMsgType = 'msg_type';
                 var msgTrHtml = '<tr>'+
@@ -139,7 +182,12 @@ var MessageDialog = function () {
                     var detailsUrl = $(this).data("details-url");
                     pageUtils.toUrl(rootPath+"/"+detailsUrl);
                 });
-                that._msgTableBody.append(msgTr);
+                if (unReceive) {//未接收信息显示到表格开始
+                    that._msgTableBody.find("tr:first").before(msgTr);
+                }else{
+                    that._msgTableBody.find("tr:last").before(msgTr);
+                }
+
                 that.pushToLoadedMsgTraceList(msgTrace);
             }else{
                 return false;
