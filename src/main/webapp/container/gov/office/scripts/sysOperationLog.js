@@ -107,6 +107,7 @@ function initTable() {
         //gridTable.bootstrapTable('resetSearch');
         var jsonData = $('#searchform').formSerializeObject();
         gridTable.bootstrapTable('refresh',{
+            silent: true,
             query:jsonData
         });
     });

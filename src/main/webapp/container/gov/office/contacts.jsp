@@ -80,7 +80,7 @@
                 <div class="mainBox">
                     <div class="dealBox">
                         <div class="sideTitle left">
-                            <span class="blueMsg">
+                            <span class="blueMsg" onclick="testmodel.open()">
                                 <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                                 <span class="text">查询</span>
                             </span>
@@ -91,7 +91,7 @@
                                 <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />
                                 <input type="hidden" id="s_blockId" name="blockId" class="form-control hidden" />
                                 <label for="s_name">姓名：</label> <input type="text" id="s_name" name="name" class="form-control" />
-                                <label for="s_department">单位：</label> <input type="text" id="s_department" name="department" class="form-control" />
+                                <label for="s_department">部门：</label> <input type="text" id="s_department" name="department" class="form-control" />
                                 <label for="s_position">职务：</label><input type="text" id="s_position" name="position" class="form-control" />
                             </form>
                         </div>
@@ -244,7 +244,7 @@
                                     <div class="queryBox marginLeft0">
                                         <form class="form-inline" id="searchChosePersonform">
                                             <label for="s_name">姓名：</label> <input type="text" name="name" class="form-control" />
-                                            <label for="s_department">单位：</label> <input type="text" name="department" class="form-control" />
+                                            <label for="s_department">部门：</label> <input type="text" name="department" class="form-control" />
                                             <p></p>
                                             <label for="s_position">职务：</label> <input type="text"name="position" class="form-control" />
                                             &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="chosePersonFormSearch" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -272,5 +272,15 @@
 </div>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
+<script>
+    var options = {
+        choseMore:false,
+        title:"组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
+        width:"60%",        //宽度(可省略，默认值：850)
+    }
+    var testmodel = $.fn.MsgSend.init(1,options,function(e,data){
+        console.log(data);//回调函数，data为所选人员ID
+    });
+</script>
 </body>
 </html>
