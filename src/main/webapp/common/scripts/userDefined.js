@@ -1,4 +1,46 @@
 var pageUtils = {
+    MSG_TYPE_SCHEDULE:"1",
+    MSG_TYPE_MEETINGNOTICE:"2",
+    MSG_TYPE_PUBINFO : "3",
+    MSG_TYPE_POLLUTANTPAYMENT : "4",
+
+    /**
+     * 发送系统消息
+     * @param msg 消息内容 {'msgType':pageUtils.MSG_TYPE_SCHEDULE,
+                            'title':'消息标题',
+                            'content':'消息内容',
+                            businessId:业务数据id
+                         }
+     * @param receivers 接收人数组 item:{receiverId:userId,receiverName:userName}
+     */
+    sendMessage:function (msg,receivers) {
+        if (msg && receivers && receivers.length > 0) {
+            var that = this;
+            var typeMapUrl = {};
+            typeMapUrl[that.MSG_TYPE_SCHEDULE] = 'container/gov/detect/schedule.jsp';
+            typeMapUrl[that.MSG_TYPE_MEETINGNOTICE] = 'container/gov/office/meetingnotice.jsp';
+            typeMapUrl[that.MSG_TYPE_PUBINFO] = 'container/gov/office/pubinfo.jsp';
+            typeMapUrl[that.MSG_TYPE_POLLUTANTPAYMENT] = 'container/gov/exelaw/pollutantPayment.jsp';
+            msg.senderId = userId;
+            msg.senderName = userName;
+            msg.detailsUrl = typeMapUrl[msg.msgType];
+            msg.receivers = JSON.stringify(receivers);
+            var sendResult = false;
+            $.ajax({
+                url:rootPath + "/action/S_alert_Message_sendMessage.action",
+                type:"post",
+                dataType:"json",
+                data:msg,
+                success:function (result) {
+                    sendResult = result;
+                }
+            });
+            return sendResult;
+        }else{
+            return false;
+        }
+
+    },
 
     /**
      * 操作日志
@@ -116,6 +158,11 @@ var pageUtils = {
             }
         });
     },
+    /**
+     * 过滤undefine字符
+     * @param str
+     * @returns {*}
+     */
     getStr:function (str) {
         if (str){
             return str;
