@@ -129,5 +129,18 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         return getDAO().find("enterpriseId in ?1", Arrays.asList(enterpriseIds));
     }
 
+    /**
+     * 企业更新反馈状态
+     * @param id
+     */
+    @Override
+    public int updateStatus(String id) {
+        int port = getDAO().executeJPQL("update PortStatusHistory t set t.isNoTickling='1' where t.id=? ",id);
+        return port;
+    }
+
+
+
+
 
 }
