@@ -58,6 +58,17 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         if(StringUtils.isNotBlank(endTime)){
             param.andParam(new QueryParam("startTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
         }
+        if(StringUtils.isNotBlank(entity.getRes_title())){
+            param.andParam(new QueryParam("res_title",QueryOperator.LIKE,entity.getRes_title()));
+        }
+        String start_createTime = request.getParameter("start_createTime");
+        String end_createTime = request.getParameter("end_createTime");
+        if(StringUtils.isNotBlank(start_createTime)){
+            param.andParam(new QueryParam("release_time",QueryOperator.GE,MyDateUtils.getFullDate(start_createTime,true)));
+        }
+        if(StringUtils.isNotBlank(end_createTime)){
+            param.andParam(new QueryParam("release_time",QueryOperator.LE,MyDateUtils.getFullDate(end_createTime,true)));
+        }
 
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
@@ -71,12 +82,17 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
     @Override
     public void save() {
         //获取删除的附件IDS
+
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
         super.save();
+        if(StringUtils.isNotBlank(entity.getAttachmentId())){
+            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentId().split(","));
+
+        }
 
     }
 
@@ -172,6 +188,18 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         }else {
             write(false);
         }
+
+    }
+
+    /**
+     * 企业反馈状态
+     */
+    public void updateSendStatus(){
+        String id = request.getParameter("id");
+        if(id != null && !"".equals(id)){
+            this.getService().updateStatus(id);
+        }
+        write(true);
 
     }
 

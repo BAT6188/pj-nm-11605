@@ -14,12 +14,12 @@
         </div>
         <div class="opDiv right">
             <ul>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
+                <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
-                <li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
-                <li><a href="#" class="msg-icon"><span class="new-icon">0</span></a></li>
+                <li class="user"><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
+                <li><a href="javascript:void(0);" class="msg-icon" id="msgListBtn"><span class="new-icon" id="msgCountSpan">0</span></a></li>
                 <li class="divider"><i class="long-divider"></i></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
+                <li><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
             </ul>
         </div>
     </div>
@@ -42,6 +42,8 @@
     </div>
 </div>
 <p class="copyrightP"><span>版权所有：东胜环保局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
+<%@include file="/common/msgSend/msgSend.jsp"%>
+<%@include file="/container/gov/alert/message_dialog.jsp"%>
 <!--样式js-->
 <script>
     function loadHeight(){
@@ -60,6 +62,21 @@
             $(".link-list>ul").append(li);
         }
     })
+    //定义短信发送modal
+    var options = {
+        title: "短信发送"//弹出框标题(可省略，默认值：“人员选择”)
+    };
+    var model = $.fn.MsgSend.init(2,options,function(e,data){ //短信发送第一个参数为2
+
+    });
+    $("#mainSmsSendBtn").bind('click', function () {
+        model.open();//打开dialog,
+    });
+    MessageDialog.modal({"userId":userId,countElement:$("#msgCountSpan")});
+    $("#msgListBtn").bind("click",function () {
+        MessageDialog.modal("show");
+    });
+
 </script>
 </body>
 </html>

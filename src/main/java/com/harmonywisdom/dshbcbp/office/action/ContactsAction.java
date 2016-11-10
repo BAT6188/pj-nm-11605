@@ -10,6 +10,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class ContactsAction extends BaseAction<Contacts, ContactsService> {
     @AutoService
     private ContactsService contactsService;
@@ -41,6 +43,11 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
         }
         if (StringUtils.isNotBlank(entity.getBlockId())) {
             param.andParam(new QueryParam("blockId", QueryOperator.EQ,entity.getBlockId()));
+        }
+        String blockNeed = getParamValue("blockNeed");
+        if (StringUtils.isNotBlank(blockNeed)) {
+            param.andParam(new QueryParam("blockLevelId", QueryOperator.IS,""));
+            param.andParam(new QueryParam("blockId", QueryOperator.IS,""));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
@@ -75,5 +82,34 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    /**
+     * 从网格中移除人员
+     */
+    public void removeContactFromBlock(){
+        String[] deleteId = request.getParameterValues("deletedId");
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.removeContactFromBlock(deleteId)));
+    }
+
+    /**
+     * 增量更新Contact
+     */
+    public void updateContact(){
+        Contacts contacts = new Contacts();
+        contacts.setApportalUserId(this.entity.getApportalUserId());
+        List<Contacts> contactsList = contactsService.findBySample(contacts);
+        if(contactsList.size()>0){
+            write(String.format("{\"success\": false, \"name\": \"%s\"}", contactsList.get(0).getName()));
+        }else{
+            write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.updateContact(this.entity)));
+        }
+    }
+
+    /**
+     * 将联系人批量添加网格
+     */
+    public void addContactsToBlock(){
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.addContactsToBlock(this.entity)));
     }
 }

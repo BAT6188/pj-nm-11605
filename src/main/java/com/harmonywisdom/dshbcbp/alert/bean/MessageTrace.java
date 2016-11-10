@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.alert.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +11,9 @@ import java.util.Date;
 @Table(name = "HW_MESSAGE_TRACE")
 public class MessageTrace implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public final static String RECEIVE_STATUS_UNRECEIVE = "1";
+    public final static String RECEIVE_STATUS_RECEIVED = "2";
 
     @Id
     @Column(length = 32)
@@ -47,6 +47,12 @@ public class MessageTrace implements Serializable {
      */
     @Column(name = "RECEIVE_TIME")
     private Date receiveTime;
+
+    /**
+     * 所属消息
+     */
+    @Transient
+    private Message message;
 
 
     public String getId() {
@@ -87,5 +93,21 @@ public class MessageTrace implements Serializable {
 
     public void setReceiveStatus(String receiveStatus) {
         this.receiveStatus = receiveStatus;
+    }
+
+    public Date getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }

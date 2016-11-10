@@ -158,7 +158,6 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             if(StringUtils.isNotBlank(job)){
                 ztreeObj.setJob(job);
             }
-            ztreeObj.setMobilePhone(iPerson.getMobile());
             ztreeObj.setParentId(parentId);
             ztreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iPerson.getUserName()));
             if(iPerson.getSex()==2){

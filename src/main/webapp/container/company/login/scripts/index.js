@@ -14,12 +14,12 @@ var subMenu = {
         {
             id:"0002",
             text:"预警及排污超标处理情况报送",
-            url:""
+            url:"/dshbcbp/container/company/warningExcessive/resPortStatusHistory.jsp"
         },
         {
             id:"0003",
             text:"隐患自查自报",
-            url:""
+            url:"/dshbcbp/container/company/dangerInspection/dangerInspection.jsp"
         },
         {
             id:"0004",

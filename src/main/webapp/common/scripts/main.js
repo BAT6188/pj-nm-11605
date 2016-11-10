@@ -24,7 +24,7 @@ function loadLevel2Menu(subMenus) {
         level2MenuUl.html("");
         for(var i = 0; i < subMenus.length;i++) {
             var smenu = subMenus[i];
-            var li = $('<li data-url="'+smenu.url+'"><a href="javascript:void(0);" >'+smenu.text+'</a></li>');
+            var li = $('<li data-menu-id="'+smenu.id+'" data-url="'+smenu.url+'"><a href="javascript:void(0);" >'+smenu.text+'</a></li>');
             level2MenuUl.append(li);
         }
         //绑定事件
@@ -39,7 +39,12 @@ function loadLevel2Menu(subMenus) {
 
         });
         //加载第一个菜单
-        level2MenuUl.find("li:first").click();
+        if (!subMenuId) {
+            level2MenuUl.find("li:first").click();
+        }else{
+            level2MenuUl.find("li[data-menu-id='"+subMenuId+"']").click();
+        }
+
     }
 }
 //定义短信发送modal
@@ -51,4 +56,9 @@ var model = $.fn.MsgSend.init(2,options,function(e,data){ //短信发送第一�
 });
 $("#mainSmsSendBtn").bind('click', function () {
     model.open();//打开dialog,
+});
+//消息弹窗
+MessageDialog.modal({"userId":userId,countElement:$("#msgCountSpan")});
+$("#msgListBtn").bind("click",function () {
+    MessageDialog.modal("show");
 });

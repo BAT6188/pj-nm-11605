@@ -1,22 +1,25 @@
+/**
+ * Created by Administrator on 2016/11/9.
+ */
+//@ sourceURL=resPortStatusHistory.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#boilerForm"),
-    formTitle = "燃煤锅炉信息",
+    form = $("#scfForm"),
+    formTitle = "预警报送",
     selections = [];
-
-
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_production_Boiler_save.action",
+        url: rootPath + "/action/S_port_PortStatusHistory_save.action",
         type:"post",
         data:entity,
         dataType:"json",
         success:callback
     });
 }
+
 /**
  * 删除请求
  * @param ids 多个,号分隔
@@ -24,7 +27,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_production_Boiler_delete.action",
+        url: rootPath + "/action/S_port_PortStatusHistory_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -36,14 +39,14 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_production_Boiler_list.action",
+        url: rootPath+"/action/S_port_PortStatusHistory_list.action",
         height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
+        queryParams:function(param){
             var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
+            // temp.enterpriseId = id;
             return temp;
         },
         columns: [
@@ -53,42 +56,98 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
+            }, {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
             },
             {
-                title: '设备名称',
-                field: 'name',
+                field: 'res_title',
+                title: '标题',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '建成时间',
-                field: 'buildTime',
-                editable: false,
+                field: 'publishingUnit',
+                title: '发布单位',
                 sortable: false,
                 align: 'center',
-                formatter: buildTimeFormatter
+                editable: false
             },
             {
-                title: '锅炉用途',
-                field: 'purpose',
-                editable: false,
+                field: 'release_time',
+                title: '发布时间',
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+
+            {
+                field: 'release_person',
+                title: '发布人',
+                sortable: false,
+                align: 'center',
+                editable: false
             },
             {
-                title: '锅炉规模',
-                field: 'scale',
-                editable: false,
+                field: 'contact',
+                title: '联系方式',
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                editable: false
             },
             {
-                title: '锅炉燃料种类',
-                field: 'fuelType',
-                editable: false,
+                field: 'isNoTickling',
+                title: '是否反馈',
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                editable: false,
+                formatter : function(value, row, index){
+                    /**
+                     * 1:已反馈
+                     * 2：未反馈
+                     */
+                    if(value == 1){
+                        value = "已反馈"
+                    }else if(value == 2){
+                        value = "未反馈"
+                    }else if(value ==""){
+                        value = "未反馈"
+                    }
+                    return value;
+
+                }
+            },
+            {
+                field: 'attachmentId',
+                title: '附件ID',
+                sortable: false,
+                align: 'center',
+                editable: true,
+                visible:false
+            },
+            {
+                field: 'solution',
+                title: '解决方案',
+                sortable: false,
+                align: 'center',
+                editable: true,
+                visible:false
+            },
+            {
+                field: 'enterpriseId',
+                title: '企业Id',
+                sortable: false,
+                align: 'center',
+                editable: true,
+                visible:false
             },
             {
                 field: 'operate',
@@ -97,7 +156,6 @@ function initTable() {
                 events: operateEvents,
                 formatter: operateFormatter
             }
-
         ]
     });
     // sometimes footer render error.
@@ -112,6 +170,8 @@ function initTable() {
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
+
     });
 
     $(window).resize(function () {
@@ -124,19 +184,15 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#boilerForm">查看</button>';
-}
-function buildTimeFormatter(value, row, index){
-    return value.split(" ")[0];
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        $('.saveBtn').hide();
-        $('.lookBtn').show();
         setFormView(row);
     }
 };
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -158,9 +214,11 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
+    return $(window).height() - $('.dealBox').outerHeight(true) - 13;
 }
 initTable();
+
+
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
@@ -169,15 +227,10 @@ updateBtn.prop('disabled', true);
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
-    updateSuccessMsg = '添加'+formTitle+'成功!';
-    $('.saveBtn').show();
-    $('.lookBtn').hide();
     resetForm();
 });
 $("#update").bind("click",function () {
-    updateSuccessMsg = '修改'+formTitle+'成功!';
-    $('.saveBtn').show();
-    $('.lookBtn').hide();
+    resetForm();
     setFormData(getSelections()[0]);
 });
 /**
@@ -190,7 +243,6 @@ removeBtn.click(function () {
             return;
         }
         deleteAjax(ids,function (msg) {
-            Ewin.alert('删除成功！');
             gridTable.bootstrapTable('remove', {
                 field: 'id',
                 values: ids
@@ -198,37 +250,43 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
+
+
 });
-
-
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
     //查询之前重置table
-    //gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
+    var queryParams = {};
+    var res_title = $("#res_title").val();
+    var start_createTime = $("#start_createTime").val();
+    var end_createTime = $("#start_createTime").val();
+    
+    
+    // var status = pageUtils.getRadioValue("s_status");
+    if (res_title){
+        queryParams["res_title"] = res_title;
+    }
+    if (start_createTime){
+        queryParams["start_createTime"] = start_createTime;
+    }
+    if (end_createTime) {
+        queryParams["end_createTime"] = end_createTime;
+    }
     gridTable.bootstrapTable('refresh',{
-        query:jsonData
+        query:queryParams
     });
-});
-//重置搜索
-$("#searchFix").click(function () {
-    $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
 });
 
 /**============表单初始化相关代码============**/
-var updateSuccessMsg = '提交成功';
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = form.find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
+        var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
-            Ewin.alert(updateSuccessMsg);
+            form.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -239,45 +297,69 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
+$("#update").bind('click',function(){
+    
+    var id = getIdSelections()[0];
+    getSelectId(id);
+
+});
+
+function getSelectId(id){
+    $("#send").bind('click',function(){
+        $.ajax({
+            url: rootPath + "/action/S_port_PortStatusHistory_updateSendStatus.action",
+            type:"post",
+            dataType:'json',
+            data:{id:id},
+            success:function (data) {
+                form.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        })
+        
+    });
+
+}
+
 //初始化日期组件
-$('#createTimeContent').datetimepicker({
+$('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#openDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
+
 /**
  * 设置表单数据
  * @param entity
  * @returns {boolean}
  */
+$("#update").bind('click',function(){
+    $("#release_time").val((new Date()).format("yyyy-MM-dd hh:mm"))
+});
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
+    form.find(".form-title").text("处置" + formTitle);
     var id = entity.id;
-    var inputs = form.find('.form-control');
-    $.each(inputs,function(k,v){
-        var tagId = $(v).attr('name');
-        var value = entity[tagId];
-        if($(v)[0].tagName=='select'){
-            $(v).find("option[value='"+value+"']").attr("selected",true);
-        }else{
-            $(v).val(value);
-        }
-    });
-    var radios = form.find('.isRadio');
-    $.each(radios,function(k,v){
-        var tagId = $(v).attr('id');
-        var value = entity[tagId];
-        $("input#"+tagId+value).get(0).checked=true;
-    });
+    $("#id").val(entity.id);
+    $("#title").val(entity.res_title);
+    $("#publishingUnit").val(entity.publishingUnit);
+    $("#release_time").val(pageUtils.sub10(entity.release_time));
+    $("#release_person").val(entity.release_person);
+    $("#contact").val(entity.contact);
+    $("#realtimeData").val(entity.realtimeData);
+    $("#maxValue").val(entity.maxValue);
+    $("#solution").val(entity.solution);
+    $("#isNoTickling").val(entity.isNoTickling);
+    if(entity.isNoTickling == 1){
+        form.find("#send").hide();
+    }else{
+        form.find("#send").show();
+    }
+
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
+
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
@@ -285,35 +367,51 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
+    form.find("#save").hide();
+    form.find("#send").hide();
+    form.find(".btn-cancel").text("关闭");
+    gridTable.bootstrapTable('refresh');
 }
+
 function disabledForm(disabled) {
-    form.find(".form-control").attr("disabled",disabled);
-    form.find('.isRadio input').attr("disabled",disabled);
+    form.find("input").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        form.find('.form_date').datetimepicker({
+        $('#createTimeContent').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        form.find('.form_date').datetimepicker('remove');
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
     }
+
 }
+
+
 /**
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find('form')[0].reset();
+    form.find(".form-title").text("新增" + formTitle);
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 }
+
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -381,6 +479,8 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
+            // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
+            // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
             itemLimit: 3
         },
         debug: true

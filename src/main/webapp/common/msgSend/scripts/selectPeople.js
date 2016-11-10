@@ -10,6 +10,7 @@ var MsgSend = {};
                 title: "人员选择",
                 url:rootPath + "/action/S_alert_MsgSend_getOrgPersonList.action",
                 params:{orgCode:["0170001000"],type:1},
+                choseMore:true,
                 btnok: "发送",
                 btncl: "取消",
                 width: 850,
@@ -31,7 +32,7 @@ var MsgSend = {};
             }
             dialog.find('.modal-dialog').attr('style','width:'+width);
             dialog.find('.modal-title').html(options.title);
-
+            dialog.find('.sendToButton').html(options.btnok);
             var msgSendTools = {
                 open:function(sourceId){
                     sourceId_msgSend=sourceId;
@@ -57,8 +58,9 @@ function setDialogTypeOne(dialog,options,callback){
                 Ewin.alert("请选择人员");
                 return;
             }
+            if(!options.choseMore)persons = persons[0];
             var returnData={
-                personObj:persons[0],
+                personObj:persons,
                 sourceId:sourceId_msgSend
             }
             callback(true,returnData);
@@ -198,7 +200,7 @@ function setDialogTypeOne(dialog,options,callback){
     var selectedId="";
     function zTreeOnClick(event, treeId, treeNode) {
         if(treeNode.check_Child_State=="-1" && treeNode.id!="false"){
-            if(selectedId!=""){
+            if(!options.choseMore && selectedId!=""){
                 jsMap.remove(selectedId);
                 gridSelectPeopleTable.bootstrapTable('removeAll');
             }
@@ -251,6 +253,7 @@ function setDialogTypeTwo(dialog,options,callback){
                 data:{'senderId':userId,'senderName':userName,'content':smsContent,"receivers":JSON.stringify(receivers)},
                 success:function (sendStatuses) {
                     if (sendStatuses && sendStatuses.length > 0) {
+                        $("#msgContents").val("");
                         Ewin.alert("短信发送成功");
                     }
                 }

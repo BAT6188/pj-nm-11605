@@ -18,6 +18,11 @@ import java.util.Date;
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final String MSG_TYPE_SCHEDULE = "1";
+    public static final String MSG_TYPE_MEETINGNOTICE = "2";
+    public static final String MSG_TYPE_PUBINFO = "3";
+    public static final String MSG_TYPE_POLLUTANTPAYMENT = "4";
+
     @Id
     @Column(length = 32)
     private String id;
@@ -51,6 +56,17 @@ public class Message implements Serializable {
      */
     @Column(name = "BUSINESS_ID", length = 32)
     private String businessId;
+
+    /**
+     * 发送人id
+     **/
+    @Column(name = "SENDER_ID", length = 32)
+    private String senderId;
+    /**
+     * 发送人姓名
+     **/
+    @Column(name = "SENDER_NAME", length = 20)
+    private String senderName;
 
     /**
      * 系统创建时间

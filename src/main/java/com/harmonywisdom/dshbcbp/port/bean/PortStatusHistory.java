@@ -142,11 +142,25 @@ public class PortStatusHistory implements Serializable {
     private String release_person;
 
     /**
+     * 联系方式
+     */
+    @Column(name="CONTACT")
+    private String contact;
+
+    /**
      * 实时数据
      * @return
      */
     @Column(name = "REALTIME_DATA")
     private String realtimeData;
+
+    /**
+     * 是否反馈
+     * 1：已反馈
+     * 2：未反馈
+     */
+    @Column(name = "IS_NO_TICKLING")
+    private String isNoTickling;
 
     /**
      * 附件
@@ -328,5 +342,21 @@ public class PortStatusHistory implements Serializable {
 
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getIsNoTickling() {
+        return isNoTickling;
+    }
+
+    public void setIsNoTickling(String isNoTickling) {
+        this.isNoTickling = isNoTickling;
     }
 }
