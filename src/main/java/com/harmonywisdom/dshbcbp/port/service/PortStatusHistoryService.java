@@ -29,4 +29,13 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
     List<PortStatusHistory> findByPortids(String... portids);
 
     List<PortStatusHistory> findByEnterpriseids(String... enterpriseIds);
+
+    /**
+     * 企业更新反馈状态
+     * @param id
+     */
+    int updateStatus(String id);
+
+
+
 }

@@ -144,7 +144,7 @@ initTable();
 //搜索按钮处理
 $("#search").click(function () {
     //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
+    //gridTable.bootstrapTable('resetSearch');
     var jsonData = $('#searchform').formSerializeObject();
     gridTable.bootstrapTable('refresh',{
         query:jsonData
@@ -153,5 +153,5 @@ $("#search").click(function () {
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
 });

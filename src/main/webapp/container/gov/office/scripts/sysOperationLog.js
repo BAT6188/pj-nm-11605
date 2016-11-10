@@ -36,7 +36,9 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_alert_SysOperationLog_list.action",
-        height: pageUtils.getTableHeight(),
+        height: getHeight(),
+        pageSize:15,
+        pageList:[10,15,20,25,50,100],
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -102,7 +104,7 @@ function initTable() {
     //搜索
     $("#search").click(function () {
         //查询之前重置table
-        gridTable.bootstrapTable('resetSearch');
+        //gridTable.bootstrapTable('resetSearch');
         var jsonData = $('#searchform').formSerializeObject();
         gridTable.bootstrapTable('refresh',{
             query:jsonData
@@ -111,7 +113,7 @@ function initTable() {
     //重置搜索
     $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('resetSearch');
+        gridTable.bootstrapTable('refresh');
     });
 }
 
@@ -145,7 +147,7 @@ function responseHandler(res) {
     return res;
 }
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 180;
+    return $(window).height() - $('.dealBox').outerHeight(true) - 150;
 }
 initTimeInput();
 initTable();
