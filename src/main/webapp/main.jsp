@@ -6,6 +6,7 @@
     <%@include file="/common/common_include.jsp"%>
     <script>
         var menuCode = '${param.menuCode}';
+        var subMenuId = '${param.subMenuId}';
     </script>
     <title>东胜环保</title>
 </head>

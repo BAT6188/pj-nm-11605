@@ -79,7 +79,30 @@ var pageUtils = {
     },
 
     toUrl:function (url) {
-        $("#level2content").load(url);
+        var isMainJsp = location.href.indexOf("main.jsp") > 0 ? true:false;
+        if (isMainJsp){
+            $("#level2content").load(url);
+        }else{
+            //查找跳转页面的所在的主菜单
+            var urlMainMenu = "";
+            var subMenuId = "";
+            for(var mainMenuCode in this._subMenu) {
+                var subMenus = this._subMenu[mainMenuCode];
+                for (var i = 0; i < subMenus.length; i++) {
+                    var subMenu = subMenus[i];
+                    if (subMenu.url && subMenu.url.indexOf(url) != -1) {
+                        subMenuId = subMenu.id;
+                        urlMainMenu = mainMenuCode;
+                    }
+                }
+            }
+            if (urlMainMenu) {
+                location.href = rootPath + "/main.jsp?menuCode="+urlMainMenu+"&subMenuId="+subMenuId+"&SToken=" + SToken;
+            }else{
+                Ewin.alert("未找到地址");
+            }
+        }
+
     },
     findAttachmentIds: function (businessId,attachmentType) {
         var ids = [];
