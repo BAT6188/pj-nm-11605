@@ -52,3 +52,8 @@ var model = $.fn.MsgSend.init(2,options,function(e,data){ //短信发送第一�
 $("#mainSmsSendBtn").bind('click', function () {
     model.open();//打开dialog,
 });
+//定时刷新消息数量
+setInterval(function () {
+    var msgCount = MessageDialog.getNewMsgCountByUserId(userId);
+    $("#msgCountSpan").text(msgCount);
+},MessageDialog.REFRESH_DELAY);
