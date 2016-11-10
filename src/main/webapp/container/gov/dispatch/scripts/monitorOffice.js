@@ -287,7 +287,7 @@ var options = {
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({ids:data.ids},true)
+    var d=$.param({ids:data.personObj.id},true)
     d+="&sourceId="+data.sourceId;
     console.log("发送："+d)
     $.ajax({

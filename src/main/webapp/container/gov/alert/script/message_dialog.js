@@ -14,7 +14,7 @@ var MessageDialog = function () {
             dict.init('msg_type','msg_receive_status');
 
             that.modal("show.bs.modal", function () {
-                //that.sendMsg();
+                that.sendMsg();
                 //打开窗口前，刷新列表
                 that.loadMsgListToTable(that.getUserId());
             });
@@ -28,7 +28,7 @@ var MessageDialog = function () {
                         viewedUnReceiveTraceIds.push(msgTrace.id);
                     }
                 }
-                that.setMsgTraceReceive(viewedUnReceiveTraceIds);
+                //that.setMsgTraceReceive(viewedUnReceiveTraceIds);
             });
         },
         modal:function () {
@@ -99,6 +99,7 @@ var MessageDialog = function () {
 
                 }else{
                     that._msgTableBody.html("<tr><td class='text-center'>暂无消息</td></tr>");
+                    that._msgTableBody.html("<tr><td class='text-center'>暂无消息</td></tr>");
                 }
             })
         },
@@ -136,7 +137,7 @@ var MessageDialog = function () {
                 var msgTr = $(msgTrHtml);
                 msgTr.find(".btn-details").bind("click",function () {
                     var detailsUrl = $(this).data("details-url");
-                    pageUtils.toUrl(detailsUrl);
+                    pageUtils.toUrl(rootPath+"/"+detailsUrl);
                 });
                 that._msgTableBody.append(msgTr);
                 that.pushToLoadedMsgTraceList(msgTrace);
@@ -168,7 +169,8 @@ var MessageDialog = function () {
             var msg = {
                 'msgType':1,
                 'title':'消息标题',
-                'content':'消息内容'
+                'content':'消息内容',
+                'businessId':'123123'
             };
             pageUtils.sendMessage(msg, receivers);
         },
