@@ -18,23 +18,42 @@
     <script>
         $('#orgDiv').prepend(pageUtils.loading());
         function setOrgDivView(thisObj){
+            setShowColumnView(false);
             $('.orgBtn').show();
             $('.blockBtn').hide();
             $('.nav-tabs').find('li').removeClass('active');
             $(thisObj).addClass('active');
+            var nodes = orgTreeObj.getNodes();
+            orgTreeObj.selectNode(nodes[0]);
+            orgTreeOnClick(null,null,nodes[0]);
         }
         function setBlockDivView(thisObj){
+            setShowColumnView(true);
             $('.orgBtn').hide();
             $('.blockBtn').show();
             $('.nav-tabs').find('li').removeClass('active');
             $(thisObj).addClass('active');
+            var nodes = blockTreeObj.getNodes();
+            blockTreeObj.selectNode(nodes[0]);
+            blockTreeOnClick(null,null,nodes[0]);
+        }
+        function setShowColumnView(type){
+            var orgColumnType = 'showColumn',blockColumnType='hideColumn';
+            if(type){
+                orgColumnType = 'hideColumn';
+                blockColumnType = 'showColumn';
+            }
+            gridTable.bootstrapTable(orgColumnType,'tel');
+            gridTable.bootstrapTable(orgColumnType,'phone');
+            gridTable.bootstrapTable(orgColumnType,'address');
+            gridTable.bootstrapTable(blockColumnType,'apportalUserName');
         }
     </script>
 </head>
 <body>
 <div class="wrap">
     <div class="menu-left left">
-        <div class="form-horizontal">
+        <div class="form-horizontal" style="width: 95%;">
             <div class="form-group">
                 <div class="col-sm-12">
                     <ul class="nav nav-tabs">
@@ -61,7 +80,7 @@
                 <div class="mainBox">
                     <div class="dealBox">
                         <div class="sideTitle left">
-                        <span class="blueMsg" onclick="model.open()">
+                        <span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
@@ -83,14 +102,17 @@
                             <button id="add" type="button" class="btn btn-sm btn-success orgBtn" data-toggle="modal" data-target="#scfForm">
                                 <i class="btnIcon add-icon"></i><span>新建</span>
                             </button>
-                            <button id="addPerson" type="button" class="btn btn-sm btn-success blockBtn" style="display: none;">
-                                <i class="btnIcon add-icon"></i><span>添加</span>
-                            </button>
                             <button id="update" type="button" class="btn btn-sm btn-warning orgBtn" data-toggle="modal" data-target="#scfForm">
                                 <i class="btnIcon edit-icon"></i><span>修改</span>
                             </button>
                             <button id="remove" type="button" class="btn btn-sm btn-danger orgBtn">
                                 <i class="btnIcon delf-icon"></i><span>删除</span>
+                            </button>
+                            <button id="addPerson" type="button" class="btn btn-sm btn-success blockBtn" style="display: none;">
+                                <i class="btnIcon add-icon"></i><span>添加</span>
+                            </button>
+                            <button id="refPerson" type="button" class="btn btn-sm btn-warning blockBtn" style="display: none;">
+                                <i class="btnIcon edit-icon"></i><span>关联</span>
                             </button>
                             <button id="removePerson" type="button" class="btn btn-sm btn-danger blockBtn" style="display: none;">
                                 <i class="btnIcon delf-icon"></i><span>移除</span>
@@ -122,6 +144,7 @@
                                 <div class="col-sm-4">
                                     <input type="hidden" id="id" name="id" class="form-control">
                                     <input type="hidden" id="orgId" name="orgId" class="form-control">
+                                    <input type="hidden" id="apportalUserId" name="apportalUserId" class="form-control">
                                     <input type="hidden" id="removeId" name="removeId" class="form-control">
                                     <input type="text" id="name" name="name" class="form-control"
                                            data-message="姓名不能为空"
@@ -182,6 +205,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group blockBtn" style="display: none">
+                                <label for="apportalUserName" class="col-sm-2 control-label">关联系统用户：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="apportalUserName" name="apportalUserName" class="form-control"/>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="attachment" class="col-sm-2 control-label">附件：</label>
                                 <div class="col-sm-10">
@@ -200,16 +229,7 @@
         </div>
     </div>
 </div>
+<%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
-<%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
-<%--<script>
-    var options = {
-        title:"测试组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
-        width:"60%",        //宽度(可省略，默认值：850)
-    }
-    var model = $.fn.MsgSend.init(1,options,function(e,data){ //短信发送第一个参数为2
-        console.log(data);//回调函数，data为所选人员ID
-    });
-</script>--%>
 </body>
 </html>

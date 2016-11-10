@@ -3,6 +3,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     addPersonBtn = $('#addPerson'),
+    refPersonBtn = $('#refPerson'),
     removePersonBtn = $('#removePerson'),
     form = $("#scfForm"),
     formTitle = "人员管理",
@@ -36,25 +37,26 @@ var setting = {
         dataFilter: filter
     },
     callback: {
-        onClick: function(event, treeId, treeNode) {
-            $('.hidden').val("");
-            if(treeNode.parentId!="-1"){
-                thisOrgId=treeNode.id;
-                $('#s_orgId').val(treeNode.id);
-                searchForm();
-                addBtn.prop('disabled',false);
-            }else{
-                $('#s_orgId').val("");
-                searchForm();
-                addBtn.prop('disabled',true);
-            }
-        },
+        onClick: orgTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
             $('.scrollContent').find('table').remove();
             orgTreeObj.expandAll(true);
         }
     }
 };
+function orgTreeOnClick(event, treeId, treeNode){
+    $('.hidden').val("");
+    if(treeNode.parentId!="-1"){
+        thisOrgId=treeNode.id;
+        $('#s_orgId').val(treeNode.id);
+        searchForm();
+        addBtn.prop('disabled',false);
+    }else{
+        $('#s_orgId').val("");
+        searchForm();
+        addBtn.prop('disabled',true);
+    }
+}
 var blockSetting = {
     height:500,
     width:200,
@@ -77,18 +79,7 @@ var blockSetting = {
         dataFilter: filter
     },
     callback: {
-        onClick: function(event, treeId, treeNode) {
-            $('.hidden').val("");
-            if(treeNode.parentId!="-1"){
-                addPersonBtn.prop('disabled', false);
-                $('#s_blockId').val(treeNode.id);
-                searchForm();
-            }else{
-                addPersonBtn.prop('disabled', true);
-                $('#s_blockLevelId').val(treeNode.id);
-                searchForm();
-            }
-        },
+        onClick: blockTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
             //$('.scrollContent').find('table').remove();
             setBlock('#blockLevelId','#blockId');
@@ -96,6 +87,18 @@ var blockSetting = {
         }
     }
 };
+function blockTreeOnClick(event, treeId, treeNode) {
+    $('.hidden').val("");
+    if(treeNode.parentId!="-1"){
+        addPersonBtn.prop('disabled', false);
+        $('#s_blockId').val(treeNode.id);
+        searchForm();
+    }else{
+        addPersonBtn.prop('disabled', true);
+        $('#s_blockLevelId').val(treeNode.id);
+        searchForm();
+    }
+}
 function filter(treeId, parentNode, childNodes) {
     if (!childNodes) return null;
     for (var i=0, l=childNodes.length; i<l; i++) {
@@ -108,7 +111,6 @@ var blockTreeObj = $.fn.zTree.init($("#blockZtree"), blockSetting);
 function setBlock(pSelector,cSelector){
     var pBlock = $(pSelector),cBlock = $(cSelector);
     var blockLevel = blockTreeObj.getNodes();
-    console.log(blockLevel);
     if(blockLevel){
          $.each(blockLevel,function(k,v){
             pBlock.append($("<option>").val(v.id).text(v.name));
@@ -216,6 +218,14 @@ function initTable() {
                 editable: false
             },
             {
+                title: '关联系统人员',
+                field: 'apportalUserName',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
@@ -237,6 +247,7 @@ function initTable() {
         removePersonBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        refPersonBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -285,6 +296,7 @@ removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 addPersonBtn.prop('disabled', true);
 removePersonBtn.prop('disabled', true);
+refPersonBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
@@ -312,6 +324,43 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
+});
+var options = {
+    title:"通讯录关联系统用户",//弹出框标题(可省略，默认值：“人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+    btnok:"确定关联"
+}
+var model = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
+    $.ajax({
+        url: rootPath + "/action/S_office_Contacts_updateContact.action",
+        type:"post",
+        async:false,
+        data:{
+            id:obj.sourceId,
+            apportalUserId:obj.personObj.id,
+            apportalUserName:obj.personObj.name
+        },//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function (data) {
+            if(data.success){
+                Ewin.alert("人员关联成功！");
+                searchForm();
+                refPersonBtn.prop('disabled', true);
+            }else{
+                Ewin.confirm({ message: obj.personObj.name+" 已关联 ["+data.name+"]!<br/>是否重新选择？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    var ids = getIdSelections();
+                    model.open(ids[0]);
+                });
+            }
+        }
+    });
+});
+refPersonBtn.click(function(){
+    var ids = getIdSelections();
+    model.open(ids[0]);
 });
 removePersonBtn.click(function () {
     var ids = getIdSelections();

@@ -31,7 +31,7 @@ var MsgSend = {};
             }
             dialog.find('.modal-dialog').attr('style','width:'+width);
             dialog.find('.modal-title').html(options.title);
-
+            dialog.find('.sendToButton').html(options.btnok);
             var msgSendTools = {
                 open:function(sourceId){
                     sourceId_msgSend=sourceId;

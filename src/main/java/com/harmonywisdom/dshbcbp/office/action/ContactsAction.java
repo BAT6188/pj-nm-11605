@@ -10,6 +10,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class ContactsAction extends BaseAction<Contacts, ContactsService> {
     @AutoService
     private ContactsService contactsService;
@@ -83,5 +85,19 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
     public void removeContactFromBlock(){
         String deleteId = request.getParameter("deletedId");
         write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.removeContactFromBlock(deleteId)));
+    }
+
+    /**
+     * 增量更新Contact
+     */
+    public void updateContact(){
+        Contacts contacts = new Contacts();
+        contacts.setApportalUserId(this.entity.getApportalUserId());
+        List<Contacts> contactsList = contactsService.findBySample(contacts);
+        if(contactsList.size()>0){
+            write(String.format("{\"success\": false, \"name\": \"%s\"}", contactsList.get(0).getName()));
+        }else{
+            write(String.format("{\"success\": true, \"id\": \"%s\"}", contactsService.updateContact(this.entity)));
+        }
     }
 }

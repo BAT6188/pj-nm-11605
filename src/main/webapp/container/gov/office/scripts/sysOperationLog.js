@@ -36,7 +36,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_alert_SysOperationLog_list.action",
-        height: pageUtils.getTableHeight(),
+        height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -145,7 +145,7 @@ function responseHandler(res) {
     return res;
 }
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 180;
+    return $(window).height() - $('.dealBox').outerHeight(true) - 150;
 }
 initTimeInput();
 initTable();

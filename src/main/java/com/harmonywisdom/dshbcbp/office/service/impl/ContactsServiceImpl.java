@@ -3,10 +3,13 @@ package com.harmonywisdom.dshbcbp.office.service.impl;
 import com.harmonywisdom.dshbcbp.office.bean.Contacts;
 import com.harmonywisdom.dshbcbp.office.dao.ContactsDAO;
 import com.harmonywisdom.dshbcbp.office.service.ContactsService;
+import com.harmonywisdom.dshbcbp.utils.EntityUtil;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service("contactsService")
 public class ContactsServiceImpl extends BaseService<Contacts, String> implements ContactsService {
@@ -27,5 +30,11 @@ public class ContactsServiceImpl extends BaseService<Contacts, String> implement
             }
         }
         return idString;
+    }
+
+    @Override
+    public String updateContact(Contacts contacts) {
+        Map<String,Object> map = EntityUtil.getUpdateMap(contacts);
+        return String.valueOf(contactsDAO.executeJPQL(String.valueOf(map.get("upStr")),(Map<String, Object>)map.get("valMap")));
     }
 }

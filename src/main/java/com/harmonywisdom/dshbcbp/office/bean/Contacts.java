@@ -61,6 +61,12 @@ public class Contacts implements Serializable {
     private String apportalUserId;
 
     /**
+     *关联apportal用户name
+     */
+    @Column(name = "APPORTAL_USER_NAME",length = 100)
+    private String apportalUserName;
+
+    /**
      * 网格级别
      */
     @Column(name = "block_level_id")
@@ -194,5 +200,13 @@ public class Contacts implements Serializable {
 
     public void setBlockId(String blockId) {
         this.blockId = blockId;
+    }
+
+    public String getApportalUserName() {
+        return apportalUserName;
+    }
+
+    public void setApportalUserName(String apportalUserName) {
+        this.apportalUserName = apportalUserName;
     }
 }
