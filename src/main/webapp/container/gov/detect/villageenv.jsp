@@ -92,13 +92,14 @@
                     <div class="form-group">
                             <label for="points" class="col-sm-2 control-label">位置标绘<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                        <textarea  id="points" name="points" class="form-control" rows="3"
-                        ></textarea>
-                            <span class="input-group-btn">
-                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
-                                        标注
-                                    </button>
-                            </span>
+                            <div class="input-group">
+                        <textarea  id="points" name="points" class="form-control" rows="3"></textarea>&nbsp;&nbsp;&nbsp;
+                                <span class="input-group-btn">
+						<button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                            标注
+                        </button>
+					</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
