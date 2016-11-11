@@ -37,7 +37,52 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     }
 
     /**
-     * 保存 监测站办公室和监测站站长 人员列表
+     * 保存企业委托监测数据
+     */
+    public void saveEnterpriseSelfData(){
+        String id = request.getParameter("trustMonitorId");
+        if (StringUtils.isNotEmpty(id)){
+            entity.setId(id);
+            trustMonitorService.update(entity);
+        }else {
+            trustMonitorService.save(entity);
+        }
+
+        write(entity);
+    }
+
+    /**
+     * 保存监测站站长人员列表
+     */
+    public void saveToMonitoringStationMasterPersonList(){
+        String sourceId = request.getParameter("sourceId");
+        TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
+        trustMonitor.setStatus("5");
+
+        String[] personIds = getParamValues("personIds");
+        trustMonitor.setMonitoringStationMasterPersonList(JSON.toJSONString(personIds));
+
+        String pk = trustMonitorService.saveOrUpdate(trustMonitor);
+        write(pk);
+    }
+
+    /**
+     * 保存监测站检测人员列表
+     */
+    public void saveToMonitoringStationPersonList(){
+        String sourceId = request.getParameter("sourceId");
+        TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
+        trustMonitor.setStatus("6");
+
+        String[] personIds = getParamValues("personIds");
+        trustMonitor.setMonitoringStationPersonList(JSON.toJSONString(personIds));
+
+        String pk = trustMonitorService.saveOrUpdate(trustMonitor);
+        write(pk);
+    }
+
+    /**
+     * 保存监测站办公室人员列表
      */
     public void saveToMonitorOfficeAndMasterPersonList(){
         String sourceId = request.getParameter("sourceId");
@@ -46,7 +91,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         trustMonitor.setAuditor(entity.getAuditor());
 
         String[] personIds = getParamValues("personIds");
-        trustMonitor.setMonitorOfficeAndMasterPersonList(JSON.toJSONString(personIds));
+        trustMonitor.setMonitoringStationOfficePersonList(JSON.toJSONString(personIds));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);

@@ -1,8 +1,10 @@
 var gridTable = $('#table'),
+    choseTable = $('#choseTable'),
     addBtn = $("#add"),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     addPersonBtn = $('#addPerson'),
+    refPersonBtn = $('#refPerson'),
     removePersonBtn = $('#removePerson'),
     form = $("#scfForm"),
     formTitle = "人员管理",
@@ -36,25 +38,26 @@ var setting = {
         dataFilter: filter
     },
     callback: {
-        onClick: function(event, treeId, treeNode) {
-            $('.hidden').val("");
-            if(treeNode.parentId!="-1"){
-                thisOrgId=treeNode.id;
-                $('#s_orgId').val(treeNode.id);
-                searchForm();
-                addBtn.prop('disabled',false);
-            }else{
-                $('#s_orgId').val("");
-                searchForm();
-                addBtn.prop('disabled',true);
-            }
-        },
+        onClick: orgTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
             $('.scrollContent').find('table').remove();
             orgTreeObj.expandAll(true);
         }
     }
 };
+function orgTreeOnClick(event, treeId, treeNode){
+    $('.hidden').val("");
+    if(treeNode.parentId!="-1"){
+        thisOrgId=treeNode.id;
+        $('#s_orgId').val(treeNode.id);
+        searchForm();
+        addBtn.prop('disabled',false);
+    }else{
+        $('#s_orgId').val("");
+        searchForm();
+        addBtn.prop('disabled',true);
+    }
+}
 var blockSetting = {
     height:500,
     width:200,
@@ -77,18 +80,7 @@ var blockSetting = {
         dataFilter: filter
     },
     callback: {
-        onClick: function(event, treeId, treeNode) {
-            $('.hidden').val("");
-            if(treeNode.parentId!="-1"){
-                addPersonBtn.prop('disabled', false);
-                $('#s_blockId').val(treeNode.id);
-                searchForm();
-            }else{
-                addPersonBtn.prop('disabled', true);
-                $('#s_blockLevelId').val(treeNode.id);
-                searchForm();
-            }
-        },
+        onClick: blockTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
             //$('.scrollContent').find('table').remove();
             setBlock('#blockLevelId','#blockId');
@@ -96,6 +88,19 @@ var blockSetting = {
         }
     }
 };
+function blockTreeOnClick(event, treeId, treeNode) {
+    $('.hidden').val("");
+    if(treeNode.parentId!="-1"){
+        addPersonBtn.prop('disabled', false);
+        $('#s_blockId').val(treeNode.id);
+        $('#s_blockLevelId').val(treeNode.parentId);
+        searchForm();
+    }else{
+        addPersonBtn.prop('disabled', true);
+        $('#s_blockLevelId').val(treeNode.id);
+        searchForm();
+    }
+}
 function filter(treeId, parentNode, childNodes) {
     if (!childNodes) return null;
     for (var i=0, l=childNodes.length; i<l; i++) {
@@ -108,7 +113,6 @@ var blockTreeObj = $.fn.zTree.init($("#blockZtree"), blockSetting);
 function setBlock(pSelector,cSelector){
     var pBlock = $(pSelector),cBlock = $(cSelector);
     var blockLevel = blockTreeObj.getNodes();
-    console.log(blockLevel);
     if(blockLevel){
          $.each(blockLevel,function(k,v){
             pBlock.append($("<option>").val(v.id).text(v.name));
@@ -216,11 +220,71 @@ function initTable() {
                 editable: false
             },
             {
+                title: '关联系统人员',
+                field: 'apportalUserName',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
+            }
+        ]
+    });
+    choseTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_office_Contacts_list.action",
+        height: 400,
+        method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:function (param) {
+            var temp = pageUtils.getBaseParams(param);
+            temp.blockNeed = true;
+            return temp;
+        },
+        columns: [
+            {
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:false,  //  true 单选， false多选
+                valign: 'middle'
+            },
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '名称',
+                field: 'name',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '部门名称',
+                field: 'department',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '职务',
+                field: 'position',
+                sortable: false,
+                align: 'center',
+                editable: false
             }
         ]
     });
@@ -230,6 +294,11 @@ function initTable() {
     }, 200);
 
     //列表checkbox选中事件
+    choseTable.on('check.bs.table uncheck.bs.table ' +
+        'check-all.bs.table uncheck-all.bs.table', function () {
+        //有选中数据，启用删除按钮
+        $('#addPersonToBlock').prop('disabled', !choseTable.bootstrapTable('getSelections').length);
+    });
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
@@ -237,6 +306,7 @@ function initTable() {
         removePersonBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        refPersonBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -266,6 +336,11 @@ function getIdSelections() {
         return row.id
     });
 }
+function getChoseTableIdSelections() {
+    return $.map(choseTable.bootstrapTable('getSelections'), function (row) {
+        return row.id;
+    });
+}
 
 /**
  *  获取列表所有的选中数据
@@ -285,6 +360,7 @@ removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 addPersonBtn.prop('disabled', true);
 removePersonBtn.prop('disabled', true);
+refPersonBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
@@ -313,6 +389,46 @@ removeBtn.click(function () {
         });
     });
 });
+var options = {
+    title:"通讯录关联系统用户",//弹出框标题(可省略，默认值：“人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+    btnok:"确定关联"
+}
+var model = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
+    $.ajax({
+        url: rootPath + "/action/S_office_Contacts_updateContact.action",
+        type:"post",
+        async:false,
+        data:{
+            id:obj.sourceId,
+            apportalUserId:obj.personObj.id,
+            apportalUserName:obj.personObj.name
+        },//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function (data) {
+            if(data.success){
+                Ewin.alert("人员关联成功！");
+                searchForm();
+                refPersonBtn.prop('disabled', true);
+            }else{
+                Ewin.confirm({ message: obj.personObj.name+" 已关联 ["+data.name+"]!<br/>是否重新选择？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    var ids = getIdSelections();
+                    model.open(ids[0]);
+                });
+            }
+        }
+    });
+});
+addPersonBtn.click(function(){
+    choseTable.bootstrapTable('refresh');
+});
+refPersonBtn.click(function(){
+    var ids = getIdSelections();
+    model.open(ids[0]);
+});
 removePersonBtn.click(function () {
     var ids = getIdSelections();
     Ewin.confirm({ message: "确认要将所选人员从当前网格中移除？" }).on(function (e) {
@@ -332,12 +448,36 @@ removePersonBtn.click(function () {
         });
     });
 });
-
+$('#addPersonToBlock').click(function(){
+    $.ajax({
+        url: rootPath + "/action/S_office_Contacts_addContactsToBlock.action",
+        type:"post",
+        async:false,
+        data:$.param({
+            ids:getChoseTableIdSelections(),
+            blockLevelId:$('#s_blockLevelId').val(),
+            blockId:$('#s_blockId').val(),
+        },true),
+        //阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function (data) {
+            $('#chosePersonForm').modal('hide');
+            searchForm();
+            $('#addPersonToBlock').prop('disabled', true);
+        }
+    });
+});
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
     searchForm();
+});
+$("#chosePersonFormSearch").click(function(){
+    var jsonData = $('#searchChosePersonform').formSerializeObject();
+    choseTable.bootstrapTable('refresh',{
+        query:jsonData
+    });
 });
 function searchForm(){
     var jsonData = $('#searchform').formSerializeObject();
@@ -348,7 +488,11 @@ function searchForm(){
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
+});
+$("#chosePersonFormReset").click(function () {
+    $('#searchChosePersonform')[0].reset();
+    choseTable.bootstrapTable('refresh');
 });
 /**============表单初始化相关代码============**/
 

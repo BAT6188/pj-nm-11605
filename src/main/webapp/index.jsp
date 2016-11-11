@@ -17,7 +17,7 @@
                 <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
                 <li class="user"><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
-                <li><a href="javascript:void(0);" class="msg-icon"><span class="new-icon">0</span></a></li>
+                <li><a href="javascript:void(0);" class="msg-icon" id="msgListBtn"><span class="new-icon" id="msgCountSpan">0</span></a></li>
                 <li class="divider"><i class="long-divider"></i></li>
                 <li><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
             </ul>
@@ -43,6 +43,7 @@
 </div>
 <p class="copyrightP"><span>版权所有：东胜环保局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
 <%@include file="/common/msgSend/msgSend.jsp"%>
+<%@include file="/container/gov/alert/message_dialog.jsp"%>
 <!--样式js-->
 <script>
     function loadHeight(){
@@ -71,6 +72,11 @@
     $("#mainSmsSendBtn").bind('click', function () {
         model.open();//打开dialog,
     });
+    MessageDialog.modal({"userId":userId,countElement:$("#msgCountSpan")});
+    $("#msgListBtn").bind("click",function () {
+        MessageDialog.modal("show");
+    });
+
 </script>
 </body>
 </html>

@@ -18,23 +18,42 @@
     <script>
         $('#orgDiv').prepend(pageUtils.loading());
         function setOrgDivView(thisObj){
+            setShowColumnView(false);
             $('.orgBtn').show();
             $('.blockBtn').hide();
             $('.nav-tabs').find('li').removeClass('active');
             $(thisObj).addClass('active');
+            var nodes = orgTreeObj.getNodes();
+            orgTreeObj.selectNode(nodes[0]);
+            orgTreeOnClick(null,null,nodes[0]);
         }
         function setBlockDivView(thisObj){
+            setShowColumnView(true);
             $('.orgBtn').hide();
             $('.blockBtn').show();
             $('.nav-tabs').find('li').removeClass('active');
             $(thisObj).addClass('active');
+            var nodes = blockTreeObj.getNodes();
+            blockTreeObj.selectNode(nodes[0]);
+            blockTreeOnClick(null,null,nodes[0]);
+        }
+        function setShowColumnView(type){
+            var orgColumnType = 'showColumn',blockColumnType='hideColumn';
+            if(type){
+                orgColumnType = 'hideColumn';
+                blockColumnType = 'showColumn';
+            }
+            gridTable.bootstrapTable(orgColumnType,'tel');
+            gridTable.bootstrapTable(orgColumnType,'phone');
+            gridTable.bootstrapTable(orgColumnType,'address');
+            gridTable.bootstrapTable(blockColumnType,'apportalUserName');
         }
     </script>
 </head>
 <body>
 <div class="wrap">
     <div class="menu-left left">
-        <div class="form-horizontal">
+        <div class="form-horizontal" style="width: 95%;">
             <div class="form-group">
                 <div class="col-sm-12">
                     <ul class="nav nav-tabs">
@@ -61,10 +80,10 @@
                 <div class="mainBox">
                     <div class="dealBox">
                         <div class="sideTitle left">
-                        <span class="blueMsg" onclick="model.open()">
-                            <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
-                            <span class="text">查询</span>
-                        </span>
+                            <span class="blueMsg">
+                                <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
+                                <span class="text">查询</span>
+                            </span>
                         </div>
                         <div class="queryBox marginLeft0">
                             <form class="form-inline" id="searchform">
@@ -72,7 +91,7 @@
                                 <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />
                                 <input type="hidden" id="s_blockId" name="blockId" class="form-control hidden" />
                                 <label for="s_name">姓名：</label> <input type="text" id="s_name" name="name" class="form-control" />
-                                <label for="s_department">单位：</label> <input type="text" id="s_department" name="department" class="form-control" />
+                                <label for="s_department">部门：</label> <input type="text" id="s_department" name="department" class="form-control" />
                                 <label for="s_position">职务：</label><input type="text" id="s_position" name="position" class="form-control" />
                             </form>
                         </div>
@@ -83,14 +102,17 @@
                             <button id="add" type="button" class="btn btn-sm btn-success orgBtn" data-toggle="modal" data-target="#scfForm">
                                 <i class="btnIcon add-icon"></i><span>新建</span>
                             </button>
-                            <button id="addPerson" type="button" class="btn btn-sm btn-success blockBtn" style="display: none;">
-                                <i class="btnIcon add-icon"></i><span>添加</span>
-                            </button>
                             <button id="update" type="button" class="btn btn-sm btn-warning orgBtn" data-toggle="modal" data-target="#scfForm">
                                 <i class="btnIcon edit-icon"></i><span>修改</span>
                             </button>
                             <button id="remove" type="button" class="btn btn-sm btn-danger orgBtn">
                                 <i class="btnIcon delf-icon"></i><span>删除</span>
+                            </button>
+                            <button id="addPerson" type="button" class="btn btn-sm btn-success blockBtn" data-toggle="modal" data-target="#chosePersonForm" style="display: none;">
+                                <i class="btnIcon add-icon"></i><span>添加</span>
+                            </button>
+                            <button id="refPerson" type="button" class="btn btn-sm btn-warning blockBtn" style="display: none;">
+                                <i class="btnIcon edit-icon"></i><span>关联</span>
                             </button>
                             <button id="removePerson" type="button" class="btn btn-sm btn-danger blockBtn" style="display: none;">
                                 <i class="btnIcon delf-icon"></i><span>移除</span>
@@ -122,6 +144,7 @@
                                 <div class="col-sm-4">
                                     <input type="hidden" id="id" name="id" class="form-control">
                                     <input type="hidden" id="orgId" name="orgId" class="form-control">
+                                    <input type="hidden" id="apportalUserId" name="apportalUserId" class="form-control">
                                     <input type="hidden" id="removeId" name="removeId" class="form-control">
                                     <input type="text" id="name" name="name" class="form-control"
                                            data-message="姓名不能为空"
@@ -182,6 +205,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group blockBtn" style="display: none">
+                                <label for="apportalUserName" class="col-sm-2 control-label">关联系统用户：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="apportalUserName" name="apportalUserName" class="form-control"/>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="attachment" class="col-sm-2 control-label">附件：</label>
                                 <div class="col-sm-10">
@@ -199,17 +228,59 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" data-backdrop="static" id="chosePersonForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="chosePersonModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title form-title">添加人员到网格</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mainBox">
+                                <div class="dealBox">
+                                    <div class="queryBox marginLeft0">
+                                        <form class="form-inline" id="searchChosePersonform">
+                                            <label for="s_name">姓名：</label> <input type="text" name="name" class="form-control" />
+                                            <label for="s_department">部门：</label> <input type="text" name="department" class="form-control" />
+                                            <p></p>
+                                            <label for="s_position">职务：</label> <input type="text"name="position" class="form-control" />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="chosePersonFormSearch" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                                            <button type="button" class="btn btn-default queryBtn" id="chosePersonFormReset" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                                        </form>
+                                    </div>
+                                    <br/><br>
+                                </div>
+                                <div class="tableBox">
+                                    <table id="choseTable" class="table table-striped table-responsive">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addPersonToBlock" disabled="disabled">确认添加</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+</div>
+<%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
-<%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
-<%--<script>
-    var options = {
-        title:"测试组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
+<script>
+    /*var options = {
+        choseMore:false,
+        title:"组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
         width:"60%",        //宽度(可省略，默认值：850)
     }
-    var model = $.fn.MsgSend.init(1,options,function(e,data){ //短信发送第一个参数为2
+    var testmodel = $.fn.MsgSend.init(1,options,function(e,data){
         console.log(data);//回调函数，data为所选人员ID
-    });
-</script>--%>
+    });*/
+</script>
 </body>
 </html>

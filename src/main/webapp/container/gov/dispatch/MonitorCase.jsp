@@ -6,15 +6,12 @@
     <%@include file="/common/msgSend/msgSend.jsp"%>
 </head>
 <style>
-
     a{
         color: #0b0c0d;
     }
-
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
         font-weight: bolder;
     }
-
 </style>
 <body>
 <div class="content content1 clearfix">
@@ -74,7 +71,6 @@
                 <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
 
-
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active">
                     <a href="#noDispath" data-toggle="tab">未调度</a>
@@ -95,9 +91,7 @@
                         </table>
                     </div>
                 </div>
-
             </div>
-
 
         </div>
     </div>

@@ -1,4 +1,46 @@
 var pageUtils = {
+    MSG_TYPE_SCHEDULE:"1",
+    MSG_TYPE_MEETINGNOTICE:"2",
+    MSG_TYPE_PUBINFO : "3",
+    MSG_TYPE_POLLUTANTPAYMENT : "4",
+
+    /**
+     * 发送系统消息
+     * @param msg 消息内容 {'msgType':pageUtils.MSG_TYPE_SCHEDULE,
+                            'title':'消息标题',
+                            'content':'消息内容',
+                            businessId:业务数据id
+                         }
+     * @param receivers 接收人数组 item:{receiverId:userId,receiverName:userName}
+     */
+    sendMessage:function (msg,receivers) {
+        if (msg && receivers && receivers.length > 0) {
+            var that = this;
+            var typeMapUrl = {};
+            typeMapUrl[that.MSG_TYPE_SCHEDULE] = 'container/gov/detect/schedule.jsp';
+            typeMapUrl[that.MSG_TYPE_MEETINGNOTICE] = 'container/gov/office/meetingnotice.jsp';
+            typeMapUrl[that.MSG_TYPE_PUBINFO] = 'container/gov/office/pubinfo.jsp';
+            typeMapUrl[that.MSG_TYPE_POLLUTANTPAYMENT] = 'container/gov/exelaw/pollutantPayment.jsp';
+            msg.senderId = userId;
+            msg.senderName = userName;
+            msg.detailsUrl = typeMapUrl[msg.msgType];
+            msg.receivers = JSON.stringify(receivers);
+            var sendResult = false;
+            $.ajax({
+                url:rootPath + "/action/S_alert_Message_sendMessage.action",
+                type:"post",
+                dataType:"json",
+                data:msg,
+                success:function (result) {
+                    sendResult = result;
+                }
+            });
+            return sendResult;
+        }else{
+            return false;
+        }
+
+    },
 
     /**
      * 操作日志
@@ -37,8 +79,31 @@ var pageUtils = {
     },
 
     toUrl:function (url) {
-        $("#level2content").html("");
-        $("#level2content").load(url);
+        var isMainJsp = location.href.indexOf("main.jsp") > 0 ? true:false;
+        if (isMainJsp){
+            $("#level2content").html("");
+            $("#level2content").load(url);
+        }else{
+            //查找跳转页面的所在的主菜单
+            var urlMainMenu = "";
+            var subMenuId = "";
+            for(var mainMenuCode in this._subMenu) {
+                var subMenus = this._subMenu[mainMenuCode];
+                for (var i = 0; i < subMenus.length; i++) {
+                    var subMenu = subMenus[i];
+                    if (subMenu.url && subMenu.url.indexOf(url) != -1) {
+                        subMenuId = subMenu.id;
+                        urlMainMenu = mainMenuCode;
+                    }
+                }
+            }
+            if (urlMainMenu) {
+                location.href = rootPath + "/main.jsp?menuCode="+urlMainMenu+"&subMenuId="+subMenuId+"&SToken=" + SToken;
+            }else{
+                Ewin.alert("未找到地址");
+            }
+        }
+
     },
     findAttachmentIds: function (businessId,attachmentType) {
         var ids = [];
