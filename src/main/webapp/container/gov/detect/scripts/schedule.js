@@ -244,8 +244,23 @@ var ef = form.easyform({
         entity.seter=$("#seter").val();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
+            console.log(msg)
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
+
+            if (msg.success){
+                var receivers = [];
+                var receiver1 = {receiverId:entity.seterId,receiverName:entity.seter};
+                receivers.push(receiver1);
+                var msg = {
+                    'msgType':1,
+                    'title':entity.title,
+                    'content':entity.remark,
+                    'businessId':msg.id,
+                    alertTime:msg.alertTime
+                };
+                pageUtils.sendMessage(msg, receivers);
+            }
         });
     }
 });
@@ -408,12 +423,14 @@ var options = {
         // orgCode:[],//组织机构代码(必填，组织机构代码)
         type:1  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var personObj = data.personObj;
+    console.log(data)
+    var personObj = data.personObj[0];
     $("#seter").val(personObj.name)
     $("#seterId").val(personObj.id)
     $("#position").val(personObj.job)

@@ -3,9 +3,9 @@
 <html>
 <head>
     <title>人员信息管理</title>
-    <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
+    <%--<link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
-    <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
+    <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>--%>
     <style>
         .nav-tabs li a{
             font-size: 15px;
@@ -273,12 +273,12 @@
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
 <script>
-    /*var options = {
+    /*var testoptions = {
         choseMore:false,
         title:"组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
         width:"60%",        //宽度(可省略，默认值：850)
     }
-    var testmodel = $.fn.MsgSend.init(1,options,function(e,data){
+    var testmodel = $.fn.MsgSend.init(2,testoptions,function(e,data){
         console.log(data);//回调函数，data为所选人员ID
     });*/
 </script>

@@ -195,15 +195,29 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     @Override
     protected QueryCondition getQueryCondition() {
         String module = request.getParameter("module");
-        String start_monitorTime = request.getParameter("start_monitorTime");
-        String end_monitorTime = request.getParameter("end_monitorTime");
-
-        QueryParam params = new QueryParam();
-        if ("receiveTrustMonitor".equals(module)){
-            IPerson person = ApportalUtil.getPerson(request);
-            params.andParam(new QueryParam("environmentalProtectionStationSelectPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+        String enterpriseSelf = request.getParameter("enterpriseSelf");
+        if (StringUtils.isEmpty(enterpriseSelf)){
+            enterpriseSelf="0";
         }
 
+        String start_monitorTime = request.getParameter("start_monitorTime");
+        String end_monitorTime = request.getParameter("end_monitorTime");
+        IPerson person = ApportalUtil.getPerson(request);
+
+        QueryParam params = new QueryParam();
+        //TODO 以下注释的代码调试的时候用，正式测试、部署需要放开注释
+        if ("receiveTrustMonitor".equals(module)){//监察大队接收委托监测页面
+//            params.andParam(new QueryParam("environmentalProtectionStationSelectPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+        }else if ("monitoring_station_office".equals(module)){//监测站办公室页面
+//            params.andParam(new QueryParam("monitoringStationOfficePersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+        }else if ("monitoring_station_master".equals(module)){//监测站站长页面
+//            params.andParam(new QueryParam("monitoringStationMasterPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+        }else if ("monitoring_station_person".equals(module)){//监测站检测员页面
+//            params.andParam(new QueryParam("monitoringStationPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+        }
+
+
+        params.andParam(new QueryParam("enterpriseSelf", QueryOperator.EQ,enterpriseSelf));
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
             params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
         }
@@ -236,4 +250,18 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         condition.setOrderBy("monitorTime", Direction.DESC);
         return condition;
     }
+
+    /**
+     * 删除实体时删除关联的附件
+     */
+    @Override
+    public void delete() {
+        String deleteId = request.getParameter("deletedId");
+        if(StringUtils.isNotBlank(deleteId)){
+            attachmentService.removeByBusinessIds(deleteId);
+        }
+        super.delete();
+    }
+
+
 }

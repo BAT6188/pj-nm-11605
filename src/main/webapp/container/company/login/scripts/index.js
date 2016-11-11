@@ -38,11 +38,11 @@ function loadMenu() {
 
     var siderUl = $(".siderNav>ul");
     //加载一级主菜单
-    for (var i = 0; i < mainMenu.length; i++) {
-        var menu = mainMenu[i];
-        var li = $('<li data-main-code="' + menu.code + '"><a href="javascript:void(0);"><dl><dt><img src="' + rootPath + '/common/images/company.ico" alt=""/></dt><dd>' + menu.text + '</dd></dl></a></li>');
-        siderUl.append(li);
-    }
+    // for (var i = 0; i < mainMenu.length; i++) {
+    //     var menu = mainMenu[i];
+    //     var li = $('<li data-main-code="' + menu.code + '"><a href="javascript:void(0);"><dl><dt><img src="' + rootPath + '/common/images/company.ico" alt=""/></dt><dd>' + menu.text + '</dd></dl></a></li>');
+    //     siderUl.append(li);
+    // }
     loadLevel2Menu(subMenu["company"]);
     siderUl.find("li").bind('click', function () {
         var mainMenuCode = $(this).attr("data-main-code");
@@ -79,3 +79,5 @@ function loadLevel2Menu(subMenus) {
         level2MenuUl.find("li:first").click();
     }
 }
+$("#level2content").unbind("mouseleave");
+$(".siderNav").unbind("mouseleave");

@@ -390,6 +390,7 @@ removeBtn.click(function () {
     });
 });
 var options = {
+    choseMore:false,
     title:"通讯录关联系统用户",//弹出框标题(可省略，默认值：“人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
     btnok:"确定关联"
@@ -401,8 +402,8 @@ var model = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个
         async:false,
         data:{
             id:obj.sourceId,
-            apportalUserId:obj.personObj.id,
-            apportalUserName:obj.personObj.name
+            apportalUserId:obj.personObj[0].id,
+            apportalUserName:obj.personObj[0].name
         },//阻止深度序列化，向后台传递数组
         dataType:"json",
         success:function (data) {
@@ -411,7 +412,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个
                 searchForm();
                 refPersonBtn.prop('disabled', true);
             }else{
-                Ewin.confirm({ message: obj.personObj.name+" 已关联 ["+data.name+"]!<br/>是否重新选择？" }).on(function (e) {
+                Ewin.confirm({ message: obj.personObj[0].name+" 已关联 ["+data.name+"]!<br/>是否重新选择？" }).on(function (e) {
                     if (!e) {
                         return;
                     }

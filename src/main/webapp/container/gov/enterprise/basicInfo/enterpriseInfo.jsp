@@ -93,8 +93,6 @@
             <input type="hidden" id="delTime" name="delTime" class="form-control" />
             <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
             <input type="hidden" id="haveFumesPort" name="haveFumesPort" class="form-control" />
-            <input type="hidden" id="userName" name="userName" class="form-control" />
-            <input type="hidden" id="password" name="password" class="form-control" />
             <div class="row">
                 <div class="col-sm-12">
                     <table class="table table-bordered table-responsive">
@@ -118,6 +116,21 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>用户名</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="userName" name="userName" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="用户名"/>
+                                </div>
+                            </td>
+                            <td  class="success">登录密码<span class="text-danger">(*)</span></td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="password" name="password" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="登录密码"/>
+                                </div>
+                            </td>
+                        </tr>
+
                         <tr>
                             <td class="success">网格级别</td>
                             <td>

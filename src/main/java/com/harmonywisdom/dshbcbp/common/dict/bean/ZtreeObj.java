@@ -9,9 +9,13 @@ public class ZtreeObj {
 
     private String name;
 
+    private Boolean couldChose;
+
     private String job;
 
     private String parentId;
+
+    private String userId;
 
     private String mobilePhone;
 
@@ -111,6 +115,22 @@ public class ZtreeObj {
 
     public void setPinyinCodes(String pinyinCodes) {
         this.pinyinCodes = pinyinCodes;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Boolean getCouldChose() {
+        return couldChose;
+    }
+
+    public void setCouldChose(Boolean couldChose) {
+        this.couldChose = couldChose;
     }
 
     public ZtreeObj() {

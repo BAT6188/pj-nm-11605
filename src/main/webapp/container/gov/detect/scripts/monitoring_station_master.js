@@ -1,9 +1,13 @@
-//@ sourceURL=monitoring_station_office.js
+
 var gridTable = $('.tableTab'),
     checkButton = $('#checkButton'),
+    removeBtn = $('#remove'),
+    updateBtn = $('#update'),
     form = $("#demoForm"),
     formTitle = "委托监测",
-    selections = [];
+    selections = []
+    enterpriseSelf;
+
 
 
 /**============grid 列表初始化相关代码============**/
@@ -11,7 +15,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action?module=monitoring_station_office",
+        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action?module=monitoring_station_master",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -98,6 +102,11 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
+        //有选中数据，启用删除按钮
+        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        //选中一条数据启用修改按钮
+        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -154,6 +163,8 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 checkButton.prop('disabled', true);
+removeBtn.prop('disabled', true);
+updateBtn.prop('disabled', true);
 
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
@@ -390,6 +401,7 @@ $(document).ready(function () {
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
 
     $("#b_span").hide()
+    enterpriseSelf=0
     $(function(){
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var activeTab = $(e.target).attr("href");
@@ -398,6 +410,7 @@ $(document).ready(function () {
                 console.log("a")
 
                 $("#b_span").hide()
+                enterpriseSelf=0
 
                 // gridTable.bootstrapTable('hideColumn',"status");
                 // gridTable.bootstrapTable('hideColumn',"queryFeedback");
@@ -406,15 +419,16 @@ $(document).ready(function () {
                 console.log("b")
 
                 $("#b_span").show()
+                enterpriseSelf=1
 
                 // gridTable.bootstrapTable('showColumn',"status");
                 // gridTable.bootstrapTable('showColumn',"queryFeedback");
                 // gridTable.bootstrapTable('hideColumn',"operate");
             }
 
-            // gridTable.bootstrapTable('refresh',{
-            //     query:{status_search: status_search}
-            // });
+            gridTable.bootstrapTable('refresh',{
+                query:{enterpriseSelf:enterpriseSelf}
+            });
 
         });
     });
@@ -423,27 +437,30 @@ $(document).ready(function () {
 
 })
 
-/************  企业自行监测 ***************/
-
+/************  企业委托监测 ***************/
+var enterpriseSelfDialog=$("#enterpriseSelfDialog")
 var options_enterpriseSelfDialog = {
     params:{
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
         type:3  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 
 var model_enterpriseSelfDialog = $.fn.MsgSend.init(1,options_enterpriseSelfDialog,function(e,data){
-    var d=$.param({personIds:data.personObj.id},true)
+    console.log(data)
+    debugger
+    var d=$.param({personIds:data.personObj[0].id},true)
     d+="&sourceId="+data.sourceId;
-    console.log("发送："+d)
+    console.log("发送1："+d)
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor__saveToMonitoringStationPersonList.action",
         type:"post",
         data:d,
         success:function (msg) {
-            $("#enterpriseSelfDialog").modal('hide');
+            enterpriseSelfDialog.modal('hide');
             gridTable.bootstrapTable('refresh');
         },
         error:function (msg) {
@@ -451,11 +468,10 @@ var model_enterpriseSelfDialog = $.fn.MsgSend.init(1,options_enterpriseSelfDialo
         }
     });
 });
-var ef = $("#enterpriseSelfDialog").easyform({
+var ef = enterpriseSelfDialog.easyform({
     success:function (ef) {
-        var entity = $("#enterpriseSelfDialog").find("form").formSerializeObject();
-        console.log(entity)
-
+        debugger
+        var entity = enterpriseSelfDialog.find("form").formSerializeObject();
         $.ajax({
             url: rootPath + "/action/S_exelaw_TrustMonitor_saveEnterpriseSelfData.action",
             type:"post",
@@ -478,8 +494,8 @@ $("#sendButton_enterpriseSelfDialog").bind('click',function () {
 });
 
 $("#add").click(function () {
-    $("#enterpriseSelfDialog").find("input").val("")
-    $("#enterpriseSelfDialog").find("textarea").val("")
+    enterpriseSelfDialog.find("input").val("")
+    enterpriseSelfDialog.find("textarea").val("")
 
     $("#enterpriseSelf").val("1")
 })
@@ -493,3 +509,31 @@ $("#update").click(function () {
         $(selector).val(entity[p])
     }
 })
+
+function deleteAjax(ids, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_exelaw_TrustMonitor_delete.action",
+        type:"post",
+        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:callback
+    });
+}
+
+removeBtn.click(function () {
+    var ids = getIdSelections();
+    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        deleteAjax(ids,function (msg) {
+            gridTable.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            removeBtn.prop('disabled', true);
+        });
+    });
+
+
+});
