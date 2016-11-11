@@ -13,6 +13,8 @@ public class ZtreeObj {
 
     private String parentId;
 
+    private String userId;
+
     private String mobilePhone;
 
     private String officePhone;
@@ -111,6 +113,14 @@ public class ZtreeObj {
 
     public void setPinyinCodes(String pinyinCodes) {
         this.pinyinCodes = pinyinCodes;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public ZtreeObj() {
