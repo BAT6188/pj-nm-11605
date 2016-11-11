@@ -26,10 +26,10 @@ public interface MessageTraceService extends IBaseService<MessageTrace, String> 
     /**
      * 获取用户历史消息
      * @param userId
-     * @param oldMsgCreateTime 当前列表显示最老一条消息的创建时间
+     * @param oldMsgAlertTime 当前列表显示最老一条消息的提醒时间
      * @return
      */
-    List<MessageTrace> getHistoryByUserId(String userId,Date oldMsgCreateTime);
+    List<MessageTrace> getHistoryByUserId(String userId,Date oldMsgAlertTime);
 
     /**
      * 设置消息跟踪状态为已读

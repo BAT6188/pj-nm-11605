@@ -56,12 +56,15 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
      */
     public void getHistoryByUserId(){
         String userId = request.getParameter("userId");
-        String oldMsgCreateTimeStr = request.getParameter("oldMsgCreateTime");
-        if(StringUtils.isNotBlank(oldMsgCreateTimeStr) && StringUtils.isNotBlank(userId)){//查询历史消息
-            Date oldMsgCreateTime = DateUtil.strToDate(oldMsgCreateTimeStr, "yyyy-MM-dd hh:mm:ss");
+        String oldMsgAlertTime = request.getParameter("oldMsgAlertTime");
+        if(StringUtils.isNotBlank(oldMsgAlertTime) && StringUtils.isNotBlank(userId)){//查询历史消息
+            Date oldMsgCreateTime = DateUtil.strToDate(oldMsgAlertTime, "yyyy-MM-dd hh:mm:ss");
             List<MessageTrace> messageTraces = getService().getHistoryByUserId(userId,oldMsgCreateTime);
-            write(messageTraces);
+            if (messageTraces != null && messageTraces.size() > 0) {
+                write(messageTraces);
+            }
         }
+        write(false);
     }
 
     public void setStatusReceived(){
