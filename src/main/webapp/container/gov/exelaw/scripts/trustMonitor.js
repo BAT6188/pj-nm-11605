@@ -286,6 +286,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.enterpriseSelf=0
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
 

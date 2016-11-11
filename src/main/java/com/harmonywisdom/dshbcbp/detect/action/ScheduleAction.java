@@ -63,7 +63,6 @@ public class ScheduleAction extends BaseAction<Schedule, ScheduleService> {
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
 
-
     }
 
     /**
