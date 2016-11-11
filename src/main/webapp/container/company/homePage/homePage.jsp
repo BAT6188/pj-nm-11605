@@ -53,7 +53,9 @@
         .ztree{
             height:450px;
         }
-
+        #scrollContent{
+            height:450px;
+        }
 
     </style>
     <script type="text/javascript">

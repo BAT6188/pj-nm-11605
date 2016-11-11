@@ -83,7 +83,7 @@ $(function(){
     }
 
     $("#scrollContent").slimScroll({
-        // height:"100%",
+        height:"100%",
         railOpacity:.9,
         alwaysVisible:!1
     });
