@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service("messageTraceService")
@@ -57,6 +58,24 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
             return null;
         }
 
+    }
+
+    @Override
+    public List<MessageTrace> getHistoryByUserId(String userId, Date oldMsgCreateTime) {
+        if (StringUtils.isNotBlank(userId)) {
+            List<MessageTrace> traces = getDAO().queryNativeSQL("select t.* from HW_MESSAGE_TRACE t left join HW_MESSAGE m " +
+                            "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and m.CREATE_TIME < ?2 order by m.CREATE_TIME desc limit 5",
+                    MessageTrace.class,
+                    userId,oldMsgCreateTime);
+            //查询消息
+            for (MessageTrace trace : traces) {
+                Message message = messageService.getMessageByTraceId(trace.getId());
+                trace.setMessage(message);
+            }
+            return traces;
+        }else{
+            return null;
+        }
     }
 
     @Override
