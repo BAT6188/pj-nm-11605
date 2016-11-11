@@ -18,4 +18,6 @@ public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
     List<Object[]> findByRatio(String startdate, String lastdate, String enterpriseId);
 
     ProjectEIA findByBuildProjectId(String buildProjectId);
+
+    void deleteProjectEIABuildProjectId(String projectId);
 }

@@ -1,3 +1,4 @@
+//@ sourceURL=meetingnotice.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -177,6 +178,51 @@ $("#add").bind('click',function () {
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
 });
+
+//<!---组织机构发送--START-->
+var options = {
+    title:"信息发送",//弹出框标题(可省略，默认值：“人员选择”)
+    width:"60%"     //宽度(可省略，默认值：850)
+};
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var d,ids=[],names=[];
+    $.each(data.personObj,function(k,v){
+        ids[k] = v.id;
+        names[k]=v.name
+    });
+    d=$.param({ids:ids,names:names},true);
+    d+="&id="+data.sourceId;
+    console.log(d);//回调函数，data为所选人员ID
+    $.ajax({
+        url: rootPath + "/action/S_office_MeetingNotice_save.action",
+        type:"post",
+        data:d,
+        dataType:"json",
+        success:function (msg) {
+            form.modal('hide');
+            gridTable.bootstrapTable('refresh');
+            pageUtils.saveOperationLog({opType:'4',opModule:'会议通知',opContent:'发送信息',refTableId:''})
+        }
+    });
+});
+
+/************  短信发送  ****************/
+var optionsMsg = {
+    params:{
+        // orgCode:[],//组织机构代码(必填，组织机构代码)
+        //type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%"        //宽度(可省略，默认值：850)
+};
+
+var modelMsg = $.fn.MsgSend.init(2,optionsMsg,function(e,data){ //短信发送第一个参数为2
+    console.log(data);//回调函数，data为所选人员ID
+    pageUtils.saveOperationLog({opType:'4',opModule:'短信会议通知',opContent:'短信发送数据',refTableId:''})
+});
+
+
+
 /**
  * 列表工具栏 删除按钮
  */
@@ -226,15 +272,27 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+
         saveAjax(entity,function (msg) {
-            form.modal('hide');
+            if(buttonSend=="#save"){
+                model.open(msg.id);
+            }else{
+                modelMsg.open(msg.id);
+            }
             gridTable.bootstrapTable('refresh');
         });
     }
 });
-
+var buttonSend;
 //表单 保存按钮
 $("#save").bind('click',function () {
+    buttonSend="#save";
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+
+$('#smsSend').bind('click',function () {
+    buttonSend="#smsSend";
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -281,7 +339,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();

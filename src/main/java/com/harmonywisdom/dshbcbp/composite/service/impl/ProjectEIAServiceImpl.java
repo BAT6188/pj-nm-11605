@@ -112,4 +112,9 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
         return null;
     }
 
+    @Override
+    public void deleteProjectEIABuildProjectId(String projectId) {
+        projectEIADAO.executeJPQL("delete from ProjectEIA entity where entity.projectId in ?1",projectId);
+    }
+
 }

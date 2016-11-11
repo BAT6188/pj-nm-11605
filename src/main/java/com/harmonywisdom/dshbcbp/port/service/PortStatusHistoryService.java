@@ -36,6 +36,9 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
      */
     int updateStatus(String id);
 
-
-
+    /**
+     * 企业超标异常信息
+     * @return
+     */
+    List<PortStatusHistory> companyByExcessive();
 }

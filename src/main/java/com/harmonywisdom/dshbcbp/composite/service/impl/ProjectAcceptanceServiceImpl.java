@@ -34,4 +34,10 @@ public class ProjectAcceptanceServiceImpl extends BaseService<ProjectAcceptance,
         }
         return null;
     }
+
+    @Override
+    public void deleteAcceptanceBuildProjectId(String projectId) {
+        projectAcceptanceDAO.executeJPQL("delete from ProjectAcceptance entity where entity.projectId in ?1",projectId);
+
+    }
 }

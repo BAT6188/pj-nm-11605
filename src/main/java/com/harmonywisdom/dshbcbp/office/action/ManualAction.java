@@ -11,6 +11,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class ManualAction extends BaseAction<Manual, ManualService> {
     @AutoService
     private ManualService manualService;
@@ -27,7 +29,9 @@ public class ManualAction extends BaseAction<Manual, ManualService> {
         if (StringUtils.isNotBlank(entity.getFileName())) {
             params.andParam(new QueryParam("fileName", QueryOperator.LIKE,entity.getFileName()));
         }
-
+        if (StringUtils.isNotBlank(entity.getPid())) {
+            params.andParam(new QueryParam("pid", QueryOperator.EQ,entity.getPid()));
+        }
         if (StringUtils.isNotBlank(entity.getType())) {
             params.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
@@ -67,5 +71,11 @@ public class ManualAction extends BaseAction<Manual, ManualService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    public void  findByZtreeId(){
+        String selectId=request.getParameter("selectId");
+        List<Manual> list=manualService.findByZtreeId(selectId);
+        write(list);
     }
 }

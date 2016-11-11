@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
     <title>网格人员</title>
@@ -11,8 +10,10 @@
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
-        <div class="tree-left left">
+        <div class="menu-left left">
+            <div class="scrollContent" >
             <div id="ztree" class="ztree blockTree">
+            </div>
             </div>
         </div>
         <div class="main-right right">

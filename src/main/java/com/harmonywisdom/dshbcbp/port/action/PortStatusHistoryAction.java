@@ -202,5 +202,13 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         write(true);
 
     }
+    /**
+     * 企业超标异常信息
+     */
+    public void excessiveInformation(){
+        List<PortStatusHistory> pubInfoList = portStatusHistoryService.companyByExcessive();
+        write(pubInfoList);
+    }
+
 
 }

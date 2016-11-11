@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.office.bean;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 环保手册知识
@@ -72,6 +73,32 @@ public class Manual implements Serializable {
      */
     @Transient
     private String attachmentIds;
+
+    /**
+     * 父节点 pid
+     */
+    @Column(name = "pid",length = 200)
+    private String pid;
+
+
+    @Transient
+    private List<Manual> children;
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public List<Manual> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Manual> children) {
+        this.children = children;
+    }
 
     public String getId() {
         return id;
