@@ -26,14 +26,17 @@
             left: 36%;
             top: 3%;
         }
+
+        .logoDiv>.logo{position: relative;}
+        .com-icon{position: absolute;top: -25px;right: -85px;}
+
     </style>
 </head>
 <body style="overflow: hidden">
 <div class="container">
     <div class="banner clearfix">
         <div class="logoDiv left">
-            <div class="client-type">企业端</div>
-            <img src="<%=request.getContextPath()%>/common/images/indexlogo.png" alt=""/>
+            <span class="logo"><img src="<%=request.getContextPath()%>/common/images/indexlogo.png" alt=""/><img class="com-icon" src="<%=request.getContextPath()%>/container/company/homePage/images/com-icon.png" alt=""/></span>
         </div>
         <div class="opDiv right">
             <ul>
@@ -58,23 +61,10 @@
         </div>
         <div id="level2content" class="content show clearfix" style="margin: 5px 5px 8px;">
         </div>
-        <div class="siderNav">
-            <ul>
-                <%--<li><a href="compre-supervision.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-composite-icon.png" alt=""/></dt><dd>综合监管</dd></dl></a></li>
-                <li><a href="pollution-23.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-monitor-icon.png" alt=""/></dt><dd>污染源监控</dd></dl></a></li>
-                <li><a href="compre-dispatch.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-dispatch-icon.png" alt=""/></dt><dd>综合调度</dd></dl></a></li>
-                <li><a href="law-supervision.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-exelaw-icon.png" alt=""/></dt><dd>执法监管</dd></dl></a></li>
-                <li><a href="compre-monitor.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-detect-icon.png" alt=""/></dt><dd>综合监测</dd></dl></a></li>
-                <li><a href="daily-office.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-office-icon.png" alt=""/></dt><dd>日常办公</dd></dl></a></li>
-                <li><a href="compre-statistics.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-statistics-icon.png" alt=""/></dt><dd>综合统计</dd></dl></a></li>
-                <li><a href="foreign-mission.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-dsyjt-icon.png" alt=""/></dt><dd>对外宣教</dd></dl></a></li>--%>
-            </ul>
-        </div>
-    </div>
 </div>
 
-<script src="<%=request.getContextPath()%>/container/company/login/scripts/index.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/main_css.js"></script>
+<script src="<%=request.getContextPath()%>/container/company/login/scripts/index.js"></script>
 <script>
 </script>
 </body>
