@@ -1,17 +1,20 @@
 var gridTable = $('#table'),
-    selections = [];
-/*var options = {
-    params:{
-        //orgCode:['0170001100'],//组织机构代码(必填，组织机构代码)
-        type:1
-    },
-    btnok:"确定发送",
-    title:"测试短信发送",//弹出框标题(可省略，默认值：“组织机构人员选择”)
-    width:"60%",        //宽度(可省略，默认值：850)
+    selections = [],
+    blockMap = {};
+setBlockMap();
+function setBlockMap(){
+    $.ajax({
+        url: rootPath + "/action/S_composite_BlockLevel_getAllBlocksZtree.action",
+        method:'post',
+        async :false,
+        dataType:"json",
+        success:function(data) {
+            $.each(data,function(k,v){
+                blockMap[v.id] = v.name;
+            })
+        }
+    });
 }
-var model = $.fn.MsgSend.init(2,options,function(e,data){
-    console.log(data);//回调函数，data为所选人员ID
-});*/
 $('#mapFrame').attr('width',$('#lookInMap').width()-180);
 $('#mapFrame').attr('height',$(window).height()-300);
 /**============grid 列表初始化相关代码============**/
@@ -67,7 +70,10 @@ function initTable() {
                 field: 'relateGrid',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function(value, row, index) {
+                    return blockMap[row.blockLevelId] + "-" +blockMap[row.blockId];
+                }
             },
             {
                 title: '污染源状态',

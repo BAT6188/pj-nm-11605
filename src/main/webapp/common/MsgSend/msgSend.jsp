@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </style>
 </head>
 <body>
+<div id="msgSendBoday"></div>
 <%--短信发送--%>
 <div id="selectOrgPeopleDialog">
     <div class="modal fade selectPeople" id="[Id]" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
@@ -43,19 +44,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <div class="Node-frame-menubar" style="height: 500px;">
                                 <div class="padd" style="padding-bottom: 0px;">
                                     <div class="input-append row-fluid" style="margin-bottom: 0px;">
-                                        <input type="text" placeholder="请输入搜索条件" class="span8 search_orgPeople" style="font-size:12px"/>
-                                        <button type="button" class="btn btn-info search_orgPeopleBtn">搜索</button>
+                                        <input type="text" id="[SearchOrgPeopleId]" placeholder="请输入搜索条件" class="span8" style="font-size:12px"/>
+                                        <button id="[SearchOrgPeopleBtnId]" type="button" class="btn btn-info">搜索</button>
                                     </div>
                                 </div>
-                                <div class="scrollContent" >
-                                    <ul class="ztree orgPeopleZtree"></ul>
+                                <div class="scrollContent" id="[ScrollContent]">
+                                    <ul id="[orgPeopleZtreeId]" class="ztree"></ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-9">
                             <div class="mainBox"  style="width: 100%">
                                 <div class="tableBox">
-                                    <table class="table table-striped table-responsive selectOrgPeopleTable">
+                                    <table id="[selectOrgPeopleTableId]" class="table table-striped table-responsive">
                                     </table>
                                 </div>
                             </div>
@@ -85,12 +86,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <div class="Node-frame-menubar"  style="height: 600px;">
                                 <div class="padd" style="padding-bottom: 0px;">
                                     <div class="input-append row-fluid" style="margin-bottom: 0px;">
-                                        <input type="text" placeholder="请输入搜索条件" class="span8 search_contacts" style="font-size:12px"/>
-                                        <button type="button" class="btn btn-info search_contactsBtn">搜索</button>
+                                        <input id="[SearchInputId]" type="text" placeholder="请输入搜索条件" class="span8 search_contacts" style="font-size:12px"/>
+                                        <button id="[SearchBtnId]" type="button" class="btn btn-info search_contactsBtn">搜索</button>
                                     </div>
                                 </div>
-                                <div class="scrollContent" >
-                                    <ul class="ztree contactsZtree"></ul>
+                                <div class="scrollContent" id="[ScrollContent]">
+                                    <ul id="[ChoseZtreeId]" class="ztree"></ul>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                             <div class="panel-heading">
                                                 <h3 class="panel-title" style="text-align: center">短信发送内容</h3>
                                             </div>
-                                            <textarea id="msgContents" class="form-control" rows="3" placeholder="请在这里填写需要发送短信的内容"></textarea>
+                                            <textarea id="[MsgContentsId]" class="form-control" rows="3" placeholder="请在这里填写需要发送短信的内容"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                             </div>
                                             <div class="mainBox">
                                                 <div class="tableBox">
-                                                    <table class="table table-striped table-responsive selectContactsTable">
+                                                    <table id="[SelectTableId]" class="table table-striped table-responsive selectContactsTable">
                                                     </table>
                                                 </div>
                                             </div>

@@ -447,6 +447,6 @@ function lookPlaneMap(){
         show:true,
         mode:"view",
         data:data,
-        attachmentId:pageUtils.findAttachment(enterpriseId,"planeMap")
+        attachments:pageUtils.findAttachment(enterpriseId,"planeMap")
     });
 }
