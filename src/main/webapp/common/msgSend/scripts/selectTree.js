@@ -1,15 +1,15 @@
-$('#search_orgPeople').keydown(function(event){
-    event=document.all?window.event:event;
-    if((event.keyCode || event.which)==13){
-        search_ztree('orgPeopleZtree', 'search_orgPeople');
-    }
-});
-$('#search_contacts').keydown(function(event){
-    event=document.all?window.event:event;
-    if((event.keyCode || event.which)==13){
-        search_ztree('contactsZtree', 'search_contacts');
-    }
-});
+/*$('#search_orgPeople').keydown(function(event){
+ event=document.all?window.event:event;
+ if((event.keyCode || event.which)==13){
+ search_ztree('orgPeopleZtree', 'search_orgPeople');
+ }
+ });
+ $('#search_contacts').keydown(function(event){
+ event=document.all?window.event:event;
+ if((event.keyCode || event.which)==13){
+ search_ztree('contactsZtree', 'search_contacts');
+ }
+ });*/
 /**
  * 展开树
  * @param treeId
@@ -22,9 +22,9 @@ function expand_ztree(treeId){
  * 收起树：只展开根节点下的一级节点
  * @param treeId
  */
-function close_ztree(treeId){
+function close_ztree(modalId,treeId){
     //var treeObj = $.fn.zTree.getZTreeObj(treeId);
-    var treeObj = MsgSend.tree;
+    var treeObj = MsgSend.tree[modalId];
     var nodes = treeObj.transformToArray(treeObj.getNodes());
     var nodeLength = nodes.length;
     for (var i = 0; i < nodeLength; i++) {
@@ -43,9 +43,9 @@ function close_ztree(treeId){
  * @param treeId
  * @param searchConditionId 文本框的id
  */
-function search_ztree(treeId, searchConditionId){
-    var treeObj = MsgSend.tree;
-    searchByFlag_ztree(treeId, searchConditionId, "");
+function search_ztree(modalId,treeId, searchConditionId){
+    var treeObj = MsgSend.tree[modalId];
+    searchByFlag_ztree(modalId,treeId, searchConditionId, "");
 }
 
 /**
@@ -54,10 +54,10 @@ function search_ztree(treeId, searchConditionId){
  * @param searchConditionId     搜索条件Id
  * @param flag                  需要高亮显示的节点标识
  */
-function searchByFlag_ztree(treeId, searchConditionId, flag){
-    var treeObj = MsgSend.tree;
+function searchByFlag_ztree(modalId,treeId, searchConditionId, flag){
+    var treeObj = MsgSend.tree[modalId];
     //<1>.搜索条件
-    var searchCondition = $('#' + searchConditionId).val();
+    var searchCondition = $('#'+modalId).find('#' + searchConditionId).val();
     //<2>.得到模糊匹配搜索条件的节点数组集合
     var highlightNodes = new Array();
     if (searchCondition != "") {
@@ -77,7 +77,7 @@ function searchByFlag_ztree(treeId, searchConditionId, flag){
         highlightNodes = null;
     }
     //<3>.高亮显示并展示【指定节点s】
-    highlightAndExpand_ztree(treeId, highlightNodes, flag);
+    highlightAndExpand_ztree(modalId,treeId, highlightNodes, flag);
 }
 
 /**
@@ -87,67 +87,67 @@ function searchByFlag_ztree(treeId, searchConditionId, flag){
  * @param flag           需要高亮显示的节点标识
  */
 var otherAddNode=null;
-function highlightAndExpand_ztree(treeId, highlightNodes, flag){
+function highlightAndExpand_ztree(modalId,treeId, highlightNodes, flag){
     //var treeObj = $.fn.zTree.getZTreeObj(treeId);
-    var treeObj = MsgSend.tree;
+    var treeObj = MsgSend.tree[modalId];
     if(otherAddNode!=null){
         treeObj.removeNode(otherAddNode);
         otherAddNode = null;
     }
     //<2>.收起树, 只展开根节点下的一级节点
-    close_ztree(treeId);
+    close_ztree(modalId,treeId);
     //<3>.把指定节点的样式更新为高亮显示，并展开
     var noFind = true;
-    $("#"+treeId).find("li").hide();
-    $("#"+treeId).find("a.highlight").removeClass('highlight');
+    var tree = $("#"+modalId).find("#"+treeId);
+    tree.find("li").hide();
+    tree.find("a.highlight").removeClass('highlight');
     if (highlightNodes!=null) {
         if(highlightNodes.length>0){
             for (var i = 0; i < highlightNodes.length; i++) {
                 var checkNode = highlightNodes[i];
                 if(checkNode.id!="false"){
                     noFind = false;
-                    $("#"+treeId).find("a#"+checkNode.tId+"_a").addClass('highlight');
+                    tree.find("a#"+checkNode.tId+"_a").addClass('highlight');
                     if(checkNode.isParent){
-                        expandChildNodes(treeId,checkNode,true);
+                        expandChildNodes(tree,treeId,checkNode,true);
                     }else{
-                        $("#"+treeId).find("li#"+checkNode.tId).show();
-                        expandParentNode(treeId,checkNode);
+                        tree.find("li#"+checkNode.tId).show();
+                        expandParentNode(tree,treeId,checkNode);
                     }
                 }
             }
         }
         if(noFind) otherAddNode=treeObj.addNodes(null, {id:"false",name:"未找到 "+flag,icon:"common/images/ztree/Button_warning_icon.png"})[0];
     }else{
-        $("#"+treeId).find("li").show();
+        tree.find("li").show();
     }
     treeObj.expandAll(true);
 }
-function expandParentNode(treeId,node){
+function expandParentNode(tree,treeId,node){
     var parentNode = node.getParentNode();
     if(parentNode!=null){
-        $("#"+treeId).find("li#"+parentNode.tId).show();
+        $(tree).find("li#"+parentNode.tId).show();
         if(parentNode.parentId!="-1"){
-            expandParentNode(treeId,parentNode);
+            expandParentNode(tree,treeId,parentNode);
         }
     }
 }
-function expandChildNodes(treeId,node,first){
-    $("#"+treeId).find("li#"+node.tId).show();
+function expandChildNodes(tree,treeId,node,first){
+    $(tree).find("li#"+node.tId).show();
     if(node.parentTId!=null){
-        if(first) expandParentNode(treeId,node);
+        if(first) expandParentNode(tree,treeId,node);
         if(node.children.length>0){
             for(var j=0;j<node.children.length;j++){
                 var childNode = node.children[j];
                 if(childNode.isParent){
-                    expandChildNodes(treeId,childNode,false);
+                    expandChildNodes(tree,treeId,childNode,false);
                 }else{
-                    $("#"+treeId).find("li#"+childNode.tId).show();
+                    $(tree).find("li#"+childNode.tId).show();
                 }
             }
         }
     }else{
-        console.log(node);
-        $("#"+treeId).find("li").show();
+        $(tree).find("li").show();
     }
 }
 /**
@@ -157,7 +157,6 @@ function getParentNodes_ztree(treeId, node){
     if (node != null) {
         //var treeObj = $.fn.zTree.getZTreeObj(treeId);
         var parentNode = node.getParentNode();
-        console.log(parentNode);
         return getParentNodes_ztree(treeId, parentNode);
     } else {
         return node;

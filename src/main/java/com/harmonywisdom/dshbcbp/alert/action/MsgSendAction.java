@@ -154,6 +154,8 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         if(iPerson!=null){
             ztreeObj.setId(iPerson.getPersonId());
             ztreeObj.setName(iPerson.getUserName());
+            ztreeObj.setUserId(iPerson.getUserId());
+            ztreeObj.setMobilePhone(iPerson.getMobile());
             String job = (String) iPerson.getExtattrMap().get("job");
             if(StringUtils.isNotBlank(job)){
                 ztreeObj.setJob(job);
