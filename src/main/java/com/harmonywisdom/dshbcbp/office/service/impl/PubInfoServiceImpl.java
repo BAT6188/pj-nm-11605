@@ -8,6 +8,8 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("pubInfoService")
 public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements PubInfoService {
     @Autowired
@@ -16,5 +18,15 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
     @Override
     protected BaseDAO<PubInfo, String> getDAO() {
         return pubInfoDAO;
+    }
+
+    /**
+     * 企业端查看信息公告
+     * @return
+     */
+    @Override
+    public List<PubInfo> companyByPower() {
+        List<PubInfo> pubInfos = getDAO().queryJPQL("from PubInfo where grade='5' ");
+        return pubInfos;
     }
 }

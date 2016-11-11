@@ -37,6 +37,7 @@ var pageUtils = {
     },
 
     toUrl:function (url) {
+        $("#level2content").html("");
         $("#level2content").load(url);
     },
     findAttachmentIds: function (businessId,attachmentType) {

@@ -114,12 +114,12 @@
                 <li><a href="javascript:;">其他环境信息</a></li>
             </ul>
         </div>
-        <div class="menuDiv">
-            <h3><a href="javascript:;">自查自报</a></h3>
-            <ul>
-                <li><a href="javascript:;">自查自报</a></li>
-            </ul>
-        </div>
+        <%--<div class="menuDiv">--%>
+            <%--<h3><a href="javascript:;">自查自报</a></h3>--%>
+            <%--<ul>--%>
+                <%--<li><a href="javascript:;">自查自报</a></li>--%>
+            <%--</ul>--%>
+        <%--</div>--%>
     </div>
     <div class="main-right right level3MenuContent">
         <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>

@@ -9,17 +9,17 @@ var subMenu = {
         {
             id:"0001",
             text:"首页",
-            url:""
+            url: rootPath+"/container/company/homePage/homePage.jsp"
         },
         {
             id:"0002",
             text:"预警及排污超标处理情况报送",
-            url:"/dshbcbp/container/company/warningExcessive/resPortStatusHistory.jsp"
+            url:rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp"
         },
         {
             id:"0003",
             text:"隐患自查自报",
-            url:"/dshbcbp/container/company/dangerInspection/dangerInspection.jsp"
+            url:rootPath+"/container/company/dangerInspection/dangerInspection.jsp"
         },
         {
             id:"0004",
@@ -29,7 +29,7 @@ var subMenu = {
         {
             id:"0005",
             text:"一企一档企业台账",
-            url:"/dshbcbp/container/company/companyAccount/mainEnterprise.jsp"
+            url:rootPath+"/container/company/companyAccount/mainEnterprise.jsp"
         }
     ]
 };
