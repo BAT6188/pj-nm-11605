@@ -163,6 +163,12 @@ public class PortStatusHistory implements Serializable {
     private String isNoTickling;
 
     /**
+     * 设备位置
+     */
+    @Column(name="EQUIPMENT_POSITION")
+    private String equipmentPosition;
+
+    /**
      * 附件
      **/
     @Transient
@@ -358,5 +364,13 @@ public class PortStatusHistory implements Serializable {
 
     public void setIsNoTickling(String isNoTickling) {
         this.isNoTickling = isNoTickling;
+    }
+
+    public String getEquipmentPosition() {
+        return equipmentPosition;
+    }
+
+    public void setEquipmentPosition(String equipmentPosition) {
+        this.equipmentPosition = equipmentPosition;
     }
 }

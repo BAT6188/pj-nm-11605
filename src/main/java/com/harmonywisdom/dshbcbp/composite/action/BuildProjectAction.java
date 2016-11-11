@@ -13,7 +13,6 @@ import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.annotation.AutoService;
-import com.harmonywisdom.framework.utils.ReflectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.NE,0));
         }
-        if (StringUtils.isNotBlank(entity.getBuildNature())) {
+            if (StringUtils.isNotBlank(entity.getBuildNature())) {
             param.andParam(new QueryParam("buildNature", QueryOperator.EQ,entity.getBuildNature()));
         }
         if (StringUtils.isNotBlank(entity.getArea())) {
@@ -101,20 +100,29 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
         }
+        if(StringUtils.isNotBlank(deleteId)){
+            projectAcceptanceService.deleteAcceptanceBuildProjectId(deleteId);
+        }
+        if(StringUtils.isNotBlank(deleteId)){
+            projectEIAService.deleteProjectEIABuildProjectId(deleteId);
+        }
         super.delete();
     }
 
-    public ProjectEIA getProjectEIAModel() {
-        ProjectEIA projectEIA = new ProjectEIA();
-        try {
-            Class var1 = ProjectEIA.class;
-            if((var1 = (Class) ReflectionUtils.getGenericClass(this.getClass())).getDeclaredConstructor(new Class[0]) != null) {
-                projectEIA = (ProjectEIA) var1.newInstance();
-            }
-        } catch (Exception var2) {
-            this.log.error("没有无参数的构造方法, 无法创建Entity实例", var2);
-        }
+    public  void findByName(){
+        String name=request.getParameter("name");
+        List<BuildProject> list=buildProjectService.findByName(name);
+        write(list);
+    }
 
-        return projectEIA;
+    public void findByBuildId(){
+        String projectId=request.getParameter("projectId");
+        List<ProjectEIA> list=buildProjectService.findEIAById(projectId);
+        write(list);
+    }
+    public void findAcceptanceBuildId(){
+        String projectId=request.getParameter("projectId");
+        List<ProjectAcceptance> list=buildProjectService.findAcceptanceById(projectId);
+        write(list);
     }
 }

@@ -139,8 +139,15 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         return port;
     }
 
-
-
+    /**
+     * 企业超标异常信息
+     * @return
+     */
+    @Override
+    public List<PortStatusHistory> companyByExcessive() {
+        List<PortStatusHistory> portStatusHistories = getDAO().queryJPQL("from PortStatusHistory where isNoTickling='2'");
+        return portStatusHistories;
+    }
 
 
 }

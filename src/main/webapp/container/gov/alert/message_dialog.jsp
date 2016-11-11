@@ -15,11 +15,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">消息列表</h4>
             </div>
-            <div class="modal-body" style="padding: 0;height: 240px;overflow-y: auto;">
-                <table class="table table-responsive">
+            <div class="modal-body" style="padding: 0;height: 265px;overflow-y: scroll;">
+                <table class="table table-responsive" style="margin-bottom: 0px;">
                     <tbody>
                         <%--<tr>
-                            <td><i class="panelList-icon mail-icon"></i></td>
                             <td><span>消息类型</span></td>
                             <td><span>消息标题</span></td>
                             <td><span>消息内容</span></td>
@@ -29,6 +28,7 @@
                         </tr>--%>
                     </tbody>
                 </table>
+                <div class="text-center more-link"><span>暂无消息</span></div>
             </div>
         </div>
     </div>

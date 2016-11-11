@@ -12,6 +12,8 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     @AutoService
     private PubInfoService pubInfoService;
@@ -70,5 +72,14 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    /**
+     * 企业查看信息公告
+     */
+    public void powerList(){
+        List<PubInfo> pubInfoList = pubInfoService.companyByPower();
+        write(pubInfoList);
+
     }
 }

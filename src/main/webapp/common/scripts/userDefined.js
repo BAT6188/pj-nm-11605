@@ -81,6 +81,7 @@ var pageUtils = {
     toUrl:function (url) {
         var isMainJsp = location.href.indexOf("main.jsp") > 0 ? true:false;
         if (isMainJsp){
+            $("#level2content").html("");
             $("#level2content").load(url);
         }else{
             //查找跳转页面的所在的主菜单
@@ -181,11 +182,6 @@ var pageUtils = {
             }
         });
     },
-    /**
-     * 过滤undefine字符
-     * @param str
-     * @returns {*}
-     */
     getStr:function (str) {
         if (str){
             return str;

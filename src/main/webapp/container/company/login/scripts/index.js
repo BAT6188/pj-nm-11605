@@ -1,7 +1,7 @@
 var mainMenu = [
     {
         code:"company",
-        text:"企业端"
+        text:"首页"
     }
 ];
 var subMenu = {
@@ -9,17 +9,17 @@ var subMenu = {
         {
             id:"0001",
             text:"首页",
-            url:""
+            url: rootPath+"/container/company/homePage/homePage.jsp"
         },
         {
             id:"0002",
             text:"预警及排污超标处理情况报送",
-            url:"/dshbcbp/container/company/warningExcessive/resPortStatusHistory.jsp"
+            url:rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp"
         },
         {
             id:"0003",
             text:"隐患自查自报",
-            url:"/dshbcbp/container/company/dangerInspection/dangerInspection.jsp"
+            url:rootPath+"/container/company/dangerInspection/dangerInspection.jsp"
         },
         {
             id:"0004",
@@ -29,7 +29,7 @@ var subMenu = {
         {
             id:"0005",
             text:"一企一档企业台账",
-            url:"/dshbcbp/container/company/companyAccount/mainEnterprise.jsp"
+            url:rootPath+"/container/company/companyAccount/mainEnterprise.jsp"
         }
     ]
 };
@@ -40,7 +40,7 @@ function loadMenu() {
     //加载一级主菜单
     for (var i = 0; i < mainMenu.length; i++) {
         var menu = mainMenu[i];
-        var li = $('<li data-main-code="' + menu.code + '"><a href="javascript:void(0);"><dl><dt><img src="' + rootPath + '/common/images/side-' + menu.code + '-icon.png" alt=""/></dt><dd>' + menu.text + '</dd></dl></a></li>');
+        var li = $('<li data-main-code="' + menu.code + '"><a href="javascript:void(0);"><dl><dt><img src="' + rootPath + '/common/images/company.ico" alt=""/></dt><dd>' + menu.text + '</dd></dl></a></li>');
         siderUl.append(li);
     }
     loadLevel2Menu(subMenu["company"]);

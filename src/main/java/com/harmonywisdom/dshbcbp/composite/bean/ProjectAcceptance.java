@@ -45,6 +45,29 @@ public class ProjectAcceptance implements Serializable {
      */
     @Column(name = "REPLY_ACC_OPINION",length = 100)
     private String replyAccOpinion;
+    /**
+     * 环评批复项目名称
+     */
+    @Column(name = "EIA_NAME_EIA",length = 100)
+    private String eiaNameEIA;
+    /**
+     * 环评批复单位
+     */
+    @Column(name = "EU_NAME_EIA",length = 100)
+    private String euNameEIA;
+
+    /**
+     * 环评批复文号
+     */
+    @Column(name = "REPLY_CODE_EIA",length = 100)
+    private String replyCodeEIA;
+
+    /**
+     * 环评批复时间
+     */
+    @Column(name = "REPLY_TIME_EIA",length = 100)
+    private String replyTimeEIA;
+
 
     @Transient
     public BuildProject buildProject;
@@ -112,5 +135,37 @@ public class ProjectAcceptance implements Serializable {
 
     public void setBuildProject(BuildProject buildProject) {
         this.buildProject = buildProject;
+    }
+
+    public String getEiaNameEIA() {
+        return eiaNameEIA;
+    }
+
+    public void setEiaNameEIA(String eiaNameEIA) {
+        this.eiaNameEIA = eiaNameEIA;
+    }
+
+    public String getEuNameEIA() {
+        return euNameEIA;
+    }
+
+    public void setEuNameEIA(String euNameEIA) {
+        this.euNameEIA = euNameEIA;
+    }
+
+    public String getReplyCodeEIA() {
+        return replyCodeEIA;
+    }
+
+    public void setReplyCodeEIA(String replyCodeEIA) {
+        this.replyCodeEIA = replyCodeEIA;
+    }
+
+    public String getReplyTimeEIA() {
+        return replyTimeEIA;
+    }
+
+    public void setReplyTimeEIA(String replyTimeEIA) {
+        this.replyTimeEIA = replyTimeEIA;
     }
 }

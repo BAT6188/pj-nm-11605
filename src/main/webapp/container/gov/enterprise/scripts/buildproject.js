@@ -22,7 +22,26 @@ function saveAjax(entity, callback) {
 //保存ajax请求
 function saveYs(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_BuildProject_saveYs.action",
+        url: rootPath + "/action/S_composite_ProjectAcceptance_save.action",
+        type: "post",
+        data: entity,
+        dataType: "json",
+        success: callback
+    });
+}
+function saveAcceptance(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_composite_ProjectAcceptance_update.action",
+        type: "post",
+        data: entity,
+        dataType: "json",
+        success: callback
+    });
+}
+//保存ajax请求
+function saveHp(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_composite_ProjectEIA_save.action",
         type: "post",
         data: entity,
         dataType: "json",
@@ -242,10 +261,16 @@ $("#search").click(function () {
     //查询之前重置table
     gridTable.bootstrapTable('resetSearch');
     var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh', {
-        query: jsonData
+    gridTable.bootstrapTable('refresh',{
+        query:jsonData
     });
 });
+
+$("#resetSearch").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
+});
+
 function getSerialize(form,type,allMap){
     var map={};
     var needSaves = $(form).find(type);
@@ -262,14 +287,21 @@ function getSerialize(form,type,allMap){
 var hp = hpform.easyform({
     success: function (ef) {
         var entity = hpform.find("form").formSerializeObject();
+        entity.id = $("#basedataId").val();
         entity.attachmentIds = getAttachmentIds();
         entity.enterpriseId = enterpriseId;
         entity.type = 1;
-        console.log("基本信息：")
-        console.log(getSerialize(hpform,'.basedata',entity));
-        console.log("环评信息：")
-        console.log(getSerialize(hpform,'.otherdata',entity));
+        // console.log("基本信息：")
+        // console.log(getSerialize(hpform,'.basedata',entity));
+        // console.log("环评信息：")
+        // console.log(getSerialize(hpform,'.otherdata',entity));
+        var hpxx=getSerialize(hpform,'.otherdata',entity);
+        hpxx.id = $("#idEIA").val();
+        console.log(hpxx);
         saveAjax(entity, function (msg) {
+            hpxx.projectId= msg.id;
+            saveHp(hpxx, function(msg){
+            });
             hpform.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
@@ -279,10 +311,18 @@ var hp = hpform.easyform({
 var ys = ysform.easyform({
     success: function (ef) {
         var entity = ysform.find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
+        entity.id = $("#basedataAccId").val();
+        entity.attachmentIds = getysAttachmentIds();
         entity.enterpriseId = enterpriseId;
         entity.type = 2;
-        saveYs(entity, function (msg) {
+        var ysxx=getSerialize(ysform,'.otherdata',entity);
+        ysxx.id = $("#idAcceptance").val();
+        console.log(ysxx);
+        saveAjax(entity, function (msg) {
+            var projectId=msg.id;
+             ysxx.projectId=msg.id;
+            saveYs(ysxx,function(msg){
+            });
             ysform.modal('hide');
             gridTable.bootstrapTable('refresh');
         });
@@ -324,9 +364,9 @@ function setFormData(entity) {
     /*其他信息设置*/
     var otherInputs = dataForm.find('.otherdata');
     if(otherData)setInputData(otherInputs,otherData);
-
     var id = entity.id;
     uploader = new qq.FineUploader(getUploaderOptions(id));
+    ysUploader = new qq.FineUploader(getYSUploaderOptions(id));
 }
 function setInputData(inputs,data){
     $.each(inputs, function (k, v) {
@@ -361,10 +401,20 @@ function setFormView(entity) {
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
     };
+    var fuOption = getYSUploaderOptions(entity.id);
+    fuOption.callbacks.onSessionRequestComplete = function () {
+        $("#ys-fine-uploader-gallery").find(".qq-upload-delete").hide();
+    };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
     $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text', '暂无上传的附件');
+
+    ysUploader = new qq.FineUploader(fuOption);
+    $(".qq-upload-button").hide();
+    $("#ys-fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text', '暂无上传的附件');
+
     dataForm.find("#ysSave").hide();
+    dataForm.find("#hpsave").hide();
     dataForm.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
@@ -381,41 +431,12 @@ function disabledForm(disabled) {
         dataForm.find('.form_date').datetimepicker('remove');
     }
 }
-
 //初始化日期组件
 $('.searchInput').datetimepicker({
     language: 'zh-CN',
     autoclose: 1,
     minView: 2
 });
-/*
-//初始化日期组件
-$('.end_Time').datetimepicker({
-    language: 'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#TimeContent').datetimepicker({
-    language: 'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#acceptTimeContent').datetimepicker({
-    language: 'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#replyTime_Content').datetimepicker({
-    language: 'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#replyTimeContent').datetimepicker({
-    language: 'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-*/
 /**
  * 重置表单
  */
@@ -423,59 +444,79 @@ function resetForm() {
     dataForm.find(".modal-title").html("新增" + formTitle);
     dataForm.find('form')[0].reset();
     uploader = new qq.FineUploader(getUploaderOptions());
+    ysUploader = new qq.FineUploader(getYSUploaderOptions());
     disabledForm(false);
     dataForm.find(".saveButton").show();
     dataForm.find(".btn-cancel").text("取消");
 }
 
-/*function setHPFormView(entity) {
-    setFormData(entity);
-    hpform.find(".form-title").text("查看" + hpformTitle);
-    hpdisabledForm(true);
-    var fuOptions = getUploaderOptions(entity.id);
-    fuOptions.callbacks.onSessionRequestComplete = function () {
-        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text', "");
-    };
-    uploader = new qq.FineUploader(fuOptions);
-    $(".qq-upload-button").hide();
-    hpform.find("#hpsave").hide();
-    hpform.find(".btn-cancel").text("关闭");
-}*/
-
-/**
- * 重置表单
- */
-/*function resetHPForm() {
-    hpform.find(".model-title").text("新增" + hpformTitle);
-    hpform.find("input[type!='radio'][type!='checkbox'],textarea").val("");
-    uploader = new qq.FineUploader(getUploaderOptions());
-    hpdisabledForm(false);
-}*/
-
-/*function hpdisabledForm(disabled) {
-    //hpform.find("input").attr("disabled", disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('.form_date').datetimepicker({
-            language: 'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        /!*$('#acceptTime').datetimepicker({
-            language: 'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });*!/
-    } else {
-        $('.form_date').datetimepicker('remove');
-        //$('#acceptTime').datetimepicker('remove');
-    }
-}*/
-
-
 //表单附件相关js
 var uploader;//附件上传组件对象
+var ysUploader;
+function getYSUploaderOptions(bussinessId) {
+    return {
+        element: document.getElementById("ys-fine-uploader-gallery"),
+        template: 'qq-template',
+        chunking: {
+            enabled: false,
+            concurrent: {
+                enabled: true
+            }
+        },
+        resume: {
+            enabled: false
+        },
+        retry: {
+            enableAuto: false,
+            showButton: false
+        },
+        failedUploadTextDisplay: {
+            mode: 'custom'
+        },
+        callbacks: {
+            onComplete: function (id, fileName, msg, request) {
+                ysUploader.setUuid(id, msg.id);
+            },
+            onDeleteComplete: function (id) {
+                var file = ysUploader.getUploads({id: id});
+                var removeIds = $("#removeId").val();
+                if (removeIds) {
+                    removeIds += ("," + file.uuid)
+                } else {
+                    removeIds = file.uuid;
+                }
+                $("#removeId").val(removeIds);
+            },
+            onAllComplete: function (succeed) {
+                var self = this;
+                $.each(succeed, function (k, v) {
+                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                });
+            }
+        },
+        request: {
+            endpoint: rootPath + '/Upload',
+            params: {
+                businessId: bussinessId
+            }
+        },
+        session: {
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+            params: {
+                businessId: bussinessId
+            }
+        },
+        deleteFile: {
+            enabled: true,
+            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+            method: "POST"
+        },
+        validation: {
+            itemLimit: 5
+        },
+        debug: true
+    };
+}
 /**
  * 获取上传组件options
  * @param bussinessId
@@ -560,6 +601,17 @@ function getAttachmentIds() {
     }
     return "";
 }
+function getysAttachmentIds() {
+    var attachments = ysUploader.getUploads();
+    if (attachments && attachments.length) {
+        var ids = [];
+        for (var i = 0; i < attachments.length; i++) {
+            ids.push(attachments[i].uuid);
+        }
+        return ids.join(",");
+    }
+    return "";
+}
 
 /**
  * 绑定下载按钮事件
@@ -568,6 +620,116 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath + "/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
-
+$("#ys-fine-uploader-gallery").on('click', '.qq-upload-download-selector', function () {
+    var uuid = ysUploader.getUuid($(this.closest('li')).attr('qq-file-id'));
+    window.location.href = rootPath + "/action/S_attachment_Attachment_download.action?id=" + uuid;
+});
+initZTree();
+/*初始化 树结构*/
+$(".scrollContent").slimScroll({
+    height:"100%",
+    railOpacity:.9,
+    alwaysVisible:!1
+});
+function initZTree(){
+    var treeCode = ['industryType'];
+    $.each(treeCode,function(k,v){
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "code",
+                    pIdKey: "parentCode",
+                    rootPId: -1
+                }
+            },
+            height:500,
+            width:200,
+            view: {
+                showLine: false
+            },
+            async: {
+                enable: true,
+                url:rootPath + "/S_dict_Dict_multipleList.action",
+                autoParam:["code"],
+                otherParam:{"code":v},
+                dataFilter: null
+            },
+            callback: {
+                onDblClick: function(event, treeId, treeNode){
+                    if(treeNode.check_Child_State == -1){
+                        $('#'+v).val(treeNode.name);
+                        $('#'+v+'ModalClose').trigger('click');
+                    }
+                }
+            }
+        };
+        var zTree = $.fn.zTree.init($('#'+v+'Tree'), setting);
+        $('#'+v+'ModalSure').click(function(){
+            var nodes = zTree.getSelectedNodes();
+            var selectNode = nodes[0];
+            if(selectNode.check_Child_State == -1){
+                $('#'+v).val(selectNode.name);
+                $('#'+v+'ModalClose').trigger('click');
+            }
+        })
+    })
+}
+var searInputs = ysform.find('.searchName');
+console.log(searInputs);
+$( function() {
+    searInputs.autocomplete({
+        select:function ( e, item) {
+            console.log(item.item.label);
+            console.log(item.item.value);
+            var projectId=item.item.value;
+            $.ajax({
+                url: rootPath + "/action/S_composite_BuildProject_findByBuildId.action",
+                dataType: "json",
+                type:'post',
+                data:{projectId:projectId},
+                success:function(msg){
+                    $('#eiaNameEIA').empty();
+                    $('#euNameEIA').empty();
+                    $('#replyCodeEIA').empty();
+                    $('#replyTimeEIA').empty();
+                    for( var i=0;i<msg.length;i++){
+                        console.log(msg[i].euName);
+                        console.log(msg[i].replyEIACode);
+                        console.log(msg[i].replyEIATime);
+                        $("#eiaNameEIA").val(item.item.label);
+                        $("#euNameEIA").val(msg[i].euName);
+                        $("#replyCodeEIA").val(msg[i].replyEIACode);
+                        $("#replyTimeEIA").val(msg[i].replyEIATime);
+                    }
+                }
+            });
+        },
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_composite_BuildProject_findByName.action",
+                dataType: "json",
+                type:'post',
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.length;i++){
+                        // console.log(data[i].name);
+                        var result = [];
+                        for(var i = 0; i <  data.length; i++) {
+                            var item = {
+                                label:data[i].name,
+                                value:data[i].id
+                            };
+                            result.push(item);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        }
+    } );
+} );
 
 

@@ -7,4 +7,5 @@ public interface ProjectAcceptanceService extends IBaseService<ProjectAcceptance
 
     //验收查询
     ProjectAcceptance findByBuildProjectId(String buildProjectId);
+    void deleteAcceptanceBuildProjectId(String projectId);
 }
