@@ -1,42 +1,17 @@
+//@ sourceURL=monitoring_station_office.js
 var gridTable = $('#table'),
-    removeBtn = $('#remove'),
-    updateBtn = $('#update'),
+    checkButton = $('#checkButton'),
     form = $("#demoForm"),
-    formTitle = "Demo",
+    formTitle = "委托监测",
     selections = [];
 
 
-
-//保存ajax请求
-function saveAjax(entity, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_demo_Demo_save.action",
-        type:"post",
-        data:entity,
-        dataType:"json",
-        success:callback
-    });
-}
-/**
- * 删除请求
- * @param ids 多个,号分隔
- * @param callback
- */
-function deleteAjax(ids, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_demo_Demo_delete.action",
-        type:"post",
-        data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
-        dataType:"json",
-        success:callback
-    });
-}
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_demo_Demo_list.action",
+        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action?module=monitoring_station_office",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -59,19 +34,54 @@ function initTable() {
                 visible:false
             },
             {
-                title: '名称',
-                field: 'name',
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: sendEvents,
+                formatter: function (value, row, index) {
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                }
+            },
+            {
+                title: '监测内容',
+                field: 'monitorContent',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '监测时间',
+                field: 'monitorTime',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '年龄',
-                field: 'age',
-                sortable: false,
-                align: 'center',
+                title: '申请人',
+                field: 'applicant',
                 editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '联系方式',
+                field: 'applicantPhone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'status',
+                title: '状态',
+                align: 'center',
                 formatter:function (value, row, index) {
+                    if (value>=5){
+                        value="已发送"
+                    }else {
+                        value="未发送"
+                    }
                     return value;
                 }
             },
@@ -93,10 +103,8 @@ function initTable() {
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
-        //有选中数据，启用删除按钮
-        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
-        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -107,16 +115,17 @@ function initTable() {
     });
 }
 
-// 生成列表操作方法
-function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
-}
 // 列表操作事件
-window.operateEvents = {
-    'click .view': function (e, value, row, index) {
-        setFormView(row);
+window.sendEvents = {
+    'click .send': function (e, value, row, index) {
+        setFormData(row);
     }
 };
+
+// 生成列表操作方法
+function operateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">反馈</button>';
+}
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -140,37 +149,39 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
-/**
- * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
- */
-$("#add").bind('click',function () {
-    resetForm();
-});
-$("#update").bind("click",function () {
-    setFormData(getSelections()[0]);
-});
-/**
- * 列表工具栏 删除按钮
- */
-removeBtn.click(function () {
-    var ids = getIdSelections();
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
-            return;
-        }
-        deleteAjax(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
-        });
-    });
+checkButton.prop('disabled', true);
+
+$("#checkButton").bind("click",function () {
+    var entity=getSelections()[0];
+
+    $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
+    $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+    $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+    $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+    $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+    $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+    $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+    $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+    $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+    $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+    $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+    $("#monitor").val(entity.monitor);
+    $("#monitorPhone").val(entity.monitorPhone);
+    $("#feedbackContent").val(entity.feedbackContent);
+
+    uploaderToggle(".bUploader")
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
 
 
 });
+
 
 
 
@@ -178,13 +189,18 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var name = $("#s_name").val();
-    var age = $("#s_age").val();
-    if (name){
-        queryParams["name"] = name;
+    var enterpriseName = $("#s_enterpriseName").val();
+    var start_monitorTime = $("#start_monitorTime").val();
+    var end_monitorTime = $("#end_monitorTime").val();
+
+    if (enterpriseName){
+        queryParams["enterpriseName"] = enterpriseName;
     }
-    if (age){
-        queryParams["age"] = age;
+    if (start_monitorTime){
+        queryParams["start_monitorTime"] = start_monitorTime;
+    }
+    if (end_monitorTime){
+        queryParams["end_monitorTime"] = end_monitorTime;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -203,58 +219,29 @@ $('.form_datetime').datetimepicker({
     showMeridian: 1
 });
 
-/**============表单初始化相关代码============**/
-
-//初始化表单验证
-var ef = form.easyform({
-    success:function (ef) {
-        var entity = $("#demoForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
-        saveAjax(entity,function (msg) {
-            form.modal('hide');
-            gridTable.bootstrapTable('refresh');
-        });
-    }
-});
-//绑定markDialog关闭事件
-MapMarkDialog.closed(function (mark) {
-    console.log(mark);
-    if (mark) {
-        $("#longitude").val(mark.x);
-        $("#latitude").val(mark.y);
-    }else{
-        Ewin.alert({message:"请选择坐标"});
-        return false;
-    }
-});
-$('#mapMarkBtn').bind('click', function () {
-    //设置标绘模式
-    MapMarkDialog.setMode("polygon");
-    MapMarkDialog.open();
-});
-
-//表单 保存按钮
-$("#save").bind('click',function () {
-    //验证表单，验证成功后触发ef.success方法保存数据
-    ef.submit(false);
-});
 /**
  * 设置表单数据
  * @param entity
  * @returns {boolean}
  */
 function setFormData(entity) {
-    resetForm();
-    if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
-    var id = entity.id;
-    $("#removeId").val("");
+    $("#demoForm").find("input").attr("disabled",true)
+    $("#demoForm").find("textarea").attr("disabled",true)
+    $("#demoForm").find("select").attr("disabled",true)
+    $("#id").attr("disabled",false);
     for(p in entity){
         var selector="#"+p
         $(selector).val(entity[p])
     }
 
-    uploader = new qq.FineUploader(getUploaderOptions(id));
+    uploaderToggle(".aUploader")
+    var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    };
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
 }
 function setFormView(entity) {
     setFormData(entity);
@@ -269,37 +256,6 @@ function setFormView(entity) {
     $(".qq-upload-button").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
-}
-function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
-    if (!disabled) {
-        //初始化日期组件
-        $('#createTimeContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
-
-}
-/**
- * 重置表单
- */
-function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
-    uploader = new qq.FineUploader(getUploaderOptions());
-    disabledForm(false);
-    form.find("#save").show();
-    form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
@@ -396,4 +352,11 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+$(document).ready(function () {
+    var optionsSetting={code:"orgId",name:"orgName"}
+    ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
+
+})
+
 

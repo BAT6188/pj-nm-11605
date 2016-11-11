@@ -204,16 +204,16 @@ var MessageDialog = function () {
         },
         getNewMsgCountByUserId:function (userId) {
             var messageCount;
-            $.ajax({
-                url:rootPath + "/action/S_alert_MessageTrace_getNewMsgCountByUserId.action",
-                type:"post",
-                async:false,
-                dataType:"json",
-                data:{"userId":userId},
-                success:function (result) {
-                    messageCount = result;
-                }
-            });
+            // $.ajax({
+            //     url:rootPath + "/action/S_alert_MessageTrace_getNewMsgCountByUserId.action",
+            //     type:"post",
+            //     async:false,
+            //     dataType:"json",
+            //     data:{"userId":userId},
+            //     success:function (result) {
+            //         messageCount = result;
+            //     }
+            // });
             return messageCount;
         },
         sendMsg:function () {
