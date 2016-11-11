@@ -50,6 +50,11 @@
         .content1{
             overflow-y: hidden;
         }
+        .ztree{
+            height:450px;
+        }
+
+
     </style>
     <script type="text/javascript">
         var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
@@ -134,7 +139,7 @@
                             <div class="panel-body1">
                                 <%--<div class="wrap">--%>
                                     <div class="menu-left left">
-                                        <div id="scrollContent" >
+                                        <div id="scrollContent" style="height:450px;">
                                             <ul id="enterpriseZTree" class="ztree"></ul>
                                         </div>
                                     </div>

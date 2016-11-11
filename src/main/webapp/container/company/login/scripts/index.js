@@ -1,7 +1,7 @@
 var mainMenu = [
     {
         code:"company",
-        text:"企业端"
+        text:"首页"
     }
 ];
 var subMenu = {
@@ -40,7 +40,7 @@ function loadMenu() {
     //加载一级主菜单
     for (var i = 0; i < mainMenu.length; i++) {
         var menu = mainMenu[i];
-        var li = $('<li data-main-code="' + menu.code + '"><a href="javascript:void(0);"><dl><dt><img src="' + rootPath + '/common/images/side-' + menu.code + '-icon.png" alt=""/></dt><dd>' + menu.text + '</dd></dl></a></li>');
+        var li = $('<li data-main-code="' + menu.code + '"><a href="javascript:void(0);"><dl><dt><img src="' + rootPath + '/common/images/company.ico" alt=""/></dt><dd>' + menu.text + '</dd></dl></a></li>');
         siderUl.append(li);
     }
     loadLevel2Menu(subMenu["company"]);
