@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
+import com.alibaba.fastjson.JSON;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.MeetingNotice;
@@ -49,6 +50,25 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
         if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        String id=request.getParameter("id");
+        if(id!=null){
+            MeetingNotice mn = meetingNoticeService.findByObjectId(id);
+            String[] ids = request.getParameterValues("ids");
+            String[] names= request.getParameterValues("names");
+            String jsonIds = JSON.toJSONString(ids);
+            String jsonNames = JSON.toJSONString(names);
+            entity.setId(id);
+            entity.setAddress(mn.getAddress());
+            entity.setContent(mn.getContent());
+            entity.setCreateTime(mn.getCreateTime());
+            entity.setIsSms(mn.getIsSms());
+            entity.setLinkMan(mn.getLinkMan());
+            entity.setLinkPhone(mn.getLinkPhone());
+            entity.setPubOrgId(mn.getPubOrgId());
+            entity.setPubOrgName(entity.getPubOrgName());
+            entity.setPersonIds(jsonIds);
+            entity.setPersonNames(jsonNames);
         }
         super.save();
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){

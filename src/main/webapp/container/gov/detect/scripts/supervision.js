@@ -157,13 +157,14 @@ function getSelections() {
         return row;
     });
 }
+
 initTable();
+
+
 var ztreeId;
 var ztreeName;
 var nextztreeid;
 var setting = {
-    height:800,
-    width:200,
     view: {
         showLine: true
     },
@@ -209,10 +210,21 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
 //点击节点事件
 var blockLevelId;
 function zTreeOnClick(event, treeId, treeNode) {
-    ztreeId=treeNode.id;
-    ztreeName=treeNode.name;
+    if(treeNode.isParent){
+        ztreeId=treeNode.id;
+        ztreeName=treeNode.name;
+    }else{
+        var treeObj = $.fn.zTree.getZTreeObj("ztree");
+        var sNodes = treeObj.getSelectedNodes();
+        if (sNodes.length > 0) {
+            var node = sNodes[0].getParentNode();
+            ztreeId=node.id;
+            ztreeName=node.name;
+        }
+    }
     selectZreeId();
-    gridTable.bootstrapTable('refresh');
+    zTreeOnSuccess();
+    // gridTable.bootstrapTable('refresh');
 }
 //右侧列表添加数据刷新zTree
 function zTreeOnSuccess(){
@@ -220,32 +232,59 @@ function zTreeOnSuccess(){
     var node = treeObj.getSelectedNodes();
     if (node.length>0) {
         var selectNode = node[0];
-        //. 重新异步加载当前选中的第一个节点
-        treeObj.reAsyncChildNodes(selectNode,"refresh");
+        if(selectNode.isParent){
+            //. 重新异步加载当前选中的第一个节点
+            treeObj.reAsyncChildNodes(selectNode,"refresh");
+        }
     }
+    gridTable.bootstrapTable('refresh')
 }
-    //
+
     function selectZreeId(){
         var treeObj = $.fn.zTree.getZTreeObj("ztree");
         var sNodes = treeObj.getSelectedNodes();
         //获得当前节点的下级节点
         if (sNodes.length > 0) {
-            //当前节点的前一个节点
+            //当前节点的前一个节点是子节点如果是子节点
             var node = sNodes[0].getPreNode();
-            if(node==null){
-                //当前节点
-                // selectTreeId=treeNode.id;
-                return null
-            }else{
-                //当前选中节点的前一个节点id
+            if(node !=null && node.isParent){
                 blockLevelId=node.id;
-                return blockLevelId
+                console.log(blockLevelId)
+            }else if(node==null){
+                var preNode = sNodes[0].getParentNode();
+                var childNode = preNode.getPreNode();
+                if(childNode==null){
+                    blockLevelId="";
+                }else{
+                    blockLevelId= childNode.id;
+                    console.log(blockLevelId)
+                }
+            }else if(node.isParent==false){
+                var preNode = node.getParentNode();
+                var childNode = preNode.getPreNode();
+                if(childNode==null){
+                    blockLevelId="";
+                }else{
+                    blockLevelId= childNode.id;
+                    console.log(blockLevelId)
+                }
+            }else if(node==null && node.isParent==false){
+                var preNode = node.getParentNode();
+                var childNode = preNode.getPreNode();
+                if(childNode==null){
+                    blockLevelId="";
+                }else{
+                    blockLevelId= childNode.id;
+                    console.log(blockLevelId)
+                }
             }
         }
+        return blockLevelId
     }
     //默认加载表单select赋值
     function BlockOption(blockLevelId) {
         if(blockLevelId==null){
+            $('#parentBlockId').find("option").remove();
             $('#parentBlockId').prop('disabled', true)
         }
         $.ajax({
@@ -254,8 +293,9 @@ function zTreeOnSuccess(){
             dataType:"json",
             data: {blockLevelId: blockLevelId},
             success: function (msg) {
+                $('#parentBlockId').empty();
+                $('#parentBlockId').prop('disabled', false);
                 for( var i=0;i<msg.length;i++){
-                    $('#parentBlockId').empty();
                     $('#parentBlockId').append("<option value='"+ msg[i].id +"'>" + msg[i].orgName +"</option>")
                 }
             }
@@ -288,9 +328,10 @@ removeBtn.click(function () {
                 field: 'id',
                 values: ids
             });
-            zTreeOnSuccess();
             removeBtn.prop('disabled', true);
+
         });
+        zTreeOnAsyncSuccess();
     });
 });
 /**============表单初始化相关代码============**/
@@ -367,6 +408,7 @@ function resetForm() {
 
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     BlockOption(blockLevelId);
     disabledForm(false);

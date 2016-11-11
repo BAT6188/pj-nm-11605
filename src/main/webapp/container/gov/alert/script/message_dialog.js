@@ -3,6 +3,7 @@ var MessageDialog = function () {
     var dialog= {
         _modal:$("#messageDialog"),
         _msgTableBody:$("#messageDialog").find(".modal-body table tbody"),
+        _moreLinkDiv:$("#messageDialog").find(".more-link"),
         _countElement:undefined,
         _refreshCountClock:undefined,
         REFRESH_DELAY:5000,
@@ -14,9 +15,9 @@ var MessageDialog = function () {
             dict.init('msg_type','msg_receive_status');
 
             that.modal("show.bs.modal", function () {
-                that.sendMsg();
+                //that.sendMsg();
                 //打开窗口前，刷新列表
-                that.loadMsgListToTable(that.getUserId());
+                that.loadMsgList(that.getUserId());
             });
             that.modal("shown.bs.modal", function () {
                 //打开窗口后，设置所有未消息为已读
@@ -86,45 +87,56 @@ var MessageDialog = function () {
                 });
             }
         },
-        loadMsgListToTable:function(userId,page) {
+        /**
+         * 加载消息列表
+         * @param userId
+         */
+        loadMsgList:function(userId) {
             var that = this;
-            //that.setLoadedMsgTraceList([]);
-            function loadMsgTraceToTable(msgTraceList){
-                if (msgTraceList && msgTraceList.length > 0) {
-                    for(var i =0; i < msgTraceList.length; i++) {
-                        that.addMsgToTable(msgTraceList[i]);
-                    }
-                    var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' class='text-center'>点击加载更多历史消息</a>");
-                    moreLink.bind("click",function () {
-                        that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
-                            loadMsgTraceToTable(historyMsgTraceList);
-                        });
-                    });
-                    that._msgTableBody.find("tr:last td").html(moreLink);
-                }else{
-                    that._msgTableBody.find("tr:last td").html("没有更多消息了");
-                }
-            }
-            //第一次载入未消息
+            //第一次加载未消息
             that.getUserMsgList(userId, function (newMsgTraceList) {
                 if (newMsgTraceList && newMsgTraceList.length >0) {
                     //如果有新消息清空列表只显示新消息
-                    that.setLoadedMsgTraceList([]);
-                    that._msgTableBody.html("");
-                    var moreLink = $("<tr><td colspan='6' class='text-center'><a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a></td></tr>");
-                    moreLink.bind("click",function () {
-                        that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
-                            loadMsgTraceToTable(historyMsgTraceList);
-                        });
-                    });
-                    that._msgTableBody.append(moreLink);
-
-                    loadMsgTraceToTable(newMsgTraceList);
+                    that.clearTable();
+                    that.updateMoreLink();
+                    that.addMsgTraceListToTable(newMsgTraceList);
                 }else{
-                    that.getUserHistoryMsgList(userId,loadMsgTraceToTable)
+                    that.getUserHistoryMsgList(userId,function (historyMsgList) {
+                        that.addMsgTraceListToTable(historyMsgList);
+                    })
                 }
 
             });
+        },
+        clearTable:function () {
+            this.setLoadedMsgTraceList([]);
+            this._msgTableBody.html("");
+        },
+        /**
+         * 添加消息数据到列表表格
+         * @param msgTraceList
+         */
+        addMsgTraceListToTable: function(msgTraceList){
+            var that = this;
+            if (msgTraceList && msgTraceList.length > 0) {
+                for(var i =0; i < msgTraceList.length; i++) {
+                    that.addMsgToTable(msgTraceList[i]);
+                }
+                that.updateMoreLink();
+            }else{
+                that._moreLinkDiv.html("没有更多消息了");
+            }
+        },
+        updateMoreLink:function () {
+            var that = this;
+            var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a>");
+            moreLink.bind("click",function () {
+                that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
+                    that.addMsgTraceListToTable(historyMsgTraceList);
+                });
+            });
+            that._moreLinkDiv.html("");
+            that._moreLinkDiv.append(moreLink);
         },
         getUserMsgList:function (userId,callback) {
             $.ajax({
@@ -174,20 +186,16 @@ var MessageDialog = function () {
                     '<td><span>'+that.filterUndefine(msg.title)+'</span></td>'+
                     '<td><span>'+that.filterUndefine(msg.content)+'</span></td>'+
                     '<td style="width: 140px;"><span>'+that.filterUndefine(msg.createTime)+'</span></td>'+
-                    '<td style="width: 80px;"><span class="text-danger">'+receiveStatusName+'</span></td>'+
+                    '<td style="width: 80px;"><span class="'+(unReceive?"text-danger":"")+'">'+receiveStatusName+'</span></td>'+
                     '<td><button type="button" class="btn btn-primary btn-sm btn-details" data-details-url="'+msg.detailsUrl+'">详情</button></td>'+
                     '</tr>';
                 var msgTr = $(msgTrHtml);
+                //绑定详情按钮click to跳转
                 msgTr.find(".btn-details").bind("click",function () {
                     var detailsUrl = $(this).data("details-url");
                     pageUtils.toUrl(rootPath+"/"+detailsUrl);
                 });
-                if (unReceive) {//未接收信息显示到表格开始
-                    that._msgTableBody.find("tr:first").before(msgTr);
-                }else{
-                    that._msgTableBody.find("tr:last").before(msgTr);
-                }
-
+                that._msgTableBody.append(msgTr);
                 that.pushToLoadedMsgTraceList(msgTrace);
             }else{
                 return false;
