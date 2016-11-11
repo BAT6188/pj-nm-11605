@@ -31,7 +31,8 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
     @Override
     public int getNewMsgCountByUserId(String userId) {
         if (StringUtils.isNotBlank(userId)) {
-            List result = getDAO().queryJPQL("select count(*) from MessageTrace where receiverId=?1 and receiveStatus=?2",userId,MessageTrace.RECEIVE_STATUS_UNRECEIVE);
+            List result = getDAO().queryNativeSQL("SELECT count(*) FROM HW_MESSAGE_TRACE t left join HW_MESSAGE m on t.MSG_ID = m.ID " +
+                    "where RECEIVER_ID=?1 and RECEIVE_STATUS=?2 and m.ALERT_TIME < ?3",userId,MessageTrace.RECEIVE_STATUS_UNRECEIVE, new Date());
             if (result != null && result.size() > 0) {
                 int msgCount = Integer.valueOf(result.get(0).toString());
                 return msgCount;
@@ -45,9 +46,9 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
     public List<MessageTrace> getNewMessagesByUserId(String userId) {
         if (StringUtils.isNotBlank(userId)) {
             List<MessageTrace> traces = getDAO().queryNativeSQL("select t.* from HW_MESSAGE_TRACE t left join HW_MESSAGE m " +
-                            "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and t.RECEIVE_STATUS=?2 order by m.CREATE_TIME desc",
+                            "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and t.RECEIVE_STATUS=?2 and m.ALERT_TIME < ?3 order by m.ALERT_TIME desc",
                     MessageTrace.class,
-                    userId, MessageTrace.RECEIVE_STATUS_UNRECEIVE);
+                    userId, MessageTrace.RECEIVE_STATUS_UNRECEIVE,new Date());
             //查询消息
             for (MessageTrace trace : traces) {
                 Message message = messageService.getMessageByTraceId(trace.getId());
@@ -61,12 +62,12 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
     }
 
     @Override
-    public List<MessageTrace> getHistoryByUserId(String userId, Date oldMsgCreateTime) {
+    public List<MessageTrace> getHistoryByUserId(String userId, Date oldMsgAlertTime) {
         if (StringUtils.isNotBlank(userId)) {
             List<MessageTrace> traces = getDAO().queryNativeSQL("select t.* from HW_MESSAGE_TRACE t left join HW_MESSAGE m " +
-                            "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and m.CREATE_TIME < ?2 order by m.CREATE_TIME desc limit 5",
+                            "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and m.ALERT_TIME < ?2 order by m.ALERT_TIME desc limit 5",
                     MessageTrace.class,
-                    userId,oldMsgCreateTime);
+                    userId,oldMsgAlertTime);
             //查询消息
             for (MessageTrace trace : traces) {
                 Message message = messageService.getMessageByTraceId(trace.getId());

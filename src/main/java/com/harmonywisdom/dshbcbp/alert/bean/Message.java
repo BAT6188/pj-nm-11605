@@ -69,6 +69,12 @@ public class Message implements Serializable {
     private String senderName;
 
     /**
+     * 提醒时间
+     */
+    @Column(name = "ALERT_TIME")
+    private Date alertTime;
+
+    /**
      * 系统创建时间
      */
     @Column(name = "CREATE_TIME")
@@ -129,5 +135,29 @@ public class Message implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public Date getAlertTime() {
+        return alertTime;
+    }
+
+    public void setAlertTime(Date alertTime) {
+        this.alertTime = alertTime;
     }
 }

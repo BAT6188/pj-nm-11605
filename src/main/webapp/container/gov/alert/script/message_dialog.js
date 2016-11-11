@@ -124,7 +124,13 @@ var MessageDialog = function () {
                 }
                 that.updateMoreLink();
             }else{
-                that._moreLinkDiv.html("没有更多消息了");
+                var loadedList = that.getLoadedMsgTraceList();
+                if (loadedList && loadedList.length > 0) {
+                    that._moreLinkDiv.html("没有更多消息了");
+                }else{
+                    that._moreLinkDiv.html("暂无消息");
+                }
+
             }
         },
         updateMoreLink:function () {
@@ -151,18 +157,18 @@ var MessageDialog = function () {
         },
         getUserHistoryMsgList:function (userId,callback) {
             var msgTraceList = this.getLoadedMsgTraceList();
-            var oldMsgCreateTime = "";//当前已显示的最旧一条消息id
+            var oldMsgAlertTime = "";//当前已显示的最旧一条消息id
             if (msgTraceList && msgTraceList.length > 0) {
                 var msg = msgTraceList[msgTraceList.length-1].message;
-                oldMsgCreateTime = msg.createTime;
+                oldMsgAlertTime = msg.alertTime;
             }else{
-                oldMsgCreateTime = new Date().format("yyyy-MM-dd hh:mm:ss");
+                oldMsgAlertTime = new Date().format("yyyy-MM-dd hh:mm:ss");
             }
             $.ajax({
                 url:rootPath + "/action/S_alert_MessageTrace_getHistoryByUserId.action",
                 type:"post",
                 dataType:"json",
-                data:{"userId":userId,"oldMsgCreateTime":oldMsgCreateTime},
+                data:{"userId":userId,"oldMsgAlertTime":oldMsgAlertTime},
                 success:function (msgTraceList) {
                     callback(msgTraceList);
                 }
@@ -185,7 +191,7 @@ var MessageDialog = function () {
                     '<td style="width: 80px;"><span>'+dict.get(dictCodeMsgType,msg.msgType)+'</span></td>'+
                     '<td><span>'+that.filterUndefine(msg.title)+'</span></td>'+
                     '<td><span>'+that.filterUndefine(msg.content)+'</span></td>'+
-                    '<td style="width: 140px;"><span>'+that.filterUndefine(msg.createTime)+'</span></td>'+
+                    '<td style="width: 140px;"><span>'+that.filterUndefine(msg.alertTime)+'</span></td>'+
                     '<td style="width: 80px;"><span class="'+(unReceive?"text-danger":"")+'">'+receiveStatusName+'</span></td>'+
                     '<td><button type="button" class="btn btn-primary btn-sm btn-details" data-details-url="'+msg.detailsUrl+'">详情</button></td>'+
                     '</tr>';

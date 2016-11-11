@@ -7,6 +7,7 @@
     <script>
         var menuCode = '${param.menuCode}';
         var subMenuId = '${param.subMenuId}';
+        var firsetLoad = true;
     </script>
     <title>东胜环保</title>
 </head>
