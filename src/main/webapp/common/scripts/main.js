@@ -8,6 +8,7 @@ pageUtils.loadMenu(function (mainMenu, subMenu) {
     }
     loadLevel2Menu(subMenu[menuCode]);
     siderUl.find("li").bind('click', function () {
+        firsetLoad = false;
         var mainMenuCode = $(this).attr("data-main-code");
         loadLevel2Menu(subMenu[mainMenuCode]);
     });
@@ -39,9 +40,10 @@ function loadLevel2Menu(subMenus) {
 
         });
         //加载第一个菜单
-        if (!subMenuId) {
+        var isUserClick = (!subMenuId || !firsetLoad);
+        if (isUserClick) {
             level2MenuUl.find("li:first").click();
-        }else{
+        }else{//指定菜单跳转
             level2MenuUl.find("li[data-menu-id='"+subMenuId+"']").click();
         }
 

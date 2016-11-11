@@ -9,7 +9,8 @@ var pageUtils = {
      * @param msg 消息内容 {'msgType':pageUtils.MSG_TYPE_SCHEDULE,
                             'title':'消息标题',
                             'content':'消息内容',
-                            businessId:业务数据id
+                            businessId:业务数据id,
+                            alertTime:"2016-11-11 11:15:04"  //可选：默认当前发送时间
                          }
      * @param receivers 接收人数组 item:{receiverId:userId,receiverName:userName}
      */

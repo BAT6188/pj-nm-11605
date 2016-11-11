@@ -53,7 +53,10 @@
         .ztree{
             height:450px;
         }
-
+        .menu-left{
+            margin-top: 7px;;
+            overflow-y:hidden;
+        }
 
     </style>
     <script type="text/javascript">

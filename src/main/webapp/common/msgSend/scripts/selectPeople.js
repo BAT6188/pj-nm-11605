@@ -41,11 +41,6 @@ MsgSend.tree = {};
                 });
                 options.timeId = timeId;
                 $('#msgSendBoday').append(content);
-                $('#sContent'+timeId).slimScroll({
-                    height:"100%",
-                    railOpacity:.9,
-                    alwaysVisible:!1
-                });
                 dialog = $('#selModel'+timeId);
                 treeObj=setDialogTypeOne(dialog,options,callback);
             }else{//短信发送
@@ -68,11 +63,6 @@ MsgSend.tree = {};
                 options.timeId = timeId;
                 options.params.findType="2";
                 $('#msgSendBoday').append(content);
-                $('#sContent'+timeId).slimScroll({
-                    height:"100%",
-                    railOpacity:.9,
-                    alwaysVisible:!1
-                });
                 dialog = $('#selModel'+timeId);
                 treeObj=setDialogTypeTwo(dialog,options,callback);
             }
@@ -118,7 +108,11 @@ function setDialogTypeOne(dialog,options,callback){
             dialog.modal('hide');
         });
     }
-
+    $('#sContent'+options.timeId).slimScroll({
+        height:"100%",
+        railOpacity:.9,
+        alwaysVisible:!1
+    });
     var setting = {
         height:500,
         width:200,
@@ -254,7 +248,7 @@ function setDialogTypeOne(dialog,options,callback){
     }
     var selectedId="";
     function zTreeOnClick(event, treeId, treeNode) {
-        if(treeNode.check_Child_State=="-1" && treeNode.id!="false"){
+        if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
             if(!options.choseMore && selectedId!=""){
                 jsMap.remove(selectedId);
                 gridSelectPeopleTable.bootstrapTable('removeAll');
@@ -327,7 +321,7 @@ function setDialogTypeTwo(dialog,options,callback){
         });
     }
 
-    $(".scrollContent").slimScroll({
+    $('#sContent'+options.timeId).slimScroll({
         height:"100%",
         railOpacity:.9,
         alwaysVisible:!1
@@ -488,7 +482,7 @@ function setDialogTypeTwo(dialog,options,callback){
     }
 
     function zTreeOnClick(event, treeId, treeNode) {
-        if(treeNode.check_Child_State=="-1" && treeNode.id!="false"){
+        if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
             appendToGrid(treeNode);
         }
     };

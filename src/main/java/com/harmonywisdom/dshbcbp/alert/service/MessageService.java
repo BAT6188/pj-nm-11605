@@ -22,5 +22,11 @@ public interface MessageService extends IBaseService<Message, String> {
      */
     Message getMessageByTraceId(String traceId);
 
+    /**
+     * 根据BusinessId删除消息
+     * @param ids
+     */
+    void deleteByBusinessId(String ...ids);
+
 
 }

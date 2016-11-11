@@ -145,6 +145,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
     public ZtreeObj coverToOrgPerson(IOrg iOrg, IPerson iPerson, Contacts contacts, String parentId){
         ZtreeObj ztreeObj = new ZtreeObj();
         if(iOrg!=null){
+            ztreeObj.setCouldChose(false);
             ztreeObj.setId(iOrg.getOrgId());
             ztreeObj.setParentId(parentId);
             ztreeObj.setName(iOrg.getOrgName());
@@ -152,6 +153,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             ztreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iOrg.getOrgName()));
         }
         if(iPerson!=null){
+            ztreeObj.setCouldChose(true);
             ztreeObj.setId(iPerson.getPersonId());
             ztreeObj.setName(iPerson.getUserName());
             ztreeObj.setUserId(iPerson.getUserId());
@@ -169,6 +171,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             }
         }
         if(contacts!=null){
+            ztreeObj.setCouldChose(true);
             ztreeObj.setId(contacts.getId());
             ztreeObj.setName(contacts.getName());
             ztreeObj.setJob(contacts.getPosition());
@@ -184,6 +187,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             }
         }
         if(iOrg == null && iPerson==null && contacts== null && StringUtils.isNotBlank(parentId)){
+            ztreeObj.setCouldChose(false);
             ztreeObj.setId("false");
             ztreeObj.setParentId(parentId);
             ztreeObj.setName("没有查询到相关人员");
