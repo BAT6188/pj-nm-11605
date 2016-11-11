@@ -53,8 +53,9 @@
         .ztree{
             height:450px;
         }
-        #scrollContent{
-            height:450px;
+        .menu-left{
+            margin-top: 7px;;
+            overflow-y:hidden;
         }
 
     </style>
