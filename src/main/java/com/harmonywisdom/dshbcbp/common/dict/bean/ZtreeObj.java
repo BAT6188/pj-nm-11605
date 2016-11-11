@@ -9,6 +9,8 @@ public class ZtreeObj {
 
     private String name;
 
+    private Boolean couldChose;
+
     private String job;
 
     private String parentId;
@@ -121,6 +123,14 @@ public class ZtreeObj {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Boolean getCouldChose() {
+        return couldChose;
+    }
+
+    public void setCouldChose(Boolean couldChose) {
+        this.couldChose = couldChose;
     }
 
     public ZtreeObj() {
