@@ -165,6 +165,14 @@ var MapMarkDialog = function () {
 
 }();
 /*//标注调用
+ MapMarkDialog.closed(function (mark) {
+     if (mark) {
+        $("#points").val(mark);
+     }else{
+         Ewin.alert({message:"请选择坐标"});
+         return false;
+     }
+ });
 MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
 MapMarkDialog.open();
 //标注查看调用
