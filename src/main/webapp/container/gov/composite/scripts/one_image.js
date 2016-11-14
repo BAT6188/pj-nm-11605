@@ -8,6 +8,7 @@ var OneImagePage = function () {
         DUSTPORT_FLAG: "DustPort",
         FUMESPORT_FLAG: "FumesPort",
         ENTERPRISE_FLAG: "Enterprise",
+        VILLAGEENV_FLAG: "VillageEnv",
         VIDEO_FLAG: "Video",
         CLOCK_DELAY:5000
     };
@@ -89,8 +90,20 @@ var OneImagePage = function () {
                         }else{//取消选择 清除数据
                             if (treeNode.isParent){//如果是主节点，清空对应的图层
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
+                                //如果是农村生态环境，删除相关联的摄像头图层
+                                if (treeNode.type == Constant.VILLAGEENV_FLAG) {
+                                    var villageNoes = treeNode.children;
+                                    for(var i = 0; i < villageNoes.length; i++) {
+                                        var vnode = villageNoes[i];
+                                        that.hwmap.removeLayer(vnode.id);
+                                    }
+                                }
                             }else{
                                 that.hwmap.removeOverlay(treeNode.id);//否清除对应的标绘
+                                //如果是农村生态环境，删除相关联的摄像头图层
+                                if (treeNode.type == Constant.VILLAGEENV_FLAG) {
+                                    that.hwmap.removeLayer(treeNode.id);
+                                }
                             }
                             that.hwmap.hideInfoWindow();
                         }
@@ -142,6 +155,11 @@ var OneImagePage = function () {
             that.zTree.checkNode(enode[0],true,true,true);
         },
 
+        /**
+         * 获取数据数据所有的id
+         * @param datas
+         * @returns {Array}
+         */
         getIds:function (datas) {
             var ids = [];
             for (var i = 0; i < datas.length; i++) {
@@ -207,7 +225,7 @@ var OneImagePage = function () {
             });
         },
         /**
-         * 加载刷新噪音排口 状态
+         * 刷新噪音排口 状态
          * 并更新地图显示排口图标 及弹窗显示
          */
         refreshNoisePortStatusToMap:function () {
@@ -231,7 +249,7 @@ var OneImagePage = function () {
         },
 
         /**
-         * 加载刷新噪音排口 最新状态
+         * 刷新噪音排口 最新状态
          * 并更新地图显示排口图标 及弹窗显示
          */
         refreshDustPortStatusToMap:function () {
@@ -1015,7 +1033,7 @@ var OneImagePage = function () {
         /**
          * 加载农村及摄像头
          */
-        loadVillageEnv:function (ids) {
+        loadVillageEnvToMap:function (ids) {
             var that = this;
             $.ajax({
                 url:rootPath + "/action/S_composite_VillageEnv_findByIds.action",
@@ -1028,7 +1046,7 @@ var OneImagePage = function () {
                             var village = result[i];
                             var videos = village.videos;
                             that.addVillageArea(village);
-                            that.addVideos(videos);
+                            that.addVideos(videos,village.id);
 
                         }
                     }
@@ -1079,14 +1097,14 @@ var OneImagePage = function () {
                 title:"农村生态环境"
             });
         },
-        addVideos: function (videos) {
+        addVideos: function (videos,villageId) {
             if (videos && videos.length > 0) {
                 for(var i = 0; i < videos.length; i++) {
-                    this.addVideo(videos[i]);
+                    this.addVideo(videos[i],villageId);
                 }
             }
         },
-        addVideo:function (video) {
+        addVideo:function (video,villageId) {
             var x = video.longitude;
             var y = video.latitude;
             if (!x || !y) {
@@ -1104,7 +1122,7 @@ var OneImagePage = function () {
                 click:function (gra) {
                     that.showVideoInfoWin(gra.data);
                 }
-            },this.MAP_LAYER_VILLAGE);
+            }, villageId);
         },
         showVideoInfoWin:function(video){
             var height =150;
