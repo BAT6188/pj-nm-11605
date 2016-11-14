@@ -83,7 +83,6 @@ $(function(){
         });
         $(".excess").bind('click', function () {
             // $("#myModal").modal("show");
-            // window.location.href="<%=request.getContextPath()%>/container/gov/office/pubinfo.jsp";
             var url = rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp";
             toUrl(url);
         });
