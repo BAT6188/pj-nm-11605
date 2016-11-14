@@ -295,7 +295,9 @@ function setFormData(entity) {
     });
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
+var thisEntity;
 function setFormView(entity) {
+    thisEntity = entity;
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
@@ -428,7 +430,7 @@ function makePlaneMap(){
         show:true,
         mode:"marker",
         data:data,
-        attachmentId:enterpriseData.planeMap,
+        attachments:pageUtils.findAttachment(enterpriseId,"planeMap"),
         callback:function (marker) {
             var str = JSON.stringify(marker);
             form.find('#planeMapMark').val(str);
@@ -445,6 +447,6 @@ function lookPlaneMap(){
         show:true,
         mode:"view",
         data:data,
-        attachmentId:enterpriseData.planeMap
+        attachments:pageUtils.findAttachment(enterpriseId,"planeMap")
     });
 }

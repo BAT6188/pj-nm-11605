@@ -11,10 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("messageService")
 public class MessageServiceImpl extends BaseService<Message, String> implements MessageService {
@@ -34,7 +31,12 @@ public class MessageServiceImpl extends BaseService<Message, String> implements 
         if (receivers == null || receivers.size() <= 0) {
             return;
         }
-        message.setCreateTime(new Date());
+        Date currentDate = new Date();
+        //提醒时间默认为当前时间
+        if (message.getAlertTime() != null) {
+            message.setAlertTime(currentDate);
+        }
+        message.setCreateTime(currentDate);
         getDAO().save(message);
         Set<MessageTrace> msgTracees = new HashSet<>();
         for (MessageTrace receiver : receivers) {
@@ -57,6 +59,15 @@ public class MessageServiceImpl extends BaseService<Message, String> implements 
             }
         }
         return null;
+    }
+
+    @Override
+    public void deleteByBusinessId(String... ids) {
+        if (ids == null || ids.length <= 0) {
+            return;
+        }
+        getDAO().executeJPQL("delete from MessageTrace where msgId in (select id from Message where businessId in ?1)", Arrays.asList(ids));
+        getDAO().executeJPQL("delete from Message where businessId in ?1", Arrays.asList(ids));
     }
 
 }

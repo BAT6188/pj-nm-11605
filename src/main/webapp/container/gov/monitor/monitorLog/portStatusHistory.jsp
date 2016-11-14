@@ -50,7 +50,7 @@
         <div class="mainBox">
             <div class="dealBox">
                 <div class="sideTitle left">
-                        <span class="blueMsg">
+                        <span class="blueMsg" onclick="testmodel.open()">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
@@ -109,5 +109,16 @@
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/monitor/monitorLog/scripts/portStatusHistory.js"></script>
+<%@include file="/common/msgSend/msgSend.jsp"%>
+<script>
+    var testoptions = {
+     choseMore:false,
+     title:"组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
+     width:"60%",        //宽度(可省略，默认值：850)
+     }
+     var testmodel = $.fn.MsgSend.init(1,testoptions,function(e,data){
+     console.log(data);//回调函数，data为所选人员ID
+     });
+</script>
 </body>
 </html>
