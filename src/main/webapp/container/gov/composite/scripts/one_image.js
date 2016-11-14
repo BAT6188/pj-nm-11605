@@ -572,7 +572,7 @@ var OneImagePage = function () {
         /**
          * 加载网格区域
          */
-        loadBlock:function (ids) {
+        loadBlockToMap:function (ids) {
             var that = this;
             $.ajax({
                 url:rootPath + "/action/S_composite_Block_findByIds.action",
