@@ -281,9 +281,14 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('.form_datetime').datetimepicker({
-    language:   'zh-CN',
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
     autoclose: 1,
-    minView: 2
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 /**
  * 按时间查询表单
