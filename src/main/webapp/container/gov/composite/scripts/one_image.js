@@ -146,13 +146,21 @@ var OneImagePage = function () {
          */
         selectAllMonitorNode:function () {
             var that = this;
-            //默认显示 噪声 沙尘暴排口和 企业
+            //默认显示 噪声
             var nnode = that.zTree.getNodesByParam("type",Constant.NOISEPORT_FLAG);
+            if(nnode[0]){
+                that.zTree.checkNode(nnode[0],true,true,true);
+            }
+            //沙尘暴排口
             var dnode = that.zTree.getNodesByParam("type",Constant.DUSTPORT_FLAG);
+            if(dnode[0]){
+                that.zTree.checkNode(dnode[0],true,true,true);
+            }
+            //企业
             var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
-            that.zTree.checkNode(nnode[0],true,true,true);
-            that.zTree.checkNode(dnode[0],true,true,true);
-            that.zTree.checkNode(enode[0],true,true,true);
+            if(enode[0]){
+                that.zTree.checkNode(enode[0],true,true,true);
+            }
         },
 
         /**
@@ -564,7 +572,7 @@ var OneImagePage = function () {
         /**
          * 加载网格区域
          */
-        loadBlock:function (ids) {
+        loadBlockToMap:function (ids) {
             var that = this;
             $.ajax({
                 url:rootPath + "/action/S_composite_Block_findByIds.action",

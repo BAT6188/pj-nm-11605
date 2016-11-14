@@ -276,14 +276,14 @@ function setDialogTypeTwo(dialog,options,callback){
                 Ewin.alert("请填写短信内容");
                 return;
             }
-            var ids = getIdsSelectionsFromGridSelectPeople();
-            if(ids.length==0){
+            var persons = getSelectPeoples();
+            if(persons.length==0){
                 Ewin.alert("请选择人员");
                 return;
             }
             var msg = $(dialog).find("#"+msgContentsId).val();
             var returnData = {
-                ids: ids,
+                personObj:persons,
                 info: msg,
                 sourceId: sourceId_msgSend
             };

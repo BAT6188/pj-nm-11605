@@ -35,7 +35,7 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
             param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
         if (StringUtils.isNotBlank(entity.getNumber())) {
-            param.andParam(new QueryParam("number", QueryOperator.EQ,entity.getNumber()));
+            param.andParam(new QueryParam("number", QueryOperator.LIKE,"%"+entity.getNumber()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,"%"+entity.getName()+"%"));

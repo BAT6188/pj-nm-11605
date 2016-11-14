@@ -16,6 +16,7 @@
         }
     </style>
     <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
         $('#orgDiv').prepend(pageUtils.loading());
         function setOrgDivView(thisObj){
             setShowColumnView(false);

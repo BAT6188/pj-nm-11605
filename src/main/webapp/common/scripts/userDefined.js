@@ -3,7 +3,7 @@ var pageUtils = {
     MSG_TYPE_MEETINGNOTICE:"2",
     MSG_TYPE_PUBINFO : "3",
     MSG_TYPE_POLLUTANTPAYMENT : "4",
-
+    FROM_HEIGHT:600,
     /**
      * 发送系统消息
      * @param msg 消息内容 {'msgType':pageUtils.MSG_TYPE_SCHEDULE,
@@ -137,9 +137,17 @@ var pageUtils = {
         //console.log($('.dealBox').outerHeight(true)+$('.banner').outerHeight(true)+$('.linear').outerHeight(true));
         return $(window).height() - $('.dealBox').outerHeight(true) - $('.banner').outerHeight(true)-$('.linear').outerHeight(true)-8;
     },
+    /**
+     * 获取表单高度
+     * @param fitHeight 无滚动条的高度
+     * @returns {number}
+     */
     getFormHeight:function (fitHeight) {
-        var screenHeight = $(window).height()-220;
-        return screenHeight>fitHeight?fitHeight:screenHeight;
+        if (fitHeight) {//和规定的表单高度比较，如果小于规定的高度使用，返回合适的高度，否则使用规定的高度
+            return fitHeight<this.FROM_HEIGHT?fitHeight:this.FROM_HEIGHT;
+        }else{
+            return this.FROM_HEIGHT;
+        }
     },
     /**
      * 转换bootstrapTable 参数为本地参数
