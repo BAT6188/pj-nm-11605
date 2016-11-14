@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label for="">同期对比：</label>
                             <div id="" class="input-group  date" >
-                                <input class="form-control" size="16" id="endtime"  type="text" style="border-radius:3px;" value="<%=strDate%>" readonly placeholder="请选择年份">
+                                <input class="form-control" size="16" id="endtime"  type="text" style="border-radius:3px;" value="<%=strDate%>" readonly placeholder="请选择年份" disabled>
                             </div>
                             -
                             <div id="datetimepicker2" class="input-group date form_datetimes" data-date="" data-date-format="yyyy" data-link-field="sendTime">

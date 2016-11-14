@@ -1,3 +1,4 @@
+//@ sourceURL=index.js
 var mainMenu = [
     {
         code:"company",
@@ -7,33 +8,47 @@ var mainMenu = [
 var subMenu = {
     "company":[
         {
-            id:"0001",
+            id:"1",
             text:"首页",
             url: rootPath+"/container/company/homePage/homePage.jsp"
         },
         {
-            id:"0002",
+            id:"2",
             text:"预警及排污超标处理情况报送",
             url:rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp"
         },
         {
-            id:"0003",
+            id:"3",
             text:"隐患自查自报",
             url:rootPath+"/container/company/dangerInspection/dangerInspection.jsp"
         },
         {
-            id:"0004",
+            id:"",
             text:"信息公告",
             url:""
         },
         {
-            id:"0005",
+            id:"5",
             text:"一企一档企业台账",
             url:rootPath+"/container/company/companyAccount/mainEnterprise.jsp"
         }
     ]
 };
 loadMenu();
+function toUrl(url){
+    var subMenuId = "";
+    for (var i = 0; i < subMenu["company"].length; i++) {
+        var sm = subMenu["company"][i];
+        if (sm.url && sm.url.indexOf(url) != -1) {
+            subMenuId = sm.id;
+        }
+    }
+    if (subMenuId) {
+        $("#level2Menu").find("li[data-menu-id='"+subMenuId+"']").click();
+    }else{
+        Ewin.alert("未找到地址");
+    }
+}
 function loadMenu() {
 
     var siderUl = $(".siderNav>ul");
@@ -56,12 +71,13 @@ function loadMenu() {
  * @param subMenus
  */
 function loadLevel2Menu(subMenus) {
+    debugger;
     var level2MenuUl = $("#level2Menu");
     if (subMenus && subMenus.length > 0) {
         level2MenuUl.html("");
         for(var i = 0; i < subMenus.length;i++) {
             var smenu = subMenus[i];
-            var li = $('<li data-url="'+smenu.url+'"><a href="javascript:void(0);" >'+smenu.text+'</a></li>');
+            var li = $('<li data-menu-id="'+smenu.id+'" data-url="'+smenu.url+'"><a href="javascript:void(0);" >'+smenu.text+'</a></li>');
             level2MenuUl.append(li);
         }
         //绑定事件
@@ -76,7 +92,12 @@ function loadLevel2Menu(subMenus) {
 
         });
         //加载第一个菜单
-        level2MenuUl.find("li:first").click();
+        var isUserClick = (!subMenuId || !firsetLoad);
+        if (isUserClick) {
+            level2MenuUl.find("li:first").click();
+        }else{//指定菜单跳转
+            level2MenuUl.find("li[data-menu-id='"+subMenuId+"']").click();
+        }
     }
 }
 $("#level2content").unbind("mouseleave");

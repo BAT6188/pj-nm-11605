@@ -1,5 +1,20 @@
 var gridTable = $('#table'),
-    selections = [];
+    selections = [],
+    blockMap = {};
+setBlockMap();
+function setBlockMap(){
+    $.ajax({
+        url: rootPath + "/action/S_composite_BlockLevel_getAllBlocksZtree.action",
+        method:'post',
+        async :false,
+        dataType:"json",
+        success:function(data) {
+            $.each(data,function(k,v){
+                blockMap[v.id] = v.name;
+            })
+        }
+    });
+}
 $('#mapFrame').attr('width',$('#lookInMap').width()-180);
 $('#mapFrame').attr('height',$(window).height()-300);
 /**============grid 列表初始化相关代码============**/
@@ -55,7 +70,13 @@ function initTable() {
                 field: 'relateGrid',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function(value, row, index) {
+                    var blockLevelName = blockMap[row.blockLevelId],blockName=blockMap[row.blockId];
+                    if(blockLevelName==undefined) blockLevelName = "未选择";
+                    if(blockName==undefined) blockName = "未选择";
+                    return  blockLevelName+ "-" +blockName;
+                }
             },
             {
                 title: '污染源状态',
