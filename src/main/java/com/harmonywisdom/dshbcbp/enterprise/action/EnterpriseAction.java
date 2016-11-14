@@ -57,8 +57,8 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getPollutantType())) {
             param.andParam(new QueryParam("pollutantType", QueryOperator.LIKE,"%"+entity.getPollutantType()+"%"));
         }
-        if (StringUtils.isNotBlank(entity.getOrgCode())) {
-            param.andParam(new QueryParam("orgCode", QueryOperator.LIKE,"%"+entity.getOrgCode()+"%"));
+        if (StringUtils.isNotBlank(entity.getPollutantLevel())) {
+            param.andParam(new QueryParam("pollutantLevel", QueryOperator.EQ,entity.getPollutantLevel()));
         }
         if (StringUtils.isNotBlank(entity.getSuperviseType())) {
             param.andParam(new QueryParam("superviseType", QueryOperator.EQ,entity.getSuperviseType()));
@@ -66,8 +66,8 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getArea())) {
             param.andParam(new QueryParam("area", QueryOperator.EQ,entity.getArea()));
         }
-        if (StringUtils.isNotBlank(entity.getIsSpecial())) {
-            param.andParam(new QueryParam("isSpecial", QueryOperator.EQ,entity.getIsSpecial()));
+        if (StringUtils.isNotBlank(entity.getStatus())) {
+            param.andParam(new QueryParam("status", QueryOperator.EQ,entity.getStatus()));
         }
         if (StringUtils.isNotBlank(entity.getHaveFumesPort())) {
             param.andParam(new QueryParam("haveFumesPort", QueryOperator.EQ,entity.getHaveFumesPort()));

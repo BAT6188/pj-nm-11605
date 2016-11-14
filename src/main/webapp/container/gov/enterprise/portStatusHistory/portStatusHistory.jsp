@@ -5,6 +5,7 @@
     <title>超标记录</title>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -24,8 +25,8 @@
                     <form class="form-horizontal" role="form" id="searchform">
                     <div class="form-inline">
                         <div class="form-group">
-                            <label for="snumber" class="labelMarginLeft">排口编号：</label><input type="text" id="snumber" name="number" class="form-control">
-                            <label for="sname" class="labelMarginLeft">排口名称：</label><input type="text" id="sname" name="name" class="form-control">
+                            <label for="snumber" class="labelMarginLeft">排口编号：</label><input type="text" id="snumber" name="portNumber" class="form-control">
+                            <label for="sname" class="labelMarginLeft">排口名称：</label><input type="text" id="sname" name="portName" class="form-control">
                         </div>
                     </div>
                     </form>

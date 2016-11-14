@@ -5,6 +5,7 @@
     <title>主要产品及规模</title>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>

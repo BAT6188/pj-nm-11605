@@ -72,7 +72,10 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter: function(value, row, index) {
-                    return blockMap[row.blockLevelId] + "-" +blockMap[row.blockId];
+                    var blockLevelName = blockMap[row.blockLevelId],blockName=blockMap[row.blockId];
+                    if(blockLevelName==undefined) blockLevelName = "未选择";
+                    if(blockName==undefined) blockName = "未选择";
+                    return  blockLevelName+ "-" +blockName;
                 }
             },
             {
