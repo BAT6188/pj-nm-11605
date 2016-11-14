@@ -529,6 +529,7 @@ HwmapCommon = {
         polyline.data = opt.data;
         this._addOverlay(polyline, layerId);
         if (options.callback) options.callback(polyline);
+        return polyline;
     },
     /**
      * 增加折线
@@ -801,6 +802,9 @@ HwmapCommon = {
      * height,
      * xOffset,
      * yOffset,
+     * autoExit,
+     * before,
+     * after,
      * callback,
      * click,
      * over
@@ -808,10 +812,14 @@ HwmapCommon = {
     dragPoint: function (options, layerId) {
         var that = this;
         that.preDragPoint(function (geometry) {
+            if (options.before) options.before();
             options.x = geometry.x;
             options.y = geometry.y;
-            that.addMarker(options, layerId);
-            that.pan();
+            var marker = that.addMarker(options, layerId);
+            if (!(options.autoExit === false)) {
+                that.pan();
+            }
+            if (options.after) options.after(marker);
         })
     },
     /**
@@ -832,15 +840,22 @@ HwmapCommon = {
      * lineType:dash,solid,
      * color,
      * opacity,
+     * autoExit,
+     * before,
+     * after,
      * callback,
      * click
      */
     dragLine: function (options, layerId) {
         var that = this;
         this.preDragLine(function (geometry) {
+            if (options.before) options.before();
             options.points = geometry;
-            that.addPolyline(options, layerId);
-            that.pan();
+            var polyline = that.addPolyline(options, layerId);
+            if (!(options.autoExit === false)) {
+                that.pan();
+            }
+            if (options.after) options.after(polyline);
         })
 
     },
@@ -884,6 +899,9 @@ HwmapCommon = {
      * lineType:dash,solid,
      * lineOpacity,
      * opacity,
+     * autoExit,
+     * before,
+     * after,
      * callback,
      * click,
      * @returns
@@ -891,9 +909,14 @@ HwmapCommon = {
     dragPolygon: function (options, layerId) {
         var that = this;
         this.preDragPolygon(function (geometry) {
+            if (options.before) options.before();
             options.points = geometry;
-            that.addPolygon(options, layerId);
-            that.pan();
+            var polygon = that.addPolygon(options, layerId);
+            if (!(options.autoExit === false)) {
+                that.pan();
+            }
+            if (options.after) options.after(polygon);
+
         })
     },
     /**

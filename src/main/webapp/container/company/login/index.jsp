@@ -10,6 +10,8 @@
     %>
     <script>
         var menuCode = '${param.menuCode}';
+        var subMenuId = '${param.subMenuId}';
+        var firsetLoad = true;
         var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
         console.log(enterpriseId);
     </script>
