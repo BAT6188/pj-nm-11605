@@ -71,7 +71,6 @@ function loadMenu() {
  * @param subMenus
  */
 function loadLevel2Menu(subMenus) {
-    debugger;
     var level2MenuUl = $("#level2Menu");
     if (subMenus && subMenus.length > 0) {
         level2MenuUl.html("");
