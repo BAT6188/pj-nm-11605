@@ -5,6 +5,15 @@
 
 $(function(){
 
+    loadPageInEnterprise('homePage/realMonitoring.jsp');
+
+    function loadPageInEnterprise(url){
+        var headUrl = rootPath +"/container/company/";
+        //$(".main-right").load(url);
+        $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
+        $('.level3MenuContent').load(headUrl+url); // ajax加载页面
+    }
+
     /**
      * 信息公告
      */
@@ -25,16 +34,16 @@ $(function(){
                         + "<td ><span>" + (result[i].title == null ? "" : result[i].title) + "</span></td>"
                         + "<td ><span>" + (result[i].pubTime == null ? "" : result[i].pubTime) + "</span></td>"
                         + "<td ><span>" + (result[i].pubOrgName == null ? "" : result[i].pubOrgName) + "</span></td>"
-                        + "<td ><span>" + '<button type="button" class="btn btn-md btn-warning view" id="select" >详情</button>' + "</span></td>"
+                        + "<td ><span>" + '<button type="button" class="btn btn-md btn-warning view information" id="select" >详情</button>' + "</span></td>"
                         + "</tr>";
                     var $tr = $(trHtml);
                     $("#tablegrid").append($tr);
                 }
-                $("#select").bind('click', function () {
+                $(".information").bind('click', function () {
                     // $("#myModal").modal("show");
                     // window.location.href="<%=request.getContextPath()%>/container/gov/office/pubinfo.jsp";
-                    var url = rootPath + "/container/company/warningExcessive/resPortStatusHistory.jsp";
-                    pageUtils.toUrl(url);
+                    var url = rootPath+"/container/company/dangerInspection/dangerInspection.jsp";
+                    toUrl(url);
                 });
 
             }
@@ -64,20 +73,21 @@ $(function(){
                         + "<td ><span>" + (result[i].equipmentPosition == null ? "" : result[i].equipmentPosition)+"</span></td>"
                         + "<td ><span>" + (result[i].realtimeData == null ? "" : result[i].realtimeData) + "</span></td>"
                         + "<td ><span>" + (result[i].maxValue == null ? "" : result[i].maxValue) + "</span></td>"
-                        + "<td ><span>" + '<button type="button" class="btn btn-md btn-warning view" id="viewBtn" >详情</button>' + "</span></td>"
+                        + "<td ><span>" + '<button type="button" class="btn btn-md btn-warning view excess" id="viewBtn" >详情</button>' + "</span></td>"
                         + "</tr>";
                     var $tr = $(trHtml);
                     $("#excessTable").append($tr);
                 }
-                $("#viewBtn").bind('click', function () {
-                    // $("#myModal").modal("show");
-                    // window.location.href="<%=request.getContextPath()%>/container/gov/office/pubinfo.jsp";
-                    var url = rootPath + "/container/company/warningExcessive/resPortStatusHistory.jsp";
-                    pageUtils.toUrl(url);
-                });
 
             }
         });
+        $(".excess").bind('click', function () {
+            // $("#myModal").modal("show");
+            // window.location.href="<%=request.getContextPath()%>/container/gov/office/pubinfo.jsp";
+            var url = rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp";
+            toUrl(url);
+        });
+
 
 
     }

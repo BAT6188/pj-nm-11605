@@ -1,4 +1,5 @@
 pageUtils.loadMenu(function (mainMenu, subMenu) {
+    debugger;
     var siderUl = $(".siderNav>ul");
     //加载一级主菜单
     for (var i = 0; i < mainMenu.length; i++) {

@@ -207,15 +207,15 @@
 <script src="<%=request.getContextPath()%>/container/company/homePage/scripts/homePage.js"></script>
 <script>
 
-    $(function(){
-        loadPageInEnterprise('homePage/realMonitoring.jsp');
-    });
-    function loadPageInEnterprise(url){
-        var headUrl = rootPath +"/container/company/";
-        //$(".main-right").load(url);
-        $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
-        $('.level3MenuContent').load(headUrl+url); // ajax加载页面
-    }
+//    $(function(){
+//        loadPageInEnterprise('homePage/realMonitoring.jsp');
+//    });
+//    function loadPageInEnterprise(url){
+//        var headUrl = rootPath +"/container/company/";
+//        //$(".main-right").load(url);
+//        $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
+//        $('.level3MenuContent').load(headUrl+url); // ajax加载页面
+//    }
 </script>
 
 </body>
