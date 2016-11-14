@@ -33,6 +33,12 @@ $(function(){
         $('.form_datetime2').datetimepicker('setEndDate', years+"-"+"01");
     });
 
+    $("#startTime").bind('change',function(){
+        var nowYear = $("#startTime").val();
+        $("#endtime").val(nowYear-1);
+
+    });
+
     $('.form_datetime2').datetimepicker({
         language:   'zh-CN',
         startView: 3,//月视图

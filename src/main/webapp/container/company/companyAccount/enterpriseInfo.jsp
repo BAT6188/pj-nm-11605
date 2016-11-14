@@ -479,9 +479,9 @@
                 <div class="form-group">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-2">
-                        <button id="saveForm" type="button" class="btn btn-success addBtn" style="display: none">保存</button>
-                        <button id="editForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>
-                        <button id="toEditForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>
+                        <%--<button id="saveForm" type="button" class="btn btn-success addBtn" style="display: none">保存</button>--%>
+                        <%--<button id="editForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>--%>
+                        <%--<button id="toEditForm" type="button" class="btn btn-success lookBtn" style="display: none">编辑</button>--%>
                     </div>
                     <div class="col-sm-2">
                         <button id="resetAddForm" type="button" class="btn btn-default addBtn" style="display: none">置空</button>

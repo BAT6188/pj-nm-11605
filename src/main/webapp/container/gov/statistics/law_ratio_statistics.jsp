@@ -13,6 +13,7 @@
     <%
         SimpleDateFormat format = new SimpleDateFormat("yyyy");
         String date= format.format(new Date());
+        int strDate = Integer.parseInt(date)-1;
     %>
     <title>执法同期对比分析</title>
     <style type="text/css">
@@ -46,7 +47,7 @@
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
                         <div class="form-group">
-                            <label for="">日期：</label>
+                            <label for="">日期<span style="color: #f00;">(与上一年同时期对比)</span>：</label>
                             <div id="datetimepicker1" class="input-group date form_datetime1" data-date="" data-date-format="yyyy-mm" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly placeholder="开始时间">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -80,12 +81,16 @@
                     <form class="form-inline">
                         <div class="form-group">
                             <label for="">同期对比：</label>
+                            <div id="" class="input-group  date" >
+                                <input class="form-control" size="16" id="endtime"  type="text" style="border-radius:3px;" value="<%=strDate%>" readonly placeholder="请选择年份">
+                            </div>
+                            -
                             <div id="datetimepicker2" class="input-group date form_datetimes" data-date="" data-date-format="yyyy" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="startTime"  type="text" value="<%=date%>" readonly placeholder="请选择年份">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            -
+
                             <button type="button" id="sbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>上半年</span></button>
                             <button type="button" id="xbYear" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>下半年</span></button>
                             <%--<div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">--%>
