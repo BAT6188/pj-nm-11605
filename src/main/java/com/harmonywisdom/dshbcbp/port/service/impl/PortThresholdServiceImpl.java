@@ -8,6 +8,8 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("portThresholdService")
 public class PortThresholdServiceImpl extends BaseService<PortThreshold, String> implements PortThresholdService {
     @Autowired
@@ -16,5 +18,17 @@ public class PortThresholdServiceImpl extends BaseService<PortThreshold, String>
     @Override
     protected BaseDAO<PortThreshold, String> getDAO() {
         return portThresholdDAO;
+    }
+
+    @Override
+    public void deleteByEnterprise(String enterpriseId) {
+        PortThreshold portThreshold = new PortThreshold();
+        portThreshold.setEnterpriseId(enterpriseId);
+        List<PortThreshold> portThresholds = portThresholdDAO.findBySample(portThreshold);
+        if(portThresholds.size()>0){
+            for(PortThreshold pt:portThresholds){
+                portThresholdDAO.remove(pt);
+            }
+        }
     }
 }

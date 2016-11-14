@@ -47,13 +47,6 @@ function initTable() {
             return temp;
         },
         columns: [
-            /*{
-                field: 'state',
-                checkbox: true,
-                align: 'center',
-                radio:false,  //  true 单选， false多选
-                valign: 'middle'
-            },*/
             {
                 field: 'opModule',
                 title: '操作模块',

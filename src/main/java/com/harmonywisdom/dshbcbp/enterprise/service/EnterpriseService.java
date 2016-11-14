@@ -65,4 +65,11 @@ public interface EnterpriseService extends IBaseService<Enterprise, String> {
     Map<String,Object> doLogin(String userName, String password);
 
     Enterprise getByUserName(String userName);
+
+    /**
+     * 删除企业
+     * @param enterpriseId
+     * @return
+     */
+    String delete(String enterpriseId);
 }
