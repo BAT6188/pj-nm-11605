@@ -230,6 +230,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.enterpriseId=enterpriseId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -244,14 +245,24 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('#createTimeContent').datetimepicker({
-    language:   'zh-CN',
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
     autoclose: 1,
-    minView: 2
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 $('#openDateContent').datetimepicker({
-    language:   'zh-CN',
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
     autoclose: 1,
-    minView: 2
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 /**
  * 设置表单数据
