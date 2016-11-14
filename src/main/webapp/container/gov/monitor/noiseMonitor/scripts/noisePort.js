@@ -21,7 +21,7 @@ function initMapBtn(){
     });
     $('#mapMarkBtn').bind('click', function () {
         //设置标绘模式
-        MapMarkDialog.setMode("point");
+        MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
         MapMarkDialog.open();
     });
 }
