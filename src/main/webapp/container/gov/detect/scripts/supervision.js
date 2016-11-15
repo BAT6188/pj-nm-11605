@@ -29,7 +29,6 @@ function deleteAjax(ids, callback) {
         dataType:"json",
         success:callback
     });
-    zTreeOnAsyncSuccess();
 }
 /**============grid 列表初始化相关代码============**/
 function initTable() {
@@ -93,7 +92,7 @@ function initTable() {
                     }else if(value==4){
                         value="四级网格"
                     }else{
-                        value=""
+                        value="东胜区"
                     }
                     return value
                 }
@@ -224,22 +223,18 @@ function zTreeOnClick(event, treeId, treeNode) {
     }
     selectZreeId();
     zTreeOnSuccess();
-    // gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refresh');
 }
 //右侧列表添加数据刷新zTree
 function zTreeOnSuccess(){
     var treeObj = $.fn.zTree.getZTreeObj("ztree");
     var node = treeObj.getSelectedNodes();
     if (node.length>0) {
-        var selectNode = node[0];
-        if(selectNode.isParent){
             //. 重新异步加载当前选中的第一个节点
-            treeObj.reAsyncChildNodes(selectNode,"refresh");
-        }
+            treeObj.reAsyncChildNodes( node[0],"refresh");
     }
-    gridTable.bootstrapTable('refresh')
 }
-
+    //获取选中节点ID
     function selectZreeId(){
         var treeObj = $.fn.zTree.getZTreeObj("ztree");
         var sNodes = treeObj.getSelectedNodes();
@@ -247,10 +242,11 @@ function zTreeOnSuccess(){
         if (sNodes.length > 0) {
             //当前节点的前一个节点是子节点如果是子节点
             var node = sNodes[0].getPreNode();
-            if(node !=null && node.isParent){
-                blockLevelId=node.id;
+            var preNode = sNodes[0].getParentNode();
+            if (node != null && node.isParent) {
+                blockLevelId = node.id;
                 console.log(blockLevelId)
-            }else if(node==null){
+            }else if(node != null && node.isParent==false){
                 var preNode = sNodes[0].getParentNode();
                 var childNode = preNode.getPreNode();
                 if(childNode==null){
@@ -259,27 +255,25 @@ function zTreeOnSuccess(){
                     blockLevelId= childNode.id;
                     console.log(blockLevelId)
                 }
-            }else if(node.isParent==false){
-                var preNode = node.getParentNode();
-                var childNode = preNode.getPreNode();
-                if(childNode==null){
-                    blockLevelId="";
+            }else if (node == null && sNodes[0].isParent) {
+                blockLevelId = "";
+                console.log(blockLevelId)
+            } else if (node == null && sNodes[0].isParent == false ) {
+                var preNode = sNodes[0].getParentNode();
+                if(preNode!=null){
+                    var childNode = preNode.getPreNode();
+                    if(childNode==null){
+                        blockLevelId="";
+                    }else{
+                        blockLevelId= childNode.id;
+                        console.log(blockLevelId)
+                    }
                 }else{
-                    blockLevelId= childNode.id;
-                    console.log(blockLevelId)
-                }
-            }else if(node==null && node.isParent==false){
-                var preNode = node.getParentNode();
-                var childNode = preNode.getPreNode();
-                if(childNode==null){
                     blockLevelId="";
-                }else{
-                    blockLevelId= childNode.id;
-                    console.log(blockLevelId)
                 }
             }
         }
-        return blockLevelId
+        return blockLevelId;
     }
     //默认加载表单select赋值
     function BlockOption(blockLevelId) {
@@ -329,9 +323,8 @@ removeBtn.click(function () {
                 values: ids
             });
             removeBtn.prop('disabled', true);
-
+            zTreeOnSuccess();
         });
-        zTreeOnAsyncSuccess();
     });
 });
 /**============表单初始化相关代码============**/
@@ -348,8 +341,8 @@ var ef = form.easyform({
         entity.parentBlockId=blockLevelId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
-            zTreeOnSuccess();
             gridTable.bootstrapTable('refresh');
+            zTreeOnSuccess();
         });
     }
 });
@@ -366,7 +359,6 @@ $("#save").bind('click',function () {
  * @returns {boolean}
  */
 function setFormData(entity) {
-    zTreeOnSuccess();
     resetForm();
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
@@ -508,3 +500,24 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+//地图标绘
+$(function(){
+    initMapBtn();
+});
+/*初始化标注按钮*/
+function initMapBtn(){
+    $('#mapMarkBtn').bind('click', function () {
+        //绑定markDialog关闭事件
+        MapMarkDialog.closed(function (mark) {
+            if (mark) {
+                $("#areaPoints").val(mark);
+            }else{
+                Ewin.alert({message:"请选择坐标"});
+                return false;
+            }
+        });
+        //设置标绘模式
+        MapMarkDialog.setMode("polygon");
+        MapMarkDialog.open();
+    })
+}

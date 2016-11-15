@@ -5,7 +5,7 @@ var gridTable = $('.tableTab'),
     updateBtn = $('#update'),
     form = $("#demoForm"),
     formTitle = "委托监测",
-    selections = []
+    selections = [],
     enterpriseSelf;
 
 
@@ -88,6 +88,12 @@ function initTable() {
                     }
                     return value;
                 }
+            },
+            {
+                field: 'monitoringStationPersonNameList',
+                title: '发送人',
+                align: 'center'
+
             }
 
         ]
@@ -102,6 +108,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        console.log(!(gridTable.bootstrapTable('getSelections').length== 1))//TODO 有个问题：两个tab标签引起的问题
 
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
@@ -240,12 +247,12 @@ var options = {
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
         type:2
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({personIds:data.personObj.id},true)
-    d+="&sourceId="+data.sourceId;
+    var d=pageUtils.sendParamDataToString(data)
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitoringStationPersonList.action",
@@ -260,7 +267,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 
 //表单 保存按钮
 $("#sendButton").bind('click',function () {
-    model.open(getIdSelections()[0])
+    model.open($("#id").val())
 });
 /**
  * 设置表单数据
@@ -450,13 +457,10 @@ var options_enterpriseSelfDialog = {
 }
 
 var model_enterpriseSelfDialog = $.fn.MsgSend.init(1,options_enterpriseSelfDialog,function(e,data){
-    console.log(data)
-    debugger
-    var d=$.param({personIds:data.personObj[0].id},true)
-    d+="&sourceId="+data.sourceId;
-    console.log("发送1："+d)
+    var d=pageUtils.sendParamDataToString(data)
+    console.log("发送："+d)
     $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor__saveToMonitoringStationPersonList.action",
+        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitoringStationPersonList.action",
         type:"post",
         data:d,
         success:function (msg) {
@@ -470,7 +474,6 @@ var model_enterpriseSelfDialog = $.fn.MsgSend.init(1,options_enterpriseSelfDialo
 });
 var ef = enterpriseSelfDialog.easyform({
     success:function (ef) {
-        debugger
         var entity = enterpriseSelfDialog.find("form").formSerializeObject();
         $.ajax({
             url: rootPath + "/action/S_exelaw_TrustMonitor_saveEnterpriseSelfData.action",

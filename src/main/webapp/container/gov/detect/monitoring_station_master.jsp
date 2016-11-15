@@ -188,6 +188,12 @@
 
                     </div>
                     <div class="form-group">
+                        <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="auditSuggestion" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>

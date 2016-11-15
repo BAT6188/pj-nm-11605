@@ -272,8 +272,23 @@ var options_sms = {
 }
 
 var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送第一个参数为2
-    console.log(data);//回调函数，data为所选人员ID
-    pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'短信发送数据',refTableId:''})
+    console.info("回调函数data参数："+JSON.stringify(data))
+
+    var d=$.param({ids:data.personObj.id},true)
+    d+=$.param({names:data.personObj.name},true)
+    d+="&sourceId="+data.sourceId;
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_MonitorCase_sendSms.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            gridTable.bootstrapTable('refresh');
+            pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'短信发送数据',refTableId:''})
+        }
+    });
+
+
 });
 
 /**============组织机构选择人员对话框============**/
@@ -287,15 +302,17 @@ var options = {
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({ids:data.personObj.id},true)
-    d+="&sourceId="+data.sourceId;
+    console.info("回调函数data参数："+JSON.stringify(data))
+
+    var d=pageUtils.sendParamDataToString(data)
+
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_dispatch_DispatchTask_save.action",
         type:"post",
         data:d,
         success:function (msg) {
-            eventMsgForm.modal('hide');
+            // eventMsgForm.modal('hide');
             gridTable.bootstrapTable('refresh');
             pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'发送数据',refTableId:''})
         }

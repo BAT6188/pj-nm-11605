@@ -17,17 +17,22 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <p>
-                        <label for="s_name">乡镇名称：</label> <input type="text" id="s_name" class="form-control" />
-                        <label for="s_principal">网格负责人：</label> <input type="text" id="s_principal" class="form-control" />
+                        <label for="s_name">乡镇名称：</label> <input type="text" id="s_name" class="form-control"/>
+                        <label for="s_principal">网格负责人：</label> <input type="text" id="s_principal"
+                                                                       class="form-control"/>
                     </p>
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i
+                        class="btnIcon query-icon"></i><span>查询</span></button>
+                <button type="button" class="btn btn-default" onclick="resetQuery()"><i
+                        class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
+                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                            data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal"
+                            data-target="#scfForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
@@ -46,7 +51,8 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,7 +71,8 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="address" class="col-sm-2 control-label">所属区域<span class="text-danger">*</span>：</label>
+                        <label for="address" class="col-sm-2 control-label">所属区域<span
+                                class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="address" name="address" class="form-control"
                                    data-message="所属区域不能为空"
@@ -74,14 +81,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="principal" class="col-sm-2 control-label">网格负责人<span class="text-danger">*</span>：</label>
+                        <label for="principal" class="col-sm-2 control-label">网格负责人<span
+                                class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="principal" name="principal" class="form-control"
                                    data-message="网格负责人不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="principalPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <label for="principalPhone" class="col-sm-2 control-label">联系方式<span
+                                class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="principalPhone" id="principalPhone" name="principalPhone" class="form-control"
                                    data-message="联系方式不能为空"
@@ -90,31 +99,33 @@
                         </div>
                     </div>
                     <div class="form-group">
-                            <label for="points" class="col-sm-2 control-label">位置标绘<span class="text-danger">*</span>：</label>
+                        <label for="points" class="col-sm-2 control-label">位置标绘<span
+                                class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                        <textarea  id="points" name="points" class="form-control" rows="3"></textarea>&nbsp;&nbsp;&nbsp;
+                                <textarea id="points" name="points" class="form-control" rows="3"></textarea>&nbsp;&nbsp;&nbsp;
                                 <span class="input-group-btn">
-						<button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
-                            标注
-                        </button>
-					</span>
+                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                                        标注
+                                    </button>
+					            </span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="col-sm-2 control-label">农村环境详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea  id="description" name="description" class="form-control" rows="5"
-                                       data-message="农村环境详情不能为空"
-                                       data-easytip="position:top;class:easy-red;"
+                            <textarea id="description" name="description" class="form-control" rows="5"
+                                      data-message="农村环境详情不能为空"
+                                      data-easytip="position:top;class:easy-red;"
                             ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
-                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp"
+                                         flush="false"></jsp:include>
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
@@ -127,7 +138,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="lookVideo" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="lookVideo" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" style="width: 96%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -137,28 +149,28 @@
             <div class="content content1 clearfix">
                 <jsp:include page="/container/gov/detect/video.jsp" flush="true"></jsp:include>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
-            </div>
+                    <%--<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>--%>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-<%@include file="/common/gis/map_mark.jsp"%>
+</div>
+<%@include file="/common/gis/map_mark.jsp" %>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/villageenv.js"></script>
 <script>
-    $(function(){
+    $(function () {
         initMapBtn();
     });
     /*初始化标注按钮*/
-    function initMapBtn(){
+    function initMapBtn() {
         $('#mapMarkBtn').bind('click', function () {
             //设置标绘模式
             //绑定markDialog关闭事件
             MapMarkDialog.closed(function (mark) {
                 if (mark) {
                     $("#points").val(mark);
-                }else{
-                    Ewin.alert({message:"请选择坐标"});
+                } else {
+                    Ewin.alert({message: "请选择坐标"});
                     return false;
                 }
             });

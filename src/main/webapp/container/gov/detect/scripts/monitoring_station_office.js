@@ -84,7 +84,14 @@ function initTable() {
                     }
                     return value;
                 }
-            }
+            },
+            {
+                title: '发送人',
+                field: 'monitoringStationMasterPersonNameList',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
 
         ]
     });
@@ -229,12 +236,12 @@ var options = {
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
         type:2
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({personIds:data.personObj.id},true)
-    d+="&sourceId="+data.sourceId;
+    var d=pageUtils.sendParamDataToString(data)
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitoringStationMasterPersonList.action",
