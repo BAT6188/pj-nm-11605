@@ -128,7 +128,7 @@ $(function(){
             highchart1.hide();
             highchart2.hide();
             highchart.show();
-            getColumnRatio(name,startXdate,lastXdate,startSdate,lastSdate);
+            getColumnRatio(name,lastXdate,lastSdate,startSdate,lastSdate);
         }
 
     }
@@ -196,7 +196,7 @@ $(function(){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnRatio.action",
             type:'post',
-            data:{name:name,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
+            data:{name:name,startSdate:startSdate,lastSdate:lastSdate},
             dataType:'json',
             success:function(data) {
                 var categories = data.x;
@@ -219,57 +219,74 @@ $(function(){
                 var preValue1 = [];//定义对应月份为0的一组数据
                 var preValue2 = [];//定义对应月份为0的一组数据
 
-                var startMonth= startXdate.substring(0,7);
-                var strStartMonth = startMonth.replace('-','');
-
-                var endMonth= lastXdate.substring(0,7);
-                var strEndMonth= endMonth.replace('-','');
-
-                var startYear = startXdate.substring(0,4);
-                var endYear = lastXdate.substring(0,4);
-                if(startYear == endYear){
-                    for(var i = strStartMonth; i <= strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        var j = i.substr(0,4);
-                        var n = parseInt(j) + 1;
-                        var m = n + "-"+i.substr(4,2);
-                        var h = "(" + k + ")" + "-" + "(" + m + ")";
-                        preMonth.push(h);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                }else{
-                    var startTime = startYear + '12';
-                    var firstTime = endYear +'01';
-                    for(var i=strStartMonth;i<=startTime;i++){
-                        // i = i + "";
-                        // var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        // preMonth.push(k);
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        var j = i.substr(0,4);
-                        var n = parseInt(j) + 1;
-                        var m = n + "-"+i.substr(4,2);
-                        var h = "(" + k + ")" + "-" + "(" + m + ")";
-                        preMonth.push(h);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                    for(var i=firstTime; i<=strEndMonth; i++){
-                        // i = i + "";
-                        // var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        // preMonth.push(k);
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        var j = i.substr(0,4);
-                        var n = parseInt(j) + 1;
-                        var m = n + "-"+i.substr(4,2);
-                        var h = "(" + k + ")" + "-" + "(" + m + ")";
-                        preMonth.push(h);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
+                // var startMonth= startXdate.substring(0,7);
+                // var strStartMonth = startMonth.replace('-','');
+                //
+                // var endMonth= lastXdate.substring(0,7);
+                // var strEndMonth= endMonth.replace('-','');
+                //
+                // var startYear = startXdate.substring(0,4);
+                // var endYear = lastXdate.substring(0,4);
+                // if(startYear == endYear){
+                //     for(var i = strStartMonth; i <= strEndMonth; i++){
+                //         i = i + "";
+                //         var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                //         var j = i.substr(0,4);
+                //         var n = parseInt(j) + 1;
+                //         var m = n + "-"+i.substr(4,2);
+                //         var h = "(" + k + ")" + "-" + "(" + m + ")";
+                //         preMonth.push(h);
+                //         preValue1.push(0);
+                //         preValue2.push(0);
+                //     }
+                // }else{
+                //     var startTime = startYear + '12';
+                //     var firstTime = endYear +'01';
+                //     for(var i=strStartMonth;i<=startTime;i++){
+                //         // i = i + "";
+                //         // var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                //         // preMonth.push(k);
+                //         i = i + "";
+                //         var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                //         var j = i.substr(0,4);
+                //         var n = parseInt(j) + 1;
+                //         var m = n + "-"+i.substr(4,2);
+                //         var h = "(" + k + ")" + "-" + "(" + m + ")";
+                //         preMonth.push(h);
+                //         preValue1.push(0);
+                //         preValue2.push(0);
+                //     }
+                //     for(var i=firstTime; i<=strEndMonth; i++){
+                //         // i = i + "";
+                //         // var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                //         // preMonth.push(k);
+                //         i = i + "";
+                //         var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                //         var j = i.substr(0,4);
+                //         var n = parseInt(j) + 1;
+                //         var m = n + "-"+i.substr(4,2);
+                //         var h = "(" + k + ")" + "-" + "(" + m + ")";
+                //         preMonth.push(h);
+                //         preValue1.push(0);
+                //         preValue2.push(0);
+                //     }
+                // }
+                var startMonth = startSdate.substring(5, 7);
+                if (startMonth < 10) {
+                    var sMonth = startMonth.substring(1)
+                } else {
+                    sMonth = startMonth;
+                }
+                var endMonth = lastSdate.substring(5, 7);
+                if (endMonth < 10) {
+                    var lasMonth = endMonth.substring(1);
+                } else {
+                    lasMonth = endMonth
+                }
+                for (var i = parseInt(sMonth); i <= parseInt(lasMonth); i++) {
+                    preMonth.push(i);
+                    preValue1.push(0);
+                    preValue2.push(0);
                 }
                 var month = categories;//后台取出的2组数据
                 var value = ylist;
@@ -290,7 +307,6 @@ $(function(){
 
                     }
                 }
-
                 var series1 = {name: "去年超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
                 var series2 = {name: "当前年份超标次数", color: '#FF8800', data: preValue2};
                 series.push(series1);
@@ -304,7 +320,7 @@ $(function(){
        $.ajax({
            url:rootPath + "/action/S_port_PortStatusHistory_getColumnRatio.action",
            type:'post',
-           data:{name:name,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
+           data:{name:name,startSdate:startSdate,lastSdate:lastSdate},
            dataType:'json',
            success:function(data) {
                var categories = data['x'];
@@ -313,40 +329,71 @@ $(function(){
                    name:"超标次数:(次)",
                    data:[]
                }];
-
                var preMonth = [];//定义查询月份的数组
                var preValue = [];//定义对应月份为0的一组数据
 
-               var startMonth= startXdate.substring(0,7);
-               var strStartMonth = startMonth.replace('-','');
-
-               var endMonth= lastXdate.substring(0,7);
-               var strEndMonth= endMonth.replace('-','');
-
-               var startYear = startXdate.substring(0,4);
-               var endYear = lastXdate.substring(0,4);
-               if(startYear == endYear){
-                   for(var i = strStartMonth; i <= strEndMonth; i++){
-                       i = i + "";
-                       var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                       preMonth.push(k);
-                       preValue.push(0);
-                   }
+               // var startMonth= startSdate.substring(0,7);
+               // var strStartMonth = startMonth.replace('-','');
+               //
+               // var endMonth= lastSdate.substring(0,7);
+               // var strEndMonth= endMonth.replace('-','');
+               //
+               // var startYear = startSdate.substring(0,4);
+               // var endYear = lastSdate.substring(0,4);
+               // if(startYear == endYear){
+               //     for(var i = strStartMonth; i <= strEndMonth; i++){
+               //         i = i + "";
+               //         var k = i.substr(0, 4)+"-"+i.substr(4,2);
+               //         preMonth.push(k);
+               //         preValue.push(0);
+               //     }
+               // }else{
+               //     var startTime = startYear + '12';
+               //     var firstTime = endYear +'01';
+               //     for(var i=strStartMonth;i<=startTime;i++){
+               //         i = i + "";
+               //         var k = i.substr(0, 4)+"-"+i.substr(4,2);
+               //         preMonth.push(k);
+               //         preValue.push(0);
+               //     }
+               //     for(var i=firstTime; i<=strEndMonth; i++){
+               //         i = i + "";
+               //         var k = i.substr(0, 4)+"-"+i.substr(4,2);
+               //         preMonth.push(k);
+               //         preValue.push(0);
+               //     }
+               // }
+               // console.log(preMonth);
+               // console.log(preValue);
+               // var month = categories;//后台取出的2组数据
+               // var value = series1;
+               // if(month && month.length>0){
+               //     for(var i = 0; i < month.length;i++){
+               //         var n = month[i];
+               //         var m = n.substr(11,7);
+               //         for (var j = 0; j < preMonth.length; j++){
+               //             if (m == preMonth[j]) {
+               //                 preValue[j] = value[i];
+               //             }
+               //         }
+               //     }
+               // }
+               var startMonth= startSdate.substring(5,7);
+               if(startMonth < 10){
+                   var sMonth = startMonth.substring(1)
                }else{
-                   var startTime = startYear + '12';
-                   var firstTime = endYear +'01';
-                   for(var i=strStartMonth;i<=startTime;i++){
-                       i = i + "";
-                       var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                       preMonth.push(k);
-                       preValue.push(0);
-                   }
-                   for(var i=firstTime; i<=strEndMonth; i++){
-                       i = i + "";
-                       var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                       preMonth.push(k);
-                       preValue.push(0);
-                   }
+                   sMonth = startMonth;
+               }
+               var endMonth= lastSdate.substring(5,7);
+               if(endMonth <10){
+                   var lasMonth = endMonth.substring(1);
+               }else{
+                   lasMonth = endMonth
+               }
+
+               for(var i =  parseInt(sMonth); i <=  parseInt(lasMonth); i++){
+                   preMonth.push(i);
+                   preValue.push(0);
                }
                console.log(preMonth);
                console.log(preValue);
@@ -354,8 +401,7 @@ $(function(){
                var value = series1;
                if(month && month.length>0){
                    for(var i = 0; i < month.length;i++){
-                       var n = month[i];
-                       var m = n.substr(1,7);
+                       var m = month[i];
                        for (var j = 0; j < preMonth.length; j++){
                            if (m == preMonth[j]) {
                                preValue[j] = value[i];
@@ -381,7 +427,7 @@ $(function(){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnRatio.action",
             type:'post',
-            data:{name:name,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
+            data:{name:name,startSdate:startSdate,lastSdate:lastSdate},
             dataType:'json',
             success:function(data) {
                 var categories = data['x'];
@@ -393,36 +439,22 @@ $(function(){
 
                 var preMonth = [];//定义查询月份的数组
                 var preValue = [];//定义对应月份为0的一组数据
-                var startMonth= startSdate.substring(0,7);
-                var strStartMonth = startMonth.replace('-','');
-
-                var endMonth= lastSdate.substring(0,7);
-                var strEndMonth= endMonth.replace('-','');
-
-                var startYear = startSdate.substring(0,4);
-                var endYear = lastSdate.substring(0,4);
-                if(startYear == endYear){
-                    for(var i = strStartMonth; i <= strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue.push(0);
-                    }
+                var startMonth= startSdate.substring(5,7);
+                if(startMonth < 10){
+                    var sMonth = startMonth.substring(1)
                 }else{
-                    var startTime = startYear + '12';
-                    var firstTime = endYear +'01';
-                    for(var i=strStartMonth;i<=startTime;i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue.push(0);
-                    }
-                    for(var i=firstTime; i<=strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue.push(0);
-                    }
+                    sMonth = startMonth;
+                }
+                var endMonth= lastSdate.substring(5,7);
+                if(endMonth <10){
+                    var lasMonth = endMonth.substring(1);
+                }else{
+                    lasMonth = endMonth
+                }
+
+                for(var i =  parseInt(sMonth); i <=  parseInt(lasMonth); i++){
+                    preMonth.push(i);
+                    preValue.push(0);
                 }
                 console.log(preMonth);
                 console.log(preValue);
@@ -430,8 +462,7 @@ $(function(){
                 var value = series1;
                 if(month && month.length>0){
                     for(var i = 0; i < month.length;i++){
-                        var n = month[i];
-                        var m = n.substr(11,7);
+                        var m = month[i];
                         for (var j = 0; j < preMonth.length; j++){
                             if (m == preMonth[j]) {
                                 preValue[j] = value[i];
@@ -456,7 +487,7 @@ $(function(){
 
 
     //线状图获取后台数据
-    function getLineRatio(name,startXdate,lastXdate,startSdate,lastSdate){
+    function  getLineRatio(name,startXdate,lastXdate,startSdate,lastSdate){
         // var categories = ["1月","2月","3月","4月","5月","6月"];
         // var series = [];
         //
@@ -467,7 +498,7 @@ $(function(){
         $.ajax({
             url:rootPath + "/action/S_port_PortStatusHistory_getColumnRatio.action",
             type:'post',
-            data:{name:name,startXdate:startXdate,lastXdate:lastXdate,startSdate:startSdate,lastSdate:lastSdate},
+            data:{name:name,startSdate:startSdate,lastSdate:lastSdate},
             dataType:'json',
             success:function(data) {
                 var categories = data.x;
@@ -489,60 +520,22 @@ $(function(){
                 var preMonth = [];//定义查询月份的数组
                 var preValue1 = [];//定义对应月份为0的一组数据
                 var preValue2 = [];//定义对应月份为0的一组数据
-                var startMonth= startXdate.substring(0,7);
-                var strStartMonth = startMonth.replace('-','');
-
-                var endMonth= lastXdate.substring(0,7);
-                var strEndMonth= endMonth.replace('-','');
-
-                var startYear = startXdate.substring(0,4);
-                var endYear = lastXdate.substring(0,4);
-                if(startYear == endYear){
-                    for(var i = strStartMonth; i <= strEndMonth; i++){
-                        // i = i + "";
-                        // var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        // preMonth.push(k);
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        var j = i.substr(0,4);
-                        var n = parseInt(j) + 1;
-                        var m = n + "-"+i.substr(4,2);
-                        var h = "(" + k + ")" + "-" + "(" + m + ")";
-                        preMonth.push(h);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                }else{
-                    var startTime = startYear + '12';
-                    var firstTime = endYear +'01';
-                    for(var i=strStartMonth;i<=startTime;i++){
-                        // i = i + "";
-                        // var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        // preMonth.push(k);
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        var j = i.substr(0,4);
-                        var n = parseInt(j) + 1;
-                        var m = n + "-"+i.substr(4,2);
-                        var h = "(" + k + ")" + "-" + "(" + m + ")";
-                        preMonth.push(h);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                    for(var i=firstTime; i<=strEndMonth; i++){
-                        // i = i + "";
-                        // var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        // preMonth.push(k);
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        var j = i.substr(0,4);
-                        var n = parseInt(j) + 1;
-                        var m = n + "-"+i.substr(4,2);
-                        var h = "(" + k + ")" + "-" + "(" + m + ")";
-                        preMonth.push(h);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
+                var startMonth = startSdate.substring(5, 7);
+                if (startMonth < 10) {
+                    var sMonth = startMonth.substring(1)
+                } else {
+                    sMonth = startMonth;
+                }
+                var endMonth = lastSdate.substring(5, 7);
+                if (endMonth < 10) {
+                    var lasMonth = endMonth.substring(1);
+                } else {
+                    lasMonth = endMonth
+                }
+                for (var i =  parseInt(sMonth); i <=  parseInt(lasMonth); i++) {
+                    preMonth.push(i);
+                    preValue1.push(0);
+                    preValue2.push(0);
                 }
                 var month = categories;//后台取出的2组数据
                 var value = ylist;
@@ -563,8 +556,8 @@ $(function(){
 
                     }
                 }
-                var series1 = {name: "去年超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
-                var series2 = {name: "当前年份超标次数", color: '#FF8800', data: preValue2};
+                var series1 = {name: "上一年超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
+                var series2 = {name: "当前年超标次数", color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
                 loadLineChart(preMonth, series,startSdate,lastSdate);
@@ -595,13 +588,6 @@ $(function(){
                     depth: 70
                 }
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
-            },
             title: {
                 text: titleSub
             },
@@ -625,6 +611,9 @@ $(function(){
                 title: {
                     text: '超标次数(次)'
                 }
+            },
+            exporting: {
+                enabled:false
             },
             tooltip: {
                 headerFormat: '<small>{point.key}月</small><table>',
@@ -667,6 +656,9 @@ $(function(){
                     showInLegend: true
                 }
             },
+            exporting: {
+                enabled:false
+            },
             tooltip: {
                 shared: true,
                 useHTML: true,
@@ -675,13 +667,6 @@ $(function(){
                 '<td style="text-align: right"><b>{point.y} 次</b></td></tr>',
                 footerFormat: '</table>',
                 valueDecimals: 0
-            },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
             },
             series:  series
         });
@@ -718,6 +703,9 @@ $(function(){
                     showInLegend: true
                 }
             },
+            exporting: {
+                enabled:false
+            },
             tooltip: {
                 shared: true,
                 useHTML: true,
@@ -727,13 +715,7 @@ $(function(){
                 footerFormat: '</table>',
                 valueDecimals: 0
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
-            },
+
             series:  series
         });
 
@@ -760,13 +742,6 @@ $(function(){
                     depth: 70
                 }
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
-            },
             title: {
                 text: titleSub
             },
@@ -790,6 +765,9 @@ $(function(){
                 title: {
                     text: '超标次数(次)'
                 }
+            },
+            exporting: {
+                enabled:false
             },
             tooltip: {
                 headerFormat: '<small>{point.key}月</small><table>',

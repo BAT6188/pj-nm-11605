@@ -478,12 +478,8 @@ $(function(){
                     depth: 70
                 }
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
+            exporting: {
+                enabled:false
             },
             title: {
                 text: titleSub
@@ -559,12 +555,8 @@ $(function(){
                 footerFormat: '</table>',
                 valueDecimals: 0
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
+            exporting: {
+                enabled:false
             },
             series:  series
         });
@@ -608,12 +600,8 @@ $(function(){
                 footerFormat: '</table>',
                 valueDecimals: 0
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
+            exporting: {
+                enabled:false
             },
             series:  series
         });
@@ -640,12 +628,8 @@ $(function(){
                     depth: 70
                 }
             },
-            lang:{
-                downloadJPEG: "下载JPEG 图片",
-                downloadPDF: "下载PDF文档",
-                downloadPNG: "下载PNG 图片",
-                downloadSVG: "下载SVG 矢量图",
-                exportButtonTitle: "导出图片"
+            exporting: {
+                enabled:false
             },
             title: {
                 text: titleSub
