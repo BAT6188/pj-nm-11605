@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.port.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.port.bean.AirQuality;
 import com.harmonywisdom.dshbcbp.port.dao.AirQualityDAO;
 import com.harmonywisdom.dshbcbp.port.service.AirQualityService;
@@ -31,11 +32,18 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
         String url="http://110.19.109.61:9875/15DayAirQualityChangeCity.aspx?action=GetData";
         try {
             String result = HttpClientUtil.httpOrHttpsGet(url);
-            System.out.println(result);
-            List<Map<String, Object>> ls = JSON.parseObject(result, new TypeReference<List<Map<String, Object>>>() {});
+            List<Map<String, String>> ls = JSON.parseObject(result, new TypeReference<List<Map<String, String>>>() {});
+            for (Map<String, String> map : ls) {
+                String rec_time = map.get("Rec_Time");
+                String aqi_24H = map.get("AQI_24H");
+                AirQuality airQuality=new AirQuality();
+                airQuality.setAirValue(Integer.valueOf(aqi_24H));
+                airQuality.setRec_Time(DateUtil.strToDate(rec_time,"yyyy/MM/dd HH:mm:ss"));
+                save(airQuality);
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("通过接口每15天查询空气质量指数get15DayAQI方法报错",e);
         }
 
     }
