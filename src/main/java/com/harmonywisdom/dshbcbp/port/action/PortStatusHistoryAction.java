@@ -156,7 +156,7 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
 
         Map<String,Object> result = new HashMap<>();
 
-        List<Object[]> list = portStatusHistoryService.findColumnRatio(name,startXdate,lastXdate,startSdate,lastSdate);
+        List<Object[]> list = portStatusHistoryService.findColumnRatio(name,startSdate,lastSdate);
         if (list != null && list.size() > 0) {
             Object[] xlist = new Object[list.size()];
             Object[] y1list = new Object[list.size()];

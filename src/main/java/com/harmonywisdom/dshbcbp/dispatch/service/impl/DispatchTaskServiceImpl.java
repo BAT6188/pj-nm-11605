@@ -38,20 +38,15 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
         }else if(lawType != null && !"".equals(lawType)) {
             whereSql += "AND source = '" + lawType + "'";
         }
-//        } else if( firstTime !=null && !"".equals(firstTime)){
-//            whereSql += " AND DATE_FORMAT(event_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'";
-//        } else if(lastTime != null && !"".equals(lastTime)) {
-//            whereSql += "AND DATE_FORMAT(event_time,'%Y-%m-%d') >= '" + firstTime + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'";
-//        }
         whereSql += "GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*) FROM `hw_dispatch_task` where DATE_FORMAT(event_time,'%Y-%m-%d') >= '" + firstTime +"' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,\n" +
+                "(SELECT COUNT(*) FROM `hw_dispatch_task` t0 WHERE DATE_FORMAT(t0.event_time,'%m') = DATE_FORMAT(t.event_time,'%m')) AS yjf\n" +
+                "FROM `hw_dispatch_task` t WHERE DATE_FORMAT(event_time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(event_time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
         return list;
     }
 
     /**
      * 执法同期对比分析获取数据
-     * @param startXdate
-     * @param lastXdate
      * @param startSdate
      * @param lastSdate
      * @param name
@@ -59,53 +54,32 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
      * @return
      */
     @Override
-    public List<Object[]> findByColumnRatio(String startXdate, String lastXdate, String startSdate, String lastSdate, String name, String lawType) {
+    public List<Object[]> findByColumnRatio(String startSdate, String lastSdate, String name, String lawType) {
+        String strsStart = startSdate.substring(5,7);
+        String currentYear = startSdate.substring(0,4);
+        String lastYear = String.valueOf((Integer.parseInt(currentYear) -1));
+        String strEnd = lastSdate.substring(5,7);
         String whereSql = "AND 1=1 ";
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }else if(lawType != null && !"".equals(lawType)) {
             whereSql += "AND source = '" + lawType + "' ";
         }
-        whereSql += "GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*) FROM `hw_dispatch_task` where DATE_FORMAT(event_time,'%Y-%m-%d') >='" +startXdate+ "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '"+lastXdate + "'" + whereSql);
+        whereSql += "GROUP BY DATE_FORMAT(t.`event_time`,'%m')";
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(t.`event_time`,'%m')AS MONTH," +
+                "IFNULL((SELECT COUNT(*) AS b\n" +
+                "FROM hw_dispatch_task t2 \n" +
+                "WHERE DATE_FORMAT(t2.event_time,'%Y') = '"+lastYear+"' \n" +
+                "AND DATE_FORMAT(t2.event_time,'%m') = DATE_FORMAT(t.`event_time`,'%m') \n" +
+                "GROUP BY DATE_FORMAT(t.`event_time`,'%Y-%m')),0) AS s,\n" +
+                "IFNULL((SELECT COUNT(*) AS b\n" +
+                "FROM hw_dispatch_task t2 \n" +
+                "WHERE DATE_FORMAT(t2.event_time,'%Y') = '"+currentYear+"' \n" +
+                "AND DATE_FORMAT(t2.event_time,'%m') = DATE_FORMAT(t.`event_time`,'%m') \n" +
+                "GROUP BY DATE_FORMAT(t.`event_time`,'%Y-%m')),0) AS c\n" +
+                "FROM hw_dispatch_task t\n" +
+                " WHERE DATE_FORMAT(t.`event_time`,'%m')>= '"+strsStart+"' AND DATE_FORMAT(t.`event_time`,'%m')<= '"+strEnd+"'" + whereSql);
 
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dispatch_task` where DATE_FORMAT(event_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(event_time,'%Y-%m-%d') <= '" + lastSdate + "'" + whereSql);
-
-        List<Object[]> temp = new ArrayList<>();
-        if (list2.size() < list.size()) {
-            temp = list2;
-            list2 = list;
-            list = temp;
-        }
-        for(int i =0; i<list2.size(); i++){
-            Object[] a = list2.get(i);
-            String months = a[0].toString();
-            String month = months.substring(5,7);
-            boolean flag = false;
-            String lackDate = "";
-            for(int j = 0; j < list.size();j++){
-                Object[] b = list.get(j);
-                String months2 = b[0].toString();
-                String year = months2.substring(0,5);
-                String month2 = months2.substring(5,7);
-                if(month.equals(month2)){
-                    flag = true;
-                    break;
-                }
-                lackDate = year+month;
-            }
-            if(!flag){
-                list.add(i,new Object[]{lackDate,"0"});
-            }
-        }
-        List<Object[]> sList = new ArrayList<>();
-        for (int i =0; i < list.size(); i++) {
-            Object obj1[] = list.get(i);
-            Object obj2[] = list2.get(i);
-            String x = "("+obj1[0].toString()+")"+"-" + "("+obj2[0].toString()+")";
-            Object [] cc = {x,obj1[1],obj2[1]};
-            sList.add(cc);
-        }
-        return sList;
+        return list;
     }
 }

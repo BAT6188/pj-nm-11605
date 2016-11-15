@@ -6,12 +6,10 @@ import com.harmonywisdom.dshbcbp.port.service.PortStatusHistoryService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.vendor.OpenJpaDialect;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service("portStatusHistoryService")
@@ -34,89 +32,49 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
     @Override
     public List<Object[]> findColumnData(String name,String firstTime, String lastTime) {
         String whereSql = " AND 1=1 ";
-        whereSql += "AND STATUS='1'";
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }
         whereSql += " GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history` where DATE_FORMAT(start_time,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastTime + "'" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,\n" +
+                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.STATUS='1' AND DATE_FORMAT(t0.start_time,'%m') = DATE_FORMAT(t.start_time,'%m')) AS yjf\n" +
+                "FROM `hw_dshbcbp_port_status_history` t WHERE DATE_FORMAT(start_time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(start_time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
         return list;
     }
 
     /**
      * 超标同期对比分析
      * @param name
-     * @param startXdate
-     * @param lastXdate
      * @param startSdate
      * @param lastSdate
      * @return
      */
     @Override
-    public List<Object[]> findColumnRatio(String name, String startXdate, String lastXdate, String startSdate, String lastSdate) {
-        String whereSql = " where 1=1 ";
+    public List<Object[]> findColumnRatio(String name, String startSdate, String lastSdate) {
+        String strsStart = startSdate.substring(5,7);
+        String currentYear = startSdate.substring(0,4);
+        String lastYear = String.valueOf((Integer.parseInt(currentYear) -1));
+        String strEnd = lastSdate.substring(5,7);
+        String whereSql = "AND 1=1 ";
         whereSql += "AND STATUS='1'";
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
-        }else if( startXdate !=null && !"".equals(startXdate)){
-            whereSql += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + startXdate + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastXdate + "'";
-        } else if(lastXdate != null && !"".equals(lastXdate)) {
-            whereSql += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startXdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastXdate + "'";
         }
-        whereSql += "GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql);
-
-        String whereSql2 = " where 1=1 ";
-        whereSql2 += "AND STATUS='1'";
-        if(name != null && !"".equals(name)){
-            whereSql2 += "AND enterprise_name LIKE '%" + name + "%'";
-        }else if( startSdate !=null && !"".equals(startSdate)){
-            whereSql2 += " AND DATE_FORMAT(start_time,'%Y-%m-%d') >='" + startSdate + "' AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
-        } else if(lastSdate != null && !"".equals(lastSdate)) {
-            whereSql2 += "AND DATE_FORMAT(start_time,'%Y-%m-%d') >= '" + startSdate + "'AND DATE_FORMAT(start_time,'%Y-%m-%d') <= '" + lastSdate + "'";
-        }
-        whereSql2 += "GROUP BY MONTH";
-        List<Object[]> list2 = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,COUNT(*)  FROM `hw_dshbcbp_port_status_history`" + whereSql2);
-
-        List<Object[]> temp = new ArrayList<>();
-        do{
-            if (list2.size() < list.size()) {
-                temp = list2;
-                list2 = list;
-                list = temp;
-            }
-            for (int i = 0; i < list2.size(); i++) {
-                Object[] a = list2.get(i);
-                String months = a[0].toString();
-                String month = months.substring(5,7);
-                boolean flag = false;
-                String lackDate = "";
-                for (int j = 0; j < list.size(); j++) {
-                    Object[] b = list.get(j);
-                    String months2 = b[0].toString();
-                    String year = months2.substring(0,5);
-                    String month2 = months2.substring(5,7);
-                    if (month.equals(month2)) {
-                        flag = true;
-                        break;
-                    }
-                    lackDate = year+month;
-                }
-                if (!flag) {
-                    list.add(i,new Object[]{lackDate,"0"});
-                }
-            }
-        }while(list.size() != list2.size());
-
-        List<Object[]> sList = new ArrayList<>();
-        for (int i =0; i < list.size(); i++) {
-            Object obj[] = list.get(i);
-            Object obj2[] = list2.get(i);
-            String x = "("+obj[0].toString()+")"+"-" + "("+obj2[0].toString()+")";
-            Object [] cc = {x,obj[1],obj2[1]};
-            sList.add(cc);
-        }
-        return sList;
+        whereSql += " GROUP BY DATE_FORMAT(t.`start_time`,'%m')";
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(t.`start_time`,'%m')AS MONTH,\n" +
+                "IFNULL((SELECT COUNT(*) AS b\n" +
+                "FROM HW_DSHBCBP_PORT_STATUS_HISTORY t2 \n" +
+                "WHERE DATE_FORMAT(t2.start_time,'%Y') = '"+lastYear+"' \n" +
+                "AND DATE_FORMAT(t2.start_time,'%m') = DATE_FORMAT(t.`start_time`,'%m') \n" +
+                "GROUP BY DATE_FORMAT(t.`start_time`,'%Y-%m')),0) AS '2015',\n" +
+                "IFNULL((SELECT COUNT(*) AS b\n" +
+                "FROM HW_DSHBCBP_PORT_STATUS_HISTORY t2 \n" +
+                "WHERE DATE_FORMAT(t2.start_time,'%Y') = '"+currentYear+"'  \n" +
+                "AND DATE_FORMAT(t2.start_time,'%m') = DATE_FORMAT(t.`start_time`,'%m') \n" +
+                "GROUP BY DATE_FORMAT(t.`start_time`,'%Y-%m')),0) AS '2016'\n" +
+                "FROM HW_DSHBCBP_PORT_STATUS_HISTORY t\n" +
+                " WHERE DATE_FORMAT(t.`start_time`,'%m')>= '" + strsStart + "' AND DATE_FORMAT(t.`start_time`,'%m')<= '" + strEnd + "'" + whereSql);
+        return list;
     }
 
     @Override
