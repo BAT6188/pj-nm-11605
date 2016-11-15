@@ -98,5 +98,5 @@
         </tx:attributes>
     </tx:advice>
 
-    <import resource="classpath*:spring/context-dshbcbp-*.xml"/>
+    <import resource="classpath*:spring/context-*.xml"/>
 </beans>
