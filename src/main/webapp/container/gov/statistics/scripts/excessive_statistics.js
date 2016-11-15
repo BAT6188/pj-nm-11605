@@ -322,7 +322,7 @@ $(function(){
 
         highchart.highcharts({
             chart: {
-                type: 'column'
+                type: 'column',
             },
             title: {
                 text: titleSub
@@ -357,6 +357,13 @@ $(function(){
                 column: {
                     pointPadding: 0.1,
                     borderWidth: 0
+                },
+                series : {
+                    events : {
+                        click: function(e) {
+                            alert(e.point.category);
+                        }
+                    }
                 }
             },
             exporting: {
@@ -447,7 +454,14 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true
-                    },
+                    }
+                },
+                series : {
+                    events : {
+                        click: function(e) {
+                            alert(e.point.category);
+                        }
+                    }
                 }
             },
             legend: {

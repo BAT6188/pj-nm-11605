@@ -29,6 +29,12 @@ $(function(){
                 //清除原有列表数据
                 for (var i = 0; i < result.length; i++) {
                     var trHtml = "";
+                    if( i >4){
+                        trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>查看更多...</span></a></td></tr>";
+                        var $tr = $(trHtml);
+                        $("#tablegrid").append($tr);
+                        break;
+                    }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon mail-icon'>" + "</i></td>"
                         + "<td ><span>" + (result[i].title == null ? "" : result[i].title) + "</span></td>"
@@ -39,6 +45,11 @@ $(function(){
                     var $tr = $(trHtml);
                     $("#tablegrid").append($tr);
                 }
+                $(".moreInformation").bind('click',function(){
+                    var url = rootPath+"/container/company/dangerInspection/dangerInspection.jsp";
+                    toUrl(url);
+
+                });
                 $(".information").bind('click', function () {
                     // $("#myModal").modal("show");
                     // window.location.href="<%=request.getContextPath()%>/container/gov/office/pubinfo.jsp";
@@ -66,6 +77,12 @@ $(function(){
                 //清除原有列表数据
                 for (var i = 0; i < result.length; i++) {
                     var trHtml = "";
+                    if( i >2){
+                        trHtml = "<tr><td colspan='8' class='colMs' style='text-align: right'><a style='color:black;cursor:pointer;'><span>查看更多...</span></a></td></tr>";
+                        var $tr = $(trHtml);
+                        $("#excessTable").append($tr);
+                        break;
+                    }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon error-icon'>" + "</i></td>"
                         + "<td ><span>" + (result[i].res_title == null ? "" : result[i].res_title) + "</span></td>"
@@ -81,6 +98,10 @@ $(function(){
 
             }
         });
+        $(".colMs").bind('click',function(){
+            var url = rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp";
+            toUrl(url);
+        });
         $(".excess").bind('click', function () {
             // $("#myModal").modal("show");
             var url = rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp";
@@ -92,7 +113,7 @@ $(function(){
     }
 
     $("#scrollContent").slimScroll({
-        height:"100%",
+        height:pageUtils.getTableHeight()-73,
         railOpacity:.9,
         alwaysVisible:!1
     });
