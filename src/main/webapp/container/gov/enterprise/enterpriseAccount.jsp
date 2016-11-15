@@ -16,23 +16,25 @@
     </style>
 </head>
 <body>
-<div class="wrap">
-    <div class="menu-left left">
-        <div class="menuDiv">
-            <h3 onclick="loadPageInEnterprise('enterpriseListOfRun.jsp')"><a href="javascript:void(0)">排污单位管理</a></h3>
-            <ul>
-                <li class="curLi"><a href="javascript:loadPageInEnterprise('enterpriseListOfRun.jsp')">排污单位列表</a></li>
-            </ul>
+<div class="content clearfix">
+    <div class="wrap">
+        <div class="menu-left left">
+            <div class="menuDiv">
+                <h3 onclick="loadPageInEnterprise('enterpriseListOfRun.jsp')"><a href="javascript:void(0)">排污单位管理</a></h3>
+                <ul>
+                    <li class="curLi"><a href="javascript:loadPageInEnterprise('enterpriseListOfRun.jsp')">排污单位列表</a></li>
+                </ul>
+            </div>
+            <div class="menuDiv">
+                <h3 onclick="loadPageInEnterprise('enterpriseListOfDel.jsp')"><a href="javascript:void(0)">删除排污单位管理</a></h3>
+                <ul>
+                    <li class="curLi"><a href="javascript:loadPageInEnterprise('enterpriseListOfDel.jsp')">删除排污单位列表</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="menuDiv">
-            <h3 onclick="loadPageInEnterprise('enterpriseListOfDel.jsp')"><a href="javascript:void(0)">删除排污单位管理</a></h3>
-            <ul>
-                <li class="curLi"><a href="javascript:loadPageInEnterprise('enterpriseListOfDel.jsp')">删除排污单位列表</a></li>
-            </ul>
+        <div class="main-right right level3MenuContent">
+            <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
         </div>
-    </div>
-    <div class="main-right right">
-        <%--<jsp:include page="enterpriseInfo.jsp"></jsp:include>--%>
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/pageset.js"></script>

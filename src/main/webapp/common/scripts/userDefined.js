@@ -170,11 +170,10 @@ var pageUtils = {
      * @returns {number}
      */
     getFormHeight:function (fitHeight) {
-        if (fitHeight) {//和规定的表单高度比较，如果小于规定的高度使用，返回合适的高度，否则使用规定的高度
-            return fitHeight<this.FROM_HEIGHT?fitHeight:this.FROM_HEIGHT;
-        }else{
-            return this.FROM_HEIGHT;
-        }
+        var screenFitHeihgt = $(window).height()-220;
+        var heights = [fitHeight,screenFitHeihgt,this.FROM_HEIGHT];
+        heights.sort();
+        return heights[0];
     },
     /**
      * 转换bootstrapTable 参数为本地参数
@@ -188,6 +187,10 @@ var pageUtils = {
         localParams.skip = params.offset;
         localParams.page = params.offset / params.limit + 1;
         localParams.pageSize = params.limit;
+        var jsonData = $('.queryBox').find('form').formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
         return localParams;
     },
     /**
@@ -224,6 +227,13 @@ var pageUtils = {
         }
         return ""
 
+    },
+    filterUndefine:function (str) {
+        if (str){
+            return str;
+        }else{
+            return "";
+        }
     },
     /**
      * 截取字符前10位 日期串获取前10位
@@ -314,6 +324,10 @@ var pageUtils = {
         localParams.skip = params.offset;
         localParams.page = params.offset / params.limit + 1;
         localParams.pageSize = params.limit;
+        var jsonData = $('.queryBox').find('form').formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
         return localParams;
     },
     loading:function(msg){

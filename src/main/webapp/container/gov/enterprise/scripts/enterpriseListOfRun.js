@@ -228,9 +228,7 @@ function responseHandler(res) {
     });
     return res;
 }
-function getHeight() {
-    return $(window).height() - $('h1').outerHeight(true);
-}
+
 initTable();
 
 //初始化按钮状态
