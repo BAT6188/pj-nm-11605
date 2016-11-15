@@ -41,6 +41,7 @@
 
 <%@include file="/container/gov/composite/enterprise_info_dialog.jsp" %>
 <%@include file="/container/gov/composite/portstatus_form_view.jsp" %>
+<%@include file="/container/gov/composite/noise_form_view.jsp" %>
 <%@include file="/container/gov/composite/enterprise_plotting.jsp" %>
 <script src="<%=request.getContextPath()%>/container/gov/composite/scripts/one_image.js"></script>
 </body>
