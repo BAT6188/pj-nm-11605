@@ -28,7 +28,7 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
     }
 
     @Override
-    public void get15DayAQI() {
+    public void save15DayAQI() {
         String url="http://110.19.109.61:9875/15DayAirQualityChangeCity.aspx?action=GetData";
         try {
             String result = HttpClientUtil.httpOrHttpsGet(url);
@@ -50,7 +50,7 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
 
     public static void main(String[] args) {
         AirQualityServiceImpl a=new AirQualityServiceImpl();
-        a.get15DayAQI();
+        a.save15DayAQI();
     }
 
     /**
