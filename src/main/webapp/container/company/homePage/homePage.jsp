@@ -20,7 +20,12 @@
         <%
             Enterprise enterprise = (Enterprise) request.getSession().getAttribute("session");
         %>
-
+        <script type="text/javascript">
+            var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
+            $(function(){
+                $('#level3MenuContent').html(pageUtils.loading());
+            })
+        </script>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/container/company/homePage/css/style.css"/>
     <style>
         .panel-icon{
@@ -59,12 +64,7 @@
         }
 
     </style>
-    <script type="text/javascript">
-        var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
-        $(function(){
-            $('#level3MenuContent').html(pageUtils.loading());
-        })
-    </script>
+
 </head>
 <body>
 <div class="container">
@@ -206,16 +206,6 @@
 <script src="<%=request.getContextPath()%>/common/scripts/main_css.js"></script>
 <script src="<%=request.getContextPath()%>/container/company/homePage/scripts/homePage.js"></script>
 <script>
-
-    $(function(){
-        loadPageInEnterprise('homePage/realMonitoring.jsp');
-    });
-    function loadPageInEnterprise(url){
-        var headUrl = rootPath +"/container/company/";
-        //$(".main-right").load(url);
-        $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
-        $('.level3MenuContent').load(headUrl+url); // ajax加载页面
-    }
 </script>
 
 </body>

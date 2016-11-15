@@ -76,6 +76,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/enterpriseMointor/scripts/fumesPortStatusHistory.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/fumesMonitor/scripts/fumesPortStatusHistory.js"></script>
 </body>
 </html>

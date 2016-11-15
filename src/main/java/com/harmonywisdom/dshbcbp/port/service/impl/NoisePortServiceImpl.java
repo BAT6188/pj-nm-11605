@@ -1,7 +1,9 @@
 package com.harmonywisdom.dshbcbp.port.service.impl;
 
 import com.harmonywisdom.dshbcbp.port.bean.NoisePort;
+import com.harmonywisdom.dshbcbp.port.bean.NoisePortHistory;
 import com.harmonywisdom.dshbcbp.port.dao.NoisePortDAO;
+import com.harmonywisdom.dshbcbp.port.dao.NoisePortHistoryDAO;
 import com.harmonywisdom.dshbcbp.port.service.NoisePortService;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.dao.BaseDAO;
@@ -17,6 +19,8 @@ import java.util.List;
 public class NoisePortServiceImpl extends BaseService<NoisePort, String> implements NoisePortService {
     @Autowired
     private NoisePortDAO noisePortDAO;
+    @Autowired
+    private NoisePortHistoryDAO noisePortHistoryDAO;
 
     @Override
     protected BaseDAO<NoisePort, String> getDAO() {
@@ -41,5 +45,18 @@ public class NoisePortServiceImpl extends BaseService<NoisePort, String> impleme
     public List<NoisePort> findByIds(String ...ids) {
         List<NoisePort> list = getDAO().find("id in ?1", Arrays.asList(ids));
         return list;
+    }
+
+    @Override
+    public void delete(String portId) {
+        NoisePortHistory noisePortHistory = new NoisePortHistory();
+        noisePortHistory.setPortId(portId);
+        List<NoisePortHistory> waterPortHistories = noisePortHistoryDAO.findBySample(noisePortHistory);
+        if(waterPortHistories.size()>0){
+            for(NoisePortHistory wph:waterPortHistories){
+                noisePortHistoryDAO.remove(wph);
+            }
+        }
+        noisePortDAO.remove(portId);
     }
 }

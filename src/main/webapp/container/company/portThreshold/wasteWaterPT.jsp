@@ -172,22 +172,22 @@
                 </div>
             </div>
         </div>
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-2">
-                    <button id="saveForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>
-                </div>
-                <div class="col-sm-2">
-                    <button id="toEditForm" type="button" class="btn btn-success lookBtn">编辑</button>
-                    <button id="resetEditForm" type="button" class="btn btn-default editBtn" style="display: none">置空</button>
-                </div>
-                <div class="col-sm-2">
-                    <button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>
-                </div>
-                <div class="col-sm-2"></div>
-            </div>
-        </div>
+        <%--<div class="form-horizontal">--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-4"></div>--%>
+                <%--<div class="col-sm-2">--%>
+                    <%--<button id="saveForm" type="button" class="btn btn-success editBtn" style="display: none">保存</button>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-2">--%>
+                    <%--<button id="toEditForm" type="button" class="btn btn-success lookBtn">编辑</button>--%>
+                    <%--<button id="resetEditForm" type="button" class="btn btn-default editBtn" style="display: none">置空</button>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-2">--%>
+                    <%--<button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-2"></div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/company/portThreshold/scripts/wasteWaterPT.js"></script>

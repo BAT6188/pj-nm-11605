@@ -7,10 +7,7 @@ import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.port.bean.*;
-import com.harmonywisdom.dshbcbp.port.dao.FumesPortDAO;
-import com.harmonywisdom.dshbcbp.port.dao.GasPortDAO;
-import com.harmonywisdom.dshbcbp.port.dao.NoisePortDAO;
-import com.harmonywisdom.dshbcbp.port.dao.WaterPortDAO;
+import com.harmonywisdom.dshbcbp.port.dao.*;
 import com.harmonywisdom.dshbcbp.utils.EntityUtil;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.dao.BaseDAO;
@@ -32,6 +29,8 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
     private FumesPortDAO fumesPortDAO;
     @Autowired
     private NoisePortDAO noisePortDAO;
+    @Autowired
+    private PortThresholdDAO portThresholdDAO;
 
     @Autowired
     private VideoService videoService;
@@ -86,7 +85,7 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         /**
          * 噪声源
          */
-        NoisePort noisePort = new NoisePort();
+        /*NoisePort noisePort = new NoisePort();
         noisePort.setEnterpriseId(id);
         List<NoisePort> noisePortList = noisePortDAO.findBySample(noisePort);
         if(noisePortList.size()>0){
@@ -97,7 +96,7 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
                 dictBeans.add(covertToDictBean(np.getId(),np.getName(),"noisePort",serial,"common/images/ztree/activity_monitor_screen.png"));
                 serial +=1;
             }
-        }
+        }*/
 
         return dictBeans;
     }
@@ -167,11 +166,11 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         if (fumesAlertCount > 0) {
             return PortStatusHistory.STATUS_OVER;
         }
-        List<Object> noisePortAlertCount = noisePortDAO.queryNativeSQL("select count(*) from HW_DSHBCBP_NOISE_PORT where enterprise_Id=?1 and port_Status=1",id);
+        /*List<Object> noisePortAlertCount = noisePortDAO.queryNativeSQL("select count(*) from HW_DSHBCBP_NOISE_PORT where enterprise_Id=?1 and port_Status=1",id);
         int noiseAlertCount = Integer.valueOf(noisePortAlertCount.get(0).toString());
         if (noiseAlertCount > 0) {
             return PortStatusHistory.STATUS_OVER;
-        }
+        }*/
         return PortStatusHistory.STATUS_NORMAL;
     }
 
@@ -231,10 +230,10 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
             portsMap.put(FumesPort.class.getSimpleName(), fumesPorts);
         }
 
-        List<NoisePort> noisePorts = noisePortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
+        /*List<NoisePort> noisePorts = noisePortDAO.find("enterpriseId=?1 and planeMapMark is not null",enterpriseId);
         if (noisePorts != null && noisePorts.size() > 0) {
             portsMap.put(NoisePort.class.getSimpleName(), noisePorts);
-        }
+        }*/
         List<Video> videos = videoService.find("unitId=?1 and planeMapMark is not null",enterpriseId);
         if (videos != null && videos.size() > 0) {
             portsMap.put(Video.class.getSimpleName(), videos);
@@ -278,6 +277,58 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         }
 
         return null;
+    }
+
+    @Override
+    public String delete(String enterpriseId) {
+        /**
+         * 废气排口数据
+         */
+        GasPort gasPort = new GasPort();
+        gasPort.setEnterpriseId(enterpriseId);
+        List<GasPort> gasPortList = gasPortDAO.findBySample(gasPort);
+        if(gasPortList.size()>0){
+            for(GasPort gp:gasPortList){
+                gasPortDAO.delete(gp);
+            }
+        }
+
+        /**
+         * 废水排口数据
+         */
+        WaterPort waterPort = new WaterPort();
+        waterPort.setEnterpriseId(enterpriseId);
+        List<WaterPort> waterPortList = waterPortDAO.findBySample(waterPort);
+        if(waterPortList.size()>0){
+            for(WaterPort wp:waterPortList){
+                waterPortDAO.delete(wp);
+            }
+        }
+
+        /**
+         * 油烟排口数据
+         */
+        FumesPort fumesPort = new FumesPort();
+        fumesPort.setEnterpriseId(enterpriseId);
+        List<FumesPort> fumesPortList = fumesPortDAO.findBySample(fumesPort);
+        if(fumesPortList.size()>0){
+            for(FumesPort fp:fumesPortList){
+                fumesPortDAO.delete(fp);
+            }
+        }
+
+        /**
+         * 排口数据
+         */
+        PortThreshold portThreshold = new PortThreshold();
+        portThreshold.setEnterpriseId(enterpriseId);
+        List<PortThreshold> portThresholds = portThresholdDAO.findBySample(portThreshold);
+        if(portThresholds.size()>0){
+            for(PortThreshold pt:portThresholds){
+                portThresholdDAO.remove(pt);
+            }
+        }
+        return enterpriseId;
     }
 
 }

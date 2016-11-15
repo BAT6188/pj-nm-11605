@@ -72,7 +72,10 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter: function(value, row, index) {
-                    return blockMap[row.blockLevelId] + "-" +blockMap[row.blockId];
+                    var blockLevelName = blockMap[row.blockLevelId],blockName=blockMap[row.blockId];
+                    if(blockLevelName==undefined) blockLevelName = "未选择";
+                    if(blockName==undefined) blockName = "未选择";
+                    return  blockLevelName+ "-" +blockName;
                 }
             },
             {
@@ -84,13 +87,13 @@ function initTable() {
                 formatter: function(value, row, index) {
                     switch(value){
                         case "0":
-                            return '<img src="container/gov/enterprise/images/blueCircle.png" style="width: 20px;height: 20px;">';
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
                         case "1":
                             return '<img src="container/gov/enterprise/images/readCircle.png" style="width: 20px;height: 20px;">';
                         case "2":
                             return '<img src="container/gov/enterprise/images/yelloCircle.png" style="width: 20px;height: 20px;">';
                         default:
-                            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
                     }
                 }
             },

@@ -6,9 +6,10 @@
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
-    <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>
+    <%--<script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>--%>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -280,7 +281,7 @@
         });
         $('#mapMarkBtn').bind('click', function () {
             //设置标绘模式
-            MapMarkDialog.setMode("point");
+            MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
             MapMarkDialog.open();
         });
     }
@@ -297,11 +298,11 @@
         });
     }
     /*初始化 树结构*/
-    $(".scrollContent").slimScroll({
+    /*$(".scrollContent").slimScroll({
         height:"100%",
         railOpacity:.9,
         alwaysVisible:!1
-    });
+    });*/
     function initZTree(){
         var treeCode = ['valley'];
         $.each(treeCode,function(k,v){

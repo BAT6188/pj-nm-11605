@@ -35,28 +35,10 @@ var setting = {
             treeObj.expandAll(true);
             var node = treeObj.getNodeByTId("enterpriseZTree_3");
             treeObj.selectNode(node,false);
-            loadPortStatusHistory(node.parentCode,node.code,node.name);
+            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/fumesMonitor/fumesPortStatusHistory.jsp?id="+node.code);
         }
     }
 };
-function loadPortStatusHistory(parentCode,code,name){
-    switch(parentCode){
-        case "gasPort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/gasPortStatusHistory.jsp?id="+code);
-            break;
-        case "waterPort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/waterPortStatusHistory.jsp?id="+code);
-            break;
-        case "noisePort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/noisePortStatusHistory.jsp?id="+code);
-            break;
-        case "fumesPort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/fumesPortStatusHistory.jsp?id="+code);
-            break;
-        default:
-            break;
-    }
-}
 var treeObj = $.fn.zTree.init($("#enterpriseZTree"), setting);
 
 

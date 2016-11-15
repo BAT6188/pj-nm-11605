@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 20px;">排污档案列表</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">排污档案列表</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -24,8 +24,14 @@
                     <form role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="name">&nbsp;&nbsp;单位名称：</label><input type="text" id="name" name="name" class="form-control" />
-                                <label for="pollutantType" class="labelMarginLeft">&nbsp;&nbsp;&nbsp;&nbsp;单位类型：</label>
+                                <label for="name">单位名称：</label> <input type="text" id="name" name="name" class="form-control" />
+                                <label for="area"  class="labelMarginLeft">&nbsp;所属行政区：</label> <input type="text" id="area" name="area" class="form-control" />
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="pollutantType">单位类型：</label>
                                 <select style="width: 300px;" class="form-control" id="pollutantType" name="pollutantType">
                                     <option value="">全部</option>
                                     <option value="01">废水</option>
@@ -39,13 +45,7 @@
                                     <option value="09">二级以上医院</option>
                                     <option value="10">其他</option>
                                 </select>
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <label for="orgCode">组织机构代码：</label><input type="text" id="orgCode" name="orgCode" class="form-control" />
-                                <label for="superviseType" class="labelMarginLeft">排污单位监管类型：</label>
+                                <label for="superviseType" class="labelMarginLeft">单位监管类型：</label>
                                 <select style="width: 300px;" class="form-control"  id="superviseType" name="superviseType">
                                     <option value="">全部</option>
                                     <option value="01">重点排污单位</option>
@@ -56,12 +56,19 @@
                         <p></p>
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="area">&nbsp;所属行政区：</label><input type="text" id="area" name="area" class="form-control" />
-                                <label for="isSpecial" class="labelMarginLeft">特殊监管排污单位：</label>
-                                <select style="width: 300px;" class="form-control"  id="isSpecial" name="isSpecial">
+                                <label for="pollutantLevel">管理级别：</label>
+                                <select style="width: 300px;" class="form-control"  id="pollutantLevel" name="pollutantLevel">
                                     <option value="">全部</option>
-                                    <option value="1">是</option>
-                                    <option value="0">否</option>
+                                    <option value="01">国控</option>
+                                    <option value="02">省（区）控</option>
+                                    <option value="03">市控</option>
+                                    <option value="04">其他</option>
+                                </select>
+                                <label for="status" class="labelMarginLeft">企业运行状态：</label>
+                                <select style="width: 300px;" class="form-control"  id="status" name="status">
+                                    <option value="">全部</option>
+                                    <option value="1">运营中</option>
+                                    <option value="0">未运营</option>
                                 </select>
                             </div>
                         </div>

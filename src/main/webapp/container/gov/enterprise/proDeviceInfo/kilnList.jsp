@@ -6,6 +6,7 @@
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <script type="text/javascript">
         var enterpriseId=enterpriseData.id;
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>

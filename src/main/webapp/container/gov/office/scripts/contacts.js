@@ -11,11 +11,6 @@ var gridTable = $('#table'),
     thisOrgId="",
     selections = [];
 
-$(".scrollContent").slimScroll({
-    height:"100%",
-    railOpacity:.9,
-    alwaysVisible:!1
-});
 var setting = {
     height:500,
     width:200,

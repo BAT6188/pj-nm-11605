@@ -25,7 +25,9 @@ $(function(){
         autoclose: true,
         todayBtn: 'linked'
     });
-    
+    /**
+     * 设定日期选项在同一年
+     */
     $("#start_createTime").bind("change",function () {
         var startTime = $(this).val();
         if (!startTime) {
@@ -42,6 +44,12 @@ $(function(){
         }
         $('.form_datetime2').datetimepicker('setStartDate', year+"-"+endTimeStartMonth);
         $('.form_datetime2').datetimepicker('setEndDate', years+"-"+"01");
+    });
+
+    $("#startTime").bind('change',function(){
+        var nowYear = $("#startTime").val();
+        $("#endtime").val(nowYear-1);
+
     });
  
     $('.form_datetime2').datetimepicker({
