@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhuozhengsoft.pageoffice.PageOfficeLink;
 import com.zhuozhengsoft.pageoffice.wordwriter.DataRegion;
 import com.zhuozhengsoft.pageoffice.wordwriter.Table;
 import com.zhuozhengsoft.pageoffice.wordwriter.WordDocument;
@@ -10,7 +11,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -143,6 +146,11 @@ public class OfficeUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static String getPageOfficeLink(HttpServletRequest request, String url){
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
+        return PageOfficeLink.openWindow(request,basePath+url,"");
     }
 
 //    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
