@@ -61,30 +61,69 @@ public class TrustMonitor implements Serializable {
     @Column(name = "block_name")
     private String blockName;
 
+    //******************** 选择的人员列表 *****************************//
+
     /**
      * 环保站选择的 监察大队人员列表
      */
     @Column(name = "environmental_protection_station_select_person_list")
     private String environmentalProtectionStationSelectPersonList;
+    @Column(name = "environmental_protection_station_select_person_name_list")
+    private String environmentalProtectionStationSelectPersonNameList;
 
     /**
      * 监测站办公室人员列表
      */
     @Column(name = "monitoring_station_office_person_list")
     private String monitoringStationOfficePersonList;
+    @Column(name = "monitoring_station_office_person_name_list")
+    private String monitoringStationOfficePersonNameList;
+
 
     /**
      * 监测站站长人员列表
      */
     @Column(name = "monitoring_station_master_person_list")
     private String monitoringStationMasterPersonList;
+    @Column(name = "monitoring_station_master_person_name_list")
+    private String monitoringStationMasterPersonNameList;
+
 
     /**
      * 检测人员列表
      */
     @Column(name = "monitoring_station_person_list")
     private String monitoringStationPersonList;
+    @Column(name = "monitoring_station_person_name_list")
+    private String monitoringStationPersonNameList;
 
+    //********************* 人员读取状态 ********************//
+
+    /**
+     * 监察大队 人员读取状态
+     */
+    @Column(name = "self_read_status_for_JianChaDaDui")
+    private String selfReadStatusForJianchadadui;
+
+    /**
+     * 监测站办公室 人员读取状态
+     */
+    @Column(name = "self_read_status_for_monitor_office")
+    private String selfReadStatusForMonitorOffice;
+
+    /**
+     * 监测站站长 人员读取状态
+     */
+    @Column(name = "self_read_status_for_monitor_master")
+    private String selfReadStatusForMonitorMaster;
+
+    /**
+     * 监测人员读取状态
+     */
+    @Column(name = "self_read_status_for_monitor_person")
+    private String selfReadStatusForMonitorPerson;
+
+//********************************************************//
 
     /**
      * 申请单位
@@ -475,5 +514,73 @@ public class TrustMonitor implements Serializable {
 
     public void setEnterpriseSelf(String enterpriseSelf) {
         this.enterpriseSelf = enterpriseSelf;
+    }
+
+    public String getEnvironmentalProtectionStationSelectPersonNameList() {
+        return environmentalProtectionStationSelectPersonNameList;
+    }
+
+    public void setEnvironmentalProtectionStationSelectPersonNameList(String environmentalProtectionStationSelectPersonNameList) {
+        this.environmentalProtectionStationSelectPersonNameList = environmentalProtectionStationSelectPersonNameList;
+    }
+
+    public String getMonitoringStationOfficePersonNameList() {
+        return monitoringStationOfficePersonNameList;
+    }
+
+    public void setMonitoringStationOfficePersonNameList(String monitoringStationOfficePersonNameList) {
+        this.monitoringStationOfficePersonNameList = monitoringStationOfficePersonNameList;
+    }
+
+    public String getMonitoringStationMasterPersonNameList() {
+        return monitoringStationMasterPersonNameList;
+    }
+
+    public void setMonitoringStationMasterPersonNameList(String monitoringStationMasterPersonNameList) {
+        this.monitoringStationMasterPersonNameList = monitoringStationMasterPersonNameList;
+    }
+
+    public String getMonitoringStationPersonNameList() {
+        return monitoringStationPersonNameList;
+    }
+
+    public void setMonitoringStationPersonNameList(String monitoringStationPersonNameList) {
+        this.monitoringStationPersonNameList = monitoringStationPersonNameList;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getSelfReadStatusForJianchadadui() {
+        return selfReadStatusForJianchadadui;
+    }
+
+    public void setSelfReadStatusForJianchadadui(String selfReadStatusForJianchadadui) {
+        this.selfReadStatusForJianchadadui = selfReadStatusForJianchadadui;
+    }
+
+    public String getSelfReadStatusForMonitorOffice() {
+        return selfReadStatusForMonitorOffice;
+    }
+
+    public void setSelfReadStatusForMonitorOffice(String selfReadStatusForMonitorOffice) {
+        this.selfReadStatusForMonitorOffice = selfReadStatusForMonitorOffice;
+    }
+
+    public String getSelfReadStatusForMonitorMaster() {
+        return selfReadStatusForMonitorMaster;
+    }
+
+    public void setSelfReadStatusForMonitorMaster(String selfReadStatusForMonitorMaster) {
+        this.selfReadStatusForMonitorMaster = selfReadStatusForMonitorMaster;
+    }
+
+    public String getSelfReadStatusForMonitorPerson() {
+        return selfReadStatusForMonitorPerson;
+    }
+
+    public void setSelfReadStatusForMonitorPerson(String selfReadStatusForMonitorPerson) {
+        this.selfReadStatusForMonitorPerson = selfReadStatusForMonitorPerson;
     }
 }

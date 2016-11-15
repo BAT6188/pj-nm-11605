@@ -87,13 +87,13 @@ function initTable() {
                 formatter: function(value, row, index) {
                     switch(value){
                         case "0":
-                            return '<img src="container/gov/enterprise/images/blueCircle.png" style="width: 20px;height: 20px;">';
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
                         case "1":
                             return '<img src="container/gov/enterprise/images/readCircle.png" style="width: 20px;height: 20px;">';
                         case "2":
                             return '<img src="container/gov/enterprise/images/yelloCircle.png" style="width: 20px;height: 20px;">';
                         default:
-                            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
                     }
                 }
             },

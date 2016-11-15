@@ -151,8 +151,8 @@
                             <td class="success">经度</td>
                             <td>
                                 <div class="col-sm-12">
-                                    <input type="text" id="longitude" name="longitude" class="form-control" readonly
-                                           data-easyform="null;"/>
+                                    <input type="text" id="longitude" name="longitude" class="form-control needCheck" readonly
+                                           data-message="" data-easyform="notnull" title="经纬度"/>
                                 </div>
                             </td>
                             <td  class="success">纬度</td>
@@ -180,7 +180,7 @@
                             <td  class="success">污染源代码</td>
                             <td>
                                 <div class="col-sm-12">
-                                    <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="污染源代码"/>
+                                    <input type="text" id="pollutantCode" name="pollutantCode" class="form-control needshow" data-message="" data-easyform="notnull" title="污染源代码"/>
                                 </div>
                             </td>
                         </tr>
@@ -246,7 +246,7 @@
                             <td class="success">环保负责人电话</td>
                             <td>
                                 <div class="col-sm-12">
-                                    <input type="text" id="epPhone" name="epPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="法定代表人电话"/>
+                                    <input type="text" id="epPhone" name="epPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="环保负责人电话"/>
                                 </div>
                             </td>
                         </tr>

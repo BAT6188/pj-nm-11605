@@ -226,6 +226,25 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         write(pk);
     }
 
+    public static String  arrayToString(String[] arr){
+        String ret="";
+        if (null!=arr){
+            if (arr.length>0){
+                for (String s : arr) {
+                    ret+=s+"，";
+                }
+                ret=ret.substring(0,ret.length()-1);
+            }
+        }
+        return ret;
+    }
+
+    public static void main(String[] args) {
+        String[] a=null;
+        String s = arrayToString(a);
+        System.out.println(s);
+    }
+
     /**
      * 监控中心，监控办公室的调度单选择人员，点发送按钮
      */
@@ -262,8 +281,13 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         entity.setStatus(DispatchTask.status_1);
         super.save();
 
+
+        mc.setMonitorOfficePersonId(jsonIds);
+        String[] names = this.getParamValues("names");
+        mc.setMonitorOfficePersonName(arrayToString(names));
         mc.setDispatchId(entity.getId());
         mc.setStatus(MonitorCase.status_1);
+        mc.setReceiveStatus("0");
         monitorCaseService.update(mc);
     }
 

@@ -4,6 +4,33 @@ var pageUtils = {
     MSG_TYPE_PUBINFO : "3",
     MSG_TYPE_POLLUTANTPAYMENT : "4",
     FROM_HEIGHT:600,
+
+    updateSelfReadStatus:function (url,id,selfReadStatus) {
+        $.ajax({
+            url:url,
+            type:"post",
+            data:{id:id,selfReadStatus:selfReadStatus},
+            success:function (msg) {
+                if (msg=='ok'){
+                    console.log("保存成功")
+                }
+
+            }
+        });
+    },
+
+    sendParamDataToString:function (data) {
+        var d=""
+        // data: {"personObj":[{"0":true,"couldChose":true,"icon":"common/images/ztree/head_male_man_user.png","id":"402883b3577422f00157fa2def64042f","mobilePhone":"13604779948","name":"张一乐","parentId":"402883b3577422f00157f9d874d103e9","pinyinCodes":"ZYL,zhangyile","userId":"zhangyile","level":1,"tId":"choseZtree1479095001232_3","parentTId":"choseZtree1479095001232_1","open":false,"isParent":false,"zAsync":true,"isFirstNode":false,"isLastNode":false,"isAjaxing":false,"checked":false,"checkedOld":false,"nocheck":false,"chkDisabled":false,"halfCheck":false,"check_Child_State":-1,"check_Focus":false,"isHover":true,"editNameFlag":false}],"sourceId":"ba1750b4768647aba501e8a583c3c0bc"}
+        $.each(data.personObj,function (i,v) {
+            d+="&ids="+v.id
+            d+="&names="+v.name
+
+        })
+        d+="&sourceId="+data.sourceId;
+        return d;
+    },
+
     /**
      * 发送系统消息
      * @param msg 消息内容 {'msgType':pageUtils.MSG_TYPE_SCHEDULE,
@@ -160,6 +187,10 @@ var pageUtils = {
         localParams.skip = params.offset;
         localParams.page = params.offset / params.limit + 1;
         localParams.pageSize = params.limit;
+        var jsonData = $('.queryBox').find('form').formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
         return localParams;
     },
     /**
@@ -293,6 +324,10 @@ var pageUtils = {
         localParams.skip = params.offset;
         localParams.page = params.offset / params.limit + 1;
         localParams.pageSize = params.limit;
+        var jsonData = $('.queryBox').find('form').formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
         return localParams;
     },
     loading:function(msg){

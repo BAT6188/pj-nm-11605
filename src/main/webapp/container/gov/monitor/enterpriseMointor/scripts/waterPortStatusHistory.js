@@ -17,7 +17,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_port_WaterPortHistory_list.action",
-        height: getHeight(),
+        height: pageUtils.getTableHeight()-100,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -25,6 +25,20 @@ function initTable() {
             var temp = pageUtils.getBaseParams(param);
             temp.portId = portId;
             return temp;
+        },
+        rowStyle:function(row,index) {
+            var dataType;
+            switch(row.dataStatus){
+                case '1':
+                    dataType = 'danger alert-danger';
+                    break;
+                case '2':
+                    dataType = 'warning alert-warning';
+                    break;
+                default:
+                    dataType = 'success alert-success';
+            }
+            return { classes:dataType};
         },
         columns: [
             {
@@ -72,7 +86,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()-100
         });
     });
 }

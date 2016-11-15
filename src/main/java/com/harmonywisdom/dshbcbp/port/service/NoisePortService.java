@@ -21,4 +21,6 @@ public interface NoisePortService extends IBaseService<NoisePort, String> {
      * @return
      */
     List<NoisePort> findByIds(String...ids);
+
+    void delete(String portId);
 }

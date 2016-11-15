@@ -42,18 +42,10 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = pageUtils.getBaseParams(param);
-            return temp;
-        },
+        search:true,
+        searchOnEnterKey:true,
+        queryParams:pageUtils.localParams,
         columns: [
-            /*{
-                field: 'state',
-                checkbox: true,
-                align: 'center',
-                radio:false,  //  true 单选， false多选
-                valign: 'middle'
-            },*/
             {
                 field: 'opModule',
                 title: '操作模块',
@@ -103,18 +95,16 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        //查询之前重置table
-        //gridTable.bootstrapTable('resetSearch');
-        var jsonData = $('#searchform').formSerializeObject();
-        gridTable.bootstrapTable('refresh',{
-            silent: true,
-            query:jsonData
-        });
+        //销毁
+        gridTable.bootstrapTable('destroy');
+        //重新载入
+        initTable();
     });
     //重置搜索
     $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('refresh');
+        gridTable.bootstrapTable('destroy');
+        initTable();
     });
 }
 
