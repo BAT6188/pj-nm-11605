@@ -429,7 +429,7 @@ var options = {
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    console.log(data)
+    console.info("回调函数data参数："+JSON.stringify(data))
     var personObj = data.personObj[0];
     $("#seter").val(personObj.name)
     $("#seterId").val(personObj.id)

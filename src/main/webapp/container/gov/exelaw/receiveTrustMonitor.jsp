@@ -4,6 +4,14 @@
 <head>
     <title>接收委托监测</title>
     <%@include file="/common/msgSend/msgSend.jsp"%>
+    <style>
+        #isNew{
+            display: inline;
+            top: -10px;
+            position: relative;
+            background: url("<%=request.getContextPath()%>/common/images/isNew.png") no-repeat;
+        }
+    </style>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -137,6 +145,12 @@
                         <div class="col-sm-10">
                             <textarea id="monitorContentDetail" name="monitorContentDetail" class="form-control" rows="4" cols="50" placeholder="" data-message="监测内容详情不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="auditSuggestionForSend" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group">

@@ -50,7 +50,11 @@ function initTable() {
                 align: 'center',
                 events: approveAndSendEvents,
                 formatter: function (value, row, index) {
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="approveAndSend" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                    var isNewDiv=""
+                    if (row.selfReadStatusForJianchadadui!='1'){
+                        isNewDiv='<div id="isNew">&nbsp;</div>'
+                    }
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="approveAndSend" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -102,6 +106,13 @@ function initTable() {
                 }
             },
             {
+                title: '发送人',
+                field: 'monitoringStationOfficePersonNameList',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 field: 'status',
                 title: '反馈状态',
                 align: 'center',
@@ -134,22 +145,18 @@ function initTable() {
 // 列表操作事件
 window.approveAndSendEvents = {
     'click .approveAndSend': function (e, value, row, index) {
+        var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForJianchadadui.action";
+        pageUtils.updateSelfReadStatus(url,row.id,1)
         setFormData(row);
     }
 };
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    if (value==2){
-        value="同意"
-    }else if(value==3){
-        value="不同意"
-    }else if(value==4){
-        value="已发送"
-    }else if(value==5){
+    if (value==7){
         value="已反馈"
     }else {
-        value="-"
+        value="未反馈"
     }
     return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">'+value+'</div>';
 }
@@ -290,12 +297,12 @@ var options = {
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
         type:2
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({personIds:data.personObj.id},true)
-    d+="&sourceId="+data.sourceId;
+    var d=pageUtils.sendParamDataToString(data)
     d+="&auditor="+userName;
     console.log("发送："+d)
     $.ajax({
@@ -341,6 +348,7 @@ function setFormData(entity) {
     disabledForm(true);
     $("#id").attr("disabled",false);
     $("#removeId").attr("disabled",false);
+    $("#auditSuggestionForSend").attr("disabled",false);
 
     var id = entity.id;
     $("#id").val(entity.id);
