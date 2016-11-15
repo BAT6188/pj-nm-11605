@@ -35,6 +35,12 @@ public class Demo implements Serializable {
     @Transient
     private String attachmentIds;
 
+    /**
+     * 导出word时使用
+     */
+    @Transient
+    private String demoList;
+
     public String getId() {
         return id;
     }
@@ -81,5 +87,13 @@ public class Demo implements Serializable {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getDemoList() {
+        return demoList;
+    }
+
+    public void setDemoList(String demoList) {
+        this.demoList = demoList;
     }
 }

@@ -1,0 +1,64 @@
+{
+    "attachmentId": "08af018be8a44daf911b3398c645f59a",
+    "businessAddress": "[业务地址]",
+    "companyName": "[单位名称]",
+    "companyType": "企业类型",
+    "contactPhone": "[联系电话]",
+    "department": "[部门]",
+    "directorPerson": "[联系人]",
+    "directorUnit": "[联系单位]",
+    "economicCharacte": "[经济]",
+    "electronicMailbox": "[测试1]",
+    "fax": "[传真]",
+    "fixedAssets": "[传真2]",
+    "id": "e16afee67e464ecda19c0280151c6be8",
+    "lastYearSales": "[测试lastYearSales]",
+    "legalRepresentative": "[测试legalRepresentative]",
+    "nonLegalPerson": "[测试nonLegalPerson]",
+    "postalCode": "[测试postalCode]",
+    "propertyRight": "[测试propertyRight]",
+    "registerAddress": "[测试registerAddress]",
+    "registeredCapital": "[测试registeredCapital]",
+    "safetyNumber": "[测试safetyNumber]",
+    "specialType": "[测试specialType]",
+    "storageAddress": "[测试storageAddress]",
+    "storageCapacity": "[测试storageCapacity]",
+    "storageProperty": "[测试storageProperty]",
+    "storageStructural": "[测试storageStructural]",
+    "systemName": "[测试systemName]",
+    "technologyNumber": "[测试technologyNumber]",
+    "unitPhone": "[测试unitPhone]",
+    "wayBusiness": "[测试wayBusiness]",
+    "website": "[测试website]",
+    "workersNumber": "[测试workersNumber]",
+    "tables": [
+        {
+            "regionName": "fireSafetyEquipment",
+            "startRowNumber": 3,
+            "startColNumber": 1,
+            "keyNames": [
+                "name",
+                "norms",
+                "amount",
+                "status",
+                "remark"
+            ]
+        },
+        {
+            "regionName": "hazardousChemicals",
+            "startRowNumber": 4,
+            "startColNumber": 1,
+            "keyNames": [
+                "toxicname",
+                "toxicscale",
+                "toxicuse",
+                "oilvariety",
+                "oilscale",
+                "oiluse",
+                "othervariety",
+                "otherscale",
+                "otheruse"
+            ]
+        }
+    ]
+}
