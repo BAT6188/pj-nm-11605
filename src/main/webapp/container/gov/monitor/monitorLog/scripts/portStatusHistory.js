@@ -3,7 +3,22 @@ var gridTable = $('#table'),
     updateBtn = $('#update'),
     form = $("#otherProductForm"),
     formTitle = "超标记录",
-    selections = [];
+    selections = [],
+    blockMap = {};
+setBlockMap();
+function setBlockMap(){
+    $.ajax({
+        url: rootPath + "/action/S_composite_BlockLevel_getAllBlocksZtree.action",
+        method:'post',
+        async :false,
+        dataType:"json",
+        success:function(data) {
+            $.each(data,function(k,v){
+                blockMap[v.id] = v.name;
+            })
+        }
+    });
+}
 $('.form_date').datetimepicker({
     language:   'zh-CN',
     weekStart: 1,
@@ -29,6 +44,20 @@ function initTable() {
             var temp = pageUtils.getBaseParams(param);
             return temp;
         },
+        rowStyle:function(row,index) {
+            var dataType;
+            switch(row.portStatus){
+                case '1':
+                    dataType = 'danger alert-danger';
+                    break;
+                case '2':
+                    dataType = 'warning alert-warning';
+                    break;
+                default:
+                    dataType = 'success alert-success';
+            }
+            return { classes:dataType};
+        },
         columns: [
             {
                 title:"全选",
@@ -49,7 +78,13 @@ function initTable() {
                 field: 'blockLevelName',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function(value, row, index) {
+                    var blockLevelName = blockMap[row.blockLevelId],blockName=blockMap[row.blockId];
+                    if(blockLevelName==undefined) blockLevelName = "未定义";
+                    if(blockName==undefined) blockName = "未定义";
+                    return  blockLevelName+ "-" +blockName;
+                }
             },
             {
                 title: '超标时间',
@@ -186,17 +221,12 @@ $("#update").bind("click",function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    //gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/

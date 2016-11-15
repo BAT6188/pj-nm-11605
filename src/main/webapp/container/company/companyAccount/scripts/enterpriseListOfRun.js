@@ -128,17 +128,12 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        //查询之前重置table
-        //gridTable.bootstrapTable('resetSearch');
-        var jsonData = $('#searchform').formSerializeObject();
-        gridTable.bootstrapTable('refresh',{
-            query:jsonData
-        });
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     //重置搜索
     $("#resetSearch").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('refresh');
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     initModel();
 }

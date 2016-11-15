@@ -96,6 +96,29 @@ var VideoPage = function () {
         };
     }
     };
+
+    $(function(){
+        initMapVideoBtn();
+    });
+    /*初始化标注按钮*/
+    function initMapVideoBtn(){
+        $('#mapVideoBtn').bind('click', function () {
+            //绑定markDialog关闭事件
+            MapMarkDialog.closed(function (mark) {
+                if (mark) {
+                    $("#longitude").val(mark.x);
+                    $("#latitude").val(mark.y);
+                }else{
+                    Ewin.alert({message:"请选择坐标"});
+                    return false;
+                }
+            });
+            //设置标绘模式
+            MapMarkDialog.setMode("point");
+            MapMarkDialog.open();
+        })
+    }
+
     var gridTableVideo = $('#videoTable'),
         removeVideoBtn = $('#removeVideo'),
         updateVideoBtn = $('#updateVideo'),
@@ -176,12 +199,26 @@ var VideoPage = function () {
                     align: 'center'
                 },
                 {
+                    title: '经度',
+                    field: 'longitude',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '纬度',
+                    field: 'latitude',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                /*{
                     field: 'operate',
                     title: '操作',
                     align: 'center',
                     events: operateEvents,
                     formatter: operateFormatter
-                }
+                }*/
             ]
         });
         // sometimes footer render error.
@@ -256,12 +293,11 @@ var VideoPage = function () {
     });
     /**============列表搜索相关处理============**/
 //搜索按钮处理
-    $("#search").click(function () {
-
+/*    $("#search").click(function () {
         gridTableVideo.bootstrapTable('refresh',{
             query:queryParams
         });
-    });
+    });*/
 
     /**============表单初始化相关代码============**/
 
@@ -310,8 +346,8 @@ var VideoPage = function () {
         disabledForm(true);
         var fuOptions = videoPage.getUploaderOptionsVideo(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
-            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#video-fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#video-fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#video-fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
         };
         uploaderVideo = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
@@ -320,6 +356,7 @@ var VideoPage = function () {
     }
     function disabledForm(disabled) {
         videoform.find("input").attr("disabled",disabled);
+        $("#mapVideoBtn").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
             $('#pubTimeContent').datetimepicker({

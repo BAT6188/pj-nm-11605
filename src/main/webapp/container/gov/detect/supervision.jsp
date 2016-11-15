@@ -124,10 +124,14 @@
                     <div class="form-group">
                         <label for="areaPoints" class="col-sm-2 control-label">管辖区域标会<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <input type="text" id="areaPoints" name="areaPoints" class="form-control"
-                                   data-message="管辖区域标会不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
+                            <div class="input-group">
+                                <textarea id="areaPoints" name="areaPoints" class="form-control" rows="3"></textarea>&nbsp;&nbsp;&nbsp;
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
+                                        标注
+                                    </button>
+					            </span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,6 +150,7 @@
         </div>
     </div>
 </div>
+<%@include file="/common/gis/map_mark.jsp" %>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/supervision.js"></script>
 </body>
 </html>

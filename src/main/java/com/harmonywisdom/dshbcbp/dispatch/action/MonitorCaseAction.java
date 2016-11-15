@@ -63,6 +63,19 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         return monitorCaseService;
     }
 
+    public void sendSms(){
+        String monitorCaseId = request.getParameter("sourceId");
+        MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
+
+        String[] ids = this.getParamValues("ids");
+        String jsonIds = JSON.toJSONString(ids);
+        mc.setSmsPersonId(jsonIds);
+        String[] names = this.getParamValues("names");
+        mc.setSmsPersonName(DispatchTaskAction.arrayToString(names));
+        monitorCaseService.update(mc);
+        write(mc);
+    }
+
     /**
      * 根据角色 执法大队领导 得到 人员
      */

@@ -5,7 +5,7 @@ var MapMarkDialog = function () {
     function dragPoint() {
         hwmap.dragPoint({
             id:"mark_"+(new Date()).getTime(),
-            imgSrc:"images/markers/mark.png",
+            image:rootPath+"/common/gis/images/markers/mark.png",
             width:30,
             height:30,
             autoExit:false,

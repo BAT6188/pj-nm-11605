@@ -17,13 +17,27 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_port_DustPortHistory_list.action",
-        height: getHeight(),
+        height: pageUtils.getTableHeight()-100,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
             return temp;
+        },
+        rowStyle:function(row,index) {
+            var dataType;
+            switch(row.dataStatus){
+                case '1':
+                    dataType = 'danger alert-danger';
+                    break;
+                case '2':
+                    dataType = 'warning alert-warning';
+                    break;
+                default:
+                    dataType = 'success alert-success';
+            }
+            return { classes:dataType};
         },
         columns: [
             {
@@ -106,7 +120,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()-100
         });
     });
 }
@@ -163,20 +177,14 @@ $("#search").click(function () {
     var jsonData = $('#searchform').formSerializeObject();
     if(jsonData){
         if(checkSearchForm(jsonData)){
-            gridTable.bootstrapTable('refresh',{
-                query:jsonData
-            });
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         }
-    }else{
-        gridTable.bootstrapTable('refresh',{
-            query:jsonData
-        });
     }
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 function checkSearchForm(jsonData){
     if(jsonData.startTime<jsonData.endTime || (!jsonData.startTime && !jsonData.endTime)){

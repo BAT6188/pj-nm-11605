@@ -4,4 +4,6 @@ import com.harmonywisdom.dshbcbp.port.bean.FumesPort;
 import com.harmonywisdom.framework.service.IBaseService;
 
 public interface FumesPortService extends IBaseService<FumesPort, String> {
+
+    void delete(String portId);
 }

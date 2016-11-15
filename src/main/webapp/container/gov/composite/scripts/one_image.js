@@ -1,5 +1,7 @@
 //@ sourceURL=one_image.js
 var OneImagePage = function () {
+    var MINE_IMAGE_URL = "gongkuanglu.jsp";
+
     var Constant = {
         //数据类型标识
         GASPORT_FLAG: "GasPort",
@@ -30,6 +32,7 @@ var OneImagePage = function () {
             this.initMap();
             this.initTree();
             var that = this;
+            dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
             var alertTimer = setInterval(function () {
                 that.refreshPortStatusToMap();
@@ -375,7 +378,7 @@ var OneImagePage = function () {
                 id:noisePort.id,
                 data:noisePort,
                 type:Constant.NOISEPORT_FLAG,
-                imaSrc:image,
+                image:image,
                 width:34,
                 height:39,
                 x:noisePort.longitude,
@@ -385,51 +388,37 @@ var OneImagePage = function () {
                 }
             },this.MAP_LAYER_NOISEPORT);
         },
-        //噪声排口是否监测和监测值映射。方便加载
-        NOISE_MONITOR_ITEM_MAP:{
-            'isLeqdb': {'field':'leqdb','label':'Leq(db)'},
-            'isSd': {'field':'sd','label':'sd'},
-            'isLmax': {'field':'lmax','label':'Lmax(dB)'},
-            'isLmin': {'field':'lmin','label':'Lmin(dB)'},
-            'isLFive': {'field':'lFive','label':'L5(dB)'},
-            'isLTen': {'field':'lTen','label':'L10(dB)'},
-            'isLFifty': {'field':'lFifty','label':'L50(dB)'},
-            'isLNinety': {'field':'lNinety','label':'L90(dB)'},
-            'isLNinetyFive': {'field':'lNinetyFive','label':'L95(dB)'},
-            'isLe': {'field':'le','label':'Le'}
 
-        },
         showNoisePortInfoWin:function(noisePort){
 
-            var height =250;
+            var height =260;
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: right;width: 100px;'>监测点:</td><td style='text-align: left;'>"+noisePort.name+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.monitorTime)+"</td></tr>";
-
-            //展示噪声排口监测值
-            for(var isMonitor in this.NOISE_MONITOR_ITEM_MAP) {
-                if (noisePort[isMonitor] == "1") {
-                    var lable = this.NOISE_MONITOR_ITEM_MAP[isMonitor].label;
-                    var valueField = this.NOISE_MONITOR_ITEM_MAP[isMonitor].field;
-                    var value = pageUtils.getStr(noisePort[valueField]);
-                    infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
-                }
-            }
-            infoHtml+="<tr><td style='text-align: right;'>昼间上限(dB):</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.dayMax)+"</td></tr>"+
-                "<tr><td style='text-align: right;'>夜间上限(dB):</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.nightMax)+"</td></tr>";
-            if (noisePort.portStatus == "1") {
-                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>超标信息</button></td></tr>";
-            }else if (noisePort.portStatus == "2") {
-                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>异常信息</button></td></tr>";
-            }else {
-
-            }
+                "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+noisePort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(noisePort.number)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(noisePort.position)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>噪声源类型:</td><td style='text-align: left;'>"+dict.get("noiseType",noisePort.noiseType)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>功能区类别:</td><td style='text-align: left;'>"+dict.get("noiseFnType",noisePort.noiseFnType)+"</td></tr>";
             infoHtml += "</table>";
-
+            //添加按钮
+            infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
+            infoHtml+="<button data-port-id='"+noisePort.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
+            //超标按钮
+            var statusBtnText = "";
+            if (noisePort.portStatus == "1") {
+                statusBtnText+="超标信息";
+            }else if (noisePort.portStatus == "2") {
+                statusBtnText+="异常信息";
+            }else {
+                statusBtnText = "";
+            }
+            var statusBtnHtml = "<button data-port-id='" + noisePort.id + "' class='btn btn-primary show-status-btn' href='javascript:void(0);'>"+statusBtnText+"</button>";
+            if(statusBtnText){
+                infoHtml+=statusBtnHtml;
+            }
+            infoHtml+="</div>";
+            //添加按钮结束
             infoHtml += "</div>";
-
-
             //显示信息窗口
             var infoWindowDom = this.hwmap.showInfoWindow({
                 x:noisePort.longitude,
@@ -438,6 +427,14 @@ var OneImagePage = function () {
                 height:height,
                 html:infoHtml,
                 title:"噪音监测设备"
+            });
+            $(infoWindowDom).find(".show-info-btn").bind("click",function () {
+                var portId = $(this).data("port-id");
+               //打开噪音详情表单
+                NoiseFormViewDialog.modal({
+                    id:portId
+                });
+                NoiseFormViewDialog.modal("show");
             });
             $(infoWindowDom).find(".show-status-btn").bind("click",function () {
                 var portId = $(this).data("port-id");
@@ -497,7 +494,7 @@ var OneImagePage = function () {
                 id:dustPort.id,
                 data:dustPort,
                 type:Constant.DUSTPORT_FLAG,
-                imaSrc:image,
+                image:image,
                 width:33,
                 height:37,
                 x:dustPort.longitude,
@@ -507,43 +504,37 @@ var OneImagePage = function () {
                 }
             },this.MAP_LAYER_DUSTPORT);
         },
-        //沙尘暴排口是否监测和监测值映射。方便加载
-        dustMonitorMap:{
-            'isPm': {'field':'pm','label':'PM(mg/m3)'},
-            'isTsp': {'field':'tsp','label':'TSP(mg/m3)'},
-            'isTemperature': {'field':'temperature','label':'温度(.C)'},
-            'isHumidity': {'field':'lmin','label':'湿度(%)'},
-            'isAirPressure': {'field':'lFive','label':'气压(hpa)'},
-            'isWindDirection': {'field':'lTen','label':'风向(度)'},
-            'isWindSpeed': {'field':'lFifty','label':'风速(m/s)'}
 
-        },
         showDustPortInfoWin:function(dustPort){
 
-            var height =250;
+
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: right;width: 70px;'>监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+dustPort.monitorTime+"</td></tr>"+
-                "<tr><td style='text-align: right;'>能见度:</td><td style='text-align: left;'>"+pageUtils.getStr(dustPort.visibility)+"</td></tr>";
+                "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.number)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+dict.get("noiseType",dustPort.longitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+dict.get("noiseFnType",dustPort.latitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.position)+"</td></tr>";
 
-                //展示噪声排口监测值
-            for(var isMonitor in this.dustMonitorMap) {
-                if (dustPort[isMonitor] == "1") {
-                    var lable = this.dustMonitorMap[isMonitor].label;
-                    var valueField = this.dustMonitorMap[isMonitor].field;
-                    var value = pageUtils.getStr(dustPort[valueField]);
-                    infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
-                }
-            }
-            if (dustPort.portStatus == "1") {
-                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+dustPort.id+"'>超标信息</button></td></tr>";
-            }else if (dustPort.portStatus == "2") {
-                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+dustPort.id+"'>异常信息</button></td></tr>";
-            }else {
-
-            }
             infoHtml += "</table>";
+            //添加按钮
+            infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
+            infoHtml+="<button data-port-id='"+dustPort.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
+            //超标按钮
+            var statusBtnText = "";
+            if (dustPort.portStatus == "1") {
+                statusBtnText+="超标信息";
+            }else if (dustPort.portStatus == "2") {
+                statusBtnText+="异常信息";
+            }else {
+                statusBtnText = "";
+            }
+            var statusBtnHtml = "<button data-port-id='" + dustPort.id + "' class='btn btn-primary show-status-btn' href='javascript:void(0);'>"+statusBtnText+"</button>";
+            if(statusBtnText){
+                infoHtml+=statusBtnHtml;
+            }
+            infoHtml+="</div>";
+            //添加按钮结束
             infoHtml += "</div>";
 
 
@@ -552,9 +543,17 @@ var OneImagePage = function () {
                 x:dustPort.longitude,
                 y:dustPort.latitude,
                 width:300,
-                height:height,
+                height:260,
                 html:infoHtml,
                 title:"沙尘暴监测设备"
+            });
+            $(infoWindowDom).find(".show-info-btn").bind("click",function () {
+                var portId = $(this).data("port-id");
+                //打开噪音详情表单
+                DustFormViewDialog.modal({
+                    id:portId
+                });
+                DustFormViewDialog.modal("show");
             });
             $(infoWindowDom).find(".show-status-btn").bind("click",function () {
                 var portId = $(this).data("port-id");
@@ -669,7 +668,7 @@ var OneImagePage = function () {
                 id:enterprise.id,
                 data:enterprise,
                 type:Constant.ENTERPRISE_FLAG,
-                imaSrc:image,
+                image:image,
                 width:40,
                 height:40,
                 x:enterprise.longitude,
@@ -680,7 +679,7 @@ var OneImagePage = function () {
             },this.MAP_LAYER_ENTERPRISE);
         },
         showEnterpriseInfoWin:function(enterprise){
-            var height =250;
+            var height =260;
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
                 "<tr><td style='text-align: left;width: 70px;'>企业名称:</td><td style='text-align: left;'>"+enterprise.name+"</td></tr>"+
@@ -689,9 +688,10 @@ var OneImagePage = function () {
                 "<tr><td style='text-align: left;'>单位地址:</td><td style='text-align: left;'>"+enterprise.address+"</td></tr>"+
                 "<tr><td style='text-align: left;'>所属网格:</td><td style='text-align: left;'>"+""+"</td></tr>"+
                 "</table>"+
-                "<div class='btn-group btn-group-sm pull-right' style='position: absolute;text-align: right;bottom: 0;right: 5px;'>" +
-                "<a id='mainInfo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业台账</a>" +
-                "<a id='enterprisePlan' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业平面图</a>" +
+                "<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>" +
+                "<button id='mainInfo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业台账</button>" +
+                "<button id='enterprisePlan' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业平面图</button>" +
+                "<button id='mineImage' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>工矿图</button>" +
                 "</div>";
             infoHtml+="</div>";
 
@@ -699,10 +699,14 @@ var OneImagePage = function () {
             var infoDOM = this.hwmap.showInfoWindow({
                 x:enterprise.longitude,
                 y:enterprise.latitude,
-                width:240,
+                width:260,
                 height:height,
                 html:infoHtml,
                 title:"企业信息"
+            });
+            //绑定企业台账按钮事件
+            $(infoDOM).find("#mineImage").bind("click", function () {
+                window.open(MINE_IMAGE_URL);
             });
             //绑定企业台账按钮事件
             $(infoDOM).find("#mainInfo").bind("click", function () {
@@ -1122,7 +1126,7 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:video.id,
                 data:video,
-                imaSrc:"images/markers/camera.png",
+                image:"images/markers/camera.png",
                 width:32,
                 height:32,
                 x:video.longitude,

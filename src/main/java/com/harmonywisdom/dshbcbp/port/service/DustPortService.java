@@ -21,4 +21,6 @@ public interface DustPortService extends IBaseService<DustPort, String> {
      * @return
      */
     List<DustPort> findByIds(String...ids);
+
+    void delete(String portId);
 }

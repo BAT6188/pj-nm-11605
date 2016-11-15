@@ -6,6 +6,8 @@ import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
+import com.harmonywisdom.dshbcbp.dispatch.action.DispatchTaskAction;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
@@ -37,6 +39,54 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     }
 
     /**
+     * 监察大队
+     */
+    public void updateSelfReadStatusForJianchadadui(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        TrustMonitor t = trustMonitorService.findById(id);
+        t.setSelfReadStatusForJianchadadui(selfReadStatus);
+        trustMonitorService.update(t);
+        write("ok");
+    }
+
+    /**
+     * 监测站办公室
+     */
+    public void updateSelfReadStatusForMonitorOffice(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        TrustMonitor t = trustMonitorService.findById(id);
+        t.setSelfReadStatusForMonitorOffice(selfReadStatus);
+        trustMonitorService.update(t);
+        write("ok");
+    }
+
+    /**
+     * 监测站站长
+     */
+    public void updateSelfReadStatusForMonitorMaster(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        TrustMonitor t = trustMonitorService.findById(id);
+        t.setSelfReadStatusForMonitorMaster(selfReadStatus);
+        trustMonitorService.update(t);
+        write("ok");
+    }
+
+    /**
+     * 监测站人员
+     */
+    public void updateSelfReadStatusForMonitorPerson(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        TrustMonitor t = trustMonitorService.findById(id);
+        t.setSelfReadStatusForMonitorPerson(selfReadStatus);
+        trustMonitorService.update(t);
+        write("ok");
+    }
+
+    /**
      * 保存企业委托监测数据
      */
     public void saveEnterpriseSelfData(){
@@ -59,8 +109,11 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
         trustMonitor.setStatus("5");
 
-        String[] personIds = getParamValues("personIds");
+        String[] personIds = getParamValues("ids");
         trustMonitor.setMonitoringStationMasterPersonList(JSON.toJSONString(personIds));
+
+        String[] names = getParamValues("names");
+        trustMonitor.setMonitoringStationMasterPersonNameList(DispatchTaskAction.arrayToString(names));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -74,8 +127,11 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
         trustMonitor.setStatus("6");
 
-        String[] personIds = getParamValues("personIds");
+        String[] personIds = getParamValues("ids");
         trustMonitor.setMonitoringStationPersonList(JSON.toJSONString(personIds));
+
+        String[] names = getParamValues("names");
+        trustMonitor.setMonitoringStationPersonNameList(DispatchTaskAction.arrayToString(names));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -90,8 +146,11 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         trustMonitor.setStatus("2");
         trustMonitor.setAuditor(entity.getAuditor());
 
-        String[] personIds = getParamValues("personIds");
+        String[] personIds = getParamValues("ids");
         trustMonitor.setMonitoringStationOfficePersonList(JSON.toJSONString(personIds));
+
+        String[] names = getParamValues("names");
+        trustMonitor.setMonitoringStationOfficePersonNameList(DispatchTaskAction.arrayToString(names));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -105,8 +164,11 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
         trustMonitor.setStatus("1");
 
-        String[] personIds = getParamValues("personIds");
+        String[] personIds = getParamValues("ids");
         trustMonitor.setEnvironmentalProtectionStationSelectPersonList(JSON.toJSONString(personIds));
+
+        String[] names = getParamValues("names");
+        trustMonitor.setEnvironmentalProtectionStationSelectPersonNameList(DispatchTaskAction.arrayToString(names));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -134,6 +196,9 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
      */
     public void saveAndAgreeAndSend(){
         String id = entity.getId();
+        TrustMonitor t = trustMonitorService.findById(id);
+        t.setAuditSuggestion(entity.getAuditSuggestion());
+        trustMonitorService.update(t);
 
         //获取删除的附件IDS
         String attachmentIdsRemoveId = request.getParameter("removeId");
@@ -146,7 +211,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
             attachmentService.updateBusinessId(id,entity.getAttachmentIds().split(","));
         }
 
-        write(trustMonitorService.findById(id));
+        write(t);
     }
 
     /**
@@ -261,6 +326,27 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    public void saveFeedback(){
+        TrustMonitor t = trustMonitorService.findById(entity.getId());
+        t.setMonitor(entity.getMonitor());
+        t.setMonitorPhone(entity.getMonitorPhone());
+        t.setFeedbackContent(entity.getFeedbackContent());
+        t.setStatus("7");
+        trustMonitorService.update(t);
+
+        //获取删除的附件IDS
+        String attachmentIdsRemoveId = request.getParameter("trustMonitorRemoveId");
+        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+        }
+
+        write("ok");
     }
 
 

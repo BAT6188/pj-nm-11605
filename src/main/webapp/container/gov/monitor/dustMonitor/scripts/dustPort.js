@@ -21,7 +21,7 @@ function initMapBtn(){
     });
     $('#mapMarkBtn').bind('click', function () {
         //设置标绘模式
-        MapMarkDialog.setMode("point");
+        MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
         MapMarkDialog.open();
     });
 }
@@ -217,17 +217,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    //gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/
@@ -236,7 +231,6 @@ var updateSuccessMsg = '提交成功';
 var ef = form.easyform({
     success:function (ef) {
         var entity = form.find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             $(".modal").modal('hide');

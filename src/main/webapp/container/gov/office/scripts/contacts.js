@@ -476,15 +476,12 @@ $("#chosePersonFormSearch").click(function(){
     });
 });
 function searchForm(){
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 }
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 $("#chosePersonFormReset").click(function () {
     $('#searchChosePersonform')[0].reset();

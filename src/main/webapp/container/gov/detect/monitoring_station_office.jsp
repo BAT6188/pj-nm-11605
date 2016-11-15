@@ -147,8 +147,12 @@
                             <input type="text" id="auditTime" name="auditTime" class="form-control" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
-
-
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="auditSuggestion" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>

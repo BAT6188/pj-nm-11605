@@ -1,9 +1,13 @@
 package com.harmonywisdom.dshbcbp.port.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.port.bean.AirQuality;
 import com.harmonywisdom.dshbcbp.port.dao.AirQualityDAO;
 import com.harmonywisdom.dshbcbp.port.service.AirQualityService;
+import com.harmonywisdom.dshbcbp.utils.HttpClientUtil;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service("airQualityService")
 public class AirQualityServiceImpl extends BaseService<AirQuality, String> implements AirQualityService {
@@ -22,6 +27,34 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
         return airQualityDAO;
     }
 
+    @Override
+    public void save15DayAQI() {
+        String url="http://110.19.109.61:9875/15DayAirQualityChangeCity.aspx?action=GetData";
+        try {
+            String result = HttpClientUtil.httpOrHttpsGet(url);
+            List<Map<String, String>> ls = JSON.parseObject(result, new TypeReference<List<Map<String, String>>>() {});
+            for (Map<String, String> map : ls) {
+                String rec_time = map.get("Rec_Time");
+                String aqi_24H = map.get("AQI_24H");
+                AirQuality airQuality=new AirQuality();
+                airQuality.setAirValue(Integer.valueOf(aqi_24H));
+                List<AirQuality> sample = findBySample(airQuality);
+                if (sample==null || sample.size()==0){
+                    airQuality.setRec_Time(DateUtil.strToDate(rec_time,"yyyy/MM/dd HH:mm:ss"));
+                    save(airQuality);
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("通过接口每15天查询空气质量指数get15DayAQI方法报错",e);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        AirQualityServiceImpl a=new AirQualityServiceImpl();
+        a.save15DayAQI();
+    }
 
     /**
      * 空气质量获取后台数据

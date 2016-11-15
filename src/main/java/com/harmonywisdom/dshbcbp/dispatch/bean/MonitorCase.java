@@ -36,6 +36,37 @@ public class MonitorCase implements Serializable {
     private String dispatchId;
 
     /**
+     * 选择的 监察大队人员id
+     */
+    @Column(name = "monitor_office_person_id")
+    private String monitorOfficePersonId;
+    /**
+     * 选择的 监察大队人员名字
+     */
+    @Column(name = "monitor_office_person_name")
+    private String monitorOfficePersonName;
+
+    /**
+     * 短信人员名字
+     */
+    @Column(name = "sms_person_id")
+    private String smsPersonId;
+    @Column(name = "sms_person_name")
+    private String smsPersonName;
+
+    /**
+     * 读取状态（自己读取状态）：0未读，1已读
+     */
+    @Column(name = "self_read_status")
+    private String selfReadStatus;
+
+    /**
+     * 下级接收状态：0未接收，1已接收
+     */
+    @Column(name = "receive_status")
+    private String receiveStatus;
+
+    /**
      * 状态
      * 0：未调度
      * 1：已调度
@@ -140,6 +171,9 @@ public class MonitorCase implements Serializable {
      */
     @Column(name = "send_remark")
     private String sendRemark;
+
+
+
 
     @Transient
     private String attachmentIds;
@@ -381,5 +415,53 @@ public class MonitorCase implements Serializable {
 
     public void setDispatchId(String dispatchId) {
         this.dispatchId = dispatchId;
+    }
+
+    public String getMonitorOfficePersonId() {
+        return monitorOfficePersonId;
+    }
+
+    public void setMonitorOfficePersonId(String monitorOfficePersonId) {
+        this.monitorOfficePersonId = monitorOfficePersonId;
+    }
+
+    public String getMonitorOfficePersonName() {
+        return monitorOfficePersonName;
+    }
+
+    public void setMonitorOfficePersonName(String monitorOfficePersonName) {
+        this.monitorOfficePersonName = monitorOfficePersonName;
+    }
+
+    public String getSelfReadStatus() {
+        return selfReadStatus;
+    }
+
+    public void setSelfReadStatus(String selfReadStatus) {
+        this.selfReadStatus = selfReadStatus;
+    }
+
+    public String getReceiveStatus() {
+        return receiveStatus;
+    }
+
+    public void setReceiveStatus(String receiveStatus) {
+        this.receiveStatus = receiveStatus;
+    }
+
+    public String getSmsPersonId() {
+        return smsPersonId;
+    }
+
+    public void setSmsPersonId(String smsPersonId) {
+        this.smsPersonId = smsPersonId;
+    }
+
+    public String getSmsPersonName() {
+        return smsPersonName;
+    }
+
+    public void setSmsPersonName(String smsPersonName) {
+        this.smsPersonName = smsPersonName;
     }
 }

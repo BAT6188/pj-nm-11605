@@ -185,20 +185,14 @@ $("#search").click(function () {
     var jsonData = $('#searchform').formSerializeObject();
     if(jsonData){
         if(checkSearchForm(jsonData)){
-            gridTable.bootstrapTable('refresh',{
-                query:jsonData
-            });
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         }
-    }else{
-        gridTable.bootstrapTable('refresh',{
-            query:jsonData
-        });
     }
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 function checkSearchForm(jsonData){
     if(jsonData.startTime<jsonData.endTime || (!jsonData.startTime && !jsonData.endTime)){

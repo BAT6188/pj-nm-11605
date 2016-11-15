@@ -14,6 +14,7 @@ import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 
@@ -81,13 +82,24 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
      */
     @Override
     public void delete() {
-        String deleteId = request.getParameter("deletedId");
-        if(StringUtils.isNotBlank(deleteId)){
+        String[] deleteIds = request.getParameterValues("deletedId");
+        Assert.notEmpty(deleteIds, "ID为空，无法删除。请指定要删除的记录的主键值");
+        StringBuffer sb = new StringBuffer();
+        if(deleteIds.length>0){
+            for(int i = 0; i < deleteIds.length; i++){
+                gasPortService.delete(deleteIds[i]);
+                if(i==0){
+                    sb.append(deleteIds[i]);
+                }else{
+                    sb.append(","+deleteIds[i]);
+                }
+            }
+            String deleteId =sb.toString();
             attachmentService.removeByBusinessIds(deleteId);
         }
-        super.delete();
         IPerson iPerson = ApportalUtil.getPerson(request);
-        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","废气排口","FumesPort",deleteId,null);
+        CommonUtil.insertAllOpLog(iPerson.getPersonId(), Constants.OPTYPE_DELETE,"企业台账","废气排口","FumesPort",sb.toString(),null);
+        write(Boolean.TRUE, "删除成功");
     }
 
     /**

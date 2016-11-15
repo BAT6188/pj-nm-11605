@@ -4,4 +4,6 @@ import com.harmonywisdom.dshbcbp.port.bean.PortThreshold;
 import com.harmonywisdom.framework.service.IBaseService;
 
 public interface PortThresholdService extends IBaseService<PortThreshold, String> {
+
+    void deleteByEnterprise(String enterpriseId);
 }

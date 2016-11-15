@@ -1,9 +1,12 @@
-//@ sourceURL=monitoring_station_office.js
-var gridTable = $('#table'),
+
+var gridTable = $('.tableTab'),
     checkButton = $('#checkButton'),
     form = $("#demoForm"),
+    lookOverFeedbackDetailForm = $("#lookOverFeedbackDetailForm"),
     formTitle = "委托监测",
-    selections = [];
+    selections = [],
+enterpriseSelf;
+
 
 
 /**============grid 列表初始化相关代码============**/
@@ -11,7 +14,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action?module=monitoring_station_office",
+        url: rootPath+"/action/S_exelaw_TrustMonitor_list.action?module=monitoring_station_person",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -77,10 +80,10 @@ function initTable() {
                 title: '状态',
                 align: 'center',
                 formatter:function (value, row, index) {
-                    if (value>=5){
-                        value="已发送"
+                    if (value==7){
+                        value="已反馈"
                     }else {
-                        value="未发送"
+                        value="未反馈"
                     }
                     return value;
                 }
@@ -105,6 +108,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
     });
 
     $(window).resize(function () {
@@ -124,8 +128,66 @@ window.sendEvents = {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">反馈</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">反馈</button>';
 }
+// 列表操作事件
+window.operateEvents = {
+    'click .view': function (e, value, entity, index) {
+
+        $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
+        $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+
+        $("#trustMonitorId").val(entity.id);
+        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+        $("#monitor").val(userName);
+        $("#monitorPhone").val(entity.monitorPhone);
+        $("#feedbackContent").val(entity.feedbackContent);
+        $(".editable").attr("disabled",false)
+
+        uploaderToggle(".bUploader")
+        uploader = new qq.FineUploader(getUploaderOptions(entity.id));
+
+        $("#saveFeedback").show()
+    }
+};
+
+
+var ef = lookOverFeedbackDetailForm.easyform({
+    success:function (ef) {
+        var entity ={}
+        entity.id= $("#trustMonitorId").val();
+        entity.monitor= $("#monitor").val();
+        entity.monitorPhone=$("#monitorPhone").val();
+        entity.feedbackContent= $("#feedbackContent").val();
+        entity.trustMonitorRemoveId= $("#trustMonitorRemoveId").val();
+        entity.attachmentIds = getAttachmentIds();
+        console.log(entity)
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_TrustMonitor_saveFeedback.action",
+            type:"post",
+            data:entity,
+            success:function (msg) {
+                lookOverFeedbackDetailForm.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        });
+    }
+});
+
+$("#saveFeedback").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -218,6 +280,7 @@ $('.form_datetime').datetimepicker({
     forceParse: 0,
     showMeridian: 1
 });
+
 
 /**
  * 设置表单数据
@@ -357,6 +420,44 @@ $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
 
+    $("#b_span").hide()
+    enterpriseSelf=0
+    $(function(){
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var activeTab = $(e.target).attr("href");
+
+            if("#a"==activeTab){
+                console.log("a")
+
+                $("#b_span").hide()
+                enterpriseSelf=0
+
+                // gridTable.bootstrapTable('hideColumn',"status");
+                // gridTable.bootstrapTable('hideColumn',"queryFeedback");
+                // gridTable.bootstrapTable('showColumn',"operate");
+            }else {
+                console.log("b")
+
+                $("#b_span").show()
+                enterpriseSelf=1
+
+                // gridTable.bootstrapTable('showColumn',"status");
+                // gridTable.bootstrapTable('showColumn',"queryFeedback");
+                // gridTable.bootstrapTable('hideColumn',"operate");
+            }
+
+            gridTable.bootstrapTable('refresh',{
+                query:{enterpriseSelf:enterpriseSelf}
+            });
+
+        });
+    });
+
+
+
 })
+
+
+
 
 

@@ -49,6 +49,23 @@ public class FumesPortHistory implements Serializable {
     @Column(name = "humidity")
     private Double humidity;
 
+    /**
+     * 数据状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
+     */
+    @Column(name = "data_status",length = 1)
+    private String dataStatus;
+
+    public String getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(String dataStatus) {
+        this.dataStatus = dataStatus;
+    }
+
     public String getId() {
         return id;
     }

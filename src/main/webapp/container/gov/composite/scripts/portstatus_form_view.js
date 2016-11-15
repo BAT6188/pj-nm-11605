@@ -6,7 +6,7 @@ var PortStatusFormView = function(){
         _uploaderContainer:document.getElementById("portStatusViewDialog-fine-uploader-gallery"),
         _title:"排口状态信息",
         _width:900,
-        _height:500,
+        _height:400,
         init:function () {
             var that = this;
             //初始化dialog大小
@@ -86,7 +86,7 @@ var PortStatusFormView = function(){
             this.disabledForm(true);
             var fuOptions = this.getUploaderOptions(entity.id);
             fuOptions.callbacks.onSessionRequestComplete = function () {
-                $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+                $(this._uploaderContainer).find(".qq-upload-delete").hide();
             };
             uploader = new qq.FineUploader(fuOptions);
             $(".qq-upload-button").hide();

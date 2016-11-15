@@ -273,15 +273,5 @@
 </div>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
-<script>
-    /*var testoptions = {
-        choseMore:false,
-        title:"组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
-        width:"60%",        //宽度(可省略，默认值：850)
-    }
-    var testmodel = $.fn.MsgSend.init(2,testoptions,function(e,data){
-        console.log(data);//回调函数，data为所选人员ID
-    });*/
-</script>
 </body>
 </html>

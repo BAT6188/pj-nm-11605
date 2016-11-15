@@ -87,13 +87,13 @@ function initTable() {
                 formatter: function(value, row, index) {
                     switch(value){
                         case "0":
-                            return '<img src="container/gov/enterprise/images/blueCircle.png" style="width: 20px;height: 20px;">';
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
                         case "1":
                             return '<img src="container/gov/enterprise/images/readCircle.png" style="width: 20px;height: 20px;">';
                         case "2":
                             return '<img src="container/gov/enterprise/images/yelloCircle.png" style="width: 20px;height: 20px;">';
                         default:
-                            return '<img src="container/gov/enterprise/images/grayCircle.png" style="width: 20px;height: 20px;">';
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
                     }
                 }
             },
@@ -164,15 +164,10 @@ initTable();
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    //gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
