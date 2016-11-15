@@ -476,15 +476,14 @@ $("#chosePersonFormSearch").click(function(){
     });
 });
 function searchForm(){
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('destroy');
+    initTable();
 }
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('destroy');
+    initTable();
 });
 $("#chosePersonFormReset").click(function () {
     $('#searchChosePersonform')[0].reset();

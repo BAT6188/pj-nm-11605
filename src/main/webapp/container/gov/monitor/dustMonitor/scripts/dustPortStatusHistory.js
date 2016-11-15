@@ -177,14 +177,12 @@ $("#search").click(function () {
     var jsonData = $('#searchform').formSerializeObject();
     if(jsonData){
         if(checkSearchForm(jsonData)){
-            gridTable.bootstrapTable('refresh',{
-                query:jsonData
-            });
+            gridTable.bootstrapTable('destroy');
+            initTable();
         }
     }else{
-        gridTable.bootstrapTable('refresh',{
-            query:jsonData
-        });
+        gridTable.bootstrapTable('destroy');
+        initTable();
     }
 });
 //重置搜索
