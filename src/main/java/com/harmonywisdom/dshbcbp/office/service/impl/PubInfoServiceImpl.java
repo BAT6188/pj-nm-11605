@@ -26,7 +26,7 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
      */
     @Override
     public List<PubInfo> companyByPower() {
-        List<PubInfo> pubInfos = getDAO().queryJPQL("from PubInfo where grade='5' ");
+        List<PubInfo> pubInfos = getDAO().queryJPQL("from PubInfo where grade='5' order by pubTime DESC,id DESC");
         return pubInfos;
     }
 }
