@@ -38,8 +38,11 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
                 String aqi_24H = map.get("AQI_24H");
                 AirQuality airQuality=new AirQuality();
                 airQuality.setAirValue(Integer.valueOf(aqi_24H));
-                airQuality.setRec_Time(DateUtil.strToDate(rec_time,"yyyy/MM/dd HH:mm:ss"));
-                save(airQuality);
+                List<AirQuality> sample = findBySample(airQuality);
+                if (sample==null || sample.size()==0){
+                    airQuality.setRec_Time(DateUtil.strToDate(rec_time,"yyyy/MM/dd HH:mm:ss"));
+                    save(airQuality);
+                }
             }
 
         } catch (Exception e) {
