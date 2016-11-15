@@ -97,27 +97,7 @@
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/video.js"></script>
 <script>
-    $(function(){
-        initMapBtn();
-    });
-    /*初始化标注按钮*/
-    function initMapBtn(){
-        $('#mapVideoBtn').bind('click', function () {
-            //绑定markDialog关闭事件
-            MapMarkDialog.closed(function (mark) {
-                if (mark) {
-                    $("#longitude").val(mark.x);
-                    $("#latitude").val(mark.y);
-                }else{
-                    Ewin.alert({message:"请选择坐标"});
-                    return false;
-                }
-            });
-            //设置标绘模式
-            MapMarkDialog.setMode("point");
-            MapMarkDialog.open();
-        })
-    }
+
 </script>
 </body>
 </html>
