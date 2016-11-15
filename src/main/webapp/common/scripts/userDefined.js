@@ -161,6 +161,10 @@ var pageUtils = {
         localParams.skip = params.offset;
         localParams.page = params.offset / params.limit + 1;
         localParams.pageSize = params.limit;
+        var jsonData = $('.queryBox').find('form').formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
         return localParams;
     },
     /**
@@ -287,6 +291,10 @@ var pageUtils = {
         localParams.skip = params.offset;
         localParams.page = params.offset / params.limit + 1;
         localParams.pageSize = params.limit;
+        var jsonData = $('.queryBox').find('form').formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
         return localParams;
     },
     loading:function(msg){

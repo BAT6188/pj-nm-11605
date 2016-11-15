@@ -25,6 +25,20 @@ function initTable() {
             var temp = pageUtils.getBaseParams(param);
             return temp;
         },
+        rowStyle:function(row,index) {
+            var dataType;
+            switch(row.dataStatus){
+                case '1':
+                    dataType = 'danger alert-danger';
+                    break;
+                case '2':
+                    dataType = 'warning alert-warning';
+                    break;
+                default:
+                    dataType = 'success alert-success';
+            }
+            return { classes:dataType};
+        },
         columns: [
             {
                 title: '监测点',
