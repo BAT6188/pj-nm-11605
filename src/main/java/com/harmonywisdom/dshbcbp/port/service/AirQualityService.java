@@ -27,4 +27,9 @@ public interface AirQualityService extends IBaseService<AirQuality, String> {
      * @return
      */
     List<Object[]> findByAirRadioData(String startXdate, String lastXdate, String startSdate, String lastSdate, String airType);
+
+    /**
+     * 通过接口每15天查询空气质量指数
+     */
+    public void get15DayAQI();
 }
