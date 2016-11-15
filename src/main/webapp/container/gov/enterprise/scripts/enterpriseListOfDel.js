@@ -151,14 +151,12 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        gridTable.bootstrapTable('destroy');
-        initTable();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     //重置搜索
     $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('destroy');
-        initTable();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
 }
 /*企业运行状态*/
