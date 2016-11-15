@@ -86,6 +86,8 @@
         <class>com.harmonywisdom.dshbcbp.detect.bean.Schedule</class>
         <class>com.harmonywisdom.dshbcbp.detect.bean.EntMonitorTask</class>
 		<class>com.harmonywisdom.dshbcbp.alert.bean.SysOperationLog</class>
+        <!--pageoffice 模版维护-->
+		<class>com.harmonywisdom.dshbcbp.officetemp.bean.OfficeTemp</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
