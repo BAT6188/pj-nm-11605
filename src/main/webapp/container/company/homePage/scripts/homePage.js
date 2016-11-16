@@ -77,7 +77,7 @@ $(function(){
                 //清除原有列表数据
                 for (var i = 0; i < result.length; i++) {
                     var trHtml = "";
-                    if( i >2){
+                    if( i >4){
                         trHtml = "<tr><td colspan='8' class='colMs' style='text-align: right'><a style='color:black;cursor:pointer;'><span>查看更多...</span></a></td></tr>";
                         var $tr = $(trHtml);
                         $("#excessTable").append($tr);
