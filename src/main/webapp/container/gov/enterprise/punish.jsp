@@ -1,12 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String dispatchTaskId = request.getParameter("id");
-    if (null==dispatchTaskId || dispatchTaskId.length()==0){
-        dispatchTaskId="";
-    }
+    String enterpriseId = request.getParameter("id");
 %>
 <script>
-    var dispatchTaskId='<%=dispatchTaskId%>'
+    var enterpriseId='<%=enterpriseId%>'
 </script>
 <!DOCTYPE html>
 <html>
@@ -79,7 +76,7 @@
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="caseName" class="col-sm-2 control-label">案件名称<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="hidden" id="dispatchTaskId" name="dispatchTaskId">
@@ -88,10 +85,6 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <div class="col-sm-1">
-                            <button type="button" class="btn btn-primary" id="select" data-toggle="modal" data-target="#lawListForm">选择</button>
-                        </div>
-
                         <label for="filingDate" class="col-sm-2 control-label">立案时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
@@ -243,50 +236,6 @@
     </div>
 </div>
 
-<%--选择执法列表--%>
-<div class="modal fade" id="lawListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 1017px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">执法列表</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" class="form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="s_source">信息来源：</label>
-                        <select id="s_source" class="form-control">
-                        <option value="">全部</option>
-                        <option value="1">12369</option>
-                        <option value="2">区长热线</option>
-                        <option value="3">市长热线</option>
-                        <option value="4">现场监察</option>
-                        <option value="0">监控中心</option>
-                        </select>
-
-                    </div>
-                    <div class="form-group">
-                        <button type="button" id="sc" class="btn btn-md btn-success queryBtn"><span>查询</span></button>
-                    </div>
-
-                </form>
-
-                <br/>
-                <div class="tableBox">
-                    <table id="lawTable" class="table table-striped table-responsive">
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="selected">选择</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="<%=request.getContextPath()%>/container/gov/exelaw/scripts/punish.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/punish.js"></script>
 </body>
 </html>

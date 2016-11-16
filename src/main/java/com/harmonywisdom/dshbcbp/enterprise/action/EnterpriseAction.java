@@ -34,6 +34,12 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         return enterpriseService;
     }
 
+    public void getEnterpriseInfoById(){
+        String id = request.getParameter("enterpriseId");
+        Enterprise enterprise = enterpriseService.findById(id);
+        write(enterprise);
+    }
+
     /**
      * 根据id获取企业信息
      */

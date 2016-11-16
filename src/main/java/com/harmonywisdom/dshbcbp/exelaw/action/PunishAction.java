@@ -34,7 +34,7 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
         QueryParam params = new QueryParam();
         String start_filingDate = request.getParameter("start_filingDate");
         String end_filingDate = request.getParameter("end_filingDate");
-        if (StringUtils.isNotBlank(entity.getDispatchTaskId())) {
+        if (StringUtils.isNotEmpty(entity.getDispatchTaskId())) {
             params.andParam(new QueryParam("dispatchTaskId", QueryOperator.EQ, entity.getDispatchTaskId()));
         }
         if (StringUtils.isNotBlank(entity.getCaseName())) {
@@ -45,6 +45,9 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
         }
         if (StringUtils.isNotBlank(end_filingDate)) {
             params.andParam(new QueryParam("filingDate", QueryOperator.LE, DateUtil.strToDate(end_filingDate,"yyyy-MM-dd HH:mm")));
+        }
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
+            params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
 
         QueryCondition condition = new QueryCondition();
@@ -63,6 +66,8 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
             if (dispatchTask!=null){
                 dispatchTask.setStatus("4");
                 dispatchTaskService.update(dispatchTask);
+
+                entity.setEnterpriseId(dispatchTask.getEnterpriseId());
             }
         }
         //获取删除的附件IDS
