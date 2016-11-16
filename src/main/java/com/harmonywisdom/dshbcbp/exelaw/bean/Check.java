@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +15,10 @@ public class Check implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
+
     /**
      * 检查人
      */
@@ -34,11 +35,16 @@ public class Check implements Serializable {
     @Column(name = "time")
     private Date time;
 
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
+    @Transient
+    private String attachmentIds;
 
-    @Column(name = "enterprise_id", length = 32)
-    private String enterpriseId;
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
 
     public String getId() {
         return id;
@@ -72,21 +78,15 @@ public class Check implements Serializable {
         this.time = time;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
+    public String getAttachmentIds() {
+        return attachmentIds;
     }
 
-    public String getEnterpriseId() {
-        return enterpriseId;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
-
-    public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
-    }
-
-
 }
