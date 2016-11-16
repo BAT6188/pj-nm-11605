@@ -285,6 +285,11 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        if (entity.status==1){
+            Ewin.alert('已发送状态不允许再次发送！');
+            return;
+        }
+
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
             model.open(msg.id);
@@ -295,7 +300,6 @@ var ef = form.easyform({
 
 //表单 保存按钮
 $("#save").bind('click',function () {
-    //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
 /**
@@ -358,6 +362,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
