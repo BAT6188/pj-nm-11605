@@ -16,6 +16,9 @@ public class Punish implements Serializable {
     @Column(length = 32)
     private String id;
 
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
+
     /**
      * 调度任务id
      */
@@ -259,5 +262,17 @@ public class Punish implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

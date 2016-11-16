@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,26 +16,30 @@ public class LetterSue implements Serializable {
     @Column(length = 32)
     private String id;
 
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
+
+
     /**
      * 信访时间
      */
-    @Column(name = "time")
-    private Date time;
+    @Column(name = "visit_time")
+    private Date visitTime;
     /**
      * 来访人姓名
      */
-    @Column(name = "person", length = 32)
-    private String person;
+    @Column(name = "visit_person", length = 32)
+    private String visitPerson;
     /**
      * 来访人联系电话
      */
-    @Column(name = "phone", length = 11)
-    private String phone;
+    @Column(name = "visit_phone", length = 11)
+    private String visitPhone;
     /**
      * 登记人
      */
-    @Column(name = "accepter", length = 32)
-    private String accepter;
+    @Column(name = "register_person", length = 32)
+    private String registerPerson;
     /**
      * 信访概要
      */
@@ -50,14 +51,16 @@ public class LetterSue implements Serializable {
     @Column(name = "solution")
     private String solution;
 
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
+    @Transient
+    private String attachmentIds;
 
-    @Column(name = "enterprise_id", length = 32)
-    private String enterpriseId;
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
 
-    @Column(name = "enterprise_name", length = 64)
-    private String enterpriseName;
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 
     public String getId() {
         return id;
@@ -67,37 +70,34 @@ public class LetterSue implements Serializable {
         this.id = id;
     }
 
-    public Date getTime() {
-        return time;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public Date getVisitTime() {
+        return visitTime;
     }
 
-    public String getPerson() {
-        return person;
+    public void setVisitTime(Date visitTime) {
+        this.visitTime = visitTime;
     }
 
-    public void setPerson(String person) {
-        this.person = person;
+    public String getVisitPerson() {
+        return visitPerson;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setVisitPerson(String visitPerson) {
+        this.visitPerson = visitPerson;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getVisitPhone() {
+        return visitPhone;
     }
 
-    public String getAccepter() {
-        return accepter;
+    public void setVisitPhone(String visitPhone) {
+        this.visitPhone = visitPhone;
     }
 
-    public void setAccepter(String accepter) {
-        this.accepter = accepter;
-    }
 
     public String getContent() {
         return content;
@@ -115,14 +115,6 @@ public class LetterSue implements Serializable {
         this.solution = solution;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
-
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -131,11 +123,11 @@ public class LetterSue implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
-    public String getEnterpriseName() {
-        return enterpriseName;
+    public String getRegisterPerson() {
+        return registerPerson;
     }
 
-    public void setEnterpriseName(String enterpriseName) {
-        this.enterpriseName = enterpriseName;
+    public void setRegisterPerson(String registerPerson) {
+        this.registerPerson = registerPerson;
     }
 }

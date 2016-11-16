@@ -50,6 +50,9 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
             lastYdate+=" 23:59:59";
             params.andParam(new QueryParam("payDate", QueryOperator.LE, DateUtil.strToDate(lastYdate,"yyyy-MM-dd")));
         }
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
+            params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
+        }
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
