@@ -118,9 +118,15 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
+            },{
+                title: '发送人',
+                field: 'sendPersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
-                field: 'operate',
+                field: 'status',
                 title: '监督性监测报告',
                 align: 'center',
                 events: operateEvents,
@@ -153,12 +159,17 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+    if (value==1){
+        return "已发送"
+    }else {
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">未发送</button>';
+    }
+
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        setFormView(row);
+        setFormData(row);
     }
 };
 /**
@@ -261,6 +272,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         data:d,
         success:function (msg) {
             form.modal('hide');
+            gridTable.bootstrapTable('refresh');
         }
     });
 });
@@ -274,7 +286,6 @@ var ef = form.easyform({
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            // form.modal('hide');
             gridTable.bootstrapTable('refresh');
             model.open(msg.id);
 
