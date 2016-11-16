@@ -7,6 +7,10 @@ import com.harmonywisdom.dshbcbp.officetemp.service.OfficeTempService;
 import com.harmonywisdom.dshbcbp.utils.FileUtil;
 import com.harmonywisdom.dshbcbp.utils.OfficeUtil;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
+import com.harmonywisdom.framework.dao.QueryCondition;
+import com.harmonywisdom.framework.dao.QueryOperator;
+import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.hazelcast.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +32,29 @@ public class OfficeTempAction extends BaseAction<OfficeTemp, OfficeTempService> 
         return officeTempService;
     }
 
+    @Override
+    protected QueryCondition getQueryCondition() {
+        QueryParam params = new QueryParam();
+        if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getName())) {
+            params.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
+        }
+
+        if (entity.getFileName() != null) {
+            params.andParam(new QueryParam("fileName", QueryOperator.LIKE,entity.getFileName()));
+        }
+
+        if (entity.getDataFileName() != null) {
+            params.andParam(new QueryParam("dataFileName", QueryOperator.LIKE,entity.getDataFileName()));
+        }
+
+        QueryCondition condition = new QueryCondition();
+        if (params.getField() != null) {
+            condition.setParam(params);
+        }
+        condition.setPaging(getPaging());
+        condition.setOrderBy("name", Direction.DESC);
+        return condition;
+    }
 
 
     @Override
@@ -92,17 +119,20 @@ public class OfficeTempAction extends BaseAction<OfficeTemp, OfficeTempService> 
             OfficeTemp template = officeTempService.findById(templateId);
             if(StringUtils.isBlank(template.getFileName())){
                 request.setAttribute("message","没有找到模板！");
-                response.sendRedirect(request.getContextPath()+"/gov/officetemp/error_message.jsp");
+                response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/error_message.jsp");
             }
             if( StringUtils.isBlank(template.getDataFileName())){
                 request.setAttribute("message","没有找到模板数据！");
-                response.sendRedirect(request.getContextPath()+"/gov/officetemp/error_message.jsp");
+                response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/error_message.jsp");
             }
 //            request.setAttribute("filePath",template.getFilePath() + template.getFileName());
 //            request.setAttribute("dataFilePath", template.getFilePath() + template.getDataFileName());
 //            RequestDispatcher rd = request.getRequestDispatcher("/gov/officetemp/template_editor.jsp");
 //            rd.forward(request, response);
-            response.sendRedirect(request.getContextPath()+"/gov/officetemp/template_editor.jsp?filePath="+template.getFilePath() + template.getFileName()+"&dataFilePath="+template.getFilePath() + template.getDataFileName());
+            String editUrl = request.getContextPath()+"/container/gov/officetemp/template_editor.jsp?filePath="+template.getFilePath() + template.getFileName()+"&dataFilePath="+template.getFilePath() + template.getDataFileName();
+            String pageOfficeLink = OfficeUtil.getPageOfficeLink(request, editUrl);
+            response.sendRedirect(pageOfficeLink);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,13 +158,13 @@ public class OfficeTempAction extends BaseAction<OfficeTemp, OfficeTempService> 
 //            request.setAttribute("dataFilePath", template.getFilePath() + template.getDataFileName());
 //            RequestDispatcher rd = request.getRequestDispatcher("/gov/officetemp/template_editor.jsp");
 //            rd.forward(request, response);
-            String url = request.getContextPath() + "/container/gov/officetemp/template_show.jsp" +
+            String showUrl = request.getContextPath() + "/container/gov/officetemp/template_show.jsp" +
                     "?filePath=" + template.getFilePath() + template.getFileName() +
                     "&dataFilePath=" + template.getFilePath() + template.getDataFileName() +
                     "&beanName=" + request.getParameter("beanName") +
                     "&bussinessId=" + request.getParameter("bussinessId");
-            String pageOfficeLinke = OfficeUtil.getPageOfficeLink(request, url);
-            response.sendRedirect(pageOfficeLinke);
+            String pageOfficeLink = OfficeUtil.getPageOfficeLink(request, showUrl);
+            response.sendRedirect(pageOfficeLink);
         } catch (Exception e) {
             e.printStackTrace();
         }
