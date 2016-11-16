@@ -359,7 +359,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="remark" class="col-sm-2 control-label">备注*：</label>
+                        <label for="remark" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">
                             <textarea  id="remark" name="remark" class="form-control" rows="5"
                                        data-message="备注不能为空"

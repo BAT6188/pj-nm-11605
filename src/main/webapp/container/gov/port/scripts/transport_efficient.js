@@ -98,7 +98,11 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return value + "%";
+                    if(value == null){
+                        return "";
+                    }else{
+                        return value + "%";
+                    }
                 }
             },
             {
@@ -108,7 +112,11 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return value + "%";
+                    if(value == null){
+                        return "";
+                    }else{
+                        return value + "%";
+                    }
                 }
             },
             {
@@ -118,8 +126,11 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    debugger;
-                    return value + "%";
+                    if(value == null){
+                        return "";
+                    }else{
+                        return value + "%";
+                    }
                 }
             },
             {
@@ -387,6 +398,7 @@ function setFormData(entity) {
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看" + formTitle);
+    form.find("textarea").attr("disabled",true);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
