@@ -356,6 +356,12 @@ public class Enterprise implements Serializable {
     @Transient
     private String attachmentId;
 
+    /**
+     * 导出word时使用
+     */
+    @Transient
+    private String enterpriseList;
+
     public String getUserName() {
         return userName;
     }
@@ -738,5 +744,13 @@ public class Enterprise implements Serializable {
 
     public void setHaveFumesPort(String haveFumesPort) {
         this.haveFumesPort = haveFumesPort;
+    }
+
+    public String getEnterpriseList() {
+        return enterpriseList;
+    }
+
+    public void setEnterpriseList(String enterpriseList) {
+        this.enterpriseList = enterpriseList;
     }
 }

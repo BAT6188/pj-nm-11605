@@ -509,3 +509,17 @@ function lookPlaneMap(){
         attachmentId:$('#planeMap').val()
     });
 }
+
+
+$("#demo_showWord").bind("click",function () {
+    // var selectModel = enterpriseId;
+    // alert(selectModel);
+    Ewin.confirm({ message: "确认要导出吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
+        window.open(rootPath+"/action/S_officetemp_OfficeTemp_showTemplate.action?" +
+            "id=Enterprise&beanName=enterpriseService&bussinessId="+enterpriseId);
+    });
+
+});
