@@ -103,6 +103,39 @@ function initTable() {
                 formatter:fnTypeFormatter
             },
             {
+                title: '经度',
+                field: 'longitude',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '纬度',
+                field: 'latitude',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'portStatus',
+                title: '当前状态',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter: function(value, row, index) {
+                    switch(value){
+                        case "0":
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
+                        case "1":
+                            return '<img src="container/gov/enterprise/images/readCircle.png" style="width: 20px;height: 20px;">';
+                        case "2":
+                            return '<img src="container/gov/enterprise/images/yelloCircle.png" style="width: 20px;height: 20px;">';
+                        default:
+                            return '<img src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
+                    }
+                }
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
