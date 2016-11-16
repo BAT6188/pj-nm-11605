@@ -41,6 +41,12 @@ public class DustPort implements Serializable {
     private Double latitude;
 
     /**
+     * 位置
+     */
+    @Column(name = "position")
+    private String position;
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -347,5 +353,13 @@ public class DustPort implements Serializable {
 
     public void setWindSpeed(Double windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 }

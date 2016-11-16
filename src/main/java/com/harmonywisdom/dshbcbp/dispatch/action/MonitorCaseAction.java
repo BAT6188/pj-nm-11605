@@ -22,6 +22,7 @@ import com.harmonywisdom.dshbcbp.dispatch.bean.OrgPerson;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.FeedbackService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.dshbcbp.utils.CommonUtil;
 import com.harmonywisdom.dshbcbp.utils.Constants;
@@ -61,6 +62,18 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
     @Override
     protected MonitorCaseService getService() {
         return monitorCaseService;
+    }
+
+    /**
+     * 监控中心
+     */
+    public void updateSelfReadStatus(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        MonitorCase byId = monitorCaseService.findById(id);
+        byId.setSelfReadStatus(selfReadStatus);
+        monitorCaseService.update(byId);
+        write("ok");
     }
 
     public void sendSms(){

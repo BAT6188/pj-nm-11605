@@ -41,7 +41,7 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
             param.andParam(new QueryParam("portName", QueryOperator.LIKE,"%"+entity.getPortName()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getEnterpriseType())) {
-            param.andParam(new QueryParam("enterpriseType", QueryOperator.LIKE,entity.getEnterpriseType()));
+            param.andParam(new QueryParam("enterpriseType", QueryOperator.LIKE,"%"+entity.getEnterpriseType()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
             param.andParam(new QueryParam("blockLevelId", QueryOperator.EQ,entity.getBlockLevelId()));

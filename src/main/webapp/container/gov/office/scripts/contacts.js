@@ -220,7 +220,14 @@ function initTable() {
                 visible:false,
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function(value, row, index){
+                    if(row.apportalUserName){
+                        return row.apportalUserName;
+                    }else{
+                        return "暂未关联任何系统用户!";
+                    }
+                }
             },
             {
                 field: 'operate',

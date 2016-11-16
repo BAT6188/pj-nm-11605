@@ -4,6 +4,14 @@
 <head>
     <title>监测站办公室</title>
     <%@include file="/common/msgSend/msgSend.jsp"%>
+    <style>
+        #isNew{
+            display: inline;
+            top: -10px;
+            position: relative;
+            background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
+        }
+    </style>
 </head>
 <body>
 <div class="content content1 clearfix">

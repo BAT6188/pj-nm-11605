@@ -5,6 +5,7 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.officetemp.bean.OfficeTemp;
 import com.harmonywisdom.dshbcbp.officetemp.service.OfficeTempService;
 import com.harmonywisdom.dshbcbp.utils.FileUtil;
+import com.harmonywisdom.dshbcbp.utils.OfficeUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.hazelcast.util.StringUtil;
@@ -127,12 +128,13 @@ public class OfficeTempAction extends BaseAction<OfficeTemp, OfficeTempService> 
 //            request.setAttribute("dataFilePath", template.getFilePath() + template.getDataFileName());
 //            RequestDispatcher rd = request.getRequestDispatcher("/gov/officetemp/template_editor.jsp");
 //            rd.forward(request, response);
-            response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/template_show.jsp"+
-                    "?filePath="+template.getFilePath() + template.getFileName()+
-                    "&dataFilePath="+template.getFilePath() + template.getDataFileName()+
-                    "&beanName="+request.getParameter("beanName")+
-                    "&bussinessId="+request.getParameter("bussinessId")
-            );
+            String url = request.getContextPath() + "/container/gov/officetemp/template_show.jsp" +
+                    "?filePath=" + template.getFilePath() + template.getFileName() +
+                    "&dataFilePath=" + template.getFilePath() + template.getDataFileName() +
+                    "&beanName=" + request.getParameter("beanName") +
+                    "&bussinessId=" + request.getParameter("bussinessId");
+            String pageOfficeLinke = OfficeUtil.getPageOfficeLink(request, url);
+            response.sendRedirect(pageOfficeLinke);
         } catch (Exception e) {
             e.printStackTrace();
         }

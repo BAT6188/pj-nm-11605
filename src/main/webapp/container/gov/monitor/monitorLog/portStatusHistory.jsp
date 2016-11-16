@@ -63,6 +63,16 @@
                                 <label for="enterpriseType" class="labelMarginLeft">企业类型：</label>
                                 <select style="width: 300px;" class="form-control"  id="enterpriseType" name="enterpriseType">
                                     <option value="">全部</option>
+                                    <option value="01">废水</option>
+                                    <option value="02">废气</option>
+                                    <option value="03">污水处理厂</option>
+                                    <option value="04">重金属</option>
+                                    <option value="05">畜禽养殖</option>
+                                    <option value="06">固废</option>
+                                    <option value="07">危险废物</option>
+                                    <option value="08">省级实验室</option>
+                                    <option value="09">二级以上医院</option>
+                                    <option value="10">其他</option>
                                 </select>
                             </div>
                         </div>
@@ -110,15 +120,5 @@
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/monitor/monitorLog/scripts/portStatusHistory.js"></script>
 <%@include file="/common/msgSend/msgSend.jsp"%>
-<script>
-    var testoptions = {
-     choseMore:false,
-     title:"组织机构发送",//弹出框标题(可省略，默认值：“人员选择”)
-     width:"60%",        //宽度(可省略，默认值：850)
-     }
-     var testmodel = $.fn.MsgSend.init(1,testoptions,function(e,data){
-     console.log(data);//回调函数，data为所选人员ID
-     });
-</script>
 </body>
 </html>
