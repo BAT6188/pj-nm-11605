@@ -134,6 +134,13 @@ function initTable() {
                 }
             },
             {
+                title: '发送人',
+                field: 'monitorOfficePersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '操作',
                 editable: false,
                 sortable: false,

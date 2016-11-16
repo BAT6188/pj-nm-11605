@@ -547,6 +547,8 @@ $(document).ready(function () {
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
 
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
+
+
 })
 
 

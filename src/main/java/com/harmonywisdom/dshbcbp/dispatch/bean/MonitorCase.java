@@ -36,18 +36,15 @@ public class MonitorCase implements Serializable {
     private String dispatchId;
 
     /**
-     * 选择的 监察大队人员id
+     * 选择的 监察大队人员
      */
     @Column(name = "monitor_office_person_id")
     private String monitorOfficePersonId;
-    /**
-     * 选择的 监察大队人员名字
-     */
     @Column(name = "monitor_office_person_name")
     private String monitorOfficePersonName;
 
     /**
-     * 短信人员名字
+     * 短信人员
      */
     @Column(name = "sms_person_id")
     private String smsPersonId;

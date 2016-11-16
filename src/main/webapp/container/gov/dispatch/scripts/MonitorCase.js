@@ -47,8 +47,14 @@ var status_search="";
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
-                footerFormatter: totalTextFormatter,
-                align: 'center'
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var isNewDiv=""
+                    if (row.selfReadStatus!='1'){
+                        isNewDiv='<div id="isNew">&nbsp;</div>'
+                    }
+                    return '<div>'+value+isNewDiv+'</div>';
+                }
             }, {
                 field: 'blockLevelName',
                 sortable: false,
@@ -95,6 +101,13 @@ var status_search="";
                 events: operateEvents,
                 formatter: statusFormatter,
                 visible:false
+            },
+            {
+                title: '发送人',
+                field: 'monitorOfficePersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'queryFeedback',
@@ -250,6 +263,8 @@ function reasonFormatter(value, row, index) {
 // 操作事件
 window.operateEvents = {
     'click .like': function (e, value, row, index) {
+        var url=rootPath + "/action/S_dispatch_MonitorCase_updateSelfReadStatus.action";
+        pageUtils.updateSelfReadStatus(url,row.id,1)
         refreshDemoForm(row);
     }
 };
@@ -345,8 +360,8 @@ var options = {
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({ids:data.personObj.id},true)
-    d+="&sourceId="+data.sourceId;
+    console.info("回调函数data参数："+JSON.stringify(data))
+    var d=pageUtils.sendParamDataToString(data)
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_dispatch_DispatchTask_save.action",

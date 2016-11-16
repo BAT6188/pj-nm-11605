@@ -45,7 +45,11 @@ function initTable() {
                 align: 'center',
                 events: sendEvents,
                 formatter: function (value, row, index) {
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                    var isNewDiv=""
+                    if (row.selfReadStatusForMonitorMaster!='1'){
+                        isNewDiv='<div id="isNew">&nbsp;</div>'
+                    }
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -108,7 +112,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-        console.log(!(gridTable.bootstrapTable('getSelections').length== 1))//TODO 有个问题：两个tab标签引起的问题
+        console.log(gridTable.bootstrapTable('getSelections').length)//TODO 有个问题：两个tab标签引起的问题
 
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
@@ -127,6 +131,8 @@ function initTable() {
 // 列表操作事件
 window.sendEvents = {
     'click .send': function (e, value, row, index) {
+        var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorMaster.action";
+        pageUtils.updateSelfReadStatus(url,row.id,1)
         setFormData(row);
     }
 };

@@ -85,7 +85,9 @@
         <!--综合监测-->
         <class>com.harmonywisdom.dshbcbp.detect.bean.Schedule</class>
         <class>com.harmonywisdom.dshbcbp.detect.bean.EntMonitorTask</class>
+        <class>com.harmonywisdom.dshbcbp.detect.bean.MonitorReport</class>
 		<class>com.harmonywisdom.dshbcbp.alert.bean.SysOperationLog</class>
+
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
