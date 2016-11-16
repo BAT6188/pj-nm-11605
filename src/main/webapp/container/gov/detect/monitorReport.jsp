@@ -93,6 +93,7 @@
                         <label for="" class="col-sm-2 control-label">监测名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="status" name="status">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="monitorName" name="monitorName" class="form-control"
                                    data-message="不能为空"
@@ -163,7 +164,7 @@
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">
-                            <textarea id="remark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                            <textarea id="remark" name="remark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group">
