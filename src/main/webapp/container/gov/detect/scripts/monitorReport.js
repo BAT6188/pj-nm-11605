@@ -118,9 +118,15 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
+            },{
+                title: '发送人',
+                field: 'sendPersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
-                field: 'operate',
+                field: 'status',
                 title: '监督性监测报告',
                 align: 'center',
                 events: operateEvents,
@@ -153,12 +159,17 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+    if (value==1){
+        return "已发送"
+    }else {
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">未发送</button>';
+    }
+
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        setFormView(row);
+        setFormData(row);
     }
 };
 /**
@@ -261,6 +272,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         data:d,
         success:function (msg) {
             form.modal('hide');
+            gridTable.bootstrapTable('refresh');
         }
     });
 });
@@ -273,8 +285,12 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        if (entity.status==1){
+            Ewin.alert('已发送状态不允许再次发送！');
+            return;
+        }
+
         saveAjax(entity,function (msg) {
-            // form.modal('hide');
             gridTable.bootstrapTable('refresh');
             model.open(msg.id);
 
@@ -284,7 +300,6 @@ var ef = form.easyform({
 
 //表单 保存按钮
 $("#save").bind('click',function () {
-    //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
 /**
@@ -347,6 +362,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
