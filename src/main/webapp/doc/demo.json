@@ -1,0 +1,22 @@
+{
+    "id": "[id]",
+    "name": "[姓名]",
+    "age": "[年龄]",
+    "longitude": "[x坐标]",
+    "latitude": "[y坐标]",
+    "attachmentIds": "[附件id]",
+    "tables": [
+        {
+            "regionName": "demoList",
+            "startRowNumber": 3,
+            "startColNumber": 1,
+            "keyNames": [
+                "name",
+                "age",
+                "longitude",
+                "latitude",
+                "attachmentIds"
+            ]
+        }
+    ]
+}
