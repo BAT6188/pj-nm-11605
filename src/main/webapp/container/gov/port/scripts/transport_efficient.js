@@ -398,7 +398,6 @@ function setFormData(entity) {
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看" + formTitle);
-    form.find("textarea").attr("disabled",true);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -414,6 +413,7 @@ function setFormView(entity) {
 
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#createTimeContent').datetimepicker({
