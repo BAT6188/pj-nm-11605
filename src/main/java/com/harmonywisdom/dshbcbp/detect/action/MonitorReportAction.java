@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.detect.action;
 
+import com.alibaba.fastjson.JSON;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
@@ -7,6 +8,8 @@ import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
 import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.detect.bean.MonitorReport;
 import com.harmonywisdom.dshbcbp.detect.service.MonitorReportService;
+import com.harmonywisdom.dshbcbp.dispatch.action.DispatchTaskAction;
+import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -67,6 +70,21 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         return condition;
     }
 
+    public void saveSendPerson(){
+        String sourceId = request.getParameter("sourceId");
+        MonitorReport mr = monitorReportService.findById(sourceId);
+
+        String[] ids = getParamValues("ids");
+        mr.setSendPersonId(JSON.toJSONString(ids));
+        String[] names = getParamValues("names");
+        mr.setSendPersonName(DispatchTaskAction.arrayToString(names));
+
+        mr.setStatus("1");
+        monitorReportService.update(mr);
+
+        write(sourceId);
+    }
+
     @Override
     public void save() {
         String blockLevelId = entity.getBlockLevelId();
@@ -87,6 +105,7 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
+        entity.setStatus("0");
         super.save();
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));

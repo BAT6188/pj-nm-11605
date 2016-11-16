@@ -48,6 +48,37 @@ public class DispatchTask implements Serializable {
     @Column(name = "status", length = 2)
     private String status;
 
+
+//--------------  现场监察监测报告  --------------------------//
+    /**
+     * 监测报告是否填写状态：0未填写，1已填写
+     */
+    @Column(name = "monitor_report_status", length = 2)
+    private String monitorReportStatus;
+
+    /**
+     * 监测报告读取状态：0未读，1已读
+     */
+    @Column(name = "monitor_report_read_status", length = 2)
+    private String monitorReportReadStatus;
+
+
+    /**
+     * 报送人
+     */
+    @Column(name = "submit_person")
+    private String submitPerson;
+    @Column(name = "submit_person_phone")
+    private String submitPersonPhone;
+
+    /**
+     * 检测报告备注
+     */
+    @Column(name = "monitor_report_remark")
+    private String monitorReportRemark;
+
+//--------------  现场监察监测报告  --------------------------//
+
     //////////////////////////////////////////////////////////
 
 
@@ -460,5 +491,45 @@ public class DispatchTask implements Serializable {
 
     public void setAllPerson(String allPerson) {
         this.allPerson = allPerson;
+    }
+
+    public String getMonitorReportStatus() {
+        return monitorReportStatus;
+    }
+
+    public void setMonitorReportStatus(String monitorReportStatus) {
+        this.monitorReportStatus = monitorReportStatus;
+    }
+
+    public String getMonitorReportReadStatus() {
+        return monitorReportReadStatus;
+    }
+
+    public void setMonitorReportReadStatus(String monitorReportReadStatus) {
+        this.monitorReportReadStatus = monitorReportReadStatus;
+    }
+
+    public String getSubmitPerson() {
+        return submitPerson;
+    }
+
+    public void setSubmitPerson(String submitPerson) {
+        this.submitPerson = submitPerson;
+    }
+
+    public String getSubmitPersonPhone() {
+        return submitPersonPhone;
+    }
+
+    public void setSubmitPersonPhone(String submitPersonPhone) {
+        this.submitPersonPhone = submitPersonPhone;
+    }
+
+    public String getMonitorReportRemark() {
+        return monitorReportRemark;
+    }
+
+    public void setMonitorReportRemark(String monitorReportRemark) {
+        this.monitorReportRemark = monitorReportRemark;
     }
 }

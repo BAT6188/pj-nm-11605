@@ -240,6 +240,32 @@ $('.form_datetime').datetimepicker({
     showMeridian: 1
 });
 
+var options = {
+    params:{
+        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        type:2
+    },
+    choseMore:false,
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model = $.fn.MsgSend.init(1,options,function(e,data){
+    console.info("回调函数data参数："+JSON.stringify(data))
+
+    var d=pageUtils.sendParamDataToString(data)
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_detect_MonitorReport_saveSendPerson.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            form.modal('hide');
+        }
+    });
+});
+
+
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
@@ -248,8 +274,10 @@ var ef = form.easyform({
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            form.modal('hide');
+            // form.modal('hide');
             gridTable.bootstrapTable('refresh');
+            model.open(msg.id);
+
         });
     }
 });

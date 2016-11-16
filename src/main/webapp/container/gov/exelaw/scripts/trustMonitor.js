@@ -275,6 +275,8 @@ var options = {
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
+    console.info("回调函数data参数："+JSON.stringify(data))
+
     var d=pageUtils.sendParamDataToString(data)
     console.log("发送："+d)
     $.ajax({

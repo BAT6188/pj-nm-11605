@@ -22,6 +22,22 @@ public class MonitorReport implements Serializable {
     private String type;
 
     /**
+     * 发送状态：0未发送，1已发送
+     */
+    @Column(length = 2)
+    private String status;
+
+
+    /**
+     * 选择发送的人员
+     */
+    @Column(name = "send_person_id")
+    private String sendPersonId;
+    @Column(name = "send_person_name")
+    private String sendPersonName;
+
+
+    /**
      * 监测名称
      */
     @Column(name = "monitor_name")
@@ -82,6 +98,22 @@ public class MonitorReport implements Serializable {
 
     @Transient
     private String attachmentIds;
+
+    public String getSendPersonId() {
+        return sendPersonId;
+    }
+
+    public void setSendPersonId(String sendPersonId) {
+        this.sendPersonId = sendPersonId;
+    }
+
+    public String getSendPersonName() {
+        return sendPersonName;
+    }
+
+    public void setSendPersonName(String sendPersonName) {
+        this.sendPersonName = sendPersonName;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -197,5 +229,13 @@ public class MonitorReport implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

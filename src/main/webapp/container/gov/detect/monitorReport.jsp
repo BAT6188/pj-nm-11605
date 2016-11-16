@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>监督性监测报告</title>
+    <%@include file="/common/msgSend/msgSend.jsp"%>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -175,7 +176,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save">保存</button>
+                <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
