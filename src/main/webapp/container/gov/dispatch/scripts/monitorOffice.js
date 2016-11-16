@@ -134,6 +134,13 @@ function initTable() {
                 }
             },
             {
+                title: '发送人',
+                field: 'monitorOfficePersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '操作',
                 editable: false,
                 sortable: false,
@@ -297,6 +304,7 @@ var options = {
         orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
         type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }

@@ -44,7 +44,11 @@ function initTable() {
                 align: 'center',
                 events: sendEvents,
                 formatter: function (value, row, index) {
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                    var isNewDiv=""
+                    if (row.selfReadStatusForMonitorPerson!='1'){
+                        isNewDiv='<div id="isNew">&nbsp;</div>'
+                    }
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -177,6 +181,11 @@ var ef = lookOverFeedbackDetailForm.easyform({
             data:entity,
             success:function (msg) {
                 lookOverFeedbackDetailForm.modal('hide');
+
+                var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorPerson.action";
+                pageUtils.updateSelfReadStatus(url,msg,1)
+
+
                 gridTable.bootstrapTable('refresh');
             }
         });

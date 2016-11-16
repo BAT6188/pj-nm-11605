@@ -12,6 +12,13 @@
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
         font-weight: bolder;
     }
+
+    #isNew{
+        display: inline;
+        top: -10px;
+        position: relative;
+        background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
+    }
 </style>
 <body>
 <div class="content content1 clearfix">

@@ -91,6 +91,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
      */
     public void saveEnterpriseSelfData(){
         String id = request.getParameter("trustMonitorId");
+        entity.setSelfReadStatusForMonitorMaster("1");
         if (StringUtils.isNotEmpty(id)){
             entity.setId(id);
             trustMonitorService.update(entity);
@@ -346,7 +347,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
 
-        write("ok");
+        write(entity.getId());
     }
 
 

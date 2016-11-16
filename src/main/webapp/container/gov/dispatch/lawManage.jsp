@@ -237,7 +237,7 @@
                         <div class="col-sm-4">
                             <select id="lookOverFeedbackForm_source" class="form-control">
                                 <option value="1">12369</option>
-                                option value="2">区长热线</option>
+                                <option value="2">区长热线</option>
                                 <option value="3">市长热线</option>
                                 <option value="4">现场监察</option>
                                 <option value="0">监控中心</option>

@@ -41,7 +41,11 @@ function initTable() {
                 align: 'center',
                 events: sendEvents,
                 formatter: function (value, row, index) {
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+'</div>';
+                    var isNewDiv=""
+                    if (row.selfReadStatusForMonitorOffice!='1'){
+                        isNewDiv='<div id="isNew">&nbsp;</div>'
+                    }
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -118,6 +122,8 @@ function initTable() {
 // 列表操作事件
 window.sendEvents = {
     'click .send': function (e, value, row, index) {
+        var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorOffice.action";
+        pageUtils.updateSelfReadStatus(url,row.id,1)
         setFormData(row);
     }
 };

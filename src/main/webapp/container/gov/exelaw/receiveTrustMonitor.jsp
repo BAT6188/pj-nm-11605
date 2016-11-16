@@ -9,7 +9,7 @@
             display: inline;
             top: -10px;
             position: relative;
-            background: url("<%=request.getContextPath()%>/common/images/isNew.png") no-repeat;
+            background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
         }
     </style>
 </head>
