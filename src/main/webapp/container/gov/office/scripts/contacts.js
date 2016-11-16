@@ -220,7 +220,14 @@ function initTable() {
                 visible:false,
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function(value, row, index){
+                    if(row.apportalUserName){
+                        return row.apportalUserName;
+                    }else{
+                        return "暂未关联任何系统用户!";
+                    }
+                }
             },
             {
                 field: 'operate',
@@ -476,15 +483,12 @@ $("#chosePersonFormSearch").click(function(){
     });
 });
 function searchForm(){
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 }
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 $("#chosePersonFormReset").click(function () {
     $('#searchChosePersonform')[0].reset();

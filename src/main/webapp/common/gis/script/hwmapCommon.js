@@ -389,7 +389,7 @@ HwmapCommon = {
      * id,
      * x,
      * y,
-     * imaSrc,
+     * image,
      * width,
      * height,
      * xOffset,
@@ -410,7 +410,7 @@ HwmapCommon = {
         if (!opt.point) {
             opt.point = this._createPoint(opt.x, opt.y);
         }
-        var marker = new com.hw.map.HWMarker(opt.id, opt.point, opt.imaSrc, opt.width, opt.height, opt.xOffset, opt.yOffset);
+        var marker = new com.hw.map.HWMarker(opt.id, opt.point, opt.image, opt.width, opt.height, opt.xOffset, opt.yOffset);
         this.hwmap.addMarker(marker);
         if ("function" == typeof(options.click)) {
             marker.addEventListener(com.hw.map.HWMapEvents.GRAPHIC_MOUSE_CLICK, opt.click);

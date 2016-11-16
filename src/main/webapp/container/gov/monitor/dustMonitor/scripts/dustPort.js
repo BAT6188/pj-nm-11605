@@ -105,6 +105,25 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
+                formatter: function(value, row, index) {
+                    switch(value){
+                        case "0":
+                            return '<img data-toggle="tooltip" data-placement="top" title="正常" src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
+                        case "1":
+                            return '<img data-toggle="tooltip" data-placement="top" title="超标" src="container/gov/enterprise/images/readCircle.png" style="width: 20px;height: 20px;">';
+                        case "2":
+                            return '<img data-toggle="tooltip" data-placement="top" title="异常" src="container/gov/enterprise/images/yelloCircle.png" style="width: 20px;height: 20px;">';
+                        default:
+                            return '<img data-toggle="tooltip" data-placement="top" title="正常" src="container/gov/enterprise/images/greenCircle.png" style="width: 20px;height: 20px;">';
+                    }
+                }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
             }
 
         ]
@@ -217,17 +236,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    //gridTable.bootstrapTable('resetSearch');
-    var jsonData = $('#searchform').formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/
@@ -236,7 +250,6 @@ var updateSuccessMsg = '提交成功';
 var ef = form.easyform({
     success:function (ef) {
         var entity = form.find("form").formSerializeObject();
-        entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
             $(".modal").modal('hide');
@@ -292,6 +305,7 @@ function setFormView(entity) {
     $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
 }
 function disabledForm(disabled) {
+    form.find('.formBtn').attr("disabled",disabled);
     form.find(".form-control").attr("disabled",disabled);
     form.find('.isRadio input').attr("disabled",disabled);
 }

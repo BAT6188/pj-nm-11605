@@ -18,13 +18,11 @@ public interface DispatchTaskService extends IBaseService<DispatchTask, String> 
 
     /**
      * 执法同期对比分析获取数据
-     * @param startXdate
-     * @param lastXdate
      * @param startSdate
      * @param lastSdate
      * @param name
      * @param lawType
      * @return
      */
-    List<Object[]> findByColumnRatio(String startXdate, String lastXdate, String startSdate, String lastSdate, String name, String lawType);
+    List<Object[]> findByColumnRatio(String startSdate, String lastSdate, String name, String lawType);
 }

@@ -42,21 +42,21 @@
                     <p></p>
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="s_name">姓名：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                            <label for="s_name">姓名：</label> <input type="text" id="demo_s_name" style="width: 180px;" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="s_age">年龄：</label> <input type="text" id="s_age"  style="width: 180px;" class="form-control" />
+                            <label for="s_age">年龄：</label> <input type="text" id="demo_s_age"  style="width: 180px;" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="">创建时间：</label>
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
+                            <div id="demo_s_datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="demo_sstart_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
+                                <input class="form-control" size="16" id="demo_send_createTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -74,6 +74,10 @@
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
+                    </button>
+
+                    <button id="demo_showWord" type="button" class="btn btn-sm btn-success">
+                        <span>显示word</span>
                     </button>
                 </p>
             </div>

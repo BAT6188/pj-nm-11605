@@ -378,7 +378,7 @@ var OneImagePage = function () {
                 id:noisePort.id,
                 data:noisePort,
                 type:Constant.NOISEPORT_FLAG,
-                imaSrc:image,
+                image:image,
                 width:34,
                 height:39,
                 x:noisePort.longitude,
@@ -402,7 +402,7 @@ var OneImagePage = function () {
             infoHtml += "</table>";
             //添加按钮
             infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
-            infoHtml+="<button data-port-id='"+noisePort.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>设备详情</button>";
+            infoHtml+="<button data-port-id='"+noisePort.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
             //超标按钮
             var statusBtnText = "";
             if (noisePort.portStatus == "1") {
@@ -494,7 +494,7 @@ var OneImagePage = function () {
                 id:dustPort.id,
                 data:dustPort,
                 type:Constant.DUSTPORT_FLAG,
-                imaSrc:image,
+                image:image,
                 width:33,
                 height:37,
                 x:dustPort.longitude,
@@ -504,43 +504,37 @@ var OneImagePage = function () {
                 }
             },this.MAP_LAYER_DUSTPORT);
         },
-        //沙尘暴排口是否监测和监测值映射。方便加载
-        dustMonitorMap:{
-            'isPm': {'field':'pm','label':'PM(mg/m3)'},
-            'isTsp': {'field':'tsp','label':'TSP(mg/m3)'},
-            'isTemperature': {'field':'temperature','label':'温度(.C)'},
-            'isHumidity': {'field':'lmin','label':'湿度(%)'},
-            'isAirPressure': {'field':'lFive','label':'气压(hpa)'},
-            'isWindDirection': {'field':'lTen','label':'风向(度)'},
-            'isWindSpeed': {'field':'lFifty','label':'风速(m/s)'}
 
-        },
         showDustPortInfoWin:function(dustPort){
 
-            var height =250;
+
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: right;width: 70px;'>监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+dustPort.monitorTime+"</td></tr>"+
-                "<tr><td style='text-align: right;'>能见度:</td><td style='text-align: left;'>"+pageUtils.getStr(dustPort.visibility)+"</td></tr>";
+                "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.number)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+dict.get("noiseType",dustPort.longitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+dict.get("noiseFnType",dustPort.latitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.position)+"</td></tr>";
 
-                //展示噪声排口监测值
-            for(var isMonitor in this.dustMonitorMap) {
-                if (dustPort[isMonitor] == "1") {
-                    var lable = this.dustMonitorMap[isMonitor].label;
-                    var valueField = this.dustMonitorMap[isMonitor].field;
-                    var value = pageUtils.getStr(dustPort[valueField]);
-                    infoHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
-                }
-            }
-            if (dustPort.portStatus == "1") {
-                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+dustPort.id+"'>超标信息</button></td></tr>";
-            }else if (dustPort.portStatus == "2") {
-                infoHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+dustPort.id+"'>异常信息</button></td></tr>";
-            }else {
-
-            }
             infoHtml += "</table>";
+            //添加按钮
+            infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
+            infoHtml+="<button data-port-id='"+dustPort.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
+            //超标按钮
+            var statusBtnText = "";
+            if (dustPort.portStatus == "1") {
+                statusBtnText+="超标信息";
+            }else if (dustPort.portStatus == "2") {
+                statusBtnText+="异常信息";
+            }else {
+                statusBtnText = "";
+            }
+            var statusBtnHtml = "<button data-port-id='" + dustPort.id + "' class='btn btn-primary show-status-btn' href='javascript:void(0);'>"+statusBtnText+"</button>";
+            if(statusBtnText){
+                infoHtml+=statusBtnHtml;
+            }
+            infoHtml+="</div>";
+            //添加按钮结束
             infoHtml += "</div>";
 
 
@@ -549,9 +543,17 @@ var OneImagePage = function () {
                 x:dustPort.longitude,
                 y:dustPort.latitude,
                 width:300,
-                height:height,
+                height:260,
                 html:infoHtml,
                 title:"沙尘暴监测设备"
+            });
+            $(infoWindowDom).find(".show-info-btn").bind("click",function () {
+                var portId = $(this).data("port-id");
+                //打开噪音详情表单
+                DustFormViewDialog.modal({
+                    id:portId
+                });
+                DustFormViewDialog.modal("show");
             });
             $(infoWindowDom).find(".show-status-btn").bind("click",function () {
                 var portId = $(this).data("port-id");
@@ -666,7 +668,7 @@ var OneImagePage = function () {
                 id:enterprise.id,
                 data:enterprise,
                 type:Constant.ENTERPRISE_FLAG,
-                imaSrc:image,
+                image:image,
                 width:40,
                 height:40,
                 x:enterprise.longitude,
@@ -1124,7 +1126,7 @@ var OneImagePage = function () {
             this.hwmap.addMarker({
                 id:video.id,
                 data:video,
-                imaSrc:"images/markers/camera.png",
+                image:"images/markers/camera.png",
                 width:32,
                 height:32,
                 x:video.longitude,

@@ -4,6 +4,7 @@ var pageUtils = {
     MSG_TYPE_PUBINFO : "3",
     MSG_TYPE_POLLUTANTPAYMENT : "4",
     FROM_HEIGHT:600,
+    PAGE_SIZE:10,
 
     updateSelfReadStatus:function (url,id,selfReadStatus) {
         $.ajax({

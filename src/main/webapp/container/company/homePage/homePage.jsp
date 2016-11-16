@@ -50,17 +50,19 @@
         .noborderPanel .table>tbody>tr>td:first-child{width: 40px;}
 
         .panel-body{
-            height:300px;
+            height:280px;
         }
-        .content1{
-            overflow-y: hidden;
-        }
-        .ztree{
-            height:450px;
-        }
+        /*.panel-body2{*/
+            /*height:450px;*/
+        /*}*/
+
         .menu-left{
-            margin-top: 7px;;
+            margin-top: 7px;
+            /*height:753px;*/
             overflow-y:hidden;
+        }
+        #level2content{
+            overflow-y: hidden;
         }
 
     </style>
@@ -72,7 +74,7 @@
             <div class="wrap noborderPanel">
                 <div class="row" >
                     <div class="col-sm-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-primary" style="overflow-y: auto">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
                                     <i class="panel-icon icon-notice"></i>
@@ -81,7 +83,7 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                <table class="table table-responsive" id="tablegrid">
+                                <table class="table table-responsive table-condensed" id="tablegrid">
                                     <tbody>
                                     <tr>
                                         <td><i class="panelList-icon mail-icon"></i></td>
@@ -89,7 +91,6 @@
                                         <td><span>发布时间</span></td>
                                         <td><span >发布单位</span></td>
                                         <td><span >操作</span></td>
-                                        <%--<td><span class="text-danger">发布单位</span></td>--%>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -97,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-primary" style="overflow-y: auto">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
                                     <i class="panel-icon icon-unusual"></i>
@@ -106,7 +107,7 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                <table class="table table-responsive" id="excessTable">
+                                <table class="table table-responsive table-condensed" id="excessTable">
                                     <tbody>
                                     <tr>
                                         <td><i class="panelList-icon error-icon"></i></td>
@@ -117,12 +118,6 @@
                                         <td><span >上限值</span></td>
                                         <td><span >操作</span></td>
                                     </tr>
-                                    <%--<tr>--%>
-                                        <%--<td><i class="panelList-icon error-icon"></i></td>--%>
-                                        <%--<td><span>每周例会通知</span></td>--%>
-                                        <%--<td><span>2016//8/29 15:12</span></td>--%>
-                                        <%--<td><span class="text-success">已办结</span></td>--%>
-                                    <%--</tr>--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -139,7 +134,7 @@
                                     <i class="panel-icon icon-more"></i>
                                 </h3>
                             </div>
-                            <div class="panel-body1">
+                            <div class="panel-body2">
                                 <%--<div class="wrap">--%>
                                     <div class="menu-left left">
                                         <div id="scrollContent" style="height:450px;">

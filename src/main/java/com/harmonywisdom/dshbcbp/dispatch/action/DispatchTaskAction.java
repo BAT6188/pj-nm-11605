@@ -323,14 +323,13 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public void getColumnRatio(){
         String name = request.getParameter("name");
         String lawType = request.getParameter("lawType");
-        String startXdate = request.getParameter("startXdate");
-        String lastXdate = request.getParameter("lastXdate");
+
         String startSdate = request.getParameter("startSdate");
         String lastSdate = request.getParameter("lastSdate");
 
         Map<String,Object> result = new HashMap<>();
 
-        List<Object[]> list = dispatchTaskService.findByColumnRatio(startXdate,lastXdate,startSdate,lastSdate,name,lawType);
+        List<Object[]> list = dispatchTaskService.findByColumnRatio(startSdate,lastSdate,name,lawType);
         if (list != null && list.size() > 0) {
             Object[] xlist = new Object[list.size()];
             Object[] y1list = new Object[list.size()];

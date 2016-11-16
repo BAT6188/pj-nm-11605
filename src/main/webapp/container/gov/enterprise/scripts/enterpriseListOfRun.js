@@ -87,9 +87,9 @@ function initTable() {
         ]
     });
     //gridTable.bootstrapTable('hideColumn', 'id');
-    setTimeout(function () {
+    /*setTimeout(function () {
         gridTable.bootstrapTable('resetView');
-    }, 200);
+    }, 200);*/
 
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +
@@ -128,12 +128,7 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        //查询之前重置table
-        //gridTable.bootstrapTable('resetSearch');
-        var jsonData = $('#searchform').formSerializeObject();
-        gridTable.bootstrapTable('refresh',{
-            query:jsonData
-        });
+        gridTable.bootstrapTable('refresh');
     });
     //重置搜索
     $("#resetSearch").click(function () {
@@ -172,7 +167,6 @@ function initModel(){
             dataType:"json",
             url: rootPath+"/action/S_enterprise_Enterprise_deleteEnterprise.action", // 需要提交的 url
             success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-                console.log(data);
                 if(data.success){
                     Ewin.alert("删除成功！");
                     gridTable.find('tr.selected').remove();

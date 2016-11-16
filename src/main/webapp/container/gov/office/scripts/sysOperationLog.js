@@ -95,16 +95,12 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        //销毁
-        gridTable.bootstrapTable('destroy');
-        //重新载入
-        initTable();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     //重置搜索
     $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('destroy');
-        initTable();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
 }
 

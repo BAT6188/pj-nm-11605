@@ -41,7 +41,7 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
             param.andParam(new QueryParam("portName", QueryOperator.LIKE,"%"+entity.getPortName()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getEnterpriseType())) {
-            param.andParam(new QueryParam("enterpriseType", QueryOperator.LIKE,entity.getEnterpriseType()));
+            param.andParam(new QueryParam("enterpriseType", QueryOperator.LIKE,"%"+entity.getEnterpriseType()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
             param.andParam(new QueryParam("blockLevelId", QueryOperator.EQ,entity.getBlockLevelId()));
@@ -156,7 +156,7 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
 
         Map<String,Object> result = new HashMap<>();
 
-        List<Object[]> list = portStatusHistoryService.findColumnRatio(name,startXdate,lastXdate,startSdate,lastSdate);
+        List<Object[]> list = portStatusHistoryService.findColumnRatio(name,startSdate,lastSdate);
         if (list != null && list.size() > 0) {
             Object[] xlist = new Object[list.size()];
             Object[] y1list = new Object[list.size()];

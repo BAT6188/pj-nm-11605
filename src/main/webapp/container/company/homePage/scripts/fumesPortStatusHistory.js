@@ -117,25 +117,17 @@ initTable();
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    gridTable.bootstrapTable('resetSearch');
     var jsonData = $('#searchform').formSerializeObject();
     if(jsonData){
         if(checkSearchForm(jsonData)){
-            gridTable.bootstrapTable('refresh',{
-                query:jsonData
-            });
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         }
-    }else{
-        gridTable.bootstrapTable('refresh',{
-            query:jsonData
-        });
     }
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 function checkSearchForm(jsonData){
     if(jsonData.startTime<jsonData.endTime || (!jsonData.startTime && !jsonData.endTime)){

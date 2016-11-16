@@ -29,6 +29,7 @@
             orgTreeOnClick(null,null,nodes[0]);
         }
         function setBlockDivView(thisObj){
+            refPersonBtn.prop('disabled', true);
             setShowColumnView(true);
             $('.orgBtn').hide();
             $('.blockBtn').show();
