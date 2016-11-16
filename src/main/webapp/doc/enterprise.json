@@ -30,7 +30,7 @@
   "openDate": "[开业时间]",
   "extensionDate": "[最近扩建时间]",
   "planeMap": "[平面图]",
-  "attachmentIds": "[附件id]",
+  "attachmentId": "[附件id]",
   "orgInfo": "[单位介绍]",
   "envDesc": "[周边环境敏感点]"
 
