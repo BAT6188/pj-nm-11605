@@ -33,48 +33,47 @@
         </div>
     </div>
 </div>
-<!--消息列表弹出框-->
-<div class="modal fade" id="messageDialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="messageDialog" aria-hidden="true">
+<!--消息详情弹出框-->
+<div class="modal fade" id="messageDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="messageDialog" aria-hidden="true">
     <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">新消息</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="message_title" class="col-sm-2 control-label">标题：</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <input type="hidden" id="message_id" name="id">
                             <input type="text" id="message_title" name="title" class="form-control" />
                         </div>
                         <label for="message_msgType" class="col-sm-2 control-label">消息类型：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" id="message_msgType" name="msgType" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="message_senderName" class="col-sm-2 control-label">发送人：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" id="message_senderName" name="senderName" class="form-control" />
                         </div>
                         <label for="message_alertTime" class="col-sm-2 control-label">发送时间：</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" id="message_alertTime" name="alertTime" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="message_content" class="col-sm-2 control-label">消息内容：</label>
                         <div class="col-sm-10">
-                            <textarea id="message_content" name="content" class="form-control"></textarea>
+                            <textarea id="message_content" name="content" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                     
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-details">详情</button>
+                <button type="button" class="btn btn-primary btn-details" data-dismiss="modal">详情</button>
                 <button type="button" class="btn btn-default btn-accept" data-dismiss="modal">接收</button>
             </div>
         </div>

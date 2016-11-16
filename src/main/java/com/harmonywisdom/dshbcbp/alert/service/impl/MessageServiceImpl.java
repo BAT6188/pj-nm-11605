@@ -33,7 +33,7 @@ public class MessageServiceImpl extends BaseService<Message, String> implements 
         }
         Date currentDate = new Date();
         //提醒时间默认为当前时间
-        if (message.getAlertTime() != null) {
+        if (message.getAlertTime() == null) {
             message.setAlertTime(currentDate);
         }
         message.setCreateTime(currentDate);

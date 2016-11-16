@@ -5,19 +5,26 @@ var MessageDialog = function () {
         msgListTable = msgListModal.find(".modal-body table tbody"),
         moreLinkDiv = msgListModal.find(".more-link"),
         msgListData = [];
-
+    //news 新消息
     var newsCountElement,
         refreshNewsCountClock,
         REFRESH_DELAY = 5000;
+    var msgModal = $("#messageDialog"),
+        msgForm = msgModal.find("form"),
+        MSG_FORM_DATA_BIND_KEY = "msg",
+        newsRank = [];
 
-    var RECEIVE_STATUS_UNRECEIVE = "1" ;
+    var RECEIVE_STATUS_UNRECEIVE = "1",
+        DICT_CODE_MSG_TYPE = "msg_type",
+        DICT_CODE_MSG_RECEIVE_STATUS = "msg_receive_status";
     var dialog= {
         init:function () {
             var that = this;
-            dict.init('msg_type','msg_receive_status');
+            //that.testSendMsg();
+            initMsgModal();
+            dict.init(DICT_CODE_MSG_TYPE,DICT_CODE_MSG_RECEIVE_STATUS);
 
             that.modal("show.bs.modal", function () {
-                //that.testSendMsg();
                 //打开窗口前，刷新列表
                 that.loadMsgList(that.getUserId());
             });
@@ -55,6 +62,7 @@ var MessageDialog = function () {
                 msgListModal.modal("toggle");
             }
         },
+        i:0,
         testSendMsg:function () {
             var receivers = [];
             var receiver1 = {receiverId:'dev',receiverName:'开发人员'};
@@ -63,7 +71,7 @@ var MessageDialog = function () {
             receivers.push(receiver2);
             var msg = {
                 'msgType':1,
-                'title':'消息标题',
+                'title':'消息标题'+(this.i++),
                 'content':'消息内容',
                 'businessId':'123123'
             };
@@ -76,15 +84,17 @@ var MessageDialog = function () {
         loadMsgList:function(userId) {
             var that = this;
             //第一次加载未消息
-            that.getUserNewMsgList(userId, function (newMsgTraceList) {
-                if (newMsgTraceList && newMsgTraceList.length >0) {
+            that.getUserNewMsgList(userId, function (newMsgList) {
+                if (newMsgList && newMsgList.length >0) {
                     //如果有新消息清空列表只显示新消息
-                    that.clearTable();
+                    that.clearMsgList();
                     that.updateMoreLink();
-                    that.addMsgTraceListToTable(newMsgTraceList);
+                    that.addMsgListToTable(newMsgList);
+                    //设置当前新消息队列
+                    setNewsRank(newMsgList);
                 }else{
                     that.getUserHistoryMsgList(userId,function (historyMsgList) {
-                        that.addMsgTraceListToTable(historyMsgList);
+                        that.addMsgListToTable(historyMsgList);
                     })
                 }
 
@@ -96,7 +106,7 @@ var MessageDialog = function () {
          * 添加消息数据到列表表格
          * @param msgTraceList
          */
-        addMsgTraceListToTable: function(msgTraceList){
+        addMsgListToTable: function(msgTraceList){
             var that = this;
             if (msgTraceList && msgTraceList.length > 0) {
                 for(var i =0; i < msgTraceList.length; i++) {
@@ -117,16 +127,14 @@ var MessageDialog = function () {
             if (msgTrace && msgTrace.message){
                 var msg = msgTrace.message;
                 var receiveStatusName = "";
-                var dictCodeMsgReceiveStatus = 'msg_receive_status';
                 var unReceive = (!msgTrace.receiveStatus || msgTrace.receiveStatus ==RECEIVE_STATUS_UNRECEIVE);
                 if (unReceive) {//显示未接收
-                    receiveStatusName = dict.get(dictCodeMsgReceiveStatus,RECEIVE_STATUS_UNRECEIVE);
+                    receiveStatusName = dict.get(DICT_CODE_MSG_RECEIVE_STATUS,RECEIVE_STATUS_UNRECEIVE);
                 }else {//已接收
-                    receiveStatusName = dict.get(dictCodeMsgReceiveStatus,msgTrace.receiveStatus);
+                    receiveStatusName = dict.get(DICT_CODE_MSG_RECEIVE_STATUS,msgTrace.receiveStatus);
                 }
-                var dictCodeMsgType = 'msg_type';
                 var msgTrHtml = '<tr>'+
-                    '<td style="width: 80px;"><span>'+dict.get(dictCodeMsgType,msg.msgType)+'</span></td>'+
+                    '<td style="width: 80px;"><span>'+dict.get(DICT_CODE_MSG_TYPE,msg.msgType)+'</span></td>'+
                     '<td><span>'+that.filterUndefine(msg.title)+'</span></td>'+
                     '<td><span>'+that.filterUndefine(msg.content)+'</span></td>'+
                     '<td style="width: 140px;"><span>'+that.filterUndefine(msg.alertTime)+'</span></td>'+
@@ -137,7 +145,9 @@ var MessageDialog = function () {
                 //绑定详情按钮click to跳转
                 msgTr.find(".btn-details").bind("click",function () {
                     var detailsUrl = $(this).data("details-url");
+                    msgListModal.modal("hide");
                     pageUtils.toUrl(rootPath+"/"+detailsUrl);
+
                 });
                 msgListTable.append(msgTr);
                 that.pushToMsgListData(msgTrace);
@@ -151,7 +161,7 @@ var MessageDialog = function () {
             var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a>");
             moreLink.bind("click",function () {
                 that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
-                    that.addMsgTraceListToTable(historyMsgTraceList);
+                    that.addMsgListToTable(historyMsgTraceList);
                 });
             });
             moreLinkDiv.html("");
@@ -192,7 +202,7 @@ var MessageDialog = function () {
         /**
          * 设置已查看消息为已读
          */
-        setMsgTraceReceive:function (traceIds) {
+        setMsgTraceReceive:function (traceIds,callback) {
             var that = this;
             if (traceIds && traceIds.length >0) {
                 $.ajax({
@@ -204,6 +214,10 @@ var MessageDialog = function () {
                         if (count){
                             that.refreshNewsCount();
                         }
+                        if (callback) {
+                            callback(count);
+                        }
+
                     }
                 });
             }
@@ -224,16 +238,23 @@ var MessageDialog = function () {
             return messageCount;
         },
 
+        refreshCountAndLoadNewsRank:function () {
+            var that = this;
+            var newMsgCount = that.refreshNewsCount();
+            if (newMsgCount > 0) {
+                that.getUserNewMsgList(that.getUserId(), function (newMsgList) {
+                    setNewsRank(newMsgList);
+                });
+            }
+        },
 
         startRefreshNewsCountClock:function () {
             var that = this;
-            that.refreshNewsCount();
+            that.refreshCountAndLoadNewsRank();
             that.stopRefreshNewsCountClock();
 
             var refreshCountClock = setInterval(function () {
-                if (that.getNewsCountElement()) {
-                    that.refreshNewsCount();
-                }
+                that.refreshCountAndLoadNewsRank();
             },REFRESH_DELAY);
             that.setRefreshNewsCountClock(refreshCountClock);
         },
@@ -246,6 +267,7 @@ var MessageDialog = function () {
         refreshNewsCount:function () {
             var newMsgCount = this.getNewsCountByUserId(this.getUserId());
             this.setNewsCount(newMsgCount);
+            return newMsgCount;
         },
         setNewsCount:function (count) {
             if (newsCountElement && newsCountElement.text) {
@@ -258,11 +280,8 @@ var MessageDialog = function () {
                 this.startRefreshNewsCountClock();
             }
         },
-        getNewsCountElement:function () {
-            return newsCountElement;
-        },
-        setRefreshNewsCountClock:function (refreshCountClock) {
-            refreshNewsCountClock = refreshCountClock;
+        setRefreshNewsCountClock:function (refreshCountClock_p) {
+            refreshNewsCountClock = refreshCountClock_p;
         },
         getRefreshNewsCountClock:function () {
             return refreshNewsCountClock;
@@ -289,12 +308,83 @@ var MessageDialog = function () {
         getMsgListData:function () {
             return msgListData;
         },
-        clearTable:function () {
+        clearMsgList:function () {
             this.setMsgListData([]);
+            setNewsRank([]);
             msgListTable.html("");
         }
-
     };
+
+    function initMsgModal() {
+        disabledMsgForm(true);
+        msgModal.on("hidden.bs.modal",function () {
+            checkNewsRankAndPopup();
+        });
+        msgModal.find(".btn-details").bind("click", function () {
+            var msg = msgForm.data(MSG_FORM_DATA_BIND_KEY);
+            if (msg && msg.message && msg.message.detailsUrl) {
+                //设置已读
+                dialog.setMsgTraceReceive([msg.id],function (count) {
+                    //跳转页面
+                    pageUtils.toUrl(rootPath+"/"+msg.message.detailsUrl);
+                });
+
+
+            }
+
+        });
+        msgModal.find(".btn-accept").bind("click", function () {
+            var msg = msgForm.data(MSG_FORM_DATA_BIND_KEY);
+            if (msg && msg.id) {
+                //设置已读
+                dialog.setMsgTraceReceive([msg.id]);
+            }
+        });
+    }
+
+    function checkNewsRankAndPopup() {
+        if (newsRank && newsRank.length > 0) {
+            var msg = newsRank.pop();
+            popupNewMsg(msg);
+        }
+    }
+    function popupNewMsg(msg){
+        var result = setMsgFormData(msg);
+        if (result) {
+            msgModal.modal("show");
+        }
+
+    }
+    function setMsgFormData(msg) {
+        resetMsgForm();
+        if (msg && msg.message) {
+            msgForm.data(MSG_FORM_DATA_BIND_KEY,msg);
+            var mainMsg = msg.message;
+            $("#message_title").val(mainMsg.title);
+            $("#message_msgType").val(dict.get(DICT_CODE_MSG_TYPE,mainMsg.msgType));
+            $("#message_senderName").val(mainMsg.senderName);
+            $("#message_alertTime").val(mainMsg.alertTime);
+            $("#message_content").val(mainMsg.content);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    function disabledMsgForm(disabled) {
+        msgForm.find(".form-control").attr("disabled",disabled);
+    }
+    /**
+     * 重置表单
+     */
+    function resetMsgForm() {
+        msgForm[0].reset();
+        msgForm.removeData(MSG_FORM_DATA_BIND_KEY);
+    }
+
+    function setNewsRank(newMsges){
+        newsRank = newMsges ;
+        checkNewsRankAndPopup();
+    }
     dialog.init();
     return dialog;
 }();
