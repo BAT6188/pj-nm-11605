@@ -100,11 +100,11 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">环境监管信息</a></h3>
             <ul>
-                <li><a href="javascript:;">信访投诉</a></li>
-                <li><a href="javascript:;">现场检查（勘察）笔录</a></li>
-                <li><a href="javascript:;">行政处罚</a></li>
-                <li><a href="javascript:;">存在的问题及整改情况</a></li>
-                <li><a href="javascript:;">排污收费</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/environmentSupervision/letterSue.jsp?id='+id);">信访投诉</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/environmentSupervision/check.jsp?id='+id);">现场检查（勘察）笔录</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/environmentSupervision/punish.jsp?id='+id);">行政处罚</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/environmentSupervision/problemCorrect.jsp?id='+id);">存在的问题及整改情况</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/environmentSupervision/pollutantPayment.jsp?id='+id);">排污收费</a></li>
             </ul>
         </div>
         <div class="menuDiv">

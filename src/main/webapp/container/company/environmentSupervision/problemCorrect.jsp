@@ -47,15 +47,15 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
-                        <i class="btnIcon add-icon"></i><span>新建</span>
-                    </button>
+                    <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">--%>
+                        <%--<i class="btnIcon add-icon"></i><span>新建</span>--%>
+                    <%--</button>--%>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
-                        <i class="btnIcon edit-icon"></i><span>修改</span>
+                        <i class="btnIcon edit-icon"></i><span>反馈</span>
                     </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
-                        <i class="btnIcon delf-icon"></i><span>删除</span>
-                    </button>
+                    <%--<button id="remove" type="button" class="btn btn-sm btn-danger">--%>
+                        <%--<i class="btnIcon delf-icon"></i><span>删除</span>--%>
+                    <%--</button>--%>
 
                 </p>
             </div>
@@ -99,16 +99,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">问题描述<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label">问题描述：</label>
                         <div class="col-sm-10">
-                            <textarea id="problemDesc" name="problemDesc" class="form-control" rows="4" cols="50" data-message="不能为空"
-                                      data-easytip="position:top;class:easy-red;"  placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group noEdit">
-                        <label for="" class="col-sm-2 control-label">整改情况：</label>
-                        <div class="col-sm-10">
-                            <textarea id="correctDesc" name="correctDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                            <textarea id="problemDesc" name="problemDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -118,15 +111,22 @@
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">整改情况：</label>
+                        <div class="col-sm-10">
+                            <textarea id="correctDesc" name="correctDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save">保存</button>
+                <%--<button type="button" class="btn btn-primary" id="send"></button>--%>
+                <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/problemCorrect.js"></script>
+<script src="<%=request.getContextPath()%>/container/company/environmentSupervision/scripts/problemCorrect.js"></script>
 </body>
 </html>

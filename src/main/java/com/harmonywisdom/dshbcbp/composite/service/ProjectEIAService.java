@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.composite.service;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectEIA;
 import com.harmonywisdom.framework.service.IBaseService;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
@@ -20,4 +21,6 @@ public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
     ProjectEIA findByBuildProjectId(String buildProjectId);
 
     void deleteProjectEIABuildProjectId(String projectId);
+
+    void updateBuildProject(Date replyTime,String projectId);
 }

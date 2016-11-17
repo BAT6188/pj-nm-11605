@@ -17,4 +17,15 @@ public class ProblemCorrectServiceImpl extends BaseService<ProblemCorrect, Strin
     protected BaseDAO<ProblemCorrect, String> getDAO() {
         return problemCorrectDAO;
     }
+
+    /**
+     * 整改情况更新状态
+     * @param id
+     */
+    @Override
+    public int updateStatus(String id) {
+        int problemCorrect = getDAO().executeJPQL("update ProblemCorrect t set t.progress='2' where t.id=? ",id);
+        return problemCorrect;
+
+    }
 }

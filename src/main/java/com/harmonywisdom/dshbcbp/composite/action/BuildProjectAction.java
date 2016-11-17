@@ -15,6 +15,9 @@ import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectService> {
@@ -47,8 +50,20 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
             param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }
 
-        if (StringUtils.isNotBlank(entity.getType())) {
-            param.andParam(new QueryParam("type", QueryOperator.NE,0));
+        String startTime = request.getParameter("startDate");
+        String endTime = request.getParameter("endDate");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            if(StringUtils.isNotBlank(startTime)){
+                Date starttime = sdf.parse(startTime+" 00:00:00");
+                param.andParam(new QueryParam("bTime", QueryOperator.GE,starttime));
+            }
+            if(StringUtils.isNotBlank(endTime)){
+                Date endtime = sdf.parse(endTime+" 23:59:59");
+                param.andParam(new QueryParam("bTime", QueryOperator.LE,endtime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
             if (StringUtils.isNotBlank(entity.getBuildNature())) {
             param.andParam(new QueryParam("buildNature", QueryOperator.EQ,entity.getBuildNature()));

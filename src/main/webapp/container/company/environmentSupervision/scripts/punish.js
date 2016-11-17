@@ -1,9 +1,7 @@
-//@ sourceURL=cleanLicense.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
-    updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "清洁生产审核",
+    form = $("#demoForm"),
+    formTitle = "行政处罚信息",
     selections = [];
 
 
@@ -11,7 +9,7 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_CleanLicense_save.action",
+        url: rootPath + "/action/S_exelaw_Punish_save.action?enterpriseId="+enterpriseId,
         type:"post",
         data:entity,
         dataType:"json",
@@ -25,7 +23,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_CleanLicense_delete.action",
+        url: rootPath + "/action/S_exelaw_Punish_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -37,16 +35,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_CleanLicense_list.action",
+        url: rootPath+"/action/S_exelaw_Punish_list.action?enterpriseId="+enterpriseId,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temps = pageUtils.getBaseParams(param);
-            temps.enterpriseId = id;
-            return temps;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -64,48 +58,53 @@ function initTable() {
                 visible:false
             },
             {
-                title: '清洁生产审核名称',
-                field: 'name',
+                title: '案件名称',
+                field: 'caseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '有效起始日期',
-                field: 'startDate',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-            {
-                title: '有效结束日期',
-                field: 'endDate',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-            {
-                title: '发证机关',
-                field: 'pubOrg',
+                title: '案由',
+                field: 'caseReason',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                title: '发证日期',
-                field: 'pubDate',
-                sortable: false,
-                align: 'center',
+                title: '立案时间',
+                field: 'filingDate',
                 editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '处罚类型',
+                field: 'type',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '结案日期',
+                field: 'closedDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '履行情况',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '案件来源',
+                field: 'caseSource',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'operate',
@@ -127,8 +126,6 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
-        //选中一条数据启用修改按钮
-        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -141,7 +138,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -173,15 +170,11 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
-updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
     resetForm();
-});
-$("#update").bind("click",function () {
-    setFormData(getSelections()[0]);
 });
 /**
  * 列表工具栏 删除按钮
@@ -200,6 +193,8 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
+
+
 });
 
 
@@ -208,26 +203,33 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var name = $("#t_name").val();
-    var startDate = $("#t_startDate").val();
-    var endDate = $("#t_endDate").val();
-    if (name){
-        queryParams["name"] = name;
+    var s_caseName = $("#s_caseName").val();
+    var start_filingDate = $("#start_filingDate").val();
+    var end_filingDate = $("#end_filingDate").val();
+    if (s_caseName){
+        queryParams["caseName"] = s_caseName;
     }
-    if (startDate){
-        queryParams["startDate"] = startDate;
+    if (start_filingDate){
+        queryParams["start_filingDate"] = start_filingDate;
     }
-    if (endDate){
-        queryParams["endDate"] = endDate;
+    if (end_filingDate){
+        queryParams["end_filingDate"] = end_filingDate;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
 });
-$("#reset").click(function(){
-    $('#searchform')[0].reset();
-    $('#searchform1')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 
 /**============表单初始化相关代码============**/
@@ -235,9 +237,8 @@ $("#reset").click(function(){
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
+        var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        entity.enterpriseId=enterpriseId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -250,33 +251,6 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-//初始化日期组件
-$('#startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#pubDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
 /**
  * 设置表单数据
  * @param entity
@@ -287,13 +261,27 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
-    $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#startDate").val(pageUtils.sub10(entity.startDate));
-    $("#endDate").val(pageUtils.sub10(entity.endDate));
-    $("#pubOrg").val(entity.pubOrg);
-    $("#pubDate").val(pageUtils.sub10(entity.pubDate));
+    for(p in entity){
+        var selector="#"+p
+        $(selector).val(entity[p])
+    }
+
+    // $("#caseName").val(entity.caseName);
+    // $("#filingDate").val(entity.filingDate);
+    // $("#code").val(entity.code);
+    // $("#decideCode").val(entity.decideCode);
+    // $("#caseSource").val(entity.caseSource);
+    // $("#caseReason").val(entity.caseReason);
+    // $("#provision").val(entity.provision);
+    // $("#exeDesc").val(entity.exeDesc);
+    // $("#type").val(entity.type);
+    // $("#money").val(entity.money);
+    // $("#exeDate").val(entity.exeDate);
+    // $("#endDate").val(entity.endDate);
+    // $("#attn").val(entity.attn);
+    // $("#closedDate").val(entity.closedDate);
+    // $("#content").val(entity.content);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -304,7 +292,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -313,25 +301,23 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
+
     if (!disabled) {
         //初始化日期组件
-        $('#recordDateContent').datetimepicker({
+        $('#createTimeContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#endDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#pubDateContent').datetimepicker({
+        $('#openDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
     }
 
 }
@@ -341,10 +327,28 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
+
+    $("#filingDate").val((new Date()).format("yyyy-MM-dd hh:mm"))
+
+    if(dispatchTaskId){
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
+            type:"post",
+            data:{id:dispatchTaskId},
+            success:function (d) {
+                d=JSON.parse(d)
+                if (d.total>0){
+                    var row=d.rows[0]
+                    setFormValueFromSelected(row)
+                }
+            }
+        });
+    }
 }
 
 //表单附件相关js
@@ -441,4 +445,5 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
 

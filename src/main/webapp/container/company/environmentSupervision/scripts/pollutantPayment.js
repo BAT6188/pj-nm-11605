@@ -1,17 +1,16 @@
-//@ sourceURL=cleanLicense.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#scfForm"),
-    formTitle = "清洁生产审核",
+    form = $("#demoForm"),
+    formTitle = "Demo",
     selections = [];
 
 
 
-//保存ajax请求
+//保存表单ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_CleanLicense_save.action",
+        url: rootPath + "/action/S_exelaw_PollutantPayment_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -25,7 +24,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_composite_CleanLicense_delete.action",
+        url: rootPath + "/action/S_exelaw_PollutantPayment_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -37,16 +36,12 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_composite_CleanLicense_list.action",
+        url: rootPath+"/action/S_exelaw_PollutantPayment_list.action?enterpriseId="+enterpriseId,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temps = pageUtils.getBaseParams(param);
-            temps.enterpriseId = id;
-            return temps;
-        },
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title:"全选",
@@ -64,47 +59,76 @@ function initTable() {
                 visible:false
             },
             {
-                title: '清洁生产审核名称',
-                field: 'name',
+                field: 'enterpriseId',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                visible:false
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '有效起始日期',
-                field: 'startDate',
+                title: '企业法人',
+                field: 'enterpriseAP',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '联系方式',
+                field: 'apPhone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费金额',
+                field: 'payMoney',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '登记日期',
+                field: 'registDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费日期',
+                field: 'payDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '距缴费日期',
+                field: 'rangeDays',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费状态',
+                field: 'paymentStatus',
                 sortable: false,
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-            {
-                title: '有效结束日期',
-                field: 'endDate',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-            {
-                title: '发证机关',
-                field: 'pubOrg',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },
-            {
-                title: '发证日期',
-                field: 'pubDate',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
+                    if (0==value){
+                        value="未缴费"
+                    }else if(1==value){
+                        value="已缴费"
+                    }else if(2==value){
+                        value="未按时缴费"
+                    }
+                    return value;
                 }
             },
             {
@@ -141,7 +165,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
 }
 // 列表操作事件
 window.operateEvents = {
@@ -149,6 +173,7 @@ window.operateEvents = {
         setFormView(row);
     }
 };
+
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -200,6 +225,8 @@ removeBtn.click(function () {
             removeBtn.prop('disabled', true);
         });
     });
+
+
 });
 
 
@@ -208,26 +235,108 @@ removeBtn.click(function () {
 //搜索按钮处理
 $("#search").click(function () {
     var queryParams = {};
-    var name = $("#t_name").val();
-    var startDate = $("#t_startDate").val();
-    var endDate = $("#t_endDate").val();
-    if (name){
-        queryParams["name"] = name;
+    var enterpriseName = $("#s_enterpriseName").val();
+    var paymentStatus = $("#s_paymentStatus").val();
+    if (enterpriseName){
+        queryParams["enterpriseName"] = enterpriseName;
     }
-    if (startDate){
-        queryParams["startDate"] = startDate;
+    if (paymentStatus){
+        queryParams["paymentStatus"] = paymentStatus;
     }
-    if (endDate){
-        queryParams["endDate"] = endDate;
-    }
+    search(queryParams)
+});
+
+function search(queryParams) {
     gridTable.bootstrapTable('refresh',{
         query:queryParams
     });
+}
+
+
+
+/**
+ * 按时间查询表单
+ * @type {*|jQuery|HTMLElement}
+ */
+var yearUl = $('#year');
+
+var year = new Date().getFullYear();
+for ( var i = year; i >=2014; i--) {
+    $("<li class='year'><a href='#'>" + i + "</a></li>").appendTo(yearUl);
+}
+
+var dropdownMenu = $("#dropdownMenu");
+//按年份查询
+dropdownMenu.find("#year .year").bind('click',function(){
+    var year = parseInt($(this).text());
+    $('#selYear').text(year);
+    var startYdate = year +　'-'+'01' + '-'+'01';
+    var lastYdate = year + '-'+ '12' + '-'+ '31';
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+
+    });
 });
-$("#reset").click(function(){
-    $('#searchform')[0].reset();
-    $('#searchform1')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+
+//按季度查询
+dropdownMenu.find(".tm").bind('click',function(){
+    var seasons= $(this).text();
+    var selYear = $('#selYear').text();
+    if(selYear == "年份"){
+        Ewin.confirm({ message: "请选择年份!" });
+        return ;
+    }
+    if(seasons == "第一季度"){
+        var startYdate = selYear + '-' +'01' + '-' + '01' ;
+        var lastYdate = selYear + '-' + '03' + '-' + '31';
+    }else if(seasons == "第二季度"){
+        var startYdate= selYear + '-' + '04' + '-' + '01';
+        var lastYdate = selYear + '-' + '06' + '-' + '30';
+    }else if(seasons == "第三季度"){
+        var startYdate = selYear + '-' + '07' + '-'+ '01';
+        var lastYdate = selYear + '-' + '09' + '-' + '30';
+    }else if(seasons = "第四季度"){
+        var startYdate = selYear + '-' + '10' + '-' + '01';
+        var lastYdate = selYear + '-' + '12' + '-'+ '31';
+    }
+    // search(startSdate, lastSdate);
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+
+    });
+});
+
+//按月份查询
+dropdownMenu.find("li[class='month']").bind("click", function() {
+    var mNum = parseInt(this.value);
+    var m = mNum > 9 ? mNum : ("0"+mNum);
+    var selYear = $('#selYear').text();
+    if(selYear == "年份"){
+        Ewin.confirm({ message: "请选择年份!" });
+        return;
+    }
+    var  day = new Date(selYear,m,0);
+    var startYdate = selYear +'-'+ m + '-'+'01';
+    var lastYdate = selYear + '-' + m + '-' + day.getDate();//获取当月最后一天日期
+    search({
+        startYdate:startYdate,
+        lastYdate:lastYdate
+    });
+});
+
+
+//初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 
 /**============表单初始化相关代码============**/
@@ -235,9 +344,13 @@ $("#reset").click(function(){
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
+        var entity = $("#demoForm").find("form").formSerializeObject();
+            entity.enterpriseName=$("#enterpriseName").val();
+            entity.enterpriseId=$("#enterpriseId").val();
+            entity.enterpriseAP=$("#enterpriseAP").val();
+
         entity.attachmentIds = getAttachmentIds();
-        entity.enterpriseId=enterpriseId;
+        console.info("保存表单数据："+JSON.stringify(entity))
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -250,33 +363,6 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-//初始化日期组件
-$('#startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#pubDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-
 /**
  * 设置表单数据
  * @param entity
@@ -285,53 +371,62 @@ $('#t_endDateContent').datetimepicker({
 function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
-    form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
     $("#id").val(entity.id);
     $("#removeId").val("");
-    $("#name").val(entity.name);
-    $("#startDate").val(pageUtils.sub10(entity.startDate));
-    $("#endDate").val(pageUtils.sub10(entity.endDate));
-    $("#pubOrg").val(entity.pubOrg);
-    $("#pubDate").val(pageUtils.sub10(entity.pubDate));
+
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#enterpriseId").val(entity.enterpriseId);
+
+    $("#enterpriseAP").val(entity.enterpriseAP);
+    $("#apPhone").val(entity.apPhone);
+    $("#payMoney").val(entity.payMoney);
+
+    $("#registDate").val(entity.registDate);
+    $("#payDate").val(entity.payDate);
+    $("#alertDate").val(entity.alertDate);
+    $("#realertDate").val(entity.realertDate);
+    $("#paymentStatus").val(entity.paymentStatus);
+    $("#remark").val(entity.remark);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
     setFormData(entity);
-    form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
+/**
+ * 禁用表单
+ * @param disabled  true,false
+ */
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
+    form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#recordDateContent').datetimepicker({
+        $('#createTimeContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#endDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#pubDateContent').datetimepicker({
+        $('#openDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('#createTimeContent').datetimepicker('remove');
+        $('#openDateContent').datetimepicker('remove');
     }
 
 }
@@ -339,10 +434,25 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+
+    $(".noEdit").attr("disabled",true)
+    $.ajax({
+        url: rootPath + "/action/S_enterprise_Enterprise_getEnterpriseInfoById.action",
+        type:"post",
+        data:{enterpriseId:enterpriseId},
+        success:function (entity) {
+            var entity = JSON.parse(entity);
+            console.log(entity)
+            $("#enterpriseName").val(entity.name)
+            $("#enterpriseId").val(entity.id)
+            $("#enterpriseAP").val(entity.artificialPerson)
+        }
+    });
+
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }
@@ -441,4 +551,40 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+/**
+ * Autocomplete
+ */
+$( function() {
+
+    $("#enterpriseName").autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                method:'post',
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function( data ) {
+                    for(var i = 0;i<data.rows.length;i++){
+                        var result = [];
+                        for(var i = 0; i <  data.rows.length; i++) {
+                            var ui={};
+                            ui.id=data.rows[i].id
+                            ui.value=data.rows[i].name
+                            result.push(ui);
+                        }
+                        response( result);
+                    }
+                }
+            } );
+        },
+        select: function( event, ui ) {
+            console.info(ui.item.id)
+            $("#enterpriseId").val(ui.item.id)
+        },
+    } );
+} );
+
 

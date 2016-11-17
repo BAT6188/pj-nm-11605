@@ -94,13 +94,14 @@ var DemoPage = function () {
                     editable: false,
                     sortable: false,
                     align: 'center',
-                    formatter:function (value, row, index) {
-                        if(value==2){
-                            value="已消耗"
+                    formatter:function(value,row,index){
+                        if(value == 1){
+                            return "暂存"
+                        }else if(value == 2){
+                            return "已消耗"
                         }else{
-                            value="暂存"
+                            return "暂存"
                         }
-                        return value
                     }
                 },
                 {
@@ -124,7 +125,7 @@ var DemoPage = function () {
             //有选中数据，启用删除按钮
             removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
             //选中一条数据启用修改按钮
-            updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+            updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));;
         });
 
         $(window).resize(function () {
@@ -179,6 +180,8 @@ var DemoPage = function () {
     $("#update").bind("click",function () {
         setFormData(getSelections()[0]);
     });
+ 
+
     /**
      * 列表工具栏 删除按钮
      */
@@ -240,6 +243,18 @@ var DemoPage = function () {
     $("#save").bind('click',function () {
         //验证表单，验证成功后触发ef.success方法保存数据
         ef.submit(false);
+        var id = getIdSelections()[0];
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_ProblemCorrect_updateSendStatus.action",
+            type:"post",
+            dataType:'json',
+            data:{id:id},
+            success:function (data) {
+                form.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        })
+        
     });
     /**
      * 设置表单数据
@@ -249,14 +264,19 @@ var DemoPage = function () {
     function setFormData(entity) {
         resetForm();
         if (!entity) {return false}
-        form.find(".form-title").text("修改"+formTitle);
+        form.find(".form-title").text("反馈"+formTitle);
         var id = entity.id;
         $("#removeId").val("");
         for(p in entity){
             var selector="#"+p
             $(selector).val(entity[p])
         }
-
+        var progress = entity.progress;
+        if(progress == 2){
+            $("#save").hide();
+            form.find(".btn-cancel").text("确定");
+        }
+        form.find("input").attr("disabled",disabled);
         uploader = new qq.FineUploader(getUploaderOptions(id));
     }
     function setFormView(entity) {
@@ -270,8 +290,8 @@ var DemoPage = function () {
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
-        $(".noEdit").show();
         form.find("#save").hide();
+        form.find("#send").hide();
         form.find(".btn-cancel").text("关闭");
     }
     function disabledForm(disabled) {
@@ -305,7 +325,6 @@ var DemoPage = function () {
         form.find("textarea").val("");
         uploader = new qq.FineUploader(getUploaderOptions());
         disabledForm(false);
-        $(".noEdit").hide();
         form.find("#save").show();
         form.find(".btn-cancel").text("取消");
     }

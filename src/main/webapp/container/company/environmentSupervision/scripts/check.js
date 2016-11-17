@@ -3,12 +3,12 @@ var DemoPage = function () {
         removeBtn = $('#remove'),
         updateBtn = $('#update'),
         form = $("#demoForm"),
-        formTitle = "存在的问题及整改情况";
+        formTitle = "现场检查（勘察）笔录信息";
 
     //保存ajax请求
     function saveAjax(entity, callback) {
         $.ajax({
-            url: rootPath + "/action/S_exelaw_ProblemCorrect_save.action?enterpriseId="+enterpriseId,
+            url: rootPath + "/action/S_exelaw_Check_save.action?enterpriseId="+enterpriseId,
             type:"post",
             data:entity,
             dataType:"json",
@@ -22,7 +22,7 @@ var DemoPage = function () {
      */
     function deleteAjax(ids, callback) {
         $.ajax({
-            url: rootPath + "/action/S_exelaw_ProblemCorrect_delete.action",
+            url: rootPath + "/action/S_exelaw_Check_delete.action",
             type:"post",
             data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
             dataType:"json",
@@ -34,7 +34,7 @@ var DemoPage = function () {
         gridTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
-            url: rootPath+"/action/S_exelaw_ProblemCorrect_list.action?enterpriseId="+enterpriseId,
+            url: rootPath+"/action/S_exelaw_Check_list.action?enterpriseId="+enterpriseId,
             height: pageUtils.getTableHeight(),
             method:'post',
             pagination:true,
@@ -49,59 +49,33 @@ var DemoPage = function () {
                     valign: 'middle'
                 },
                 {
-                    title: '台账编号',
+                    title: 'ID',
                     field: 'id',
                     align: 'center',
                     valign: 'middle',
-                    sortable: false
+                    sortable: false,
+                    visible:false
                 },
                 {
-                    title: '创建时间',
-                    field: 'createTime',
+                    title: '检查时间',
+                    field: 'time',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '问题类型',
-                    field: 'problemType',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        if(value==1){
-                            value="安全隐患"
-                        }else if(value==2){
-                            value="总量减排"
-                        }else if(value==3){
-                            value="非法排污"
-                        }else if(value==4){
-                            value="未批先建"
-                        }
-                        return value
-                    }
-                },
-                {
-                    title: '问题描述',
-                    field: 'problemDesc',
+                    title: '检查人',
+                    field: 'checker',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '问题进度',
-                    field: 'progress',
+                    title: '检查人单位',
+                    field: 'org',
                     editable: false,
                     sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        if(value==2){
-                            value="已消耗"
-                        }else{
-                            value="暂存"
-                        }
-                        return value
-                    }
+                    align: 'center'
                 },
                 {
                     field: 'operate',
@@ -228,7 +202,6 @@ var DemoPage = function () {
         success:function (ef) {
             var entity = $("#demoForm").find("form").formSerializeObject();
             entity.attachmentIds = getAttachmentIds();
-            entity.progress = 1;
             saveAjax(entity,function (msg) {
                 form.modal('hide');
                 gridTable.bootstrapTable('refresh');
@@ -270,14 +243,12 @@ var DemoPage = function () {
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
-        $(".noEdit").show();
         form.find("#save").hide();
         form.find(".btn-cancel").text("关闭");
     }
     function disabledForm(disabled) {
         form.find("input").attr("disabled",disabled);
         form.find("textarea").attr("disabled",disabled);
-        form.find("select").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
             $('#createTimeContent').datetimepicker({
@@ -305,7 +276,6 @@ var DemoPage = function () {
         form.find("textarea").val("");
         uploader = new qq.FineUploader(getUploaderOptions());
         disabledForm(false);
-        $(".noEdit").hide();
         form.find("#save").show();
         form.find(".btn-cancel").text("取消");
     }

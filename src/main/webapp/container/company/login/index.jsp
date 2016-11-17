@@ -47,7 +47,7 @@
                 <%--<li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>--%>
                 <%--<li><a href="#" class="msg-icon"><span class="new-icon">0</span></a></li>--%>
                 <li class="divider"><i class="long-divider"></i></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "${pageContext.request.contextPath}/container/company/login/login.jsp";' alt="退出登陆"/></a></li>
+                <li><a href="#"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "${pageContext.request.contextPath}/action/S_enterprise_Enterprise_logout.action";' alt="退出登陆"/></a></li>
             </ul>
         </div>
     </div>
