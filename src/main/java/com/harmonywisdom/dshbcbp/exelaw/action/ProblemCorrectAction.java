@@ -73,4 +73,15 @@ public class ProblemCorrectAction extends BaseAction<ProblemCorrect, ProblemCorr
         }
         super.delete();
     }
+    /**
+     * 整改情况反馈状态
+     */
+    public void updateSendStatus(){
+        String id = request.getParameter("id");
+        if(id != null && !"".equals(id)){
+            this.getService().updateStatus(id);
+        }
+        write(true);
+
+    }
 }

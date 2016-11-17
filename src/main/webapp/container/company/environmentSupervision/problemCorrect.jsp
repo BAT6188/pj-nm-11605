@@ -50,15 +50,12 @@
                     <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">--%>
                         <%--<i class="btnIcon add-icon"></i><span>新建</span>--%>
                     <%--</button>--%>
-                    <%--<button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">--%>
-                        <%--<i class="btnIcon edit-icon"></i><span>修改</span>--%>
-                    <%--</button>--%>
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                        <i class="btnIcon edit-icon"></i><span>反馈</span>
+                    </button>
                     <%--<button id="remove" type="button" class="btn btn-sm btn-danger">--%>
                         <%--<i class="btnIcon delf-icon"></i><span>删除</span>--%>
                     <%--</button>--%>
-                        <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
-                            <i class="btnIcon edit-icon"></i><span>反馈</span>
-                        </button>
 
                 </p>
             </div>
@@ -85,7 +82,8 @@
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="createTime"  name="createTime" type="text" value="" readonly>
+                                <input class="form-control" size="16" id="createTime"  name="createTime" type="text" value="" data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -122,7 +120,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save">保存</button>
+                <%--<button type="button" class="btn btn-primary" id="send"></button>--%>
+                <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
