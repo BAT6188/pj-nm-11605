@@ -1,41 +1,60 @@
 //@ sourceURL=message_dialog.js
 var MessageDialog = function () {
+    var userId,
+        msgListModal = $("#messageListDialog"),
+        msgListTable = msgListModal.find(".modal-body table tbody"),
+        moreLinkDiv = msgListModal.find(".more-link"),
+        msgListData = [];
+    //news 新消息
+    var newsCountElement,
+        refreshNewsCountClock,
+        REFRESH_DELAY = 5000;
+    var msgModal = $("#messageDialog"),
+        msgForm = msgModal.find("form"),
+        isAlert = true,
+        MSG_FORM_DATA_BIND_KEY = "msg",
+        newsRank = [];
+    if (msgIsAlert == "false") {
+        isAlert = false;
+    }
+
+    var RECEIVE_STATUS_UNRECEIVE = "1",
+        RECEIVE_STATUS_RECEIVED = "2",
+        DICT_CODE_MSG_TYPE = "msg_type",
+        DICT_CODE_MSG_RECEIVE_STATUS = "msg_receive_status";
     var dialog= {
-        _modal:$("#messageDialog"),
-        _msgTableBody:$("#messageDialog").find(".modal-body table tbody"),
-        _moreLinkDiv:$("#messageDialog").find(".more-link"),
-        _countElement:undefined,
-        _refreshCountClock:undefined,
-        REFRESH_DELAY:5000,
-        _userId:undefined,
-        _loadedMsgTraceList:[],
-        RECEIVE_STATUS_UNRECEIVE:"1",
         init:function () {
             var that = this;
-            dict.init('msg_type','msg_receive_status');
+            //that.testSendMsg();
+            initMsgModal();
+            dict.init(DICT_CODE_MSG_TYPE,DICT_CODE_MSG_RECEIVE_STATUS);
 
             that.modal("show.bs.modal", function () {
-                //that.sendMsg();
                 //打开窗口前，刷新列表
-                that.loadMsgList(that.getUserId());
+                that.loadMsgListToTable(that.getUserId());
             });
             that.modal("shown.bs.modal", function () {
                 //打开窗口后，设置所有未消息为已读
-                var loadedMsgList = that.getLoadedMsgTraceList();
+                var loadedMsgList = that.getMsgListData();
                 var viewedUnReceiveTraceIds = [];
                 for (var i =0; i < loadedMsgList.length; i++) {
                     var msgTrace = loadedMsgList[i];
-                    if (msgTrace.receiveStatus == that.RECEIVE_STATUS_UNRECEIVE){
+                    if (msgTrace.receiveStatus == RECEIVE_STATUS_UNRECEIVE){
                         viewedUnReceiveTraceIds.push(msgTrace.id);
+                        msgTrace.receiveStatus = RECEIVE_STATUS_RECEIVED;
                     }
                 }
                 that.setMsgTraceReceive(viewedUnReceiveTraceIds);
+            });
+            that.modal("hidden.bs.modal", function () {
+                //关闭窗口同步数据状态到表格
+                that.syncDataToTable();
             });
         },
         modal:function () {
             if (arguments.length == 1) {
                 if (typeof arguments[0] == "string") {
-                    this._modal.modal(arguments[0]);
+                    msgListModal.modal(arguments[0]);
                 }
                 if (typeof arguments[0] == "object") {
                     var options = arguments[0];
@@ -43,80 +62,69 @@ var MessageDialog = function () {
                         this.setUserId(options['userId']);
                     }
                     if (options['countElement']) {
-                        this.setCountElement(options['countElement']);
+                        this.setNewsCountElement(options['countElement']);
                     }
                 }
 
             }else if (arguments.length == 2) {
-                this._modal.on(arguments[0],arguments[1]);
+                msgListModal.on(arguments[0],arguments[1]);
             }else{
-                this._modal.modal("toggle");
+                msgListModal.modal("toggle");
             }
         },
-        startRefreshMsgCountClock:function () {
-            var that = this;
-            that.refreshMsgCount();
-            that.stopRefreshCountClock();
-            var refreshCountClock = setInterval(function () {
-                if (that.getCountElement()) {
-                    that.refreshMsgCount();
-                }
-            },MessageDialog.REFRESH_DELAY);
-            that.setRefreshCountClock(refreshCountClock);
-        },
-        refreshMsgCount:function () {
-            var newMsgCount = this.getNewMsgCountByUserId(this.getUserId());
-            this.setMsgCount(newMsgCount);
-        },
-        /**
-         * 设置已查看消息为已读
-         */
-        setMsgTraceReceive:function (traceIds) {
-            var that = this;
-            if (traceIds && traceIds.length >0) {
-                $.ajax({
-                    url:rootPath + "/action/S_alert_MessageTrace_setStatusReceived.action",
-                    type:"post",
-                    dataType:"json",
-                    data:$.param({"ids":traceIds},true),
-                    success:function (count) {
-                        if (count){
-                            that.refreshMsgCount();
-                        }
-                    }
-                });
-            }
+        i:0,
+        testSendMsg:function () {
+            var receivers = [];
+            var receiver1 = {receiverId:'msg',receiverName:'消息测试'};
+            receivers.push(receiver1);
+            /*var receiver2 = {receiverId:'hbzz',receiverName:'环保站长'};
+            receivers.push(receiver2);    */
+            var msg = {
+                'msgType':1,
+                'title':'消息标题'+(this.i++),
+                'content':'消息内容',
+                'businessId':'123123'
+            };
+            pageUtils.sendMessage(msg, receivers);
         },
         /**
          * 加载消息列表
          * @param userId
          */
-        loadMsgList:function(userId) {
+        loadMsgListToTable:function(userId) {
             var that = this;
             //第一次加载未消息
-            that.getUserMsgList(userId, function (newMsgTraceList) {
-                if (newMsgTraceList && newMsgTraceList.length >0) {
-                    //如果有新消息清空列表只显示新消息
-                    that.clearTable();
+            that.getUserNewMsgList(userId, function (newMsgList) {
+                if (newMsgList && newMsgList.length >0) {
+                    //如果有新消息,清空列表只显示新消息
+                    that.clearMsgList();
                     that.updateMoreLink();
-                    that.addMsgTraceListToTable(newMsgTraceList);
-                }else{
+                    that.addMsgListToTableAndData(newMsgList);
+                }else if(!msgListData || msgListData <= 0){//如果列表为空，加载历史消息，否则不加载
                     that.getUserHistoryMsgList(userId,function (historyMsgList) {
-                        that.addMsgTraceListToTable(historyMsgList);
+                        that.addMsgListToTableAndData(historyMsgList);
                     })
+                }else{
+                    //没有新消息，消息列表有其他消息，所以什么也不做。
                 }
 
             });
         },
-        clearTable:function () {
-            this.setLoadedMsgTraceList([]);
-            this._msgTableBody.html("");
+        syncDataToTable:function () {
+            this.clearMsgListTable();
+            this.addMsgListToTable(msgListData);
+
         },
+        addMsgListToTableAndData:function (msgTraceList) {
+            this.addMsgListToTable(msgTraceList);
+            this.pushToMsgListData(msgTraceList);
+        },
+
         /**
          * 添加消息数据到列表表格
          * @param msgTraceList
          */
-        addMsgTraceListToTable: function(msgTraceList){
+        addMsgListToTable: function(msgTraceList){
             var that = this;
             if (msgTraceList && msgTraceList.length > 0) {
                 for(var i =0; i < msgTraceList.length; i++) {
@@ -124,27 +132,61 @@ var MessageDialog = function () {
                 }
                 that.updateMoreLink();
             }else{
-                var loadedList = that.getLoadedMsgTraceList();
+                var loadedList = that.getMsgListData();
                 if (loadedList && loadedList.length > 0) {
-                    that._moreLinkDiv.html("没有更多消息了");
+                    moreLinkDiv.html("没有更多消息了");
                 }else{
-                    that._moreLinkDiv.html("暂无消息");
+                    moreLinkDiv.html("暂无消息");
                 }
-
             }
+        },
+        addMsgToTable:function(msgTrace) {
+            var that = this;
+            if (msgTrace && msgTrace.message){
+                var msg = msgTrace.message;
+                var receiveStatusName = "";
+                var unReceive = (!msgTrace.receiveStatus || msgTrace.receiveStatus ==RECEIVE_STATUS_UNRECEIVE);
+                if (unReceive) {//显示未接收
+                    receiveStatusName = dict.get(DICT_CODE_MSG_RECEIVE_STATUS,RECEIVE_STATUS_UNRECEIVE);
+                }else {//已接收
+                    receiveStatusName = dict.get(DICT_CODE_MSG_RECEIVE_STATUS,msgTrace.receiveStatus);
+                }
+                var msgTrHtml = '<tr>'+
+                    '<td style="width: 80px;"><span>'+dict.get(DICT_CODE_MSG_TYPE,msg.msgType)+'</span></td>'+
+                    '<td><span>'+that.filterUndefine(msg.title)+'</span></td>'+
+                    '<td><span>'+that.filterUndefine(msg.content)+'</span></td>'+
+                    '<td style="width: 140px;"><span>'+that.filterUndefine(msg.alertTime)+'</span></td>'+
+                    '<td style="width: 80px;"><span class="'+(unReceive?"text-danger":"")+'">'+receiveStatusName+'</span></td>'+
+                    '<td><button type="button" class="btn btn-primary btn-sm btn-details" data-details-url="'+msg.detailsUrl+'">详情</button></td>'+
+                    '</tr>';
+                var msgTr = $(msgTrHtml);
+                //绑定详情按钮click to跳转
+                msgTr.find(".btn-details").bind("click",function () {
+                    var detailsUrl = $(this).data("details-url");
+                    msgListModal.modal("hide");
+                    pageUtils.toUrl(rootPath+"/"+detailsUrl);
+
+                });
+                msgListTable.append(msgTr);
+                return true;
+            }else{
+                return false;
+            }
+
         },
         updateMoreLink:function () {
             var that = this;
             var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a>");
             moreLink.bind("click",function () {
                 that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
-                    that.addMsgTraceListToTable(historyMsgTraceList);
+                    that.addMsgListToTableAndData(historyMsgTraceList);
                 });
             });
-            that._moreLinkDiv.html("");
-            that._moreLinkDiv.append(moreLink);
+            moreLinkDiv.html("");
+            moreLinkDiv.append(moreLink);
         },
-        getUserMsgList:function (userId,callback) {
+
+        getUserNewMsgList:function (userId, callback) {
             $.ajax({
                 url:rootPath + "/action/S_alert_MessageTrace_getUserMsgList.action",
                 type:"post",
@@ -156,7 +198,7 @@ var MessageDialog = function () {
             });
         },
         getUserHistoryMsgList:function (userId,callback) {
-            var msgTraceList = this.getLoadedMsgTraceList();
+            var msgTraceList = this.getMsgListData();
             var oldMsgAlertTime = "";//当前已显示的最旧一条消息id
             if (msgTraceList && msgTraceList.length > 0) {
                 var msg = msgTraceList[msgTraceList.length-1].message;
@@ -174,67 +216,99 @@ var MessageDialog = function () {
                 }
             });
         },
-        addMsgToTable:function(msgTrace) {
+
+        /**
+         * 设置已查看消息为已读
+         */
+        setMsgTraceReceive:function (traceIds,callback) {
             var that = this;
-            if (msgTrace && msgTrace.message){
-                var msg = msgTrace.message;
-                var receiveStatusName = "";
-                var dictCodeMsgReceiveStatus = 'msg_receive_status';
-                var unReceive = (!msgTrace.receiveStatus || msgTrace.receiveStatus ==that.RECEIVE_STATUS_UNRECEIVE);
-                if (unReceive) {//显示未接收
-                    receiveStatusName = dict.get(dictCodeMsgReceiveStatus,that.RECEIVE_STATUS_UNRECEIVE);
-                }else {//已接收
-                    receiveStatusName = dict.get(dictCodeMsgReceiveStatus,msgTrace.receiveStatus);
-                }
-                var dictCodeMsgType = 'msg_type';
-                var msgTrHtml = '<tr>'+
-                    '<td style="width: 80px;"><span>'+dict.get(dictCodeMsgType,msg.msgType)+'</span></td>'+
-                    '<td><span>'+that.filterUndefine(msg.title)+'</span></td>'+
-                    '<td><span>'+that.filterUndefine(msg.content)+'</span></td>'+
-                    '<td style="width: 140px;"><span>'+that.filterUndefine(msg.alertTime)+'</span></td>'+
-                    '<td style="width: 80px;"><span class="'+(unReceive?"text-danger":"")+'">'+receiveStatusName+'</span></td>'+
-                    '<td><button type="button" class="btn btn-primary btn-sm btn-details" data-details-url="'+msg.detailsUrl+'">详情</button></td>'+
-                    '</tr>';
-                var msgTr = $(msgTrHtml);
-                //绑定详情按钮click to跳转
-                msgTr.find(".btn-details").bind("click",function () {
-                    var detailsUrl = $(this).data("details-url");
-                    pageUtils.toUrl(rootPath+"/"+detailsUrl);
+            if (traceIds && traceIds.length >0) {
+                $.ajax({
+                    url:rootPath + "/action/S_alert_MessageTrace_setStatusReceived.action",
+                    type:"post",
+                    dataType:"json",
+                    data:$.param({"ids":traceIds},true),
+                    success:function (count) {
+                        if (count){
+                            that.refreshNewsCount();
+                        }
+                        if (callback) {
+                            callback(count);
+                        }
+
+                    }
                 });
-                that._msgTableBody.append(msgTr);
-                that.pushToLoadedMsgTraceList(msgTrace);
-            }else{
-                return false;
             }
+        },
+
+        getNewsCountByUserId:function (userId,callback) {
+             $.ajax({
+                 url:rootPath + "/action/S_alert_MessageTrace_getNewMsgCountByUserId.action",
+                 type:"post",
+                 dataType:"json",
+                 data:{"userId":userId},
+                 success:function (messageCount) {
+                     if ($.isFunction(callback)) {
+                         callback(messageCount);
+                     }
+                 }
+             });
+        },
+
+        refreshCountAndLoadNewsRank:function () {
+            var that = this;
+            that.refreshNewsCount(function (newMsgCount) {
+                //如果新消息数量大于0，并且提醒标识为真，获取新消息并设置消息队列
+                if (newMsgCount > 0 && isAlert) {
+                    that.getUserNewMsgList(that.getUserId(), function (newMsgList) {
+                        setNewsRank(newMsgList);
+                    });
+                }
+            });
 
         },
-        getNewMsgCountByUserId:function (userId) {
-            var messageCount;
-            // $.ajax({
-            //     url:rootPath + "/action/S_alert_MessageTrace_getNewMsgCountByUserId.action",
-            //     type:"post",
-            //     async:false,
-            //     dataType:"json",
-            //     data:{"userId":userId},
-            //     success:function (result) {
-            //         messageCount = result;
-            //     }
-            // });
-            return messageCount;
+
+        startRefreshNewsCountClock:function () {
+            var that = this;
+            that.refreshCountAndLoadNewsRank();
+            that.stopRefreshNewsCountClock();
+
+            var refreshCountClock = setInterval(function () {
+                that.refreshCountAndLoadNewsRank();
+            },REFRESH_DELAY);
+            that.setRefreshNewsCountClock(refreshCountClock);
         },
-        sendMsg:function () {
-            var receivers = [];
-            var receiver1 = {receiverId:'dev',receiverName:'开发人员'};
-            receivers.push(receiver1);
-            var receiver2 = {receiverId:'hbzz',receiverName:'环保站长'};
-            receivers.push(receiver2);
-            var msg = {
-                'msgType':1,
-                'title':'消息标题',
-                'content':'消息内容',
-                'businessId':'123123'
-            };
-            pageUtils.sendMessage(msg, receivers);
+        stopRefreshNewsCountClock:function () {
+            if (this.getRefreshNewsCountClock()) {
+                clearInterval(this.getRefreshNewsCountClock());
+                this.setRefreshNewsCountClock(undefined);
+            }
+        },
+        refreshNewsCount:function (callback) {
+            var that = this;
+            that.getNewsCountByUserId(that.getUserId(),function (newMsgCount) {
+                that.setNewsCount(newMsgCount);
+                if ($.isFunction(callback)){
+                    callback(newMsgCount);
+                }
+            });
+        },
+        setNewsCount:function (count) {
+            if (newsCountElement && newsCountElement.text) {
+                newsCountElement.text(count);
+            }
+        },
+        setNewsCountElement:function (countElement) {
+            newsCountElement = countElement;
+            if (countElement) {
+                this.startRefreshNewsCountClock();
+            }
+        },
+        setRefreshNewsCountClock:function (refreshCountClock_p) {
+            refreshNewsCountClock = refreshCountClock_p;
+        },
+        getRefreshNewsCountClock:function () {
+            return refreshNewsCountClock;
         },
         filterUndefine:function (str) {
             if (str){
@@ -243,51 +317,137 @@ var MessageDialog = function () {
                 return "";
             }
         },
-        setUserId:function (userId) {
-            this._userId = userId;
+        setUserId:function (userId_p) {
+            userId = userId_p;
         },
         getUserId:function () {
-            return this._userId;
+            return userId;
         },
-        pushToLoadedMsgTraceList:function (msgTrace) {
-            this._loadedMsgTraceList.push(msgTrace);
-        },
-        setLoadedMsgTraceList:function (msgList) {
-            this._loadedMsgTraceList = msgList;
-        },
-        getLoadedMsgTraceList:function () {
-            return this._loadedMsgTraceList;
-        },
-        setMsgCount:function (count) {
-            if (this._countElement && this._countElement.text) {
-                this._countElement.text(count);
+        pushToMsgListData:function (msgTrace) {
+            if ($.isArray(msgTrace)) {
+                msgListData = msgListData.concat(msgTrace);
+                return true;
+            }else if($.type(msgTrace) == "object"){
+                msgListData.push(msgTrace);
+                return true;
+            }else{
+                return false;
             }
+
+
         },
-        setCountElement:function (countElement) {
-            this._countElement = countElement;
-            if (countElement) {
-                this.startRefreshMsgCountClock();
+        setMsgListData:function (msgList) {
+            msgListData = msgList;
+        },
+        getMsgListData:function () {
+            return msgListData;
+        },
+        clearMsgList:function () {
+            this.setMsgListData([]);
+            setNewsRank([]);
+            this.clearMsgListTable();
+        },
+        clearMsgListTable:function () {
+            msgListTable.html("");
+        }
+    };
+
+    function initMsgModal() {
+        disabledMsgForm(true);
+        msgModal.on("hidden.bs.modal",function () {
+            checkNewsRankAndPopup();
+        });
+        msgModal.find(".btn-accept").bind("click", function () {
+            var msg = msgForm.data(MSG_FORM_DATA_BIND_KEY);
+            if (msg && msg.id) {
+                //设置已读
+                dialog.setMsgTraceReceive([msg.id]);
             }
-        },
-        getCountElement:function () {
-            return this._countElement;
-        },
-        setRefreshCountClock:function (refreshCountClock) {
-            this._refreshCountClock = refreshCountClock;
-        },
-        getRefreshCountClock:function () {
-            return this._refreshCountClock;
-        },
-        stopRefreshCountClock:function () {
-            if (this.getRefreshCountClock()) {
-                clearInterval(this.getRefreshCountClock());
-                this.setRefreshCountClock(undefined);
+        });
+        msgModal.find(".btn-details").bind("click", function () {
+            var msg = msgForm.data(MSG_FORM_DATA_BIND_KEY);
+            if (msg && msg.message && msg.message.detailsUrl) {
+                //设置已读
+                dialog.setMsgTraceReceive([msg.id],function (count) {
+                    //跳转页面
+                    pageUtils.toUrl(rootPath+"/"+msg.message.detailsUrl);
+                });
             }
+        });
+        msgModal.find(".btn-notAlert").bind("click", function () {
+            Ewin.confirm({ message: "确认不再提醒其他新消息吗？" }).on(function (e) {
+                if (!e) {
+                    return;
+                }
+                //清空消息列表
+                setNewsRank([]);
+                setIsAlert(false);
+                //设置已读
+                var msg = msgForm.data(MSG_FORM_DATA_BIND_KEY);
+                if (msg && msg.id) {
+                    dialog.setMsgTraceReceive([msg.id]);
+                }
+                msgModal.modal("hide");
+            });
+        });
+
+    }
+
+    function checkNewsRankAndPopup() {
+        if (newsRank && newsRank.length > 0) {
+            var msg = newsRank.pop();
+            popupNewMsg(msg);
+        }
+    }
+    function popupNewMsg(msg){
+        var result = setMsgFormData(msg);
+        if (result) {
+            msgModal.modal("show");
         }
 
+    }
+    function setMsgFormData(msg) {
+        resetMsgForm();
+        if (msg && msg.message) {
+            msgForm.data(MSG_FORM_DATA_BIND_KEY,msg);
+            var mainMsg = msg.message;
+            $("#message_title").val(mainMsg.title);
+            $("#message_msgType").val(dict.get(DICT_CODE_MSG_TYPE,mainMsg.msgType));
+            $("#message_senderName").val(mainMsg.senderName);
+            $("#message_alertTime").val(mainMsg.alertTime);
+            $("#message_content").val(mainMsg.content);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    function disabledMsgForm(disabled) {
+        msgForm.find(".form-control").attr("disabled",disabled);
+    }
+    /**
+     * 重置表单
+     */
+    function resetMsgForm() {
+        msgForm[0].reset();
+        msgForm.removeData(MSG_FORM_DATA_BIND_KEY);
+    }
 
+    function setNewsRank(newMsges){
+        newsRank = newMsges ;
+        checkNewsRankAndPopup();
+    }
+    function setIsAlert(isAlert_p) {
+        isAlert = isAlert_p;
+        $.ajax({
+            url:rootPath + "/action/S_alert_Message_setIsAlert.action",
+            type:"post",
+            dataType:"json",
+            data:{"isAlert":isAlert_p},
+            success:function (success) {
 
-    };
+            }
+        });
+    }
     dialog.init();
     return dialog;
 }();

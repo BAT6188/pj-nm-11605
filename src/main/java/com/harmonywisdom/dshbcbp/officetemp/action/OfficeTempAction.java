@@ -119,17 +119,17 @@ public class OfficeTempAction extends BaseAction<OfficeTemp, OfficeTempService> 
             OfficeTemp template = officeTempService.findById(templateId);
             if(StringUtils.isBlank(template.getFileName())){
                 request.setAttribute("message","没有找到模板！");
-                response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/error_message.jsp");
+                response.sendRedirect(request.getContextPath()+"/common/officetemp/error_message.jsp");
             }
             if( StringUtils.isBlank(template.getDataFileName())){
                 request.setAttribute("message","没有找到模板数据！");
-                response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/error_message.jsp");
+                response.sendRedirect(request.getContextPath()+"/common/officetemp/error_message.jsp");
             }
 //            request.setAttribute("filePath",template.getFilePath() + template.getFileName());
 //            request.setAttribute("dataFilePath", template.getFilePath() + template.getDataFileName());
 //            RequestDispatcher rd = request.getRequestDispatcher("/gov/officetemp/template_editor.jsp");
 //            rd.forward(request, response);
-            String editUrl = request.getContextPath()+"/container/gov/officetemp/template_editor.jsp?filePath="+template.getFilePath() + template.getFileName()+"&dataFilePath="+template.getFilePath() + template.getDataFileName();
+            String editUrl = request.getContextPath()+"/common/officetemp/template_editor.jsp?filePath="+template.getFilePath() + template.getFileName()+"&dataFilePath="+template.getFilePath() + template.getDataFileName();
             String pageOfficeLink = OfficeUtil.getPageOfficeLink(request, editUrl);
             response.sendRedirect(pageOfficeLink);
 
@@ -148,17 +148,17 @@ public class OfficeTempAction extends BaseAction<OfficeTemp, OfficeTempService> 
             OfficeTemp template = officeTempService.findById(templateId);
             if(StringUtils.isBlank(template.getFileName())){
                 request.setAttribute("message","没有找到模板！");
-                response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/error_message.jsp");
+                response.sendRedirect(request.getContextPath()+"/common/officetemp/error_message.jsp");
             }
             if( StringUtils.isBlank(template.getDataFileName())){
                 request.setAttribute("message","没有找到模板数据！");
-                response.sendRedirect(request.getContextPath()+"/container/gov/officetemp/error_message.jsp");
+                response.sendRedirect(request.getContextPath()+"/common/officetemp/error_message.jsp");
             }
 //            request.setAttribute("filePath",template.getFilePath() + template.getFileName());
 //            request.setAttribute("dataFilePath", template.getFilePath() + template.getDataFileName());
 //            RequestDispatcher rd = request.getRequestDispatcher("/gov/officetemp/template_editor.jsp");
 //            rd.forward(request, response);
-            String showUrl = request.getContextPath() + "/container/gov/officetemp/template_show.jsp" +
+            String showUrl = request.getContextPath() + "/common/officetemp/template_show.jsp" +
                     "?filePath=" + template.getFilePath() + template.getFileName() +
                     "&dataFilePath=" + template.getFilePath() + template.getDataFileName() +
                     "&beanName=" + request.getParameter("beanName") +

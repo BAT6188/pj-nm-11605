@@ -1,3 +1,4 @@
+//@ sourceURL=cleanLicense.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),

@@ -310,7 +310,7 @@
                     <div class="form-group">
                         <label for="startTime" class="col-sm-2 control-label">开始时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                            <div id="datetimepicker" class="input-group date form_datetime col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="startTime" name="startTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -321,7 +321,7 @@
                         </div>
                         <label for="endTime" class="col-sm-2 control-label">结束时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker2" class="input-group date form_datetime col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <div id="datetimepicker2" class="input-group date form_datetime col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="endTime" name="endTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -359,11 +359,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="remark" class="col-sm-2 control-label">备注*：</label>
+                        <label for="remark" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">
                             <textarea  id="remark" name="remark" class="form-control" rows="5"
-                                       data-message="备注不能为空"
-                                       data-easytip="position:top;class:easy-red;"
                             ></textarea>
                         </div>
                     </div>

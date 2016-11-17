@@ -18,6 +18,7 @@ import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +33,12 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
     @Override
     protected EnterpriseService getService() {
         return enterpriseService;
+    }
+
+    public void getEnterpriseInfoById(){
+        String id = request.getParameter("enterpriseId");
+        Enterprise enterprise = enterpriseService.findById(id);
+        write(enterprise);
     }
 
     /**
@@ -258,6 +265,19 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         }
 
 
+    }
+
+    //企业登出
+    public void logout(){
+        request.getSession().invalidate();
+        String basePath = request.getScheme() + "://"
+                + request.getServerName() + ":" + request.getServerPort()
+                + request.getContextPath();
+        try {
+            response.sendRedirect(basePath + "/container/company/login/login.jsp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

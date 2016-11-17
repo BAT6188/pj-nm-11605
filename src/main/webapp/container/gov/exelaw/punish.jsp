@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String dispatchTaskId = request.getParameter("id");
+    if (null==dispatchTaskId || dispatchTaskId.length()==0){
+        dispatchTaskId="";
+    }
 %>
 <script>
     var dispatchTaskId='<%=dispatchTaskId%>'

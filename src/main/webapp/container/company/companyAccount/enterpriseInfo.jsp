@@ -490,7 +490,9 @@
                     <div class="col-sm-2">
                         <button id="cancelAddForm" type="button" class="btn btn-warning addBtn" style="display: none">取消</button>
                         <button id="cancelEditForm" type="button" class="btn btn-warning editBtn" style="display: none">取消</button>
-                        <button id="backList" type="button" class="btn btn-warning lookBtn" style="display: none">导出word</button>
+                        <button id="demo_showWord" type="button" class="btn btn-sm btn-success">
+                            <span>导出word</span>
+                        </button>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>

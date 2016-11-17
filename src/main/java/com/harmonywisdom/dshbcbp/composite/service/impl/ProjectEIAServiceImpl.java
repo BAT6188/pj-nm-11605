@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("projectEIAService")
@@ -115,6 +116,11 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
     @Override
     public void deleteProjectEIABuildProjectId(String projectId) {
         projectEIADAO.executeJPQL("delete from ProjectEIA entity where entity.projectId in ?1",projectId);
+    }
+
+    @Override
+    public void updateBuildProject(Date replyTime,String projectId) {
+        buildProjectService.executeJPQL("update BuildProject set replyTime=? where id=?",replyTime,projectId);
     }
 
 }

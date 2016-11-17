@@ -69,7 +69,20 @@ function initTable() {
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var isNewDiv=""
+                    if (role=='monitor_master'){
+                        if (row.monitorMasterSelfReadStatus!='1'){
+                            isNewDiv='<div id="isNew">&nbsp;</div>'
+                        }
+                    }else if(role=='env_pro_sta'){
+                        if (row.huanBaoZhanSelfReadStatus!='1'){
+                            isNewDiv='<div id="isNew">&nbsp;</div>'
+                        }
+                    }
+                    return value+isNewDiv;
+                }
             },
 
             {
@@ -146,7 +159,6 @@ function initTable() {
                 align: 'center',
                 editable: false
             },
-
             {
                 field: '',
                 title: '行政处罚',
@@ -163,18 +175,11 @@ function initTable() {
                      * 5:已办结
                      * 状态
                      */
-                    if (row.status==1){
-                        value="未调度"
-                    }else if(row.status==2){
-                        value="已发送"
-                    }else if(row.status==3){
-                        value='已反馈'
-                    }else if(row.status==4){
+                    if(row.status>=4){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
-                    }else if(row.status==5){
-                        value="已办结"
+                    }else{
+                        value="未处罚"
                     }
-
                     return value
                 }
             },
@@ -342,6 +347,9 @@ dealWithBtn.prop('disabled', true);
 feedbackBtn.prop('disabled', true);
 
 $("#dealWith").bind("click",function () {
+    var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
+    pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
+
     setEventMsgFormData(getSelections()[0]);
 });
 
@@ -354,6 +362,9 @@ $("#feedback").bind("click",function () {
     uploader = new qq.FineUploader(getUploaderOptions());
 
     $("#feedbackTo").show();
+
+    var url=rootPath + "/action/S_dispatch_DispatchTask_updateHuanBaoZhanSelfReadStatus.action";
+    pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
 
 });
 

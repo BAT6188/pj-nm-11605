@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.enterprise.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.harmonywisdom.dshbcbp.common.dict.bean.DictBean;
 import com.harmonywisdom.dshbcbp.composite.bean.Video;
 import com.harmonywisdom.dshbcbp.composite.service.VideoService;
@@ -329,6 +330,14 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
             }
         }
         return enterpriseId;
+    }
+
+    @Override
+    public Enterprise findById(String s) {
+        Enterprise enterprise = super.findById(s);
+        List<Enterprise> enterpriseList = getDAO().findAll();
+        enterprise.setEnterpriseList(JSONArray.toJSONString(enterpriseList));
+        return enterprise;
     }
 
 }

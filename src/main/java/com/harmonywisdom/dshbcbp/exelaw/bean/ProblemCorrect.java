@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.exelaw.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,44 +12,57 @@ import java.util.Date;
 public class ProblemCorrect implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 台账编号
+     */
     @Id
     @Column(length = 32)
     private String id;
 
     /**
-     * 台账编号
+     * 创建时间
      */
-    @Column(name = "code", length = 32)
-    private String code;
+    @Column(name = "create_time")
+    private Date createTime;
+
     /**
-     * 存在的问题
+     * 存在的问题类型
+     * 1. 安全隐患
+     * 2. 总量减排
+     * 3. 非法排污
+     * 4. 未批先建
      */
-    @Column(name = "problem")
-    private String problem;
+    @Column(name = "problem_type", length = 2)
+    private String problemType;
+
+    /**
+     * 问题描述
+     */
+    @Column(name = "problem_desc")
+    private String problemDesc;
     /**
      * 整改情况
      */
     @Column(name = "correct_desc")
     private String correctDesc;
     /**
-     * 进度
+     * 问题进度：
+     * 1. 暂存
+     * 2. 已消耗
      */
-    @Column(name = "progress")
-    private Double progress;
-
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
-
-    @Column(name = "create_time")
-    private Date createTime;
-    /**
-     * 问题类型
-     */
-    @Column(name = "problem_type", length = 2)
-    private String problemType;
+    @Column(name = "progress", length = 2)
+    private String progress;
 
     @Column(name = "enterprise_id", length = 32)
     private String enterpriseId;
+
+    @Transient
+    private String attachmentIds;
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public String getId() {
         return id;
@@ -60,46 +70,6 @@ public class ProblemCorrect implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getProblem() {
-        return problem;
-    }
-
-    public void setProblem(String problem) {
-        this.problem = problem;
-    }
-
-    public String getCorrectDesc() {
-        return correctDesc;
-    }
-
-    public void setCorrectDesc(String correctDesc) {
-        this.correctDesc = correctDesc;
-    }
-
-    public Double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(Double progress) {
-        this.progress = progress;
-    }
-
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
     }
 
     public Date getCreateTime() {
@@ -118,6 +88,30 @@ public class ProblemCorrect implements Serializable {
         this.problemType = problemType;
     }
 
+    public String getProblemDesc() {
+        return problemDesc;
+    }
+
+    public void setProblemDesc(String problemDesc) {
+        this.problemDesc = problemDesc;
+    }
+
+    public String getCorrectDesc() {
+        return correctDesc;
+    }
+
+    public void setCorrectDesc(String correctDesc) {
+        this.correctDesc = correctDesc;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -126,5 +120,11 @@ public class ProblemCorrect implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
 
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
 }

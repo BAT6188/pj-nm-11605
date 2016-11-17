@@ -22,6 +22,12 @@
 </head>
 <style>
     .ui-autocomplete { z-index:2147483647;}
+    #isNew{
+        display: inline;
+        top: -10px;
+        position: relative;
+        background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
+    }
 </style>
 <body>
 <div class="content content1 clearfix">

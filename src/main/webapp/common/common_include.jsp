@@ -14,7 +14,6 @@
     String userName = "";
     String orgId="";
     String orgCode="";
-    String orgName="";
     if (person != null) {
         userID = person.getUserId();
         userName = person.getUserName();
@@ -22,7 +21,7 @@
 
         IOrg org = OrgServiceUtil.getOrgByOrgId(orgId);
         orgCode = org.getOrgCode();
-        orgName = org.getOrgName();
+
     }
     ConfigureManager manager = ConfigureManager.getInstance();
     String apportalRootPath = "";
@@ -41,7 +40,7 @@
 
     var orgId='<%=orgId%>';
     var orgCode='<%=orgCode%>';
-    var orgName='<%=orgName%>';
+
 </script>
 
 <!--[if lt IE 9]>
