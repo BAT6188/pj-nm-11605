@@ -89,6 +89,21 @@ var DemoPage = function () {
                     align: 'center'
                 },
                 {
+                    title: '问题进度',
+                    field: 'progress',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        if(value==2){
+                            value="已消耗"
+                        }else{
+                            value="暂存"
+                        }
+                        return value
+                    }
+                },
+                {
                     field: 'operate',
                     title: '操作',
                     align: 'center',
@@ -255,6 +270,7 @@ var DemoPage = function () {
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
+        $(".noEdit").show();
         form.find("#save").hide();
         form.find(".btn-cancel").text("关闭");
     }
@@ -289,6 +305,7 @@ var DemoPage = function () {
         form.find("textarea").val("");
         uploader = new qq.FineUploader(getUploaderOptions());
         disabledForm(false);
+        $(".noEdit").hide();
         form.find("#save").show();
         form.find(".btn-cancel").text("取消");
     }

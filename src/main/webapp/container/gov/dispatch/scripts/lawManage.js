@@ -146,7 +146,6 @@ function initTable() {
                 align: 'center',
                 editable: false
             },
-
             {
                 field: '',
                 title: '行政处罚',
@@ -163,18 +162,11 @@ function initTable() {
                      * 5:已办结
                      * 状态
                      */
-                    if (row.status==1){
-                        value="未调度"
-                    }else if(row.status==2){
-                        value="已发送"
-                    }else if(row.status==3){
-                        value='已反馈'
-                    }else if(row.status==4){
+                    if(row.status>=4){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
-                    }else if(row.status==5){
-                        value="已办结"
+                    }else{
+                        value="未处罚"
                     }
-
                     return value
                 }
             },
