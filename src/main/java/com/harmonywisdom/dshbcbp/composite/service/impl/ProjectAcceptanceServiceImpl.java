@@ -10,6 +10,7 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("projectAcceptanceService")
@@ -39,5 +40,10 @@ public class ProjectAcceptanceServiceImpl extends BaseService<ProjectAcceptance,
     public void deleteAcceptanceBuildProjectId(String projectId) {
         projectAcceptanceDAO.executeJPQL("delete from ProjectAcceptance entity where entity.projectId in ?1",projectId);
 
+    }
+
+    @Override
+    public void updateBuildProject(Date acceptTime, String acceptOrg,Date replyAccTime,String projectId) {
+        buildProjectService.executeJPQL("update BuildProject set acceptTime=?,acceptOrg=?,replyTime=? where id=?",acceptTime,acceptOrg,replyAccTime,projectId);
     }
 }
