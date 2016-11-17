@@ -246,7 +246,7 @@ function setFormData(entity) {
     $.each(inputs,function(k,v){
         var tagId = $(v).attr('name');
         var value = entity[tagId];
-        if($(v)[0].tagName=='select'){
+        if($(v)[0].tagName=='SELECT'){
             $(v).find("option[value='"+value+"']").attr("selected",true);
         }else{
             $(v).val(value);
