@@ -65,12 +65,12 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0" >
-                    <form class="form-inline" id="searchform">
+                    <form class="form-inline" role="form" id="searchform">
                         <div class="form-group">
-                            <label for="s_name">项目名称：</label> <input type="text" id="name" name="name" class="form-control" />
+                            <label for="">项目名称：</label> <input type="text" id="name" name="name" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="s_buildNature">建设性质：</label>
+                            <label for="">建设性质：</label>
                             <select id="buildNature" name="buildNature" class="form-control" style="width: 301px;">
                                 <option value="">请选择</option>
                                 <option value="1">新建</option>
@@ -85,13 +85,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">批复时间：</label>
-                            <div  class="input-group date searchInput start_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                            <div  class="input-group date searchInput start_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="replyTime">
                                 <input class="form-control" size="16" id="startDate" name="startDate"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date searchInput end_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                            <div class="input-group date searchInput end_Time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="replyTime">
                                 <input class="form-control" size="16" id="endDate" name="endDate"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -100,16 +100,20 @@
                     </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" id="resetSearch" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button type="button" id="searchFix" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br><br>
                 <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#hpForm">
+                    <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#hpForm">
                         <i class="btnIcon add-icon"></i><span>新增(环评)</span>
                     </button>
                     <button id="addYS" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ysForm">
                         <i class="btnIcon add-icon"></i><span>新增(验收)</span>
+                    </button>--%>
+                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                            data-target="#buildForm">
+                        <i class="btnIcon add-icon"></i><span>新增</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal">
+                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#buildForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
@@ -128,13 +132,13 @@
     </div>
 </div>
 
-<!--环评添加表单-->
-<div class="modal fade buildForm" data-backdrop="static" id="hpForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--项目-->
+<div class="modal fade " data-backdrop="static" id="buildForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="hpModalLabel">建设项目环评及其他许可情况</h4>
+                <h4 class="modal-title" id="ModalLabel">建设项目</h4>
             </div>
             <div class="media-body">
                 <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
@@ -151,7 +155,8 @@
                                                 <div class="col-sm-9">
                                                     <input type="hidden" class="basedata" id="type" name="type" value="">
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
-                                                    <input type="hidden" id="basedataId" name="id" class="basedata">
+                                                    <input type="hidden" id="id" name="id" class="basedata">
+                                                    <input type="hidden" id="replyTime" name="replyTime" class="basedata">
                                                     <input type="hidden" class="basedata"  name="removeId" value="">
                                                     <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
@@ -212,7 +217,211 @@
                                                     <input id="industryType" name="industryType" class="form-control basedata" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
-                                                    <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                    <button class="btn btn-default formBtn basedata" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                        选择
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success text-red">建设内容及规模：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <input id="content" name="content" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success text-red">总投资(万元)：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="investment" name="investment" class="form-control basedata" type="number"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success text-red">环保投资(万元)：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="envInvestment" name="envInvestment" class="form-control basedata" type="number"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success ">所占比例：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="proportion" name="proportion" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="3" class="success">建设单位</td>
+                                        <td class="success text-red">单位名称：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="builderName" name="builderName" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success ">联系电话：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="builderTel" name="builderTel" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success text-red">通讯地址：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="builderAddress" name="builderAddress" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success ">邮政编码：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input  id="builderZipCode" name="builderZipCode" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success text-red">法人代表：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="builderAP" name="builderAP" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success">联系人：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    <input id="builderLinkman" name="builderLinkman" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success">附件</td>
+                                        <td class="align-left" colspan="4">
+                                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                                            <div id="build-fine-uploader-gallery"></div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary saveButton" id="buildSave">保存</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!--环评添加表单-->
+<div class="modal fade buildForm" data-backdrop="static" id="hpForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="hpModalLabel">建设项目环评及其他许可情况</h4>
+            </div>
+            <div class="media-body">
+                <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
+                    <form class="form-horizontal"  action="" style="margin: 0 10px;" role="form">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-responsive">
+                                    <tbody>
+                                    <tr>
+                                        <td class="success" rowspan="5">基本信息</td>
+                                        <td class="success text-red">项目名称:</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <input type="hidden" class="basedata" id="type" name="type" value="">
+                                                    <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
+                                                    <input type="hidden" id="hp_projectId" name="hp_projectId" class="basedata">
+                                                    <input type="hidden" class="basedata"  name="removeId" value="">
+                                                    <input class="form-control basedata"  type="text" id="name" name="name"
+                                                           data-message="项目名称不能为空"
+                                                           data-easytip="position:top;class:easy-red;"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success text-red">环境保护管理类别:</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11 basedata" name="envManagType">
+                                                    <div class="radio-inline ">
+                                                        <label ><input type="radio" class="envManagType1" name="envManagType" value="1"/>报告书</label>
+                                                        <label ><input type="radio" class="envManagType2" name="envManagType" value="2"/>报告表</label>
+                                                        <label ><input type="radio" class="envManagType3" name="envManagType" value="3"/>登记表</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success text-red">项目性质:</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-11 basedata" name="buildNature">
+                                                    <div class="radio-inline" >
+                                                        <label ><input type="radio" class="buildNature1" name="buildNature" value="1"/>新建</label>
+                                                        <label ><input type="radio" class="buildNature2" name="buildNature" value="2"/>改扩建</label>
+                                                        <label ><input type="radio" class="buildNature3" name="buildNature" value="3"/>技术改造</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success text-red">行政区：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <input class="form-control basedata" type="text" id="area" name="area"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="success text-red">建设地点:</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <input id="buildAddress" name="buildAddress" class="form-control basedata" type="text"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="success text-red">行业类别：</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <input id="industryType" name="industryType" class="form-control basedata" type="text"/>
+                                                </div>
+                                                <div class="col-sm-2 selectBtn">
+                                                    <button class="btn btn-default formBtn basedata" type="button" data-toggle="modal" data-target="#industryTypeModal">
                                                         选择
                                                     </button>
                                                 </div>
@@ -375,7 +584,9 @@
                                                 <div class="col-sm-11">
                                                     <div id="replyEIATimeContent" class="input-group date form_date" data-date="" data-link-field="replyEIATime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control otherdata"  name="replyEIATime" size="16" type="text" value="" readonly
-                                                              >
+                                                               data-message="批复时间不能为空"
+                                                               data-easytip="position:top;class:easy-red;"
+                                                        >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
@@ -405,8 +616,8 @@
                                             <div class="row">
                                                 <div class="col-sm-11 otherdata" name="isEIALicense">
                                                     <div class="radio-inline">
-                                                        <label><input type="radio" class="isEIALicense0" name="isEIALicense" value="0"/>否</label>
                                                         <label><input type="radio" class="isEIALicense1" name="isEIALicense" value="1"/>是</label>
+                                                        <label><input type="radio" class="isEIALicense0" name="isEIALicense" value="0"/>否</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -426,7 +637,7 @@
                                         <td class="success">附件</td>
                                         <td class="align-left" colspan="4">
                                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
-                                            <div id="fine-uploader-gallery"></div>
+                                            <div id="hp-fine-uploader-gallery"></div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -444,7 +655,7 @@
     </div><!-- /.modal -->
 </div>
 <!--验收添加表单-->
-<div class="modal fade buildForm" data-backdrop="static" id="ysForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade " data-backdrop="static" id="ysForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -464,10 +675,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <input type="hidden" id="basedataAccId" name="id" class="basedata">
+                                                    <input type="hidden" id="ys_projectId" name="ys_projectId" class="basedata">
                                                     <input type="hidden"  name="type" class="basedata">
                                                     <input type="hidden"  name="removeId" class="basedata">
-                                                    <input type="text"  name="name" class="form-control basedata searchName "/>
+                                                    <input type="text"  name="name" class="form-control basedata  "/>
                                                 </div>
                                             </div>
                                         </td>
@@ -476,7 +687,7 @@
                                             <div class="row">
                                                 <div class="col-sm-11">
                                                     <input id="idAcceptance" name="id" class="form-control otherdata" type="hidden"/>
-                                                    <input id="eiaNameEIA" name="eiaNameEIA" class="form-control otherdata" type="text"/>
+                                                    <input  name="name" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -505,7 +716,7 @@
                                                     <input  name="industryType" class="form-control basedata" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
-                                                    <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                    <button class="btn btn-default formBtn basedata" type="button" data-toggle="modal" data-target="#industryTypeModal">
                                                         选择
                                                     </button>
                                                 </div>
@@ -537,7 +748,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="euNameEIA"  name="euNameEIA" class="form-control otherdata" type="text"/>
+                                                    <input  name="euName" class="form-control hpdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -545,7 +756,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input id="replyCodeEIA" name="replyCodeEIA" class="form-control otherdata" type="text"/>
+                                                    <input  name="replyEIACode" class="form-control hpdata" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -556,7 +767,7 @@
                                             <div class="row">
                                                 <div class="col-sm-11">
                                                     <div id="TimeContent" class="input-group date form_date" data-date="" data-link-field="replyTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control otherdata" id="replyTimeEIA"  name="replyTimeEIA" size="16" type="text" value="" readonly
+                                                        <input class="form-control hpdata"  name="replyEIATime" size="16" type="text" value="" readonly
                                                         >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -567,7 +778,10 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-11">
-                                                    <input  name="acceptOrg" class="form-control basedata" type="text"/>
+                                                    <input  name="acceptOrg" class="form-control builddata" type="text"
+                                                            data-message="竣工验收单位不能为空"
+                                                            data-easytip="position:top;class:easy-red;"
+                                                    />
                                                 </div>
                                             </div>
                                         </td>
@@ -578,7 +792,9 @@
                                             <div class="row">
                                                 <div class="col-sm-11">
                                                     <div id="acceptTimeContent" class="input-group date form_date" data-date="" data-link-field="acceptTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                                        <input class="form-control basedata"  name="acceptTime" size="16" type="text" value="" readonly
+                                                        <input class="form-control builddata"  name="acceptTime" size="16" type="text" value="" readonly
+                                                               data-message="竣工验收时间不能为空"
+                                                               data-easytip="position:top;class:easy-red;"
                                                         >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -700,8 +916,8 @@
                                             <div class="row">
                                                 <div class="col-sm-11 otherdata" name="isAccLicense">
                                                     <div class="radio-inline " >
-                                                        <label ><input type="radio" class="isAccLicense0" name="isAccLicense" value="0"/>否</label>
                                                         <label ><input type="radio" class="isAccLicense1" name="isAccLicense" value="1"/>是</label>
+                                                        <label ><input type="radio" class="isAccLicense0" name="isAccLicense" value="0"/>否</label>
                                                     </div>
                                                 </div>
                                             </div>
