@@ -128,8 +128,8 @@ public class BuildProject implements Serializable {
     /**
      * 批复时间
      */
-    @Column(name = "time",length = 100)
-    private Date time;
+    @Column(name = "REPLY_TIME")
+    private Date replyTime;
 
     @Transient
     private String startDate;
@@ -156,12 +156,13 @@ public class BuildProject implements Serializable {
         this.endDate = endDate;
     }
 
-    public Date getTime() {
-        return time;
+
+    public Date getReplyTime() {
+        return replyTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setReplyTime(Date replyTime) {
+        this.replyTime = replyTime;
     }
 
     public String getType() {
