@@ -31,6 +31,14 @@ public class MessageAction extends BaseAction<Message, MessageService> {
         }else{
             write(false);
         }
+    }
 
+    /**
+     * 设置当前session 是否消息提醒
+     */
+    public void setIsAlert(){
+        String isAlert = request.getParameter("isAlert");
+        request.getSession().setAttribute("msgIsAlert", isAlert);
+        write(true);
     }
 }

@@ -12,6 +12,7 @@ import java.util.Date;
 public class DispatchTask implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //**************************  事件状态  ****************************//
     /**
      * 未调度
      */
@@ -32,6 +33,7 @@ public class DispatchTask implements Serializable {
      *已办结
      */
     public static final String status_5="5";
+    //**************************  事件状态  ****************************//
 
     @Id
     @Column(length = 32)
@@ -48,8 +50,26 @@ public class DispatchTask implements Serializable {
     @Column(name = "status", length = 2)
     private String status;
 
+    //--------------  查看状态  --------------------------//
+    /**
+     * 监察大队查看状态：
+     * 1 已查看
+     * 其他 未查看
+     */
+    @Column(name = "monitor_master_self_read_status", length = 2)
+    private String monitorMasterSelfReadStatus;
 
-//--------------  现场监察监测报告  --------------------------//
+    /**
+     * 环保站查看状态：
+     * 1 已查看
+     * 其他 未查看
+     */
+    @Column(name = "huan_bao_zhan_self_read_status", length = 2)
+    private String huanBaoZhanSelfReadStatus;
+    //--------------  查看状态  --------------------------//
+
+
+    //--------------  现场监察监测报告  --------------------------//
     /**
      * 监测报告是否填写状态：0未填写，1已填写
      */
@@ -76,11 +96,7 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "monitor_report_remark")
     private String monitorReportRemark;
-
-//--------------  现场监察监测报告  --------------------------//
-
-    //////////////////////////////////////////////////////////
-
+    //--------------  现场监察监测报告  --------------------------//
 
     @Column(name = "monitor_case_id")
     private String monitorCaseId;
@@ -118,7 +134,6 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "enterprise_id")
     private String enterpriseId;
-
     @Column(name = "enterprise_name")
     private String enterpriseName;
 
@@ -133,7 +148,6 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "block_level_id")
     private String blockLevelId;
-
     @Column(name = "block_level_name")
     private String blockLevelName;
     /**
@@ -141,7 +155,6 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "block_id", length = 32)
     private String blockId;
-
     @Column(name = "block_name")
     private String blockName;
 
@@ -156,7 +169,6 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "supervisor")
     private String supervisor;
-
     @Column(name = "supervisor_phone")
     private String supervisorPhone;
 
@@ -174,6 +186,7 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "thr_value")
     private Double thrValue;
+
     /**
      * 事件内容
      */
@@ -185,13 +198,10 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "sender_id", length = 32)
     private String senderId;
-
     @Column(name = "sender_name", length = 20)
     private String senderName;
-
     @Column(name = "send_time")
     private Date sendTime;
-
     @Column(name = "send_phone")
     private String sendPhone;
 
@@ -531,5 +541,21 @@ public class DispatchTask implements Serializable {
 
     public void setMonitorReportRemark(String monitorReportRemark) {
         this.monitorReportRemark = monitorReportRemark;
+    }
+
+    public String getMonitorMasterSelfReadStatus() {
+        return monitorMasterSelfReadStatus;
+    }
+
+    public void setMonitorMasterSelfReadStatus(String monitorMasterSelfReadStatus) {
+        this.monitorMasterSelfReadStatus = monitorMasterSelfReadStatus;
+    }
+
+    public String getHuanBaoZhanSelfReadStatus() {
+        return huanBaoZhanSelfReadStatus;
+    }
+
+    public void setHuanBaoZhanSelfReadStatus(String huanBaoZhanSelfReadStatus) {
+        this.huanBaoZhanSelfReadStatus = huanBaoZhanSelfReadStatus;
     }
 }

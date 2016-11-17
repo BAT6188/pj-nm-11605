@@ -54,22 +54,29 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     }
 
     /**
-     * 根据 组织机构和人员角色 获得 环保站组织机构和环保站站长角色的人员
+     * 监察大队查看状态
      */
-    public void getStreetLeaderList(){
-        List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId("402883b3577422f00157f9d874d103e9");
-        for (IOrg org : orgs) {
-            List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(org.getOrgId());
-            for (IPerson person : persons) {
-                List<IRole> roles = RoleServiceUtil.getRoleByUserId(person.getUserId());
-                for (IRole role : roles) {
-                    if ("streetLeader".equals(role.getRoleCode())){
-
-                    }
-                }
-            }
-        }
+    public void updateMonitorMasterSelfReadStatus(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        DispatchTask d = dispatchTaskService.findById(id);
+        d.setMonitorMasterSelfReadStatus(selfReadStatus);
+        dispatchTaskService.update(d);
+        write("ok");
     }
+
+    /**
+     * 环保站查看状态
+     */
+    public void updateHuanBaoZhanSelfReadStatus(){
+        String id = request.getParameter("id");
+        String selfReadStatus = request.getParameter("selfReadStatus");
+        DispatchTask d = dispatchTaskService.findById(id);
+        d.setHuanBaoZhanSelfReadStatus(selfReadStatus);
+        dispatchTaskService.update(d);
+        write("ok");
+    }
+
 
     /**
      * 保存现场监察
@@ -151,17 +158,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             params.andParam(new QueryParam("id", QueryOperator.EQ, entity.getId()));
         }
 
-        //根据登录人员角色和userId 筛选 只 执法管理领导 能够看到的数据
-//        IPerson person = ApportalUtil.getPerson(request);
-//        String userId = person.getUserId();
-//        List<IRole> role = ApportalUtil.getRoleByPersonId(request);
-//        for (IRole r : role) {
-//            String roleCode = r.getRoleCode();
-//            if ("exelawLeader".equals(roleCode)){
-//                params.andParam(new QueryParam("selectPeopleIds", QueryOperator.LIKE,"%"+userId+"%"));
-//                log.debug("根据登录人员角色和userId 筛选 只有 执法管理领导 能够看到的数据: 登录人员的userId为"+userId);
-//            }
-//        }
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
@@ -347,6 +343,24 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         write(result);
     }
+
+    /**
+     * 根据 组织机构和人员角色 获得 环保站组织机构和环保站站长角色的人员
+     */
+    /*public void getStreetLeaderList(){
+        List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId("402883b3577422f00157f9d874d103e9");
+        for (IOrg org : orgs) {
+            List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(org.getOrgId());
+            for (IPerson person : persons) {
+                List<IRole> roles = RoleServiceUtil.getRoleByUserId(person.getUserId());
+                for (IRole role : roles) {
+                    if ("streetLeader".equals(role.getRoleCode())){
+
+                    }
+                }
+            }
+        }
+    }*/
 
 }
 

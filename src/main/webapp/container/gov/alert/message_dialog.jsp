@@ -73,8 +73,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-details" data-dismiss="modal">详情</button>
-                <button type="button" class="btn btn-default btn-accept" data-dismiss="modal">接收</button>
+                <button type="button" class="btn btn-danger btn-notAlert">不再提醒</button>
+                <button type="button" class="btn btn-info btn-details" data-dismiss="modal">详情</button>
+                <button type="button" class="btn btn-primary btn-accept" data-dismiss="modal">接收</button>
             </div>
         </div>
     </div>

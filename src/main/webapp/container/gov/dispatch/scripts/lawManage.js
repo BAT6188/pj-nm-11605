@@ -69,7 +69,20 @@ function initTable() {
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var isNewDiv=""
+                    if (role=='monitor_master'){
+                        if (row.monitorMasterSelfReadStatus!='1'){
+                            isNewDiv='<div id="isNew">&nbsp;</div>'
+                        }
+                    }else if(role=='env_pro_sta'){
+                        if (row.huanBaoZhanSelfReadStatus!='1'){
+                            isNewDiv='<div id="isNew">&nbsp;</div>'
+                        }
+                    }
+                    return value+isNewDiv;
+                }
             },
 
             {
@@ -334,6 +347,9 @@ dealWithBtn.prop('disabled', true);
 feedbackBtn.prop('disabled', true);
 
 $("#dealWith").bind("click",function () {
+    var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
+    pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
+
     setEventMsgFormData(getSelections()[0]);
 });
 
@@ -346,6 +362,9 @@ $("#feedback").bind("click",function () {
     uploader = new qq.FineUploader(getUploaderOptions());
 
     $("#feedbackTo").show();
+
+    var url=rootPath + "/action/S_dispatch_DispatchTask_updateHuanBaoZhanSelfReadStatus.action";
+    pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
 
 });
 
