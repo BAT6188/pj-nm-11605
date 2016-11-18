@@ -145,14 +145,28 @@ function lookOverFormatter(value, row, index) {
             return '<button type="button" class="btn btn-md btn-info lookOver" onclick="setFormData('+index+')" data-toggle="modal" data-target="#lookOverFeedbackForm">已查看</button>';
             break;
         default:
-            return '<button type="button" class="btn btn-md btn-danger lookOver" onclick="setFormData('+index+')" data-toggle="modal" data-target="#lookOverFeedbackForm">未查看</button>';
+            return '<button type="button" class="btn btn-md btn-danger lookOver" onclick="setFormData('+index+',this)" data-toggle="modal" data-target="#lookOverFeedbackForm">未查看</button>';
     }
 }
-function setFormData(index){
+function changeLookStatus(id,obj){
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_updateEntity.action",
+        type:"post",
+        async:false,
+        data:{id:id,lookStatus:1},
+        dataType:"json",
+        success:function(data){
+            $(obj).attr('class','btn btn-md btn-info view');
+            $(obj).html('已查看');
+        }
+    });
+}
+function setFormData(index,obj){
     var entity = rowData[index];
     resetEventMsgFormData();
     if (!entity) {return false}
     var id = entity.id;
+    if(obj){changeLookStatus(id,obj);}
     eventMsgForm.find(".form-control").attr("disabled",true);
 
     var inputs = eventMsgForm.find('.form-control');

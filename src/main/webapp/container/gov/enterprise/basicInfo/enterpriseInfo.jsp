@@ -81,7 +81,7 @@
     </style>
 </head>
 <body>
-<div class="media-body" style="width: 99%;background-color: white">
+<div class="media-body" style="width: 100%;background-color: white">
     <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="z-index: 0"></a>
     <div class="tableDiv" style="overflow-y: auto;overflow-x: hidden;margin: 10px;">
         <form class="form-horizontal"  role="form" id="enterpriseForm" method="post">

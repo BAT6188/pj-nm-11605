@@ -3,14 +3,14 @@ package com.harmonywisdom.dshbcbp.dispatch.service.impl;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.dao.DispatchTaskDAO;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
+import com.harmonywisdom.dshbcbp.utils.EntityUtil;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service("dispatchTaskService")
 public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> implements DispatchTaskService {
@@ -81,5 +81,11 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
                 " WHERE DATE_FORMAT(t.`event_time`,'%m')>= '"+strsStart+"' AND DATE_FORMAT(t.`event_time`,'%m')<= '"+strEnd+"'" + whereSql);
 
         return list;
+    }
+
+    @Override
+    public String updateDispatchTask(DispatchTask dispatchTask) {
+        Map<String,Object> map = EntityUtil.getUpdateMap(dispatchTask);
+        return String.valueOf(dispathTaskDAO.executeJPQL(String.valueOf(map.get("upStr")),(Map<String, Object>)map.get("valMap")));
     }
 }

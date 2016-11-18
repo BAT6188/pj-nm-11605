@@ -38,32 +38,39 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline" id="searchform">
-                            <input type="hidden" id="s_type" name="type" value="1" class="form-control" />
-                            <input type="hidden" id="s_pubOrgId" name="pubOrgId" value="" class="form-control" />
-                            <div class="form-group">
-                                <label for="s_title">工作标题：</label> <input type="text" id="s_title" name="title" style="width: 254px;" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="publishStatus">发布状态：</label>
-                                <select class="form-control" name="publishStatus" style="width: 254px;">
-                                    <option value="">全部</option>
-                                    <option value="0">未发布</option>
-                                    <option value="1">已发布</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="s_pubTime">发布时间：</label>
-                                <div id="datetimepicker1" class="input-group date form_date" data-date=""  data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <form role="form" id="searchform">
+                            <input type="hidden" id="s_type" name="type" value="1" class="form-control"/>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="s_title">工作标题：</label> <input type="text" id="s_title" name="title" style="width: 254px;" class="form-control" />
                                 </div>
-                                —
-                                <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <div class="form-group">
+                                    <label for="s_title"  class="labelMarginLeft">发布单位：</label> <input type="text" id="s_pubOrgName" name="pubOrgName" style="width: 254px;" class="form-control" />
+                                </div>
+                            </div>
+                            <p></p>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="publishStatus">发布状态：</label>
+                                    <select class="form-control" name="publishStatus" style="width: 254px;">
+                                        <option value="">全部</option>
+                                        <option value="0">未发布(本单位数据)</option>
+                                        <option value="1">已发布(本单位数据)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="s_pubTime" class="labelMarginLeft">发布时间：</label>
+                                    <div id="datetimepicker1" class="input-group date form_date" data-date=""  data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    —
+                                    <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
                                 </div>
                             </div>
                         </form>
