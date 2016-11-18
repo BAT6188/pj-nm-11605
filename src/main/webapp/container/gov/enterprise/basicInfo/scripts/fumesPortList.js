@@ -202,7 +202,7 @@ $("#search").click(function () {
 });
 //重置搜索
 $("#searchFix").click(function () {
-    $('#searchform')[0].reset();
+    resetQuery();
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 /**============表单初始化相关代码============**/
@@ -240,7 +240,7 @@ function setFormData(entity) {
     $.each(inputs,function(k,v){
         var tagId = $(v).attr('name');
         var value = entity[tagId];
-        if($(v)[0].tagName=='select'){
+        if($(v)[0].tagName=='SELECT'){
             $(v).find("option[value='"+value+"']").attr("selected",true);
         }else{
             $(v).val(value);

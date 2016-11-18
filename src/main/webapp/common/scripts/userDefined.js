@@ -607,6 +607,7 @@ var pageUtils = {
      * 重置按钮
      */
     window.resetQuery=function() {
+        $('.queryBox').find('form')[0].reset();
         $(".queryBox").find("input[type!='radio'][type!='checkbox']").val("");
     }
 

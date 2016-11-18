@@ -205,7 +205,7 @@ $("#search").click(function () {
 });
 //重置搜索
 $("#searchFix").click(function () {
-    $('#searchform')[0].reset();
+    resetQuery();
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 function checkSearchForm(jsonData){

@@ -1,38 +1,28 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
-import com.harmonywisdom.apportal.common.util.ExceptionBase;
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.org.domain.Org;
-import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.domain.Person;
-import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
 import com.harmonywisdom.dshbcbp.composite.service.BlockService;
-import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.bean.OrgPerson;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.FeedbackService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
-import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
-import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
-import com.harmonywisdom.dshbcbp.utils.CommonUtil;
-import com.harmonywisdom.dshbcbp.utils.Constants;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -312,4 +302,7 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         super.delete();
     }
 
+    public void updateEntity(){
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", monitorCaseService.updateMonitorCase(entity)));
+    }
 }

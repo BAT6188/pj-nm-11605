@@ -132,7 +132,7 @@ function initTable() {
     });
     //重置搜索
     $("#resetSearch").click(function () {
-        $('#searchform')[0].reset();
+        resetQuery();
         gridTable.bootstrapTable('refresh');
     });
     initModel();

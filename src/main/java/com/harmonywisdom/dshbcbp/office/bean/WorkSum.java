@@ -29,14 +29,25 @@ public class WorkSum implements Serializable {
      *发布单位Id
      */
     @Column(name = "PUB_ORG_ID",length = 100)
-    private int pubOrgId;
+    private String pubOrgId;
     /**
      *发布单位名称
      */
     @Column(name = "PUB_ORG_NAME",length = 100)
     private String pubOrgName;
     /**
-     *类型
+     *本单位发布状态 0:未发布 1已发布
+     */
+    @Column(name = "PUBLISH_STATUS",length = 100)
+    private String publishStatus;
+    /**
+     *是否为公共资源 0:不可看 1可看
+     */
+    @Column(name = "IS_COMMON_DATA",length = 100)
+    private String isCommonData;
+
+    /**
+     *类型  1：计划 2：进度 3:总结
      */
     @Column(name = "TYPE",length = 100)
     private String type;
@@ -74,11 +85,11 @@ public class WorkSum implements Serializable {
         this.pubTime = pubTime;
     }
 
-    public int getPubOrgId() {
+    public String getPubOrgId() {
         return pubOrgId;
     }
 
-    public void setPubOrgId(int pubOrgId) {
+    public void setPubOrgId(String pubOrgId) {
         this.pubOrgId = pubOrgId;
     }
 
@@ -112,5 +123,21 @@ public class WorkSum implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public String getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    public String getIsCommonData() {
+        return isCommonData;
+    }
+
+    public void setIsCommonData(String isCommonData) {
+        this.isCommonData = isCommonData;
     }
 }

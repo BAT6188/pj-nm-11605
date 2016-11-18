@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.detect.action;
 
 import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
@@ -9,9 +10,8 @@ import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.detect.bean.MonitorReport;
 import com.harmonywisdom.dshbcbp.detect.service.MonitorReportService;
 import com.harmonywisdom.dshbcbp.dispatch.action.DispatchTaskAction;
-import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -59,6 +59,10 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         }
         if (StringUtils.isNotBlank(end_monitorTime)) {
             params.andParam(new QueryParam("monitorTime", QueryOperator.LE,end_monitorTime));
+        }
+        if(StringUtils.isNotBlank(entity.getSendPersonId())){
+            IPerson iPerson = ApportalUtil.getPerson(request);
+            params.andParam(new QueryParam("sendPersonId", QueryOperator.EQ,"[\""+iPerson.getPersonId()+"\"]"));
         }
 
         QueryCondition condition = new QueryCondition();
@@ -124,5 +128,9 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    public void updateEntity(){
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", monitorReportService.updateMonitorReport(entity)));
     }
 }
