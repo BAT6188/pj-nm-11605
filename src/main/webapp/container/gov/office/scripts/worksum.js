@@ -9,9 +9,12 @@ var workType={
     2:"工作进度",
     3:"工作总结"
 }
+var currentType=1;
 function changeTab(type){
+    currentType = type;
     $('#s_type').val(type);
     $('.titleName').html(workType[type]);
+    //resetQuery();
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 }
 function initTable() {
@@ -61,7 +64,7 @@ function initTable() {
                 align: 'center',
                 editable: false
             }, {
-                title: '发布时间',
+                title: '提交时间',
                 field: 'pubTime',
                 sortable: false,
                 align: 'center',
@@ -181,7 +184,8 @@ $("#search").click(function () {
 });
 //重置按钮处理
 $("#reset").click(function () {
-    $('#searchform')[0].reset();
+    resetQuery();
+    $('#s_type').val(currentType);
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
@@ -302,9 +306,8 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
-    var type = $('#s_type').val();
-    $('#type').val(type);
-    $('#typeName').val(workType[type]);
+    $('#type').val(currentType);
+    $('#typeName').val(workType[currentType]);
     $('#pubOrgId').val(orgId);
     $('#pubOrgName').val(orgName);
     form.find("#saveWorkSum").show();

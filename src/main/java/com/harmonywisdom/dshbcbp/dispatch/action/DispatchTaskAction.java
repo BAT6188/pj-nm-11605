@@ -1,12 +1,7 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
-import com.harmonywisdom.apportal.sdk.org.IOrg;
-import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
-import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
-import com.harmonywisdom.apportal.sdk.role.IRole;
-import com.harmonywisdom.apportal.sdk.role.RoleServiceUtil;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
@@ -26,7 +21,10 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskService> {
 
@@ -362,6 +360,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
     }*/
 
+    public void updateEntity(){
+        write(String.format("{\"success\": true, \"id\": \"%s\"}", dispatchTaskService.updateDispatchTask(entity)));
+    }
 }
 
 

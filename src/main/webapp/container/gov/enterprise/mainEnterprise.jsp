@@ -29,11 +29,80 @@
                 }
             });
         })
+        /**
+         * 平面图标注
+         */
+        function makePlaneMap(){
+            var planeMapMarkDate = $('#planeMapMark').val();
+            var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+            PlottingDialog.dialog({
+                show:true,
+                mode:"marker",
+                data:data,
+                attachments:pageUtils.findAttachment(enterpriseId,"planeMap"),
+                callback:function (marker) {
+                    var str = JSON.stringify(marker);
+                    form.find('#planeMapMark').val(str);
+                    if($('#planeMapMark').val()){
+                        $('#planeMapMarkType').attr('class','btn-success textSpan');
+                        $('#planeMapMarkType').html('已标注');
+                        $('#editPlaneMapMark').html("重新标注");
+                    }
+                }
+            });
+        }
+        /**
+         * 查看平面图
+         */
+        function lookPlaneMap(){
+            var planeMapMarkDate = $('#planeMapMark').val();
+            var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+            PlottingDialog.dialog({
+                show:true,
+                mode:"view",
+                data:data,
+                attachments:pageUtils.findAttachment(enterpriseId,"planeMap")
+            });
+        }
+        function setPlaneMarkBtn(type){
+            switch (type){
+                case 'add':
+                    $('#planeMapMarkType').attr('class','btn-danger textSpan');
+                    $('#planeMapMarkType').html('未标注');
+                    $('#editPlaneMapMark').html("平面图标注");
+                    break;
+                case 'edit':
+                    $('#planeMapMarkType').attr('class','btn-success textSpan');
+                    $('#planeMapMarkType').html('已标注');
+                    $('#editPlaneMapMark').html("重新标注");
+                    break;
+                case 'look':
+                    $('#planeMapMarkType').attr('class','btn-success textSpan');
+                    $('#planeMapMarkType').html('已标注');
+                    $('#lookPlaneMapMark').show();
+                    break;
+                case 'lookNull':
+                    $('#planeMapMarkType').attr('class','btn-danger textSpan');
+                    $('#planeMapMarkType').html('未标注');
+                    $('#lookPlaneMapMark').hide();
+                    break;
+                default:
+                    $('#planeMapMarkType').attr('class','btn-danger textSpan');
+                    $('#planeMapMarkType').html('未标注');
+                    $('#editPlaneMapMark').html("平面图标注");
+            }
+        }
     </script>
     <style>
         .menuDiv h3{
             cursor: pointer;
         }
+         .textSpan{
+             width:82px;height:35px;
+             display:inline-block;
+             line-height:35px;
+             text-align: center;
+         }
     </style>
 </head>
 <body>

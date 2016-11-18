@@ -25,4 +25,11 @@ public interface DispatchTaskService extends IBaseService<DispatchTask, String> 
      * @return
      */
     List<Object[]> findByColumnRatio(String startSdate, String lastSdate, String name, String lawType);
+
+    /**
+     * 增量更新
+     * @param dispatchTask
+     * @return
+     */
+    String updateDispatchTask(DispatchTask dispatchTask);
 }
