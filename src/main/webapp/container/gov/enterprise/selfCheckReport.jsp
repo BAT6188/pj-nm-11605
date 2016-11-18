@@ -4,6 +4,7 @@
 %>
 <script>
     var enterpriseId='<%=enterpriseId%>'
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
 </script>
 <!DOCTYPE html>
 <html>
@@ -24,18 +25,18 @@
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label for="s_name">隐患名称：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                                <label for="s_name">隐患名称：</label> <input type="text" id="s_name" name="name" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">发现日期：</label>
                                 <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="start_findDate"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="start_findDate" name="start_findDate"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
                                 -
                                 <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="end_findDate"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="end_findDate" name="end_findDate"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -44,20 +45,20 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
-                    <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
+                    <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
-                    </button>
+                    </button>--%>
                     <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
                         <i class="btnIcon edit-icon"></i><span>反馈</span>
                     </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
+                    <%--<button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
-                    </button>
+                    </button>--%>
                     <button id="export" type="button" class="btn btn-sm btn-success">
                         <span class="glyphicon glyphicon-export"></span>导出
                     </button>
@@ -125,7 +126,7 @@
                     <div class="form-group">
                         <label for="findDate" class="col-sm-2 control-label">发现日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="findDate"  name="findDate" type="text" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -134,7 +135,7 @@
 
                         <label for="finishDate" class="col-sm-2 control-label">整改完成日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="finishDate"  name="finishDate" type="text" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>

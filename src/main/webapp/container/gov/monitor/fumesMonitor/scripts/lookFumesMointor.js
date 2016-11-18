@@ -33,12 +33,24 @@ var setting = {
         },
         onAsyncSuccess: function(event, treeId, treeNode, msg) {
             treeObj.expandAll(true);
-            var node = treeObj.getNodeByTId("enterpriseZTree_3");
+            var node = treeObj.getNodeByTId("enterpriseZTree_2");
             treeObj.selectNode(node,false);
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/fumesMonitor/fumesPortStatusHistory.jsp?id="+node.code);
+            loadPortStatusHistory(node.parentCode,node.code,node.name);
         }
     }
 };
+function loadPortStatusHistory(parentCode,code,name){
+    switch(parentCode){
+        case "fumesPort":
+            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/fumesMonitor/fumesPortStatusHistory.jsp?id="+code);
+            break;
+        default:
+            if(code=="fumesPort"){
+                pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/fumesMonitor/fumesPortStatusHistory.jsp");
+            }
+            break;
+    }
+}
 var treeObj = $.fn.zTree.init($("#enterpriseZTree"), setting);
 
 

@@ -26,6 +26,9 @@ public class GasPortHistoryAction extends BaseAction<GasPortHistory, GasPortHist
         if (StringUtils.isNotBlank(entity.getPortId())) {
             param.andParam(new QueryParam("portId", QueryOperator.EQ,entity.getPortId()));
         }
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
+            param.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
+        }
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         if(StringUtils.isNotBlank(startTime)){

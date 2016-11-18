@@ -26,9 +26,9 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">废气排口列表</a>
     <div class="wrap">
         <div class="mainBox">
+            <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">废气排口列表</a>
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">
@@ -66,7 +66,7 @@
     </div>
 </div>
 <!--添加表单-->
-<div class="modal fade" id="grasForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="grasModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="grasForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 900px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -184,3 +184,4 @@
 <script src="<%=request.getContextPath()%>/container/gov/enterprise/basicInfo/scripts/grasPortList.js"></script>
 </body>
 </html>
+

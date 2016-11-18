@@ -21,11 +21,7 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = pageUtils.getBaseParams(param);
-            temp.portId = portId;
-            return temp;
-        },
+        queryParams:pageUtils.localParams,
         rowStyle:function(row,index) {
             var dataType;
             switch(row.dataStatus){
@@ -157,6 +153,12 @@ $("#search").click(function () {
 //重置搜索
 $("#searchFix").click(function () {
     resetQuery();
+    if(portId=='null'){
+        $('#s_enterpriseId').val(enterpriseId);
+        $('#portName').html("当前企业所有废气排口");
+    }else{
+        $('#s_portId').val(portId);
+    }
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 function checkSearchForm(jsonData){

@@ -26,6 +26,12 @@ public class GasPortHistory implements Serializable {
     private String portId;
 
     /**
+     * 企业ID
+     */
+    @Column(name = "enterprise_id",length = 32)
+    private String enterpriseId;
+
+    /**
      * 排口名称
      */
     @Column(name = "name",length = 100)
@@ -224,5 +230,13 @@ public class GasPortHistory implements Serializable {
 
     public void setIsOxygen(String isOxygen) {
         this.isOxygen = isOxygen;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

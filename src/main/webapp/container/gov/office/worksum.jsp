@@ -82,7 +82,7 @@
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#workSumForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#workSumForm">
+                    <button id="update" type="button" class="btn btn-sm btn-warning">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
