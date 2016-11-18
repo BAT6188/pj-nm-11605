@@ -14,6 +14,7 @@
     String userName = "";
     String orgId="";
     String orgCode="";
+    String orgName ="";
     if (person != null) {
         userID = person.getUserId();
         userName = person.getUserName();
@@ -21,6 +22,7 @@
 
         IOrg org = OrgServiceUtil.getOrgByOrgId(orgId);
         orgCode = org.getOrgCode();
+        orgName = org.getOrgName();
 
     }
     ConfigureManager manager = ConfigureManager.getInstance();
@@ -28,8 +30,7 @@
     if (manager != null && manager.getSsoConfig() != null) {
         apportalRootPath = manager.getSsoConfig().getSsoGateWaySite();
     }
-    Object msgIsAlert = request.getSession().getAttribute("msgIsAlert");
-    String msgIsAlertStr = msgIsAlert == null?"true":msgIsAlert.toString();
+
 
 %>
 <script type="text/javascript" >
@@ -41,8 +42,8 @@
 
     var orgId='<%=orgId%>';
     var orgCode='<%=orgCode%>';
+    var orgName='<%=orgName%>';
 
-    var msgIsAlert = '<%=msgIsAlertStr%>';
 </script>
 
 <!--[if lt IE 9]>

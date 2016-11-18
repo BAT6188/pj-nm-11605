@@ -4,14 +4,22 @@ var gridTable = $('#table'),
     form = $("#workSumForm"),
     formTitle = "工作总结",
     selections = [];
-
-
+var workType={
+    1:"工作计划",
+    2:"工作进度",
+    3:"工作总结"
+}
+function changeTab(type){
+    $('#s_type').val(type);
+    $('.titleName').html(workType[type]);
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+}
 function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_office_WorkSum_list.action",
-        height: pageUtils.getTableHeight(),
+        height: pageUtils.getTableHeight()-45,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -42,7 +50,10 @@ function initTable() {
                 field: 'type',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    return workType[value];
+                }
             }, {
                 title: '发布单位',
                 field: 'pubOrgName',
@@ -87,7 +98,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
+            height: pageUtils.getTableHeight()-45
         });
     });
 }
@@ -139,7 +150,10 @@ $("#add").bind('click',function () {
     resetForm();
 });
 $("#update").bind("click",function () {
-    setFormData(getSelections()[0]);
+    var entity = getSelections()[0];
+    if(entity.publishStatus==1)$('#publishBtn').hide();
+    setFormData(entity);
+    $('#typeName').val(workType[entity.type]);
 });
 /**
  * 列表工具栏 删除按钮
@@ -163,27 +177,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索
 $("#search").click(function () {
-    var queryParams = {};
-    var title = $("#s_title").val();
-    var type =$("#s_type").val();
-    var pubTime = $("#s_pubTime").val();
-    if (title){
-        queryParams["title"] = title;
-    }
-    if (type){
-        queryParams["type"] = type;
-    }
-    if (pubTime) {
-        queryParams["pubTime"] = pubTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/
@@ -191,6 +190,7 @@ $("#reset").click(function () {
 var ef = form.easyform({
     success:function(ef){
         var worksum = $("#workSumForm").find("form").formSerializeObject();
+        worksum.publishStatus = pubType?1:0;
         worksum.attachmentIds = getAttachmentIds();
         saveWorkSum(worksum,function (msg) {
             form.modal('hide');
@@ -198,9 +198,15 @@ var ef = form.easyform({
         });
     }
 });
-
+var pubType = false;
 //表单弹出框 保存按钮
 $("#saveWorkSum").bind('click',function () {
+    pubType = false;
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef.submit(false);
+});
+$('#publishBtn').bind('click',function () {
+    pubType = true;
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
@@ -211,7 +217,7 @@ $('#pubTimeContent').datetimepicker({
     minView: 2
 });
 //-------------datetimepicker配置--------------------//
-$('#datetimepicker1').datetimepicker({
+$('.form_date').datetimepicker({
     language:  'zh-CN',
     autoclose: 1,
     minView: 2
@@ -241,36 +247,40 @@ function saveWorkSum(worksum,callback) {
  * 刷新表单数据
  * @param meeting
  */
-function setFormData(worksum) {
+function setFormData(entity) {
      resetForm();
-        if (!worksum) {return false}
-        form.find(".form-title").text("修改"+formTitle);
-         var  id = worksum.id;
-        $("#id").val(worksum.id);
-        $("#removeId").val("");
-        $("#title").val(worksum.title);
-        $("#type").val(worksum.type);
-        $("#pubTime").val(pageUtils.sub10(worksum.pubTime));
-        $("#pubOrgName").val(worksum.pubOrgName);
-        $("#description").val(worksum.description);
+    if (!entity) {return false}
+    form.find(".form-title").text("修改"+formTitle);
+    var  id = entity.id;
+    var inputs = form.find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        var value = entity[tagId];
+        if(v.tagName=='SELECT'){
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
      uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
     setFormData(entity);
+    $('#typeName').val(workType[entity.type]);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息!");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    form.find("#saveWorkSum").hide();
+    form.find(".needHide").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
+    form.find(".needEdit").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#pubTimeContent').datetimepicker({
@@ -292,6 +302,11 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    var type = $('#s_type').val();
+    $('#type').val(type);
+    $('#typeName').val(workType[type]);
+    $('#pubOrgId').val(orgId);
+    $('#pubOrgName').val(orgName);
     form.find("#saveWorkSum").show();
     form.find(".btn-cancel").text("取消");
 }

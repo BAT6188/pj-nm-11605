@@ -27,6 +27,11 @@ public class MonitorReport implements Serializable {
     @Column(length = 2)
     private String status;
 
+    /**
+     * 查看状态：0未查看，1已查看
+     */
+    @Column(name = "look_status",length = 1)
+    private String lookStatus;
 
     /**
      * 选择发送的人员
@@ -237,5 +242,13 @@ public class MonitorReport implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLookStatus() {
+        return lookStatus;
+    }
+
+    public void setLookStatus(String lookStatus) {
+        this.lookStatus = lookStatus;
     }
 }

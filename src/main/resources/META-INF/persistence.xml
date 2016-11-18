@@ -5,7 +5,8 @@
 
         <!--日常办公系统 -->
         <class>com.harmonywisdom.dshbcbp.office.bean.Contacts</class>
-        <class>com.harmonywisdom.dshbcbp.office.bean.CreationMode</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.CreateMode</class>
+        <class>com.harmonywisdom.dshbcbp.office.bean.CreateModeDetail</class>
         <class>com.harmonywisdom.dshbcbp.office.bean.Manual</class>
         <class>com.harmonywisdom.dshbcbp.office.bean.ManualCatalog</class>
         <class>com.harmonywisdom.dshbcbp.office.bean.MeetingNotice</class>

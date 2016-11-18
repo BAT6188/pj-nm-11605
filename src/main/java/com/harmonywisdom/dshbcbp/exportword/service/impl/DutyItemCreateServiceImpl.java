@@ -6,6 +6,9 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * pageoffice 自定义Service示例
+ */
 @Service("dutyItemCreateService")
 public class DutyItemCreateServiceImpl extends BaseService<DutyItemCreate,String> {
 	

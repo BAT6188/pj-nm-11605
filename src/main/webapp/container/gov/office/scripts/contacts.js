@@ -477,10 +477,7 @@ $("#search").click(function () {
     searchForm();
 });
 $("#chosePersonFormSearch").click(function(){
-    var jsonData = $('#searchChosePersonform').formSerializeObject();
-    choseTable.bootstrapTable('refresh',{
-        query:jsonData
-    });
+    choseTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 function searchForm(){
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
@@ -492,7 +489,7 @@ $("#reset").click(function () {
 });
 $("#chosePersonFormReset").click(function () {
     $('#searchChosePersonform')[0].reset();
-    choseTable.bootstrapTable('refresh');
+    choseTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 /**============表单初始化相关代码============**/
 

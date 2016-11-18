@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * pageoffice 自定义Service示例
+ */
 public class DutyItemCreate implements Serializable{
 	
 	private String id;
