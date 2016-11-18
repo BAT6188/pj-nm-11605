@@ -220,7 +220,7 @@ $("#search").click(function () {
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
 });
 
 /**============表单初始化相关代码============**/

@@ -22,7 +22,7 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
                                 <label for="">存在问题：</label>
                                 <select name="problemType" class="form-control">
@@ -45,7 +45,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">--%>
                         <%--<i class="btnIcon add-icon"></i><span>新建</span>--%>
@@ -120,8 +120,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <%--<button type="button" class="btn btn-primary" id="send"></button>--%>
-                <button type="button" class="btn btn-primary" id="save">发送</button>
+                <button type="button" class="btn btn-primary" id="send">发送</button>
+                <%--<button type="button" class="btn btn-primary" id="save">保存</button>--%>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>

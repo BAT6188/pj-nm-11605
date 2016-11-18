@@ -226,7 +226,7 @@ $("#search").click(function () {
 $("#reset").click(function(){
     $('#searchform')[0].reset();
     $('#searchform1')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
 });
 
 /**============表单初始化相关代码============**/
