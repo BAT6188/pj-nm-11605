@@ -3,13 +3,15 @@ package com.harmonywisdom.dshbcbp.office.service.impl;
 import com.harmonywisdom.dshbcbp.office.bean.WorkSum;
 import com.harmonywisdom.dshbcbp.office.dao.WorkSumDAO;
 import com.harmonywisdom.dshbcbp.office.service.WorkSumService;
-import com.harmonywisdom.framework.dao.BaseDAO;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryResult;
+import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.BaseService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service("workSumService")
 public class WorkSumServiceImpl extends BaseService<WorkSum, String> implements WorkSumService {
@@ -23,19 +25,42 @@ public class WorkSumServiceImpl extends BaseService<WorkSum, String> implements 
 
     @Override
     public QueryResult<WorkSum> find(QueryCondition var1,WorkSum entity) {
-        String var2 = "entity.type = :type AND (entity.publishStatus = :publishStatus OR (entity.pubOrgId = :pubOrgId AND entity.publishStatus = :publishStatus1)) ORDER BY entity.pubTime DESC";
-        if (StringUtils.isNotBlank(entity.getPublishStatus())) {
-            var2 = "entity.type = :type AND (entity.pubOrgId = :pubOrgId AND entity.publishStatus = :publishStatus) ORDER BY entity.pubTime DESC";
+        StringBuffer sb = new StringBuffer();
+        Map<String, Object> paramValues = new HashMap<>();
+        sb.append(" 1=1 ");
+        if (StringUtils.isNotBlank(entity.getTitle())) {
+            paramValues.put("title","%"+entity.getTitle()+"%");
+            sb.append("AND entity.title LIKE :title ");
         }
-        /*String limitString = " limit :startIndex,:pageSize";
-        var2 +=limitString;*/
-        var1.getQueryClause();
-        /*Map<String, Object> paramVMap = var1.getParam().getParamValues();
-        paramVMap.put("startIndex",var1.getPaging().getStartIndex());
-        paramVMap.put("pageSize",var1.getPaging().getPageSize());*/
-        //List<WorkSum> list = workSumDAO.queryJPQL(var2,var1.getPaging(),var1.getParam().getParamValues());
-        /*QueryResult<WorkSum> queryResult = new QueryResult<>();
-        queryResult.setRows(list);*/
-        return workSumDAO.find(var2,var1.getPaging(),var1.getParam().getParamValues());
+        if (StringUtils.isNotBlank(entity.getType())) {
+            paramValues.put("type",entity.getType());
+            sb.append("AND entity.type = :type ");
+        }
+        if (StringUtils.isNotBlank(entity.getPubOrgName())) {
+            paramValues.put("pubOrgName","%"+entity.getPubOrgName()+"%");
+            sb.append("AND entity.pubOrgName LIKE :pubOrgName ");
+        }
+        if (StringUtils.isNotBlank(entity.getPublishStatus())) {
+            paramValues.put("pubOrgId",entity.getPubOrgId());
+            paramValues.put("publishStatus",entity.getPublishStatus());
+            sb.append("AND ( entity.pubOrgId = :pubOrgId AND entity.publishStatus = :publishStatus ) ");
+        }else{
+            paramValues.put("pubOrgId",entity.getPubOrgId());
+            paramValues.put("publishStatus","1");
+            paramValues.put("publishStatus1","0");
+            sb.append("AND ( entity.publishStatus = :publishStatus OR (entity.pubOrgId = :pubOrgId AND entity.publishStatus = :publishStatus1)) ");
+        }
+
+        if(StringUtils.isNotBlank(entity.getStartTime())){
+            paramValues.put("startTime", MyDateUtils.getFullDate(entity.getStartTime(),true));
+            sb.append("AND entity.pubTime > :startTime ");
+        }
+        if(StringUtils.isNotBlank(entity.getEndTime())){
+            paramValues.put("endTime", MyDateUtils.getFullDate(entity.getEndTime(),false));
+            sb.append("AND entity.pubTime < :endTime ");
+        }
+        sb.append("ORDER BY "+var1.getOrderBy()+" "+var1.getDirection());
+        //var1.getQueryClause();
+        return workSumDAO.find(sb.toString(),var1.getPaging(),paramValues);
     }
 }

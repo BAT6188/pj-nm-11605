@@ -29,7 +29,7 @@ public class ShareMeans implements Serializable {
      *发布单位id
      */
     @Column(name = "PUB_ORG_ID",length = 100)
-    private int pubOrgId;
+    private String  pubOrgId;
     /**
      *发布单位名称
      */
@@ -50,6 +50,21 @@ public class ShareMeans implements Serializable {
      */
     @Transient
     private String attachmentIds;
+
+    /**
+     * 0：未发布
+     * 1：已发布
+     */
+    @Column(name = "STATUS")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getId() {
         return id;
@@ -75,11 +90,11 @@ public class ShareMeans implements Serializable {
         this.pubTime = pubTime;
     }
 
-    public int getPubOrgId() {
+    public String getPubOrgId() {
         return pubOrgId;
     }
 
-    public void setPubOrgId(int pubOrgId) {
+    public void setPubOrgId(String pubOrgId) {
         this.pubOrgId = pubOrgId;
     }
 

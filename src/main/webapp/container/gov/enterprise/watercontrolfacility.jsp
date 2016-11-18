@@ -27,16 +27,18 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="s_name">设备名称：</label> <input type="text" id="s_name" class="form-control" />
-                        <label for="s_crafts">处理工艺：</label> <input type="text" id="s_crafts" class="form-control" />
-                        <label for="s_status">运行状态：</label>
-                        <label style="width: 50px"><input type="radio" value="1" name="s_status">正常</label>
-                        <label style="width: 50px"><input type="radio" value="0" name="s_status">异常</label>
-                    </p>
+                    <form class="form-inline" id="searchform">
+                            <div class="form-group">
+                            <label for="s_name">设备名称：</label> <input type="text" id="s_name" class="form-control" />
+                            <label for="s_crafts">处理工艺：</label> <input type="text" id="s_crafts" class="form-control" />
+                            <label for="s_status">运行状态：</label>
+                            <label style="width: 50px"><input type="radio" value="1" name="s_status">正常</label>
+                            <label style="width: 50px"><input type="radio" value="0" name="s_status">异常</label>
+                        </div>
+                    </form >
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -81,7 +83,7 @@
                     <div class="form-group">
                         <label for="createTime" class="col-sm-2 control-label">建设日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                        <div id="datetimepicker" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                             <input class="form-control" id="createTime" name="createTime" size="16" type="text" value="" readonly
                                    data-message="时间不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -99,7 +101,7 @@
                     <div class="form-group">
                         <label for="openDate" class="col-sm-2 control-label">投运日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker2" class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <div id="datetimepicker2" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="openDate" name="openDate" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
                                        data-easytip="position:top;class:easy-red;"

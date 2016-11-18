@@ -1,3 +1,4 @@
+//@ sourceURL=sharemeans.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -10,7 +11,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_ShareMeans_list.action",
+        url: rootPath+"/action/S_office_ShareMeans_list.action?orgCode="+orgCode,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -61,6 +62,28 @@ function initTable() {
                 }
             },
             {
+                field: 'status',
+                title: '发布状态',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter : function(value, row, index){
+                    /**
+                     * 1:已发布
+                     * 2：未发布
+                     */
+                    if(value == 1){
+                        value = "已发布"
+                    }else if(value == 0){
+                        value = "未发布"
+                    }else if(value ==""){
+                        value = "未发布"
+                    }
+                    return value;
+
+                }
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
@@ -101,29 +124,13 @@ function initTable() {
         });
     });
     /**============列表搜索相关处理============**/
-//搜索
     $("#search").click(function () {
-        var queryParams = {};
-        var title = $("#s_title").val();
-        var types =$("#s_type").val();
-        var pTime = $("#s_pubTime").val();
-        if (title){
-            queryParams["title"] = title;
-        }
-        if (types){
-            queryParams["type"] = types;
-        }
-        if (pTime) {
-            queryParams["pTime"] = pTime;
-        }
-        gridTable.bootstrapTable('refresh',{
-            query:queryParams
-        });
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
-    //重置按钮处理
-    $("#reset").click(function () {
+//重置搜索
+    $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('resetSearch');
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
 
     //表单弹出框 保存按钮
@@ -147,6 +154,7 @@ function operateFormatter(value, row, index) {
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
         setFormView(row);
+        $("#status").val(row.status);
     }
 };
 
@@ -167,6 +175,17 @@ function getIdSelections() {
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
+        console.log(row.pubOrgId +'+'+orgCode);
+        if(row.status==1 && row.pubOrgId==orgCode){
+            updateBtn.prop('disabled', false);
+        }else{
+            updateBtn.prop('disabled', true);
+            Ewin.alert({message: "没有操作权限！"}).on(function (e) {
+                if (!e) {
+                    return;
+                }
+            });
+        }
         return row;
     });
 }
@@ -192,11 +211,38 @@ $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
 });
 
+$("#pub").bind("click",function () {
+    var id=getIdSelections()[0];
+    pubSharemean(id);
+});
+
+
+function pubSharemean(id){
+    console.log(id);
+    Ewin.confirm({ message: "是否发布信息" }).on(function (e) {
+        if (!e) {
+            return;
+        }else{
+            $.ajax({
+                url: rootPath + "/action/S_office_ShareMeans_pubsave.action",
+                type:"post",
+                dataType:'json',
+                data:{id:id},
+                success: function(msg){
+                    gridTable.bootstrapTable('refresh');
+                }
+            });
+        }
+    })
+}
+
+
 //初始化表单验证
 var ef = form.easyform({
     success:function(ef){
         var sharemeans = form.find("form").formSerializeObject();
         sharemeans.attachmentIds = getAttachmentIds();
+        sharemeans.status="0";
         saveShareMeans(sharemeans,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -224,16 +270,12 @@ function saveShareMeans(sharemeans,callback) {
     });
 }
 //初始化日期组件
-$('#pubTimeContent').datetimepicker({
+$('.form_date').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#s_pubTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
+
 /**
  * 刷新表单数据
  * @param meeting
@@ -249,6 +291,7 @@ function setFormData(sharemeans) {
         $("#type").val(sharemeans.type);
          $("#pubTime").val(pageUtils.sub10(sharemeans.pubTime));
         $("#pubOrgName").val(sharemeans.pubOrgName);
+        $("#pubOrgId").val(sharemeans.pubOrgId);
         $("#description").val(sharemeans.description);
         uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -259,7 +302,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -287,6 +330,9 @@ function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
+    $("#pubOrgName").val(orgName);
+    $("#pubOrgId").val(orgCode);
+    console.log(orgCode);
     disabledForm(false);
     form.find("#saveShareMeans").show();
     form.find(".btn-cancel").text("取消")

@@ -173,7 +173,6 @@ function changeLookStatus(id,obj){
         data:{id:id,lookStatus:1},
         dataType:"json",
         success:function(data){
-            console.log(data);
             $(obj).attr('class','btn btn-md btn-info view');
             $(obj).html('已查看');
         }

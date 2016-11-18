@@ -51,7 +51,7 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" id="fumesPortForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="fumesPortModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 850px">
+    <div class="modal-dialog" style="width: 880px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -108,8 +108,9 @@
                         <label for="planeMap" class="col-sm-2 control-label">平面图<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4" id="planeMap">
                             <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
-                            <button type="button" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看平面图标注</button>
-                            <button type="button" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
+                            <span id="planeMapMarkType" class="btn-success textSpan"></span>
+                            <button type="button" id="lookPlaneMapMark" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看标注</button>
+                            <button type="button" id="editPlaneMapMark" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
                         </div>
                     </div>
                     <div class="form-group">

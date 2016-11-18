@@ -60,6 +60,10 @@ public class WorkSum implements Serializable {
      *附件
      */
     @Transient
+    private String startTime;
+    @Transient
+    private String endTime;
+    @Transient
     private String attachmentIds;
     public String getId() {
         return id;
@@ -139,5 +143,21 @@ public class WorkSum implements Serializable {
 
     public void setIsCommonData(String isCommonData) {
         this.isCommonData = isCommonData;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

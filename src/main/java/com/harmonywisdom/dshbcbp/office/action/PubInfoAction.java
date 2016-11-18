@@ -1,5 +1,7 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
+import com.harmonywisdom.apportal.sdk.org.IOrg;
+import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.PubInfo;
@@ -12,6 +14,7 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
@@ -36,8 +39,18 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         }
         String pubTime = request.getParameter("gTime");
         if (StringUtils.isNotBlank(pubTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
+            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime, "yyyy-MM-dd")));
         }
+        String orgCode = request.getParameter("orgCode");
+        QueryParam statusParam=new QueryParam();
+        if (orgCode != null) {
+            statusParam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE, orgCode));
+            statusParam.orParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
+        }else{
+            statusParam.andParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
+        }
+        param.andParam(statusParam);
+
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
@@ -73,6 +86,14 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         }
         super.delete();
     }
+    //公告发布
+    public void pubsave(){
+        String id = request.getParameter("id");
+        if(id != null && !"".equals(id)){
+            this.getService().updatePubInfo(id);
+        }
+        write(true);
+    }
 
     /**
      * 企业查看信息公告
@@ -82,4 +103,20 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         write(pubInfoList);
 
     }
+
+     public void findOrg() {
+         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId("root");
+         if (orgs.size() > 0) {
+             List<IOrg> authorizationOrgs = new ArrayList<>();
+             for (IOrg iOrg : orgs) {
+                 authorizationOrgs.add(iOrg);
+                 List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
+                 authorizationOrgs.addAll(childOrgs);
+             }
+             write(authorizationOrgs);
+         }else{
+             write(false);
+         }
+     }
+
 }

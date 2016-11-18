@@ -241,24 +241,22 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('#createTimeContent').datetimepicker({
-    language:  'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
+    language:   'zh-CN',
     autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    forceParse: 0,
-    showMeridian: 1
+    startView: 2,//月视图
+    minView: 2
 });
 $('#openDateContent').datetimepicker({
-    language:  'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
+    language:   'zh-CN',
     autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    forceParse: 0,
-    showMeridian: 1
+    startView: 2,//月视图
+    minView: 2
+});
+
+//重置按钮处理
+$("#reset").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
 });
 /**
  * 设置表单数据

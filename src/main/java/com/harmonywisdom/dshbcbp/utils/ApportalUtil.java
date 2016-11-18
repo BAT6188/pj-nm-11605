@@ -2,13 +2,14 @@ package com.harmonywisdom.dshbcbp.utils;
 
 import com.harmonywisdom.apportal.sdk.dictdata.DictDataServiceUtil;
 import com.harmonywisdom.apportal.sdk.dictdata.domain.DictData;
+import com.harmonywisdom.apportal.sdk.org.IOrg;
+import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.apportal.sdk.right.RightServiceUtil;
 import com.harmonywisdom.apportal.sdk.right.domain.Right;
 import com.harmonywisdom.apportal.sdk.role.IRole;
 import com.harmonywisdom.apportal.sdk.role.RoleServiceUtil;
-import com.harmonywisdom.core.user.UserProfileAccessor;
 import com.harmonywisdom.core.user.impl.UserProfile;
 
 import javax.servlet.ServletContext;
@@ -72,6 +73,22 @@ public class ApportalUtil {
 			return person;
 		}
 		return null;
+	}
+
+	/**
+	 * 获取当前用户的组织信息
+	 * @param request
+	 * @return
+     */
+	public static IOrg getIOrgOfCurrentUser(HttpServletRequest request){
+		IPerson person = ApportalUtil.getPerson(request);
+		String orgId=person.getOrgId();
+		if(orgId!=null){
+			IOrg org = OrgServiceUtil.getOrgByOrgId(orgId);
+			return org;
+		}else{
+			return null;
+		}
 	}
 	
 	/**

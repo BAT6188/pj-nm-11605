@@ -175,7 +175,13 @@ updateBtn.bind("click",function () {
     updateSuccessMsg = '修改'+formTitle+'成功!';
     $('.saveBtn').show();
     $('.lookBtn').hide();
-    setFormData(getSelections()[0]);
+    var entity = getSelections()[0];
+    setFormData(entity);
+    if(!entity.planeMapMark){
+        setPlaneMarkBtn('add');
+    }else{
+        setPlaneMarkBtn('edit');
+    }
 });
 /**
  * 列表工具栏 删除按钮
@@ -264,6 +270,11 @@ function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
+    if(!entity.planeMapMark){
+        setPlaneMarkBtn('lookNull');
+    }else{
+        setPlaneMarkBtn('look');
+    }
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -281,8 +292,9 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
+    setPlaneMarkBtn('add');
     form.find(".form-title").text("新增"+formTitle);
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     form.find('form')[0].reset();
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
@@ -386,7 +398,7 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 /**
  * 平面图标注
  */
-function makePlaneMap(){
+/*function makePlaneMap(){
     var planeMapMarkDate = $('#planeMapMark').val();
     var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
     PlottingDialog.dialog({
@@ -400,9 +412,9 @@ function makePlaneMap(){
         }
     });
 }
-/**
+/!**
  * 查看平面图
- */
+ *!/
 function lookPlaneMap(){
     var planeMapMarkDate = $('#planeMapMark').val();
     var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
@@ -412,4 +424,4 @@ function lookPlaneMap(){
         data:data,
         attachments:pageUtils.findAttachment(enterpriseId,"planeMap")
     });
-}
+}*/

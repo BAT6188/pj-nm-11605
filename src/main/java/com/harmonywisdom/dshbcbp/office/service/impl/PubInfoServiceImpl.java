@@ -20,6 +20,11 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
         return pubInfoDAO;
     }
 
+    @Override
+    public void updatePubInfo(String id) {
+        pubInfoDAO.executeJPQL("update  PubInfo entity set entity.status=1 where entity.id=?",id);
+    }
+
     /**
      * 企业端查看信息公告
      * @return

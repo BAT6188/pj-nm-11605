@@ -4,9 +4,11 @@ var PlottingDialog = function(){
         modal:$("#plottingDialog"),
         modalBody:$("#plottingDialog").find(".modal-body"),
         nav:$("#plottingDialog").find(".nav-pills"),
+        _plottingContent:$("#plottingDialog").find(".plotting-content"),
         _basePlottingElement:$('#plottingPaper'),
         _idMapPlotting:{},//平面图id映射plotting对象
         _currentPId:undefined,
+        _currentMode:"pan",
         _width:$(window).width()-100,
         _height:$(window).height()-200,
         _init:function (attachments) {
@@ -17,7 +19,7 @@ var PlottingDialog = function(){
 
             that.nav.html("");
             if (attachments.length > 1){//多个平面图
-                that._height = $(window).height()-200-48;
+                that._height = $(window).height()-200-90;
                 //显示导航菜单
                 that.nav.show();
             }else{
@@ -25,6 +27,19 @@ var PlottingDialog = function(){
                 that.nav.hide();
             }
             that._basePlottingElement.height(that._height);
+            //鼠标移动到content时设置平面图offset
+            that._plottingContent.bind("mousemove",function () {
+                var offset = $(this).offset();
+                var plottingOffset = {
+                    top:-offset.top,
+                    left:-offset.left
+                };
+                var plotting = that.getCurrentPlotting();
+                if (plotting && plotting._plotting) {
+                    var plottingObj = plotting._plotting;
+                    plottingObj.offset(plottingOffset);
+                }
+            });
             for(var i =0; i < attachments.length; i++) {
                 var attachment = attachments[i];
                 //创建平面图
@@ -77,18 +92,6 @@ var PlottingDialog = function(){
                     var pEle = thisPlotting.element;
                     pEle.show();
                     pEle.siblings(".plotting").hide();
-                    var plottingObj = thisPlotting.plotting;
-                    setTimeout(function () {
-                        var offset = pEle.offset();
-                        var poOffset = {
-                            top:-offset.top,
-                            left:-offset.left
-                        };
-                        if (plottingObj) {
-                            plottingObj.offset(poOffset);
-                        }
-
-                    },500);
                     var prePid = that._currentPId;
                     if (typeof that.options["change"] == "function") {
                         that.options["change"](that.modal,that.getPlottingByid(prePid),thisPlotting);
@@ -114,10 +117,6 @@ var PlottingDialog = function(){
             });
             $(".glyphicon-move").bind('click',function () {
                 that._mode('pan');
-            });
-
-            $(".glyphicon-map-marker").bind('click',function () {
-                that._mode('point');
             });
 
             that.modal.on('hidden.bs.modal',function () {
@@ -175,7 +174,10 @@ var PlottingDialog = function(){
         },
         _mode:function (mode) {
             var plotting = this._getCurrentPlottingObj();
-            plotting.mode(mode);
+            if (plotting) {
+                plotting.mode(mode);
+            }
+
         },
 
         /**
@@ -183,21 +185,23 @@ var PlottingDialog = function(){
          * @param mode marker
          */
         setMode:function (mode) {
-            //this.modalBody.find(".glyphicon").css("display","block");
             if (mode == "marker") {
-                this.modalBody.find(".glyphicon-map-marker").show();
+                this._setCurrentMode("point");
                 this.modal.find(".btn-save").show("hide");
                 this.modal.find(".btn-cancel").text("取消");
             }else if (mode == "view") {
-                this.modalBody.find(".glyphicon-map-marker").hide();
+                this._setCurrentMode("pan");
                 this.modal.find(".btn-save").hide();
                 this.modal.find(".btn-cancel").text("关闭");
             }
 
         },
+        _setCurrentMode:function (mode) {
+            this._currentMode = mode;
+        },
         _createPlotting:function (attachmentId) {
             var that = this;
-            var newEle = that._basePlottingElement.clone().hide().appendTo(that.modalBody);
+            var newEle = that._basePlottingElement.clone().hide().appendTo(that._plottingContent);
             newEle.attr("id",attachmentId);
             //初始化平面图
             var plottingObj = newEle.plotting({
@@ -211,9 +215,11 @@ var PlottingDialog = function(){
                         top: -125
                     }*/
                 },
+                mode:that._currentMode,
                 width: that._width,
                 height: that._height
             }).data('Plotting');
+            plottingObj.mode(that._currentMode);
 
             newEle.one("init",function () {
                 var pid = $(this).attr("id");
@@ -259,15 +265,16 @@ var PlottingDialog = function(){
 
                     var options = arguments[0];
                     this.options = options;
+                    if (options["mode"]) {
+                        this.setMode(options["mode"]);
+                    }
                     if (options["attachmentId"]) {
                         this._setAttachmentId(options["attachmentId"]);
                     }
                     if (options["attachments"]) {
                         this._setAttachments(options["attachments"]);
                     }
-                    if (options["mode"]) {
-                        this.setMode(options["mode"]);
-                    }
+
                     if (options["callback"]) {
                         this.closed(options["callback"]);
                     }
@@ -391,26 +398,26 @@ var PlottingDialog = function(){
     return plotting;
 }();
 //查看调用
-/*PlottingDialog.dialog({
+/**PlottingDialog.dialog({
     show:true,
     mode:"view",
-     attachments:[{
-     id:"1d2db7897b3841739e9651a1f16e07bc",
-     name:"平面图2.jpg"
-     },{
-     id:"c089ca2c63cc4710aa9eb83e946abfb9",
-     name:"平面图2.jpg"
-     }],
+    attachments:[{
+        id:"0dd5947ebe2f44e390b1c113a280f26c",
+        name:"平面图1.jpg"
+    },{
+        id:"4fe54a2aec4443e08d291ca8afdb3ec2",
+        name:"平面图2.jpg"
+    }]
 });*/
 //标绘调用
-/*PlottingDialog.dialog({
+/**PlottingDialog.dialog({
     show:true,
     mode:"marker",
     attachments:[{
-        id:"1d2db7897b3841739e9651a1f16e07bc",
-        name:"平面图2.jpg"
+        id:"0dd5947ebe2f44e390b1c113a280f26c",
+        name:"平面图1.jpg"
     },{
-        id:"c089ca2c63cc4710aa9eb83e946abfb9",
+        id:"4fe54a2aec4443e08d291ca8afdb3ec2",
         name:"平面图2.jpg"
     }],
     callback:function (marker) {
