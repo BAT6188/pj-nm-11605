@@ -154,7 +154,7 @@ img{
     width: 80%;
     margin-left: 10%;
     position: absolute;
-    top: 20%;
+    top: 15%;
 }
 .main-content{
     position: relative;
@@ -258,6 +258,8 @@ span.text{
 .navList li a:hover,.navList li a:link,.navList li a:active,.siderNav li a:hover,.siderNav li a:link,.siderNav li a:active{
     color: #eee;
     text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
 }
 .content{
     background-color: #eaeaea;
@@ -293,6 +295,7 @@ span.text{
     background-color: #0E3578;
     height: 100%;
     display: none;
+    overflow-y: auto;
 }
 .siderNav ul{background-color: #0E3578;}
 .siderNav ul li{

@@ -175,7 +175,11 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">查看反馈</button>';
+    if (row.status=='2'){
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>';
+    }else {
+        return '未反馈'
+    }
 }
 // 列表操作事件
 window.operateEvents = {
@@ -244,28 +248,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var search_enterpriseName = $("#search_enterpriseName").val();
-    var search_source = $("#search_source").val();
-    var startConnTime=$("#start_connTime").val()
-    var endConnTime=$("#end_connTime").val()
-
-    // var status = pageUtils.getRadioValue("s_status");
-    if (search_enterpriseName){
-        queryParams["enterpriseName"] = search_enterpriseName;
-    }
-    if (search_source){
-        queryParams["source"] = search_source;
-    }
-    if (startConnTime){
-        queryParams["startConnTime"] = startConnTime;
-    }
-    if (endConnTime){
-        queryParams["endConnTime"] = endConnTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============短信选择人员对话框============**/

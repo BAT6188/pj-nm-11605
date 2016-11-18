@@ -234,16 +234,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
-    var paymentStatus = $("#s_paymentStatus").val();
-    if (enterpriseName){
-        queryParams["enterpriseName"] = enterpriseName;
-    }
-    if (paymentStatus){
-        queryParams["paymentStatus"] = paymentStatus;
-    }
-    search(queryParams)
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 function search(queryParams) {
@@ -406,23 +402,19 @@ function setFormView(entity) {
  */
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
-    form.find("select").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
+
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
+        $('.lookover').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
+
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        $('.lookover').datetimepicker('remove');
     }
 
 }

@@ -237,11 +237,10 @@ $("#search").click(function () {
     });
 });
 
-//重置按钮
-$("#reset").click(function(){
-    $("#s_name").val("");
-    $("#s_crafts").val("");
-    $("input[name='s_status']").val("");
+//重置按钮处理
+$("#reset").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('resetSearch');
 });
 
 
@@ -267,24 +266,16 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('#datetimepicker').datetimepicker({
-    language:  'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
+    language:   'zh-CN',
     autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    forceParse: 0,
-    showMeridian: 1
+    startView: 2,//月视图
+    minView: 2
 });
 $('#datetimepicker2').datetimepicker({
-    language:  'zh-CN',
-    weekStart: 1,
-    todayBtn:  1,
+    language:   'zh-CN',
     autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    forceParse: 0,
-    showMeridian: 1
+    startView: 2,//月视图
+    minView: 2
 });
 
 /**
@@ -316,7 +307,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
