@@ -149,10 +149,8 @@ $(function(){
                     treeObj.selectNode(node,false);
                     loadPortStatusHistory(node.parentCode,node.code,node.name);
                 }else{
-                    Ewin.alert({message:"没有查询到与该企业相关的排口信息!<br/>稍后将自动返回...",hideTimes:1500}).on(function(e){
-                        $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
-                        $('#level2content').load(rootPath+"/container/company/homePage/realMonitoring.jsp"); // ajax加载页面
-                    });
+
+                    pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/company/homePage/gasPortStatusHistory.jsp");
                 }
             }
         }
