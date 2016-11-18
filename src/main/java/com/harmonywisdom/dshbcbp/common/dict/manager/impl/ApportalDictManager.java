@@ -72,8 +72,9 @@ public class ApportalDictManager implements IDictManager {
         DictBean bean = new DictBean();
         bean.setCode(dictData.getDictdataCode());
         bean.setName(dictData.getDictdataName());
-        bean.setSerial(dictData.getSerialIndex());
-
+        if (dictData.getSerialIndex() != null) {
+            bean.setSerial(dictData.getSerialIndex());
+        }
         return bean;
     }
 

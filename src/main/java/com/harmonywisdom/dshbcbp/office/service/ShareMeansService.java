@@ -4,4 +4,5 @@ import com.harmonywisdom.dshbcbp.office.bean.ShareMeans;
 import com.harmonywisdom.framework.service.IBaseService;
 
 public interface ShareMeansService extends IBaseService<ShareMeans, String> {
+    void updateShareMeans(String id);
 }

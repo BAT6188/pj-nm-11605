@@ -14,7 +14,7 @@
     String userName = "";
     String orgId="";
     String orgCode="";
-    String orgName="";
+    String orgName ="";
     if (person != null) {
         userID = person.getUserId();
         userName = person.getUserName();

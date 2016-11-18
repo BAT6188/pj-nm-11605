@@ -17,4 +17,17 @@ public class MeetingNoticeServiceImpl extends BaseService<MeetingNotice, String>
     protected BaseDAO<MeetingNotice, String> getDAO() {
         return meetingNoticeDAO;
     }
+
+    @Override
+    public void updateMeeting(String pesonIds, String pesonNames,String id) {
+        meetingNoticeDAO.executeJPQL("update MeetingNotice set personIds=?,personNames=? where id=?",pesonIds,pesonNames,id);
+    }
+
+    @Override
+    public void updateMeetingIsSms(String id) {
+        meetingNoticeDAO.executeJPQL("update MeetingNotice set isSms=1 where id=?",id);
+
+    }
+
+
 }

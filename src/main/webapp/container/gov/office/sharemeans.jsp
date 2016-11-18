@@ -24,15 +24,15 @@
                     <%--</p>--%>
                         <form class="form-inline" id="searchform">
                             <div class="form-group">
-                                <label for="s_title">标题：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
+                                <label for="s_title">标题：</label> <input type="text"  name="title" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="s_type">资料类型：</label> <input type="text" id="s_type"  style="width: 180px;" class="form-control" />
+                                <label for="s_type">资料类型：</label> <input type="text"  name="type"  style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="s_pubTime">发布时间：</label>
-                                <div id="s_pubTimeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="pubTime">
-                                    <input class="form-control" size="16" id="s_pubTime" name="pubTime"  type="text" value="" readonly>
+                                <div id="s_pubTimeContent" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="pubTime">
+                                    <input class="form-control" size="16"  name="pubTime"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -40,12 +40,13 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
+                    <button type="button" class="btn btn-primary" id="pub">发布</button>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
@@ -78,6 +79,8 @@
                         <label for="title" class="col-sm-2 control-label">标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id">
+                            <input type="hidden" id="status" name="status">
+                            <input type="hidden" id="pubOrgId" name="pubOrgId">
                             <input type="hidden" id="removeId">
                             <input type="text" id="title" name="title" class="form-control"
                                    data-message="标题不能为空"
@@ -132,7 +135,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="saveShareMeans">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

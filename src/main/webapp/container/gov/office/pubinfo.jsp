@@ -1,8 +1,16 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>信息公告系统</title>
+
+    <%
+        //portal中配置的根据用户角色
+        String role = request.getParameter("role");
+    %>
+    <script>
+        var role='<%=role%>'
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -39,12 +47,13 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/> <br/>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
+                    <button type="button" class="btn btn-primary" id="pub">发布</button>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
@@ -62,7 +71,7 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 800px">
+    <div class="modal-dialog"  style="width: 900px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -74,6 +83,9 @@
                         <label for="title" class="col-sm-2 control-label">标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="pubOrgId" name="pubOrgId">
+                            <input type="hidden" id="userName" name="userName">
+                            <input type="hidden" id="userID" name="userID">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="title" name="title" class="form-control"
                                    data-message="标题不能为空"
@@ -110,12 +122,7 @@
                     <div class="form-group">
                         <label for="grade" class="col-sm-2 control-label">查看权限<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <select style="width: 100%" class="form-control"  id="grade" name="grade">
-                                <option value="1">环保局</option>
-                                <option value="2">局机关</option>
-                                <option value="3">监查大队</option>
-                                <option value="4">监测站</option>
-                                <option value="5">企业</option>
+                            <select style="width: 100%" multiple class="form-control"  id="grade" name="grade">
                             </select>
                         </div>
                     </div>
@@ -139,7 +146,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="save">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

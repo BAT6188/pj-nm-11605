@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%--<%@include file="/common/MsgSend/msgSend.jsp"%>--%>
+    <%@include file="/common/msgSend/msgSend.jsp"%>
     <title>会议通知系统</title>
 </head>
 <body>
@@ -151,7 +151,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="smsSend">短信发送</button>
                 <button type="button" class="btn btn-primary" id="save">发送</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

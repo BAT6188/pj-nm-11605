@@ -519,7 +519,7 @@ $("#demo_showWord").bind("click",function () {
             return;
         }
         window.open(rootPath+"/action/S_officetemp_OfficeTemp_showTemplate.action?" +
-            "id=Enterprise&beanName=enterpriseService&bussinessId="+enterpriseId);
+            "id=Enterprise&beanName=enterpriseCreateService&bussinessId="+enterpriseId);
     });
 
 });
