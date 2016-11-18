@@ -17,4 +17,9 @@ public class ShareMeansServiceImpl extends BaseService<ShareMeans, String> imple
     protected BaseDAO<ShareMeans, String> getDAO() {
         return shareMeansDAO;
     }
+
+    @Override
+    public void updateShareMeans(String id) {
+        shareMeansDAO.executeJPQL("update  ShareMeans entity set entity.status=1 where entity.id=?",id);
+    }
 }
