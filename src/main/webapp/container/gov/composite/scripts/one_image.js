@@ -796,23 +796,20 @@ var OneImagePage = function () {
                                     popoverIsShow:false
                                 };
                                 mark.click = function (e) {
-
-                                    //添加提示框
                                     var $this = $(this.node);
                                     var attrs = this.data("attrs");
-                                    var html = that.getPortPopHtml(attrs.portType,attrs.port);
-                                    //更新弹出窗口位置
-                                    var offset = $this.position();
-                                    $("#planeMap_popover").css("top",offset.top-40);
-                                    $("#planeMap_popover").css("left",offset.left-40);
-                                    //$("#planeMap_popover").css("left",offset.left);
-                                    $("#planeMap_popover").find(".popover-title").text(getTitle(attrs.portType));
-                                    $("#planeMap_popover").find(".popover-content").html(html);
-                                    $("#planeMap_popover").toggle();
-
-
-                                    var port = attrs.port;
-                                    if (attrs.portType != Constant.VIDEO_FLAG && port.portStatus != "0") {
+                                    if (attrs.portType == Constant.VIDEO_FLAG){//视频设备,直接打开视频查看窗口
+                                        that.openVideoWin(attrs.port.equipmentId);
+                                    }else{//排口设备显示信息弹窗
+                                        var html = that.getPortPopHtml(attrs.portType,attrs.port);
+                                        //更新弹出窗口位置
+                                        var offset = $this.position();
+                                        $("#planeMap_popover").css("top",offset.top-40);
+                                        $("#planeMap_popover").css("left",offset.left-40);
+                                        //$("#planeMap_popover").css("left",offset.left);
+                                        $("#planeMap_popover").find(".popover-title").text(getTitle(attrs.portType));
+                                        $("#planeMap_popover").find(".popover-content").html(html);
+                                        $("#planeMap_popover").toggle();
                                         //绑定超标信息按钮事件
                                         $("#planeMap_popover").find(".show-status-btn").bind("click", function () {
                                             var portId = $(this).data("port-id");
@@ -824,16 +821,7 @@ var OneImagePage = function () {
                                                 Ewin.alert({message: "未找到" + text});
                                             }
                                         });
-                                    }else if (attrs.portType == Constant.VIDEO_FLAG){//视频设备
-                                        //绑定查看视频按钮事件
-                                        $("#planeMap_popover").find(".show-video-btn").bind("click", function () {
-                                            //查看视频
-                                            console.log("弹出查看视频窗口");
-                                        });
-                                    }else{
-
                                     }
-
                                 };
 
                                 markers.push(mark);
@@ -862,10 +850,6 @@ var OneImagePage = function () {
                 popHtml = this.getWaterPopHtml(port);
             }else if(portType == Constant.FUMESPORT_FLAG){
                 popHtml = this.getFumesPopHtml(port);
-            }else if(portType == Constant.NOISEPORT_FLAG){
-                popHtml = this.getNoisePopHtml(port);
-            }else if(portType == Constant.VIDEO_FLAG){
-                popHtml = this.getVideoPopHtml(port);
             }else{
                 popHtml += "<div>未找到的设备类型</div>";
             }
@@ -983,37 +967,6 @@ var OneImagePage = function () {
 
             return popHtml;
         },
-        /**
-         * 获取企业平面图废气提示框
-         * @param port
-         */
-        getNoisePopHtml:function (noisePort) {
-            var popHtml = "";
-            popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
-                "<tr><td style='text-align: right;width: 130px;'>排口名称:</td><td style='text-align: left;width: 130px;'>"+noisePort.name+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+pageUtils.getStr(noisePort.monitorTime)+"</td></tr>";
-
-            //展示噪声排口监测值
-            for(var isMonitor in this.NOISE_MONITOR_ITEM_MAP) {
-                if (noisePort[isMonitor] == "1") {
-                    var lable = this.NOISE_MONITOR_ITEM_MAP[isMonitor].label;
-                    var valueField = this.NOISE_MONITOR_ITEM_MAP[isMonitor].field;
-                    var value = pageUtils.getStr(noisePort[valueField]);
-                    popHtml+="<tr><td style='text-align: right;'>"+lable+":</td><td style='text-align: left;'>"+value+"</td></tr>";
-                }
-            }
-            if (noisePort.portStatus == "1") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>超标信息</button></td></tr>";
-            }else if (noisePort.portStatus == "2") {
-                popHtml+="<tr><td colspan='2' style='text-align: right;'><button class='btn btn-primary btn-sm show-status-btn' data-port-id='"+noisePort.id+"'>异常信息</button></td></tr>";
-            }else {
-
-            }
-
-            popHtml += "</table>";
-
-            return popHtml;
-        },
         getVideoPopHtml:function (video) {
             var popHtml = "";
             popHtml +="<table class='table table-bordered table-condensed' style='margin-bottom: 0;'>" +
@@ -1069,7 +1022,9 @@ var OneImagePage = function () {
         addVillageArea:function (village) {
             var that = this;
             var points = this.hwmap.MapTools.strToPoints(village.points);
-
+            if(!points){
+                return false;
+            }
             this.hwmap.addPolygon({
                 id:village.id,
                 data:village,
@@ -1085,6 +1040,7 @@ var OneImagePage = function () {
                     that.showVillageInfoWin(village);
                 }
             },that.MAP_LAYER_VILLAGE);
+            return true;
         },
         showVillageInfoWin:function(village){
             var height =260;
@@ -1132,7 +1088,8 @@ var OneImagePage = function () {
                 x:video.longitude,
                 y:video.latitude,
                 click:function (gra) {
-                    that.showVideoInfoWin(gra.data);
+                    var video = gra.data;
+                    that.openVideoWin(video.equipmentId);
                 }
             }, villageId);
         },
@@ -1162,7 +1119,10 @@ var OneImagePage = function () {
                 var eid = $(this).data("id");
                 //console.log("视频设备id:"+eid);
             });
+        },
+        openVideoWin:function (eid) {
 
+            window.open("http://baidu.boosj.com/watch/813504793906110606.html?page=videoMultiNeed");
         }
 
     };
