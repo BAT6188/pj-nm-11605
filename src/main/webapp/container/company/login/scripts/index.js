@@ -25,7 +25,7 @@ var subMenu = {
         {
             id:"",
             text:"信息公告",
-            url:""
+            url:rootPath+"/container/company/pubInfo/pubinfo.jsp"
         },
         {
             id:"5",

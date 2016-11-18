@@ -37,7 +37,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_office_PubInfo_list.action?orgCode="+orgCode,
-        height: pageUtils.getTableHeight()-45,
+        height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中

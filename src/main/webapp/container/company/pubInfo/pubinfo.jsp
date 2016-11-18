@@ -71,7 +71,7 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" data-backdrop="static" id="scfForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog"  style="width: 900px">
+    <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -151,6 +151,6 @@
         </div>
     </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/pubinfo.js"></script>
+<script src="<%=request.getContextPath()%>/container/company/pubInfo/scripts/pubinfo.js"></script>
 </body>
 </html>
