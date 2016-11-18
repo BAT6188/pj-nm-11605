@@ -78,8 +78,9 @@ public class ProblemCorrectAction extends BaseAction<ProblemCorrect, ProblemCorr
      */
     public void updateSendStatus(){
         String id = request.getParameter("id");
+        String correctDesc = request.getParameter("correctDesc");
         if(id != null && !"".equals(id)){
-            this.getService().updateStatus(id);
+            this.getService().updateStatus(id,correctDesc);
         }
         write(true);
 

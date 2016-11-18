@@ -23,8 +23,8 @@ public class ProblemCorrectServiceImpl extends BaseService<ProblemCorrect, Strin
      * @param id
      */
     @Override
-    public int updateStatus(String id) {
-        int problemCorrect = getDAO().executeJPQL("update ProblemCorrect t set t.progress='2' where t.id=? ",id);
+    public int updateStatus(String id,String correctDesc) {
+        int problemCorrect = getDAO().executeJPQL("update ProblemCorrect t set t.progress='2',t.correctDesc = ?2 where t.id=?1 ",id,correctDesc);
         return problemCorrect;
 
     }

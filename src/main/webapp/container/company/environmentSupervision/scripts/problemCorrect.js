@@ -1,3 +1,4 @@
+//@ sourceURL=problemCorrect.js
 var DemoPage = function () {
     var gridTable = $('#table'),
         removeBtn = $('#remove'),
@@ -239,16 +240,17 @@ var DemoPage = function () {
         }
     });
 
-//表单 保存按钮
-    $("#save").bind('click',function () {
+//表单 发送按钮
+    $("#send").bind('click',function () {
         //验证表单，验证成功后触发ef.success方法保存数据
-        ef.submit(false);
         var id = getIdSelections()[0];
+        var correctDesc = $("#correctDesc").val();
+        console.log(correctDesc);
         $.ajax({
             url: rootPath + "/action/S_exelaw_ProblemCorrect_updateSendStatus.action",
             type:"post",
             dataType:'json',
-            data:{id:id},
+            data:{id:id,correctDesc:correctDesc},
             success:function (data) {
                 form.modal('hide');
                 gridTable.bootstrapTable('refresh');
@@ -271,12 +273,15 @@ var DemoPage = function () {
             var selector="#"+p
             $(selector).val(entity[p])
         }
+        $("#createTime").val(entity.createTime);
+        entity.c
+        $("#correctDesc").val();
         var progress = entity.progress;
         if(progress == 2){
-            $("#save").hide();
+            $("#send").hide();
             form.find(".btn-cancel").text("确定");
         }
-        form.find("input").attr("disabled",disabled);
+        form.find("input").attr("disabled",true);
         uploader = new qq.FineUploader(getUploaderOptions(id));
     }
     function setFormView(entity) {
@@ -286,7 +291,7 @@ var DemoPage = function () {
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件");
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
@@ -329,6 +334,11 @@ var DemoPage = function () {
         form.find(".btn-cancel").text("取消");
     }
 
+    //重置按钮处理
+    $("#reset").click(function () {
+        $('#searchform')[0].reset();
+        gridTable.bootstrapTable('refresh');
+    });
 //表单附件相关js
     var uploader;//附件上传组件对象
     /**
