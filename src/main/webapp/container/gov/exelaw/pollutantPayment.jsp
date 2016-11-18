@@ -3,19 +3,22 @@
 <html>
 <head>
     <title>排污申报</title>
+    <style>
+        .ui-autocomplete { z-index:2147483647; }
+
+        #total{
+            padding-left: 11%;
+            margin-top: 1%;
+        }
+
+        .dealBox button {
+            min-width: 0px;
+        }
+    </style>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
-<style>
-    .ui-autocomplete { z-index:2147483647; }
-
-    #total{
-        padding-left: 11%;
-        margin-top: 1%;
-    }
-
-    .dealBox button {
-        min-width: 0px;
-    }
-</style>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
@@ -30,11 +33,11 @@
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" class="form-control" />
+                                <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">是否缴费：</label>
-                                <select id="s_paymentStatus" class="form-control">
+                                <select id="s_paymentStatus" name="paymentStatus" class="form-control">
                                 <option value="">全部</option>
                                 <option value="0">未缴费</option>
                                 <option value="1">已缴费</option>
@@ -45,7 +48,7 @@
 
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
 
                 <div id="total" class="k-toolbar k-grid-toolbar">
                     <label for="">缴费日期：</label>
@@ -153,13 +156,15 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" />
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
 
                         <label for="enterpriseAP" class="col-sm-2 control-label">企业法人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="enterpriseAP" name="enterpriseAP" class="form-control"
+                            <input type="text" id="enterpriseAP" name="enterpriseAP" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
@@ -168,14 +173,15 @@
                         <label for="apPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="apPhone" name="apPhone" class="form-control"
-                                   data-message="企业名称不能为空"
+                                   data-message="不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
 
                         <label for="payMoney" class="col-sm-2 control-label">缴费金额<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="payMoney" name="payMoney" class="form-control"
+                            <input type="text" id="payMoney" name="payMoney" class="form-control"  data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
@@ -183,8 +189,9 @@
                     <div class="form-group">
                         <label for="registDate" class="col-sm-2 control-label">登记日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
-                                <input class="form-control" size="16" type="text" id="registDate" name="registDate" readonly>
+                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="registDate" name="registDate" data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -192,8 +199,9 @@
 
                         <label for="payDate" class="col-sm-2 control-label">缴费日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
-                                <input class="form-control" size="16" type="text" id="payDate" name="payDate" readonly>
+                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="payDate" name="payDate" data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -201,18 +209,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="alertDate" class="col-sm-2 control-label">提醒日期一<span class="text-danger">*</span>：</label>
+                        <label for="alertDate" class="col-sm-2 control-label">提醒日期一：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" id="alertDate" name="alertDate" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </div>
 
-                        <label for="realertDate" class="col-sm-2 control-label">提醒日期二<span class="text-danger">*</span>：</label>
+                        <label for="realertDate" class="col-sm-2 control-label">提醒日期二：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" id="realertDate" name="realertDate" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -233,7 +241,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="remark" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <label for="remark" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">
                             <textarea id="remark" name="remark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>

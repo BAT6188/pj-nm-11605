@@ -24,18 +24,18 @@
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label for="s_caseName">案件名称：</label> <input type="text" id="s_caseName" style="width: 180px;" class="form-control" />
+                                <label for="s_caseName">案件名称：</label> <input type="text" id="s_caseName" name="caseName" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label>立案时间：</label>
                                 <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="start_filingDate"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="start_filingDate" name="start_filingDate"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
                                 -
                                 <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="end_filingDate"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="end_filingDate" name="end_filingDate"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -44,7 +44,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -87,7 +87,7 @@
                         </div>
                         <label for="filingDate" class="col-sm-2 control-label">立案时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="filingDate"  name="filingDate" type="text" value="" data-message="立案时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -176,7 +176,7 @@
                     <div class="form-group">
                         <label for="exeDate" class="col-sm-2 control-label">处罚执行时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="exeDate"  name="exeDate" type="text" value="" data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -186,7 +186,7 @@
 
                         <label for="endDate" class="col-sm-2 control-label">处罚终止时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="endDate"  name="endDate" type="text" value="" data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -205,7 +205,7 @@
 
                         <label for="closedDate" class="col-sm-2 control-label">结案日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="closedDate"  name="closedDate" type="text" value="" data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>

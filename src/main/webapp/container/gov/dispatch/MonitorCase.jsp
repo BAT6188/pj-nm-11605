@@ -20,6 +20,9 @@
         background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
     }
 </style>
+<script>
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+</script>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
@@ -34,18 +37,18 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="searchEnterpriseName">企业名称：</label> <input type="text" id="searchEnterpriseName" name="searchEnterpriseName" class="form-control" />
+                            <label for="searchEnterpriseName">企业名称：</label> <input type="text" id="searchEnterpriseName" name="enterpriseName" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="">调度时间：</label>
                             <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" id="start_sendTime" size="16" type="text" value="" readonly>
+                                <input class="form-control" id="start_sendTime" name="startSendTime" size="16" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
                             <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" id="end_sendTime" size="16" type="text" value="" readonly>
+                                <input class="form-control" id="end_sendTime" name="endSendTime" size="16" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -64,10 +67,10 @@
 
                         <div class="form-group">
                             <label for="">调度网格：</label>
-                            <select id="s_blockLevelId" class="form-control"  style="width: 262px;">
+                            <select id="s_blockLevelId" name="blockLevelId" class="form-control"  style="width: 262px;">
                             </select>
                             -
-                            <select id="s_blockId" class="form-control"  style="width: 262px;">
+                            <select id="s_blockId" name="blockId" class="form-control"  style="width: 262px;">
                             </select>
                         </div>
 
@@ -75,7 +78,7 @@
 
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
 
             <ul id="myTab" class="nav nav-tabs">
