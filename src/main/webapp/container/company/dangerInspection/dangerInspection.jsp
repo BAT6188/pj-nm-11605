@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2016/11/10
@@ -9,7 +9,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%
+        Enterprise enterprise = (Enterprise) request.getSession().getAttribute("session");
+    %>
     <title>隐患自查自报</title>
+    <script type="text/javascript">
+        var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
+        var enterpriseName = "<%=enterprise != null ? enterprise.getName():""%>";
+        console.log(enterpriseName);
+        console.log(enterpriseId);
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -53,9 +62,9 @@
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
-                    <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
-                        <i class="btnIcon edit-icon"></i><span>反馈</span>
-                    </button>
+                    <%--<button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">--%>
+                        <%--<i class="btnIcon edit-icon"></i><span>反馈</span>--%>
+                    <%--</button>--%>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
@@ -103,7 +112,10 @@
                     <div class="form-group">
                         <label for="description" class="col-sm-2 control-label">隐患信息描述<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="description" name="description" class="form-control" rows="4" cols="50"></textarea>
+                            <textarea id="description" name="description" class="form-control" rows="4" cols="50"
+                                      data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;">
+                            </textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -127,7 +139,10 @@
                         <label for="findDate" class="col-sm-2 control-label">发现日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="findDate"  name="findDate" type="text" readonly>
+                                <input class="form-control" size="16" id="findDate"  name="findDate" type="text" readonly
+                                       data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -136,7 +151,10 @@
                         <label for="finishDate" class="col-sm-2 control-label">整改完成日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="finishDate"  name="finishDate" type="text" readonly>
+                                <input class="form-control" size="16" id="finishDate"  name="finishDate" type="text" readonly
+                                       data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -145,7 +163,10 @@
                     <div class="form-group">
                         <label for="solution" class="col-sm-2 control-label">整改措施方案<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="solution" name="solution" class="form-control" rows="4" cols="50"></textarea>
+                            <textarea id="solution" name="solution" class="form-control" rows="4" cols="50"
+                                      data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;">
+                            </textarea>
                         </div>
                     </div>
                     <div class="form-group query">
@@ -213,7 +234,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveFeedback">保存</button>
+                <button type="button" class="btn btn-primary" id="saveFeedback">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
