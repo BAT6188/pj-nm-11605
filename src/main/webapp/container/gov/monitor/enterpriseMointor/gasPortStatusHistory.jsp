@@ -11,23 +11,29 @@
     <script type="text/javascript">
         var portId='<%=id%>';
         var portData;
-        $(function(){
-            $.ajax({
-                url: rootPath + "/action/S_port_GasPort_getEntityById.action",
-                type:"post",
-                data:{id:portId},
-                dataType:"json",
-                success:function(data){
-                    portData = data;
-                    $('#portName').html(data.name);
-                }
-            });
-        })
+        if(portId=='null'){
+            $('#s_enterpriseId').val(enterpriseId);
+            $('#portName').html("当前企业所有废气排口");
+        }else{
+            $('#s_portId').val(portId);
+            $(function(){
+                $.ajax({
+                    url: rootPath + "/action/S_port_GasPort_getEntityById.action",
+                    type:"post",
+                    data:{id:portId},
+                    dataType:"json",
+                    success:function(data){
+                        portData = data;
+                        $('#portName').html(data.name);
+                    }
+                });
+            })
+        }
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">废气排口->“<span id="portName"></span>”排口 实时数据</a>
+    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">废气排口-><span id="portName"></span> 实时数据</a>
     <div class="wrap">
         <div class="mainBox">
             <div class="dealBox">
@@ -41,6 +47,8 @@
                     <form role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
+                                <input class="form-control" type="hidden" id="s_portId" name="portId" value="">
+                                <input class="form-control" type="hidden" id="s_enterpriseId" name="enterpriseId" value="">
                                 <label for="monitorTime">监测时间段：</label>
                                 <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd hh:ii">
                                     <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">

@@ -36,7 +36,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_port_PortStatusHistory_list.action",
-        height: getHeight(),
+        height: pageUtils.getTableHeight()-50,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -134,7 +134,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()-50
         });
     });
 }
@@ -178,9 +178,6 @@ function getSelections() {
     });
 }
 
-function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
-}
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态

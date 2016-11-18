@@ -151,7 +151,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
+    return $(window).height() - $('.dealBox').outerHeight(true) - 160;
 }
 initTable();
 /**============列表工具栏处理============**/

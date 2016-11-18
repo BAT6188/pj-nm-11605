@@ -9,9 +9,9 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0;">沙尘暴监测点列表</a>
     <div class="wrap">
         <div class="mainBox">
+            <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0;">沙尘暴监测点列表</a>
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">

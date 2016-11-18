@@ -13,9 +13,9 @@
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">废水排口列表</a>
     <div class="wrap">
         <div class="mainBox">
+            <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">废水排口列表</a>
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">

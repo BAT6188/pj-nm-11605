@@ -26,6 +26,11 @@ public class WaterPortHistory implements Serializable {
     private String portId;
 
     /**
+     * 企业ID
+     */
+    @Column(name = "enterprise_id",length = 32)
+    private String enterpriseId;
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -126,5 +131,13 @@ public class WaterPortHistory implements Serializable {
 
     public void setPh(Double ph) {
         this.ph = ph;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

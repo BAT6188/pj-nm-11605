@@ -38,7 +38,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_composite_Video_list.action",
-        height: pageUtils.getTableHeight()-40,
+        height: getHeight(),
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -155,7 +155,7 @@ function getSelections() {
 }
 
 function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true) - 200;
+    return $(window).height() - $('.dealBox').outerHeight(true) - 160;
 }
 initTable();
 /**============列表工具栏处理============**/

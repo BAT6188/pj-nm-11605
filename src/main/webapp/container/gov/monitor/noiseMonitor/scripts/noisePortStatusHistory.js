@@ -17,7 +17,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_port_NoisePortHistory_list.action",
-        height: pageUtils.getTableHeight()-100,
+        height: pageUtils.getTableHeight()-50,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -149,7 +149,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()-100
+            height: pageUtils.getTableHeight()-50
         });
     });
 }
