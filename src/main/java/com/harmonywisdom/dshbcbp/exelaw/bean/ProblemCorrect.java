@@ -12,12 +12,17 @@ import java.util.Date;
 public class ProblemCorrect implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 台账编号
-     */
+
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 台账编号
+     */
+    @Column(length = 32)
+    private String code;
+
 
     /**
      * 创建时间
@@ -126,5 +131,13 @@ public class ProblemCorrect implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

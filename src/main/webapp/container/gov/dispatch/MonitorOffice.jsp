@@ -6,10 +6,13 @@
     <%@include file="/common/msgSend/msgSend.jsp"%>
 
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
+    <style>
+        .ui-autocomplete { z-index:2147483647;}
+    </style>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
-<style>
-    .ui-autocomplete { z-index:2147483647;}
-</style>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
@@ -24,11 +27,11 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="">投诉对象：</label> <input type="text" id="search_enterpriseName" name="search_enterpriseName" class="form-control" />
+                            <label for="">投诉对象：</label> <input type="text" id="search_enterpriseName" name="enterpriseName" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="search_source">信息来源：</label>
-                            <select id="search_source" name="search_source" class="form-control" style="width: 266px;">
+                            <select id="search_source" name="search_source" name="source" class="form-control" style="width: 266px;">
                                 <option value="">全部</option>
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
@@ -41,13 +44,13 @@
                         <div class="form-group">
                             <label for="">接电时间：</label>
                             <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="start_connTime"  type="text" value="" readonly>
+                                <input class="form-control" size="16" id="start_connTime" name="startConnTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="end_connTime"  type="text" value="" readonly>
+                                <input class="form-control" size="16" id="end_connTime" name="endConnTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -57,7 +60,7 @@
 
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#eventMsg">
                         <i class="btnIcon add-icon"></i><span>新建</span>

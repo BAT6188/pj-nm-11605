@@ -170,7 +170,7 @@ var status_search="";
     }, 200);
 
 
-    //搜索
+    /*//搜索
     $("#search").click(function () {
         gridTable.bootstrapTable('resetSearch');
         var enterpriseName = $("#searchEnterpriseName").val();
@@ -186,7 +186,19 @@ var status_search="";
                 status_search:status_search}
         });
 
+    });*/
+
+    //搜索按钮处理
+    $("#search").click(function () {
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE,status_search:status_search});
     });
+    //重置搜索
+    $("#searchFix").click(function () {
+        resetQuery();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE,status_search:status_search});
+    });
+
+
 
     //表单弹出框 保存按钮
     $("#saveDemo").bind('click',function () {
