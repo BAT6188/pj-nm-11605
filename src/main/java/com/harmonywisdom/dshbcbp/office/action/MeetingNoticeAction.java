@@ -51,30 +51,33 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-        String id=request.getParameter("id");
-        if(id!=null){
-            MeetingNotice mn = meetingNoticeService.findByObjectId(id);
-            String[] ids = request.getParameterValues("ids");
-            String[] names= request.getParameterValues("names");
-            String jsonIds = JSON.toJSONString(ids);
-            String jsonNames = JSON.toJSONString(names);
-            entity.setId(id);
-            entity.setAddress(mn.getAddress());
-            entity.setContent(mn.getContent());
-            entity.setCreateTime(mn.getCreateTime());
-            entity.setIsSms(mn.getIsSms());
-            entity.setLinkMan(mn.getLinkMan());
-            entity.setLinkPhone(mn.getLinkPhone());
-            entity.setPubOrgId(mn.getPubOrgId());
-            entity.setPubOrgName(entity.getPubOrgName());
-            entity.setPersonIds(jsonIds);
-            entity.setPersonNames(jsonNames);
-        }
         super.save();
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
+        write(true);
     }
+    //更新会议人员ids和names
+    public void updateMeeting(){
+        String id=request.getParameter("id");
+        String[] ids = request.getParameterValues("ids");
+        String[] names= request.getParameterValues("names");
+        if(id!=null && ids!=null&& names!=null){
+            String jsonIds = JSON.toJSONString(ids);
+            String jsonNames = JSON.toJSONString(names);
+            meetingNoticeService.updateMeeting(jsonIds,jsonNames,id);
+        }
+        write(true);
+    }
+    //更新短信发送状态
+    public void updateMeetingIsSms(){
+        String id=request.getParameter("sourceId");
+        if(id!=null){
+            meetingNoticeService.updateMeetingIsSms(id);
+        }
+        write(true);
+    }
+
 
     /**
      * 删除实体时删除关联的附件

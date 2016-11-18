@@ -64,6 +64,8 @@ public class MeetingNotice implements Serializable {
     private String content;
     /**
      * 是否短信通知
+     * 0:未发送
+     * 1：已发送
      */
     @Column(name = "IS_SMS",length = 100)
     private String isSms;

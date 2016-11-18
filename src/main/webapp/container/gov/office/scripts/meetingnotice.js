@@ -194,7 +194,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
     d+="&id="+data.sourceId;
     console.log(d);//回调函数，data为所选人员ID
     $.ajax({
-        url: rootPath + "/action/S_office_MeetingNotice_save.action",
+        url: rootPath + "/action/S_office_MeetingNotice_updateMeeting.action",
         type:"post",
         data:d,
         dataType:"json",
@@ -217,8 +217,18 @@ var optionsMsg = {
 };
 
 var modelMsg = $.fn.MsgSend.init(2,optionsMsg,function(e,data){ //短信发送第一个参数为2
-    console.log(data);//回调函数，data为所选人员ID
-    pageUtils.saveOperationLog({opType:'4',opModule:'短信会议通知',opContent:'短信发送数据',refTableId:''})
+
+    var d=pageUtils.sendParamDataToString(data);
+    $.ajax({
+        url: rootPath + "/action/S_office_MeetingNotice_updateMeetingIsSms.action",
+        type:"post",
+        data:d,
+        dataType:"json",
+        success:function (msg) {
+            form.modal('hide');
+            pageUtils.saveOperationLog({opType: '4', opModule: '短信会议通知', opContent: '短信发送数据', refTableId: ''})
+        }
+    })
 });
 
 
@@ -272,7 +282,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-
+        entity.isSms=0;
         saveAjax(entity,function (msg) {
             if(buttonSend=="#save"){
                 model.open(msg.id);
@@ -343,11 +353,13 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#smsSend").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
+    form.find("textarea").attr("disabled", disabled);
     if (!disabled) {
         //初始化日期组件
         $('#timeContent').datetimepicker({
