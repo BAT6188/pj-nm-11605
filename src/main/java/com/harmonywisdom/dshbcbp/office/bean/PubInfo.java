@@ -35,6 +35,11 @@ public class PubInfo implements Serializable {
      */
     @Column(name = "PUB_ORG_NAME",length = 100)
     private String pubOrgName;
+
+    @Column(name = "USER_ID",length = 100)
+    private String userID;
+    @Column(name = "USER_NAME",length = 100)
+    private String userName;
     /**
      *公告类型
      */
@@ -55,8 +60,39 @@ public class PubInfo implements Serializable {
      */
     @Column(name = "CONTENT",length = 255)
     private String content;
+    /**
+     * 0：未发布
+     * 1：已发布
+     */
+    @Column(name = "STATUS",length = 255)
+    private String status;
+
     @Transient
     private String attachmentIds;
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getAttachmentIds() {
         return attachmentIds;

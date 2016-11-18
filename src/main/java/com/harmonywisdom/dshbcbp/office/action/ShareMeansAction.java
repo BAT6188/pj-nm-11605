@@ -15,6 +15,7 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
 
     @AutoService
     private AttachmentService attachmentService;
+
     @Override
     protected ShareMeansService getService() {
         return shareMeansService;
@@ -22,20 +23,29 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
 
     @Override
     protected QueryCondition getQueryCondition() {
-        QueryParam param=new QueryParam();
+        QueryParam param = new QueryParam();
 
         if (StringUtils.isNotBlank(entity.getTitle())) {
-            param.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getTitle()));
+            param.andParam(new QueryParam("title", QueryOperator.LIKE, entity.getTitle()));
         }
         if (StringUtils.isNotBlank(entity.getType())) {
-            param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
+            param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }
+        String orgCode=request.getParameter("orgCode");
+        QueryParam statusParam=new QueryParam();
+        if (orgCode != null) {
+            statusParam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE, orgCode));
+            statusParam.orParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
+        }else{
+            statusParam.andParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
+        }
+        param.andParam(statusParam);
         String pubTime = request.getParameter("pTime");
         if (StringUtils.isNotBlank(pubTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
+            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime, "yyyy-MM-dd")));
         }
-        QueryCondition condition=new QueryCondition();
-        if (param.getField()!=null) {
+        QueryCondition condition = new QueryCondition();
+        if (param.getField() != null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
@@ -47,16 +57,16 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
     public void save() {
         //获取删除的附件IDS
 
-        String attachmentIdsRemoveId = request.getParameter("removeId");
-        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
-            //删除附件
-            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
-        }
-        super.save();
-        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
-            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
-        }
-
+            String attachmentIdsRemoveId = request.getParameter("removeId");
+            if (StringUtils.isNotBlank(attachmentIdsRemoveId)) {
+                //删除附件
+                attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+            }
+            super.save();
+            if (StringUtils.isNotBlank(entity.getAttachmentIds())) {
+                attachmentService.updateBusinessId(entity.getId(), entity.getAttachmentIds().split(","));
+            }
+            write(true);
     }
 
     /**
@@ -65,9 +75,18 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
     @Override
     public void delete() {
         String deleteId = request.getParameter("deletedId");
-        if(StringUtils.isNotBlank(deleteId)){
+        if (StringUtils.isNotBlank(deleteId)) {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+    }
+
+    //公告发布
+    public void pubsave() {
+        String id = request.getParameter("id");
+        if (id != null && !"".equals(id)) {
+            this.getService().updateShareMeans(id);
+        }
+        write(true);
     }
 }
