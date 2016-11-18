@@ -31,6 +31,9 @@
         apportalRootPath = manager.getSsoConfig().getSsoGateWaySite();
     }
 
+    Object msgIsAlert = request.getSession().getAttribute("msgIsAlert");
+    String msgIsAlertStr = msgIsAlert == null?"true":msgIsAlert.toString();
+
 
 %>
 <script type="text/javascript" >
@@ -43,6 +46,7 @@
     var orgId='<%=orgId%>';
     var orgCode='<%=orgCode%>';
     var orgName='<%=orgName%>';
+    var msgIsAlert = '<%=msgIsAlertStr%>';
 
 </script>
 
