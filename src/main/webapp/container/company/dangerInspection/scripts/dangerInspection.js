@@ -222,22 +222,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#s_name").val();
-    var start_findDate = $("#start_findDate").val();
-    var end_findDate = $("#end_findDate").val();
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (start_findDate){
-        queryParams["start_findDate"] = start_findDate;
-    }
-    if (end_findDate){
-        queryParams["end_findDate"] = end_findDate;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件

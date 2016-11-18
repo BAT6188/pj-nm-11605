@@ -204,6 +204,8 @@ updateBtn.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     resetForm();
+    $("#payDate").val((new Date()).format("yyyy-MM-dd"))
+    $("#registDate").val((new Date()).format("yyyy-MM-dd"))
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
@@ -234,17 +236,14 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
-    var paymentStatus = $("#s_paymentStatus").val();
-    if (enterpriseName){
-        queryParams["enterpriseName"] = enterpriseName;
-    }
-    if (paymentStatus){
-        queryParams["paymentStatus"] = paymentStatus;
-    }
-    search(queryParams)
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+
 
 function search(queryParams) {
     gridTable.bootstrapTable('refresh',{

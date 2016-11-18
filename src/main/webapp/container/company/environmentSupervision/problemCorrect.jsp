@@ -77,6 +77,15 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">台账编号<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="code" name="code" class="form-control"
+                                   data-message="台账编号不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="" class="col-sm-2 control-label">创建时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
