@@ -18,7 +18,8 @@ function initTimeInput(){
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        forceParse: 0
+        forceParse: 0,
+        pickerPosition: "bottom-left"
     });
 }
 function getNowDate(){

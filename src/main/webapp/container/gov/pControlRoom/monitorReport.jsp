@@ -17,43 +17,44 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
+                    <form role="form" id="searchform">
+                        <div class="form-inline">
                             <div class="form-group">
-                                <label for="">监测名称：</label> <input type="text" id="s_monitorName" name="monitorName" style="width: 207px;" class="form-control" />
+                                <label for="">监测名称：</label> <input type="text" id="s_monitorName" name="monitorName" style="width: 238px;" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="">所属网格：</label>
-                                <select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 266px;">
+                                <label for="" class="labelMarginLeft">所属网格：</label>
+                                <select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 238px;">
                                 </select>
                                 -
-                                <select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 266px;">
+                                <select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 238px;">
                                 </select>
                             </div>
-
-                        </form>
-                    <p></p>
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="">类&nbsp;&nbsp;型：</label>
-                            <select id="s_type" name="type" class="form-control">
-                                <option value="">全部</option>
-                                <option value="1">水源地监测报告</option>
-                                <option value="2">大气污染防治监测报告</option>
-                                <option value="3">水污染防治监测报告</option>
-                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="">监测日期：</label>
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="start_monitorTime" name="start_monitorTime"  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        <p></p>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="">类&nbsp;&nbsp;型：</label>
+                                <select id="s_type" name="type" class="form-control"  style="width: 238px;">
+                                    <option value="">全部</option>
+                                    <option value="1">水源地监测报告</option>
+                                    <option value="2">大气污染防治监测报告</option>
+                                    <option value="3">水污染防治监测报告</option>
+                                </select>
                             </div>
-                            -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="end_monitorTime" name="end_monitorTime"  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            <div class="form-group">
+                                <label for="" class="labelMarginLeft">监测日期：</label>
+                                <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" size="16" id="start_monitorTime" name="start_monitorTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" size="16" id="end_monitorTime" name="end_monitorTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
                             </div>
                         </div>
                     </form>
