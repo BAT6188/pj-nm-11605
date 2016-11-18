@@ -232,13 +232,15 @@ $('#publishBtn').bind('click',function () {
 $('#pubTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
-    minView: 2
+    minView: 2,
+    pickerPosition: "bottom-left"
 });
 //-------------datetimepicker配置--------------------//
 $('.form_date').datetimepicker({
     language:  'zh-CN',
     autoclose: 1,
-    minView: 2
+    minView: 2,
+    pickerPosition: "bottom-left"
 });
 
 function deleteWorkSum(ids,callback) {

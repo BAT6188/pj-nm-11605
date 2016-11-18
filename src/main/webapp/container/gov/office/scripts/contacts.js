@@ -564,7 +564,8 @@ function disabledForm(disabled) {
         $('#pubTimeContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
-            minView: 2
+            minView: 2,
+            pickerPosition: "bottom-left"
         });
     }else{
         $('#pubTimeContent').datetimepicker('remove');
