@@ -258,6 +258,8 @@ span.text{
 .navList li a:hover,.navList li a:link,.navList li a:active,.siderNav li a:hover,.siderNav li a:link,.siderNav li a:active{
     color: #eee;
     text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
 }
 .content{
     background-color: #eaeaea;
