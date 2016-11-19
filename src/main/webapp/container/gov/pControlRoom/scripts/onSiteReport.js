@@ -28,7 +28,11 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:pageUtils.localParams,
+        queryParams:function (param) {
+            var temp = pageUtils.getBaseParams(param);
+            temp.monitorReportStatus = 1;
+            return temp;
+        },
         columns: [
             {
                 title:"全选",
@@ -153,7 +157,7 @@ function changeLookStatus(id,obj){
         url: rootPath + "/action/S_dispatch_DispatchTask_updateEntity.action",
         type:"post",
         async:false,
-        data:{id:id,lookStatus:1},
+        data:{id:id,monitorReportReadStatus:1},
         dataType:"json",
         success:function(data){
             $(obj).attr('class','btn btn-md btn-info view');
