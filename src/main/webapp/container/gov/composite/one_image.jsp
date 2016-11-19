@@ -2,9 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%
+        String enterpriseId = request.getParameter("enterpriseId");
+        enterpriseId = enterpriseId != null ? enterpriseId : "";
+    %>
     <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <title>一张图综合检测预警</title>
+    <script>
+        var enterpriseId = "<%=enterpriseId%>";
+    </script>
     <style type="text/css">
         /*企业平面图展示设备信息，替换bootstrap样式*/
         .popover-content{

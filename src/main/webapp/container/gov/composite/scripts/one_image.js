@@ -74,7 +74,7 @@ var OneImagePage = function () {
                         }
                         //如果地图加载完成，默认选中监控节点
                         if (that.hwmapFinished) {
-                            that.selectAllMonitorNode();
+                            that.defaultSelected();
                         }
                     },
                     onCheck:function (event, treeId, treeNode) {
@@ -139,10 +139,18 @@ var OneImagePage = function () {
                 that.hwmapFinished = true;
                 //如果左侧树加载完成，默认选中监控节点
                 if (that.ztreeFinished) {
-                    that.selectAllMonitorNode();
+                    that.defaultSelected();
                 }
 
             };
+        },
+        defaultSelected:function () {
+            var that = this;
+            if (enterpriseId) {
+                that.selectEnterpriseById(enterpriseId);
+            }else{
+                that.selectAllMonitorNode();
+            }
         },
         /**
          * 默认选中所有监控节点
@@ -161,6 +169,14 @@ var OneImagePage = function () {
             }
             //企业
             var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
+            if(enode[0]){
+                that.zTree.checkNode(enode[0],true,true,true);
+            }
+        },
+        selectEnterpriseById:function (eid){
+            var that = this;
+            //企业
+            var enode = that.zTree.getNodesByParam("id",eid);
             if(enode[0]){
                 that.zTree.checkNode(enode[0],true,true,true);
             }
