@@ -44,6 +44,12 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
+                                -
+                                <div id="t_endCreateDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endDate">
+                                    <input class="form-control" size="16" id="t_endCreateDate"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
                             </div>
                         </form>
                 </div>
@@ -136,7 +142,7 @@
                         </div>
                         <label for="pubDate" class="col-sm-2 control-label">发证日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="pubDateContent" class="input-group date form_date" data-date="" data-link-field="pubDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                            <div id="pubDateContent" class="input-group date form_date  lookOver" data-date="" data-link-field="pubDate" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubDate" name="pubDate" size="16" type="text" value="" readonly
                                        data-message="发证日期不能为空"
                                        data-easytip="position:top;class:easy-red;">

@@ -23,6 +23,8 @@ public class PollutantLicenseAction extends BaseAction<PollutantLicense, Polluta
 
     @Override
     protected QueryCondition getQueryCondition() {
+        String endDate = request.getParameter("endDate");
+        String endCreateDate = request.getParameter("endCreateDate");
         QueryParam param=new QueryParam();
         if(StringUtils.isNotBlank(entity.getEnterpriseId())){
             param.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));
@@ -30,9 +32,11 @@ public class PollutantLicenseAction extends BaseAction<PollutantLicense, Polluta
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
-        String endDate = request.getParameter("endDate");
-        if (StringUtils.isNotBlank(endDate)) {
-            param.andParam(new QueryParam("endDate", QueryOperator.EQ, DateUtil.strToDate(endDate,"yyyy-MM-dd")));
+        if (StringUtils.isNotEmpty(endDate)){
+            param.andParam(new QueryParam("endDate", QueryOperator.GE, DateUtil.strToDate(endDate,"yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotEmpty(endCreateDate)){
+            param.andParam(new QueryParam("endDate", QueryOperator.LE, DateUtil.strToDate(endCreateDate,"yyyy-MM-dd")));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
@@ -43,8 +47,7 @@ public class PollutantLicenseAction extends BaseAction<PollutantLicense, Polluta
     }
 
     @Override
-    public void save() {
-        //获取删除的附件IDS
+    public void save() {//获取删除的附件IDS
 
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
