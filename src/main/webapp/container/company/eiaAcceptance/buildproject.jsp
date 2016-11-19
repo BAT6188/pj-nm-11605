@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
+    <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <title>建设项目环评及验收信息</title>
     <style>
         .tableDiv  .radio-inline label{margin-right: 25px;}
@@ -50,7 +52,8 @@
         String enterpriseId =request.getParameter("id");
     %>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>'
+        var enterpriseId='<%=enterpriseId%>';
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -152,7 +155,7 @@
                                         <td class="success text-red">项目名称:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input type="hidden" class="basedata" id="type" name="type" value="">
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
                                                     <input type="hidden" id="id" name="id" class="basedata">
@@ -194,7 +197,7 @@
                                         <td class="success text-red">行政区：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input class="form-control basedata" type="text" id="area" name="area"
                                                     />
                                                 </div>
@@ -205,7 +208,7 @@
                                         <td class="success text-red">建设地点:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="buildAddress" name="buildAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -228,7 +231,7 @@
                                         <td class="success text-red">建设内容及规模：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="content" name="content" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -357,7 +360,7 @@
                                         <td class="success text-red">项目名称:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input type="hidden" class="basedata" id="type" name="type" value="">
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
                                                     <input type="hidden" id="hp_projectId" name="hp_projectId" class="basedata">
@@ -398,7 +401,7 @@
                                         <td class="success text-red">行政区：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input class="form-control basedata" type="text" id="area" name="area"
                                                     />
                                                 </div>
@@ -409,7 +412,7 @@
                                         <td class="success text-red">建设地点:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="buildAddress" name="buildAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -432,7 +435,7 @@
                                         <td class="success text-red">建设内容及规模：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="content" name="content" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -544,7 +547,7 @@
                                         <td class="success ">通讯地址：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="euAddress" name="euAddress" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
@@ -552,7 +555,7 @@
                                         <td class="success">邮政编码：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="euZipCode" name="euZipCode" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
@@ -562,7 +565,7 @@
                                         <td class="success ">证书编号：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="certificateCode" name="certificateCode" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
@@ -570,7 +573,7 @@
                                         <td class="success">评价经费(万元)：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="certificateMoney" name="certificateMoney" class="form-control otherdata" type="number"/>
                                                 </div>
                                             </div>
@@ -581,7 +584,7 @@
                                         <td class="success text-red">批复时间：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-12">
                                                     <div id="replyEIATimeContent" class="input-group date form_date" data-date="" data-link-field="replyEIATime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control otherdata"  name="replyEIATime" size="16" type="text" value="" readonly
                                                                data-message="批复时间不能为空"
@@ -606,7 +609,7 @@
                                         <td class="success text-red">审批部门：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-11">
                                                     <input id="replyEIAOrg" name="replyEIAOrg" class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
@@ -671,8 +674,8 @@
                                     <tbody>
                                     <tr>
                                         <td class="success" rowspan="8">基本信息</td>
-                                        <td class="success text-red">建设项目名称(验收申请):</td>
-                                        <td>
+                                        <td class="success text-red" style="width:180px;">建设项目名称(验收申请):</td>
+                                        <td style="width: 370px;">
                                             <div class="row">
                                                 <div class="col-sm-9">
                                                     <input type="hidden" id="ys_projectId" name="ys_projectId" class="basedata">
@@ -682,10 +685,10 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">建设项目名称(环评批复):</td>
+                                        <td class="success text-red" style="width:180px;">建设项目名称(环评批复):</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input id="idAcceptance" name="id" class="form-control otherdata" type="hidden"/>
                                                     <input  name="name" class="form-control basedata" type="text"/>
                                                 </div>
@@ -696,7 +699,7 @@
                                         <td class="success text-red">项目性质:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 basedata" name="buildNature">
+                                                <div class="col-sm-9 basedata" name="buildNature">
                                                     <div class="radio-inline" >
                                                         <label for="buildNature"><input type="radio" class="buildNature1"  name="buildNature" value="1"/>新建</label>
                                                         <label for="buildNature"><input type="radio" class="buildNature2"  name="buildNature" value="2"/>改扩建</label>
@@ -737,7 +740,7 @@
                                         <td class="success">建设地点:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="buildAddress" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -747,7 +750,7 @@
                                         <td class="success text-red">环评批复单位:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="euName" class="form-control hpdata" type="text"/>
                                                 </div>
                                             </div>
@@ -755,7 +758,7 @@
                                         <td class="success text-red">环评批复文号:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="replyEIACode" class="form-control hpdata" type="text"/>
                                                 </div>
                                             </div>
@@ -765,7 +768,7 @@
                                         <td class="success text-red">环评批复时间:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <div id="TimeContent" class="input-group date form_date" data-date="" data-link-field="replyTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control hpdata"  name="replyEIATime" size="16" type="text" value="" readonly
                                                         >
@@ -777,7 +780,7 @@
                                         <td class="success">竣工验收单位:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="acceptOrg" class="form-control builddata" type="text"
                                                             data-message="竣工验收单位不能为空"
                                                             data-easytip="position:top;class:easy-red;"
@@ -790,7 +793,7 @@
                                         <td class="success">竣工验收时间:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <div id="acceptTimeContent" class="input-group date form_date" data-date="" data-link-field="acceptTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control builddata"  name="acceptTime" size="16" type="text" value="" readonly
                                                                data-message="竣工验收时间不能为空"
@@ -809,7 +812,7 @@
                                         <td class="success text-red">实际总投资(万元):</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input name="investment" class="form-control basedata" type="number"/>
                                                 </div>
                                             </div>
@@ -817,7 +820,7 @@
                                         <td class="success text-red">实际环保投资(万元):</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input name="envInvestment" class="form-control basedata" type="number"/>
                                                 </div>
                                             </div>
@@ -828,7 +831,7 @@
                                         <td class="success text-red">建设单位:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="builderName"  class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -836,7 +839,7 @@
                                         <td class="success ">邮政编码:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="builderZipCode" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -846,7 +849,7 @@
                                         <td class="success text-red">法人代表:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="builderAP" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -854,7 +857,7 @@
                                         <td class="success text-red">联系人:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="builderLinkman" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -864,7 +867,7 @@
                                         <td class="success text-red">联系电话:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input  name="builderTel" class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -872,7 +875,7 @@
                                         <td class="success text-red">通讯地址:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input name="builderAddress"  class="form-control basedata" type="text"/>
                                                 </div>
                                             </div>
@@ -883,7 +886,7 @@
                                         <td class="success text-red">批复时间:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <div id="replyTime_Content" class="input-group date form_date" data-date="" data-link-field="replyAccTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control otherdata"  name="replyAccTime" size="16" type="text" value="" readonly
                                                         >
@@ -896,7 +899,7 @@
                                         <td class="success text-red">验收批复文号:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11">
+                                                <div class="col-sm-9">
                                                     <input name="replyAccCode"  class="form-control otherdata" type="text"/>
                                                 </div>
                                             </div>
@@ -914,7 +917,7 @@
                                         <td class="success">是否许可:</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 otherdata" name="isAccLicense">
+                                                <div class="col-sm-9 otherdata" name="isAccLicense">
                                                     <div class="radio-inline " >
                                                         <label ><input type="radio" class="isAccLicense1" name="isAccLicense" value="1"/>是</label>
                                                         <label ><input type="radio" class="isAccLicense0" name="isAccLicense" value="0"/>否</label>
