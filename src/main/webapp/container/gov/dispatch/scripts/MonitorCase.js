@@ -517,9 +517,10 @@ window.seeEvent = {
         var fuOptions = getUploaderOptions(row.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
         $(".qq-upload-button").hide();
     }
 };
