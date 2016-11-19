@@ -37,13 +37,13 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_composite_PollutantLicense_list.action",
-        height: pageUtils.getTableHeight(),
+        height: pageUtils.getTableHeight()-100,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temps = pageUtils.getBaseParams(param);
-            temps.enterpriseId = id;
+            temps.enterpriseId = enterpriseId;
             return temps;
         },
         columns: [
@@ -147,7 +147,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
+            height: pageUtils.getTableHeight()-100
         });
     });
 }
@@ -223,11 +223,16 @@ $("#search").click(function () {
     var queryParams = {};
     var type = $("#t_type").val();
     var endDate = $("#t_endDate").val();
+    var endCreateDate = $("#t_endCreateDate").val();
     if (type){
         queryParams["type"] = type;
     }
     if (endDate){
         queryParams["endDate"] = endDate;
+    }
+    if(endCreateDate){
+        queryParams["endCreateDate"] = endCreateDate;
+        
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -236,7 +241,7 @@ $("#search").click(function () {
 //重置按钮处理
 $("#reset").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
 });
 
 /**============表单初始化相关代码============**/
@@ -280,6 +285,12 @@ $('#t_endDateContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
+$(".form_datetime").datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+
 /**
  * 设置表单数据
  * @param entity
@@ -312,7 +323,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -339,7 +350,9 @@ function disabledForm(disabled) {
             minView: 2
         });
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('#startDateContent').datetimepicker('remove');
+        $('#endDateContent').datetimepicker('remove');
+        $('#pubDateContent').datetimepicker('remove');
     }
 
 }

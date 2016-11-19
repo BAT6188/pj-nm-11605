@@ -111,7 +111,7 @@ var pageUtils = {
         var isMainJsp = location.href.indexOf("main.jsp") > 0 ? true:false;
         if (isMainJsp){
             $("#level2content").html("");
-            $("#level2content").load(url);
+            $("#level2content").load(url,arguments[1]);
         }else{
             //查找跳转页面的所在的主菜单
             var urlMainMenu = "";

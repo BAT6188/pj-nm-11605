@@ -32,7 +32,7 @@ var setting = {
             loadPortStatusHistory(treeNode.parentCode,treeNode.code,treeNode.name);
         },
         onAsyncSuccess: function(event, treeId, treeNode, msg) {
-            var node = treeObj.getNodeByTId("enterpriseZTree_3");
+            var node = treeObj.getNodeByTId("enterpriseZTree_2");
             if(node){
                 treeObj.expandAll(true);
                 treeObj.selectNode(node,false);
@@ -54,13 +54,12 @@ function loadPortStatusHistory(parentCode,code,name){
         case "waterPort":
             pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/waterPortStatusHistory.jsp?id="+code);
             break;
-        case "noisePort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/noisePortStatusHistory.jsp?id="+code);
-            break;
-        case "fumesPort":
-            pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/fumesPortStatusHistory.jsp?id="+code);
-            break;
         default:
+            if(code=="gasPort"){
+                pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/gasPortStatusHistory.jsp");
+            }else if(code=="waterPort"){
+                pageUtils.loadPageOfContent("#level3MenuContent",rootPath+"/container/gov/monitor/enterpriseMointor/waterPortStatusHistory.jsp");
+            }
             break;
     }
 }

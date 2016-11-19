@@ -45,18 +45,18 @@
                                     <label for="s_title">工作标题：</label> <input type="text" id="s_title" name="title" style="width: 254px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="s_title"  class="labelMarginLeft">发布单位：</label> <input type="text" id="s_pubOrgName" name="pubOrgName" style="width: 254px;" class="form-control" />
+                                    <label for="publishStatus" class="labelMarginLeft">发布状态：</label>
+                                    <select class="form-control" name="publishStatus" style="width: 238px;">
+                                        <option value="">全部</option>
+                                        <option value="0">未发布(本单位数据)</option>
+                                        <option value="1">已发布(本单位数据)</option>
+                                    </select>
                                 </div>
                             </div>
                             <p></p>
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <label for="publishStatus">发布状态：</label>
-                                    <select class="form-control" name="publishStatus" style="width: 254px;">
-                                        <option value="">全部</option>
-                                        <option value="0">未发布(本单位数据)</option>
-                                        <option value="1">已发布(本单位数据)</option>
-                                    </select>
+                                    <label for="s_title">发布单位：</label> <input type="text" id="s_pubOrgName" name="pubOrgName" style="width: 254px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label for="s_pubTime" class="labelMarginLeft">发布时间：</label>
@@ -82,7 +82,7 @@
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#workSumForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#workSumForm">
+                    <button id="update" type="button" class="btn btn-sm btn-warning">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">

@@ -30,9 +30,9 @@
 
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">摄像头列表</a>
     <div class="wrap">
         <div class="mainBox">
+            <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;">摄像头列表</a>
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">
@@ -180,7 +180,8 @@
                         <label for="planeMap" class="col-sm-2 control-label">平面图<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4" id="planeMap">
                             <input type="hidden" id="planeMapMark" name="planeMapMark" class="form-control">
-                            <span id="planeMapMarkType" class="btn-success textSpan"></span>
+                            <%--<span id="planeMapMarkType" class="btn-success textSpan"></span>--%>
+                            <input type="checkbox" name="planeMapMarkType" id="planeMapMarkType">标注状态
                             <button type="button" id="lookPlaneMapMark" class="btn btn-info lookBtn" style="display: none" onclick="lookPlaneMap()">查看标注</button>
                             <button type="button" id="editPlaneMapMark" class="btn btn-primary saveBtn" style="display: none" onclick="makePlaneMap()">平面图标注</button>
                         </div>

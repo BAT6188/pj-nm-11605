@@ -37,13 +37,13 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_composite_CleanLicense_list.action",
-        height: pageUtils.getTableHeight(),
+        height: pageUtils.getTableHeight()-100,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temps = pageUtils.getBaseParams(param);
-            temps.enterpriseId = id;
+            temps.enterpriseId = enterpriseId;
             return temps;
         },
         columns: [
@@ -133,7 +133,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
+            height: pageUtils.getTableHeight()-100
         });
     });
 }
@@ -209,15 +209,23 @@ $("#search").click(function () {
     var queryParams = {};
     var name = $("#t_name").val();
     var startDate = $("#t_startDate").val();
+    var startCreateDate = $("#t_startCreateDate").val();
     var endDate = $("#t_endDate").val();
+    var endCreateDate = $("#t_endCreateDate").val();
     if (name){
         queryParams["name"] = name;
     }
     if (startDate){
         queryParams["startDate"] = startDate;
     }
+    if(startCreateDate){
+        queryParams["startCreateDate"] = startCreateDate;
+    }
     if (endDate){
         queryParams["endDate"] = endDate;
+    }
+    if(endCreateDate){
+        queryParams["endCreateDate"] = endCreateDate;
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -226,7 +234,7 @@ $("#search").click(function () {
 $("#reset").click(function(){
     $('#searchform')[0].reset();
     $('#searchform1')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refresh');
 });
 
 /**============表单初始化相关代码============**/
@@ -275,6 +283,11 @@ $('#t_endDateContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
+$(".form_datetime").datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 
 /**
  * 设置表单数据
@@ -303,7 +316,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -314,7 +327,7 @@ function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#recordDateContent').datetimepicker({
+        $('#startDateContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
@@ -330,7 +343,9 @@ function disabledForm(disabled) {
             minView: 2
         });
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('#startDateContent').datetimepicker('remove');
+        $('#endDateContent').datetimepicker('remove');
+        $('#pubDateContent').datetimepicker('remove');
     }
 
 }

@@ -33,9 +33,6 @@
                                 <label for="t_name">清洁生产审核名称：</label>
                                 <input type="text" id="t_name" class="form-control" />
                             </div>
-                        </form>
-                        <p/>
-                        <form class="form-inline" id="searchform1">
                             <div class="form-group">
                                 <label for="t_startDate">有效期起始日期：</label>
                                 <div id="t_startDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="startDate">
@@ -43,11 +40,26 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
+                                -
+                                <div id="t_startCreateDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="startDate">
+                                    <input class="form-control" size="16" id="t_startCreateDate"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+
                             </div>
+                        </form>
+                        <p/>
+                        <form class="form-inline" id="searchform1">
                             <div class="form-group">
                                 <label for="t_endDate">有效期结束日期：</label>
                                 <div id="t_endDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endDate">
                                     <input class="form-control" size="16" id="t_endDate"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <div id="t_endCreateDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endDate">
+                                    <input class="form-control" size="16" id="t_endCreateDate"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>

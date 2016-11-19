@@ -8,5 +8,5 @@ public interface ProblemCorrectService extends IBaseService<ProblemCorrect, Stri
      * 整改情况更新状态
      * @param id
      */
-    int updateStatus(String id);
+    int updateStatus(String id,String correctDesc);
 }

@@ -26,19 +26,27 @@ public class CleanLicenseAction extends BaseAction<CleanLicense, CleanLicenseSer
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param=new QueryParam();
+        String startDates = request.getParameter("startDate");
+        String startCreateDate = request.getParameter("startCreateDate");
+        String endDates = request.getParameter("endDate");
+        String endCreateDate = request.getParameter("endCreateDate");
         if(StringUtils.isNotBlank(entity.getEnterpriseId())){
             param.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));
         }
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }
-        String startDate = request.getParameter("startDate");
-        if (StringUtils.isNotBlank(startDate)) {
-            param.andParam(new QueryParam("startDate", QueryOperator.EQ, DateUtil.strToDate(startDate,"yyyy-MM-dd")));
+        if (StringUtils.isNotEmpty(startDates)){
+            param.andParam(new QueryParam("startDate", QueryOperator.GE, DateUtil.strToDate(startDates,"yyyy-MM-dd")));
         }
-        String endDate = request.getParameter("endDate");
-        if (StringUtils.isNotBlank(endDate)) {
-            param.andParam(new QueryParam("endDate", QueryOperator.EQ, DateUtil.strToDate(endDate,"yyyy-MM-dd")));
+        if (StringUtils.isNotEmpty(startCreateDate)){
+            param.andParam(new QueryParam("startDate", QueryOperator.LE, DateUtil.strToDate(startCreateDate,"yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotEmpty(endDates)){
+            param.andParam(new QueryParam("endDate", QueryOperator.GE, DateUtil.strToDate(endDates,"yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotEmpty(endCreateDate)){
+            param.andParam(new QueryParam("endDate", QueryOperator.LE, DateUtil.strToDate(endCreateDate,"yyyy-MM-dd")));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {

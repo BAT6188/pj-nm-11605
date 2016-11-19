@@ -26,6 +26,12 @@ public class FumesPortHistory implements Serializable {
     private String portId;
 
     /**
+     * 企业ID
+     */
+    @Column(name = "enterprise_id",length = 32)
+    private String enterpriseId;
+
+    /**
      * 监测时间
      */
     @Column(name = "monitor_time")
@@ -112,5 +118,13 @@ public class FumesPortHistory implements Serializable {
 
     public void setHumidity(Double humidity) {
         this.humidity = humidity;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

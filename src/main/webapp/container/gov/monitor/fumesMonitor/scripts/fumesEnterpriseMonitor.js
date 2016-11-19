@@ -23,7 +23,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_enterprise_Enterprise_list.action",
-        height: getHeight(),
+        height: pageUtils.getTableHeight()-50,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -115,7 +115,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()-50
         });
     });
 }
@@ -123,11 +123,14 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" onclick="jumpToUrl(\'/container/gov/monitor/fumesMonitor/lookFumesMonitor.jsp?id='+row.id+'\')">查看</button> ' +
-        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view">地图查看</button>'; // onclick="lookInMap(\''+row.id+'\')"
+        '&nbsp;&nbsp;<button type="button" class="btn btn-md btn-warning view"  onclick="jumpToMap(\''+row.id+'\')">地图查看</button>'; // onclick="lookInMap(\''+row.id+'\')"
 }
 function jumpToUrl(url){
     $('#level2content').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('#level2content').load(rootPath+url); // ajax加载页面
+}
+function jumpToMap(enterpriseId){
+    pageUtils.toUrl(rootPath + "/container/gov/composite/lookEnterpriseInMap.jsp",{enterpriseId:enterpriseId})
 }
 // 列表操作事件
 function lookInMap(id){
@@ -154,9 +157,6 @@ function getSelections() {
     });
 }
 
-function getHeight() {
-    return $(window).height() - $('.dealBox').outerHeight(true)-170;
-}
 initTable();
 /**============列表工具栏处理============**/
 
@@ -167,7 +167,7 @@ $("#search").click(function () {
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 //重置搜索
-$("#searchFix").click(function () {
+$("#resetSearch").click(function () {
     resetQuery();
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });

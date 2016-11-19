@@ -39,11 +39,11 @@
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" class="form-control" />
+                                <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">是否缴费：</label>
-                                <select id="s_paymentStatus" class="form-control">
+                                <select id="s_paymentStatus" name="paymentStatus" class="form-control">
                                 <option value="">全部</option>
                                 <option value="0">未缴费</option>
                                 <option value="1">已缴费</option>
@@ -54,7 +54,7 @@
 
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
 
                 <div id="total" class="k-toolbar k-grid-toolbar">
                     <label for="">缴费日期：</label>

@@ -11,25 +11,35 @@
     <script type="text/javascript">
         var portId='<%=id%>';
         var portData;
-        $(function(){
-            $.ajax({
-                url: rootPath + "/action/S_port_FumesPort_getEntityById.action",
-                type:"post",
-                data:{id:portId},
-                dataType:"json",
-                success:function(data){
-                    portData = data;
-                    $('#portName').html(data.name);
-                }
-            });
-        })
+        if(portId=='null'){
+            $('#s_enterpriseId').val(enterpriseId);
+            $('#portName').html("当前企业所有 餐饮油烟排口");
+        }else{
+            $('#s_portId').val(portId);
+            $(function(){
+                $.ajax({
+                    url: rootPath + "/action/S_port_FumesPort_getEntityById.action",
+                    type:"post",
+                    data:{id:portId},
+                    dataType:"json",
+                    success:function(data){
+                        portData = data;
+                        $('#portName').html(data.name);
+                    }
+                });
+            })
+        }
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
-    <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">油烟排口->“<span id="portName"></span>”排口 实时数据</a>
     <div class="wrap">
         <div class="mainBox">
+            <div id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">油烟排口-><span id="portName"></span> 实时数据
+                <a class="btn btn-info" href="javascript:backToMainList()">
+                    <span class="glyphicon glyphicon-backward"></span> 返回
+                </a>
+            </div>
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">
@@ -41,6 +51,8 @@
                     <form role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
+                                <input class="form-control" type="hidden" id="s_portId" name="portId" value="">
+                                <input class="form-control" type="hidden" id="s_enterpriseId" name="enterpriseId" value="">
                                 <label for="monitorTime">监测时间段：</label>
                                 <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd hh:ii">
                                     <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
@@ -66,7 +78,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="resetSearch" type="button" class="btn btn-default" >重置</button>
+                <button id="resetSearch" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
             <div class="tableBox">
                 <table id="table" class="table table-striped table-responsive">

@@ -1,3 +1,4 @@
+//@ sourceURL=problemCorrect.js
 var DemoPage = function () {
     var gridTable = $('#table'),
         removeBtn = $('#remove'),
@@ -35,7 +36,7 @@ var DemoPage = function () {
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
             url: rootPath+"/action/S_exelaw_ProblemCorrect_list.action?enterpriseId="+enterpriseId,
-            height: pageUtils.getTableHeight(),
+            height: pageUtils.getTableHeight()-100,
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
@@ -50,7 +51,7 @@ var DemoPage = function () {
                 },
                 {
                     title: '台账编号',
-                    field: 'id',
+                    field: 'code',
                     align: 'center',
                     valign: 'middle',
                     sortable: false
@@ -131,7 +132,7 @@ var DemoPage = function () {
         $(window).resize(function () {
             // 重新设置表的高度
             gridTable.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
+                height: pageUtils.getTableHeight()-100
             });
         });
     }
@@ -206,12 +207,13 @@ var DemoPage = function () {
     /**============列表搜索相关处理============**/
 //搜索按钮处理
     $("#search").click(function () {
-        var queryParams = $("#queryBox").find("form").formSerializeObject();
-        gridTable.bootstrapTable('refresh',{
-            query:queryParams
-        });
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
-
+//重置搜索
+    $("#searchFix").click(function () {
+        resetQuery();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    });
 //初始化日期组件
     $('.form_datetime').datetimepicker({
         language:  'zh-CN',
@@ -239,16 +241,17 @@ var DemoPage = function () {
         }
     });
 
-//表单 保存按钮
-    $("#save").bind('click',function () {
+//表单 发送按钮
+    $("#send").bind('click',function () {
         //验证表单，验证成功后触发ef.success方法保存数据
-        ef.submit(false);
         var id = getIdSelections()[0];
+        var correctDesc = $("#correctDesc").val();
+        console.log(correctDesc);
         $.ajax({
             url: rootPath + "/action/S_exelaw_ProblemCorrect_updateSendStatus.action",
             type:"post",
             dataType:'json',
-            data:{id:id},
+            data:{id:id,correctDesc:correctDesc},
             success:function (data) {
                 form.modal('hide');
                 gridTable.bootstrapTable('refresh');
@@ -271,12 +274,15 @@ var DemoPage = function () {
             var selector="#"+p
             $(selector).val(entity[p])
         }
+        $("#createTime").val(entity.createTime);
+        entity.c
+        $("#correctDesc").val();
         var progress = entity.progress;
         if(progress == 2){
-            $("#save").hide();
+            $("#send").hide();
             form.find(".btn-cancel").text("确定");
         }
-        form.find("input").attr("disabled",disabled);
+        form.find("input").attr("disabled",true);
         uploader = new qq.FineUploader(getUploaderOptions(id));
     }
     function setFormView(entity) {
@@ -286,7 +292,7 @@ var DemoPage = function () {
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件");
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
@@ -300,19 +306,15 @@ var DemoPage = function () {
         form.find("select").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
-            $('#createTimeContent').datetimepicker({
+            $('.lookover').datetimepicker({
                 language:   'zh-CN',
                 autoclose: 1,
                 minView: 2
             });
-            $('#openDateContent').datetimepicker({
-                language:   'zh-CN',
-                autoclose: 1,
-                minView: 2
-            });
+           
         }else{
-            $('#createTimeContent').datetimepicker('remove');
-            $('#openDateContent').datetimepicker('remove');
+            $('.lookover').datetimepicker('remove');
+            
         }
 
     }
@@ -329,6 +331,11 @@ var DemoPage = function () {
         form.find(".btn-cancel").text("取消");
     }
 
+    //重置按钮处理
+    $("#reset").click(function () {
+        $('#searchform')[0].reset();
+        gridTable.bootstrapTable('refresh');
+    });
 //表单附件相关js
     var uploader;//附件上传组件对象
     /**

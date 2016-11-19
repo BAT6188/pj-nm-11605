@@ -20,9 +20,9 @@
     </style>
 </head>
 <body>
-<div class="content clearfix">
+<div class="content content1 clearfix">
     <div class="wrap">
-        <div class="tree-left left">
+        <div class="tree-left left" style="display: none;">
             <div class="input-group input-group-sm" style="z-index: 0;">
                 <input type="text" class="form-control" id="searchText" placeholder="查  询"/>
                 <span class="input-group-btn">
@@ -32,10 +32,9 @@
             <div class="ztree oneImageTree">
             </div>
         </div>
-        <div class="main-right right">
-            <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
+        <div class="mainBox">
+            <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;width: 100%;height: 100%" frameborder="0"></iframe>
         </div>
-
     </div>
 </div>
 <div class="popover fade bottom in" role="tooltip" id="planeMap_popover" style="display: none; top: 361px; left: 499px;">

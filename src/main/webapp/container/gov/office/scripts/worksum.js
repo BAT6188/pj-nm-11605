@@ -11,11 +11,15 @@ var workType={
 }
 var currentType=1;
 function changeTab(type){
-    currentType = type;
-    $('#s_type').val(type);
-    $('.titleName').html(workType[type]);
-    //resetQuery();
-    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    if(currentType!=type){
+        currentType = type;
+        $('#s_type').val(type);
+        $('.titleName').html(workType[type]);
+        //resetQuery();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    }else{
+        return false;
+    }
 }
 function initTable() {
     gridTable.bootstrapTable({
@@ -154,9 +158,14 @@ $("#add").bind('click',function () {
 });
 $("#update").bind("click",function () {
     var entity = getSelections()[0];
-    if(entity.publishStatus==1)$('#publishBtn').hide();
-    setFormData(entity);
-    $('#typeName').val(workType[entity.type]);
+    if(orgId==entity.pubOrgId){
+        if(entity.publishStatus==1)$('#publishBtn').hide();
+        setFormData(entity);
+        $('#typeName').val(workType[entity.type]);
+        form.modal('show');
+    }else{
+        Ewin.alert('非本单位提交文件，不可修改！');
+    }
 });
 /**
  * 列表工具栏 删除按钮
@@ -198,6 +207,11 @@ var ef = form.easyform({
         worksum.attachmentIds = getAttachmentIds();
         saveWorkSum(worksum,function (msg) {
             form.modal('hide');
+            if(pubType){
+                Ewin.alert('发布成功！');
+            }else{
+                Ewin.alert('保存成功！');
+            }
             gridTable.bootstrapTable('refresh');
         });
     }
@@ -218,13 +232,15 @@ $('#publishBtn').bind('click',function () {
 $('#pubTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
-    minView: 2
+    minView: 2,
+    pickerPosition: "bottom-left"
 });
 //-------------datetimepicker配置--------------------//
 $('.form_date').datetimepicker({
     language:  'zh-CN',
     autoclose: 1,
-    minView: 2
+    minView: 2,
+    pickerPosition: "bottom-left"
 });
 
 function deleteWorkSum(ids,callback) {

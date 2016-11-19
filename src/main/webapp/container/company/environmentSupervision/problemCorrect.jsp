@@ -22,7 +22,7 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
                                 <label for="">存在问题：</label>
                                 <select name="problemType" class="form-control">
@@ -45,7 +45,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">--%>
                         <%--<i class="btnIcon add-icon"></i><span>新建</span>--%>
@@ -77,11 +77,20 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">台账编号<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="code" name="code" class="form-control"
+                                   data-message="台账编号不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="" class="col-sm-2 control-label">创建时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="createTime"  name="createTime" type="text" value="" data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -105,23 +114,23 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">整改情况：</label>
+                        <div class="col-sm-10">
+                            <textarea id="correctDesc" name="correctDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">整改情况：</label>
-                        <div class="col-sm-10">
-                            <textarea id="correctDesc" name="correctDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <%--<button type="button" class="btn btn-primary" id="send"></button>--%>
-                <button type="button" class="btn btn-primary" id="save">发送</button>
+                <button type="button" class="btn btn-primary" id="send">发送</button>
+                <%--<button type="button" class="btn btn-primary" id="save">保存</button>--%>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>

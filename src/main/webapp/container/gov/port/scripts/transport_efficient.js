@@ -272,6 +272,11 @@ function search(params) {
     });
 }
 
+//重置按钮处理
+$("#reset").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('refresh');
+});
 /**============表单初始化相关代码============**/
 //初始化表单验证
 var ef = form.easyform({
@@ -299,7 +304,8 @@ $('.form_datetime').datetimepicker({
     todayHighlight: 1,
     startView: 2,
     forceParse: 0,
-    showMeridian: 1
+    showMeridian: 1,
+    minView: 2
 });
 /**
  * 按时间查询表单
@@ -416,19 +422,19 @@ function disabledForm(disabled) {
     form.find("textarea").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
+        $('#datetimepicker').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#openDateContent').datetimepicker({
+        $('#datetimepicker2').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        $('#datetimepicker').datetimepicker('remove');
+        $('#datetimepicker2').datetimepicker('remove');
     }
 
 }
