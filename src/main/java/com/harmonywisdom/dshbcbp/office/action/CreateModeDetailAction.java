@@ -52,9 +52,13 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
         super.save();
-        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
-            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+        String[] attachmentIds = getParamValues("attachmentIds");
+        for (String attachmentId : attachmentIds) {
+            if (StringUtils.isNotBlank(attachmentId)){
+                attachmentService.updateBusinessId(entity.getId(),attachmentId.split(","));
+            }
         }
+
 
 
     }

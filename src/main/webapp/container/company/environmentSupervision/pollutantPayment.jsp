@@ -5,6 +5,8 @@
 <script>
     var enterpriseId='<%=enterpriseId%>'
     console.log(enterpriseId);
+
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
 </script>
 <!DOCTYPE html>
 <html>

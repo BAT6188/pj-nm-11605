@@ -139,6 +139,7 @@ window.operateEvents = {
     'click .view': function (e, value, entity, index) {
         $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
         $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+        $('.lookover').datetimepicker('remove');
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
         $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
@@ -168,7 +169,7 @@ window.operateEvents = {
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
@@ -285,6 +286,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         data:d,
         success:function (msg) {
             form.modal('hide');
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         }
     });
 });
@@ -339,7 +341,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     form.find("#saveAndSend").hide();
     form.find(".btn-cancel").text("关闭");
@@ -347,23 +349,19 @@ function setFormView(entity) {
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
+
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
+        $('.lookover').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-    }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
-    }
 
+    }else{
+        $('.lookover').datetimepicker('remove');
+    }
 }
 /**
  * 重置表单

@@ -12,6 +12,9 @@
             background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
         }
     </style>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">

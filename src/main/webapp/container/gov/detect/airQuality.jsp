@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>空气质量监测</title>
 </head>
 <body>
-<iframe src="http://110.19.109.61:9875/" id="ifr" width="1000" height="900"></iframe>
+<iframe src="http://110.19.109.61:9875/" id="ifr" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 </body>
 </html>
 <script>
-    $("#ifr").width($(window).width()-112)
-    $("#ifr").height($(window).height())
+    $("#ifr").width($(window).width()-20)
+    $("#ifr").height($(window).height()-$(".banner").outerHeight()-65)
 </script>

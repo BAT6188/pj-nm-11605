@@ -52,6 +52,27 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     }
 
     /**
+     * 保存 现场监察监测报告
+     */
+    public  void saveMonitorReport(){
+        String id = entity.getId();
+        DispatchTask d = dispatchTaskService.findById(id);
+        d.setMonitorReportStatus("0");
+        d.setSubmitPerson(entity.getSubmitPerson());
+        d.setSubmitPersonPhone(entity.getSubmitPersonPhone());
+        d.setMonitorReportRemark(entity.getMonitorReportRemark());
+
+        d.setContent(entity.getContent());
+        d.setSendRemark(entity.getSendRemark());
+        dispatchTaskService.update(d);
+
+        if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(id,entity.getAttachmentIds().split(","));
+        }
+        write(id);
+    }
+
+    /**
      * 监察大队查看状态
      */
     public void updateMonitorMasterSelfReadStatus(){
@@ -203,15 +224,25 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     }
 
     /**
-     * 选择环保站人员，点发送按钮
+     * 选择环保站或污控室人员，点发送按钮
      */
     public void saveToEnvProStaPersonList(){
         String dispathTaskId = request.getParameter("sourceId");
         DispatchTask dispatchTask = dispatchTaskService.findById(dispathTaskId);
 
         String[] ids = this.getParamValues("ids");
-        String jsonIds = JSON.toJSONString(ids);
-        dispatchTask.setEnvProStaPersonList(jsonIds);
+        String envProStaPersonList = dispatchTask.getEnvProStaPersonList();
+        if (null!=envProStaPersonList){
+            envProStaPersonList+=","+DispatchTaskAction.arrayToString(ids);
+        }
+        dispatchTask.setEnvProStaPersonList(envProStaPersonList);
+
+        String[] names = getParamValues("names");
+        String envProStaPersonNameList = dispatchTask.getEnvProStaPersonNameList();
+        if (null!=envProStaPersonNameList){
+            envProStaPersonNameList+=","+DispatchTaskAction.arrayToString(names);
+        }
+        dispatchTask.setEnvProStaPersonNameList(envProStaPersonNameList);
 
         dispatchTask.setStatus("2");
         dispatchTask.setSendTime(new Date());

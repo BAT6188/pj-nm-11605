@@ -294,7 +294,7 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.jianCeZhan.orgCode],//组织机构代码(必填，组织机构代码)
         type:2
     },
     choseMore:false,
@@ -311,6 +311,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         data:d,
         success:function (msg) {
             form.modal('hide');
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         }
     });
 });

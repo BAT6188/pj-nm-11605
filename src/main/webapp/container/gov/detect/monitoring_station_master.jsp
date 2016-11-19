@@ -4,62 +4,73 @@
 <head>
     <title>监测站站长</title>
     <%@include file="/common/msgSend/msgSend.jsp"%>
+    <style>
+        a{
+            color: #0b0c0d;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+            font-weight: bolder;
+        }
+        #isNew{
+            display: inline;
+            top: -10px;
+            position: relative;
+            background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
+        }
+    </style>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
-<style>
-    a{
-        color: #0b0c0d;
-    }
-    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
-        font-weight: bolder;
-    }
-    #isNew{
-        display: inline;
-        top: -10px;
-        position: relative;
-        background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
-    }
-</style>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
-            <div class="dealBox">
-                <div class="sideTitle left">
+            <ul id="myTab" class="nav nav-tabs">
+                <li>
+                    <a href="#a" data-toggle="tab" onclick="changeTab(1)">环保站委托监测</a>
+                </li>
+                <li><a href="#b" data-toggle="tab" onclick="changeTab(2)">企业委托监测</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="dealBox">
+                    <div class="sideTitle left">
                         <span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
-                </div>
-                <div class="queryBox marginLeft0">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" style="width: 180px;" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="">监测时间：</label>
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="start_monitorTime"  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                    <div class="queryBox marginLeft0">
+                        <form class="form-inline">
+                            <input type="hidden" id="s_enterpriseSelf" name="enterpriseSelf" class="form-control" />
+                            <div class="form-group">
+                                <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" style="width: 180px;" class="form-control" />
                             </div>
-                            -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="end_monitorTime"  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            <div class="form-group">
+                                <label for="">监测时间：</label>
+                                <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" size="16" id="start_monitorTime" name="start_monitorTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" size="16" id="end_monitorTime" name="end_monitorTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
                             </div>
-                        </div>
 
-                    </form>
-                    <p></p>
-                </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
-                <p class="btnListP">
-                    <button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
-                        <i class="btnIcon edit-icon"></i><span>查看</span>
-                    </button>
-                    <span id="b_span">
+                        </form>
+                        <p></p>
+                    </div>
+                    <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                    <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                    <p class="btnListP">
+                        <button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
+                            <i class="btnIcon edit-icon"></i><span>查看</span>
+                        </button>
+                        <span id="b_span">
                         <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#enterpriseSelfDialog">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
@@ -70,30 +81,13 @@
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
                     </span>
-                </p>
-            </div>
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#a" data-toggle="tab">环保站委托监测</a>
-                </li>
-                <li><a href="#b" data-toggle="tab">企业委托监测</a></li>
-
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="a">
-                    <div class="tableBox">
-                        <table  class="table table-striped table-responsive tableTab">
-                        </table>
-                    </div>
+                    </p>
                 </div>
-                <div class="tab-pane fade" id="b">
-                    <div class="tableBox">
-                        <table  class="table table-striped table-responsive tableTab">
-                        </table>
-                    </div>
+                <div class="tableBox">
+                    <table id="table" class="table table-striped table-responsive">
+                    </table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -401,6 +395,27 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        $('#myTab a:first').tab('show')
+    });
+
+    var enterpriseSelf;
+    $("#b_span").hide()
+    enterpriseSelf=0
+    function changeTab(f) {
+        if (f=='1'){
+            $("#b_span").hide()
+            enterpriseSelf=0
+        }else{
+            $("#b_span").show()
+            enterpriseSelf=1
+        }
+
+        $("#s_enterpriseSelf").val(enterpriseSelf)
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    }
+</script>
 <script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/monitoring_station_master.js"></script>
 </body>

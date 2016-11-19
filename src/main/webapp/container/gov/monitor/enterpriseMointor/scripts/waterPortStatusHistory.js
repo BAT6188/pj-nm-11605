@@ -144,7 +144,7 @@ $("#search").click(function () {
     }
 });
 //重置搜索
-$("#searchFix").click(function () {
+$("#resetSearch").click(function () {
     resetQuery();
     if(portId=='null'){
         $('#s_enterpriseId').val(enterpriseId);

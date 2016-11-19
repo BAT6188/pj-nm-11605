@@ -153,11 +153,27 @@ function initTable() {
                 }
             },
             {
-                field: 'reason',
-                title: '现场监察监测报告',
+                field: 'envProStaPersonNameList',
+                title: '发送人',
                 sortable: false,
                 align: 'center',
                 editable: false
+            },
+            {
+                field: 'monitorReportStatus',
+                title: '现场监察监测报告',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                events: monitorReportEvents,
+                formatter: function (value, row, index) {
+                    if(value=='1'){
+                        value="已报送"
+                    }else {
+                        value="未报送"
+                    }
+                    return "<a class='btn btn-md btn-warning monitorReport' data-toggle='modal' data-target='#monitorReport'>"+value+"</a>";
+                }
             },
             {
                 field: '',
@@ -290,6 +306,21 @@ window.lookOverEvents = {
         $("#cancel").text("关闭")
     }
 };
+
+window.monitorReportEvents = {
+    'click .monitorReport': function (e, value, entity, index) {
+        for(p in entity){
+            var selector="#"+p+"_monitorReport"
+            $(selector).val(entity[p])
+        }
+        $(".noEdit").attr("disabled",true)
+        $('.lookover').datetimepicker('remove');
+
+        uploaderToggle(".cUploader")
+        uploader = new qq.FineUploader(getUploaderOptions(entity.id));
+    }
+};
+
 window.punishEvents = {
     'click .punish': function (e, value, row, index) {
         var url = rootPath + "/container/gov/exelaw/punish.jsp?id=" + row.id;
@@ -368,53 +399,74 @@ $("#feedback").bind("click",function () {
 
 });
 
+/***********  现场监察监测报告  *******************/
+var $monitorReport = $("#monitorReport");
+var options_monitorReport = {
+    params:{
+        orgCode:[orgCodeConfig.org.wuKongShi.orgCode],//组织机构代码(必填，组织机构代码)
+        type:2
+    },
+    choseMore:false,
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+var model_monitorReport = $.fn.MsgSend.init(1,options_monitorReport,function(e,data){
+    console.info("回调函数data参数："+JSON.stringify(data))
+
+    var d=pageUtils.sendParamDataToString(data)
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_saveToEnvProStaPersonList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            $monitorReport.modal('hide');
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+        }
+    });
+});
+
+var ef_$monitorReport = $monitorReport.easyform({
+    success:function (ef) {
+        var entity = $monitorReport.find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        console.log("发送："+JSON.stringify(entity))
+        $.ajax({
+            url: rootPath + "/action/S_dispatch_DispatchTask_saveMonitorReport.action",
+            type:"post",
+            data:entity,
+            success:function (id) {
+                model_monitorReport.open(id);
+                gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+            }
+        });
+
+    }
+});
+
+$("#save_monitorReport").click(function () {
+    ef_$monitorReport.submit(false);
+})
+
 
 
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var s_enterpriseName = $("#s_enterpriseName").val();
-    var s_source = $("#s_source").val();
-    var s_status = $("#s_status").val();
-    var start_eventTime=$("#start_eventTime").val()
-    var end_eventTime=$("#end_eventTime").val()
-    var blockLevelId=$(".s_blockLevelId").val()
-    var blockId=$(".s_blockId").val()
-
-    queryParams['role']=role
-
-    if (blockLevelId){
-        queryParams["blockLevelId"] = blockLevelId;
-    }
-    if (blockId){
-        queryParams["blockId"] = blockId;
-    }
-    if (s_enterpriseName){
-        queryParams["enterpriseName"] = s_enterpriseName;
-    }
-    if (s_source){
-        queryParams["source"] = s_source;
-    }
-    if (s_status){
-        queryParams["status"] = s_status;
-    }
-    if (start_eventTime){
-        queryParams["startEventTime"] = start_eventTime;
-    }
-    if (end_eventTime){
-        queryParams["endEventTime"] = end_eventTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+
 
 /**============选择人员对话框============**/
 var options = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.jianChaDaDui.orgCode],//组织机构代码(必填，组织机构代码)
         type:3  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
@@ -422,8 +474,9 @@ var options = {
 }
 
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=$.param({ids:data.personObj.id},true)
-    d+="&sourceId="+data.sourceId;
+    console.info("回调函数data参数："+JSON.stringify(data))
+
+    var d=pageUtils.sendParamDataToString(data)
     console.log("发送："+d)
     $.ajax({
         url: rootPath + "/action/S_dispatch_DispatchTask_saveToEnvProStaPersonList.action",
@@ -550,9 +603,6 @@ $("#feedbackTo").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef_feedbackForm.submit(false);
 });
-
-
-
 
 
 //表单附件相关js

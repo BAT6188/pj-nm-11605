@@ -190,7 +190,7 @@ $("#search").click(function () {
     }
 });
 //重置搜索
-$("#searchFix").click(function () {
+$("#resetSearch").click(function () {
     resetQuery();
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });

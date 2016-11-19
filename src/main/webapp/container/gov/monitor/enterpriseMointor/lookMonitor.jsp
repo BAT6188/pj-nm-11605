@@ -18,10 +18,23 @@
         $(function(){
             $('#level3MenuContent').html(pageUtils.loading());
         })
+        function backToMainList(){
+            pageUtils.toUrl(rootPath + "/container/gov/monitor/enterpriseMointor/mainMonitor.jsp")
+        }
     </script>
     <style>
         .menuDiv h3{
             cursor: pointer;
+        }
+        #headTitle{
+            overflow:hidden;
+            vertical-align:middle;
+        }
+        #headTitle a{
+            float:right;
+            display:inline-block;
+            text-decoration:none;
+            text-align:center;
         }
     </style>
 </head>

@@ -7,6 +7,9 @@
     <style>
         .ui-autocomplete { z-index:2147483647;}
     </style>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -91,7 +94,7 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="applyOrgId" name="applyOrgId" style="width: 180px;" class="form-control"></select>
+                            <select id="applyOrgId" name="applyOrgId" class="form-control"></select>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">申请人<span class="text-danger">*</span>：</label>
@@ -191,7 +194,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime_lookOverFeedbackDetailForm"  data-message="监测时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
