@@ -68,7 +68,7 @@ function initTable() {
         clickToSelect: true,//单击行时checkbox选中
         queryParams: function (param) {
             var temps = pageUtils.getBaseParams(param);
-            temps.enterpriseId = id;
+            temps.enterpriseId = enterpriseId;
             return temps;
         },
         // queryParams:pageUtils.localParams,
