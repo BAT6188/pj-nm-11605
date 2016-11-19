@@ -236,6 +236,8 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String envProStaPersonList = dispatchTask.getEnvProStaPersonList();
         if (null!=envProStaPersonList){
             envProStaPersonList+=","+DispatchTaskAction.arrayToString(ids);
+        }else {
+            envProStaPersonList=DispatchTaskAction.arrayToString(ids);
         }
         dispatchTask.setEnvProStaPersonList(envProStaPersonList);
 
@@ -243,6 +245,8 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String envProStaPersonNameList = dispatchTask.getEnvProStaPersonNameList();
         if (null!=envProStaPersonNameList){
             envProStaPersonNameList+=","+DispatchTaskAction.arrayToString(names);
+        }else {
+            envProStaPersonNameList=DispatchTaskAction.arrayToString(names);
         }
         dispatchTask.setEnvProStaPersonNameList(envProStaPersonNameList);
 
