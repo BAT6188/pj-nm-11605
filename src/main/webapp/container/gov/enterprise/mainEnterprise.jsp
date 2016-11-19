@@ -44,8 +44,7 @@
                     var str = JSON.stringify(marker);
                     form.find('#planeMapMark').val(str);
                     if($('#planeMapMark').val()){
-                        $('#planeMapMarkType').attr('class','btn-success textSpan');
-                        $('#planeMapMarkType').html('已标注');
+                        setPlaneMapMarkTypeCheckType(true);
                         $('#editPlaneMapMark').html("重新标注");
                     }
                 }
@@ -65,31 +64,40 @@
             });
         }
         function setPlaneMarkBtn(type){
+            $('#planeMapMarkType').attr('disabled',false);
             switch (type){
                 case 'add':
-                    $('#planeMapMarkType').attr('class','btn-danger textSpan');
-                    $('#planeMapMarkType').html('未标注');
+                    setPlaneMapMarkTypeCheckType(false);
                     $('#editPlaneMapMark').html("平面图标注");
                     break;
                 case 'edit':
-                    $('#planeMapMarkType').attr('class','btn-success textSpan');
-                    $('#planeMapMarkType').html('已标注');
+                    setPlaneMapMarkTypeCheckType(true);
                     $('#editPlaneMapMark').html("重新标注");
                     break;
                 case 'look':
-                    $('#planeMapMarkType').attr('class','btn-success textSpan');
-                    $('#planeMapMarkType').html('已标注');
+                    setPlaneMapMarkTypeCheckType(true);
                     $('#lookPlaneMapMark').show();
                     break;
                 case 'lookNull':
-                    $('#planeMapMarkType').attr('class','btn-danger textSpan');
-                    $('#planeMapMarkType').html('未标注');
+                    setPlaneMapMarkTypeCheckType(false);
                     $('#lookPlaneMapMark').hide();
                     break;
                 default:
-                    $('#planeMapMarkType').attr('class','btn-danger textSpan');
-                    $('#planeMapMarkType').html('未标注');
+
                     $('#editPlaneMapMark').html("平面图标注");
+            }
+        }
+        function setPlaneMapMarkTypeCheckType(isMarked){
+            if(isMarked){
+                /*$('#planeMapMarkType').attr('class','btn-success textSpan');
+                $('#planeMapMarkType').html('已标注');*/
+                $('#planeMapMarkType').attr("checked",true);
+                $('#planeMapMarkType').attr('disabled',true);
+            }else{
+                /*$('#planeMapMarkType').attr('class','btn-danger textSpan');
+                $('#planeMapMarkType').html('未标注');*/
+                $('#planeMapMarkType').attr("checked",false);
+                $('#planeMapMarkType').attr('disabled',true);
             }
         }
     </script>
@@ -103,6 +111,9 @@
              line-height:35px;
              text-align: center;
          }
+        #planeMapMarkType{
+            margin-top: 15px;margin-left: 20px;
+        }
     </style>
 </head>
 <body>

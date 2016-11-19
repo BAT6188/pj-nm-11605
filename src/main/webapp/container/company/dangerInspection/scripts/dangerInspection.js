@@ -300,6 +300,23 @@ function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
 
+    if (!disabled) {
+        //初始化日期组件
+        $('#openDindDate').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+        $('#openFinishDate').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('#openDindDate').datetimepicker('remove');
+        $('#openFinishDate').datetimepicker('remove');
+    }
+
 }
 /**
  * 重置表单

@@ -36,7 +36,7 @@ var DemoPage = function () {
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
             url: rootPath+"/action/S_exelaw_ProblemCorrect_list.action?enterpriseId="+enterpriseId,
-            height: pageUtils.getTableHeight(),
+            height: pageUtils.getTableHeight()-100,
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
@@ -132,7 +132,7 @@ var DemoPage = function () {
         $(window).resize(function () {
             // 重新设置表的高度
             gridTable.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
+                height: pageUtils.getTableHeight()-100
             });
         });
     }
@@ -306,19 +306,15 @@ var DemoPage = function () {
         form.find("select").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
-            $('#createTimeContent').datetimepicker({
+            $('.lookover').datetimepicker({
                 language:   'zh-CN',
                 autoclose: 1,
                 minView: 2
             });
-            $('#openDateContent').datetimepicker({
-                language:   'zh-CN',
-                autoclose: 1,
-                minView: 2
-            });
+           
         }else{
-            $('#createTimeContent').datetimepicker('remove');
-            $('#openDateContent').datetimepicker('remove');
+            $('.lookover').datetimepicker('remove');
+            
         }
 
     }
