@@ -304,7 +304,8 @@ $('.form_datetime').datetimepicker({
     todayHighlight: 1,
     startView: 2,
     forceParse: 0,
-    showMeridian: 1
+    showMeridian: 1,
+    minView: 2
 });
 /**
  * 按时间查询表单
