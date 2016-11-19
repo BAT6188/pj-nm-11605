@@ -18,26 +18,33 @@
     <script>
         $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
         $('#orgDiv').prepend(pageUtils.loading());
-        function setOrgDivView(thisObj){
-            setShowColumnView(false);
-            $('.orgBtn').show();
-            $('.blockBtn').hide();
-            $('.nav-tabs').find('li').removeClass('active');
-            $(thisObj).addClass('active');
-            var nodes = orgTreeObj.getNodes();
-            orgTreeObj.selectNode(nodes[0]);
-            orgTreeOnClick(null,null,nodes[0]);
+        var currentTab = 1;
+        function setOrgDivView(type){
+            if(currentTab==type){
+                return false;
+            }else{
+                currentTab = 1;
+                setShowColumnView(false);
+                $('.orgBtn').show();
+                $('.blockBtn').hide();
+                var nodes = orgTreeObj.getNodes();
+                orgTreeObj.selectNode(nodes[0]);
+                orgTreeOnClick(null,null,nodes[0]);
+            }
         }
-        function setBlockDivView(thisObj){
-            refPersonBtn.prop('disabled', true);
-            setShowColumnView(true);
-            $('.orgBtn').hide();
-            $('.blockBtn').show();
-            $('.nav-tabs').find('li').removeClass('active');
-            $(thisObj).addClass('active');
-            var nodes = blockTreeObj.getNodes();
-            blockTreeObj.selectNode(nodes[0]);
-            blockTreeOnClick(null,null,nodes[0]);
+        function setBlockDivView(type){
+            if(currentTab==type){
+                return false;
+            }else{
+                currentTab = 2;
+                refPersonBtn.prop('disabled', true);
+                $('.orgBtn').hide();
+                $('.blockBtn').show();
+                setShowColumnView(true);
+                var nodes = blockTreeObj.getNodes();
+                blockTreeObj.selectNode(nodes[0]);
+                blockTreeOnClick(null,null,nodes[0]);
+            }
         }
         function setShowColumnView(type){
             var orgColumnType = 'showColumn',blockColumnType='hideColumn';
@@ -55,23 +62,19 @@
 <body>
 <div class="wrap">
     <div class="menu-left left">
-        <div class="form-horizontal" style="width: 95%;">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <ul class="nav nav-tabs">
-                        <li class="active" onclick="setOrgDivView(this)"><a href="javascript:void(0)">组织机构通讯录</a></li>
-                        <li id="block" onclick="setBlockDivView(this)"><a href="javascript:void(0)">网格人员管理</a></li>
-                    </ul>
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active" onclick="setOrgDivView(1)"><a href="#orgDiv" data-toggle="tab">组织机构通讯录</a></li>
+            <li id="block" onclick="setBlockDivView(2)"><a href="#blockDiv" data-toggle="tab">网格人员管理</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content" style="margin-left: 10px;">
+            <div class="tab-pane fade in active" id="orgDiv">
+                <div id="orgScrollContent" class="scrollContent">
+                    <ul id="orgZtree" class="ztree"></ul>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <div class="scrollContent orgBtn" id="orgDiv">
-                        <ul id="orgZtree" class="ztree"></ul>
-                    </div>
-                    <div class="scrollContent blockBtn" style="display: none;">
-                        <ul id="blockZtree" class="ztree"></ul>
-                    </div>
+            <div class="tab-pane fade" id="blockDiv">
+                <div id="blockScrollContent" class="scrollContent">
+                    <ul id="blockZtree" class="ztree"></ul>
                 </div>
             </div>
         </div>

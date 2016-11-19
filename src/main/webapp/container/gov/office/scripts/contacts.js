@@ -35,7 +35,12 @@ var setting = {
     callback: {
         onClick: orgTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
-            $('.scrollContent').find('table').remove();
+            $('#orgScrollContent').slimScroll({
+                height:"100%",
+                railOpacity:.9,
+                alwaysVisible:!1
+            });
+            $('#orgDiv').find('table').remove();
             orgTreeObj.expandAll(true);
         }
     }
@@ -78,6 +83,11 @@ var blockSetting = {
         onClick: blockTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
             //$('.scrollContent').find('table').remove();
+            $('#blockScrollContent').slimScroll({
+                height:"100%",
+                railOpacity:.9,
+                alwaysVisible:!1
+            });
             setBlock('#blockLevelId','#blockId');
             blockTreeObj.expandAll(true);
         }
@@ -114,12 +124,16 @@ function setBlock(pSelector,cSelector){
          });
          pBlock.change(function(){
              var pid = $(this).val();
-             var childData = blockTreeObj.getNodeByParam("id", pid, null).children;
-             cBlock.empty();
-             cBlock.append($("<option>").val("").text(""));
-             $.each(childData,function(k,v){
-                cBlock.append($("<option>").val(v.id).text(v.name));
-             });
+             if(pid!=""){
+                 var childData = blockTreeObj.getNodeByParam("id", pid, null).children;
+                 cBlock.empty();
+                 $.each(childData,function(k,v){
+                     cBlock.append($("<option>").val(v.id).text(v.name));
+                 });
+             }else{
+                 cBlock.empty();
+                 cBlock.append($("<option>").val("").text(""));
+             }
          });
      }
 }
@@ -500,6 +514,7 @@ var ef = form.easyform({
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
+            Ewin.alert('保存成功！');
             gridTable.bootstrapTable('refresh');
             searchForm();
         });
@@ -529,7 +544,6 @@ function setFormData(entity) {
             if(tagId=="blockLevelId" && value!=null){
                 var childData = blockTreeObj.getNodeByParam("id", value, null).children;
                 $('#blockId').empty();
-                $('#blockId').append($("<option>").val("").text(""));
                 $.each(childData,function(k,v){
                     $('#blockId').append($("<option>").val(v.id).text(v.name));
                 });
@@ -577,7 +591,10 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find('form')[0].reset();
+    $('#blockLevelId').find('option[value=""]').attr("selected",true);
+    $('#blockId').empty();
+    //form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();

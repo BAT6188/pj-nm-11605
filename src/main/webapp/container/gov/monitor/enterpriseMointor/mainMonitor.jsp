@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label for="name">&nbsp;&nbsp;企业名称：</label><input type="text" id="name" name="name" class="form-control" />
                                 <label for="status" class="labelMarginLeft">污染状态：</label>
-                                <select style="width: 300px;" class="form-control" id="status" name="status">
+                                <select style="width: 300px;" class="form-control" id="pollutantStatus" name="pollutantStatus">
                                     <option value="">全部</option>
                                     <option value="0">未超标</option>
                                     <option value="1">已超标</option>

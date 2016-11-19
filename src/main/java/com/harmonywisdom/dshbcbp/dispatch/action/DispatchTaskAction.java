@@ -141,7 +141,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             //TODO 所有人可查看的数据
             params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
         }
-
+        if(StringUtils.isNotBlank(entity.getMonitorReportStatus())){
+            params.andParam(new QueryParam("monitorReportStatus", QueryOperator.EQ, entity.getMonitorReportStatus()));
+        }
         String startEventTime = request.getParameter("startEventTime");
         String endEventTime = request.getParameter("endEventTime");
         String enterpriseName = entity.getEnterpriseName();
