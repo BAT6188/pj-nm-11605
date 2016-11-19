@@ -222,22 +222,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#s_name").val();
-    var start_findDate = $("#start_findDate").val();
-    var end_findDate = $("#end_findDate").val();
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (start_findDate){
-        queryParams["start_findDate"] = start_findDate;
-    }
-    if (end_findDate){
-        queryParams["end_findDate"] = end_findDate;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -297,7 +287,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无反馈信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -424,8 +414,19 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 /**********  反馈  *************/
 $("#feedback").click(function () {
     $("#feedbackTime_feedbackForm").val((new Date()).format("yyyy-MM-dd hh:mm"));
+    var row = getSelections();
+    var enterpriseName = row[0].enterpriseName;
+    $("#enterpriseName").val(enterpriseName);
+    var feedbackContent = row[0].feedbackContent;
+    $("#feedbackContent_feedbackForm").val(feedbackContent);
+    var status = row[0].status;
+    if(status == "1"){
+        $("#saveFeedback").hide();
+        $(".btn-cancel").text("关闭");
 
-})
+
+    }
+});
 var feedbackForm=$("#feedbackForm");
 var ef_feedback = feedbackForm.easyform({
     success:function (ef_feedback) {

@@ -202,22 +202,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var s_caseName = $("#s_caseName").val();
-    var start_filingDate = $("#start_filingDate").val();
-    var end_filingDate = $("#end_filingDate").val();
-    if (s_caseName){
-        queryParams["caseName"] = s_caseName;
-    }
-    if (start_filingDate){
-        queryParams["start_filingDate"] = start_filingDate;
-    }
-    if (end_filingDate){
-        queryParams["end_filingDate"] = end_filingDate;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -302,22 +292,18 @@ function setFormView(entity) {
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
 
     if (!disabled) {
         //初始化日期组件
-        $('#createTimeContent').datetimepicker({
+        $('.lookover').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#openDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
+
     }else{
-        $('#createTimeContent').datetimepicker('remove');
-        $('#openDateContent').datetimepicker('remove');
+        $('.lookover').datetimepicker('remove');
     }
 
 }
@@ -335,21 +321,21 @@ function resetForm() {
 
     $("#filingDate").val((new Date()).format("yyyy-MM-dd hh:mm"))
 
-    if(dispatchTaskId){
-        $.ajax({
-            url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
-            type:"post",
-            data:{id:dispatchTaskId},
-            success:function (d) {
-                d=JSON.parse(d)
-                if (d.total>0){
-                    var row=d.rows[0]
-                    setFormValueFromSelected(row)
-                }
-            }
-        });
-    }
-}
+//     if(dispatchTaskId){
+//         $.ajax({
+//             url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
+//             type:"post",
+//             data:{id:dispatchTaskId},
+//             success:function (d) {
+//                 d=JSON.parse(d)
+//                 if (d.total>0){
+//                     var row=d.rows[0]
+//                     setFormValueFromSelected(row)
+//                 }
+//             }
+//         });
+//     }
+ }
 
 //表单附件相关js
 var uploader;//附件上传组件对象

@@ -51,7 +51,7 @@ var DemoPage = function () {
                 },
                 {
                     title: '台账编号',
-                    field: 'id',
+                    field: 'code',
                     align: 'center',
                     valign: 'middle',
                     sortable: false
@@ -207,12 +207,13 @@ var DemoPage = function () {
     /**============列表搜索相关处理============**/
 //搜索按钮处理
     $("#search").click(function () {
-        var queryParams = $("#queryBox").find("form").formSerializeObject();
-        gridTable.bootstrapTable('refresh',{
-            query:queryParams
-        });
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
-
+//重置搜索
+    $("#searchFix").click(function () {
+        resetQuery();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    });
 //初始化日期组件
     $('.form_datetime').datetimepicker({
         language:  'zh-CN',

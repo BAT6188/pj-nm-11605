@@ -28,7 +28,7 @@
                             <label for="">检查人：</label> <input type="text" name="checker" style="width: 180px;" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="">信访时间：</label>
+                            <label for="">检查时间：</label>
                             <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16"  name="start_time"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -45,7 +45,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <%--<p class="btnListP">--%>
                     <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">--%>
                         <%--<i class="btnIcon add-icon"></i><span>新建</span>--%>

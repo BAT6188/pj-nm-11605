@@ -43,7 +43,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temps = pageUtils.getBaseParams(param);
-            temps.enterpriseId = id;
+            temps.enterpriseId = enterpriseId;
             return temps;
         },
         columns: [
@@ -223,11 +223,16 @@ $("#search").click(function () {
     var queryParams = {};
     var type = $("#t_type").val();
     var endDate = $("#t_endDate").val();
+    var endCreateDate = $("#t_endCreateDate").val();
     if (type){
         queryParams["type"] = type;
     }
     if (endDate){
         queryParams["endDate"] = endDate;
+    }
+    if(endCreateDate){
+        queryParams["endCreateDate"] = endCreateDate;
+        
     }
     gridTable.bootstrapTable('refresh',{
         query:queryParams
@@ -280,6 +285,12 @@ $('#t_endDateContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
+$(".form_datetime").datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+
 /**
  * 设置表单数据
  * @param entity
@@ -312,7 +323,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -339,7 +350,9 @@ function disabledForm(disabled) {
             minView: 2
         });
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('#startDateContent').datetimepicker('remove');
+        $('#endDateContent').datetimepicker('remove');
+        $('#pubDateContent').datetimepicker('remove');
     }
 
 }
