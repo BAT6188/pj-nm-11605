@@ -104,7 +104,7 @@ public class DispatchTask implements Serializable {
     private String monitorMastorPersonList;
 
     /**
-     * 选择的发送给环保站的人员  环保站人员列表
+     * 选择的发送给环保站的人员  污控室人员列表
      */
     @Column(name="env_pro_sta_person_list")
     private String envProStaPersonList;
