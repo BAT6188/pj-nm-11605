@@ -399,6 +399,7 @@ function setFormData(entity) {
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));
+    bindDownloadSelector();
 }
 function setFormView(entity) {
     setFormData(entity);
@@ -423,6 +424,7 @@ function resetForm() {
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
+    bindDownloadSelector();
 }
 
 //表单附件相关js
@@ -508,15 +510,6 @@ function getAttachmentIds() {
     }
     return "";
 }
-
-/**
- * 绑定下载按钮事件
- */
-$("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function () {
-    var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
-    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-});
-
 
 //初始化日期组件
 $('.form_datetime').datetimepicker({
@@ -609,9 +602,10 @@ window.seeEvent = {
         var fuOptions = getUploaderOptions(row.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
         $(".qq-upload-button").hide();
     }
 };

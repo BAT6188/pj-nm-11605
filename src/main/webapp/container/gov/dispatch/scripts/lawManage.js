@@ -297,9 +297,10 @@ window.lookOverEvents = {
         var fuOptions = getUploaderOptions(entity.monitorCaseId);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
         $(".qq-upload-button").hide();
 
         $("#dispatch").hide();
@@ -318,6 +319,7 @@ window.monitorReportEvents = {
 
         uploaderToggle(".cUploader")
         uploader = new qq.FineUploader(getUploaderOptions(entity.id));
+        bindDownloadSelector();
     }
 };
 
@@ -391,6 +393,7 @@ $("#feedback").bind("click",function () {
 
     uploaderToggle(".bUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
+    bindDownloadSelector();
 
     $("#feedbackTo").show();
 
@@ -558,6 +561,7 @@ function setEventMsgFormData(entity) {
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(entity.monitorCaseId));
+    bindDownloadSelector();
 
     $("#dispatch").show();
     $("#cancel").text("取消")
@@ -690,15 +694,6 @@ function getAttachmentIds() {
     return "";
 }
 
-
-/**
- * 绑定下载按钮事件
- */
-$("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function () {
-    var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
-    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-});
-
 //初始化日期组件
 $('.form_datetime').datetimepicker({
     language:  'zh-CN',
@@ -739,9 +734,10 @@ window.seeEvent = {
         var fuOptions = getUploaderOptions(row.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
         $(".qq-upload-button").hide();
 
         $("#feedbackTo").hide();

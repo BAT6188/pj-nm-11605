@@ -183,9 +183,10 @@ window.operateEvents = {
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
         $(".qq-upload-button").hide();
     }
 };
@@ -237,9 +238,10 @@ $("#checkButton").bind("click",function () {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
+    bindDownloadSelector();
     $(".qq-upload-button").hide();
 
 
@@ -367,6 +369,7 @@ function setFormData(entity) {
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));
+    bindDownloadSelector();
 }
 function setFormView(entity) {
     setFormData(entity);
@@ -375,7 +378,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -533,14 +536,6 @@ function getAttachmentIds() {
     }
     return "";
 }
-
-/**
- * 绑定下载按钮事件
- */
-$("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function () {
-    var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
-    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-});
 
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
