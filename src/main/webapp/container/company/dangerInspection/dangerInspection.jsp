@@ -138,7 +138,7 @@
                     <div class="form-group">
                         <label for="findDate" class="col-sm-2 control-label">发现日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div id="openDindDate" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="findDate"  name="findDate" type="text" readonly
                                        data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -150,7 +150,7 @@
 
                         <label for="finishDate" class="col-sm-2 control-label">整改完成日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div id="openFinishDate" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="finishDate"  name="finishDate" type="text" readonly
                                        data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;"
