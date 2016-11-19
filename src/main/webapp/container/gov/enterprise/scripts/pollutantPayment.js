@@ -353,6 +353,17 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
+
+            var receivers = [];
+            var receiver1 = {receiverId:userId,receiverName:userName};
+            receivers.push(receiver1);
+            var msg = {
+                'msgType':4,
+                'title':'排污申报提醒',
+                'content':entity.enterpriseName+"缴费提醒",
+                'businessId':msg.id
+            };
+            pageUtils.sendMessage(msg, receivers);
         });
     }
 });
@@ -396,7 +407,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();

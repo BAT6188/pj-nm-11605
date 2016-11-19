@@ -1,11 +1,9 @@
-
-var gridTable = $('.tableTab'),
+var gridTable = $('#table'),
     checkButton = $('#checkButton'),
     form = $("#demoForm"),
     lookOverFeedbackDetailForm = $("#lookOverFeedbackDetailForm"),
     formTitle = "委托监测",
-    selections = [],
-enterpriseSelf;
+    selections = [];
 
 
 
@@ -428,42 +426,6 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
-
-    $("#b_span").hide()
-    enterpriseSelf=0
-    $(function(){
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var activeTab = $(e.target).attr("href");
-
-            if("#a"==activeTab){
-                console.log("a")
-
-                $("#b_span").hide()
-                enterpriseSelf=0
-
-                // gridTable.bootstrapTable('hideColumn',"status");
-                // gridTable.bootstrapTable('hideColumn',"queryFeedback");
-                // gridTable.bootstrapTable('showColumn',"operate");
-            }else {
-                console.log("b")
-
-                $("#b_span").show()
-                enterpriseSelf=1
-
-                // gridTable.bootstrapTable('showColumn',"status");
-                // gridTable.bootstrapTable('showColumn',"queryFeedback");
-                // gridTable.bootstrapTable('hideColumn',"operate");
-            }
-
-            gridTable.bootstrapTable('refresh',{
-                query:{enterpriseSelf:enterpriseSelf}
-            });
-
-        });
-    });
-
-
-
 })
 
 

@@ -289,7 +289,7 @@ var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送
 /**============组织机构选择人员对话框============**/
 var options = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.jianChaDaDui.orgCode],//组织机构代码(必填，组织机构代码)
         type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
@@ -308,7 +308,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         type:"post",
         data:d,
         success:function (msg) {
-            // eventMsgForm.modal('hide');
+            eventMsgForm.modal('hide');
             gridTable.bootstrapTable('refresh');
             pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'发送数据',refTableId:''})
         }

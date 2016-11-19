@@ -136,6 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <script src="<%=request.getContextPath()%>/common/msgSend/scripts/selectPeople.js"></script>
 <script src="<%=request.getContextPath()%>/common/msgSend/scripts/jsMap.js"></script>
+<script src="<%=request.getContextPath()%>/common/msgSend/scripts/orgCodeConfig.js"></script>
 <script src="<%=request.getContextPath()%>/common/msgSend/scripts/selectTree.js"></script>
 <%--<script src="<%=request.getContextPath()%>/common/msgSend/scripts/getpy.js"></script>--%>
 

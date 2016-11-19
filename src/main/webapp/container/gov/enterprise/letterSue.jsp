@@ -79,7 +79,7 @@
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="visitTime"  name="visitTime" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>

@@ -1,12 +1,11 @@
-
-var gridTable = $('.tableTab'),
+var gridTable = $('#table'),
     checkButton = $('#checkButton'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#demoForm"),
     formTitle = "委托监测",
-    selections = [],
-    enterpriseSelf;
+    selections = [];
+
 
 
 
@@ -216,23 +215,13 @@ $("#checkButton").bind("click",function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
-    var start_monitorTime = $("#start_monitorTime").val();
-    var end_monitorTime = $("#end_monitorTime").val();
-
-    if (enterpriseName){
-        queryParams["enterpriseName"] = enterpriseName;
-    }
-    if (start_monitorTime){
-        queryParams["start_monitorTime"] = start_monitorTime;
-    }
-    if (end_monitorTime){
-        queryParams["end_monitorTime"] = end_monitorTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    $("#s_enterpriseSelf").val(enterpriseSelf)
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -250,7 +239,7 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.jianCeZhan.orgCode],//组织机构代码(必填，组织机构代码)
         type:2
     },
     choseMore:false,
@@ -412,50 +401,14 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
 $(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
-
-    $("#b_span").hide()
-    enterpriseSelf=0
-    $(function(){
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var activeTab = $(e.target).attr("href");
-
-            if("#a"==activeTab){
-                console.log("a")
-
-                $("#b_span").hide()
-                enterpriseSelf=0
-
-                // gridTable.bootstrapTable('hideColumn',"status");
-                // gridTable.bootstrapTable('hideColumn',"queryFeedback");
-                // gridTable.bootstrapTable('showColumn',"operate");
-            }else {
-                console.log("b")
-
-                $("#b_span").show()
-                enterpriseSelf=1
-
-                // gridTable.bootstrapTable('showColumn',"status");
-                // gridTable.bootstrapTable('showColumn',"queryFeedback");
-                // gridTable.bootstrapTable('hideColumn',"operate");
-            }
-
-            gridTable.bootstrapTable('refresh',{
-                query:{enterpriseSelf:enterpriseSelf}
-            });
-
-        });
-    });
-
-
-
 })
 
 /************  企业委托监测 ***************/
 var enterpriseSelfDialog=$("#enterpriseSelfDialog")
 var options_enterpriseSelfDialog = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
-        type:3  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+        orgCode:[orgCodeConfig.org.jianCeZhan.orgCode],//组织机构代码(必填，组织机构代码)
+        type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
@@ -471,7 +424,7 @@ var model_enterpriseSelfDialog = $.fn.MsgSend.init(1,options_enterpriseSelfDialo
         data:d,
         success:function (msg) {
             enterpriseSelfDialog.modal('hide');
-            gridTable.bootstrapTable('refresh');
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         },
         error:function (msg) {
             console.error(msg)

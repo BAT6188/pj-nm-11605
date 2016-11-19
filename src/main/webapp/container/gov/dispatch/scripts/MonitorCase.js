@@ -170,24 +170,6 @@ var status_search="";
     }, 200);
 
 
-    /*//搜索
-    $("#search").click(function () {
-        gridTable.bootstrapTable('resetSearch');
-        var enterpriseName = $("#searchEnterpriseName").val();
-        var startSendTime=$("#start_sendTime").val()
-        var endSendTime=$("#end_sendTime").val()
-        var reason = $("#s_reason").val();
-        var blockLevelId = $("#s_blockLevelId").val();
-        var blockId = $("#s_blockId").val();
-        gridTable.bootstrapTable('refresh',{
-            query:{enterpriseName: enterpriseName,reason:reason,
-                startSendTime:startSendTime,endSendTime:endSendTime,
-                blockLevelId:blockLevelId,blockId:blockId,
-                status_search:status_search}
-        });
-
-    });*/
-
     //搜索按钮处理
     $("#search").click(function () {
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE,status_search:status_search});
@@ -349,7 +331,7 @@ function saveAjax(entity, callback) {
 /************  短信发送  ****************/
 var options_sms = {
     params:{
-        // orgCode:[],//组织机构代码(必填，组织机构代码)
+        // orgCode:[],
         //type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
@@ -364,9 +346,10 @@ var model_sms = $.fn.MsgSend.init(2,options_sms,function(e,data){ //短信发送
 /************  组织机构发送  ****************/
 var options = {
     params:{
-        orgCode:['0170001300'],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.jianChaDaDui.orgCode],//组织机构代码(必填，组织机构代码)
         type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
+    choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }

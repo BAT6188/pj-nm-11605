@@ -242,7 +242,7 @@ var DemoPage = function () {
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
@@ -252,21 +252,18 @@ var DemoPage = function () {
     function disabledForm(disabled) {
         form.find("input").attr("disabled",disabled);
         form.find("textarea").attr("disabled",disabled);
+        form.find("select").attr("disabled",disabled);
+
         if (!disabled) {
             //初始化日期组件
-            $('#createTimeContent').datetimepicker({
+            $('.lookover').datetimepicker({
                 language:   'zh-CN',
                 autoclose: 1,
                 minView: 2
             });
-            $('#openDateContent').datetimepicker({
-                language:   'zh-CN',
-                autoclose: 1,
-                minView: 2
-            });
+
         }else{
-            $('#createTimeContent').datetimepicker('remove');
-            $('#openDateContent').datetimepicker('remove');
+            $('.lookover').datetimepicker('remove');
         }
 
     }

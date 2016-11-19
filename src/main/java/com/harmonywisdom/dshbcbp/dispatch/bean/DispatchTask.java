@@ -71,18 +71,15 @@ public class DispatchTask implements Serializable {
 
     //--------------  现场监察监测报告  --------------------------//
     /**
-     * 监测报告是否填写状态：0未填写，1已填写
+     * 监测报告是否填写状态：0未报送，1已报送
      */
     @Column(name = "monitor_report_status", length = 2)
     private String monitorReportStatus;
-
     /**
      * 监测报告读取状态：0未读，1已读
      */
     @Column(name = "monitor_report_read_status", length = 2)
     private String monitorReportReadStatus;
-
-
     /**
      * 报送人
      */
@@ -90,7 +87,6 @@ public class DispatchTask implements Serializable {
     private String submitPerson;
     @Column(name = "submit_person_phone")
     private String submitPersonPhone;
-
     /**
      * 检测报告备注
      */
@@ -102,7 +98,7 @@ public class DispatchTask implements Serializable {
     private String monitorCaseId;
 
     /**
-     * 从监控中心，监察大队办公室发送过来的人员  监察大队长人员列表
+     * 从监控中心，监察大队办公室发送过来的人员  监察大队领导人员列表
      */
     @Column(name = "monitor_mastor_person_list")
     private String monitorMastorPersonList;
@@ -112,6 +108,9 @@ public class DispatchTask implements Serializable {
      */
     @Column(name="env_pro_sta_person_list")
     private String envProStaPersonList;
+    @Column(name="env_pro_sta_person_name_list")
+    private String envProStaPersonNameList;
+
 
     /**
      * 1：所有人都能看到这条数据
@@ -557,5 +556,13 @@ public class DispatchTask implements Serializable {
 
     public void setHuanBaoZhanSelfReadStatus(String huanBaoZhanSelfReadStatus) {
         this.huanBaoZhanSelfReadStatus = huanBaoZhanSelfReadStatus;
+    }
+
+    public String getEnvProStaPersonNameList() {
+        return envProStaPersonNameList;
+    }
+
+    public void setEnvProStaPersonNameList(String envProStaPersonNameList) {
+        this.envProStaPersonNameList = envProStaPersonNameList;
     }
 }
