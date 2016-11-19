@@ -86,9 +86,9 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">建设项目环评及其他许可情况</a></h3>
             <ul>
-                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/buildproject.jsp')">建设项目环评及验收信息</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/pollutantlicense.jsp')">排污许可证信息</a></li>
-                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/cleanLicense.jsp')">清洁生产审核</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/buildproject.jsp?id='+id)">建设项目环评及验收信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/pollutantlicense.jsp?id='+id)">排污许可证信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/eiaAcceptance/cleanLicense.jsp?id='+id)">清洁生产审核</a></li>
             </ul>
         </div>
         <div class="menuDiv">

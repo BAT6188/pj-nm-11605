@@ -52,7 +52,7 @@
         String enterpriseId =request.getParameter("id");
     %>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>'
+        var enterpriseId='<%=enterpriseId%>';
         $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
