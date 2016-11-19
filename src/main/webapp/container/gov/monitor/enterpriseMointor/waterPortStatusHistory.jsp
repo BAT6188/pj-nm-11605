@@ -35,7 +35,11 @@
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
-            <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">废水排口-><span id="portName"></span> 实时数据</a>
+            <div id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;">废水排口-><span id="portName"></span> 实时数据
+                <a class="btn btn-info" href="javascript:backToMainList()">
+                    <span class="glyphicon glyphicon-backward"></span> 返回
+                </a>
+            </div>
             <div class="dealBox">
                 <div class="sideTitle left">
                         <span class="blueMsg">
@@ -74,7 +78,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="resetSearch" type="button" class="btn btn-default" >重置</button>
+                <button id="resetSearch" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
             <div class="tableBox">
                 <table id="table" class="table table-striped table-responsive">

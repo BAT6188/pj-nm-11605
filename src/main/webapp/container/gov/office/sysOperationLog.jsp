@@ -24,39 +24,30 @@
                     <form role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="opModule">&nbsp;操作模块：</label><input type="text" id="opModule" name="opModule" class="form-control" style="margin-left: 6px;"/>
-                                <label for="opUser" class="labelMarginLeft">操作人员：</label><input type="text" id="opUser" name="opUser" class="form-control" />
-                                <label for="opType" class="labelMarginLeft">操作类型：</label>
-                                <select style="width: 300px;" class="form-control"  id="opType" name="opType">
-                                    <option value="">全部</option>
-                                </select>
+                                <label for="opModule">操作模块：</label><input type="text" id="opModule" name="opModule" class="form-control" style="margin-left: 6px;"/>
+                                <div class="form-group">
+                                    <label for="delTime"  class="labelMarginLeft">操作时间段：</label>
+                                    <div id="datetimepicker1" class="input-group date form_date" data-date=""  data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    —
+                                    <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p></p>
-                        <%--<div class="form-inline">
-                            <div class="form-group">
-                                <label for="opType">&nbsp;操作类型：</label>
-                                <select style="width: 300px;" class="form-control"  id="opType" name="opType">
-                                    <option value="">全部</option>
-                                </select>
-                            </div>
-                        </div>
-                        <p></p>--%>
                         <div class="form-inline">
-                            <div class="form-group">
-                                <label for="delTime">操作时间段：</label>
-                                <div id="datetimepicker1" class="input-group date form_date" data-date=""  data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                </div>
-                                —
-                                <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                </div>
-                            </div>
+                            <label for="opUser">操作人员：</label> <input type="text" id="opUser" name="opUser" class="form-control" />
+                            <label for="opType" class="labelMarginLeft">&nbsp;操作类型：</label>
+                            <select style="width: 238px;" class="form-control"  id="opType" name="opType">
+                                <option value="">全部</option>
+                            </select>
                         </div>
                     </form>
                 </div>
