@@ -307,7 +307,7 @@ $(function(){
 
                     }
                 }
-                var series1 = {name: "去年超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
+                var series1 = {name: "上一年同期超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
                 var series2 = {name: "当前年份超标次数", color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
@@ -556,8 +556,8 @@ $(function(){
 
                     }
                 }
-                var series1 = {name: "上一年超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
-                var series2 = {name: "当前年超标次数", color: '#FF8800', data: preValue2};
+                var series1 = {name: "上一年同期超标次数", color: 'rgb(124, 181, 236)', data: preValue1};
+                var series2 = {name: "当前年份超标次数", color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
                 loadLineChart(preMonth, series,startSdate,lastSdate);
