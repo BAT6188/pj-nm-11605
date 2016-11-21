@@ -361,7 +361,7 @@ $(function(){
                 series : {
                     events : {
                         click: function(e) {
-                            alert(e.point.category);
+                            console.log(e.point.category);
                         }
                     }
                 }
