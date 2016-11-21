@@ -212,6 +212,7 @@ $("#search").click(function () {
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
+    $('#searchform1')[0].reset();
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
@@ -261,11 +262,17 @@ $('#t_endDateContent').datetimepicker({
     autoclose: 1,
     minView: 2
 });
+$("#t_startCreateDateContent").datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 $(".form_datetime").datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
+
 
 /**
  * 设置表单数据
