@@ -253,20 +253,16 @@ var DemoPage = function () {
         form.find("textarea").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
-            $('#createTimeContent').datetimepicker({
+            $('.lookover').datetimepicker({
                 language:   'zh-CN',
                 autoclose: 1,
                 minView: 2
             });
-            $('#openDateContent').datetimepicker({
-                language:   'zh-CN',
-                autoclose: 1,
-                minView: 2
-            });
+
         }else{
-            $('#createTimeContent').datetimepicker('remove');
-            $('#openDateContent').datetimepicker('remove');
+            $('.lookover').datetimepicker('remove');
         }
+
 
     }
     /**
