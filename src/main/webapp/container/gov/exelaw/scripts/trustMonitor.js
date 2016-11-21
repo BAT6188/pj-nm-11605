@@ -2,6 +2,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#demoForm"),
+    auditForm=$("#auditForm"),
     formTitle = "Demo",
     selections = [];
 
@@ -100,7 +101,17 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '反馈详情',
+                title: '审批意见',
+                field: 'auditSuggestionStatus',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: lookoverAuditFormEvents,
+                formatter:auditFormFormatter
+            },
+            {
+                title: '反馈状态',
+                field:'status',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
@@ -130,9 +141,34 @@ function initTable() {
     });
 }
 
+function auditFormFormatter(value, row, index) {
+    if(value=='1'){
+        value='同意'
+    }else if(value=='2'){
+        value='不同意'
+    }
+    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">'+value+'</div>';
+}
+window.lookoverAuditFormEvents = {
+    'click .view': function (e, value, entity, index) {
+        for(p in entity){
+            var selector="#"+p
+            $(selector).val(entity[p])
+        }
+        disabledForm(auditForm,true)
+        console.log(11)
+    }
+};
+
+
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
+    if (value==7){
+        value='<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">已反馈</div>'
+    }else {
+        value="未反馈"
+    }
+    return value;
 }
 // 列表操作事件
 window.operateEvents = {
@@ -140,31 +176,15 @@ window.operateEvents = {
         $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
         $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
         $('.lookover').datetimepicker('remove');
-        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
-        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
-        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
-        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
-        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
-        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
-        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
-        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
-        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
-
-        $("#auditor").val(entity.auditor);
-        $("#auditorPhone").val(entity.auditorPhone);
-        if(entity.status==2){
-            $("#auditSuggestion").val("同意");
-        }else if(entity.status==3){
-            if(entity.auditSuggestion==''){
-                $("#auditSuggestion").val("不同意");
-            }else {
-                $("#auditSuggestion").val(entity.auditSuggestion);
-            }
+        for(p in entity){
+            var selector="#"+p+"_lookOverFeedbackDetailForm"
+            $(selector).val(entity[p])
         }
-
+        /*监测站反馈*/
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
+
 
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
@@ -337,7 +357,7 @@ function setFormData(entity) {
 }
 function setFormView(entity) {
     setFormData(entity);
-    disabledForm(true);
+    disabledForm(form,true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -346,10 +366,10 @@ function setFormView(entity) {
     form.find("#saveAndSend").hide();
     form.find(".btn-cancel").text("关闭");
 }
-function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
-    form.find("textarea").attr("disabled",disabled);
-    form.find("select").attr("disabled",disabled);
+function disabledForm(selector,disabled) {
+    selector.find("input").attr("disabled",disabled);
+    selector.find("textarea").attr("disabled",disabled);
+    selector.find("select").attr("disabled",disabled);
 
     if (!disabled) {
         //初始化日期组件
@@ -370,7 +390,7 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
     form.find("textarea").val("");
     form.find("#applicant").val(userName)
-    disabledForm(false);
+    disabledForm(form,false);
     form.find("#saveAndSend").show();
     form.find(".btn-cancel").text("取消");
 }

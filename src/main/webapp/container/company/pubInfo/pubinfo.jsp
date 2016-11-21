@@ -39,7 +39,12 @@
                             <div class="form-group">
                                 <label for="s_pubTime">发布时间：</label>
                                 <div id="s_pubTimeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="pubTime">
-                                    <input class="form-control" size="16" id="s_pubTime" name="pubTime"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="s_pubTime" name="pubStartTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <div id="s_pubEndTimeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="pubTime">
+                                    <input class="form-control" size="16" id="s_pubEndTime" name="pubEndTime"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>

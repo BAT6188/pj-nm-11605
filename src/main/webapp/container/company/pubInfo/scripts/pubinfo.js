@@ -265,12 +265,12 @@ $("#save").bind('click',function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#pubTimeContent').datetimepicker({
+$('#s_pubTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#s_pubTimeContent').datetimepicker({
+$('#s_pubEndTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2

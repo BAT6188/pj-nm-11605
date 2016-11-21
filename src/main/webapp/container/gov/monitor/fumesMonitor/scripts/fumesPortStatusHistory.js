@@ -2,13 +2,10 @@ var gridTable = $('#table'),
     selections = [];
 $('.form_date').datetimepicker({
     language:   'zh-CN',
-    weekStart: 1,
     todayBtn:  1,
-    autoclose: 1,
     todayHighlight: 1,
-    startView: 1,
-    forceParse: 0,
-    minuteStep:5,
+    autoclose: 1,
+    minView: 2,
     pickerPosition: "bottom-left"
 });
 /**============grid 列表初始化相关代码============**/
@@ -131,7 +128,7 @@ $("#search").click(function () {
     //gridTable.bootstrapTable('resetSearch');
     var jsonData = $('#searchform').formSerializeObject();
     if(jsonData){
-        if(checkSearchForm(jsonData)){
+        if(pageUtils.checkSearchFormTimes(jsonData.startTime,jsonData.endTime)){
             gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         }
     }
@@ -147,19 +144,3 @@ $("#resetSearch").click(function () {
     }
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
-function checkSearchForm(jsonData){
-    if(jsonData.startTime<jsonData.endTime || (!jsonData.startTime && !jsonData.endTime)){
-        return true;
-    }else{
-        if(jsonData.startTime && !jsonData.endTime){
-            Ewin.alert("缺少结束时间！");
-        }
-        if(!jsonData.startTime && jsonData.endTime){
-            Ewin.alert("缺少开始时间！");
-        }
-        if(jsonData.startTime>jsonData.endTime){
-            Ewin.alert("开始时间要小于结束时间！");
-        }
-        return false;
-    }
-}

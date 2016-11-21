@@ -29,6 +29,78 @@
                 }
             });
         })
+
+        /**
+         * 平面图标注
+         */
+        function makePlaneMap(){
+            var planeMapMarkDate = $('#planeMapMark').val();
+            var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+            PlottingDialog.dialog({
+                show:true,
+                mode:"marker",
+                data:data,
+                attachments:pageUtils.findAttachment(enterpriseId,"planeMap"),
+                callback:function (marker) {
+                    var str = JSON.stringify(marker);
+                    form.find('#planeMapMark').val(str);
+                    if($('#planeMapMark').val()){
+                        setPlaneMapMarkTypeCheckType(true);
+                        $('#editPlaneMapMark').html("重新标注");
+                    }
+                }
+            });
+        }
+        /**
+         * 查看平面图
+         */
+        function lookPlaneMap(){
+            var planeMapMarkDate = $('#planeMapMark').val();
+            var data = (planeMapMarkDate=="")?"":JSON.parse(planeMapMarkDate);
+            PlottingDialog.dialog({
+                show:true,
+                mode:"view",
+                data:data,
+                attachments:pageUtils.findAttachment(enterpriseId,"planeMap")
+            });
+        }
+        function setPlaneMarkBtn(type){
+            $('#planeMapMarkType').attr('disabled',false);
+            switch (type){
+                case 'add':
+                    setPlaneMapMarkTypeCheckType(false);
+                    $('#editPlaneMapMark').html("平面图标注");
+                    break;
+                case 'edit':
+                    setPlaneMapMarkTypeCheckType(true);
+                    $('#editPlaneMapMark').html("重新标注");
+                    break;
+                case 'look':
+                    setPlaneMapMarkTypeCheckType(true);
+                    $('#lookPlaneMapMark').show();
+                    break;
+                case 'lookNull':
+                    setPlaneMapMarkTypeCheckType(false);
+                    $('#lookPlaneMapMark').hide();
+                    break;
+                default:
+
+                    $('#editPlaneMapMark').html("平面图标注");
+            }
+        }
+        function setPlaneMapMarkTypeCheckType(isMarked){
+            if(isMarked){
+                /*$('#planeMapMarkType').attr('class','btn-success textSpan');
+                 $('#planeMapMarkType').html('已标注');*/
+                $('#planeMapMarkType').attr("checked",true);
+                $('#planeMapMarkType').attr('disabled',true);
+            }else{
+                /*$('#planeMapMarkType').attr('class','btn-danger textSpan');
+                 $('#planeMapMarkType').html('未标注');*/
+                $('#planeMapMarkType').attr("checked",false);
+                $('#planeMapMarkType').attr('disabled',true);
+            }
+        }
     </script>
     <style>
         .menuDiv h3{
@@ -110,8 +182,8 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">其他环境信息</a></h3>
             <ul>
-                <li><a href="javascript:;">环境自行监测方案</a></li>
-                <li><a href="javascript:;">其他环境信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/otherEnvironmental/EnvTestProgram.jsp');">环境自行监测方案</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/otherEnvironmental/otherEnv.jsp');">其他环境信息</a></li>
             </ul>
         </div>
         <%--<div class="menuDiv">--%>

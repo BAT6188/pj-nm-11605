@@ -32,6 +32,15 @@ public class TrustMonitor implements Serializable {
     private String status;
 
     /**
+     * 审批意见状态：
+     * 1同意
+     * 2不同意
+     */
+    @Column(name = "audit_suggestion_status",length = 2)
+    private String auditSuggestionStatus;
+
+
+    /**
      * 是否是企业委托监测数据：1是   null或0不是
      */
     @Column(name = "enterprise_self",length = 2)
@@ -204,8 +213,6 @@ public class TrustMonitor implements Serializable {
     @Column(name = "audit_suggestion")
     private String auditSuggestion;
 
-    @Column(name = "attachment_id", length = 32)
-    private String attachmentId;
     /**
      * 反馈单位
      */
@@ -372,13 +379,6 @@ public class TrustMonitor implements Serializable {
         this.auditorPhone = auditorPhone;
     }
 
-    public String getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(String attachmentId) {
-        this.attachmentId = attachmentId;
-    }
 
     public String getFeedbackOrg() {
         return feedbackOrg;
@@ -582,5 +582,13 @@ public class TrustMonitor implements Serializable {
 
     public void setSelfReadStatusForMonitorPerson(String selfReadStatusForMonitorPerson) {
         this.selfReadStatusForMonitorPerson = selfReadStatusForMonitorPerson;
+    }
+
+    public String getAuditSuggestionStatus() {
+        return auditSuggestionStatus;
+    }
+
+    public void setAuditSuggestionStatus(String auditSuggestionStatus) {
+        this.auditSuggestionStatus = auditSuggestionStatus;
     }
 }
