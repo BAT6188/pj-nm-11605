@@ -261,7 +261,7 @@ $("#search").click(function () {
     var queryParams = {};
     var res_title = $("#res_title").val();
     var start_createTime = $("#start_createTime").val();
-    var end_createTime = $("#start_createTime").val();
+    var end_createTime = $("#end_createTime").val();
     
     
     // var status = pageUtils.getRadioValue("s_status");
@@ -326,6 +326,12 @@ $('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
+});
+
+//重置按钮处理
+$("#reset").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('refresh');
 });
 
 /**
