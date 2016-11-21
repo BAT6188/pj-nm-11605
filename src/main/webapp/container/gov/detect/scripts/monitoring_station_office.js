@@ -171,8 +171,7 @@ checkButton.prop('disabled', true);
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
 
-    $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
-    $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+    disabledForm($("#lookOverFeedbackDetailForm"),true)
     $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
     $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
     $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
@@ -263,17 +262,31 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 
 //表单 保存按钮
 $("#sendButton").bind('click',function () {
-    model.open(getIdSelections()[0])
+    model.open($("#demoForm").find("#id").val())
 });
+
+function disabledForm(selector,disabled) {
+    selector.find("input").attr("disabled",disabled);
+    selector.find("textarea").attr("disabled",disabled);
+    selector.find("select").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('.lookover').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('.lookover').datetimepicker('remove');
+    }
+}
 /**
  * 设置表单数据
  * @param entity
  * @returns {boolean}
  */
 function setFormData(entity) {
-    $("#demoForm").find("input").attr("disabled",true)
-    $("#demoForm").find("textarea").attr("disabled",true)
-    $("#demoForm").find("select").attr("disabled",true)
+    disabledForm(form,true)
     $("#id").attr("disabled",false);
     for(p in entity){
         var selector="#"+p

@@ -122,7 +122,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="监测时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -150,10 +150,40 @@
                                       data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="auditor" class="col-sm-2 control-label">审批人员<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="auditorForSend" name="auditor" class="form-control edit" data-message="审批人员不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+
+                        <label for="auditTime" class="col-sm-2 control-label">审批时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control edit" size="16" id="auditTimeForSend" name="auditTime"  type="text" data-message="审批时间不能为空"
+                                       data-easytip="position:top;class:easy-red;" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">职务：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="auditPositionForSend" name="auditPosition" class="form-control edit"/>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="auditorPhoneForSend" name="auditorPhone" class="form-control edit"/>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="auditSuggestionForSend" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                            <textarea id="auditSuggestionForSend" name="auditSuggestion" class="form-control edit" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -194,7 +224,7 @@
 
                         <label for="auditTime" class="col-sm-2 control-label">审批时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="auditTime" name="auditTime"  type="text" data-message="审批时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -225,7 +255,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="save">发送</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" id="cancel">取消</button>
             </div>
         </div>
     </div>
@@ -275,7 +305,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime_lookOverFeedbackDetailForm"  data-message="监测时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>

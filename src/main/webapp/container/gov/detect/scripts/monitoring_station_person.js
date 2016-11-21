@@ -135,10 +135,6 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, entity, index) {
-
-        $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
-        $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
-
         $("#trustMonitorId").val(entity.id);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
@@ -153,6 +149,8 @@ window.operateEvents = {
         $("#monitor").val(userName);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
+
+        disabledForm($("#lookOverFeedbackDetailForm"),true)
         $(".editable").attr("disabled",false)
 
         uploaderToggle(".bUploader")
@@ -224,8 +222,7 @@ checkButton.prop('disabled', true);
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
 
-    $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
-    $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
+    disabledForm($("#lookOverFeedbackDetailForm"),true)
     $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
     $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
     $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
@@ -250,7 +247,7 @@ $("#checkButton").bind("click",function () {
     bindDownloadSelector();
     $(".qq-upload-button").hide();
 
-
+    $("#saveFeedback").hide()
 });
 
 
@@ -290,6 +287,21 @@ $('.form_datetime').datetimepicker({
     showMeridian: 1
 });
 
+function disabledForm(dialogSelector,disabled) {
+    dialogSelector.find("input").attr("disabled",disabled);
+    dialogSelector.find("textarea").attr("disabled",disabled);
+    dialogSelector.find("select").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('.lookover').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('.lookover').datetimepicker('remove');
+    }
+}
 
 /**
  * 设置表单数据
@@ -297,9 +309,7 @@ $('.form_datetime').datetimepicker({
  * @returns {boolean}
  */
 function setFormData(entity) {
-    $("#demoForm").find("input").attr("disabled",true)
-    $("#demoForm").find("textarea").attr("disabled",true)
-    $("#demoForm").find("select").attr("disabled",true)
+    disabledForm($("#demoForm"),true)
     $("#id").attr("disabled",false);
     for(p in entity){
         var selector="#"+p
@@ -319,7 +329,7 @@ function setFormData(entity) {
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
-    disabledForm(true);
+    disabledForm(form,true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
