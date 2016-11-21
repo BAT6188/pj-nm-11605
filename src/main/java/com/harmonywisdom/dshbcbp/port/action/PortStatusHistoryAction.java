@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory;
 import com.harmonywisdom.dshbcbp.port.service.PortStatusHistoryService;
 import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
@@ -61,13 +62,13 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         if(StringUtils.isNotBlank(entity.getRes_title())){
             param.andParam(new QueryParam("res_title",QueryOperator.LIKE,entity.getRes_title()));
         }
-        String start_createTime = request.getParameter("start_createTime");
-        String end_createTime = request.getParameter("end_createTime");
-        if(StringUtils.isNotBlank(start_createTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.GE,MyDateUtils.getFullDate(start_createTime,true)));
+        String starCreateTime = request.getParameter("start_createTime");
+        String endCreateTime = request.getParameter("end_createTime");
+        if(StringUtils.isNotBlank(starCreateTime)){
+            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd HH:mm")));
         }
-        if(StringUtils.isNotBlank(end_createTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.LE,MyDateUtils.getFullDate(end_createTime,true)));
+        if(StringUtils.isNotBlank(endCreateTime)){
+            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd HH:mm")));
         }
 
         QueryCondition condition = new QueryCondition();

@@ -27,7 +27,7 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <form class="form-inline">
+                    <form class="form-inline" id="searchform">
                         <div class="form-group">
                             <label for="res_title" class="ui-widget">标题：</label> <input type="text" id="res_title" style="width: 180px;" class="form-control" />
                             <%--<input id="selCompanyBtn" style="color: #fff;background-color: #449d44;border-color: #398439; width:15%;" type="button" value="选择" class="form-control" data-toggle="modal" data-target="#demoForm"/>--%>
@@ -50,7 +50,7 @@
                     <p></p>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <%--<button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">--%>
                         <%--<i class="btnIcon add-icon"></i><span>新建</span>--%>

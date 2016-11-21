@@ -407,7 +407,6 @@ var OneImagePage = function () {
 
         showNoisePortInfoWin:function(noisePort){
 
-            var height =260;
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
                 "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+noisePort.name+"</td></tr>"+
@@ -440,7 +439,7 @@ var OneImagePage = function () {
                 x:noisePort.longitude,
                 y:noisePort.latitude,
                 width:300,
-                height:height,
+                height:280,
                 html:infoHtml,
                 title:"噪音监测设备"
             });
@@ -559,7 +558,7 @@ var OneImagePage = function () {
                 x:dustPort.longitude,
                 y:dustPort.latitude,
                 width:300,
-                height:260,
+                height:280,
                 html:infoHtml,
                 title:"沙尘暴监测设备"
             });
@@ -695,14 +694,13 @@ var OneImagePage = function () {
             },this.MAP_LAYER_ENTERPRISE);
         },
         showEnterpriseInfoWin:function(enterprise){
-            var height =260;
             var infoHtml = "<div>";
-            infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: left;width: 70px;'>企业名称:</td><td style='text-align: left;'>"+enterprise.name+"</td></tr>"+
-                "<tr><td style='text-align: left;'>法人代表:</td><td style='text-align: left;'>"+enterprise.artificialPerson+"</td></tr>"+
-                "<tr><td style='text-align: left;'>联系电话:</td><td style='text-align: left;'>"+enterprise.apPhone+"</td></tr>"+
-                "<tr><td style='text-align: left;'>单位地址:</td><td style='text-align: left;'>"+enterprise.address+"</td></tr>"+
-                "<tr><td style='text-align: left;'>所属网格:</td><td style='text-align: left;'>"+""+"</td></tr>"+
+            infoHtml +="<table class='table' style='margin-bottom: 10px;'>" +
+                "<tr><td style='text-align: right;width: 30px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+enterprise.name+"</td></tr>"+
+                "<tr><td style='text-align: right;'>法人代表:</td><td style='text-align: left;'>"+enterprise.artificialPerson+"</td></tr>"+
+                "<tr><td style='text-align: right;'>联系电话:</td><td style='text-align: left;'>"+enterprise.apPhone+"</td></tr>"+
+                "<tr><td style='text-align: right;'>单位地址:</td><td style='text-align: left;'>"+enterprise.address+"</td></tr>"+
+                "<tr><td style='text-align: right;'>所属网格:</td><td style='text-align: left;'>"+""+"</td></tr>"+
                 "</table>"+
                 "<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>" +
                 "<button id='mainInfo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业台账</button>" +
@@ -715,8 +713,8 @@ var OneImagePage = function () {
             var infoDOM = this.hwmap.showInfoWindow({
                 x:enterprise.longitude,
                 y:enterprise.latitude,
-                width:260,
-                height:height,
+                width:300,
+                height:280,
                 html:infoHtml,
                 title:"企业信息"
             });
