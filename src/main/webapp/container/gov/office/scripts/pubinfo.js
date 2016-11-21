@@ -265,12 +265,7 @@ $("#save").bind('click',function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#pubTimeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#s_pubTimeContent').datetimepicker({
+$('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
@@ -321,13 +316,13 @@ function disabledForm(disabled) {
     form.find("select").attr("disabled", disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#pubTimeContent').datetimepicker({
+        $('.form_date').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#pubTimeContent').datetimepicker('remove');
+        $('.form_date').datetimepicker('remove');
     }
 
 }

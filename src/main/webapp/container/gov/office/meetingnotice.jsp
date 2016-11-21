@@ -17,19 +17,20 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <%--<p>--%>
-                        <%--<label for="s_title">会议标题：</label> <input type="text" id="s_title" class="form-control" />--%>
-                        <%--<label for="s_time">日期：</label> <input type="text" id="s_time" class="form-control" />--%>
-                    <%--</p>--%>
-
                         <form class="form-inline" id="searchform">
                             <div class="form-group">
-                                <label for="s_title">会议标题：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
+                                <label for="s_title">会议标题：</label> <input type="text" name="title" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="s_time">日期：</label>
+                                <label>日期：</label>
                                 <div id="s_timeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
-                                    <input class="form-control" size="16" id="s_time" name="s_time"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" id="startTime" name="startTime"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div id="t_startCreateDateContent" class="input-group date searchInput form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                                    <input class="form-control" size="16" name="endTime"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -37,7 +38,7 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/><br/>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">

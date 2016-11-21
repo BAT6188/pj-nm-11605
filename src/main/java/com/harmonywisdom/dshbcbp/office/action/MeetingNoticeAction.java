@@ -30,9 +30,13 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
         if (StringUtils.isNotBlank(entity.getTitle())) {
             param.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getTitle()));
         }
-        String pubTime = request.getParameter("time");
-        if (StringUtils.isNotBlank(pubTime)) {
-            param.andParam(new QueryParam("time", QueryOperator.EQ, DateUtil.strToDate(pubTime,"yyyy-MM-dd")));
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if (StringUtils.isNotEmpty(startTime)){
+            param.andParam(new QueryParam("time", QueryOperator.GE, DateUtil.strToDate(startTime,"yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotEmpty(endTime)){
+            param.andParam(new QueryParam("time", QueryOperator.LE, DateUtil.strToDate(endTime,"yyyy-MM-dd")));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {

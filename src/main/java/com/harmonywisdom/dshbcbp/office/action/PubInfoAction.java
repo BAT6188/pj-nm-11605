@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     @AutoService
@@ -37,10 +38,15 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
-        String pubTime = request.getParameter("gTime");
-        if (StringUtils.isNotBlank(pubTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime, "yyyy-MM-dd")));
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if (StringUtils.isNotEmpty(startTime)){
+            param.andParam(new QueryParam("pubTime", QueryOperator.GE, DateUtil.strToDate(startTime,"yyyy-MM-dd")));
         }
+        if (StringUtils.isNotEmpty(endTime)){
+            param.andParam(new QueryParam("pubTime", QueryOperator.LE, DateUtil.strToDate(endTime,"yyyy-MM-dd")));
+        }
+        //组织机构code
         String orgCode = request.getParameter("orgCode");
         QueryParam statusParam=new QueryParam();
         if (orgCode != null) {
@@ -113,6 +119,98 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
                  List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
                  authorizationOrgs.addAll(childOrgs);
              }
+             IOrg company = new IOrg() {
+                 @Override
+                 public String getOrgId() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgVersion() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgShortName() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgName() {
+                     return "企业";
+                 }
+
+                 @Override
+                 public String getOrgCode() {
+                     return "company";
+                 }
+
+                 @Override
+                 public String getOrgType() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getContact() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgGrade() {
+                     return null;
+                 }
+
+                 @Override
+                 public Long getOrgLevel() {
+                     return null;
+                 }
+
+                 @Override
+                 public Double getSerialIndex() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgDesc() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getParentId() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgStatus() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgLevelCode() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getDeltag() {
+                     return null;
+                 }
+
+                 @Override
+                 public String getOrgMail() {
+                     return null;
+                 }
+
+                 @Override
+                 public Map getExtattrMap() {
+                     return null;
+                 }
+
+                 @Override
+                 public String[] getExtattrArry() {
+                     return new String[0];
+                 }
+             };
+             authorizationOrgs.add(company);
              write(authorizationOrgs);
          }else{
              write(false);

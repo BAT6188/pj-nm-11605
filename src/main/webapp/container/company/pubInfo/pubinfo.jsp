@@ -49,7 +49,7 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/> <br/>
-                <p class="btnListP">
+                <%--<p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
@@ -60,7 +60,7 @@
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
-                </p>
+                </p>--%>
             </div>
             <div class="tableBox">
                 <table id="table" class="table table-striped table-responsive">

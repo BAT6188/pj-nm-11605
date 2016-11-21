@@ -81,7 +81,7 @@
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">排污单位名称<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
