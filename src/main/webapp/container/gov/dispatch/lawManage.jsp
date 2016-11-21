@@ -347,20 +347,23 @@
                     <div class="form-group">
                         <label for="lawerName" class="col-sm-2 control-label">现场执法人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="lawerName" name="lawerName" class="form-control"/>
+                            <input type="text" id="lawerName" name="lawerName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="phone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="phone" name="phone" class="form-control"
+                            <input type="text" id="phone" name="phone" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exeTime" class="col-sm-2 control-label">执法时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="exeTime">
-                                <input class="form-control" size="16" type="text" id="exeTime" name="exeTime" readonly>
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="exeTime">
+                                <input class="form-control" size="16" type="text" id="exeTime" name="exeTime" data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -369,7 +372,8 @@
                     <div class="form-group">
                         <label for="exeDesc" class="col-sm-2 control-label">执法详情：</label>
                         <div class="col-sm-10">
-                            <textarea id="exeDesc" name="exeDesc" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                            <textarea id="exeDesc" name="exeDesc" class="form-control" rows="4" cols="50" placeholder="" data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -404,7 +408,7 @@
                     <div class="form-group">
                         <label for="eventTime" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
+                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
                                 <input class="form-control" size="16" type="text" id="eventTime" name="eventTime" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -467,7 +471,7 @@
 
                         <label for="sendTime" class="col-sm-2 control-label">发送时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="sendTime" name="sendTime" class="form-control" disabled/>
+                            <input type="text" id="sendTime" name="sendTime" class="form-control lookover" disabled/>
                         </div>
                     </div>
                     <div class="form-group">

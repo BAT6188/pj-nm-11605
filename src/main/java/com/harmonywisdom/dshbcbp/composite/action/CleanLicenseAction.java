@@ -26,10 +26,10 @@ public class CleanLicenseAction extends BaseAction<CleanLicense, CleanLicenseSer
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param=new QueryParam();
-        String startDates = request.getParameter("startDate");
-        String startCreateDate = request.getParameter("startCreateDate");
-        String endDates = request.getParameter("endDate");
-        String endCreateDate = request.getParameter("endCreateDate");
+        String startDates = request.getParameter("startTime");
+        String startCreateDate = request.getParameter("endTime");
+        String endDates = request.getParameter("endStartTime");
+        String endCreateDate = request.getParameter("endEndTime");
         if(StringUtils.isNotBlank(entity.getEnterpriseId())){
             param.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));
         }

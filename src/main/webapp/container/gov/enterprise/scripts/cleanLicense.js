@@ -205,29 +205,14 @@ removeBtn.click(function () {
 
 
 /**============列表搜索相关处理============**/
-//搜索按钮处理
+//搜索
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#t_name").val();
-    var startDate = $("#t_startDate").val();
-    var endDate = $("#t_endDate").val();
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (startDate){
-        queryParams["startDate"] = startDate;
-    }
-    if (endDate){
-        queryParams["endDate"] = endDate;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
-$("#reset").click(function(){
+//重置搜索
+$("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    $('#searchform1')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/
@@ -249,32 +234,6 @@ var ef = form.easyform({
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
-});
-//初始化日期组件
-$('#startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#pubDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
 });
 
 /**
@@ -311,27 +270,25 @@ function setFormView(entity) {
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
+//初始化日期组件
+$('.searchInput').datetimepicker({
+    language: 'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#recordDateContent').datetimepicker({
+        $('.form_date').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
-        $('#endDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#pubDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
+
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('.form_date').datetimepicker('remove');
+
     }
 
 }

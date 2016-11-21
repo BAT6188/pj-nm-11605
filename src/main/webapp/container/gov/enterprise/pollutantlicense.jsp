@@ -7,7 +7,8 @@
         String enterpriseId =request.getParameter("id");
     %>
     <script type="text/javascript">
-        var enterpriseId='<%=enterpriseId%>'
+        var enterpriseId='<%=enterpriseId%>';
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -21,26 +22,26 @@
                             <span class="text">查询</span>
                         </span>
                 </div>
-                <div class="queryBox marginLeft0">
-                    <%--<p>--%>
-                        <%--<label for="t_type">许可证类型：</label>
-                        <input type="text" id="t_type" class="form-control" />--%>
-                        <%--<label for="t_recordDate">有效期结束日期：</label><input type="text" id="t_recordDate" class="form-control" />--%>
-                    <%--</p>--%>
-
-                        <form class="form-inline" id="searchform">
+                <div class="queryBox marginLeft0" >
+                    <form class="form-inline" role="form" id="searchform">
                             <div class="form-group">
-                                <label for="t_type">许可证类型：</label>
-                                <select id="t_type" name="" class="form-control" style="width: 301px;">
+                                <label for="">许可证类型：</label>
+                                <select  name="type" class="form-control" style="width: 301px;">
                                     <option value="">请选择</option>
                                     <option value="1">正式</option>
                                     <option value="2">临时</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="t_endDate">有效期结束日期：</label>
+                                <label >有效期结束日期：</label>
                                 <div id="t_endDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endDate">
-                                    <input class="form-control" size="16" id="t_endDate"  type="text" value="" readonly>
+                                    <input class="form-control" size="16" name="endStartDate"  type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div id="t_endCreateDateContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endDate">
+                                    <input class="form-control" size="16" name="endEndDate"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
@@ -48,7 +49,7 @@
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <br/><br/>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
