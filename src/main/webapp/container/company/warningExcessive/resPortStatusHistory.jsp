@@ -34,13 +34,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">发布时间：</label>
-                            <div id="datetimepicker" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sendTime">
+                            <div id="datetimepicker" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly placeholder="开始时间">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd " data-link-field="sendTime">
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly placeholder="结束时间">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>

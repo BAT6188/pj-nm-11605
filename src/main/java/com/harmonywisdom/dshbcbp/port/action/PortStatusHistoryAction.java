@@ -65,10 +65,10 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         String starCreateTime = request.getParameter("start_createTime");
         String endCreateTime = request.getParameter("end_createTime");
         if(StringUtils.isNotBlank(starCreateTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd")));
+            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd HH:mm")));
         }
         if(StringUtils.isNotBlank(endCreateTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd")));
+            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd HH:mm")));
         }
 
         QueryCondition condition = new QueryCondition();
