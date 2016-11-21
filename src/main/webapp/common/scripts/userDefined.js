@@ -352,6 +352,27 @@ var pageUtils = {
     loadPageOfContent:function(id,url){
         $(id).html(pageUtils.loading()); // 设置页面加载时的loading图片
         $(id).load(url); // ajax加载页面
+    },
+    /**
+     * 检查开始时间和结束时间
+     * @param startTime
+     * @param endTime
+     */
+    checkSearchFormTimes:function(startTime,endTime){
+        if( (startTime && !endTime) || ((!startTime && !endTime) || startTime<=endTime)){
+            return true;
+        }else{
+            /*if(startTime && !endTime){
+                Ewin.alert("缺少结束时间！");
+            }*/
+            if(!startTime && endTime){
+                Ewin.alert("缺少 [开始时间]！");
+            }
+            if(startTime>endTime){
+                Ewin.alert("[结束时间] 要小于 [开始时间]！");
+            }
+            return false;
+        }
     }
 };
 (function($){

@@ -43,7 +43,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
-            temp.enterpriseId = id;
+            temp.enterpriseId = enterpriseId;
             return temp;
         },
         columns: [

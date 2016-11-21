@@ -190,8 +190,8 @@
         <div class="menuDiv">
             <h3><a href="javascript:;">其他环境信息</a></h3>
             <ul>
-                <li><a href="javascript:;">环境自行监测方案</a></li>
-                <li><a href="javascript:;">其他环境信息</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/EnvTestProgram.jsp')">环境自行监测方案</a></li>
+                <li><a href="javascript:loadPageInEnterprise('/otherEnv.jsp')">其他环境信息</a></li>
             </ul>
         </div>
         <div class="menuDiv">

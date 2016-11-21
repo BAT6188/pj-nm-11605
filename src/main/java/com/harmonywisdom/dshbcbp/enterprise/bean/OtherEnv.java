@@ -1,10 +1,8 @@
 package com.harmonywisdom.dshbcbp.enterprise.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 企业其他环境信息
@@ -22,7 +20,7 @@ public class OtherEnv implements Serializable {
      * 环境制度建设情况
      */
     @Column(name = "env_build_desc")
-    private String EnvBuildDesc;
+    private String envBuildDesc;
     /**
      * 是否通过ISO管理体系认证
      */
@@ -34,6 +32,22 @@ public class OtherEnv implements Serializable {
     @Column(name = "other_info")
     private String otherInfo;
 
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentId;
+    /**
+     * 企业id
+     */
+    @Column(name = "enterprise_id", length = 32)
+    private String enterpriseId;
+
     public String getId() {
         return id;
     }
@@ -43,11 +57,11 @@ public class OtherEnv implements Serializable {
     }
 
     public String getEnvBuildDesc() {
-        return EnvBuildDesc;
+        return envBuildDesc;
     }
 
     public void setEnvBuildDesc(String envBuildDesc) {
-        EnvBuildDesc = envBuildDesc;
+        this.envBuildDesc = envBuildDesc;
     }
 
     public String getIsISO() {
@@ -66,6 +80,22 @@ public class OtherEnv implements Serializable {
         this.otherInfo = otherInfo;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -73,6 +103,4 @@ public class OtherEnv implements Serializable {
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
     }
-
-    private String enterpriseId;
 }
