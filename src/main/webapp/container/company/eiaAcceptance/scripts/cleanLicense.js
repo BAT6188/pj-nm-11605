@@ -205,36 +205,14 @@ removeBtn.click(function () {
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
+//搜索
 $("#search").click(function () {
-    var queryParams = {};
-    var name = $("#t_name").val();
-    var startDate = $("#t_startDate").val();
-    var startCreateDate = $("#t_startCreateDate").val();
-    var endDate = $("#t_endDate").val();
-    var endCreateDate = $("#t_endCreateDate").val();
-    if (name){
-        queryParams["name"] = name;
-    }
-    if (startDate){
-        queryParams["startDate"] = startDate;
-    }
-    if(startCreateDate){
-        queryParams["startCreateDate"] = startCreateDate;
-    }
-    if (endDate){
-        queryParams["endDate"] = endDate;
-    }
-    if(endCreateDate){
-        queryParams["endCreateDate"] = endCreateDate;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
-$("#reset").click(function(){
+//重置搜索
+$("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    $('#searchform1')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/

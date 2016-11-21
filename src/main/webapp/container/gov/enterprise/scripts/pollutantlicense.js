@@ -218,25 +218,14 @@ removeBtn.click(function () {
 
 
 /**============列表搜索相关处理============**/
-//搜索按钮处理
+//搜索
 $("#search").click(function () {
-    var queryParams = {};
-    var type = $("#t_type").val();
-    var endDate = $("#t_endDate").val();
-    if (type){
-        queryParams["type"] = type;
-    }
-    if (endDate){
-        queryParams["endDate"] = endDate;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
-//重置按钮处理
-$("#reset").click(function () {
+//重置搜索
+$("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/
@@ -259,27 +248,7 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
-//初始化日期组件
-$('#startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#pubDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
+
 /**
  * 设置表单数据
  * @param entity
@@ -319,27 +288,24 @@ function setFormView(entity) {
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
+$('.form_datetime').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#startDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#endDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#pubDateContent').datetimepicker({
+
+        $('.form_date').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#recordDateContent').datetimepicker('remove');
+        $('.form_date').datetimepicker('remove');
     }
 
 }

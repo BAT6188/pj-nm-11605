@@ -56,11 +56,11 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         try {
             if(StringUtils.isNotBlank(startTime)){
                 Date starttime = sdf.parse(startTime+" 00:00:00");
-                param.andParam(new QueryParam("bTime", QueryOperator.GE,starttime));
+                param.andParam(new QueryParam("replyTime", QueryOperator.GE,starttime));
             }
             if(StringUtils.isNotBlank(endTime)){
                 Date endtime = sdf.parse(endTime+" 23:59:59");
-                param.andParam(new QueryParam("bTime", QueryOperator.LE,endtime));
+                param.andParam(new QueryParam("replyTime", QueryOperator.LE,endtime));
             }
         } catch (ParseException e) {
             e.printStackTrace();

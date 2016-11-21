@@ -207,18 +207,22 @@ window.operateEvents = {
                 $(v).val(value);
             }
         });
-        var input = ysform.find('.hpdata');
-        $.each(input, function (k, v) {
-            var tagId = $(v).attr('name');
-            var value = (row.projectEIA)[tagId];
-            if (v.tagName == 'SELECT') {
-                $(v).find("option[value='" + value + "']").attr("selected", true);
-            } else if (v.tagName == 'DIV') {
-                if (value)$(v).find("input." + tagId + value).get(0).checked = true;
-            } else {
-                $(v).val(value);
-            }
-        });
+
+        if(row.projectEIA){
+            var input = ysform.find('.hpdata');
+            $.each(input, function (k, v) {
+                var tagId = $(v).attr('name');
+                var value = (row.projectEIA)[tagId];
+                if (v.tagName == 'SELECT') {
+                    $(v).find("option[value='" + value + "']").attr("selected", true);
+                } else if (v.tagName == 'DIV') {
+                    if (value)$(v).find("input." + tagId + value).get(0).checked = true;
+                } else {
+                    $(v).val(value);
+                }
+            });
+        }
+
         var buildinput = ysform.find('.builddata');
         $.each(buildinput, function (k, v) {
             var tagId = $(v).attr('name');
@@ -372,6 +376,8 @@ function resetForm() {
 function disabledForm(disabled) {
     buildForm.find(".form-control").attr("disabled", disabled);
     buildForm.find('input[type="radio"]').attr("disabled", disabled);
+    buildForm.find(".formBtn").attr("disabled", disabled);
+
     if (!disabled) {
         //初始化日期组件
         buildForm.find('.form_date').datetimepicker({
@@ -443,7 +449,7 @@ function setHPFormData(entity) {
 
 function setYSFormData(entity) {
     if (!entity) {return false}
-    ysform.find(".modal-title").text("修改" + hpformTitle);
+    ysform.find(".modal-title").text("修改" + ysformTitle);
     var id = entity.id;
     var inputs = ysform.find('.otherdata');
     $.each(inputs, function (k, v) {
@@ -468,7 +474,7 @@ function resetHPForm() {
     hpform.find(".btn-cancel").text("取消");
 }
 function resetYSForm() {
-    ysform.find(".modal-title").html("新增" + hpformTitle);
+    ysform.find(".modal-title").html("新增" + ysformTitle);
     ysform.find('form')[0].reset();
     ysUploader = new qq.FineUploader(getYSUploaderOptions());
     disabledYSForm(false);
@@ -492,6 +498,7 @@ function disabledHPForm(disabled) {
 }
 function disabledYSForm(disabled) {
     ysform.find(".form-control").attr("disabled", disabled);
+    ysform.find(".builddata").attr("disabled", disabled);
     ysform.find('input[type="radio"]').attr("disabled", disabled);
     if (!disabled) {
         //初始化日期组件
