@@ -17,4 +17,9 @@ public class VideoServiceImpl extends BaseService<Video, String> implements Vide
     protected BaseDAO<Video, String> getDAO() {
         return videoDAO;
     }
+
+    @Override
+    public void deleteVideo(String unitId) {
+        videoDAO.executeJPQL("delete from Video entity where entity.unitId in ?1",unitId);
+    }
 }

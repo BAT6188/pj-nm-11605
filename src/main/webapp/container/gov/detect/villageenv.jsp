@@ -3,6 +3,9 @@
 <html>
 <head>
     <title>农村生态环境监管</title>
+    <script type="text/javascript">
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -64,8 +67,8 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">乡镇名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="id" name="id">
-                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="removeId" name="removeId" class="form-control">
                             <input type="text" id="name" name="name" class="form-control"
                                    data-message="乡镇名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -78,6 +81,19 @@
                                    data-message="所属区域不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select class="form-control needshow" id="blockLevelId" name="blockLevelId">
+                            </select>
+                        </div>
+
+                        <label for="blockId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
+                            <select class="form-control needshow" id="blockId" name="blockId">
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -102,14 +118,14 @@
                         <label for="points" class="col-sm-2 control-label">位置标绘<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <div class="input-group">
-                                <textarea id="points" name="points" class="form-control" rows="3"></textarea>&nbsp;&nbsp;&nbsp;
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">
-                                        标注
-                                    </button>
-					            </span>
+                            <div class="input-group" style="display:none">
+                                <textarea id="points" type="hidden" name="points" class="form-control"
+                                          rows="3"></textarea>
                             </div>
+                            <input type="checkbox" name="cheackPoints" id="cheackPoints">标绘
+                            <button type="button" id="lookPoints" class="btn btn-info" style="display: none" onclick="lookMapBtn()">查看标绘</button>
+                            <button type="button" id="editPoints" class="btn btn-primary " style="display: none" onclick="initMapBtn()">标绘</button>
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -140,7 +156,7 @@
 </div>
 <div class="modal fade" id="lookVideo" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" style="width: 96%;">
+    <div class="modal-dialog" style="width: 60%">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -157,7 +173,7 @@
 </div>
 <%@include file="/common/gis/map_mark.jsp" %>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/villageenv.js"></script>
-<script>
+<%--<script>
     $(function () {
         initMapBtn();
     });
@@ -178,6 +194,6 @@
             MapMarkDialog.open();
         })
     }
-</script>
+</script>--%>
 </body>
 </html>

@@ -2,6 +2,9 @@
 var VideoPage = function () {
     var videoPage = {
         villageEnvId:undefined,
+        blockLevelId:undefined,
+        blockId:undefined,
+        villageEnvName:undefined,
         /**
          * 获取列表所有的选中数据id
          * @returns {*}
@@ -212,13 +215,13 @@ var VideoPage = function () {
                     sortable: false,
                     align: 'center'
                 },
-                /*{
+                {
                     field: 'operate',
                     title: '操作',
                     align: 'center',
                     events: operateEvents,
                     formatter: operateFormatter
-                }*/
+                }
             ]
         });
         // sometimes footer render error.
@@ -307,6 +310,7 @@ var VideoPage = function () {
             var entity = videoform.find("form").formSerializeObject();
             entity.attachmentIds = getAttachmentIdsVideo();
             entity.unitId=videoPage.villageEnvId;
+            entity.unitName=videoPage.villageEnvName;
             saveVideoAjax(entity,function (msg) {
                 videoform.modal('hide');
                 gridTableVideo.bootstrapTable('refresh');
@@ -338,6 +342,9 @@ var VideoPage = function () {
         $("#unitName").val(entity.unitName);
         $("#longitude").val(entity.longitude);
         $("#latitude").val(entity.latitude);
+        $("#video_blockLevelId").val(entity.blockLevelId);
+        $("#video_blockId").val(entity.blockId);
+
         uploaderVideo = new qq.FineUploader(videoPage.getUploaderOptionsVideo(entity.id));
     }
     function setVideoFormView(entity) {
@@ -378,8 +385,52 @@ var VideoPage = function () {
         $("textarea").val("");
         uploaderVideo = new qq.FineUploader(videoPage.getUploaderOptionsVideo());
         disabledForm(false);
+        $("#unitName").val(VideoPage.villageEnvName);
+        selectBlock('#video_blockLevelId','#video_blockId');
+        $("#video_blockLevelId").val(VideoPage.blockLevelId);
+        $("#video_blockLevelId").change();
+        $("#video_blockId").val(VideoPage.blockId);
         videoform.find("#saveVideo").show();
         videoform.find(".cancel").text("取消");
+    }
+    //网格select加载
+    function selectBlock(pSelector,cSelector) {
+        var pBlock = $(pSelector), cBlock = $(cSelector), blockMap = {};
+        var blockLevel = searchForAjax("/action/S_composite_BlockLevel_list.action", null);
+        if (blockLevel.total) {
+            pBlock.empty();
+            pBlock.append($("<option>").val("").text("---请选择---"));
+            $.each(blockLevel.rows, function (k, v) {
+                pBlock.append($("<option>").val(v.id).text(v.name));
+                var child = searchForAjax("/action/S_composite_Block_findLevelById.action", {blockLevelId: v.id});
+                blockMap[v.id] = child;
+            });
+            pBlock.change(function(){
+                var pid = $(this).val();
+                var childData = blockMap[pid];
+                cBlock.empty();
+                cBlock.append($("<option>").val("").text("---请选择---"));
+                $.each(childData,function(k,v){
+                    cBlock.append($("<option>").val(v.id).text(v.orgName));
+                });
+            });
+        }
+    }
+
+
+    function searchForAjax(url,entity) {
+        var returnData;
+        $.ajax({
+            url: rootPath + url,
+            method:'post',
+            async :false,
+            data:entity,
+            dataType:"json",
+            success:function(data) {
+                returnData = data;
+            }
+        });
+        return returnData;
     }
 
     //表单附件相关js

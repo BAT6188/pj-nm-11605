@@ -71,10 +71,39 @@ public class Video implements Serializable {
     @Column(name = "plane_map_mark",length = 1024)
     private String planeMapMark;
     /**
+     * 网格级别
+     */
+    @Column(name = "BLOCK_LEVEL_ID")
+    private String blockLevelId;
+
+    /**
+     *所属网格id
+     *
+     */
+    @Column(name = "BLOCK_ID",length = 100)
+    private String blockId;
+    /**
      *附件
      */
     @Transient
     private String attachmentIds;
+
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
 
     public String getAttachmentIds() {
         return attachmentIds;
