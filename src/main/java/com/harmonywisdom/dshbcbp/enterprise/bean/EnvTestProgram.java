@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *环境自测方案
@@ -23,6 +24,25 @@ public class EnvTestProgram implements Serializable {
      */
     @Column(name = "year", length = 6)
     private Integer year;
+
+    /**
+     * 发布状态 0:未发布 1:已发布
+     */
+    @Column(name = "pub_status", length = 1)
+    private String pubStatus;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /**
+     * 附件名称
+     */
+    @Column(name = "attachment_name", length = 32)
+    private String attachmentName;
+
     /**
      * 附件
      */
@@ -63,6 +83,14 @@ public class EnvTestProgram implements Serializable {
         this.attachmentId = attachmentId;
     }
 
+    public String getAttachmentName() {
+        return attachmentName;
+    }
+
+    public void setAttachmentName(String attachmentName) {
+        this.attachmentName = attachmentName;
+    }
+
     public String getContent() {
         return content;
     }
@@ -77,5 +105,21 @@ public class EnvTestProgram implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getPubStatus() {
+        return pubStatus;
+    }
+
+    public void setPubStatus(String pubStatus) {
+        this.pubStatus = pubStatus;
     }
 }

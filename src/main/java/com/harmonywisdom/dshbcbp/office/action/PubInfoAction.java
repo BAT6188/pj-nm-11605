@@ -37,9 +37,14 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
-        String pubTime = request.getParameter("gTime");
-        if (StringUtils.isNotBlank(pubTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime, "yyyy-MM-dd")));
+//        String pubTime = request.getParameter("gTime");
+        String pubStartTime = request.getParameter("pubStartTime");
+        String pubEndTime = request.getParameter("pubEndTime");
+        if (StringUtils.isNotBlank(pubStartTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.GE, DateUtil.strToDate(pubStartTime, "yyyy-MM-dd")));
+        }
+        if (StringUtils.isNotBlank(pubEndTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.LE, DateUtil.strToDate(pubEndTime, "yyyy-MM-dd")));
         }
         String orgCode = request.getParameter("orgCode");
         QueryParam statusParam=new QueryParam();

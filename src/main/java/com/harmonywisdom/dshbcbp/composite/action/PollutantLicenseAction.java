@@ -23,8 +23,8 @@ public class PollutantLicenseAction extends BaseAction<PollutantLicense, Polluta
 
     @Override
     protected QueryCondition getQueryCondition() {
-        String endDate = request.getParameter("endDate");
-        String endCreateDate = request.getParameter("endCreateDate");
+        String endDate = request.getParameter("endStartDate");
+        String endCreateDate = request.getParameter("endEndDate");
         QueryParam param=new QueryParam();
         if(StringUtils.isNotBlank(entity.getEnterpriseId())){
             param.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));

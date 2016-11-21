@@ -12,6 +12,8 @@ var workType={
 var currentType=1;
 function changeTab(type){
     if(currentType!=type){
+        removeBtn.prop('disabled', true);
+        updateBtn.prop('disabled', true);
         currentType = type;
         $('#s_type').val(type);
         $('.titleName').html(workType[type]);
