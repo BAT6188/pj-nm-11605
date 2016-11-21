@@ -138,12 +138,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="supervisor" class="col-sm-2 control-label">企业负责人<span class="text-danger">*</span>：</label>
+                        <label for="supervisor" class="col-sm-2 control-label">企业负责人：</label>
                         <div class="col-sm-4">
                             <input type="text" id="supervisor" name="supervisor" class="form-control"/>
                         </div>
 
-                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式：</label>
                         <div class="col-sm-4">
                             <input type="text" id="supervisorPhone" name="supervisorPhone" class="form-control"
                             />
@@ -152,7 +152,8 @@
                     <div class="form-group">
                         <label for="content" class="col-sm-2 control-label">来电详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="content" name="content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                            <textarea id="content" name="content" class="form-control" rows="4" cols="50" placeholder="" data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
                     <hr/>
@@ -160,13 +161,15 @@
                     <div class="form-group">
                         <label for="senderName" class="col-sm-2 control-label">处理人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="senderName" name="senderName" class="form-control"
+                            <input type="text" id="senderName" name="senderName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"
                             />
                         </div>
 
                         <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="sendPhone" name="sendPhone" class="form-control"/>
+                            <input type="text" id="sendPhone" name="sendPhone" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group">

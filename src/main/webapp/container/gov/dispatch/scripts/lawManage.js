@@ -272,9 +272,7 @@ window.lookOverEvents = {
         if (!entity) {return false}
         var id = entity.id;
 
-        eventMsgForm.find("input").attr("disabled",true);
-        eventMsgForm.find("textarea").attr("disabled",true);
-        eventMsgForm.find("select").attr("disabled",true);
+        disabledForm(eventMsgForm,true)
 
         $("#id").val(entity.id);
         $("#eventTime").val(entity.eventTime);
@@ -346,7 +344,9 @@ window.operateEvents = {
         $("#lookOverFeedbackForm_supervisorPhone").val(row.supervisorPhone);
         $("#lookOverFeedbackForm_senderName").val(row.senderName);
         $("#lookOverFeedbackForm_sendTime").val(row.sendTime);
+        $("#lookOverFeedbackForm_content").val(row.sendRemark);
         $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
+        disabledForm($("#lookOverFeedbackForm"),true)
 
         feedbackRecordTable.bootstrapTable('refresh',{query:{dispatchId:row.id}})
 
@@ -389,6 +389,7 @@ $("#dealWith").bind("click",function () {
 $("#feedback").bind("click",function () {
     feedbackForm.find("input").val("")
     feedbackForm.find("textarea").val("")
+    disabledForm(feedbackForm,false)
     $("#dispatchId").val(getSelections()[0].id)
 
     uploaderToggle(".bUploader")
@@ -531,6 +532,7 @@ function setEventMsgFormData(entity) {
     var id = entity.id;
 
     eventMsgForm.find("input").attr("disabled",true);
+    eventMsgForm.find("textarea").attr("disabled",false);
 
     $("#id").val(entity.id);
     $("#eventTime").val(entity.eventTime);
@@ -574,7 +576,25 @@ function resetEventMsgFormData() {
     eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
-    disabledForm(false);
+    disabledForm($("#eventMsg"),false);
+}
+
+function disabledForm(dialogSelector,disabled) {
+    dialogSelector.find("input").attr("disabled",disabled);
+    dialogSelector.find("textarea").attr("disabled",disabled);
+    dialogSelector.find("select").attr("disabled",disabled);
+
+    if (!disabled) {
+        //初始化日期组件
+        $('.lookover').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+
+    }else{
+        $('.lookover').datetimepicker('remove');
+    }
 }
 
 /**============表单初始化相关代码============**/
@@ -729,6 +749,7 @@ window.seeEvent = {
         $("#phone").val(row.phone)
         $("#exeTime").val(row.exeTime)
         $("#exeDesc").val(row.exeDesc)
+        disabledForm($("#feedbackForm"),true)
 
         uploaderToggle(".bUploader")
         var fuOptions = getUploaderOptions(row.id);
