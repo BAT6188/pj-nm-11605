@@ -24,7 +24,7 @@
                     <p>
                     <form class="form-horizontal" role="form" id="searchform">
                         <label for="number">噪声源编号：</label> <input type="text" id="portNumber" name="number" class="form-control" />
-                        <label for="name">监测点名称：</label> <input type="text" id="portName" name="name" class="form-control" />
+                        <label for="name" class="labelMarginLeft">监测点名称：</label> <input type="text" id="portName" name="name" class="form-control" />
                     </form>
                     </p>
                 </div>

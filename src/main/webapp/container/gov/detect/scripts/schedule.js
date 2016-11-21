@@ -248,19 +248,17 @@ var ef = form.easyform({
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
 
-            if (msg.success){
-                var receivers = [];
-                var receiver1 = {receiverId:entity.seterId,receiverName:entity.seter};
-                receivers.push(receiver1);
-                var msg = {
-                    'msgType':1,
-                    'title':entity.title,
-                    'content':entity.remark,
-                    'businessId':msg.id,
-                    alertTime:msg.alertTime
-                };
-                pageUtils.sendMessage(msg, receivers);
-            }
+            var receivers = [];
+            var receiver1 = {receiverId:entity.seterId,receiverName:entity.seter};
+            receivers.push(receiver1);
+            var msg = {
+                'msgType':1,
+                'title':entity.title,
+                'content':entity.remark,
+                'businessId':msg.id,
+                alertTime:msg.alertTime
+            };
+            pageUtils.sendMessage(msg, receivers);
         });
     }
 });

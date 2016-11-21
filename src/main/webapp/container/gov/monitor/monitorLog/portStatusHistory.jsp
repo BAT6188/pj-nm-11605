@@ -80,11 +80,11 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <label for="blockLevelId">&nbsp;所属网格：</label>
-                                <select class="form-control" id="blockLevelId" name="blockLevelId" style="width: 243px;">
+                                <select class="form-control" id="blockLevelId" name="blockLevelId" style="width: 238px;">
                                     <option value="">全部</option>
                                 </select>
                                 —
-                                <select class="form-control" id="blockId" name="blockId" style="width: 243px;">
+                                <select class="form-control" id="blockId" name="blockId" style="width: 238px;">
                                     <option value="">全部</option>
                                 </select>
                             </div>
@@ -93,13 +93,13 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <label for="monitorTime">超标时间段：</label>
-                                <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd hh:ii">
+                                <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                     <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
                                 —
-                                <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd hh:ii">
+                                <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                     <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

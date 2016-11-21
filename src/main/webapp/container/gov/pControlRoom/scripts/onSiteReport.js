@@ -23,7 +23,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_DispatchTask_list.action?role="+role,
+        url: rootPath+"/action/S_dispatch_DispatchTask_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -31,6 +31,7 @@ function initTable() {
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
             temp.monitorReportStatus = 1;
+            temp.role = 'env_pro_sta';
             return temp;
         },
         columns: [
