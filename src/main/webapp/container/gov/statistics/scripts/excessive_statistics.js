@@ -308,7 +308,6 @@ $(function(){
         })
     }
 
-    var pointTime;
     /**
      * 柱状图highchart
      * @param categories
@@ -362,7 +361,7 @@ $(function(){
                 series : {
                     events : {
                         click: function(e) {
-                            // console.log(e.point.category);
+                            console.log(e.point.category);
                             // $("#excessiveListForm").modal('show');
                             // var pointTime = e.point.category;
                             // var firstTime = pointTime + "-"+"01";
@@ -466,6 +465,11 @@ $(function(){
                     events : {
                         click: function(e) {
                             console.log(e.point.category);
+                            $("#excessiveListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
                         }
                     }
                 }
