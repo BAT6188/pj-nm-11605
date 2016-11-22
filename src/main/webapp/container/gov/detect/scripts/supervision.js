@@ -286,6 +286,8 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#save").hide();
+    form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled", disabled);
@@ -301,6 +303,8 @@ function resetForm() {
     uploader = new qq.FineUploader(getUploaderOptions());
     BlockOption(blockLevelId);
     disabledForm(false);
+    form.find("#save").show();
+    form.find(".btn-cancel").text("取消");
 
 }
 //表单附件相关js
@@ -503,6 +507,8 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
     gridTable.bootstrapTable('refresh');
 }
 
+
+
 //点击节点事件
 var blockLevelId;
 function zTreeOnClick(event, treeId, treeNode) {
@@ -519,17 +525,31 @@ function zTreeOnClick(event, treeId, treeNode) {
         }
     }
     selectZreeId();
-    zTreeOnSuccess();
     gridTable.bootstrapTable('refresh');
 }
 //右侧列表添加数据刷新zTree
 function zTreeOnSuccess() {
     var treeObj = $.fn.zTree.getZTreeObj("ztree");
     var node = treeObj.getSelectedNodes();
-    if (node.length > 0) {
-        //. 重新异步加载当前选中的第一个节点
-        treeObj.reAsyncChildNodes(node[0], "refresh");
+    if(node.length >0){
+        var currentNode = node[0];
+        if(currentNode.isParent==true){//级别节点，直接刷新
+            var preNode = treeObj.getNodeByParam("id",currentNode.id );
+            treeObj.selectNode(preNode,true);//指定选中ID的节点
+            treeObj.expandNode(preNode, true, false);//指定选中ID节点展开
+            treeObj.selectNode(preNode);
+            treeObj.reAsyncChildNodes(preNode, "refresh");
+        }else{//网格节点，刷新级别节点
+            var preNode = node[0].getParentNode();//获取当前选中父节点
+            var noda = treeObj.getNodeByParam("id",preNode.id );
+            treeObj.selectNode(noda,true);//指定选中ID的节点
+            treeObj.expandNode(noda, true, false);//指定选中ID节点展开
+            treeObj.selectNode(noda);
+            treeObj.reAsyncChildNodes(noda, "refresh");
+        }
     }
+    removeBtn.prop('disabled', true);
+    updateBtn.prop('disabled', true);
 }
 //获取选中节点ID
 function selectZreeId() {

@@ -23,7 +23,7 @@ var subMenu = {
             url:rootPath+"/container/company/dangerInspection/dangerInspection.jsp"
         },
         {
-            id:"",
+            id:"4",
             text:"信息公告",
             url:rootPath+"/container/company/pubInfo/pubinfo.jsp"
         },

@@ -36,7 +36,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_PubInfo_list.action?orgCode="+orgCode,
+        url: rootPath+"/action/S_office_PubInfo_list.action?grades="+"company"+"&enterpriseStatus="+"1",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,

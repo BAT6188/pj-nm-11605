@@ -150,6 +150,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     public void saveToMonitorOfficeAndMasterPersonList(){
         String sourceId = request.getParameter("sourceId");
         TrustMonitor trustMonitor = trustMonitorService.findById(sourceId);
+        trustMonitor.setAuditSuggestionStatus("1");
         trustMonitor.setStatus("2");
         trustMonitor.setAuditor(entity.getAuditor());
 
@@ -187,6 +188,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     public void saveNotAgreeForm(){
         String id = request.getParameter("trustMonitorId");
         TrustMonitor trustMonitor = trustMonitorService.findById(id);
+        trustMonitor.setAuditSuggestionStatus("2");
         trustMonitor.setStatus("3");
         trustMonitor.setAuditor(entity.getAuditor());
         trustMonitor.setAuditTime(entity.getAuditTime());
@@ -204,6 +206,10 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     public void saveAndAgreeAndSend(){
         String id = entity.getId();
         TrustMonitor t = trustMonitorService.findById(id);
+        t.setAuditor(entity.getAuditor());
+        t.setAuditTime(entity.getAuditTime());
+        t.setAuditPosition(entity.getAuditPosition());
+        t.setAuditorPhone(entity.getAuditorPhone());
         t.setAuditSuggestion(entity.getAuditSuggestion());
         trustMonitorService.update(t);
 

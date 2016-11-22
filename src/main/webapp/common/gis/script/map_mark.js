@@ -60,10 +60,13 @@ var MapMarkDialog = function () {
         if (!options) return;
         var type = options.type;
         var pointsStr = options.points;
+        var shapeId = new Date().getTime();
         switch (type){
             case dialog.VIEW_POINT:
                 var point = pointsStr.split(",");
+
                 hwmap.addMarker({
+                    id:shapeId,
                     x: point[0],
                     y: point[1]
                 });
@@ -71,12 +74,14 @@ var MapMarkDialog = function () {
             case dialog.VIEW_POLYLINE:
                 var points = hwmap.MapTools.strToPoints(pointsStr);
                 hwmap.addPolyline({
+                    id:shapeId,
                     points: points
                 });
                 break;
             case dialog.VIEW_POLYGON:
                 var points = hwmap.MapTools.strToPoints(pointsStr);
                 hwmap.addPolygon({
+                    id:shapeId,
                     points: points
                 });
                 break;

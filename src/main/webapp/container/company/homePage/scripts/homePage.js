@@ -46,14 +46,16 @@ $(function(){
                     $("#tablegrid").append($tr);
                 }
                 $(".moreInformation").bind('click',function(){
-                    var url = rootPath+"/container/company/dangerInspection/dangerInspection.jsp";
+                    var url = rootPath+"/container/company/pubInfo/pubinfo.jsp"
+                    console.log(url);
                     toUrl(url);
 
                 });
                 $(".information").bind('click', function () {
                     // $("#myModal").modal("show");
                     // window.location.href="<%=request.getContextPath()%>/container/gov/office/pubinfo.jsp";
-                    var url = rootPath+"/container/company/dangerInspection/dangerInspection.jsp";
+                    var url =rootPath+"/container/company/pubInfo/pubinfo.jsp";
+                    console.log(url);
                     toUrl(url);
                 });
 
@@ -105,6 +107,7 @@ $(function(){
         $(".excess").bind('click', function () {
             // $("#myModal").modal("show");
             var url = rootPath+"/container/company/warningExcessive/resPortStatusHistory.jsp";
+            console.log(url);
             toUrl(url);
         });
 

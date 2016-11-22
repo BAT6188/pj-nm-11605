@@ -256,25 +256,16 @@ removeBtn.click(function () {
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
+//搜索
 $("#search").click(function () {
-    var queryParams = {};
-    var title = $("#s_title").val();
-    var time =$("#s_time").val();
-    if (title){
-        queryParams["title"] = title;
-    }
-    if (time) {
-        queryParams["time"] = time;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
-//重置按钮处理
-$("#reset").click(function () {
+//重置搜索
+$("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('resetSearch');
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
+
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
@@ -307,16 +298,12 @@ $('#smsSend').bind('click',function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#timeContent').datetimepicker({
+$('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
 });
-$('#s_timeContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
+
 
 
 /**
@@ -362,13 +349,13 @@ function disabledForm(disabled) {
     form.find("textarea").attr("disabled", disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#timeContent').datetimepicker({
+        $('.form_date').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#timeContent').datetimepicker('remove');
+        $('.form_date').datetimepicker('remove');
     }
 
 }

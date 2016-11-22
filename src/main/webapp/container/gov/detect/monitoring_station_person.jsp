@@ -126,7 +126,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="监测时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -234,7 +234,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime_lookOverFeedbackDetailForm" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>

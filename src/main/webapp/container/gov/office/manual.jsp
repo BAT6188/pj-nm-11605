@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
+    <%--<%@include file="/common/common_include.jsp"%>--%>
     <jsp:include page="/common/common_ztree.jsp"></jsp:include>
     <title>环保手册</title>
 </head>

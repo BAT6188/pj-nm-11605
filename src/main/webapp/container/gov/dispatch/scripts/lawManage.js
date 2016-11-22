@@ -118,7 +118,15 @@ function initTable() {
                 title: '原因',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="异常"
+                    }else if(2==value){
+                        value="超标"
+                    }
+                    return value;
+                }
             },
             {
                 title: '状态',
@@ -531,8 +539,7 @@ function setEventMsgFormData(entity) {
     if (!entity) {return false}
     var id = entity.id;
 
-    eventMsgForm.find("input").attr("disabled",true);
-    eventMsgForm.find("textarea").attr("disabled",false);
+    disabledForm(eventMsgForm,true)
 
     $("#id").val(entity.id);
     $("#eventTime").val(entity.eventTime);
@@ -859,10 +866,11 @@ $("#overBtn").click(function () {
 /************  新增（现场监察）表单 ******************/
 var newXianChangJianChaForm=$("#newXianChangJianChaForm");
 $("#insert").click(function () {
-    newXianChangJianChaForm.find("input").attr("disabled",false);
-    newXianChangJianChaForm.find("textarea").attr("disabled",false);
+    disabledForm(newXianChangJianChaForm,false)
 
     $("#eventTime_newXianChangJianChaForm").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    newXianChangJianChaForm.find("input[type!='radio'][type!='checkbox']").val("");
+    $("textarea").val("");
 })
 
 function saveXianChangJianChaAjax(entity, callback) {

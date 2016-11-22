@@ -4,6 +4,7 @@
 <head>
     <title>摄像头</title>
     <script type="text/javascript">
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 
@@ -33,10 +34,10 @@
 </div>
 <!--添加表单-->
 <div class="modal fade" data-backdrop="static" id="videoForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 930px">
+    <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <%--<button type="button" id="videoClose" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--%>
                 <h4 class="modal-title form-title">添加摄像头</h4>
             </div>
             <div class="modal-body">
@@ -44,12 +45,25 @@
                     <div class="form-group">
                         <label for="video_name" class="col-sm-2 control-label">名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <input type="hidden" id="video_id" name="id">
-                            <input type="hidden" id="video_removeId" name="removeId">
+                            <input type="hidden" id="video_id" name="id" class="form-control">
+                            <input type="hidden" id="video_removeId" name="removeId" class="form-control">
                             <input type="text" id="video_name" name="name" class="form-control"
                                    data-message="名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select class="form-control needshow" id="video_blockLevelId" name="blockLevelId">
+                            </select>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
+                            <select class="form-control needshow" id="video_blockId" name="blockId">
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
