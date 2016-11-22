@@ -26,20 +26,20 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
-//        if (StringUtils.isNotBlank(entity.getName())) {
-//            params.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
-//        }
-//
-//        if (entity.getAge() != null) {
-//            params.andParam(new QueryParam("age", QueryOperator.LIKE,entity.getAge()));
-//        }
+        if (StringUtils.isNotBlank(entity.getResponsibleDepartmentName())) {
+            params.andParam(new QueryParam("responsibleDepartmentName", QueryOperator.LIKE,"%"+entity.getResponsibleDepartmentName()+"%"));
+        }
+
+        if (StringUtils.isNotEmpty(entity.getType())) {
+            params.andParam(new QueryParam("type", QueryOperator.EQ,entity.getType()));
+        }
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("age", Direction.DESC);
+//        condition.setOrderBy("age", Direction.DESC);
         return condition;
     }
 
@@ -52,11 +52,8 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
         super.save();
-        String[] attachmentIds = getParamValues("attachmentIds");
-        for (String attachmentId : attachmentIds) {
-            if (StringUtils.isNotBlank(attachmentId)){
-                attachmentService.updateBusinessId(entity.getId(),attachmentId.split(","));
-            }
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
 
 

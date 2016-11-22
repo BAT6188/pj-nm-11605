@@ -118,7 +118,15 @@ function initTable() {
                 title: '原因',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="异常"
+                    }else if(2==value){
+                        value="超标"
+                    }
+                    return html;
+                }
             },
             {
                 title: '状态',
@@ -531,8 +539,7 @@ function setEventMsgFormData(entity) {
     if (!entity) {return false}
     var id = entity.id;
 
-    eventMsgForm.find("input").attr("disabled",true);
-    eventMsgForm.find("textarea").attr("disabled",false);
+    disabledForm(eventMsgForm,true)
 
     $("#id").val(entity.id);
     $("#eventTime").val(entity.eventTime);
