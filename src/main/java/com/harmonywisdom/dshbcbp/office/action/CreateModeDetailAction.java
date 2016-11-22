@@ -33,6 +33,42 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
         return createModeDetailService;
     }
 
+    /**
+     * 保存上报，并计算父表 是否应该为上报完成状态（如果对应的子表的每条记录completeStatus都为完成状态，则置父表status为上报完成状态）
+     */
+    public void saveUpload(){
+        String id = entity.getId();
+        //获取删除的附件IDS
+        String attachmentIdsRemoveId = request.getParameter("removeId");
+        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
+            attachmentService.updateBusinessId(id,entity.getAttachmentIds().split(","));
+        }
+
+        CreateModeDetail cmd = createModeDetailService.findById(id);
+        cmd.setCompleteStatus("1");
+        createModeDetailService.update(cmd);
+
+        //检测父表上报状态（status）是否应该设置为已完成
+        String createModeId = cmd.getCreateModeId();
+        List<CreateModeDetail> createModeDetails = createModeDetailService.find("createModeId=?", createModeId);
+        boolean isComplete=true;
+        for (CreateModeDetail createModeDetail : createModeDetails) {
+            if (!"1".equals(createModeDetail.getCompleteStatus())){
+                isComplete=false;
+            }
+        }
+        if (isComplete){
+            CreateMode createMode = createModeService.findById(createModeId);
+            createMode.setStatus("1");
+            createModeService.update(createMode);
+            log.debug("已设置相应父表状态为上报完成状态");
+        }
+        write("ok");
+    }
     public void getOrgList(){
         List<Org> allNotDelOrg = OrgServiceUtil.getAllNotDelOrg();
         write(allNotDelOrg);
@@ -53,6 +89,10 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
             params.andParam(new QueryParam("type", QueryOperator.EQ,entity.getType()));
         }
 
+        if (StringUtils.isNotEmpty(entity.getCompleteStatus())) {
+            params.andParam(new QueryParam("completeStatus", QueryOperator.EQ,entity.getCompleteStatus()));
+        }
+
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
@@ -64,6 +104,7 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
 
     @Override
     public void save() {
+        entity.setCompleteStatus("0");
         String createModeId = entity.getCreateModeId();
         if (StringUtils.isNotEmpty(createModeId)){
             CreateMode cm = createModeService.findById(createModeId);
@@ -83,9 +124,6 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
-
-
-
     }
 
     /**

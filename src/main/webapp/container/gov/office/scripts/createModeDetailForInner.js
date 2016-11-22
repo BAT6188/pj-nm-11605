@@ -188,10 +188,13 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = $("#queryBox").find("form").formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    $("#type").val(type)
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -302,6 +305,7 @@ function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     form.find("textarea").val("");
+    $("#deadline").val(deadline)
     uploader = new qq.FineUploader(getUploaderOptions());
     uploader2 = new qq.FineUploader(getUploaderOptions2());
     if(type==2){

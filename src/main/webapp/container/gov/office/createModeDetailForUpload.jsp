@@ -1,11 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    String createModeId = request.getParameter("createModeId");
-%>
-<script>
-    var createModeId='<%=createModeId%>'
-    console.log(createModeId)
-</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,28 +36,27 @@
                     </div>
                     <div class="queryBox marginLeft0">
                         <form class="form-inline">
-                            <input type="hidden" id="type" name="type" value="1">
+                            <input type="hidden" id="type" name="type">
                             <div class="form-group">
-                                <label>责任部门：</label>
-                                <select id="" name="responsibleDepartmentId" class="form-control responsibleDepartment">
+                                <label>上报状态：</label>
+                                <select id="" name="completeStatus" class="form-control">
                                     <option value="">全部</option>
+                                    <option value="0">未完成</option>
+                                    <option value="1">完成</option>
                                 </select>
                             </div>
                         </form>
                         <p></p>
                     </div>
                     <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                    <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                    <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                     <p class="btnListP">
-                        <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
-                            <i class="btnIcon add-icon"></i><span id="typeBtn">新增指标</span>
-                        </button>
                         <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
-                            <i class="btnIcon edit-icon"></i><span>修改</span>
+                            <i class="btnIcon edit-icon"></i><span>上报</span>
                         </button>
-                        <button id="remove" type="button" class="btn btn-sm btn-danger">
+                        <%--<button id="remove" type="button" class="btn btn-sm btn-danger">
                             <i class="btnIcon delf-icon"></i><span>删除</span>
-                        </button>
+                        </button>--%>
 
                     </p>
                 </div>
@@ -133,14 +125,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save">发布</button>
+                <button type="button" class="btn btn-primary" id="save">上报</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-
     var type=1
     function changeTab(f) {
         if (f==1){
@@ -172,7 +163,7 @@
     $(function () {
         $('#myTab a:first').tab('show')
         $(".material").hide()
-
+        $("#type").val(type)
         ajaxLoadStringtoOption(rootPath+"/action/S_office_CreateModeDetail_getOrgList.action",".responsibleDepartment",{code:"orgId",name:"orgName"})
     });
 </script>

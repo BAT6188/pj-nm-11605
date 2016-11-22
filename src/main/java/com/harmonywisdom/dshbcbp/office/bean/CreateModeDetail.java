@@ -148,4 +148,12 @@ public class CreateModeDetail implements Serializable {
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
     }
+
+    public String getCompleteStatus() {
+        return completeStatus;
+    }
+
+    public void setCompleteStatus(String completeStatus) {
+        this.completeStatus = completeStatus;
+    }
 }

@@ -1,5 +1,4 @@
 var gridTable = $('#table'),
-    removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#demoForm"),
     formTitle = "指标任务";
@@ -8,10 +7,9 @@ var gridTable = $('#table'),
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_office_CreateModeDetail_save.action?type="+type,
+        url: rootPath + "/action/S_office_CreateModeDetail_saveUpload.action?type="+type,
         type:"post",
         data:entity,
-        dataType:"json",
         success:callback
     });
 }
@@ -34,7 +32,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_CreateModeDetail_list.action?createModeId="+createModeId,
+        url: rootPath+"/action/S_office_CreateModeDetail_list.action?responsibleDepartmentId="+orgId,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -106,8 +104,6 @@ function initTable() {
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
-        //有选中数据，启用删除按钮
-        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
@@ -153,45 +149,26 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-$("#add").bind('click',function () {
-    resetForm();
-});
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
 });
-/**
- * 列表工具栏 删除按钮
- */
-removeBtn.click(function () {
-    var ids = getIdSelections();
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
-            return;
-        }
-        deleteAjax(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
-        });
-    });
 
-
-});
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
+//搜索按钮处理
 $("#search").click(function () {
-    var queryParams = $("#queryBox").find("form").formSerializeObject();
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    resetQuery();
+    $("#type").val(type)
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -213,7 +190,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds([uploader,uploader2,uploader3]);
-        entity.createModeId=createModeId
+        entity.id=$("#demoForm").find("#id").val()
         console.log(entity)
         saveAjax(entity,function (msg) {
             form.modal('hide');
@@ -242,6 +219,7 @@ function setFormData(entity) {
         var selector="#"+p
         $(selector).val(entity[p])
     }
+    disabledForm(form,true)
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
     uploader2 = new qq.FineUploader(getUploaderOptions2(id));

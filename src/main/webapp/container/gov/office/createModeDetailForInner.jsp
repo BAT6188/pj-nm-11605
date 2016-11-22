@@ -1,10 +1,14 @@
+<%@ page import="com.mchange.v3.decode.Decoder" %>
+<%@ page import="java.net.URLDecoder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String createModeId = request.getParameter("createModeId");
+    String deadline = request.getParameter("deadline");
+    deadline= URLDecoder.decode(deadline);
 %>
 <script>
     var createModeId='<%=createModeId%>'
-    console.log(createModeId)
+    var deadline='<%=deadline%>'
 </script>
 <!DOCTYPE html>
 <html>
@@ -43,7 +47,7 @@
                     </div>
                     <div class="queryBox marginLeft0">
                         <form class="form-inline">
-                            <input type="hidden" id="type" name="type" value="1">
+                            <input type="hidden" id="type" name="type">
                             <div class="form-group">
                                 <label>责任部门：</label>
                                 <select id="" name="responsibleDepartmentId" class="form-control responsibleDepartment">
@@ -54,7 +58,7 @@
                         <p></p>
                     </div>
                     <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                    <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                    <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                     <p class="btnListP">
                         <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
                             <i class="btnIcon add-icon"></i><span id="typeBtn">新增指标</span>
@@ -172,7 +176,7 @@
     $(function () {
         $('#myTab a:first').tab('show')
         $(".material").hide()
-
+        $("#type").val(type)
         ajaxLoadStringtoOption(rootPath+"/action/S_office_CreateModeDetail_getOrgList.action",".responsibleDepartment",{code:"orgId",name:"orgName"})
     });
 </script>
