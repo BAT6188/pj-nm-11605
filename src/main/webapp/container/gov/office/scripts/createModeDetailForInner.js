@@ -34,7 +34,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_office_CreateModeDetail_list.action",
+        url: rootPath+"/action/S_office_CreateModeDetail_list.action?createModeId="+createModeId,
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -213,6 +213,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds([uploader,uploader2,uploader3]);
+        entity.createModeId=createModeId
         console.log(entity)
         saveAjax(entity,function (msg) {
             form.modal('hide');
@@ -522,10 +523,12 @@ function getUploaderOptions3(bussinessId) {
 function getAttachmentIds(_uploader) {
     var ids = [];
     $.each(_uploader,function (i,v) {
-        var attachments = v.getUploads();
-        if (attachments && attachments.length) {
-            for (var i = 0 ; i < attachments.length; i++){
-                ids.push(attachments[i].uuid);
+        if(v!=undefined){
+            var attachments = v.getUploads();
+            if (attachments && attachments.length) {
+                for (var i = 0 ; i < attachments.length; i++){
+                    ids.push(attachments[i].uuid);
+                }
             }
         }
     })

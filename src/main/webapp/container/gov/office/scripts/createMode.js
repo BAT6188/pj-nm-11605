@@ -138,7 +138,7 @@ var DemoPage = function () {
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/createModeDetail.jsp?createModeId=" + row.id;
+            var url = rootPath + "/container/gov/office/createModeDetailForInner.jsp?createModeId=" + row.id;
             pageUtils.toUrl(url);
         }
     };
