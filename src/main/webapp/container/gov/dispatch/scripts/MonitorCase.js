@@ -266,7 +266,11 @@ window.operateEvents = {
 
 // 生成列表操作方法
 function queryFeedbackFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">查看反馈</button>';
+    if (row.status=='2'){
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>';
+    }else {
+        return '未反馈'
+    }
 }
 // 列表操作事件
 window.queryFeedbackEvents = {

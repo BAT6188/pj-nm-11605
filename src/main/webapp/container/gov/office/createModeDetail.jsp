@@ -43,6 +43,7 @@
                     </div>
                     <div class="queryBox marginLeft0">
                         <form class="form-inline">
+                            <input type="hidden" id="type" name="type" value="1">
                             <div class="form-group">
                                 <label for="">责任部门：</label> <input type="text" name="responsibleDepartmentName" style="width: 180px;" class="form-control" />
                             </div>
@@ -110,23 +111,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <label for="attachment" class="col-sm-2 control-label">创模进度附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <label for="attachment" class="col-sm-2 control-label">年度工作总结附件：</label>
                         <div class="col-sm-10">
-                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                    <div class="form-group material">
+                        <label for="attachment" class="col-sm-2 control-label">支撑材料附件：</label>
                         <div class="col-sm-10">
-                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery3"></div>
                         </div>
                     </div>
@@ -140,19 +139,25 @@
     </div>
 </div>
 <script>
-    $(function () {
-        $('#myTab a:first').tab('show')
-    });
 
-    var type='1'
+    var type=1
     function changeTab(f) {
-        type=f
-        if (f=='1'){
+        if (f==1){
             $("#typeBtn").text("新增指标")
+            $(".material").hide()
         }else{
             $("#typeBtn").text("新增重点工程")
+            $(".material").show()
         }
+        type=f;
+        $("#type").val(type)
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     }
+
+    $(function () {
+        $('#myTab a:first').tab('show')
+        $(".material").hide()
+    });
 </script>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/createModeDetail.js"></script>
 </body>
