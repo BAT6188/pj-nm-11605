@@ -21,8 +21,18 @@ public class VillageEnv implements Serializable {
      */
     @Column(name = "NAME",length = 100)
     private String name;
+
+    /**
+     * 网格级别
+     */
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+
     /**
      *所属网格id
+     *
      */
     @Column(name = "BLOCK_ID",length = 100)
     private String blockId;
@@ -70,6 +80,22 @@ public class VillageEnv implements Serializable {
 
     @Transient
     private List<Video> videos;
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
 
     public String getAddress() {
         return address;

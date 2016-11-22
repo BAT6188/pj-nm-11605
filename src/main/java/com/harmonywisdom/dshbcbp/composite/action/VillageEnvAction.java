@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.composite.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.composite.bean.VillageEnv;
+import com.harmonywisdom.dshbcbp.composite.service.VideoService;
 import com.harmonywisdom.dshbcbp.composite.service.VillageEnvService;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -17,6 +18,9 @@ public class VillageEnvAction extends BaseAction<VillageEnv, VillageEnvService> 
     private VillageEnvService villageEnvService;
     @AutoService
     private AttachmentService attachmentService;
+    @AutoService
+    private VideoService videoService;
+
     @Override
     protected VillageEnvService getService() {
         return villageEnvService;
@@ -61,6 +65,9 @@ public class VillageEnvAction extends BaseAction<VillageEnv, VillageEnvService> 
         String deleteId = request.getParameter("deletedId");
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
+        }
+        if(StringUtils.isNotBlank(deleteId)){
+            videoService.deleteVideo(deleteId);
         }
         super.delete();
     }

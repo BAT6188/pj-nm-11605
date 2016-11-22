@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     @AutoService
@@ -30,34 +31,34 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
 
     @Override
     protected QueryCondition getQueryCondition() {
-        QueryParam param=new QueryParam();
+        QueryParam param = new QueryParam();
         if (StringUtils.isNotBlank(entity.getTitle())) {
-            param.andParam(new QueryParam("title", QueryOperator.LIKE,entity.getTitle()));
+            param.andParam(new QueryParam("title", QueryOperator.LIKE, entity.getTitle()));
         }
         if (StringUtils.isNotBlank(entity.getType())) {
-            param.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
+            param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }
-//        String pubTime = request.getParameter("gTime");
-        String pubStartTime = request.getParameter("pubStartTime");
-        String pubEndTime = request.getParameter("pubEndTime");
-        if (StringUtils.isNotBlank(pubStartTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.GE, DateUtil.strToDate(pubStartTime, "yyyy-MM-dd")));
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if (StringUtils.isNotEmpty(startTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.GE, DateUtil.strToDate(startTime, "yyyy-MM-dd")));
         }
-        if (StringUtils.isNotBlank(pubEndTime)) {
-            param.andParam(new QueryParam("pubTime", QueryOperator.LE, DateUtil.strToDate(pubEndTime, "yyyy-MM-dd")));
+        if (StringUtils.isNotEmpty(endTime)) {
+            param.andParam(new QueryParam("pubTime", QueryOperator.LE, DateUtil.strToDate(endTime, "yyyy-MM-dd")));
         }
+        //组织机构code
         String orgCode = request.getParameter("orgCode");
-        QueryParam statusParam=new QueryParam();
+        QueryParam statusParam = new QueryParam();
         if (orgCode != null) {
             statusParam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE, orgCode));
             statusParam.orParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
-        }else{
+        } else {
             statusParam.andParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
         }
         param.andParam(statusParam);
 
-        QueryCondition condition=new QueryCondition();
-        if (param.getField()!=null) {
+        QueryCondition condition = new QueryCondition();
+        if (param.getField() != null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
@@ -70,13 +71,13 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         //获取删除的附件IDS
 
         String attachmentIdsRemoveId = request.getParameter("removeId");
-        if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
+        if (StringUtils.isNotBlank(attachmentIdsRemoveId)) {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
         super.save();
-        if (StringUtils.isNotBlank(entity.getAttachmentIds())){
-            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())) {
+            attachmentService.updateBusinessId(entity.getId(), entity.getAttachmentIds().split(","));
         }
     }
 
@@ -86,15 +87,16 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     @Override
     public void delete() {
         String deleteId = request.getParameter("deletedId");
-        if(StringUtils.isNotBlank(deleteId)){
+        if (StringUtils.isNotBlank(deleteId)) {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
     }
+
     //公告发布
-    public void pubsave(){
+    public void pubsave() {
         String id = request.getParameter("id");
-        if(id != null && !"".equals(id)){
+        if (id != null && !"".equals(id)) {
             this.getService().updatePubInfo(id);
         }
         write(true);
@@ -103,25 +105,117 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     /**
      * 企业查看信息公告
      */
-    public void powerList(){
+    public void powerList() {
         List<PubInfo> pubInfoList = pubInfoService.companyByPower();
         write(pubInfoList);
 
     }
 
-     public void findOrg() {
-         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId("root");
-         if (orgs.size() > 0) {
-             List<IOrg> authorizationOrgs = new ArrayList<>();
-             for (IOrg iOrg : orgs) {
-                 authorizationOrgs.add(iOrg);
-                 List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
-                 authorizationOrgs.addAll(childOrgs);
-             }
-             write(authorizationOrgs);
-         }else{
-             write(false);
-         }
-     }
+    public void findOrg() {
+        List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId("root");
+        if (orgs.size() > 0) {
+            List<IOrg> authorizationOrgs = new ArrayList<>();
+            for (IOrg iOrg : orgs) {
+                authorizationOrgs.add(iOrg);
+                List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
+                authorizationOrgs.addAll(childOrgs);
+            }
+            IOrg company = new IOrg() {
+                @Override
+                public String getOrgId() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgVersion() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgShortName() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgName() {
+                    return "企业";
+                }
+
+                @Override
+                public String getOrgCode() {
+                    return "company";
+                }
+
+                @Override
+                public String getOrgType() {
+                    return null;
+                }
+
+                @Override
+                public String getContact() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgGrade() {
+                    return null;
+                }
+
+                @Override
+                public Long getOrgLevel() {
+                    return null;
+                }
+
+                @Override
+                public Double getSerialIndex() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgDesc() {
+                    return null;
+                }
+
+                @Override
+                public String getParentId() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgStatus() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgLevelCode() {
+                    return null;
+                }
+
+                @Override
+                public String getDeltag() {
+                    return null;
+                }
+
+                @Override
+                public String getOrgMail() {
+                    return null;
+                }
+
+                @Override
+                public Map getExtattrMap() {
+                    return null;
+                }
+
+                @Override
+                public String[] getExtattrArry() {
+                    return new String[0];
+                }
+            };
+            authorizationOrgs.add(company);
+            write(authorizationOrgs);
+        } else {
+            write(false);
+        }
+    }
 
 }

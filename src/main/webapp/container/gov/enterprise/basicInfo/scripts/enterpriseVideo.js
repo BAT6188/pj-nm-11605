@@ -1,3 +1,4 @@
+//@ sourceURL=enterpriseVideo
 var gridTable = $('#videoTable'),
     removeBtn = $('#removeVideo'),
     updateBtn = $('#updateVideo'),

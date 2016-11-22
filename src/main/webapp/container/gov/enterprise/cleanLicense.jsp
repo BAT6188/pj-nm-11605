@@ -46,7 +46,6 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
-
                             </div>
                         <p/>
                             <div class="form-group">
