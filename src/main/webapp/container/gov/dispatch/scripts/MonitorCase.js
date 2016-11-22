@@ -1,8 +1,6 @@
-var gridTable = $('.tableTab'),
+var gridTable = $('#table'),
     feedbackRecordTable=$("#feedbackRecordTable"),
     selections = [];
-
-var status_search="";
 
     function getTableHeight() {
         console.log($('.dealBox').outerHeight(true) + $('.banner').outerHeight(true) + $('.linear').outerHeight(true));
@@ -172,12 +170,13 @@ var status_search="";
 
     //搜索按钮处理
     $("#search").click(function () {
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE,status_search:status_search});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     //重置搜索
     $("#searchFix").click(function () {
         resetQuery();
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE,status_search:status_search});
+        $("#status_search").val(status_search)
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
 
 
@@ -471,37 +470,6 @@ $('#datetimepicker2').datetimepicker({
     forceParse: 0,
     showMeridian: 1
 });
-
-
-$(function(){
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        var activeTab = $(e.target).attr("href");
-
-        if("#noDispath"==activeTab){
-            status_search=0
-
-            gridTable.bootstrapTable('hideColumn',"status");
-            gridTable.bootstrapTable('hideColumn',"queryFeedback");
-            gridTable.bootstrapTable('showColumn',"operate");
-        }else {
-            status_search='!0'
-
-            gridTable.bootstrapTable('showColumn',"status");
-            gridTable.bootstrapTable('showColumn',"queryFeedback");
-            gridTable.bootstrapTable('hideColumn',"operate");
-        }
-
-        gridTable.bootstrapTable('refresh',{
-            query:{status_search: status_search}
-        });
-
-    });
-});
-
-
-$(document).ready(function () {
-    loadBlockLevelAndBlockOption("#s_blockLevelId","#s_blockId")
-})
 
 /***************** 执法反馈列表 ***************************/
 /**

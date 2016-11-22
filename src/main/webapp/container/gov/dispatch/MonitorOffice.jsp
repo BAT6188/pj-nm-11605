@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group">
                             <label for="search_source">信息来源：</label>
-                            <select id="search_source" name="search_source" name="source" class="form-control" style="width: 266px;">
+                            <select id="search_source" name="source" class="form-control" style="width: 266px;">
                                 <option value="">全部</option>
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
@@ -238,7 +238,7 @@
                     <div class="form-group">
                         <label for="exeTime" class="col-sm-2 control-label">执法时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div  class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="exeTime">
+                            <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="exeTime">
                                 <input class="form-control" size="16" type="text" id="exeTime" name="exeTime" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
