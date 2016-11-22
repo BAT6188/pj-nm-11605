@@ -66,9 +66,28 @@ public class PubInfo implements Serializable {
      */
     @Column(name = "STATUS",length = 255)
     private String status;
-
+    @Transient
+    private String startTime;
+    @Transient
+    private String endTime;
     @Transient
     private String attachmentIds;
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public String getUserID() {
         return userID;
