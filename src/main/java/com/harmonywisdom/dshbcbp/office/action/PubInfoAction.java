@@ -31,7 +31,16 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
 
     @Override
     protected QueryCondition getQueryCondition() {
+        String StrGrade = request.getParameter("grades");
+        String enterpriseReleaseStatus = request.getParameter("enterpriseStatus");
+
         QueryParam param = new QueryParam();
+        if(StrGrade != null && !"".equals(StrGrade)){
+            param.andParam(new QueryParam("grade", QueryOperator.LIKE,"%"+StrGrade+"%"));
+        }
+        if(enterpriseReleaseStatus != null && !"".equals(enterpriseReleaseStatus)){
+            param.andParam(new QueryParam("status",QueryOperator.EQ,enterpriseReleaseStatus));
+        }
         if (StringUtils.isNotBlank(entity.getTitle())) {
             param.andParam(new QueryParam("title", QueryOperator.LIKE, entity.getTitle()));
         }
@@ -46,6 +55,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotEmpty(endTime)) {
             param.andParam(new QueryParam("pubTime", QueryOperator.LE, DateUtil.strToDate(endTime, "yyyy-MM-dd")));
         }
+
         //组织机构code
         String orgCode = request.getParameter("orgCode");
         QueryParam statusParam = new QueryParam();
