@@ -137,7 +137,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         IPerson person = ApportalUtil.getPerson(request);
         if (StringUtils.isNotEmpty(role)){
             if (monitor_master.equals(role)){
-                params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+                params=new QueryParam("monitorMasterPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
             }else if (env_pro_sta.equals(role)){
                 params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
             }
