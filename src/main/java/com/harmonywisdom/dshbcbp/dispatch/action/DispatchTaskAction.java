@@ -102,7 +102,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
      */
     public void saveXianChangJianChaAjax(){
         entity.setSource("4");
-        entity.setAllPerson("1");
+        entity.setHuanBaoZhanSelfReadStatus("1");
+
+        IPerson person = ApportalUtil.getPerson(request);
+        String[] ids={person.getPersonId()};
+        entity.setEnvProStaPersonList(arrayToString(ids));
 
         String blockLevelId = entity.getBlockLevelId();
         String blockId = entity.getBlockId();
@@ -225,6 +229,18 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         write(dispatchTask.getId());
     }
 
+    public void saveToMonitorMasterPersonNameList(){
+        String dispathTaskId = request.getParameter("sourceId");
+        DispatchTask dispatchTask = dispatchTaskService.findById(dispathTaskId);
+
+        String[] ids = this.getParamValues("ids");
+        dispatchTask.setMonitorMasterPersonList(JSON.toJSONString(ids));
+
+        String[] names = getParamValues("names");
+        dispatchTask.setMonitorMasterPersonNameList(arrayToString(names));
+        dispatchTaskService.update(dispatchTask);
+    }
+
     /**
      * 选择环保站或污控室人员，点发送按钮
      */
@@ -286,7 +302,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
-        entity.setMonitorMastorPersonList(jsonIds);
+        entity.setMonitorMasterPersonList(jsonIds);
 
         entity.setMonitorCaseId(monitorCaseId);
         entity.setEnterpriseId(mc.getEnterpriseId());

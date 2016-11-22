@@ -161,11 +161,20 @@ function initTable() {
                 }
             },
             {
-                field: 'envProStaPersonNameList',
+                field: '',
                 title: '发送人',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter: function (value, row, index) {
+                    if(row.monitorMasterPersonNameList!=undefined){
+                        value=row.monitorMasterPersonNameList
+                    }
+                    if(row.envProStaPersonNameList!=undefined){
+                        value=" "+row.envProStaPersonNameList
+                    }
+                    return value;
+                }
             },
             {
                 field: 'monitorReportStatus',
@@ -882,6 +891,33 @@ function saveXianChangJianChaAjax(entity, callback) {
     });
 }
 
+//------------ 现场监察发送，保存发送人员和 ------------------//
+var options_newXianChangJianChaForm = {
+    params:{
+        orgCode:[orgCodeConfig.org.jianChaDaDui.orgCode],//组织机构代码(必填，组织机构代码)
+        type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+    },
+    choseMore:false,
+    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+}
+
+var model_newXianChangJianChaForm = $.fn.MsgSend.init(1,options_newXianChangJianChaForm,function(e,data){
+    console.info("回调函数data参数："+JSON.stringify(data))
+
+    var d=pageUtils.sendParamDataToString(data)
+    console.log("发送："+d)
+    $.ajax({
+        url: rootPath + "/action/S_dispatch_DispatchTask_saveToMonitorMasterPersonNameList.action",
+        type:"post",
+        data:d,
+        success:function (msg) {
+            newXianChangJianChaForm.modal('hide');
+            gridTable.bootstrapTable('refresh');
+        }
+    });
+});
+
 //初始化表单验证
 var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
     success:function (ef_newXianChangJianChaForm) {
@@ -889,7 +925,9 @@ var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
         console.log("保存 现场监察："+JSON.stringify(entity))
 
         saveXianChangJianChaAjax(entity,function (msg) {
-            newXianChangJianChaForm.modal('hide');
+            msg=JSON.parse(msg)
+            console.log(msg)
+            model_newXianChangJianChaForm.open(msg.id);
             gridTable.bootstrapTable('refresh');
         });
     },

@@ -98,10 +98,13 @@ public class DispatchTask implements Serializable {
     private String monitorCaseId;
 
     /**
-     * 从监控中心，监察大队办公室发送过来的人员  监察大队领导人员列表
+     * 监察大队领导人员列表
      */
     @Column(name = "monitor_mastor_person_list")
-    private String monitorMastorPersonList;
+    private String monitorMasterPersonList;
+    @Column(name = "monitor_mastor_person_name_list")
+    private String monitorMasterPersonNameList;
+
 
     /**
      * 选择的发送给环保站的人员  污控室人员列表
@@ -259,12 +262,12 @@ public class DispatchTask implements Serializable {
         this.id = id;
     }
 
-    public String getMonitorMastorPersonList() {
-        return monitorMastorPersonList;
+    public String getMonitorMasterPersonList() {
+        return monitorMasterPersonList;
     }
 
-    public void setMonitorMastorPersonList(String selectPeopleIds) {
-        this.monitorMastorPersonList = selectPeopleIds;
+    public void setMonitorMasterPersonList(String selectPeopleIds) {
+        this.monitorMasterPersonList = selectPeopleIds;
     }
 
     public String getMonitorCaseId() {
@@ -564,5 +567,13 @@ public class DispatchTask implements Serializable {
 
     public void setEnvProStaPersonNameList(String envProStaPersonNameList) {
         this.envProStaPersonNameList = envProStaPersonNameList;
+    }
+
+    public String getMonitorMasterPersonNameList() {
+        return monitorMasterPersonNameList;
+    }
+
+    public void setMonitorMasterPersonNameList(String monitorMastorPersonNameList) {
+        this.monitorMasterPersonNameList = monitorMastorPersonNameList;
     }
 }
