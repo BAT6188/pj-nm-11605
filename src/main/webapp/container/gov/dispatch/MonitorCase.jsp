@@ -27,82 +27,69 @@
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
-            <div class="dealBox">
-                <div class="sideTitle left">
+            <ul id="myTab" class="nav nav-tabs">
+                <li>
+                    <a href="#noDispath" data-toggle="tab" onclick="changeTab(1)">未调度</a>
+                </li>
+                <li><a href="#yesDispath" data-toggle="tab" onclick="changeTab(2)">已调度</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="dealBox">
+                    <div class="sideTitle left">
                         <span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
-                </div>
-                <div class="queryBox marginLeft0">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="searchEnterpriseName">企业名称：</label> <input type="text" id="searchEnterpriseName" name="enterpriseName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="">调度时间：</label>
-                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" id="start_sendTime" name="startSendTime" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                            -
-                            <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" id="end_sendTime" name="endSendTime" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </div>
-                    </form>
-                    <p></p>
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="">原&nbsp;&nbsp;因：</label>
-                            <select id="s_reason" name="reason" class="form-control" style="width: 301px;">
-                                <option value="">全部</option>
-                                <option value="1">异常</option>
-                                <option value="2">超标</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">调度网格：</label>
-                            <select id="s_blockLevelId" name="blockLevelId" class="form-control"  style="width: 262px;">
-                            </select>
-                            -
-                            <select id="s_blockId" name="blockId" class="form-control"  style="width: 262px;">
-                            </select>
-                        </div>
-
-                    </form>
-
-                </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
-            </div>
-
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#noDispath" data-toggle="tab">未调度</a>
-                </li>
-                <li><a href="#yesDispath" data-toggle="tab">已调度</a></li>
-
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="noDispath">
-                    <div class="tableBox">
-                        <table  class="table table-striped table-responsive tableTab" >
-                        </table>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="yesDispath">
-                    <div class="tableBox">
-                        <table  class="table table-striped table-responsive tableTab">
-                        </table>
+                    <div class="queryBox marginLeft0">
+                        <form class="form-inline">
+                            <input id="status_search" name="status_search" type="hidden" value=""/>
+                            <div class="form-group">
+                                <label for="searchEnterpriseName">企业名称：</label> <input type="text" id="searchEnterpriseName" name="enterpriseName" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="">调度时间：</label>
+                                <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" id="start_sendTime" name="startSendTime" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                -
+                                <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                    <input class="form-control" id="end_sendTime" name="endSendTime" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                        </form>
+                        <p></p>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="">原&nbsp;&nbsp;因：</label>
+                                <select id="s_reason" name="reason" class="form-control" style="width: 301px;">
+                                    <option value="">全部</option>
+                                    <option value="1">异常</option>
+                                    <option value="2">超标</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">调度网格：</label>
+                                <select id="s_blockLevelId" name="blockLevelId" class="form-control"  style="width: 262px;">
+                                </select>
+                                -
+                                <select id="s_blockId" name="blockId" class="form-control"  style="width: 262px;">
+                                </select>
+                            </div>
+                        </form>
                     </div>
+                    <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                    <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                </div>
+                <div class="tableBox">
+                    <table id="table" class="table table-striped table-responsive">
+                    </table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -283,8 +270,30 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
+<script>
+    var status_search="0";
+    $(function () {
+        $("#status_search").val(status_search)
+        $('#myTab a:first').tab('show')
+        loadBlockLevelAndBlockOption("#s_blockLevelId","#s_blockId")
+    });
+    function changeTab(f) {
+        if (f=='1'){
+            status_search=0
+            gridTable.bootstrapTable('hideColumn',"status");
+            gridTable.bootstrapTable('hideColumn',"queryFeedback");
+            gridTable.bootstrapTable('showColumn',"operate");
+        }else{
+            status_search='!0'
+            gridTable.bootstrapTable('showColumn',"status");
+            gridTable.bootstrapTable('showColumn',"queryFeedback");
+            gridTable.bootstrapTable('hideColumn',"operate");
+        }
+        $("#status_search").val(status_search)
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    }
+</script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/MonitorCase.js"></script>
 </body>
 </html>

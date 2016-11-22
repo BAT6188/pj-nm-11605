@@ -125,7 +125,7 @@ function initTable() {
                     }else if(2==value){
                         value="超标"
                     }
-                    return html;
+                    return value;
                 }
             },
             {
@@ -866,10 +866,11 @@ $("#overBtn").click(function () {
 /************  新增（现场监察）表单 ******************/
 var newXianChangJianChaForm=$("#newXianChangJianChaForm");
 $("#insert").click(function () {
-    newXianChangJianChaForm.find("input").attr("disabled",false);
-    newXianChangJianChaForm.find("textarea").attr("disabled",false);
+    disabledForm(newXianChangJianChaForm,false)
 
     $("#eventTime_newXianChangJianChaForm").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    newXianChangJianChaForm.find("input[type!='radio'][type!='checkbox']").val("");
+    $("textarea").val("");
 })
 
 function saveXianChangJianChaAjax(entity, callback) {
