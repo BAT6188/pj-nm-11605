@@ -92,13 +92,56 @@
         </div>
     </div>
 </div>
+<%--超标记录列表--%>
+<div class="modal fade" id="excessiveListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">超标记录列表</h4>
+            </div>
+            <div class="modal-body">
+                <%--<form class="form-inline">--%>
+                    <%--<div class="form-group">--%>
+                        <%--<label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" class="form-control"/>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                        <%--<label for="s_source">信息来源：</label>--%>
+                        <%--<select id="s_source" class="form-control">--%>
+                            <%--<option value="">全部</option>--%>
+                            <%--<option value="1">12369</option>--%>
+                            <%--<option value="2">区长热线</option>--%>
+                            <%--<option value="3">市长热线</option>--%>
+                            <%--<option value="4">现场监察</option>--%>
+                            <%--<option value="0">监控中心</option>--%>
+                        <%--</select>--%>
+
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                        <%--<button type="button" id="sc" class="btn btn-md btn-success queryBtn"><span>查询</span></button>--%>
+                    <%--</div>--%>
+
+                <%--</form>--%>
+
+                <%--<br/>--%>
+                <div class="tableBox">
+                    <table id="excessiveTable" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/excessive_statistics.js"></script>
 <script type="text/javascript">
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     $( function() {
-
         $( "#s_name" ).autocomplete({
             source: function( request, response ) {
                 $.ajax( {

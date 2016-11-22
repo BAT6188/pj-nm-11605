@@ -1,4 +1,25 @@
 var HwmapCommon;
+function change10To16(num, sign) {
+    var isRow = ("R" == sign);
+    if (isRow) {
+        console.log("before:"+num);
+    }
+    var charlength=8;
+    if("L" == sign){
+        charlength=2;
+    }
+    var n = parseInt(num);
+    num=n.toString(16);
+    var size=charlength-(num+"").length;
+    for (var i = 0; i < size; i++) {
+        num="0"+num;
+    }
+    if (isRow) {
+        console.log("after:"+num);
+    }
+    num=sign+num;
+    return num;
+}
 HwmapCommon = {
     hwmap: undefined,
 
@@ -7,7 +28,7 @@ HwmapCommon = {
         showNavigateBar: true,
         showOverview: true,
         showScale: true,
-        center: {x: 12241037.503714196, y: 4840194.519315728},
+        center: {x:110,y:39.8},
         zoomLevel: 4,
         mapLoad: function (map) {
             //alert(map);
@@ -24,38 +45,43 @@ HwmapCommon = {
                 type: com.hw.map.HWMapDefaultBaseLayerTypes.CUSTOM_TILED_MAP_LAYER,
                 attributes: {
                     fullExtent: {
-                        xmin: -20037508.342787,
-                        ymin: -20037508.342787,
-                        xmax: 20037508.342787,
-                        ymax: 20037508.342787
+                        xmin: 109.13633772570552,
+                        ymin: 39.51218267628951,
+                        xmax: 110.38671501398679,
+                        ymax: 39.97903171404245
                     },
                     initExtent: {
-                        xmin: 11501488.165446503,
-                        ymin: 3695866.152885527,
-                        xmax: 11678516.32295504,
-                        ymax: 3728734.075048165
+                        xmin: 109.15619793210595,
+                        ymin: 39.82410961737357,
+                        xmax: 110.22981073793659,
+                        ymax: 40.279538453889494
                     },
                     tiledInfo: {
                         "rows": 256,
                         "cols": 256,
                         "compressionQuality": 0,
-                        "origin": {"x": -20037508.342787, "y": 20037508.342787},
-                        "spatialReference": {"wkid": 4326},
+                        "origin": {"x": -400, "y": 400},
+                        "spatialReference": {"wkid": 4490},
                         "lods": [
-                            {"level": 9, "scale": 1155581.108577, "resolution": 305.748113140558},
-                            {"level": 10, "scale": 577790.554289, "resolution": 152.874056570411},
-                            {"level": 11, "scale": 288895.277144, "resolution": 76.4370282850732},
-                            {"level": 12, "scale": 144447.638572, "resolution": 38.2185141425366},
-                            {"level": 13, "scale": 72223.819286, "resolution": 19.1092570712683},
-                            {"level": 14, "scale": 36111.909643, "resolution": 9.55462853563415},
-                            {"level": 15, "scale": 18055.954822, "resolution": 4.77731426794937},
-                            {"level": 16, "scale": 9027.977411, "resolution": 2.38865713397468},
-                            {"level": 17, "scale": 4513.988705, "resolution": 1.19432856685505}
+                            {"level": 0, "scale": 2308574, "resolution": 0.005493161812073633},
+                            {"level": 1, "scale": 1154287, "resolution": 0.0027465809060368165},
+                            {"level": 2, "scale": 577143, "resolution": 0.0013732892632879053},
+                            {"level": 3, "scale": 288571, "resolution": 6.866434419134498E-4},
+                            {"level": 4, "scale": 144285, "resolution": 3.43320531226222E-4},
+                            {"level": 5, "scale": 72142, "resolution": 1.716590758826081E-4},
+                            {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
+                            {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
+                            {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
+                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
                         ]
                     },
                     getImageFunc: function (level, row, col) {
+                        var level16 = change10To16(level,"L");
+                        var row16 = change10To16(row,"R");
+                        var col16 = change10To16(col,"C");
                         //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/eerduosi_map_data/vector/" + level + "/" + col + "/" + row + ".png";
+                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
                     }
                 }
             }
@@ -68,26 +94,45 @@ HwmapCommon = {
                 url:"http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
                 visible:true,
                 type:com.hw.map.HWMapDefaultBaseLayerTypes.CUSTOM_TILED_MAP_LAYER,
-                attributes:{
-                    fullExtent:{xmin:-20037508.342787,ymin: -20037508.342787, xmax:20037508.342787,ymax: 20037508.342787},
-                    initExtent:{xmin:11501488.165446503,ymin: 3695866.152885527,xmax: 11678516.32295504,ymax: 3728734.075048165},
-                    tiledInfo:{
+                attributes: {
+                    fullExtent: {
+                        xmin: 109.13633772570552,
+                        ymin: 39.51218267628951,
+                        xmax: 110.38671501398679,
+                        ymax: 39.97903171404245
+                    },
+                    initExtent: {
+                        xmin: 109.15619793210595,
+                        ymin: 39.82410961737357,
+                        xmax: 110.22981073793659,
+                        ymax: 40.279538453889494
+                    },
+                    tiledInfo: {
                         "rows": 256,
                         "cols": 256,
                         "compressionQuality": 0,
-                        "origin": { "x": -20037508.342787, "y": 20037508.342787 },
-                        "spatialReference": { "wkid": 4326 },
+                        "origin": {"x": -400, "y": 400},
+                        "spatialReference": {"wkid": 4490},
                         "lods": [
-                            {"level": 13, "scale": 72223.819286, "resolution": 19.1092570712683},
-                            {"level": 14, "scale": 36111.909643, "resolution": 9.55462853563415},
-                            {"level": 15, "scale": 18055.954822, "resolution": 4.77731426794937},
-                            {"level": 16, "scale": 9027.977411, "resolution": 2.38865713397468},
-                            {"level": 17, "scale": 4513.988705, "resolution": 1.19432856685505}
+                            {"level": 0, "scale": 2308574, "resolution": 0.005493161812073633},
+                            {"level": 1, "scale": 1154287, "resolution": 0.0027465809060368165},
+                            {"level": 2, "scale": 577143, "resolution": 0.0013732892632879053},
+                            {"level": 3, "scale": 288571, "resolution": 6.866434419134498E-4},
+                            {"level": 4, "scale": 144285, "resolution": 3.43320531226222E-4},
+                            {"level": 5, "scale": 72142, "resolution": 1.716590758826081E-4},
+                            {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
+                            {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
+                            {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
+                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        return "http://dev1.zthz.com:9090/eerduosi_map_data/vector/" + level + "/" +col + "/"+row+".png";
+                        var level16 = change10To16(level,"L");
+                        var row16 = change10To16(row,"R");
+                        var col16 = change10To16(col,"C");
                         //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
+                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
                     }
                 }
             }
