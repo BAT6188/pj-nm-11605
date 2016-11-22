@@ -53,11 +53,15 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
 
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
+        String strStatus = request.getParameter("strStatus");
         if(StringUtils.isNotBlank(startTime)){
             param.andParam(new QueryParam("startTime", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
         }
         if(StringUtils.isNotBlank(endTime)){
             param.andParam(new QueryParam("startTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
+        }
+        if(strStatus != null && !"".equals(strStatus)){
+            param.andParam(new QueryParam("portStatus",QueryOperator.EQ,strStatus));
         }
         if(StringUtils.isNotBlank(entity.getRes_title())){
             param.andParam(new QueryParam("res_title",QueryOperator.LIKE,entity.getRes_title()));
