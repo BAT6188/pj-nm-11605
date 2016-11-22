@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>指标及重点工程</title>
+    <title>创模建设子页面</title>
     <style>
         a{
             color: #0b0c0d;
@@ -45,7 +45,10 @@
                         <form class="form-inline">
                             <input type="hidden" id="type" name="type" value="1">
                             <div class="form-group">
-                                <label for="">责任部门：</label> <input type="text" name="responsibleDepartmentName" style="width: 180px;" class="form-control" />
+                                <label>责任部门：</label>
+                                <select id="" name="responsibleDepartmentId" class="form-control responsibleDepartment">
+                                    <option value="">全部</option>
+                                </select>
                             </div>
                         </form>
                         <p></p>
@@ -90,14 +93,12 @@
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
-                            <select id="responsibleDepartmentId" name="responsibleDepartmentId" class="form-control">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
+                            <select id="responsibleDepartmentId" name="responsibleDepartmentId" class="form-control responsibleDepartment">
                             </select>
                         </div>
                         <label for="" class="col-sm-2 control-label">上报截止时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="deadline"  name="deadline" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -154,11 +155,27 @@
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     }
 
+    function ajaxLoadStringtoOption(url,selector,optionsSetting,isShowAll){
+        $.ajax({
+            url: url,
+            type:"post",
+            success:function (options) {
+                options=JSON.parse(options)
+                $.each(options,function (i,v) {
+                    var option = $("<option>").val(v[optionsSetting.code]).text(v[optionsSetting.name]);
+                    $(selector).append(option);
+                })
+            }
+        });
+    }
+
     $(function () {
         $('#myTab a:first').tab('show')
         $(".material").hide()
+
+        ajaxLoadStringtoOption(rootPath+"/action/S_office_CreateModeDetail_getOrgList.action",".responsibleDepartment",{code:"orgId",name:"orgName"})
     });
 </script>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/createModeDetail.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/office/scripts/createModeDetailForInner.js"></script>
 </body>
 </html>
