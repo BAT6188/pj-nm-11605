@@ -1,9 +1,11 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
+import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
-import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.ShareMeans;
 import com.harmonywisdom.dshbcbp.office.service.ShareMeansService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
@@ -32,18 +34,40 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
             param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }
         String orgCode=request.getParameter("orgCode");
-        QueryParam statusParam=new QueryParam();
+       /* QueryParam statusParam=new QueryParam();
         if (orgCode != null) {
             statusParam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE, orgCode));
             statusParam.orParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
         }else{
             statusParam.andParam(new QueryParam("status", QueryOperator.EQ, "1")); //已发布
         }
-        param.andParam(statusParam);
-        String pubTime = request.getParameter("pTime");
+        param.andParam(statusParam);*/
+/*        String pubTime = request.getParameter("pTime");
         if (StringUtils.isNotBlank(pubTime)) {
             param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime, "yyyy-MM-dd")));
+        }*/
+
+        IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
+        if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgId());}
+        if (StringUtils.isNotBlank(entity.getStatus())) {
+            param.andParam(new QueryParam("status", QueryOperator.EQ,entity.getStatus()));
+            param.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE,orgCode));
+        }else{
+            param.andParam(new QueryParam("status", QueryOperator.EQ,"1"));
+            QueryParam otherparam=new QueryParam();
+            otherparam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE,orgCode));
+            otherparam.andParam(new QueryParam("status", QueryOperator.EQ,"0"));
+            param.andParam(otherparam);
         }
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if(StringUtils.isNotBlank(startTime)){
+            param.andParam(new QueryParam("pubTime", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
+        }
+        if(StringUtils.isNotBlank(endTime)){
+            param.andParam(new QueryParam("pubTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
+        }
+
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
             condition.setParam(param);
@@ -51,6 +75,21 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
         condition.setPaging(getPaging());
         condition.setOrderBy("pubTime", Direction.DESC);
         return condition;
+    }
+
+    @Override
+    public void list() {
+        QueryCondition var1 = this.getQueryCondition();
+        QueryResult<ShareMeans> queryResult = new QueryResult<ShareMeans>();
+        IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
+        if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgCode());}
+        try {
+            queryResult = var1!=null?this.getService().find(var1,this.entity):this.getService().findBySample(this.entity, this.getPaging(), this.getOrderBy(), this.getDirection());
+        } catch (Exception var2) {
+            this.log.error(var2.getMessage(), var2);
+            queryResult = new QueryResult();
+        }
+        write(queryResult);
     }
 
     @Override

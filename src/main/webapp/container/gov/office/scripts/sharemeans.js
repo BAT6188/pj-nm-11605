@@ -271,7 +271,7 @@ function saveShareMeans(sharemeans,callback) {
     });
 }
 //初始化日期组件
-$('.form_date').datetimepicker({
+$('.form_datetime').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
     minView: 2
