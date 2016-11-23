@@ -504,6 +504,19 @@ $(function(){
             plotOptions: {
                 column: {
                     depth: 25
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            // $("#lawListForm").modal('show');
+                            // var pointTime = e.point.category;
+                            // var firstTime = pointTime + "-"+"01";
+                            // var lastTime = pointTime + "-"+"31";
+                            // initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
             },
             xAxis: {
@@ -627,7 +640,7 @@ $(function(){
 
 
     //线状图highchart
-    function loadLineChart(categories, series){
+    function loadLineChart(categories, series,startSdate,lastSdate){
         if(startSdate == '2016-01-01'){
             titleSub = '2015年上半年与2016年上半年执法统计对比分析'
         }else{
@@ -653,7 +666,7 @@ $(function(){
                 exportButtonTitle: "导出图片"
             },
             title: {
-                text: '2016年上半年与2015年上半年超标统计对比分析'
+                text: titleSub
             },
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
@@ -661,6 +674,36 @@ $(function(){
             plotOptions: {
                 column: {
                     depth: 25
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            console.log(e.point.id);
+                            $("#lawRatioListForm").modal('show');
+                            var year = startSdate.substr(0,4);
+                            var month = parseInt(e.point.category);
+                            if(month < 10){
+                                month =  "0"+month;
+                            }else{
+                                month;
+                            }
+
+                            var firstTime = year + "-" + month + "-" + "01";
+                            var lastTime = year + "-" + month + "-" + "31";
+                            var year2 = year - 1;
+                            var lastStartTime = year2 + "-" + month + "-" + "01";
+                            var lastEndTime = year2 + "-" + month + "-" + "31";
+
+
+                            console.log(firstTime);
+                            console.log(lastTime);
+                            console.log(lastStartTime);
+                            console.log(lastEndTime);
+                            initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
+                        }
+                    }
                 }
             },
             xAxis: {
@@ -691,7 +734,161 @@ $(function(){
         });
 
     }
-   
-    
-    
+
+    /******************** 查询执法管理同期对比列表 ********************/
+    var lawRatioTable = $('#lawRatioTable');
+    function initlawTable(lastStartTime,lastEndTime,firstTime,lastTime) {
+        lawRatioTable.bootstrapTable('destroy');
+        lawRatioTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_dispatch_DispatchTask_lawRatiolist.action?lastStartTime="+lastStartTime +"&lastEndTime="+lastEndTime+"&firstTime="+firstTime+"&lastTime="+lastTime,
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:false,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible:false
+                },
+                {
+                    title: '事件时间',
+                    field: 'eventTime',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub16(value);
+                    }
+                },
+                {
+                    title: '接电人',
+                    field: 'answer',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    visible:false
+                },
+
+                {
+                    title: '企业名称',
+                    field: 'enterpriseName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+
+                {
+                    title: '信息来源',
+                    field: 'source',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="12369"
+                        }else if (2==value){
+                            value="区长热线"
+                        }else if (3==value){
+                            value="市长热线"
+                        }else if (4==value){
+                            value="现场监察"
+                        }else if (0==value){
+                            value="监控中心"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '所属网格',
+                    field: 'blockName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    field: 'reason',
+                    title: '原因',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="异常"
+                        }else if(2==value){
+                            value="超标"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'envProStaPersonNameList',
+                    title: '发送人',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                },
+
+                {
+                    field: 'monitorCaseId',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                },
+                {
+                    field: 'overValue',
+                    title: '超标值',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                },
+                {
+                    field: 'thrValue',
+                    title: '超标阀值',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                },
+                {
+                    field: 'sendRemark',
+                    title: '备注',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                }
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            lawRatioTable.bootstrapTable('resetView');
+        }, 200);
+
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            lawRatioTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+    }
+
+
+
+
 });

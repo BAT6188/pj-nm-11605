@@ -359,14 +359,15 @@ $(function(){
                     borderWidth: 0
                 },
                 series : {
+                    cursor: 'pointer',
                     events : {
                         click: function(e) {
                             console.log(e.point.category);
-                            // $("#excessiveListForm").modal('show');
-                            // var pointTime = e.point.category;
-                            // var firstTime = pointTime + "-"+"01";
-                            // var lastTime = pointTime + "-"+"31";
-                            // initlawTable(firstTime,lastTime);
+                            $("#excessiveListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
                         }
                     }
                 }
@@ -407,7 +408,21 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series: {
+                    cursor: 'pointer',
+                    events: {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#excessiveListForm").modal('show');
+                            var pointTime = e.point.name;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
+
             },
             tooltip: {
                 shared: true,
@@ -462,9 +477,11 @@ $(function(){
                     }
                 },
                 series : {
+                    cursor: 'pointer',
                     events : {
                         click: function(e) {
                             console.log(e.point.category);
+                            console.log("111");
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
@@ -498,6 +515,7 @@ $(function(){
     /********************  查询超标异常记录列表  ********************/
     var excessiveTable = $('#excessiveTable');
     function initlawTable(firstTime,lastTime) {
+        excessiveTable.bootstrapTable('destroy');
         excessiveTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",

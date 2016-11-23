@@ -63,12 +63,20 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
                 nodes.add(levelNode);
                 }
          } else {
+            BlockLevel level = getDAO().findById(id);
+            boolean is2Level = (level.getLevel() == 2);
              //网格加载
             List<Block> blocks = blockService.find("where blockLevelId=?", id);
                 if (blocks != null && blocks.size() > 0) {
                     List<ZNodeDTO> blockNodes = new ArrayList<ZNodeDTO>();
                     for (Block block : blocks) {
-                        ZNodeDTO blockNode = new ZNodeDTO(block.getId(), block.getOrgName());
+                        String nodeName;
+                        if (is2Level) {
+                            nodeName = block.getPrincipal();
+                        }else{
+                            nodeName = block.getOrgName();
+                        }
+                        ZNodeDTO blockNode = new ZNodeDTO(block.getId(), nodeName);
                         blockNodes.add(blockNode);
                     }
                     return blockNodes;
