@@ -82,4 +82,14 @@ public class BlockAction extends BaseAction<Block, BlockService> {
         List<Block> list=getService().findByLevelId(id);
         write(list);
     }
+
+    public void findChildrenBlock(){
+        String parentBlockId = request.getParameter("parentBlockId");
+        if (StringUtils.isNotBlank(parentBlockId)) {
+            List<Block> blocks = getService().queryJPQL("from Block where parentBlockId=?",Block.class, parentBlockId);
+            write(blocks);
+        } else {
+            write(false);
+        }
+    }
 }
