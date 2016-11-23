@@ -346,7 +346,21 @@ $(function(){
                 column: {
                     pointPadding: 0.1,
                     borderWidth: 0
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#lawListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
+
             },
             legend: {
                 enabled: true
@@ -398,6 +412,19 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#lawListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
             },
             tooltip: {
@@ -449,8 +476,22 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true
-                    },
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#lawListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
+
             },
             legend: {
                 enabled: true
@@ -469,6 +510,159 @@ $(function(){
             },
             series: series
 
+        });
+    }
+
+    /********************  查询执法管理列表  ********************/
+    var lawTable = $('#lawTable');
+    function initlawTable(firstTime,lastTime) {
+        lawTable.bootstrapTable('destroy');
+        lawTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_dispatch_DispatchTask_list.action?firstTime="+firstTime+"&lastTime="+lastTime,
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:false,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible:false
+                },
+                {
+                    title: '事件时间',
+                    field: 'eventTime',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub16(value);
+                    }
+                },
+                {
+                    title: '接电人',
+                    field: 'answer',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    visible:false
+                },
+
+                {
+                    title: '企业名称',
+                    field: 'enterpriseName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+
+                {
+                    title: '信息来源',
+                    field: 'source',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="12369"
+                        }else if (2==value){
+                            value="区长热线"
+                        }else if (3==value){
+                            value="市长热线"
+                        }else if (4==value){
+                            value="现场监察"
+                        }else if (0==value){
+                            value="监控中心"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '所属网格',
+                    field: 'blockName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    field: 'reason',
+                    title: '原因',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="异常"
+                        }else if(2==value){
+                            value="超标"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'envProStaPersonNameList',
+                    title: '发送人',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                },
+
+                {
+                    field: 'monitorCaseId',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                },
+                {
+                    field: 'overValue',
+                    title: '超标值',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                },
+                {
+                    field: 'thrValue',
+                    title: '超标阀值',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                },
+                {
+                    field: 'sendRemark',
+                    title: '备注',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible:false
+                }
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            lawTable.bootstrapTable('resetView');
+        }, 200);
+
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            lawTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
         });
     }
 

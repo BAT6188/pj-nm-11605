@@ -108,8 +108,31 @@
 </div>
 
 
+<%--执法管理列表--%>
+<div class="modal fade" id="lawListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">执法管理列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tableBox">
+                    <table id="lawTable" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeBtn" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/law_statistics.js"></script>
 <script type="text/javascript">
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     $( function() {
 
         $( "#s_name" ).autocomplete({

@@ -179,7 +179,22 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getId())) {
             params.andParam(new QueryParam("id", QueryOperator.EQ, entity.getId()));
         }
-
+        String firstTime = request.getParameter("firstTime");
+        String lastTime = request.getParameter("lastTime");
+        String lastStartTime = request.getParameter("lastStartTime");
+        String lastEndTime = request.getParameter("lastEndTime");
+        if (firstTime != null && !"".equals(firstTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+        }
+        if (lastTime != null && !"".equals(lastTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+        }
+        if (firstTime != null && !"".equals(lastStartTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(lastStartTime,"yyyy-MM-dd")));
+        }
+        if (lastTime != null && !"".equals(lastEndTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastEndTime,"yyyy-MM-dd")));
+        }
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
@@ -197,6 +212,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         for (String id : ids) {
             DispatchTask dt = dispatchTaskService.findById(id);
             dt.setStatus("5");
+            dt.setOverTime(new Date());
             dispatchTaskService.update(dt);
         }
 
