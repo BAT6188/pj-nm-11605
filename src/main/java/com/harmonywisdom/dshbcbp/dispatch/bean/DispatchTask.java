@@ -116,13 +116,6 @@ public class DispatchTask implements Serializable {
 
 
     /**
-     * 1：所有人都能看到这条数据
-     */
-    @Column(name = "all_person",length = 2)
-    private String allPerson;
-
-
-    /**
      * 事件来源，信息来源
      * 监察大队办公司： 1：12369   2：区长热线   3：市长热线   4：现场监察
      * 监控中心：0
@@ -495,14 +488,6 @@ public class DispatchTask implements Serializable {
 
     public void setEnvProStaPersonList(String envProStaPersonList) {
         this.envProStaPersonList = envProStaPersonList;
-    }
-
-    public String getAllPerson() {
-        return allPerson;
-    }
-
-    public void setAllPerson(String allPerson) {
-        this.allPerson = allPerson;
     }
 
     public String getMonitorReportStatus() {

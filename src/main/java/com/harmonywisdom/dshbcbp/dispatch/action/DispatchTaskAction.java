@@ -128,10 +128,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         QueryParam params = new QueryParam();
 
         /**
-         * 三种角色：
-         * 1. monitor_master
-         * 2. env_pro_sta
-         * 3. allPerson
+         * 两种角色：
+         * 1. monitor_master  监察大队领导
+         * 2. env_pro_sta  环保站
          */
         String role = request.getParameter("role");
         IPerson person = ApportalUtil.getPerson(request);
@@ -142,8 +141,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
                 params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
             }
 
-            //TODO 所有人可查看的数据
-            params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
         }
         if(StringUtils.isNotBlank(entity.getMonitorReportStatus())){
             params.andParam(new QueryParam("monitorReportStatus", QueryOperator.EQ, entity.getMonitorReportStatus()));
