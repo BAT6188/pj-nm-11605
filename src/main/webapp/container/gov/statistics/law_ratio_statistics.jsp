@@ -73,7 +73,7 @@
                                 <option value="0">监测中心</option>
                             </select>
                         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                        <button type="button" id="search" class="btn btn-md btn-success queryBtn" style="margin-left: 17%;"><i class="btnIcon query-icon"></i><span>查询</span></button>
                         <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
 
                     </form>
@@ -141,6 +141,27 @@
     </div>
 </div>
 </div>
+</div>
+
+<%--执法管理同期对比列表--%>
+<div class="modal fade" id="lawRatioListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">执法管理列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tableBox">
+                    <table id="lawRatioTable" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeBtn" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
