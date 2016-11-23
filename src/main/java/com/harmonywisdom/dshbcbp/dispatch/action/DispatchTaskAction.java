@@ -212,6 +212,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         for (String id : ids) {
             DispatchTask dt = dispatchTaskService.findById(id);
             dt.setStatus("5");
+            dt.setOverTime(new Date());
             dispatchTaskService.update(dt);
         }
 

@@ -50,6 +50,12 @@ public class DispatchTask implements Serializable {
     @Column(name = "status", length = 2)
     private String status;
 
+    /**
+     * 办结时间
+     */
+    @Column(name = "over_time")
+    private Date overTime;
+
     //--------------  查看状态  --------------------------//
     /**
      * 监察大队查看状态：
@@ -560,5 +566,13 @@ public class DispatchTask implements Serializable {
 
     public void setMonitorMasterPersonNameList(String monitorMastorPersonNameList) {
         this.monitorMasterPersonNameList = monitorMastorPersonNameList;
+    }
+
+    public Date getOverTime() {
+        return overTime;
+    }
+
+    public void setOverTime(Date overTime) {
+        this.overTime = overTime;
     }
 }

@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.exportword.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
+import com.harmonywisdom.dshbcbp.common.dict.util.DictUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
 import com.harmonywisdom.dshbcbp.dispatch.dao.DispatchTaskDAO;
@@ -15,6 +16,7 @@ import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import com.harmonywisdom.framework.service.annotation.AutoService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,18 +59,27 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 			punish=punishList.get(0);
 		}
 
-		String yyyyMMdd = DateUtil.dateToStr(dispatchTask.getEventTime(), "yyyyMMdd");
+		String yyyyMMdd = DateUtil.dateToStr(dispatchTask.getOverTime(), "yyyyMMdd");
 		String year = yyyyMMdd.substring(0, 4);
 		String month = yyyyMMdd.substring(4, 6);
 		String day = yyyyMMdd.substring(6);
 		overManage.setYear(year);
 		overManage.setMonth(month);
 		overManage.setDay(day);
-		overManage.setEnterpiseNamea(dispatchTask.getEnterpriseName());
-		overManage.setEnterpiseNameb(dispatchTask.getEnterpriseName());
+		overManage.setEnterpriseNamea(dispatchTask.getEnterpriseName());
+		overManage.setEnterpriseNameb(dispatchTask.getEnterpriseName());
 		overManage.setBlockLevelName(dispatchTask.getBlockLevelName());
 		overManage.setBlockName(dispatchTask.getBlockName());
-		overManage.setPollutantType(enterprise.getPollutantType());
+		String pollutantType = enterprise.getPollutantType();
+		String pollutantTypeString="";
+		String[] split = pollutantType.split(",");
+		for (String s : split) {
+			String dictName = DictUtil.getDictName("pollutantType", s);
+			if (StringUtils.isNotEmpty(dictName)){
+				pollutantTypeString+=" "+dictName;
+			}
+		}
+		overManage.setPollutantType(pollutantTypeString);
 		overManage.setArtificialPerson(enterprise.getArtificialPerson());
 		overManage.setApPhone(enterprise.getApPhone());
 		overManage.setEnvPrincipal(enterprise.getEnvPrincipal());

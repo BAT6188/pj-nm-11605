@@ -12,8 +12,8 @@ public class OverManage implements Serializable{
 	private String year;
 	private String month;
 	private String day;
-	private String enterpiseNamea;
-	private String enterpiseNameb;
+	private String enterpriseNamea;
+	private String enterpriseNameb;
 	private String blockLevelName;
 	private String blockName;
 	private String pollutantType;
@@ -61,20 +61,20 @@ public class OverManage implements Serializable{
 		this.day = day;
 	}
 
-	public String getEnterpiseNamea() {
-		return enterpiseNamea;
+	public String getEnterpriseNamea() {
+		return enterpriseNamea;
 	}
 
-	public void setEnterpiseNamea(String enterpiseNamea) {
-		this.enterpiseNamea = enterpiseNamea;
+	public void setEnterpriseNamea(String enterpriseNamea) {
+		this.enterpriseNamea = enterpriseNamea;
 	}
 
-	public String getEnterpiseNameb() {
-		return enterpiseNameb;
+	public String getEnterpriseNameb() {
+		return enterpriseNameb;
 	}
 
-	public void setEnterpiseNameb(String enterpiseNameb) {
-		this.enterpiseNameb = enterpiseNameb;
+	public void setEnterpriseNameb(String enterpriseNameb) {
+		this.enterpriseNameb = enterpriseNameb;
 	}
 
 	public String getBlockLevelName() {
