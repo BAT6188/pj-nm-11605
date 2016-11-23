@@ -1,8 +1,9 @@
 //@ sourceURL=map_mark.js
 var MapMarkDialog = function () {
-    var points, hwmap, currentMode = "point",mapCallback;
+    var $dialog = $("#markDialog"),points, hwmap, currentMode = "point",mapCallback;
 
     function dragPoint() {
+        showBtn();
         hwmap.dragPoint({
             id:"mark_"+(new Date()).getTime(),
             image:rootPath+"/common/gis/images/markers/mark.png",
@@ -18,6 +19,7 @@ var MapMarkDialog = function () {
         });
     }
     function dragLine() {
+        showBtn();
         hwmap.dragLine({
             id:"polyline_"+(new Date()).getTime(),
             autoExit:false,
@@ -35,6 +37,7 @@ var MapMarkDialog = function () {
         });
     }
     function dragPolygon() {
+        showBtn();
         hwmap.dragPolygon({
             id:"polygon_"+(new Date()).getTime(),
             autoExit:false,
@@ -50,6 +53,22 @@ var MapMarkDialog = function () {
                 points = pointsStr;
             }
         });
+    }
+
+    function switchViewMode(){
+        if (hwmap) {
+            hwmap.pan();
+        }
+        hideBtn();
+
+    }
+    function showBtn() {
+        $dialog.find("#markDialogOK").show();
+        $dialog.find("#markDialogCancel").text("取消");
+    }
+    function hideBtn() {
+        $dialog.find("#markDialogOK").hide();
+        $dialog.find("#markDialogCancel").text("关闭");
     }
 
     /**
@@ -128,6 +147,7 @@ var MapMarkDialog = function () {
                 }
             });
         },
+
         /**
          * 设置标绘模式
          * @param mode: point polyline polygon view
@@ -150,6 +170,7 @@ var MapMarkDialog = function () {
                     break;
                 case this.MODE_VIEW:
                     addShape(arguments[1]);
+                    switchViewMode();
                     break;
                 default:
                     Ewin.alert("未找到的模式"+mode);
