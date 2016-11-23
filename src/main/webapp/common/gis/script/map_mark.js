@@ -98,11 +98,23 @@ var MapMarkDialog = function () {
                 });
                 break;
             case dialog.VIEW_POLYGON:
-                var points = hwmap.MapTools.strToPoints(pointsStr);
-                hwmap.addPolygon({
-                    id:shapeId,
-                    points: points
-                });
+                if ($.isArray(pointsStr)) {
+                    var pointsArr = pointsStr;
+                    for(var i = 0;i < pointsArr.length; i++) {
+                        var points = hwmap.MapTools.strToPoints(pointsArr[i]);
+                        hwmap.addPolygon({
+                            id:shapeId+i,
+                            points: points
+                        });
+                    }
+                }else if($.type(pointsStr) == "string"){
+                    var points = hwmap.MapTools.strToPoints(pointsStr);
+                    hwmap.addPolygon({
+                        id:shapeId,
+                        points: points
+                    });
+                }
+
                 break;
             default:
                 Ewin.alert("未找到的查看类型"+type);
