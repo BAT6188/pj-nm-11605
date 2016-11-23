@@ -53,6 +53,9 @@
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button id="export" type="button" class="btn btn-sm btn-success" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-export"></span>导出
+                </button>
             </div>
             <div class="tableBox">
                 <table id="table" class="table table-striped table-responsive">

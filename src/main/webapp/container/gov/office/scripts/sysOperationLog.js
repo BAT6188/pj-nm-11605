@@ -37,31 +37,32 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_alert_SysOperationLog_list.action",
-        height: getHeight(),
+        height: pageUtils.getTableHeight()-20,
         pageSize:15,
         pageList:[10,15,20,25,50,100],
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        search:true,
-        searchOnEnterKey:true,
         queryParams:pageUtils.localParams,
         columns: [
             {
                 field: 'opModule',
                 title: '操作模块',
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
             }, {
                 field: 'opUser',
                 title: '操作人',
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
             }, {
                 field: 'opType',
                 title: '操作类型',
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 formatter:function(value, row, index){
                     var formateValue = dict.getDctionnaryName(dictData,value);
                     if(formateValue){
@@ -75,17 +76,20 @@ function initTable() {
                 field: 'opContent',
                 title: '操作内容',
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
             },
             {
                 field: 'opTime',
                 title: '操作时间',
-                align: 'center'
+                align: 'center',
+                isDown:true,
             }
         ]
     });
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
+        $('.fixed-table-toolbar').hide();
     }, 200);
 
     $(window).resize(function () {
@@ -103,6 +107,19 @@ function initTable() {
         $('#searchform')[0].reset();
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'系统日志',
+        type: 'excel',
+        escape: false
+    });
+    /*$('#export').click(function(){
+        downLoadObj.exportTable({
+            fileName:'系统日志',
+            type: 'excel',
+            escape: false,
+            exportDataType:'basic'
+        });
+    })*/
 }
 
 // 生成操作方法

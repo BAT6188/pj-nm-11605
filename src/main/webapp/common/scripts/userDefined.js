@@ -442,6 +442,120 @@ var pageUtils = {
             $('#'+id).remove();
         })
     };
+    $.fn.BootstrapExport = function(clickObj,clickOptions){
+        var that = this,
+            currentTimeId = new Date().valueOf(),
+            defaultOptions = {
+                fileName:'下载文件'+new Date().valueOf(),
+                type: 'excel',
+                escape: false
+            },
+            downloadTable,
+            hiddenTableDiv,
+            downloadTableData=[],
+            downloadOptions={},
+            dropMenu = {
+                0:{type:'selected',name:'下载已选择数据'},
+                1:{type:'basic',name:'下载当前页数据'},
+                2:{type:'all',name:'下载所有数据'}
+            };
+        var ExportObj = {
+            init:function(){
+                var initThat = this;
+                initThat.createDownLoad();
+                if(clickObj){
+                    var ulHtml = '<div class="export btn-group">'
+                        + '<button id="export" type="button" class="btn btn-sm btn-success" data-toggle="dropdown">'
+                        + '<span class="glyphicon glyphicon-export"></span>导出</button>'
+                        + '<ul id="dropdownMenu'+currentTimeId+'" class="dropdown-menu" role="menu">';
+                    $.each(dropMenu,function(k,v){
+                        ulHtml +='<li data-type="' + v.type + '"><a href="javascript:void(0)">'+v.name+'</a></li>';
+                    });
+                    ulHtml +='</ul></div>';
+                    $(clickObj).replaceWith(ulHtml);
+                    var thisOptions = $.extend({}, defaultOptions, clickOptions);
+                    $('#dropdownMenu'+currentTimeId).find('li').click(function(){
+                        thisOptions.exportDataType = $(this).data('type');
+                        initThat.exportTable(thisOptions);
+                    })
+                }
+            },
+            createDownLoad:function(){
+                var tableId = "gridTable"+currentTimeId,hiddenTableDivId = "hiddenTableDiv"+currentTimeId;
+                $('body').append('<div id="'+hiddenTableDivId+'" style="display: none"></div>');
+                hiddenTableDiv = $('#'+hiddenTableDivId);
+                hiddenTableDiv.append('<table id="'+tableId+'" class="table table-striped table-responsive"></table>');
+                downloadTable = $('#'+tableId);
+                that.bootstrapTable('refreshOptions',{onLoadSuccess:function(data){
+                    var tableOptions = that.bootstrapTable('getOptions');
+                    var newColumns = [];
+                    var columnIndex = 0;
+                    $.each(tableOptions.columns[0],function(k,v){
+                        if(v.isDown){
+                            v.visible = true;
+                            newColumns[columnIndex] = v;
+                            columnIndex +=1;
+                        }
+                    });
+                    tableOptions.columns[0] = newColumns;
+                    var newTableOptions= {
+                        contentType: tableOptions.contentType,
+                        sidePagination:tableOptions.sidePagination,
+                        url: tableOptions.url,
+                        height: tableOptions.height,
+                        pageSize:data.total,
+                        pageList:tableOptions.pageList,
+                        method:tableOptions.method,
+                        pagination:tableOptions.pagination,
+                        queryParams:tableOptions.queryParams,
+                        columns:tableOptions.columns,
+                        onLoadSuccess:function(downloadData){
+                            downloadTableData = downloadData;
+                        }
+                    };
+                    downloadTable.bootstrapTable(newTableOptions);
+                }})
+            },
+            exportTable:function(options){
+                options = $.extend({}, defaultOptions, options);
+                downloadOptions = options;
+                switch (options.exportDataType){
+                    case 'basic':
+                        var currentData = that.bootstrapTable('getData',{useCurrentPage:true});
+                        downloadTable.bootstrapTable('load',this.getLoadData(currentData));
+                        this.doExport();
+                        downloadTable.bootstrapTable('load',downloadTableData);
+                        break;
+                    case 'selected':
+                        var selectedData = that.bootstrapTable('getAllSelections');
+                        if(selectedData.length>0){
+                            downloadTable.bootstrapTable('load',this.getLoadData(selectedData));
+                            this.doExport();
+                            downloadTable.bootstrapTable('load',downloadTableData);
+                            break;
+                        }else{
+                            Ewin.alert('没有选择的数据可下载！');
+                            break;
+                        }
+                    default:
+                        this.doExport();
+                }
+            },
+            doExport:function(){
+                hiddenTableDiv.show();
+                downloadTable.tableExport(downloadOptions);
+                hiddenTableDiv.hide();
+            },
+            getLoadData:function(data){
+                return {
+                    rows:data,
+                    total:data.length
+                }
+            }
+        }
+        ExportObj.init();
+        return ExportObj;
+    };
 })(jQuery);
 
 /*消息提示框*/
