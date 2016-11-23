@@ -53,7 +53,8 @@ function initTable() {
                 field: 'title',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             }, {
                 title: '类型',
                 field: 'type',
@@ -62,13 +63,15 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return workType[value];
-                }
+                },
+                isDown:true
             }, {
                 title: '发布单位',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             }, {
                 title: '提交时间',
                 field: 'pubTime',
@@ -77,7 +80,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 field: 'operate',
@@ -109,6 +113,10 @@ function initTable() {
         gridTable.bootstrapTable('resetView', {
             height: pageUtils.getTableHeight()-45
         });
+    });
+
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'工作总结',  //自定义文件名
     });
 }
 

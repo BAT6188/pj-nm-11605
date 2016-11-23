@@ -461,6 +461,7 @@ var pageUtils = {
             downloadOptions={};
         var ExportObj = {
             init:function(){
+                $('.hiddenTableDiv').remove();
                 var initThat = this;
                 initThat.createDownLoad();
                 var thisOptions = $.extend({}, defaultOptions, clickOptions);
@@ -482,7 +483,7 @@ var pageUtils = {
             },
             createDownLoad:function(){
                 var tableId = "gridTable"+currentTimeId,hiddenTableDivId = "hiddenTableDiv"+currentTimeId;
-                $('body').append('<div id="'+hiddenTableDivId+'" style="display: none"></div>');
+                $('body').append('<div id="'+hiddenTableDivId+'" style="display: none" class="hiddenTableDiv"></div>');
                 hiddenTableDiv = $('#'+hiddenTableDivId);
                 hiddenTableDiv.append('<table id="'+tableId+'" class="table table-striped table-responsive"></table>');
                 downloadTable = $('#'+tableId);
@@ -518,19 +519,20 @@ var pageUtils = {
             },
             exportTable:function(options){
                 options = $.extend({}, defaultOptions, options);
+                var exportObj = this,tableOptions = that.bootstrapTable('getOptions');
                 downloadOptions = options;
                 switch (options.exportDataType){
                     case 'basic':
                         var currentData = that.bootstrapTable('getData',{useCurrentPage:true});
                         downloadTable.bootstrapTable('load',this.getLoadData(currentData));
-                        this.doExport();
+                        exportObj.doExport();
                         downloadTable.bootstrapTable('load',downloadTableData);
                         break;
                     case 'selected':
                         var selectedData = that.bootstrapTable('getAllSelections');
                         if(selectedData.length>0){
                             downloadTable.bootstrapTable('load',this.getLoadData(selectedData));
-                            this.doExport();
+                            exportObj.doExport();
                             downloadTable.bootstrapTable('load',downloadTableData);
                             break;
                         }else{
@@ -538,7 +540,13 @@ var pageUtils = {
                             break;
                         }
                     default:
-                        this.doExport();
+                        downloadTable.bootstrapTable('refreshOptions',{
+                            onLoadSuccess:function(downloadData){
+                                downloadTableData = downloadData;
+                                downloadTable.bootstrapTable('load',downloadTableData);
+                                exportObj.doExport();
+                            }
+                        });
                 }
             },
             doExport:function(){
