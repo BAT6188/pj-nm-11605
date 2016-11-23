@@ -606,9 +606,13 @@ function BlockOption(blockLevelId) {
             success: function (msg) {
                 $('#parentBlockId').empty();
                 // $('#parentBlockId').prop('disabled', false);
-                for (var i = 0; i < msg.length; i++) {
-                    $('#parentBlockId').append("<option value='" + msg[i].id + "'>" + msg[i].orgName + "</option>")
+                if (msg && msg.length >0){
+                    var is2Level = (msg[0].blockLevelId == "2");
+                    for (var i = 0; i < msg.length; i++) {
+                        $('#parentBlockId').append("<option value='" + msg[i].id + "'>" + (is2Level?msg[i].principal:msg[i].orgName) + "</option>")
+                    }
                 }
+
             }
         });
     }
