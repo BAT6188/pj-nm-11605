@@ -359,9 +359,15 @@ $(function(){
                     borderWidth: 0
                 },
                 series : {
+                    cursor: 'pointer',
                     events : {
                         click: function(e) {
                             console.log(e.point.category);
+                            $("#excessiveListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
                         }
                     }
                 }
@@ -402,7 +408,21 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series: {
+                    cursor: 'pointer',
+                    events: {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#excessiveListForm").modal('show');
+                            var pointTime = e.point.name;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
+
             },
             tooltip: {
                 shared: true,
@@ -457,9 +477,16 @@ $(function(){
                     }
                 },
                 series : {
+                    cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            alert(e.point.category);
+                            console.log(e.point.category);
+                            console.log("111");
+                            $("#excessiveListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
                         }
                     }
                 }
@@ -481,6 +508,99 @@ $(function(){
             },
             series: series
 
+        });
+    }
+
+
+    /********************  查询超标异常记录列表  ********************/
+    var excessiveTable = $('#excessiveTable');
+    function initlawTable(firstTime,lastTime) {
+        excessiveTable.bootstrapTable('destroy');
+        excessiveTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_port_PortStatusHistory_list.action?startTime="+firstTime+"&endTime="+lastTime+"&strStatus="+"1",
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:true,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible:false
+                },
+                {
+                    title: '企业名称',
+                    field: 'enterpriseName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标题',
+                    field: 'res_title',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '状态开始时间',
+                    field: 'startTime',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub16(value);
+                    }
+                },
+                {
+                    title: '状态',
+                    field: 'portStatus',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        if(0==value){
+                            value="正常"
+                        }else if (1==value){
+                            value="超标"
+                        }else if (2==value){
+                            value="异常"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'solution',
+                    title: '解决方案',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                }
+
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            excessiveTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            excessiveTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
         });
     }
 

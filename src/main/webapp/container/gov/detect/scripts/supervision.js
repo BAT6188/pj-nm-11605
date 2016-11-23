@@ -120,11 +120,8 @@ function initTable() {
 
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +
-        'check-all.bs.table uncheck-all.bs.table', function () {
-        //有选中数据，启用删除按钮
-        removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
-        //选中一条数据启用修改按钮
-        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length == 1));
+        'check-all.bs.table uncheck-all.bs.table load-success.bs.table', function () {
+        resetToolbarBtnStatus();
     });
 
     $(window).resize(function () {
@@ -144,6 +141,12 @@ window.operateEvents = {
         setFormView(row);
     }
 };
+function resetToolbarBtnStatus(){
+    //有选中数据，启用删除按钮
+    removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+    //选中一条数据启用修改按钮
+    updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length == 1));
+}
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -170,25 +173,42 @@ initTable();
 //初始化按钮状态
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
+function showEditPointsBtn(blockLevel) {
+    if (blockLevel==4) {
+        $('#lookPoints').hide();
+        $('#editPoints').show();
+    }else{
+        $('#lookPoints').show();
+        $('#editPoints').hide();
+    }
+
+}
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click', function () {
-    $('#lookPoints').hide();
-    $('#editPoints').show();
+    showEditPointsBtn(ztreeId);
     resetForm();
 });
 $("#update").bind("click", function () {
-    $('#lookPoints').hide();
-    $('#editPoints').show();
     var entity = getSelections()[0];
+    showEditPointsBtn(ztreeId);
     setFormData(entity);
-    if(!entity.areaPoints){
-        setPointsMarkBtn('add');
-    }else{
-        setPointsMarkBtn('edit');
-    }
+    setPointsMarkBtnByPoints(entity.areaPoints);
+
 });
+
+function setPointsMarkBtnByPoints(areaPoints) {
+    if (ztreeId == "4") {
+        if(!areaPoints){
+            setPointsMarkBtn('add');
+        }else{
+            setPointsMarkBtn('edit');
+        }
+    }else{
+        setPointsMarkBtn("look");
+    }
+}
 /**
  * 列表工具栏 删除按钮
  */
@@ -225,10 +245,7 @@ var ef = form.easyform({
         entity.attachmentIds = getAttachmentIds();
         entity.blockLevelId = ztreeId;
         entity.blockLevelName = ztreeName;
-        if (blockLevelId == null) {
-            entity.parentBlockId = "";
-        }
-        entity.parentBlockId = blockLevelId;
+        entity.parentBlockId = $("#parentBlockId").val();
         saveAjax(entity, function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -259,6 +276,7 @@ function setFormData(entity) {
     $("#removeId").val("");
     $("#orgName").val(entity.orgName);
     $("#principal").val(entity.principal);
+    $("#parentBlockId").val(entity.parentBlockId);
     $("#areaDesc").val(entity.areaDesc);
     $("#blockLevelId").val(entity.blockLevelId);
     $("#blockLeaderTel").val(entity.blockLeaderTel);
@@ -273,11 +291,7 @@ function setFormData(entity) {
 function setFormView(entity) {
     setFormData(entity);
     $('#editPoints').hide();
-    if(!entity.areaPoints){
-        setPointsMarkBtn('lookNull');
-    }else{
-        setPointsMarkBtn('look');
-    }
+    setPointsMarkBtnByPoints(entity.areaPoints);
     form.find(".form-title").text("查看" + formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
@@ -426,8 +440,40 @@ function initMapBtn() {
 }
 function lookMapBtn() {
     var points=$("#areaPoints").val();
-    MapMarkDialog.setMode(MapMarkDialog.MODE_VIEW,{type:MapMarkDialog.VIEW_POLYGON,"points":points});
-    MapMarkDialog.open();
+    var blockLevelId=$("#blockLevelId").val();
+    //如果是二级网格获取管辖区域的所有坐标，并显示
+    if (blockLevelId == "2") {
+        points = loadChildrenBlockPoints($("#id").val());
+    }
+    if (points){
+        MapMarkDialog.setMode(MapMarkDialog.MODE_VIEW,{type:MapMarkDialog.VIEW_POLYGON,"points":points});
+        MapMarkDialog.open();
+    }else{
+        Ewin.alert({message: "未找到该网格坐标"});
+    }
+
+}
+function loadChildrenBlockPoints(parentBlockId) {
+    var points = [];
+    $.ajax({//不为空，加载数据
+        url: rootPath + "/action/S_composite_Block_findChildrenBlock.action",
+        type: "post",
+        async:false,
+        dataType: "json",
+        data: {"parentBlockId": parentBlockId},
+        success: function (blocks) {
+            if (blocks && blocks.length > 0){
+                for(var i =0; i < blocks.length; i++) {
+                    var block = blocks[i];
+                    if (block.areaPoints) {
+                        points.push(block.areaPoints);
+                    }
+                }
+            }
+
+        }
+    });
+    return points;
 }
 function setPointsMarkBtn(type){
     $('#cheackPoints').attr('disabled',false);
@@ -601,14 +647,19 @@ function BlockOption(blockLevelId) {
         $.ajax({//不为空，加载数据
             url: rootPath + "/action/S_composite_Block_findLevelById.action",
             type: "post",
+            async:false,
             dataType: "json",
             data: {blockLevelId: blockLevelId},
             success: function (msg) {
                 $('#parentBlockId').empty();
-                // $('#parentBlockId').prop('disabled', false);
-                for (var i = 0; i < msg.length; i++) {
-                    $('#parentBlockId').append("<option value='" + msg[i].id + "'>" + msg[i].orgName + "</option>")
+                $('#parentBlockId').append("<option value=''>请选择</option>");
+                if (msg && msg.length >0){
+                    var is2Level = (msg[0].blockLevelId == "2");
+                    for (var i = 0; i < msg.length; i++) {
+                        $('#parentBlockId').append("<option value='" + msg[i].id + "'>" + (is2Level?msg[i].principal:msg[i].orgName) + "</option>")
+                    }
                 }
+
             }
         });
     }

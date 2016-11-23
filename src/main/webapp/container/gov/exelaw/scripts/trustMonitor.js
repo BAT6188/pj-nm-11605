@@ -143,11 +143,13 @@ function initTable() {
 
 function auditFormFormatter(value, row, index) {
     if(value=='1'){
-        value='同意'
+        return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">同意</div>';
     }else if(value=='2'){
-        value='不同意'
+        return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">不同意</div>';
+    }else {
+        return '-'
     }
-    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">'+value+'</div>';
+
 }
 window.lookoverAuditFormEvents = {
     'click .view': function (e, value, entity, index) {

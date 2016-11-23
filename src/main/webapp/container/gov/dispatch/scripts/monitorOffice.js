@@ -579,6 +579,22 @@ $( function() {
 
 } );
 
+function disabledForm(dialogSelector,disabled) {
+    dialogSelector.find("input").attr("disabled",disabled);
+    dialogSelector.find("textarea").attr("disabled",disabled);
+    dialogSelector.find("select").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('.lookover').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+    }else{
+        $('.lookover').datetimepicker('remove');
+    }
+}
+
 
 $(document).ready(function () {
     loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
@@ -593,6 +609,7 @@ window.seeEvent = {
     'click .see': function (e, value, row, index) {
         console.log(JSON.stringify(row))
 
+        disabledForm($("#feedbackForm"),true)
         $("#lawerName").val(row.lawerName)
         $("#phone").val(row.phone)
         $("#exeTime").val(row.exeTime)

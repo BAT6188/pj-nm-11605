@@ -37,7 +37,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         }
         whereSql += " GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,\n" +
-                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.STATUS='1' AND DATE_FORMAT(t0.start_time,'%m') = DATE_FORMAT(t.start_time,'%m')) AS yjf\n" +
+                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.port_status='1' AND DATE_FORMAT(t0.start_time,'%m') = DATE_FORMAT(t.start_time,'%m')) AS yjf\n" +
                 "FROM `hw_dshbcbp_port_status_history` t WHERE DATE_FORMAT(start_time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(start_time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
         return list;
     }
@@ -56,7 +56,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         String lastYear = String.valueOf((Integer.parseInt(currentYear) -1));
         String strEnd = lastSdate.substring(5,7);
         String whereSql = "AND 1=1 ";
-        whereSql += "AND STATUS='1'";
+        whereSql += "AND port_status='1'";
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }

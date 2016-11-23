@@ -1,11 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    String createModeId = request.getParameter("createModeId");
-%>
-<script>
-    var createModeId='<%=createModeId%>'
-    console.log(createModeId)
-</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,24 +36,27 @@
                     </div>
                     <div class="queryBox marginLeft0">
                         <form class="form-inline">
+                            <input type="hidden" id="type" name="type">
                             <div class="form-group">
-                                <label for="">责任部门：</label> <input type="text" name="responsibleDepartmentName" style="width: 180px;" class="form-control" />
+                                <label>上报状态：</label>
+                                <select id="" name="completeStatus" class="form-control">
+                                    <option value="">全部</option>
+                                    <option value="0">未完成</option>
+                                    <option value="1">完成</option>
+                                </select>
                             </div>
                         </form>
                         <p></p>
                     </div>
                     <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                    <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                    <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                     <p class="btnListP">
-                        <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
-                            <i class="btnIcon add-icon"></i><span id="typeBtn">新增指标</span>
-                        </button>
                         <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
-                            <i class="btnIcon edit-icon"></i><span>修改</span>
+                            <i class="btnIcon edit-icon"></i><span>上报</span>
                         </button>
-                        <button id="remove" type="button" class="btn btn-sm btn-danger">
+                        <%--<button id="remove" type="button" class="btn btn-sm btn-danger">
                             <i class="btnIcon delf-icon"></i><span>删除</span>
-                        </button>
+                        </button>--%>
 
                     </p>
                 </div>
@@ -89,14 +85,12 @@
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
-                            <select id="responsibleDepartmentId" name="responsibleDepartmentId" class="form-control">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
+                            <select id="responsibleDepartmentId" name="responsibleDepartmentId" class="form-control responsibleDepartment">
                             </select>
                         </div>
                         <label for="" class="col-sm-2 control-label">上报截止时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="deadline"  name="deadline" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -110,50 +104,69 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <label for="attachment" class="col-sm-2 control-label">创模进度附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <label for="attachment" class="col-sm-2 control-label">年度工作总结附件：</label>
                         <div class="col-sm-10">
-                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                    <div class="form-group material">
+                        <label for="attachment" class="col-sm-2 control-label">支撑材料附件：</label>
                         <div class="col-sm-10">
-                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery3"></div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save">发布</button>
+                <button type="button" class="btn btn-primary" id="save">上报</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $(function () {
-        $('#myTab a:first').tab('show')
-    });
-
-    var type='1'
+    var type=1
     function changeTab(f) {
-        type=f
-        if (f=='1'){
+        if (f==1){
             $("#typeBtn").text("新增指标")
+            $(".material").hide()
         }else{
             $("#typeBtn").text("新增重点工程")
+            $(".material").show()
         }
+        type=f;
+        $("#type").val(type)
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     }
+
+    function ajaxLoadStringtoOption(url,selector,optionsSetting,isShowAll){
+        $.ajax({
+            url: url,
+            type:"post",
+            success:function (options) {
+                options=JSON.parse(options)
+                $.each(options,function (i,v) {
+                    var option = $("<option>").val(v[optionsSetting.code]).text(v[optionsSetting.name]);
+                    $(selector).append(option);
+                })
+            }
+        });
+    }
+
+    $(function () {
+        $('#myTab a:first').tab('show')
+        $(".material").hide()
+        $("#type").val(type)
+        ajaxLoadStringtoOption(rootPath+"/action/S_office_CreateModeDetail_getOrgList.action",".responsibleDepartment",{code:"orgId",name:"orgName"})
+    });
 </script>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/createModeDetail.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/office/scripts/createModeDetailForUpload.js"></script>
 </body>
 </html>

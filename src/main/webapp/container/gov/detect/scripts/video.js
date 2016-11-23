@@ -364,6 +364,7 @@ var VideoPage = function () {
     function disabledForm(disabled) {
         videoform.find("input").attr("disabled",disabled);
         $("#mapVideoBtn").attr("disabled",disabled);
+        videoform.find("select").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
             $('#pubTimeContent').datetimepicker({

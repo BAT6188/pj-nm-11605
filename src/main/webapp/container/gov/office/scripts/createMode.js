@@ -138,7 +138,7 @@ var DemoPage = function () {
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/createModeDetail.jsp?createModeId=" + row.id;
+            var url = rootPath + "/container/gov/office/createModeDetailForInner.jsp?createModeId=" + row.id+"&deadline="+encodeURIComponent(row.deadline);
             pageUtils.toUrl(url);
         }
     };
@@ -206,10 +206,12 @@ var DemoPage = function () {
     /**============列表搜索相关处理============**/
 //搜索按钮处理
     $("#search").click(function () {
-        var queryParams = $("#queryBox").find("form").formSerializeObject();
-        gridTable.bootstrapTable('refresh',{
-            query:queryParams
-        });
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    });
+//重置搜索
+    $("#searchFix").click(function () {
+        resetQuery();
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
 
 //初始化日期组件

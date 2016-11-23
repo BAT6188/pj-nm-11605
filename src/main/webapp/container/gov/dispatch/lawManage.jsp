@@ -205,7 +205,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveXianChangJianChaBtn">保存</button>
+                <button type="button" class="btn btn-primary" id="saveXianChangJianChaBtn">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
@@ -218,9 +218,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="">执法详情</h4>
+                <h4 class="modal-title" id="">查看反馈</h4>
             </div>
             <div class="modal-body">
+                <h4 class="modal-title" id="">执法详情</h4>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
@@ -316,9 +317,7 @@
                         </div>
                     </div>
                     <hr/>
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="">执法记录-现场回传</h4>
-                    </div>
+                    <h4 class="modal-title" id="">执法记录-现场回传</h4>
                     <div class="tableBox">
                         <table id="feedbackRecordTable" class="table table-striped table-responsive">
                         </table>
@@ -522,9 +521,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="">事件信息</h4>
+                <h4 class="modal-title" id="">现场监察监测报告</h4>
             </div>
             <div class="modal-body">
+                <h4 class="modal-title" id="">事件信息</h4>
                 <form class="form-horizontal" role="form">
                     <input type="hidden" id="id_monitorReport" name="id">
                     <div class="form-group">
@@ -621,11 +621,7 @@
                     </div>
 
                 </form>
-            </div>
-            <div class="modal-header">
                 <h4 class="modal-title" id="">现场监察监测报告</h4>
-            </div>
-            <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="supervisor" class="col-sm-2 control-label">报送人<span class="text-danger">*</span>：</label>

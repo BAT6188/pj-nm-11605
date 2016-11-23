@@ -102,7 +102,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
      */
     public void saveXianChangJianChaAjax(){
         entity.setSource("4");
-        entity.setAllPerson("1");
+        entity.setHuanBaoZhanSelfReadStatus("1");
+
+        IPerson person = ApportalUtil.getPerson(request);
+        String[] ids={person.getPersonId()};
+        entity.setEnvProStaPersonList(arrayToString(ids));
 
         String blockLevelId = entity.getBlockLevelId();
         String blockId = entity.getBlockId();
@@ -124,22 +128,19 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         QueryParam params = new QueryParam();
 
         /**
-         * 三种角色：
-         * 1. monitor_master
-         * 2. env_pro_sta
-         * 3. allPerson
+         * 两种角色：
+         * 1. monitor_master  监察大队领导
+         * 2. env_pro_sta  环保站
          */
         String role = request.getParameter("role");
         IPerson person = ApportalUtil.getPerson(request);
         if (StringUtils.isNotEmpty(role)){
             if (monitor_master.equals(role)){
-                params=new QueryParam("monitorMastorPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+                params=new QueryParam("monitorMasterPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
             }else if (env_pro_sta.equals(role)){
                 params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
             }
 
-            //TODO 所有人可查看的数据
-            params.orParam(new QueryParam("allPerson",QueryOperator.EQ,"1"));
         }
         if(StringUtils.isNotBlank(entity.getMonitorReportStatus())){
             params.andParam(new QueryParam("monitorReportStatus", QueryOperator.EQ, entity.getMonitorReportStatus()));
@@ -178,7 +179,22 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getId())) {
             params.andParam(new QueryParam("id", QueryOperator.EQ, entity.getId()));
         }
-
+        String firstTime = request.getParameter("firstTime");
+        String lastTime = request.getParameter("lastTime");
+        String lastStartTime = request.getParameter("lastStartTime");
+        String lastEndTime = request.getParameter("lastEndTime");
+        if (firstTime != null && !"".equals(firstTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+        }
+        if (lastTime != null && !"".equals(lastTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+        }
+        if (firstTime != null && !"".equals(lastStartTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(lastStartTime,"yyyy-MM-dd")));
+        }
+        if (lastTime != null && !"".equals(lastEndTime)) {
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastEndTime,"yyyy-MM-dd")));
+        }
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
@@ -196,6 +212,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         for (String id : ids) {
             DispatchTask dt = dispatchTaskService.findById(id);
             dt.setStatus("5");
+            dt.setOverTime(new Date());
             dispatchTaskService.update(dt);
         }
 
@@ -223,6 +240,18 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         dispatchTaskService.update(dispatchTask);
 
         write(dispatchTask.getId());
+    }
+
+    public void saveToMonitorMasterPersonNameList(){
+        String dispathTaskId = request.getParameter("sourceId");
+        DispatchTask dispatchTask = dispatchTaskService.findById(dispathTaskId);
+
+        String[] ids = this.getParamValues("ids");
+        dispatchTask.setMonitorMasterPersonList(JSON.toJSONString(ids));
+
+        String[] names = getParamValues("names");
+        dispatchTask.setMonitorMasterPersonNameList(arrayToString(names));
+        dispatchTaskService.update(dispatchTask);
     }
 
     /**
@@ -286,7 +315,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
-        entity.setMonitorMastorPersonList(jsonIds);
+        entity.setMonitorMasterPersonList(jsonIds);
 
         entity.setMonitorCaseId(monitorCaseId);
         entity.setEnterpriseId(mc.getEnterpriseId());

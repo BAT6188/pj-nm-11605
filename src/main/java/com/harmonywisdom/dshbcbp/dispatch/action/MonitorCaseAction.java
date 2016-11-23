@@ -176,19 +176,22 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         String blockId = entity.getBlockId();
 
         String source = entity.getSource();
-        if(null==source){//如果是监察大队办公室的查询
-            params.andParam(new QueryParam("source",QueryOperator.NE,"0"));
-        }else if (source.equals("0")){ //如果是监测中心的查询
+        if ("0".equals(source)){ //监测中心的查询
             params.andParam(new QueryParam("source",QueryOperator.EQ,"0"));
 
             String status_search = request.getParameter("status_search");
-            if (StringUtils.isEmpty(status_search)|| "0".equals(status_search)){//监控中心 未调度
+            if ("0".equals(status_search)){//监控中心 未调度
                 params.andParam(new QueryParam("status",QueryOperator.EQ,"0"));
             }else {//监控中心 已调度
                 params.andParam(new QueryParam("status",QueryOperator.NE,"0"));
             }
+        }else {//监察大队办公室的查询
+            if(null==source){
+                params.andParam(new QueryParam("source",QueryOperator.NE,"0"));
+            }else {
+                params.andParam(new QueryParam("source",QueryOperator.EQ,source));
+            }
         }
-
 
         if(StringUtils.isNotEmpty(enterpriseName)){
             params.andParam(new QueryParam("enterpriseName",QueryOperator.LIKE,"%"+enterpriseName+"%"));

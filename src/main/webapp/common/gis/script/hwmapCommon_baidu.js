@@ -1,9 +1,5 @@
 var HwmapCommon;
 function change10To16(num, sign) {
-    var isRow = ("R" == sign);
-    if (isRow) {
-        console.log("before:"+num);
-    }
     var charlength=8;
     if("L" == sign){
         charlength=2;
@@ -13,9 +9,6 @@ function change10To16(num, sign) {
     var size=charlength-(num+"").length;
     for (var i = 0; i < size; i++) {
         num="0"+num;
-    }
-    if (isRow) {
-        console.log("after:"+num);
     }
     num=sign+num;
     return num;
@@ -28,7 +21,7 @@ HwmapCommon = {
         showNavigateBar: true,
         showOverview: true,
         showScale: true,
-        center: {x:110,y:39.8},
+        center : {x:104.05692603068212,y:30.639890620646238},
         zoomLevel: 4,
         mapLoad: function (map) {
             //alert(map);
@@ -36,107 +29,11 @@ HwmapCommon = {
         mapExtentChanged: function (extent) {
             //alert(extent.xMin+","+extent.yMin+","+extent.xMax+","+extent.yMax);
         },
-        baseLayers: [
-            {
-                layerId: "layerId1",
-                //url:"http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
-                url: "http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
-                visible: true,
-                type: com.hw.map.HWMapDefaultBaseLayerTypes.CUSTOM_TILED_MAP_LAYER,
-                attributes: {
-                    fullExtent: {
-                        xmin: 109.13633772570552,
-                        ymin: 39.51218267628951,
-                        xmax: 110.38671501398679,
-                        ymax: 39.97903171404245
-                    },
-                    initExtent: {
-                        xmin: 109.15619793210595,
-                        ymin: 39.82410961737357,
-                        xmax: 110.22981073793659,
-                        ymax: 40.279538453889494
-                    },
-                    tiledInfo: {
-                        "rows": 256,
-                        "cols": 256,
-                        "compressionQuality": 0,
-                        "origin": {"x": -400, "y": 400},
-                        "spatialReference": {"wkid": 4490},
-                        "lods": [
-                            {"level": 0, "scale": 2308574, "resolution": 0.005493161812073633},
-                            {"level": 1, "scale": 1154287, "resolution": 0.0027465809060368165},
-                            {"level": 2, "scale": 577143, "resolution": 0.0013732892632879053},
-                            {"level": 3, "scale": 288571, "resolution": 6.866434419134498E-4},
-                            {"level": 4, "scale": 144285, "resolution": 3.43320531226222E-4},
-                            {"level": 5, "scale": 72142, "resolution": 1.716590758826081E-4},
-                            {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
-                            {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
-                            {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
-                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
-                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
-                        ]
-                    },
-                    getImageFunc: function (level, row, col) {
-                        var level16 = change10To16(level,"L");
-                        var row16 = change10To16(row,"R");
-                        var col16 = change10To16(col,"C");
-                        //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
-                    }
-                }
-            }
-        ],
-        overviewOptions:{
-            layer:{
-                layerId:"layerId1",
-                //url:"http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
-                //url:"http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
-                url:"http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
-                visible:true,
-                type:com.hw.map.HWMapDefaultBaseLayerTypes.CUSTOM_TILED_MAP_LAYER,
-                attributes: {
-                    fullExtent: {
-                        xmin: 109.13633772570552,
-                        ymin: 39.51218267628951,
-                        xmax: 110.38671501398679,
-                        ymax: 39.97903171404245
-                    },
-                    initExtent: {
-                        xmin: 109.15619793210595,
-                        ymin: 39.82410961737357,
-                        xmax: 110.22981073793659,
-                        ymax: 40.279538453889494
-                    },
-                    tiledInfo: {
-                        "rows": 256,
-                        "cols": 256,
-                        "compressionQuality": 0,
-                        "origin": {"x": -400, "y": 400},
-                        "spatialReference": {"wkid": 4490},
-                        "lods": [
-                            {"level": 0, "scale": 2308574, "resolution": 0.005493161812073633},
-                            {"level": 1, "scale": 1154287, "resolution": 0.0027465809060368165},
-                            {"level": 2, "scale": 577143, "resolution": 0.0013732892632879053},
-                            {"level": 3, "scale": 288571, "resolution": 6.866434419134498E-4},
-                            {"level": 4, "scale": 144285, "resolution": 3.43320531226222E-4},
-                            {"level": 5, "scale": 72142, "resolution": 1.716590758826081E-4},
-                            {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
-                            {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
-                            {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
-                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
-                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
-                        ]
-                    },
-                    getImageFunc: function (level, row, col) {
-                        var level16 = change10To16(level,"L");
-                        var row16 = change10To16(row,"R");
-                        var col16 = change10To16(col,"C");
-                        //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
-                    }
-                }
-            }
-        }
+        baseLayers:[
+            BMAP_NORMAL_MAP,// 普通矢量地图
+            BMAP_HYBRID_MAP,// 影像地图
+            BMAP_PERSPECTIVE_MAP // 三维地图，很多城市没有
+        ]
     },
     initmap: function () {
         //设置mapContainer 全屏
@@ -863,6 +760,10 @@ HwmapCommon = {
             var marker = that.addMarker(options, layerId);
             if (!(options.autoExit === false)) {
                 that.pan();
+            }else{
+                setTimeout(function () {
+                    that.dragPoint(options, layerId);
+                },500);
             }
             if (options.after) options.after(marker);
         })
@@ -899,6 +800,10 @@ HwmapCommon = {
             var polyline = that.addPolyline(options, layerId);
             if (!(options.autoExit === false)) {
                 that.pan();
+            }else{
+                setTimeout(function () {
+                    that.dragLine(options, layerId);
+                },500);
             }
             if (options.after) options.after(polyline);
         })
@@ -959,6 +864,10 @@ HwmapCommon = {
             var polygon = that.addPolygon(options, layerId);
             if (!(options.autoExit === false)) {
                 that.pan();
+            }else{
+                setTimeout(function () {
+                    that.dragPolygon(options, layerId);
+                },500);
             }
             if (options.after) options.after(polygon);
 

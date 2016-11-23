@@ -372,6 +372,19 @@ $(function(){
                 column: {
                     pointPadding: 0.2,
                     borderWidth: 0
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#transportListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
             },
             exporting: {
@@ -416,6 +429,19 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series: {
+                    cursor: 'pointer',
+                    events: {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#transportListForm").modal('show');
+                            var pointTime = e.point.name;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
             },
             exporting: {
@@ -466,8 +492,22 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true
-                    },
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#transportListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            initlawTable(firstTime,lastTime);
+                        }
+                    }
                 }
+
             },
             legend: {
                 enabled: true
@@ -479,6 +519,128 @@ $(function(){
 
         });
     }
+
+    /********************  查询传输有效率列表  ********************/
+    var transportTable = $('#transportTable');
+    function initlawTable(firstTime,lastTime) {
+        transportTable.bootstrapTable('destroy');
+        transportTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_port_TransportEfficient_list.action?startYdate="+firstTime+"&lastYdate="+lastTime,
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:false,  //  true 单选， false多选
+                    valign: 'middle'
+                }, {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible:false
+                },
+                {
+                    title: '企业名称',
+                    field: 'enterpriseName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    field: 'blockName',
+                    title: '所属网格名称',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    visible: false
+                },
+                {
+                    field: 'startTime',
+                    title: '开始时间',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub10(value);
+                    }
+                },
+                {
+                    field: 'endTime',
+                    title: '结束时间',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub10(value);
+                    }
+                },
+                {
+                    field: 'transpor',
+                    title: '传输率',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        if(value == null){
+                            return "";
+                        }else{
+                            return value + "%";
+                        }
+                    }
+                },
+                {
+                    field: 'efficient',
+                    title: '有效率',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        if(value == null){
+                            return "";
+                        }else{
+                            return value + "%";
+                        }
+                    }
+                },
+                {
+                    field: 'ratio',
+                    title: '传输有效率',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter:function (value, row, index) {
+                        if(value == null){
+                            return "";
+                        }else{
+                            return value + "%";
+                        }
+                    }
+                }
+
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            transportTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            transportTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+    }
+
+
 
 
 

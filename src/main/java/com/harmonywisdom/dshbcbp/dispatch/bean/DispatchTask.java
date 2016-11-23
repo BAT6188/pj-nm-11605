@@ -50,6 +50,12 @@ public class DispatchTask implements Serializable {
     @Column(name = "status", length = 2)
     private String status;
 
+    /**
+     * 办结时间
+     */
+    @Column(name = "over_time")
+    private Date overTime;
+
     //--------------  查看状态  --------------------------//
     /**
      * 监察大队查看状态：
@@ -98,10 +104,13 @@ public class DispatchTask implements Serializable {
     private String monitorCaseId;
 
     /**
-     * 从监控中心，监察大队办公室发送过来的人员  监察大队领导人员列表
+     * 监察大队领导人员列表
      */
     @Column(name = "monitor_mastor_person_list")
-    private String monitorMastorPersonList;
+    private String monitorMasterPersonList;
+    @Column(name = "monitor_mastor_person_name_list")
+    private String monitorMasterPersonNameList;
+
 
     /**
      * 选择的发送给环保站的人员  污控室人员列表
@@ -110,13 +119,6 @@ public class DispatchTask implements Serializable {
     private String envProStaPersonList;
     @Column(name="env_pro_sta_person_name_list")
     private String envProStaPersonNameList;
-
-
-    /**
-     * 1：所有人都能看到这条数据
-     */
-    @Column(name = "all_person",length = 2)
-    private String allPerson;
 
 
     /**
@@ -259,12 +261,12 @@ public class DispatchTask implements Serializable {
         this.id = id;
     }
 
-    public String getMonitorMastorPersonList() {
-        return monitorMastorPersonList;
+    public String getMonitorMasterPersonList() {
+        return monitorMasterPersonList;
     }
 
-    public void setMonitorMastorPersonList(String selectPeopleIds) {
-        this.monitorMastorPersonList = selectPeopleIds;
+    public void setMonitorMasterPersonList(String selectPeopleIds) {
+        this.monitorMasterPersonList = selectPeopleIds;
     }
 
     public String getMonitorCaseId() {
@@ -494,14 +496,6 @@ public class DispatchTask implements Serializable {
         this.envProStaPersonList = envProStaPersonList;
     }
 
-    public String getAllPerson() {
-        return allPerson;
-    }
-
-    public void setAllPerson(String allPerson) {
-        this.allPerson = allPerson;
-    }
-
     public String getMonitorReportStatus() {
         return monitorReportStatus;
     }
@@ -564,5 +558,21 @@ public class DispatchTask implements Serializable {
 
     public void setEnvProStaPersonNameList(String envProStaPersonNameList) {
         this.envProStaPersonNameList = envProStaPersonNameList;
+    }
+
+    public String getMonitorMasterPersonNameList() {
+        return monitorMasterPersonNameList;
+    }
+
+    public void setMonitorMasterPersonNameList(String monitorMastorPersonNameList) {
+        this.monitorMasterPersonNameList = monitorMastorPersonNameList;
+    }
+
+    public Date getOverTime() {
+        return overTime;
+    }
+
+    public void setOverTime(Date overTime) {
+        this.overTime = overTime;
     }
 }
