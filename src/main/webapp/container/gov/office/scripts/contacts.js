@@ -339,15 +339,17 @@ function initTable() {
         });
     });
 
-    var downLoadObj = gridTable.BootstrapExport();
-    $('#export').click(function(){
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'通讯录',  //自定义文件名
+    });
+    /*$('#export').click(function(){
         downLoadObj.exportTable({
             fileName:'通讯录',
             type: 'excel',
             escape: false,
             exportDataType:'all'
         });
-    })
+    })*/
 }
 
 // 生成列表操作方法

@@ -9,11 +9,19 @@
 <html>
 <head>
     <title>企业管理列表</title>
+    <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <style>
         .menuDiv h3{
             cursor: pointer;
         }
     </style>
+    <script>
+        var dictData = dict.getDctionnary({code:['registType','scale','affiliation','industrialPark','pollutantType','pollutantLevel']});
+        var dictSuperviseType = {
+            '01':'重点排污单位',
+            '02':'一般排污单位'
+        }
+    </script>
 </head>
 <body>
 <div class="content clearfix">
