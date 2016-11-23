@@ -1,5 +1,6 @@
 //@ sourceURL=supervision.js
 var gridTable = $('#table'),
+    addBtn = $('#add'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
@@ -146,6 +147,7 @@ function resetToolbarBtnStatus(){
     removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
     //选中一条数据启用修改按钮
     updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length == 1));
+    addBtn.prop('disabled', !(ztreeId == "4"));
 }
 /**
  * 获取列表所有的选中数据id
