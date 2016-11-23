@@ -107,19 +107,15 @@ function initTable() {
         $('#searchform')[0].reset();
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
-    gridTable.BootstrapExport($('#export'),{
-        fileName:'系统日志',
-        type: 'excel',
-        escape: false
-    });
-    /*$('#export').click(function(){
+    var downLoadObj = gridTable.BootstrapExport();
+    $('#export').click(function(){
         downLoadObj.exportTable({
             fileName:'系统日志',
             type: 'excel',
             escape: false,
-            exportDataType:'basic'
+            exportDataType:'all'
         });
-    })*/
+    })
 }
 
 // 生成操作方法

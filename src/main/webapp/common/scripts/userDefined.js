@@ -448,32 +448,32 @@ var pageUtils = {
             defaultOptions = {
                 fileName:'下载文件'+new Date().valueOf(),
                 type: 'excel',
-                escape: false
+                escape: false,
+                dropMenu:{
+                    0:{type:'selected',name:'下载已选择数据'},
+                    1:{type:'basic',name:'下载当前页数据'},
+                    2:{type:'all',name:'下载所有数据'}
+                }
             },
             downloadTable,
             hiddenTableDiv,
             downloadTableData=[],
-            downloadOptions={},
-            dropMenu = {
-                0:{type:'selected',name:'下载已选择数据'},
-                1:{type:'basic',name:'下载当前页数据'},
-                2:{type:'all',name:'下载所有数据'}
-            };
+            downloadOptions={};
         var ExportObj = {
             init:function(){
                 var initThat = this;
                 initThat.createDownLoad();
+                var thisOptions = $.extend({}, defaultOptions, clickOptions);
                 if(clickObj){
                     var ulHtml = '<div class="export btn-group">'
                         + '<button id="export" type="button" class="btn btn-sm btn-success" data-toggle="dropdown">'
                         + '<span class="glyphicon glyphicon-export"></span>导出</button>'
                         + '<ul id="dropdownMenu'+currentTimeId+'" class="dropdown-menu" role="menu">';
-                    $.each(dropMenu,function(k,v){
+                    $.each(thisOptions.dropMenu,function(k,v){
                         ulHtml +='<li data-type="' + v.type + '"><a href="javascript:void(0)">'+v.name+'</a></li>';
                     });
                     ulHtml +='</ul></div>';
                     $(clickObj).replaceWith(ulHtml);
-                    var thisOptions = $.extend({}, defaultOptions, clickOptions);
                     $('#dropdownMenu'+currentTimeId).find('li').click(function(){
                         thisOptions.exportDataType = $(this).data('type');
                         initThat.exportTable(thisOptions);
