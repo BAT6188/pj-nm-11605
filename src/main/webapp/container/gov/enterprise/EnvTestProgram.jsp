@@ -1,10 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
+<%
+    String enterpriseId = request.getParameter("id");
+%>
 <head>
     <title>环境自行监测方案</title>
+
     <script type="text/javascript">
-        var enterpriseId=enterpriseData.id;
+        var enterpriseId='<%=enterpriseId%>';
         $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>

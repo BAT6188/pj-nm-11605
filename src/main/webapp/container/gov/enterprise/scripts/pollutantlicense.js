@@ -67,7 +67,8 @@ function initTable() {
                 field: 'code',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },{
                 title: '许可证类型',
                 field: 'type',
@@ -81,7 +82,8 @@ function initTable() {
                         value="临时"
                     }
                     return value;
-                }
+                },
+                isDown:true
             },
             {
                 title: '有效起始日期',
@@ -91,7 +93,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 title: '有效结束日期',
@@ -101,14 +104,16 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 title: '发证机关',
                 field: 'pubOrg',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '发证日期',
@@ -118,7 +123,36 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
+            },{
+                title: '二氧化硫(吨/年)',
+                field: 'sulfur',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
+            },{
+                title: '氮氧化物(吨/年)',
+                field: 'nitrogen',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
+            },{
+                title: '化学需氧量(吨/年)',
+                field: 'oxygen',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
+            },{
+                title: '氨氮总量(吨/年)',
+                field: 'ammonia',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
             },
             {
                 field: 'operate',
@@ -149,6 +183,19 @@ function initTable() {
         gridTable.bootstrapTable('resetView', {
             height: pageUtils.getTableHeight()
         });
+    });
+
+    /*var downLoadObj = gridTable.BootstrapExport();
+    $('#export').click(function(){
+        downLoadObj.exportTable({
+            fileName:'排污许可证信息',
+            type: 'excel',
+            escape: false,
+            exportDataType:'all'
+        });
+    })*/
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'排污许可证信息' //自定义文件名
     });
 }
 

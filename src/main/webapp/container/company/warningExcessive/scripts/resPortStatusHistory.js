@@ -69,14 +69,16 @@ function initTable() {
                 title: '标题',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 field: 'publishingUnit',
                 title: '发布单位',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 field: 'release_time',
@@ -86,7 +88,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
 
             {
@@ -94,14 +97,16 @@ function initTable() {
                 title: '发布人',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 field: 'contact',
                 title: '联系方式',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 field: 'isNoTickling',
@@ -123,7 +128,8 @@ function initTable() {
                     }
                     return value;
 
-                }
+                },
+                isDown:true
             },
             {
                 field: 'attachmentId',
@@ -139,7 +145,8 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: true,
-                visible:false
+                visible:false,
+                isDown:true
             },
             {
                 field: 'enterpriseId',
@@ -180,6 +187,10 @@ function initTable() {
             height: pageUtils.getTableHeight()
         });
     });
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'预警及排污超标处理情况报送' //自定义文件名
+    });
+
 }
 
 // 生成列表操作方法
