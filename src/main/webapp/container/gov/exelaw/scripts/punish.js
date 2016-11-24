@@ -6,6 +6,8 @@ var gridTable = $('#table'),
 
 
 
+
+
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -62,6 +64,7 @@ function initTable() {
                 field: 'caseName',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -69,6 +72,7 @@ function initTable() {
                 field: 'caseReason',
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 editable: false
             },
             {
@@ -76,6 +80,7 @@ function initTable() {
                 field: 'filingDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -83,13 +88,19 @@ function initTable() {
                 field: 'type',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    // return dict.getDctionnaryName(dict.getDctionnary({code:'punishType'}),value)
+                    return dict.get("punishType",value)
+                }
             },
             {
                 title: '结案日期',
                 field: 'closedDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -97,14 +108,22 @@ function initTable() {
                 field: 'exeDesc',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    return dict.get("exeDesc",value)
+                }
             },
             {
                 title: '案件来源',
                 field: 'caseSource',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                isDown:true,
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return dict.get("caseSource",value)
+                }
             },
             {
                 field: 'operate',
@@ -560,4 +579,12 @@ function setFormValueFromSelected(row) {
     $("#caseSource").val(row.source)
     $("#caseReason").val(row.reason)
 }
+
+var exportBtn = $('#export'); //下载按钮
+var options = {
+    fileName:'行政处罚',  //自定义文件名
+    type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
+    escape: false
+}
+gridTable.BootstrapExport(exportBtn,options);
 

@@ -534,6 +534,7 @@ var setting = {
         onClick: zTreeOnClick
     }
 };
+$("#ztree").height($(window).height()-135);
 $.fn.zTree.init($("#ztree"), setting);
 //默认加载第一个节点
 var firstAsyncSuccessFlag = 0;

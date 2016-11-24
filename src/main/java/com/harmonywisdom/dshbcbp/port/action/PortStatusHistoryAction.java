@@ -84,6 +84,44 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         return condition;
     }
 
+    /**
+     * 超标同期对比查询列表
+     */
+    public void excessiveRatiolist(){
+        Map<String,String> params = new HashMap<>();
+
+        String lastStartTime = request.getParameter("lastStartTime");
+        if(StringUtils.isNotBlank(lastStartTime)){
+            params.put("lastStartTime",lastStartTime);
+        }
+
+        String lastEndTime = request.getParameter("lastEndTime");
+        if(StringUtils.isNotBlank(lastEndTime)){
+            params.put("lastEndTime",lastEndTime);
+        }
+
+        String firstTime = request.getParameter("firstTime");
+        if(StringUtils.isNotBlank(firstTime)){
+            params.put("firstTime",firstTime);
+        }
+
+        String lastTime = request.getParameter("lastTime");
+        if(StringUtils.isNotBlank(lastTime)){
+            params.put("lastTime",lastTime);
+        }
+
+        String strStatus = request.getParameter("strStatus");
+        if(StringUtils.isNotBlank(strStatus)){
+            params.put("strStatus",strStatus);
+        }
+
+        QueryResult<PortStatusHistory> result = null;
+        result = portStatusHistoryService.excessiveRatiolist(params, getPaging());
+
+        write(result);
+
+    }
+
     @Override
     public void save() {
         //获取删除的附件IDS

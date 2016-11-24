@@ -64,6 +64,7 @@ function initTable() {
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -71,6 +72,7 @@ function initTable() {
                 field: 'name',
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 editable: false
             },
             {
@@ -78,6 +80,7 @@ function initTable() {
                 field: 'place',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -85,6 +88,7 @@ function initTable() {
                 field: 'principal',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -92,6 +96,7 @@ function initTable() {
                 field: 'linkPhone',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -99,11 +104,13 @@ function initTable() {
                 field: 'findDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
                 field: 'status',
                 title: '反馈状态',
+                isDown:true,
                 align: 'center',
                 formatter:function (value, row, index) {
                     if (0==value){
@@ -454,3 +461,10 @@ $("#saveFeedback").click(function () {
     ef_feedback.submit(false);
 })
 
+var exportBtn = $('#export'); //下载按钮
+var options = {
+    fileName:'自查自报',  //自定义文件名
+    type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
+    escape: false
+}
+gridTable.BootstrapExport(exportBtn,options);
