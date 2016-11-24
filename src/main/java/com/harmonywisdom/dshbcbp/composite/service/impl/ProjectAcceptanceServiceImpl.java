@@ -44,6 +44,6 @@ public class ProjectAcceptanceServiceImpl extends BaseService<ProjectAcceptance,
 
     @Override
     public void updateBuildProject(Date acceptTime, String acceptOrg,Date replyAccTime,String projectId) {
-        buildProjectService.executeJPQL("update BuildProject set acceptTime=?,acceptOrg=?,replyTime=? where id=?",acceptTime,acceptOrg,replyAccTime,projectId);
+        buildProjectService.executeJPQL("update BuildProject set acceptTime=?,acceptOrg=?,isAcceptance=1,replyAccTime=? where id=?",acceptTime,acceptOrg,replyAccTime,projectId);
     }
 }
