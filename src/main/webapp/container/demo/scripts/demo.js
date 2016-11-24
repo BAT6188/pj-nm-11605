@@ -259,11 +259,12 @@ var DemoPage = function () {
         form.find(".form-title").text("修改"+formTitle);
         var id = entity.id;
         $("#removeId").val("");
-        for(p in entity){
-            var selector="#"+p
-            $(selector).val(entity[p])
-        }
 
+        var inputs = form.find('[name]');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            $(v).val(entity[tagId]);
+        });
         uploader = new qq.FineUploader(getUploaderOptions(id));
     }
     function setFormView(entity) {

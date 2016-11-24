@@ -119,18 +119,31 @@ public class BuildProject implements Serializable {
     @Column(name = "ENTERPRISE_ID",length = 100)
     private String enterpriseId;
     /**
-     * 审批类型
-     * 1：环评
-     * 2：验收
-     */
-    @Column(name = "type",length = 100)
-    private String type;
-    /**
      * 批复时间
      */
     @Column(name = "REPLY_TIME")
     private Date replyTime;
+    /**
+     * 是否验收
+     */
+    @Column(name = "IS_ACCEPTANCE",length = 100)
+    private String isAcceptance;
+    /**
+     * 是否环评
+     */
+    @Column(name = "IS_EIA",length = 100)
+    private String isEIA;
+    /**
+     *环评批复时间
+     */
+    @Column(name = "REPLY_EIA_TIME")
+    private Date replyEIATime;
 
+    /**
+     *验收批复时间
+     */
+    @Column(name = "REPLY_ACC_TIME")
+    private Date replyAccTime;
     @Transient
     private String startDate;
     @Transient
@@ -139,6 +152,38 @@ public class BuildProject implements Serializable {
     private ProjectEIA projectEIA;
     @Transient
     private ProjectAcceptance projectAcceptance;
+
+    public Date getReplyEIATime() {
+        return replyEIATime;
+    }
+
+    public void setReplyEIATime(Date replyEIATime) {
+        this.replyEIATime = replyEIATime;
+    }
+
+    public Date getReplyAccTime() {
+        return replyAccTime;
+    }
+
+    public void setReplyAccTime(Date replyAccTime) {
+        this.replyAccTime = replyAccTime;
+    }
+
+    public String getIsAcceptance() {
+        return isAcceptance;
+    }
+
+    public void setIsAcceptance(String isAcceptance) {
+        this.isAcceptance = isAcceptance;
+    }
+
+    public String getIsEIA() {
+        return isEIA;
+    }
+
+    public void setIsEIA(String isEIA) {
+        this.isEIA = isEIA;
+    }
 
     public String getStartDate() {
         return startDate;
@@ -165,13 +210,6 @@ public class BuildProject implements Serializable {
         this.replyTime = replyTime;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getId() {
         return id;

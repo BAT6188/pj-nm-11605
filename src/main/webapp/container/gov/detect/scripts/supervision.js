@@ -37,7 +37,7 @@ function initTable() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination: "server",
         url: rootPath + "/action/S_composite_Block_list.action",
-        height: pageUtils.getTableHeight()-45,
+        height: pageUtils.getTableHeight(),
         method: 'post',
         pagination: true,
         clickToSelect: true,//单击行时checkbox选中
@@ -128,7 +128,7 @@ function initTable() {
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()-45
+            height: pageUtils.getTableHeight()
         });
     });
 }
@@ -299,6 +299,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();

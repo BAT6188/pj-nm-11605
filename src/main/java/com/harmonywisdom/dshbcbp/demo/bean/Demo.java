@@ -20,6 +20,12 @@ public class Demo implements Serializable {
     private Integer age;
 
     /**
+     * 性格
+     */
+    @Column(length = 1)
+    private String xg;
+
+    /**
      * x坐标
      */
     @Column
@@ -95,5 +101,13 @@ public class Demo implements Serializable {
 
     public void setDemoList(String demoList) {
         this.demoList = demoList;
+    }
+
+    public String getXg() {
+        return xg;
+    }
+
+    public void setXg(String xg) {
+        this.xg = xg;
     }
 }

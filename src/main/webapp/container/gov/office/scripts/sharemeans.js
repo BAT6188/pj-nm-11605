@@ -38,19 +38,22 @@ function initTable() {
                 field: 'title',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             }, {
                 title: '类型',
                 field: 'type',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             }, {
                 title: '发布单位',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             }, {
                 title: '发布时间',
                 field: 'pubTime',
@@ -59,7 +62,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 field: 'status',
@@ -81,7 +85,16 @@ function initTable() {
                     }
                     return value;
 
-                }
+                },
+                isDown:true
+            },
+            {
+                title: '资料描述',
+                field: 'description',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
             },
             {
                 field: 'operate',
@@ -144,6 +157,12 @@ function initTable() {
             height: pageUtils.getTableHeight()
         });
     });
+    //导出
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'资料共享',
+        type: 'excel',
+        escape: false
+    });
 }
 
 // 生成列表操作方法
@@ -176,7 +195,7 @@ function getIdSelections() {
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         console.log(row.pubOrgId +'+'+orgCode);
-        if(row.status==1 && row.pubOrgId==orgCode){
+        if(row.pubOrgId==orgCode){
             updateBtn.prop('disabled', false);
         }else{
             updateBtn.prop('disabled', true);

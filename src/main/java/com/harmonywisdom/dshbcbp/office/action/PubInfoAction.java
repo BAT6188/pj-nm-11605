@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
+import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.PubInfo;
 import com.harmonywisdom.dshbcbp.office.service.PubInfoService;
@@ -65,8 +66,8 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         }
         param.andParam(statusParam);*/
         String orgCode = request.getParameter("orgCode");
-        IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
-        if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgId());}
+        /*IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
+        if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgId());}*/
         if (StringUtils.isNotBlank(entity.getStatus())) {
             param.andParam(new QueryParam("status", QueryOperator.EQ,entity.getStatus()));
             param.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE,orgCode));
@@ -91,7 +92,10 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     public void list() {
         QueryCondition var1 = this.getQueryCondition();
         QueryResult<PubInfo> queryResult = new QueryResult<PubInfo>();
-        IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
+        IOrg iOrg = null;
+        if (request.getSession().getAttribute(UserProfile.J2EE_USER_NAME)!= null) {
+            iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
+        }
         if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgCode());}
         try {
             queryResult = var1!=null?this.getService().find(var1,this.entity):this.getService().findBySample(this.entity, this.getPaging(), this.getOrderBy(), this.getDirection());

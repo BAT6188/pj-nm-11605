@@ -68,43 +68,57 @@ function initTable() {
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 title: '隐患名称',
                 field: 'name',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '隐患部位',
                 field: 'place',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 title: '整改负责人',
                 field: 'principal',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 title: '联系方式',
                 field: 'linkPhone',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 title: '发现日期',
                 field: 'findDate',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
+            },{
+                title: '整改完成日期',
+                field: 'finishDate',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
             },
+
             {
                 field: 'status',
                 title: '反馈状态',
@@ -116,7 +130,22 @@ function initTable() {
                         value="已反馈"
                     }
                     return value;
-                }
+                },
+                isDown:true
+            },{
+                title: '隐患信息描述',
+                field: 'description',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '整改措施方案',
+                field: 'solution',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
             },
             {
                 field: 'operate',
@@ -148,6 +177,9 @@ function initTable() {
         gridTable.bootstrapTable('resetView', {
             height: pageUtils.getTableHeight()
         });
+    });
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'隐患自查自报'  //自定义文件名
     });
 }
 
