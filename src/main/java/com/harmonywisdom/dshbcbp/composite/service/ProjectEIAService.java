@@ -22,5 +22,5 @@ public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
 
     void deleteProjectEIABuildProjectId(String projectId);
 
-    void updateBuildProject(Date replyTime,String projectId);
+    void updateBuildProject(Date replyTime,Date replyEIATime, String projectId);
 }

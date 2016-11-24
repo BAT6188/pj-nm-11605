@@ -119,8 +119,8 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
     }
 
     @Override
-    public void updateBuildProject(Date replyTime,String projectId) {
-        buildProjectService.executeJPQL("update BuildProject set replyTime=? where id=?",replyTime,projectId);
+    public void updateBuildProject(Date replyTime,Date replyEIATime,String projectId) {
+        buildProjectService.executeJPQL("update BuildProject set replyTime=?,replyEIATime=?,isEIA=1 where id=?",replyTime,replyEIATime,projectId);
     }
 
 }
