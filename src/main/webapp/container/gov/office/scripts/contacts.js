@@ -193,40 +193,46 @@ function initTable() {
                 field: 'name',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 title: '部门名称',
                 field: 'department',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '职务',
                 field: 'position',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '座机号码',
                 field: 'tel',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },{
                 title: '手机号码',
                 field: 'phone',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },{
                 title: '单位地址',
                 field: 'address',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '关联系统人员',
@@ -241,7 +247,8 @@ function initTable() {
                     }else{
                         return "暂未关联任何系统用户!";
                     }
-                }
+                },
+                isDown:true
             },
             {
                 field: 'operate',
@@ -331,6 +338,18 @@ function initTable() {
             height: pageUtils.getTableHeight()
         });
     });
+
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'通讯录',  //自定义文件名
+    });
+    /*$('#export').click(function(){
+        downLoadObj.exportTable({
+            fileName:'通讯录',
+            type: 'excel',
+            escape: false,
+            exportDataType:'all'
+        });
+    })*/
 }
 
 // 生成列表操作方法

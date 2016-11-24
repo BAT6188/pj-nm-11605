@@ -1,0 +1,40 @@
+{
+    "year": "[id]",
+    "month": "[姓名]",
+    "day": "[年龄]",
+    "enterpriseNamea": "[x坐标]",
+    "enterpriseNameb": "[x坐标]",
+    "blockLevelName": "[y坐标]",
+    "blockName": "[附件id]",
+    "pollutantType": "[附件id]",
+    "artificialPerson": "[附件id]",
+    "apPhone": "[附件id]",
+    "envPrincipal": "[附件id]",
+    "epPhone": "[附件id]",
+    "content": "[附件id]",
+    "tables": [
+        {
+            "regionName": "feedbackList",
+            "startRowNumber": 3,
+            "startColNumber": 1,
+            "keyNames": [
+                "lawerName",
+                "phone",
+                "exeDesc"
+            ]
+        }
+    ],
+    "caseName": "[附件id]",
+    "filingDate": "[附件id]",
+    "code": "[附件id]",
+    "decideCode": "[附件id]",
+    "provision": "[附件id]",
+    "exeDesc": "[附件id]",
+    "type": "[附件id]",
+    "money": "[附件id]",
+    "exeDate": "[附件id]",
+    "endDate": "[附件id]",
+    "attn": "[附件id]",
+    "closedDate": "[附件id]",
+    "punishContent": "[附件id]"
+}

@@ -87,26 +87,20 @@ var OneImagePage = function () {
                                     var childNode = children[i];
                                     ids.push(childNode.id);
                                 }
-
                             }
                             that["load"+treeNode.type+"ToMap"](ids);
                         }else{//取消选择 清除数据
-                            if (treeNode.isParent){//如果是主节点，清空对应的图层
+                            if (treeNode.isParent){//如果是主节点，清空子图层
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
-                                //如果是农村生态环境，删除相关联的摄像头图层
-                                if (treeNode.type == Constant.VILLAGEENV_FLAG) {
-                                    var villageNoes = treeNode.children;
-                                    for(var i = 0; i < villageNoes.length; i++) {
-                                        var vnode = villageNoes[i];
-                                        that.hwmap.removeLayer(vnode.id);
-                                    }
+                                var children = treeNode.children;
+                                for(var i = 0; i < children.length; i++) {
+                                    var vnode = children[i];
+                                    that.hwmap.removeLayer(vnode.id);
                                 }
                             }else{
                                 that.hwmap.removeOverlay(treeNode.id);//否清除对应的标绘
-                                //如果是农村生态环境，删除相关联的摄像头图层
-                                if (treeNode.type == Constant.VILLAGEENV_FLAG) {
-                                    that.hwmap.removeLayer(treeNode.id);
-                                }
+                                //删除相关联的图层
+                                that.hwmap.removeLayer(treeNode.id);
                             }
                             that.hwmap.hideInfoWindow();
                         }
@@ -605,11 +599,21 @@ var OneImagePage = function () {
         },
         addBlockArea:function (block) {
             var that = this;
+            if (block.blockLevelId != "2") {
+                that.add134BlockArea(block);
+            }else{//级别2使用下级网格坐标数据
+                that.add2BlockArea(block);
+            }
+        },
+        /**
+         * 加载1，3，4级别网格坐标数据
+         */
+        add134BlockArea:function (block) {
+            var that = this;
             var points = this.hwmap.MapTools.strToPoints(block.areaPoints);
             if (!points || points.length <=0) {
                 return;
             }
-
             this.hwmap.addPolygon({
                 id:block.id,
                 data:block,
@@ -625,6 +629,55 @@ var OneImagePage = function () {
                     that.showBlockInfoWin(block);
                 }
             },that.MAP_LAYER_BLOCK);
+        },
+        add2BlockArea:function (block) {
+            var that = this;
+            var pointsArray = that.loadChildrenBlockPoints(block.id);
+            if (!pointsArray || pointsArray.length <=0) {
+                return;
+            }
+            for(var i = 0; i < pointsArray.length; i++) {
+                var points = that.hwmap.MapTools.strToPoints(pointsArray[i]);
+                block.areaPoints = pointsArray[i];
+                this.hwmap.addPolygon({
+                    id:block.id+i,
+                    data:block,
+                    points:points,
+                    fillColor:"#C3F7EE",
+                    lineColor:"#00C0E8",
+                    lineWeight:1,
+                    lineType:that.hwmap.LINE_TYPE_SOLID,
+                    lineOpacity:2,
+                    opacity:0.6,
+                    click:function (gra) {
+                        var block = gra.data;
+                        that.showBlockInfoWin(block);
+                    }
+                },block.id);
+            }
+
+        },
+        loadChildrenBlockPoints: function(parentBlockId) {
+            var points = [];
+            $.ajax({//不为空，加载数据
+                url: rootPath + "/action/S_composite_Block_findChildrenBlock.action",
+                type: "post",
+                async:false,
+                dataType: "json",
+                data: {"parentBlockId": parentBlockId},
+                success: function (blocks) {
+                    if (blocks && blocks.length > 0){
+                        for(var i =0; i < blocks.length; i++) {
+                            var block = blocks[i];
+                            if (block.areaPoints) {
+                                points.push(block.areaPoints);
+                            }
+                        }
+                    }
+
+                }
+            });
+            return points;
         },
         showBlockInfoWin:function (block) {
             var height =227;

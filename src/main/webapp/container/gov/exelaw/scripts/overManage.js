@@ -110,7 +110,8 @@ function lookOverFormatter(value, row, index) {
 
 window.lookOverEvents = {
     'click .lookOver': function (e, value, entity, index) {
-        console.log("查看按钮")
+        window.open(rootPath+"/action/S_officetemp_OfficeTemp_showTemplate.action?" +
+            "id=OverManage&beanName=overManageService&bussinessId="+entity.id);
     }
 };
 

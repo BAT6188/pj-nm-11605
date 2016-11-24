@@ -41,7 +41,11 @@ public class BlockServiceImpl extends BaseService<Block, String> implements Bloc
                 List<ZNodeDTO> blockNodes = new ArrayList<ZNodeDTO>();
                 for (Block block : blocks) {
                     if (block.getBlockLevelId().equals(level.getId())) {
-                        ZNodeDTO blockNode = new ZNodeDTO(block.getId(), block.getOrgName(), Block.class.getSimpleName());
+                        String nodeName = block.getOrgName();
+                        if (level.getLevel() == 2) {//二级网格使用负责人做为node名称，因为局长都属于一个单位
+                            nodeName = block.getPrincipal();
+                        }
+                        ZNodeDTO blockNode = new ZNodeDTO(block.getId(), nodeName, Block.class.getSimpleName());
                         blockNodes.add(blockNode);
                     }
                 }
