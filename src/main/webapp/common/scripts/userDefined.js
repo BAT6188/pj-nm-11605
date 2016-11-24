@@ -195,6 +195,28 @@ var pageUtils = {
         return localParams;
     },
     /**
+     * 序列化特定的查询区域form
+     * @param params
+     * @param queryForm
+     * @returns {{}}
+     */
+    getBaseParams:function (params,queryForm){
+        if(!queryForm){
+            queryForm = $('.queryBox').find('form');
+        }
+        var localParams = {};
+        //分页参数
+        localParams.take = params.limit;
+        localParams.skip = params.offset;
+        localParams.page = params.offset / params.limit + 1;
+        localParams.pageSize = params.limit;
+        var jsonData = $(queryForm).formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
+        return localParams;
+    },
+    /**
      * 获取radio Value
      * @param name
      */
@@ -312,24 +334,6 @@ var pageUtils = {
         }else{
             callback(that._mainMenu,that._subMenu);
         }
-    },
-    /**
-     * 手动转换
-     * @param params
-     * @returns {{}}
-     */
-    getBaseParams:function (params){
-        var localParams = {};
-        //分页参数
-        localParams.take = params.limit;
-        localParams.skip = params.offset;
-        localParams.page = params.offset / params.limit + 1;
-        localParams.pageSize = params.limit;
-        var jsonData = $('.queryBox').find('form').formSerializeObject();
-        if(!$.isEmptyObject(jsonData)){
-            Object.assign(localParams, jsonData);
-        }
-        return localParams;
     },
     loading:function(msg){
         var showMsg = '数据载入中，请稍后......';

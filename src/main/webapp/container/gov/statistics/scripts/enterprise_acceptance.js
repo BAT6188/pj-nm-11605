@@ -489,8 +489,10 @@ $(function(){
             // },
             plotOptions: {
                 column: {
-                    depth: 25
-                }
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
             },
             xAxis: {
                 categories: preMonth,

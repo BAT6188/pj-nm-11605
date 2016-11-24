@@ -333,9 +333,10 @@ $(function(){
             },
             plotOptions: {
                 column: {
-                    pointPadding: 0.1,
-                    borderWidth: 0
-                }
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
             },
             legend: {
                 enabled: true
@@ -475,7 +476,9 @@ $(function(){
             // },
             plotOptions: {
                 column: {
-                    depth: 25
+                    dataLabels: {
+                        enabled: true
+                    }
                 }
             },
             xAxis: {

@@ -620,7 +620,9 @@ $(function(){
             },
             plotOptions: {
                 column: {
-                    depth: 25
+                    dataLabels: {
+                        enabled: true
+                    }
                 },
                 series : {
                     cursor: 'pointer',
@@ -816,7 +818,10 @@ $(function(){
             // },
             plotOptions: {
                 line: {
-                    depth: 25
+                    depth: 25,
+                    dataLabels: {
+                        enabled: true
+                    }
                 },
                 series : {
                     cursor: 'pointer',
