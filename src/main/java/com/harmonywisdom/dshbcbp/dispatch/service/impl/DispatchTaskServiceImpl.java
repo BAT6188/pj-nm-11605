@@ -121,7 +121,7 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
             whereSql.append("OR (t.event_time > '").append(params.get("lastStartTime")).append("' and t.event_time < '").append(params.get("lastEndTime")+"')");
         }
 
-        String countSql = "select count(*) from HW_DISPATCH_TASK";
+        String countSql = "select count(*) from HW_DISPATCH_TASK t" +whereSql.toString();
         String querySql = "select t.* from HW_DISPATCH_TASK t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
 
         long total = dispathTaskDAO.getCount(countSql);
