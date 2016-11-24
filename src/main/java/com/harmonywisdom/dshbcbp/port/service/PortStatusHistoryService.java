@@ -1,9 +1,12 @@
 package com.harmonywisdom.dshbcbp.port.service;
 
 import com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory;
+import com.harmonywisdom.framework.dao.Paging;
+import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.IBaseService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PortStatusHistoryService extends IBaseService<PortStatusHistory, String> {
     /**
@@ -38,4 +41,12 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
      * @return
      */
     List<PortStatusHistory> companyByExcessive();
+
+    /**
+     * 超标同期对比查询列表
+     * @param params
+     * @param paging
+     * @return
+     */
+    QueryResult<PortStatusHistory> excessiveRatiolist(Map<String, String> params, Paging paging);
 }

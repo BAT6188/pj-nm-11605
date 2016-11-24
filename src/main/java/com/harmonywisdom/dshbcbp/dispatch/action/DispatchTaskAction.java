@@ -14,10 +14,7 @@ import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryOperator;
-import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -181,19 +178,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         String firstTime = request.getParameter("firstTime");
         String lastTime = request.getParameter("lastTime");
-        String lastStartTime = request.getParameter("lastStartTime");
-        String lastEndTime = request.getParameter("lastEndTime");
-        if (firstTime != null && !"".equals(firstTime)) {
+        if (org.apache.commons.lang.StringUtils.isNotBlank(firstTime)) {
             params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
         }
-        if (lastTime != null && !"".equals(lastTime)) {
+        if (org.apache.commons.lang.StringUtils.isNotBlank(lastTime)) {
             params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
-        }
-        if (firstTime != null && !"".equals(lastStartTime)) {
-            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(lastStartTime,"yyyy-MM-dd")));
-        }
-        if (lastTime != null && !"".equals(lastEndTime)) {
-            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastEndTime,"yyyy-MM-dd")));
         }
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
@@ -202,6 +191,41 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         condition.setPaging(getPaging());
         condition.setOrderBy("eventTime", Direction.DESC);
         return condition;
+    }
+
+    /**
+     * 执法同期对比查询列表
+     */
+    public void listgridLawRatio(){
+
+        Map<String,String> params = new HashMap<>();
+
+
+        String firstTime = request.getParameter("firstTime");
+        if(org.apache.commons.lang.StringUtils.isNotBlank(firstTime)){
+            params.put("firstTime",firstTime);
+        }
+        String lastTime = request.getParameter("lastTime");
+        if(org.apache.commons.lang.StringUtils.isNotBlank(lastTime)){
+            params.put("lastTime",lastTime);
+        }
+        String lastStartTime = request.getParameter("lastStartTime");
+        if(org.apache.commons.lang.StringUtils.isNotBlank(lastStartTime)){
+            params.put("lastStartTime",lastStartTime);
+
+        }
+        String lastEndTime = request.getParameter("lastEndTime");
+        if(org.apache.commons.lang.StringUtils.isNotBlank(lastEndTime)){
+            params.put("lastEndTime",lastEndTime);
+        }
+
+        QueryResult<DispatchTask>  result = null;
+        result = dispatchTaskService.lawRatiogrid(params, getPaging());
+
+        write(result);
+
+
+
     }
 
     /**
