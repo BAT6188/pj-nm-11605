@@ -122,6 +122,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="age" class="col-sm-2 control-label">性格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <select name="xg" class="form-control">
+                                <option value="1">温柔</option>
+                                <option value="2">奔放</option>
+                                <option value="3">泼辣</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="age" class="col-sm-2 control-label">x坐标<span class="text-danger">*</span>：</label>
                         <div class="col-sm-3">
                             <input type="text" id="longitude" name="longitude" class="form-control"
