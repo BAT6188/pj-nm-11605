@@ -83,7 +83,11 @@ function initTable() {
                 field: 'type',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    // return dict.getDctionnaryName(dict.getDctionnary({code:'punishType'}),value)
+                    return dict.get("punishType",value)
+                }
             },
             {
                 title: '结案日期',
@@ -97,7 +101,10 @@ function initTable() {
                 field: 'exeDesc',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return dict.get("exeDesc",value)
+                }
             },
             {
                 title: '案件来源',

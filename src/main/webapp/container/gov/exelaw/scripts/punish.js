@@ -4,6 +4,16 @@ var gridTable = $('#table'),
     formTitle = "行政处罚信息",
     selections = [];
 
+var downLoadObj = gridTable.BootstrapExport();
+$('#export').click(function(){
+    downLoadObj.exportTable({
+        fileName:'通讯录',  //自定义文件名
+        type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
+        escape: false,
+        exportDataType:'all' //‘basic‘ 下载当前页所有数据，’selected‘ 下载已选择的数据 ,'all' 下载所有数据(为默认值可不填)
+    });
+});
+
 
 
 //保存ajax请求
@@ -62,6 +72,7 @@ function initTable() {
                 field: 'caseName',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -69,6 +80,7 @@ function initTable() {
                 field: 'caseReason',
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 editable: false
             },
             {
@@ -76,6 +88,7 @@ function initTable() {
                 field: 'filingDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -83,13 +96,19 @@ function initTable() {
                 field: 'type',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    // return dict.getDctionnaryName(dict.getDctionnary({code:'punishType'}),value)
+                    return dict.get("punishType",value)
+                }
             },
             {
                 title: '结案日期',
                 field: 'closedDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -97,13 +116,18 @@ function initTable() {
                 field: 'exeDesc',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    return dict.get("exeDesc",value)
+                }
             },
             {
                 title: '案件来源',
                 field: 'caseSource',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {

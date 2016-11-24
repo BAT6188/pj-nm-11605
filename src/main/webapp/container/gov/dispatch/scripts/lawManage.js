@@ -193,7 +193,7 @@ function initTable() {
                 }
             },
             {
-                field: '',
+                field: 'col2',
                 title: '行政处罚',
                 sortable: false,
                 align: 'center',
@@ -209,7 +209,7 @@ function initTable() {
                      * 状态
                      */
                     if(row.status>=4){
-                        value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
+                        value="<a class='btn btn-md btn-warning punish'>已处罚1</a>"
                     }else{
                         value="未处罚"
                     }

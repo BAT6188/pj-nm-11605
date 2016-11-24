@@ -153,24 +153,14 @@
 
                         <label for="exeDesc" class="col-sm-2 control-label">履行情况<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="exeDesc" name="exeDesc" class="form-control">
-                                <option value="1">代履行</option>
-                                <option value="2">自觉履行</option>
-                                <option value="3">申请法院强制执行</option>
-                                <option value="4">尚未执行</option>
-                                <option value="5">无须执行</option>
-                                <option value="6">已无法执行</option>
+                            <select id="exeDesc" name="exeDesc" class="form-control exeDesc">
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="type" class="col-sm-2 control-label">处罚类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="type" name="type" class="form-control">
-                                <option value="1">罚款</option>
-                                <option value="2">警告</option>
-                                <option value="3">责令停产整顿</option>
-                                <option value="4">责令停产、停业、关闭</option>
+                            <select id="type" name="type" class="form-control punishType">
                             </select>
                         </div>
 
@@ -289,6 +279,11 @@
         </div>
     </div>
 </div>
+<script>
+    pageUtils.appendOptionFromDictCode(".punishType",{code:"punishType"})
+    pageUtils.appendOptionFromDictCode(".exeDesc",{code:"exeDesc"})
+</script>
+<script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/exelaw/scripts/punish.js"></script>
 </body>
 </html>
