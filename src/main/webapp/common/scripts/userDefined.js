@@ -487,18 +487,18 @@ var pageUtils = {
                 hiddenTableDiv = $('#'+hiddenTableDivId);
                 hiddenTableDiv.append('<table id="'+tableId+'" class="table table-striped table-responsive"></table>');
                 downloadTable = $('#'+tableId);
+                var tableOptions = that.bootstrapTable('getOptions');
+                var tableClumns = tableOptions.columns[0];
                 that.bootstrapTable('refreshOptions',{onLoadSuccess:function(data){
-                    var tableOptions = that.bootstrapTable('getOptions');
                     var newColumns = [];
                     var columnIndex = 0;
-                    $.each(tableOptions.columns[0],function(k,v){
+                    $.each(tableClumns,function(k,v){
                         if(v.isDown){
                             v.visible = true;
                             newColumns[columnIndex] = v;
                             columnIndex +=1;
                         }
                     });
-                    tableOptions.columns[0] = newColumns;
                     var newTableOptions= {
                         contentType: tableOptions.contentType,
                         sidePagination:tableOptions.sidePagination,
@@ -509,17 +509,17 @@ var pageUtils = {
                         method:tableOptions.method,
                         pagination:tableOptions.pagination,
                         queryParams:tableOptions.queryParams,
-                        columns:tableOptions.columns,
+                        columns:newColumns,
                         onLoadSuccess:function(downloadData){
                             downloadTableData = downloadData;
                         }
                     };
                     downloadTable.bootstrapTable(newTableOptions);
-                }})
+                }});
             },
             exportTable:function(options){
                 options = $.extend({}, defaultOptions, options);
-                var exportObj = this,tableOptions = that.bootstrapTable('getOptions');
+                var exportObj = this;
                 downloadOptions = options;
                 switch (options.exportDataType){
                     case 'basic':
