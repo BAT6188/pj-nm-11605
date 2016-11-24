@@ -4,8 +4,6 @@
 <head>
     <title>监察大队办公室</title>
     <%@include file="/common/msgSend/msgSend.jsp"%>
-
-    <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <style>
         .ui-autocomplete { z-index:2147483647;}
     </style>
@@ -31,11 +29,8 @@
                         </div>
                         <div class="form-group">
                             <label for="search_source">信息来源：</label>
-                            <select id="search_source" name="source" class="form-control" style="width: 266px;">
+                            <select id="search_source" name="source" class="form-control caseSource" style="width: 266px;">
                                 <option value="">全部</option>
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
                             </select>
                         </div>
                     </form>
@@ -120,7 +115,7 @@
 
                         <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="source" name="source" class="form-control">
+                            <select id="source" name="source" class="form-control caseSource">
                             </select>
                         </div>
                     </div>
@@ -266,6 +261,10 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<script>
+    pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
+</script>
+<script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/monitorOffice.js"></script>

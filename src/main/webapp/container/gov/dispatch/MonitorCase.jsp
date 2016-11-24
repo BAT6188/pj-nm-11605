@@ -66,10 +66,8 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="">原&nbsp;&nbsp;因：</label>
-                                <select id="s_reason" name="reason" class="form-control" style="width: 301px;">
+                                <select id="s_reason" name="reason" class="form-control caseReason" style="width: 301px;">
                                     <option value="">全部</option>
-                                    <option value="1">异常</option>
-                                    <option value="2">超标</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -277,6 +275,7 @@
         $("#status_search").val(status_search)
         $('#myTab a:first').tab('show')
         loadBlockLevelAndBlockOption("#s_blockLevelId","#s_blockId")
+        pageUtils.appendOptionFromDictCode(".caseReason",{code:"caseReason"})
     });
     function changeTab(f) {
         if (f=='1'){
@@ -294,6 +293,7 @@
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     }
 </script>
+<script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/MonitorCase.js"></script>
 </body>
 </html>

@@ -76,7 +76,7 @@ public class Punish implements Serializable {
     private String exeDesc;
 
     /**
-     * 处罚类型
+     * 处罚类型 punishType
      * 1. 罚款
      * 2. 警告
      * 3. 责令停产整顿

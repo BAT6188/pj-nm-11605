@@ -20,7 +20,6 @@
 <head>
     <title>执法管理</title>
     <%@include file="/common/msgSend/msgSend.jsp"%>
-    <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <style>
         .ui-autocomplete { z-index:2147483647;}
         #isNew{
@@ -49,12 +48,8 @@
                         </div>
                         <div class="form-group">
                             <label for="s_source">信息来源：</label>
-                            <select id="s_source" name="source" class="form-control" style="width: 266px;">
+                            <select id="s_source" name="source" class="form-control caseSource" style="width: 266px;">
                                 <option value="">全部</option>
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
-                                <option value="4">现场监察</option>
                                 <option value="0">监控中心</option>
                             </select>
                         </div>
@@ -244,11 +239,7 @@
 
                         <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="lookOverFeedbackForm_source" class="form-control">
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
-                                <option value="4">现场监察</option>
+                            <select id="lookOverFeedbackForm_source" class="form-control caseSource">
                                 <option value="0">监控中心</option>
                             </select>
                         </div>
@@ -428,11 +419,7 @@
                         </div>
                         <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="source" name="source" class="form-control">
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
-                                <option value="4">现场监察</option>
+                            <select id="source" name="source" class="form-control caseSource">
                                 <option value="0">监控中心</option>
                             </select>
                         </div>
@@ -550,11 +537,7 @@
                         </div>
                         <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="source_monitorReport" class="form-control noEdit">
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
-                                <option value="4">现场监察</option>
+                            <select id="source_monitorReport" class="form-control noEdit caseSource">
                                 <option value="0">监控中心</option>
                             </select>
                         </div>
@@ -658,7 +641,10 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
+<script>
+    pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
+</script>
+<script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/lawManage.js"></script>
