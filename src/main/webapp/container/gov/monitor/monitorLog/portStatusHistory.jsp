@@ -50,7 +50,7 @@
             <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">超标记录列表</a>
             <div class="dealBox">
                 <div class="sideTitle left">
-                        <span class="blueMsg" onclick="testmodel.open()">
+                        <span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
@@ -59,27 +59,8 @@
                     <form class="form-horizontal" role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="enterpriseName">&nbsp;企业名称：</label><input type="text" id="enterpriseName" name="enterpriseName" class="form-control" style="margin-left: 6px;">
-                                <label for="enterpriseType" class="labelMarginLeft">企业类型：</label>
-                                <select style="width: 300px;" class="form-control"  id="enterpriseType" name="enterpriseType">
-                                    <option value="">全部</option>
-                                    <option value="01">废水</option>
-                                    <option value="02">废气</option>
-                                    <option value="03">污水处理厂</option>
-                                    <option value="04">重金属</option>
-                                    <option value="05">畜禽养殖</option>
-                                    <option value="06">固废</option>
-                                    <option value="07">危险废物</option>
-                                    <option value="08">省级实验室</option>
-                                    <option value="09">二级以上医院</option>
-                                    <option value="10">其他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <label for="blockLevelId">&nbsp;所属网格：</label>
+                                <label for="enterpriseName">企业名称：</label> <input type="text" style="width: 238px;" id="enterpriseName" name="enterpriseName" class="form-control">
+                                <label for="blockLevelId" class="labelMarginLeft">&nbsp;所属网格：</label>
                                 <select class="form-control" id="blockLevelId" name="blockLevelId" style="width: 238px;">
                                     <option value="">全部</option>
                                 </select>
@@ -92,7 +73,21 @@
                         <p></p>
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="monitorTime">超标时间段：</label>
+                                <label for="enterpriseType">企业类型：</label>
+                                <select style="width: 238px;" class="form-control"  id="enterpriseType" name="enterpriseType">
+                                    <option value="">全部</option>
+                                    <option value="01">废水</option>
+                                    <option value="02">废气</option>
+                                    <option value="03">污水处理厂</option>
+                                    <option value="04">重金属</option>
+                                    <option value="05">畜禽养殖</option>
+                                    <option value="06">固废</option>
+                                    <option value="07">危险废物</option>
+                                    <option value="08">省级实验室</option>
+                                    <option value="09">二级以上医院</option>
+                                    <option value="10">其他</option>
+                                </select>
+                                <label for="monitorTime" class="labelMarginLeft">超标时间段：</label>
                                 <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                     <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -106,6 +101,12 @@
                                 </div>
                             </div>
                         </div>
+                        <%--<p></p>
+                        <div class="form-inline">
+                            <div class="form-group">
+
+                            </div>
+                        </div>--%>
                     </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -119,6 +120,6 @@
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/monitor/monitorLog/scripts/portStatusHistory.js"></script>
-<%@include file="/common/msgSend/msgSend.jsp"%>
+<%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
 </body>
 </html>

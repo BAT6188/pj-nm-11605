@@ -100,13 +100,14 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1});
     });
     //重置搜索
     $("#searchFix").click(function () {
         $('#searchform')[0].reset();
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1});
     });
+
     var downLoadObj = gridTable.BootstrapExport();
     $('#export').click(function(){
         downLoadObj.exportTable({
@@ -115,7 +116,7 @@ function initTable() {
             escape: false,
             exportDataType:'all'
         });
-    })
+    });
 }
 
 // 生成操作方法
