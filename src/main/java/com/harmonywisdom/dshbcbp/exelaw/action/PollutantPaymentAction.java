@@ -31,7 +31,7 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
         String startYdate = request.getParameter("startYdate");
 
         String lastYdate = request.getParameter("lastYdate");
-
+        String StrStatus = request.getParameter("StrStatus");
 
         QueryParam params = new QueryParam();
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
@@ -40,6 +40,9 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
 
         if (StringUtils.isNotBlank(entity.getPaymentStatus())) {
             params.andParam(new QueryParam("paymentStatus", QueryOperator.EQ,entity.getPaymentStatus()));
+        }
+        if(StringUtils.isNotBlank(StrStatus)){
+            params.andParam(new QueryParam("paymentStatus", QueryOperator.EQ,StrStatus));
         }
 
         if (StringUtils.isNotBlank(startYdate)) {
@@ -61,6 +64,38 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
         condition.setPaging(getPaging());
         condition.setOrderBy("registDate", Direction.DESC);
         return condition;
+    }
+
+    public void sewagelist(){
+
+        Map<String,String> params = new HashMap<>();
+
+        String firstTime = request.getParameter("firstTime");
+        if(StringUtils.isNotBlank(firstTime)){
+            params.put("firstTime",firstTime);
+        }
+
+        String lastTime = request.getParameter("lastTime");
+        if(StringUtils.isNotBlank(lastTime)){
+            params.put("lastTime",lastTime);
+        }
+
+        String paymentStatus = request.getParameter("paymentStatus");
+        if(StringUtils.isNotBlank(paymentStatus)){
+            params.put("paymentStatus",paymentStatus);
+        }
+
+        String unpaidStatus = request.getParameter("unpaidStatus");
+        if(StringUtils.isNotBlank(unpaidStatus)){
+            params.put("unpaidStatus",unpaidStatus);
+        }
+        QueryResult<PollutantPayment> result = null;
+        result = pollutantPaymentService.findSewagelist(params,getPaging());
+
+        write(result);
+
+
+
     }
 
     @Override
@@ -125,14 +160,13 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
      */
     public void getSewageColumn()  {
         String name = request.getParameter("name");
-        String payType = request.getParameter("payType");
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
 
         Map<String, Object> result = new HashMap<String, Object>();
 
 
-        List<Object[]> list = pollutantPaymentService.findByColumnChart(name,payType,startYdate,lastYdate);
+        List<Object[]> list = pollutantPaymentService.findByColumnChart(name,startYdate,lastYdate);
         if (list != null && list.size() > 0) {
             Object[] xlist = new Object[list.size()];
             Object[] y1list = new Object[list.size()];
@@ -158,13 +192,12 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
      */
     public void getSewagePie()  {
         String name = request.getParameter("name");
-        String payType = request.getParameter("payType");
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
 
         Map<String,Object> result = new HashMap<String,Object>();
 
-        List<Object[]> list = pollutantPaymentService.findByPieChart(name,payType,startYdate,lastYdate);
+        List<Object[]> list = pollutantPaymentService.findByPieChart(name,startYdate,lastYdate);
         if(list !=null && list.size()>0){
             Object[] xlist = new Object[list.size()];
             Object[] ylist = new Object[list.size()];

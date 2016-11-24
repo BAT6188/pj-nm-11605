@@ -187,9 +187,10 @@ $(function(){
             },
             plotOptions: {
                 column: {
-                    pointPadding: 0.1,
-                    borderWidth: 0
-                }
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
             },
             legend: {
                 enabled: true
@@ -293,7 +294,7 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true
-                    },
+                    }
                 }
             },
             legend: {

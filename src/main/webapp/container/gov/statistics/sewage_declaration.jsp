@@ -56,16 +56,16 @@
 
                     </form>
                     <p></p>
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="">缴费状态：</label>
-                            <select class="form-control" name="" id="payType">
-                                <option value=" ">请选择</option>
-                                <option value="0">未缴费</option>
-                                <option value="1">已缴费</option>
-                            </select>
-                        </div>
-                    </form>
+                    <%--<form class="form-inline">--%>
+                        <%--<div class="form-group">--%>
+                            <%--<label for="">缴费状态：</label>--%>
+                            <%--<select class="form-control" name="" id="payType">--%>
+                                <%--<option value="">请选择</option>--%>
+                                <%--<option value="0">未缴费</option>--%>
+                                <%--<option value="1">已缴费</option>--%>
+                            <%--</select>--%>
+                        <%--</div>--%>
+                    <%--</form>--%>
 
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -99,6 +99,48 @@
                         <%--</div>--%>
                     <%--</div>--%>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--排污申报列表（饼状图）--%>
+<div class="modal fade" id="sewageListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">排污申报列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tableBox">
+                    <table id="sewageTable" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeBtn" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--排污申报列表（线状图）(柱状图)--%>
+<div class="modal fade" id="sewageListForm2" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">排污申报列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tableBox">
+                    <table id="sewageTable2" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeBtn2" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>

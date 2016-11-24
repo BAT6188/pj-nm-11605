@@ -157,7 +157,6 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
             }
         }
 
-
         result.setRows(rows);
         result.setTotal(total);
         return result;
