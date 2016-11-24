@@ -78,7 +78,9 @@ var gridTable = $('#table'),
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter: reasonFormatter
+                formatter: function (value, row, index) {
+                    return dict.get("caseReason",value)
+                }
             },{
                 field: 'overValue',
                 title: '超标值',
@@ -239,16 +241,6 @@ function statusFormatter(value, row, index) {
         html="已发送"
     }else if(2==value){
         html="已反馈"
-    }
-    return html;
-}
-
-function reasonFormatter(value, row, index) {
-    var html
-    if(1==value){
-        html="异常"
-    }else if(2==value){
-        html="超标"
     }
     return html;
 }

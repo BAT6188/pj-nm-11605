@@ -92,18 +92,7 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter:function (value, row, index) {
-                    if(1==value){
-                        value="12369"
-                    }else if (2==value){
-                        value="区长热线"
-                    }else if (3==value){
-                        value="市长热线"
-                    }else if (4==value){
-                        value="现场监察"
-                    }else if (0==value){
-                        value="监控中心"
-                    }
-                    return value;
+                    return dict.get("caseSource",value)
                 }
             },
             {
@@ -748,10 +737,6 @@ function appendOption(selector,options) {
         $(selector).append(option);
     })
 }
-
-var code={code:"monitor_office_source"};
-var monitor_office_source=dict.getDctionnary(code)
-appendOption("#source",monitor_office_source)
 
 /**
  * 查看反馈表单事件

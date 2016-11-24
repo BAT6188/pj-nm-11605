@@ -126,6 +126,7 @@ public class MonitorCase implements Serializable {
     private String supervisorPhone;
 
     /**
+     * 事件原因 caseReason
      * 1.异常
      * 2.超标
      */
