@@ -116,12 +116,7 @@
                     <div class="form-group">
                         <label for="caseSource" class="col-sm-2 control-label">案件来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="caseSource" name="caseSource" class="form-control">
-                                <option value="1">12369</option>
-                                <option value="2">区长热线</option>
-                                <option value="3">市长热线</option>
-                                <option value="4">现场监察</option>
-                                <option value="0">监控中心</option>
+                            <select id="caseSource" name="caseSource" class="form-control caseSource">
                             </select>
                         </div>
 
@@ -228,6 +223,7 @@
 <script>
     pageUtils.appendOptionFromDictCode(".punishType",{code:"punishType"})
     pageUtils.appendOptionFromDictCode(".exeDesc",{code:"exeDesc"})
+    pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
 </script>
 <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/container/company/environmentSupervision/scripts/punish.js"></script>

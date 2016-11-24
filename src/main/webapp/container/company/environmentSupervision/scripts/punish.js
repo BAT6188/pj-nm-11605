@@ -62,6 +62,7 @@ function initTable() {
                 field: 'caseName',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -69,6 +70,7 @@ function initTable() {
                 field: 'caseReason',
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 editable: false
             },
             {
@@ -76,6 +78,7 @@ function initTable() {
                 field: 'filingDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -84,6 +87,7 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 formatter:function (value, row, index) {
                     // return dict.getDctionnaryName(dict.getDctionnary({code:'punishType'}),value)
                     return dict.get("punishType",value)
@@ -94,6 +98,7 @@ function initTable() {
                 field: 'closedDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -101,6 +106,7 @@ function initTable() {
                 field: 'exeDesc',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center',
                 formatter:function (value, row, index) {
                     return dict.get("exeDesc",value)
@@ -111,7 +117,11 @@ function initTable() {
                 field: 'caseSource',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    return dict.get("caseSource",value)
+                }
             },
             {
                 field: 'operate',
@@ -438,5 +448,13 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+var exportBtn = $('#export'); //下载按钮
+var options = {
+    fileName:'行政处罚',  //自定义文件名
+    type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
+    escape: false
+}
+gridTable.BootstrapExport(exportBtn,options);
 
 

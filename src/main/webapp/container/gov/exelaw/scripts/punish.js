@@ -4,15 +4,7 @@ var gridTable = $('#table'),
     formTitle = "行政处罚信息",
     selections = [];
 
-var downLoadObj = gridTable.BootstrapExport();
-$('#export').click(function(){
-    downLoadObj.exportTable({
-        fileName:'通讯录',  //自定义文件名
-        type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
-        escape: false,
-        exportDataType:'all' //‘basic‘ 下载当前页所有数据，’selected‘ 下载已选择的数据 ,'all' 下载所有数据(为默认值可不填)
-    });
-});
+
 
 
 
@@ -128,7 +120,10 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 isDown:true,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return dict.get("caseSource",value)
+                }
             },
             {
                 field: 'operate',
@@ -584,4 +579,12 @@ function setFormValueFromSelected(row) {
     $("#caseSource").val(row.source)
     $("#caseReason").val(row.reason)
 }
+
+var exportBtn = $('#export'); //下载按钮
+var options = {
+    fileName:'行政处罚',  //自定义文件名
+    type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
+    escape: false
+}
+gridTable.BootstrapExport(exportBtn,options);
 
