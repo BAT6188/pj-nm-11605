@@ -108,13 +108,8 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter:function (value, row, index) {
-                    if(1==value){
-                        value="异常"
-                    }else if(2==value){
-                        value="超标"
-                    }
-                    return value;
+                formatter: function (value, row, index) {
+                    return dict.get("caseReason",value)
                 }
             },
             {
@@ -198,7 +193,7 @@ function initTable() {
                      * 状态
                      */
                     if(row.status>=4){
-                        value="<a class='btn btn-md btn-warning punish'>已处罚1</a>"
+                        value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
                         value="未处罚"
                     }

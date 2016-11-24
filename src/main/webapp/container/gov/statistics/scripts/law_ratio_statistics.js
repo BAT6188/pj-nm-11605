@@ -503,7 +503,9 @@ $(function(){
             // },
             plotOptions: {
                 column: {
-                    depth: 25
+                    dataLabels: {
+                        enabled: true
+                    }
                 },
                 series : {
                     cursor: 'pointer',
@@ -728,8 +730,10 @@ $(function(){
             //     text: 'Notice the difference between a 0 value and a null point'
             // },
             plotOptions: {
-                column: {
-                    depth: 25
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
                 },
                 series : {
                     cursor: 'pointer',

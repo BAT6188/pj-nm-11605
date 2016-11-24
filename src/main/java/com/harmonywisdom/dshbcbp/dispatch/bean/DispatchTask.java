@@ -173,7 +173,11 @@ public class DispatchTask implements Serializable {
     @Column(name = "supervisor_phone")
     private String supervisorPhone;
 
-
+    /**
+     * 事件原因 caseReason
+     * 1.异常
+     * 2.超标
+     */
     @Column(name = "reason", length = 2)
     private String reason;
 
