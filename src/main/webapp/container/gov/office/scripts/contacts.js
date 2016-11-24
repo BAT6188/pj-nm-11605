@@ -267,8 +267,8 @@ function initTable() {
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
-        queryParams:function (param) {
-            var temp = pageUtils.getBaseParams(param);
+        queryParams:function (params) {
+            var temp = pageUtils.getBaseParams(params,$('#searchChosePersonform'));
             temp.blockNeed = true;
             return temp;
         },
