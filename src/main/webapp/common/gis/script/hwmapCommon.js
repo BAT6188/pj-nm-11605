@@ -1,9 +1,5 @@
 var HwmapCommon;
 function change10To16(num, sign) {
-    var isRow = ("R" == sign);
-    if (isRow) {
-        console.log("before:"+num);
-    }
     var charlength=8;
     if("L" == sign){
         charlength=2;
@@ -13,9 +9,6 @@ function change10To16(num, sign) {
     var size=charlength-(num+"").length;
     for (var i = 0; i < size; i++) {
         num="0"+num;
-    }
-    if (isRow) {
-        console.log("after:"+num);
     }
     num=sign+num;
     return num;

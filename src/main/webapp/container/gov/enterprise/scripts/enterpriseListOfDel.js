@@ -104,6 +104,244 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter: statusFormatter
+            }, {
+                field: 'status',
+                title: '企业运行状态',
+                align: 'center',
+                visible:false,
+                formatter: function(value, row, index){
+                    if(value=="1"){
+                        return "运行中";
+                    }else{
+                        return "未运行";
+                    }
+                },
+                isDown:true
+            }, {
+                field: 'longitude',
+                title: '经度',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'latitude',
+                title: '纬度',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'address',
+                title: '单位地址',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'pollutantCode',
+                title: '污染源代码',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'zipCode',
+                title: '邮政编码',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'orgCode',
+                title: '组织机构代码',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'artificialPerson',
+                title: '法定代表人',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'apPosition',
+                title: '法定代表人职务',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'apPhone',
+                title: '法定代表人电话',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'envPrincipal',
+                title: '环保负责人',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'epPosition',
+                title: '环保负责人职务',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'epPhone',
+                title: '环保负责人电话',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'pollutantType',
+                title: '污染源类型',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value, row, index){
+                    var pollutantTypes = value.split(',');
+                    return value;
+                },
+                isDown:true
+            }, {
+                field: 'pollutantLevel',
+                title: '污染源管理级别',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value,row,index){
+                    return dict.getDctionnaryName(dictData['pollutantLevel'],value);
+                },
+                isDown:true
+            }, {
+                field: 'superviseType',
+                title: '排污单位监管类型',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value, row, index){
+                    return dictSuperviseType[value];
+                },
+                isDown:true
+            }, {
+                field: 'isSpecial',
+                title: '是否特殊监管对象',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value, row, index){
+                    if(value == '1'){
+                        return "是"
+                    }else{
+                        return "否";
+                    }
+                },
+                isDown:true
+            }, {
+                field: 'registType',
+                title: '登记注册类型',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value,row,index){
+                    return dict.getDctionnaryName(dictData['registType'],value);
+                },
+                isDown:true
+            }, {
+                field: 'registTime',
+                title: '登记注册时间',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'affiliation',
+                title: '隶属关系',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value,row,index){
+                    return dict.getDctionnaryName(dictData['affiliation'],value);
+                },
+                isDown:true
+            }, {
+                field: 'scale',
+                title: '排污单位规模',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value,row,index){
+                    return dict.getDctionnaryName(dictData['scale'],value);
+                },
+                isDown:true
+            }, {
+                field: 'industryType',
+                title: '行业类别',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'valley',
+                title: '所属流域',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'area',
+                title: '行政区',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'industrialPark',
+                title: '所在工业园区名称',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                formatter:function(value,row,index){
+                    return dict.getDctionnaryName(dictData['industrialPark'],value);
+                },
+                isDown:true
+            }, {
+                field: 'openDate',
+                title: '建成时间（开业时间）',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'extensionDate',
+                title: '最近扩建时间',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'orgInfo',
+                title: '排污单位介绍',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
+            }, {
+                field: 'envDesc',
+                title: '周边环境敏感点',
+                visible:false,
+                sortable: false,
+                align: 'center',
+                isDown:true
             }
 
         ]
@@ -157,6 +395,9 @@ function initTable() {
     $("#searchFix").click(function () {
         resetQuery();
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    });
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'删除排污单位列表',  //自定义文件名
     });
 }
 /*企业运行状态*/
