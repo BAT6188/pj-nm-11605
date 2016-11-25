@@ -28,6 +28,7 @@
         var enterpriseId;
         var handleTypeValue = "<%=handleType%>";
         handleType = handleTypeValue=="null"?handleType:handleTypeValue;
+        if(handleTypeValue=='add')allBlockMap = pageUtils.getAllBlockMap();
     </script>
     <style>
         .Node-frame-menubar {

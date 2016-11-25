@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>监督性监测报告</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
 </head>
 <body>
 <div class="content content1 clearfix">

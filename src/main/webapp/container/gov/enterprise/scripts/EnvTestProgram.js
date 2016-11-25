@@ -1,3 +1,4 @@
+//@ sourceURL=EnvTestProgram.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -137,7 +138,7 @@ function initTable() {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#EnvTestProgramForm">查看</button>'; //+
-        //'<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="makePlaneMap()">标注平面图</button>';
+    //'<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="makePlaneMap()">标注平面图</button>';
 }
 // 列表操作事件
 window.operateEvents = {

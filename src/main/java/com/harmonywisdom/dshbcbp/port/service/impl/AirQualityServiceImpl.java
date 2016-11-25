@@ -9,11 +9,17 @@ import com.harmonywisdom.dshbcbp.port.dao.AirQualityDAO;
 import com.harmonywisdom.dshbcbp.port.service.AirQualityService;
 import com.harmonywisdom.dshbcbp.utils.HttpClientUtil;
 import com.harmonywisdom.framework.dao.BaseDAO;
+import com.harmonywisdom.framework.dao.Paging;
+import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.BaseService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +56,7 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
         }
 
     }
+
 
     public static void main(String[] args) {
         AirQualityServiceImpl a=new AirQualityServiceImpl();
@@ -201,4 +208,65 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
         }
 
     }
+
+    /**
+     * 同期对比查询空气质量表
+     * @param params
+     * @param paging
+     * @return
+     */
+    @Override
+    public QueryResult<AirQuality> findAirRatio(Map<String, String> params, Paging paging) {
+        QueryResult<AirQuality> result = new QueryResult<>();
+        List<AirQuality> rows = new ArrayList<>();
+
+        //分页条件
+        int startIndex = paging.getStartIndex();
+        int endIndex = paging.getStartIndex() + paging.getPageSize();
+
+        StringBuilder whereSql = new StringBuilder(" where 1=1 ");
+        if(StringUtils.isNotBlank(params.get("minValue"))){
+            whereSql.append("and t.air_value > ").append(params.get("minValue"));
+        }
+        if(StringUtils.isNotBlank(params.get("maxValue"))){
+            whereSql.append(" and t.air_value <= ").append(params.get("maxValue"));
+        }
+        if (StringUtils.isNotBlank(params.get("startXdate")) || StringUtils.isNotBlank(params.get("lastXdate"))) {
+            whereSql.append(" and ( t.rec_time > '").append(params.get("startXdate")).append("' and t.rec_time < '").append(params.get("lastXdate"));
+        }
+        if(StringUtils.isNotBlank(params.get("startSdate")) || StringUtils.isNotBlank(params.get("lastSdate"))){
+            whereSql.append("' OR t.rec_time > '").append(params.get("startSdate")).append("' and t.rec_time <= '").append(params.get("lastSdate")+"')");
+        }
+
+
+        String countSql = "select count(*) from hw_dshbcbp_air_quality t" +whereSql.toString();
+        String querySql = "select t.* from hw_dshbcbp_air_quality t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
+
+        long total = airQualityDAO.getCount(countSql);
+        List<Object[]> list = airQualityDAO.queryNativeSQL(querySql);
+
+        if(list != null && list.size()>0){
+            AirQuality airs = null;
+            for(Object[] obj : list){
+                airs = new AirQuality();
+                airs.setId(String.valueOf(obj[0]));
+                airs.setAirValue(Integer.parseInt(String.valueOf(obj[1])));
+                Date date = null;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+                try {
+                    date = sdf.parse(obj[2]==null ? "" :String.valueOf(obj[2]));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                airs.setRec_Time(date);
+                rows.add(airs);
+
+            }
+        }
+        result.setRows(rows);
+        result.setTotal(total);
+        return result;
+    }
+
 }

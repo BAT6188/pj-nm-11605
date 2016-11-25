@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.composite.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.BuildProject;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectAcceptance;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectEIA;
@@ -18,7 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectService> {
     @AutoService
@@ -71,12 +74,74 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         if (StringUtils.isNotBlank(entity.getArea())) {
             param.andParam(new QueryParam("area", QueryOperator.EQ,entity.getArea()));
         }
+        String firstTime = request.getParameter("firstTime");
+        String lastTime = request.getParameter("lastTime");
+        String isEIA = request.getParameter("isEIA");
+        String isAcceptance = request.getParameter("isAcceptance");
+        if(StringUtils.isNotBlank(firstTime)){
+            param.andParam(new QueryParam("replyEIATime",QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+        }
+        if(StringUtils.isNotBlank(lastTime)){
+            param.andParam(new QueryParam("replyEIATime",QueryOperator.LE,DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+        }
+        if(StringUtils.isNotBlank(isEIA)){
+            param.andParam(new QueryParam("isEIA",QueryOperator.EQ,isEIA));
+        }
+        String startTimes = request.getParameter("startTime");
+        String endTimes = request.getParameter("endTime");
+        if(StringUtils.isNotBlank(startTimes)){
+            param.andParam(new QueryParam("replyAccTime",QueryOperator.GE, DateUtil.strToDate(startTimes,"yyyy-MM-dd")));
+        }
+        if(StringUtils.isNotBlank(endTimes)){
+            param.andParam(new QueryParam("replyAccTime",QueryOperator.LE,DateUtil.strToDate(endTimes,"yyyy-MM-dd")));
+        }
+        if(StringUtils.isNotBlank(isAcceptance)){
+            param.andParam(new QueryParam("isAcceptance",QueryOperator.EQ,isAcceptance));
+        }
+
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
         return condition;
+    }
+
+    /**
+     * 建项环评验收查询建设项目环评及验收信息表
+     */
+    public void builsProlist(){
+        Map<String,String> params = new HashMap<>();
+
+        String firstTime = request.getParameter("firstTime");
+        if(StringUtils.isNotBlank(firstTime)){
+            params.put("firstTime",firstTime);
+        }
+
+        String lastTime = request.getParameter("lastTime");
+        if(StringUtils.isNotBlank(lastTime)){
+            params.put("lastTime",lastTime);
+        }
+
+        String isAcceptance = request.getParameter("isAcceptance");
+        if(StringUtils.isNotBlank(isAcceptance)){
+            params.put("isAcceptance",isAcceptance);
+        }
+
+        String isEIA = request.getParameter("isEIA");
+        if(StringUtils.isNotBlank(isEIA)){
+            params.put("isEIA",isEIA);
+        }
+
+        QueryResult<BuildProject> result = null;
+
+        result = buildProjectService.findBulidProList(params,getPaging());
+
+        write(result);
+
+
+
+
     }
 
     @Override

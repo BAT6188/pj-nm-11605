@@ -138,7 +138,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
             whereSql.append("OR port_status = '").append(params.get("strStatus")).append("' and (t.start_time > '").append(params.get("lastStartTime")).append("' and t.start_time < '").append(params.get("lastEndTime")+"')");
         }
 
-        String countSql = "select count(*) from HW_DSHBCBP_PORT_STATUS_HISTORY";
+        String countSql = "select count(*) from HW_DSHBCBP_PORT_STATUS_HISTORY t" +whereSql.toString();
         String querySql = "select t.* from HW_DSHBCBP_PORT_STATUS_HISTORY t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
 
         long total = portStatusHistoryDAO.getCount(countSql);

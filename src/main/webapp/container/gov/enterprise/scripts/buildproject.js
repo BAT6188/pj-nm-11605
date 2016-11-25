@@ -3,13 +3,13 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     buildForm = $('#buildForm');
-hpform = $("#hpForm"),
-    ysform = $("#ysForm"),
+    hpform = $("#hpForm");
+    ysform = $("#ysForm");
     buildFormTitle = "建设项目";
-hpformTitle = "建设项目环评及其他许可情况",
-    ysformTitle = "建设项目竣工环境保护验收审批信息",
+    hpformTitle = "建设项目环评及其他许可情况";
+    ysformTitle = "建设项目竣工环境保护验收审批信息";
 
-    selections = [];
+selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -94,7 +94,7 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                isDown:true
+                isDown: true
             },
             {
                 title: '行政区',
@@ -102,7 +102,7 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                isDown:true
+                isDown: true
             },
             {
                 title: '批复时间',
@@ -113,7 +113,7 @@ function initTable() {
                 formatter: function (value, row, index) {
                     return pageUtils.sub10(value);
                 },
-                isDown:true
+                isDown: true
             },
             {
                 title: '建设性质',
@@ -131,6 +131,114 @@ function initTable() {
                     }
                     return value;
                 },
+                isDown: true
+            },
+            {
+                title: '环境保护管理类别',
+                field: 'envManagType',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter: function (value, row, index) {
+                    if (1 == value) {
+                        value = "报告书"
+                    } else if (2 == value) {
+                        value = "报告表"
+                    } else if (3 == value) {
+                        value = "登记表"
+                    }
+                    return value;
+                },
+                isDown: true
+            },
+            {
+                title: '建设地点',
+                field: 'buildAddress',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '行业类别',
+                field: 'industryType',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '建设内容及规模',
+                field: 'content',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '总投资(万元)',
+                field: 'investment',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '环保投资(万元)',
+                field: 'envInvestment',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '所占比例',
+                field: 'proportion',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '建设单位名称',
+                field: 'builderName',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '联系电话',
+                field: 'builderTel',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '通讯地址',
+                field: 'builderAddress',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '邮政编码',
+                field: 'builderZipCode',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '法人代表',
+                field: 'builderAP',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '联系人',
+                field: 'builderLinkman',
+                align: 'center',
+                sortable: false,
+                visible: false,
                 isDown:true
             },
             {
@@ -163,30 +271,33 @@ function initTable() {
         });
     });
 
-    var downLoadObj = gridTable.BootstrapExport();
-    $('#export').click(function(){
+    /*var downLoadObj = gridTable.BootstrapExport();
+    $('#export').click(function () {
         downLoadObj.exportTable({
-            fileName:'建设项目',
+            fileName: '建设项目',
             type: 'excel',
             escape: false,
-            exportDataType:'all'
+            exportDataType: 'all'
         });
-    })
+    })*/
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'建设项目' //自定义文件名
+    });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    var  t='<button type="button" class="btn btn-md btn-warning view" data-toggle="modal"  data-target="#buildForm">详情</button>';
-    if(row.isEIA==0 ){
-        t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-success hp-btn" data-toggle="modal" data-target="#hpForm">添加环评</button>';
-    }else{
-        t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-success hp-btn" data-toggle="modal" data-target="#hpForm">修改环评</button>';
+    var t = '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal"  data-target="#buildForm">详情</button>';
+    if (row.isEIA == 0) {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-success hp-btn" data-toggle="modal" data-target="#hpForm">新增环评</button>';
+    } else {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-warning hp-btn" data-toggle="modal" data-target="#hpForm">修改环评</button>';
     }
-    if(row.isAcceptance==0){
-        t += '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-success ys-btn"  data-toggle="modal" data-target="#ysForm">添加验收</button>';
+    if (row.isAcceptance == 0) {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-success ys-btn"  data-toggle="modal" data-target="#ysForm">新增验收</button>';
     }
-    if(row.isAcceptance==1){
-        t += '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-success ys-btn"  data-toggle="modal" data-target="#ysForm">修改验收</button>';
+    if (row.isAcceptance == 1) {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-warning ys-btn"  data-toggle="modal" data-target="#ysForm">修改验收</button>';
     }
     return t
 }
@@ -380,8 +491,8 @@ var ef = buildForm.easyform({
         var entity = buildForm.find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         entity.enterpriseId = enterpriseId;
-        entity.isEIA=0;
-        entity.isAcceptance=0;
+        entity.isEIA = 0;
+        entity.isAcceptance = 0;
         saveAjax(entity, function (msg) {
             buildForm.modal('hide');
             gridTable.bootstrapTable('refresh');

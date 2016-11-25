@@ -67,7 +67,8 @@ function initTable() {
                 field: 'code',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },{
                 title: '许可证类型',
                 field: 'type',
@@ -81,7 +82,8 @@ function initTable() {
                         value="临时"
                     }
                     return value;
-                }
+                },
+                isDown:true
             },
             {
                 title: '有效起始日期',
@@ -91,7 +93,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 title: '有效结束日期',
@@ -101,14 +104,16 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 title: '发证机关',
                 field: 'pubOrg',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '发证日期',
@@ -118,7 +123,36 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
+            },{
+                title: '二氧化硫(吨/年)',
+                field: 'sulfur',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
+            },{
+                title: '氮氧化物(吨/年)',
+                field: 'nitrogen',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
+            },{
+                title: '化学需氧量(吨/年)',
+                field: 'oxygen',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
+            },{
+                title: '氨氮总量(吨/年)',
+                field: 'ammonia',
+                sortable: false,
+                align: 'center',
+                visible: false,
+                isDown:true
             },
             {
                 field: 'operate',
@@ -149,6 +183,19 @@ function initTable() {
         gridTable.bootstrapTable('resetView', {
             height: pageUtils.getTableHeight()
         });
+    });
+
+    /*var downLoadObj = gridTable.BootstrapExport();
+     $('#export').click(function(){
+     downLoadObj.exportTable({
+     fileName:'排污许可证信息',
+     type: 'excel',
+     escape: false,
+     exportDataType:'all'
+     });
+     })*/
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'排污许可证信息' //自定义文件名
     });
 }
 
@@ -228,7 +275,6 @@ $("#searchFix").click(function () {
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
-
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
@@ -248,32 +294,6 @@ var ef = form.easyform({
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
-});
-//初始化日期组件
-$('#startDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#pubDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$('#t_endDateContent').datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
-});
-$(".form_datetime").datetimepicker({
-    language:   'zh-CN',
-    autoclose: 1,
-    minView: 2
 });
 
 /**
@@ -315,29 +335,24 @@ function setFormView(entity) {
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
+$('.form_datetime').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2
+});
+
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
-        $('#startDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#endDateContent').datetimepicker({
-            language:   'zh-CN',
-            autoclose: 1,
-            minView: 2
-        });
-        $('#pubDateContent').datetimepicker({
+
+        $('.form_date').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('#startDateContent').datetimepicker('remove');
-        $('#endDateContent').datetimepicker('remove');
-        $('#pubDateContent').datetimepicker('remove');
+        $('.form_date').datetimepicker('remove');
     }
 
 }

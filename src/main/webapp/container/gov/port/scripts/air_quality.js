@@ -53,7 +53,15 @@ function initTable() {
                 field: 'id',
                 align: 'center',
                 valign: 'middle',
-                sortable: false
+                sortable: false,
+                visible: false
+            },
+            {
+                title: '更新时间',
+                field: 'rec_Time',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 title: '空气AQI值',
@@ -62,6 +70,7 @@ function initTable() {
                 sortable: false,
                 align: 'center'
             }
+            
         ]
     });
     // sometimes footer render error.
