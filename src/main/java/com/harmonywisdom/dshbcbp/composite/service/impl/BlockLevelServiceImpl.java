@@ -137,10 +137,20 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
             List<Block> blocks = blockService.findByLevelId(bl.getId());
             if(blocks.size()>0){
                 for(Block b:blocks){
-                    ztreeObjs.add(new ZtreeObj(b.getId(),b.getOrgName(),bl.getId()));
+                    ztreeObjs.add(new ZtreeObj(b.getId(),b.getOrgName()+" ("+b.getBlockLeader()+")",bl.getId()));
                 }
             }
         }
         return ztreeObjs;
+    }
+
+    @Override
+    public List<BlockLevel> getAllBlockLevelAndChild() {
+        List<BlockLevel> blockLevels = blockLevelDAO.findAll();
+        for(BlockLevel blockLevel:blockLevels){
+            List<Block> child = blockService.findByLevelId(blockLevel.getId());
+            blockLevel.setBlocks(child);
+        }
+        return blockLevels;
     }
 }

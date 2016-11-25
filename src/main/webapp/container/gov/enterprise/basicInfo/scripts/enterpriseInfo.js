@@ -37,22 +37,22 @@ function initSelect(){
     });
 }
 function setBlock(pSelector,cSelector){
-    var pBlock = $(pSelector),cBlock = $(cSelector),blockMap={};
-    var blockLevel = searchForAjax("/action/S_composite_BlockLevel_list.action",null);
-    if(blockLevel.total){
-        pBlock.append($("<option>").val("").text("---请选择---"));
-        $.each(blockLevel.rows,function(k,v){
+    var pBlock = $(pSelector),cBlock = $(cSelector);
+    var blockLevel = allBlockMap;
+    if(blockLevel){
+        $.each(blockLevel,function(k,v){
             pBlock.append($("<option>").val(v.id).text(v.name));
-            var child = searchForAjax("/action/S_composite_Block_findLevelById.action",{blockLevelId: v.id});
-            blockMap[v.id] = child;
+            var childData = v.blocks;
+            $.each(childData,function(m,n){
+                cBlock.append($("<option>").val(n.id).text(n.orgName+" ("+n.blockLeader+")"));
+            });
         });
         pBlock.change(function(){
             var pid = $(this).val();
-            var childData = blockMap[pid];
+            var childData = allBlockMap[pid].blocks;
             cBlock.empty();
-            cBlock.append($("<option>").val("").text("---请选择---"));
             $.each(childData,function(k,v){
-                cBlock.append($("<option>").val(v.id).text(v.orgName));
+                cBlock.append($("<option>").val(v.id).text(v.orgName+" ("+v.blockLeader+")"));
             });
         });
     }
@@ -493,11 +493,10 @@ function setEnterpriseForm(flag){
         var value = data[tagId];
         if(v.tagName=='SELECT'){
             if(tagId=="blockLevelId" && value!=null){
-                var childData = searchForAjax("/action/S_composite_Block_findLevelById.action",{blockLevelId: value});
+                var childData = allBlockMap[value].blocks;
                 $('#blockId').empty();
-                $('#blockId').append($("<option>").val("").text("---请选择---"));
                 $.each(childData,function(k,v){
-                    $('#blockId').append($("<option>").val(v.id).text(v.orgName));
+                    $('#blockId').append($("<option>").val(v.id).text(v.orgName+" ("+v.blockLeader+")"));
                 });
             }
             $(v).find("option[value='"+value+"']").attr("selected",true);

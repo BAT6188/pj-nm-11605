@@ -23,4 +23,6 @@ public interface BlockLevelService extends IBaseService<BlockLevel, String> {
      List<ZNodeDTO> getOneImageTree(String searchText);
 
      List<ZtreeObj> getAllBlockZtree();
+
+     List<BlockLevel> getAllBlockLevelAndChild();
 }

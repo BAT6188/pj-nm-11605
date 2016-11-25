@@ -29,6 +29,7 @@
                 }
             });
         })
+        var allBlockMap = pageUtils.getAllBlockMap();
         /**
          * 平面图标注
          */

@@ -377,6 +377,23 @@ var pageUtils = {
             }
             return false;
         }
+    },
+    getAllBlockMap:function(){
+        var returnData={};
+        $.ajax({
+            url: rootPath + "/action/S_composite_BlockLevel_getAllBlockLevelAndBlock.action",
+            method:'post',
+            async :false,
+            dataType:"json",
+            success:function(data) {
+                if(data){
+                    $.each(data,function(k,v){
+                        returnData[v.id] = v;
+                    })
+                }
+            }
+        });
+        return returnData;
     }
 };
 (function($){
