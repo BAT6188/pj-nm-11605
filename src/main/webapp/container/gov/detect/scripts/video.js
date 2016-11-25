@@ -412,7 +412,7 @@ var VideoPage = function () {
                 cBlock.empty();
                 cBlock.append($("<option>").val("").text("---请选择---"));
                 $.each(childData,function(k,v){
-                    cBlock.append($("<option>").val(v.id).text(v.orgName));
+                    cBlock.append($("<option>").val(v.id).text(v.principal));
                 });
             });
         }
