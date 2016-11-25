@@ -3,13 +3,13 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     buildForm = $('#buildForm');
-hpform = $("#hpForm"),
-    ysform = $("#ysForm"),
-    buildFormTitle = "建设项目";
-hpformTitle = "建设项目环评及其他许可情况",
-    ysformTitle = "建设项目竣工环境保护验收审批信息",
+hpform = $("#hpForm");
+ysform = $("#ysForm");
+buildFormTitle = "建设项目";
+hpformTitle = "建设项目环评及其他许可情况";
+ysformTitle = "建设项目竣工环境保护验收审批信息";
 
-    selections = [];
+selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -93,14 +93,16 @@ function initTable() {
                 field: 'name',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown: true
             },
             {
                 title: '行政区',
                 field: 'area',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown: true
             },
             {
                 title: '批复时间',
@@ -110,7 +112,8 @@ function initTable() {
                 editable: false,
                 formatter: function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown: true
             },
             {
                 title: '建设性质',
@@ -127,7 +130,116 @@ function initTable() {
                         value = "技术改造"
                     }
                     return value;
-                }
+                },
+                isDown: true
+            },
+            {
+                title: '环境保护管理类别',
+                field: 'envManagType',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter: function (value, row, index) {
+                    if (1 == value) {
+                        value = "报告书"
+                    } else if (2 == value) {
+                        value = "报告表"
+                    } else if (3 == value) {
+                        value = "登记表"
+                    }
+                    return value;
+                },
+                isDown: true
+            },
+            {
+                title: '建设地点',
+                field: 'buildAddress',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '行业类别',
+                field: 'industryType',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '建设内容及规模',
+                field: 'content',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '总投资(万元)',
+                field: 'investment',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '环保投资(万元)',
+                field: 'envInvestment',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },
+            {
+                title: '所占比例',
+                field: 'proportion',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '建设单位名称',
+                field: 'builderName',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '联系电话',
+                field: 'builderTel',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '通讯地址',
+                field: 'builderAddress',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '邮政编码',
+                field: 'builderZipCode',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '法人代表',
+                field: 'builderAP',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
+            },{
+                title: '联系人',
+                field: 'builderLinkman',
+                align: 'center',
+                sortable: false,
+                visible: false,
+                isDown:true
             },
             {
                 field: 'operate',
@@ -158,14 +270,36 @@ function initTable() {
             height: pageUtils.getTableHeight()
         });
     });
+
+    /*var downLoadObj = gridTable.BootstrapExport();
+     $('#export').click(function () {
+     downLoadObj.exportTable({
+     fileName: '建设项目',
+     type: 'excel',
+     escape: false,
+     exportDataType: 'all'
+     });
+     })*/
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'建设项目' //自定义文件名
+    });
 }
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal"  data-target="#buildForm">详情</button>'
-        + '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-success hp-btn" data-toggle="modal" data-target="#hpForm">环评</button>'
-        + '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-success ys-btn"  data-toggle="modal" data-target="#ysForm">验收</button>';
-
+    var t = '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal"  data-target="#buildForm">详情</button>';
+    if (row.isEIA == 0) {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-success hp-btn" data-toggle="modal" data-target="#hpForm">新增环评</button>';
+    } else {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-warning hp-btn" data-toggle="modal" data-target="#hpForm">修改环评</button>';
+    }
+    if (row.isAcceptance == 0) {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-success ys-btn"  data-toggle="modal" data-target="#ysForm">新增验收</button>';
+    }
+    if (row.isAcceptance == 1) {
+        t += '&nbsp;&nbsp;&nbsp;' + '<button id="addYS" type="button" class="btn btn-sm btn-warning ys-btn"  data-toggle="modal" data-target="#ysForm">修改验收</button>';
+    }
+    return t
 }
 // 列表操作事件
 window.operateEvents = {
@@ -175,7 +309,9 @@ window.operateEvents = {
     'click .hp-btn': function (e, value, row, index) {
         resetHPForm();
         disabledHP(true);
-        if (!row) {return false}
+        if (!row) {
+            return false
+        }
         var inputs = hpform.find('.basedata');
         $.each(inputs, function (k, v) {
             var tagId = $(v).attr('name');
@@ -194,7 +330,9 @@ window.operateEvents = {
     'click .ys-btn': function (e, value, row, index) {
         resetYSForm();
         disabledYS(true);
-        if (!row) {return false}
+        if (!row) {
+            return false
+        }
         var inputs = ysform.find('.basedata');
         $.each(inputs, function (k, v) {
             var tagId = $(v).attr('name');
@@ -207,18 +345,22 @@ window.operateEvents = {
                 $(v).val(value);
             }
         });
-        var input = ysform.find('.hpdata');
-        $.each(input, function (k, v) {
-            var tagId = $(v).attr('name');
-            var value = (row.projectEIA)[tagId];
-            if (v.tagName == 'SELECT') {
-                $(v).find("option[value='" + value + "']").attr("selected", true);
-            } else if (v.tagName == 'DIV') {
-                if (value)$(v).find("input." + tagId + value).get(0).checked = true;
-            } else {
-                $(v).val(value);
-            }
-        });
+
+        if (row.projectEIA) {
+            var input = ysform.find('.hpdata');
+            $.each(input, function (k, v) {
+                var tagId = $(v).attr('name');
+                var value = (row.projectEIA)[tagId];
+                if (v.tagName == 'SELECT') {
+                    $(v).find("option[value='" + value + "']").attr("selected", true);
+                } else if (v.tagName == 'DIV') {
+                    if (value)$(v).find("input." + tagId + value).get(0).checked = true;
+                } else {
+                    $(v).val(value);
+                }
+            });
+        }
+
         var buildinput = ysform.find('.builddata');
         $.each(buildinput, function (k, v) {
             var tagId = $(v).attr('name');
@@ -333,12 +475,12 @@ function setFormView(entity) {
 
 //搜索按钮处理
 $("#search").click(function () {
-    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: pageUtils.PAGE_SIZE});
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: pageUtils.PAGE_SIZE});
 });
 
 /**============表单初始化相关代码============**/
@@ -349,6 +491,8 @@ var ef = buildForm.easyform({
         var entity = buildForm.find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         entity.enterpriseId = enterpriseId;
+        entity.isEIA = 0;
+        entity.isAcceptance = 0;
         saveAjax(entity, function (msg) {
             buildForm.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -372,6 +516,8 @@ function resetForm() {
 function disabledForm(disabled) {
     buildForm.find(".form-control").attr("disabled", disabled);
     buildForm.find('input[type="radio"]').attr("disabled", disabled);
+    buildForm.find(".formBtn").attr("disabled", disabled);
+
     if (!disabled) {
         //初始化日期组件
         buildForm.find('.form_date').datetimepicker({
@@ -391,13 +537,10 @@ $('.searchInput').datetimepicker({
 });
 
 
-
-
-
 var hp = hpform.easyform({
     success: function (ef) {
         var entity = hpform.find("form").formSerializeObject();
-        entity.projectId  = $("#hp_projectId").val();
+        entity.projectId = $("#hp_projectId").val();
         entity.attachmentIds = gethpAttachmentIds();
         entity.id = $("#idEIA").val();
         saveHp(entity, function (msg) {
@@ -442,8 +585,10 @@ function setHPFormData(entity) {
 }
 
 function setYSFormData(entity) {
-    if (!entity) {return false}
-    ysform.find(".modal-title").text("修改" + hpformTitle);
+    if (!entity) {
+        return false
+    }
+    ysform.find(".modal-title").text("修改" + ysformTitle);
     var id = entity.id;
     var inputs = ysform.find('.otherdata');
     $.each(inputs, function (k, v) {
@@ -468,7 +613,7 @@ function resetHPForm() {
     hpform.find(".btn-cancel").text("取消");
 }
 function resetYSForm() {
-    ysform.find(".modal-title").html("新增" + hpformTitle);
+    ysform.find(".modal-title").html("新增" + ysformTitle);
     ysform.find('form')[0].reset();
     ysUploader = new qq.FineUploader(getYSUploaderOptions());
     disabledYSForm(false);
@@ -492,6 +637,7 @@ function disabledHPForm(disabled) {
 }
 function disabledYSForm(disabled) {
     ysform.find(".form-control").attr("disabled", disabled);
+    ysform.find(".builddata").attr("disabled", disabled);
     ysform.find('input[type="radio"]').attr("disabled", disabled);
     if (!disabled) {
         //初始化日期组件

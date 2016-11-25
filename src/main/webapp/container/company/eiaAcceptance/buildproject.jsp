@@ -206,7 +206,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">建设地点:</td>
+                                        <td class="success text-red">建设地点：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -221,7 +221,7 @@
                                                     <input id="industryType" name="industryType" class="form-control basedata" type="text"/>
                                                 </div>
                                                 <div class="col-sm-2 selectBtn">
-                                                    <button class="btn btn-default formBtn basedata" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                    <button class="btn btn-default formBtn" type="button" data-toggle="modal" data-target="#industryTypeModal">
                                                         选择
                                                     </button>
                                                 </div>
@@ -358,7 +358,7 @@
                                     <tbody>
                                     <tr>
                                         <td class="success" rowspan="5">基本信息</td>
-                                        <td class="success text-red">项目名称:</td>
+                                        <td class="success text-red">项目名称：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -373,7 +373,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">环境保护管理类别:</td>
+                                        <td class="success text-red">环境保护管理类别：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="envManagType">
@@ -387,7 +387,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">项目性质:</td>
+                                        <td class="success text-red">项目性质：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="buildNature">
@@ -410,7 +410,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">建设地点:</td>
+                                        <td class="success text-red">建设地点：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -618,7 +618,7 @@
                                         <td class="success">是否许可：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 otherdata" name="isEIALicense">
+                                                <div class="col-sm-9 otherdata" name="isEIALicense">
                                                     <div class="radio-inline">
                                                         <label><input type="radio" class="isEIALicense1" name="isEIALicense" value="1"/>是</label>
                                                         <label><input type="radio" class="isEIALicense0" name="isEIALicense" value="0"/>否</label>
@@ -628,11 +628,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">批复意见:</td>
+                                        <td class="success text-red">批复意见：</td>
                                         <td colspan="3">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <textarea class="form-control otherdata" name="replyEIAOpinion" id="replyEIAOpinion" cols="30" rows="3"></textarea>
+                                                    <textarea class="form-control otherdata" name="replyEIAOpinion" id="replyEIAOpinion" cols="30" rows="5"></textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -665,7 +665,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="ysModalLabel">新增建设项目竣工环境保护验收审批信息</h4>
-            </div >
+            </div>
             <div class="media-body">
                 <div class="tableDiv" style="max-height: 600px;overflow-y: auto;overflow-x: hidden;">
                     <form class="form-horizontal" role="form" action="" style="margin: 0 10px;">
@@ -675,8 +675,8 @@
                                     <tbody>
                                     <tr>
                                         <td class="success" rowspan="8">基本信息</td>
-                                        <td class="success text-red" style="width:180px;">建设项目名称(验收申请):</td>
-                                        <td style="width: 380px;">
+                                        <td class="success text-red">建设项目名称(验收申请)：</td>
+                                        <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
                                                     <input type="hidden" id="ys_projectId" name="ys_projectId" class="basedata">
@@ -686,7 +686,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red" style="width:180px;">建设项目名称(环评批复):</td>
+                                        <td class="success text-red">建设项目名称(环评批复)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -697,7 +697,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">项目性质:</td>
+                                        <td class="success text-red">项目性质：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="buildNature">
@@ -713,24 +713,24 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">行业类别:</td>
+                                        <td class="success text-red">行业类别：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
                                                     <input  name="industryType" class="form-control basedata" type="text"/>
                                                 </div>
-                                                <div class="col-sm-2 selectBtn">
-                                                    <button class="btn btn-default formBtn basedata" type="button" data-toggle="modal" data-target="#industryTypeModal">
-                                                        选择
-                                                    </button>
-                                                </div>
+                                                <%-- <div class="col-sm-2 selectBtn">
+                                                     <button class="btn btn-default formBtn basedata" type="button" data-toggle="modal" data-target="#industryTypeModal">
+                                                         选择
+                                                     </button>
+                                                 </div>--%>
                                             </div>
                                         </td>
                                         <td class="success text-red"></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">行政区:</td>
+                                        <td class="success text-red">行政区：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -738,7 +738,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success">建设地点:</td>
+                                        <td class="success">建设地点：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -748,7 +748,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">环评批复单位:</td>
+                                        <td class="success text-red">环评批复单位：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -756,7 +756,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">环评批复文号:</td>
+                                        <td class="success text-red">环评批复文号：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -766,11 +766,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">环评批复时间:</td>
+                                        <td class="success text-red">环评批复时间：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <div id="TimeContent" class="input-group date form_date col-md-10" data-date="" data-link-field="replyTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                                                    <div id="TimeContent" class="input-group date form_date" data-date="" data-link-field="replyTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control hpdata"  name="replyEIATime" size="16" type="text" value="" readonly
                                                         >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -778,7 +778,7 @@
                                                     </div>
                                                 </div>
                                         </td>
-                                        <td class="success">竣工验收单位:</td>
+                                        <td class="success">竣工验收单位：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -791,11 +791,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success">竣工验收时间:</td>
+                                        <td class="success">竣工验收时间：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <div id="acceptTimeContent" class="input-group date form_date col-md-12" data-date="" data-link-field="acceptTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                                                    <div id="acceptTimeContent" class="input-group date form_date" data-date="" data-link-field="acceptTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control builddata"  name="acceptTime" size="16" type="text" value="" readonly
                                                                data-message="竣工验收时间不能为空"
                                                                data-easytip="position:top;class:easy-red;"
@@ -810,7 +810,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">实际总投资(万元):</td>
+                                        <td class="success text-red">实际总投资(万元)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -818,7 +818,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">实际环保投资(万元):</td>
+                                        <td class="success text-red">实际环保投资(万元)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -829,7 +829,7 @@
                                     </tr>
                                     <tr>
                                         <td rowspan="3" class="success">建设单位</td>
-                                        <td class="success text-red">建设单位:</td>
+                                        <td class="success text-red">建设单位：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -837,7 +837,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success ">邮政编码:</td>
+                                        <td class="success ">邮政编码：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -847,7 +847,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">法人代表:</td>
+                                        <td class="success text-red">法人代表：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -855,7 +855,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">联系人:</td>
+                                        <td class="success text-red">联系人：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -865,7 +865,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">联系电话:</td>
+                                        <td class="success text-red">联系电话：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -873,7 +873,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">通讯地址:</td>
+                                        <td class="success text-red">通讯地址：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -884,12 +884,14 @@
                                     </tr>
                                     <tr>
                                         <td rowspan="3" class="success">审批结果</td>
-                                        <td class="success text-red">批复时间:</td>
+                                        <td class="success text-red">批复时间：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <div id="replyTime_Content" class="input-group date form_date col-md-12" data-date="" data-link-field="replyAccTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                                                    <div id="replyTime_Content" class="input-group date form_date" data-date="" data-link-field="replyAccTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                                         <input class="form-control otherdata"  name="replyAccTime" size="16" type="text" value="" readonly
+                                                               data-message="批复时间不能为空"
+                                                               data-easytip="position:top;class:easy-red;"
                                                         >
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -897,7 +899,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">验收批复文号:</td>
+                                        <td class="success text-red">验收批复文号：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -907,7 +909,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">审批部门:</td>
+                                        <td class="success text-red">审批部门：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -915,10 +917,10 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success">是否许可:</td>
+                                        <td class="success">是否许可：</td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-sm-11 otherdata" name="isAccLicense">
+                                                <div class="col-sm-9 otherdata" name="isAccLicense">
                                                     <div class="radio-inline " >
                                                         <label ><input type="radio" class="isAccLicense1" name="isAccLicense" value="1"/>是</label>
                                                         <label ><input type="radio" class="isAccLicense0" name="isAccLicense" value="0"/>否</label>
@@ -928,11 +930,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">批复意见:</td>
+                                        <td class="success text-red">批复意见：</td>
                                         <td colspan="3">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <textarea class="form-control otherdata" name="replyAccOpinion"  cols="30" rows="3"></textarea>
+                                                    <textarea class="form-control otherdata" name="replyAccOpinion"  cols="30" rows="5"></textarea>
                                                 </div>
                                             </div>
                                         </td>

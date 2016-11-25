@@ -106,8 +106,8 @@ function initTable() {
                 field: 'exeDesc',
                 editable: false,
                 sortable: false,
-                isDown:true,
                 align: 'center',
+                isDown:true,
                 formatter:function (value, row, index) {
                     return dict.get("exeDesc",value)
                 }
@@ -227,6 +227,7 @@ $("#searchFix").click(function () {
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
+
 //初始化日期组件
 $('.form_datetime').datetimepicker({
     language:  'zh-CN',
@@ -299,7 +300,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -338,21 +339,21 @@ function resetForm() {
 
     $("#filingDate").val((new Date()).format("yyyy-MM-dd hh:mm"))
 
-//     if(dispatchTaskId){
-//         $.ajax({
-//             url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
-//             type:"post",
-//             data:{id:dispatchTaskId},
-//             success:function (d) {
-//                 d=JSON.parse(d)
-//                 if (d.total>0){
-//                     var row=d.rows[0]
-//                     setFormValueFromSelected(row)
-//                 }
-//             }
-//         });
-//     }
- }
+    // if(dispatchTaskId){
+    //     $.ajax({
+    //         url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
+    //         type:"post",
+    //         data:{id:dispatchTaskId},
+    //         success:function (d) {
+    //             d=JSON.parse(d)
+    //             if (d.total>0){
+    //                 var row=d.rows[0]
+    //                 setFormValueFromSelected(row)
+    //             }
+    //         }
+    //     });
+    // }
+}
 
 //表单附件相关js
 var uploader;//附件上传组件对象
