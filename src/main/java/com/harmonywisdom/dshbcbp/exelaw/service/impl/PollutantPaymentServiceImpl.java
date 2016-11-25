@@ -109,7 +109,7 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
             whereSql.append("') and ( t.pay_date > '").append(params.get("firstTime")).append("' and t.pay_date < '").append(params.get("lastTime")+"')");
         }
 
-        String countSql = "select count(*) from hw_pollutant_payment";
+        String countSql = "select count(*) from hw_pollutant_payment t"  +whereSql.toString();
         String querySql = "select t.* from hw_pollutant_payment t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
 
         long total = pollutantPaymentDAO.getCount(countSql);
