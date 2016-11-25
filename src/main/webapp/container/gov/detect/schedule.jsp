@@ -120,9 +120,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label">内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="remark" name="remark" class="form-control" rows="4" cols="50" data-message="不能为空"
+                            <textarea id="remark" name="remark" class="form-control" rows="4" cols="50" data-message="内容不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>

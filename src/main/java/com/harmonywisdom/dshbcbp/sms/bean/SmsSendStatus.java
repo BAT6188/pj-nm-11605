@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class SmsSendStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public final static String SEND_STATUS_NO_SENT = "0";
     public final static String SEND_STATUS_SENT = "1";
     public final static String SEND_STATUS_RECEIVED = "2";
     public final static String SEND_STATUS_FAILED = "3";
@@ -39,13 +40,13 @@ public class SmsSendStatus implements Serializable {
     private String receiverPhone;
     /**
      * 接收人来源
-     * 1:网格；2:通讯录
+     * 1:网格；2:通讯录；3日程提醒
      **/
     @Column(name = "RECEIVER_SOURCE", length = 1)
     private String receiverSource;
     /**
      * 状态
-     * 1:已发送，2:已接收；3:发送失败;
+     * 0:未发送；1:已发送，2:已接收；3:发送失败;
      **/
     @Column(name = "status", length = 1)
     private String status;
@@ -54,6 +55,26 @@ public class SmsSendStatus implements Serializable {
      **/
     @Column(name = "SMS_RECORD_ID", length = 32)
     private String smsRecordId;
+
+    /**
+     * 短信发送接口api_mt_<xxx>表记录的SM_ID
+     */
+    @Column(name = "MT_SM_ID")
+    private String mtSmId;
+
+    /**
+     * 短信发送接口 api_mt_<xxx>表主键
+     */
+    @Column(name = "MT_AUTO_SN")
+    private Long mtAutoSn;
+
+    public Long getMtAutoSn() {
+        return mtAutoSn;
+    }
+
+    public void setMtAutoSn(Long mtAutoSn) {
+        this.mtAutoSn = mtAutoSn;
+    }
 
     public String getId() {
         return id;
@@ -109,5 +130,13 @@ public class SmsSendStatus implements Serializable {
 
     public void setSmsRecordId(String smsRecordId) {
         this.smsRecordId = smsRecordId;
+    }
+
+    public String getMtSmId() {
+        return mtSmId;
+    }
+
+    public void setMtSmId(String mtSmId) {
+        this.mtSmId = mtSmId;
     }
 }
