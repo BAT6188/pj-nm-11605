@@ -9,7 +9,7 @@ import java.util.List;
  * 四级网格
  */
 @Entity
-@Table(name = "HW_BLOCK")
+@Table(name = "HW_BLOCK_LEVEL")
 public class Block implements Serializable {
     private static final long serialVersionUID = 1L;
 
