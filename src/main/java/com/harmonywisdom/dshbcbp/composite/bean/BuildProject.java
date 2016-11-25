@@ -125,11 +125,15 @@ public class BuildProject implements Serializable {
     private Date replyTime;
     /**
      * 是否验收
+     * 0否
+     * 1是
      */
     @Column(name = "IS_ACCEPTANCE",length = 100)
     private String isAcceptance;
     /**
      * 是否环评
+     * 0否
+     * 1是
      */
     @Column(name = "IS_EIA",length = 100)
     private String isEIA;
