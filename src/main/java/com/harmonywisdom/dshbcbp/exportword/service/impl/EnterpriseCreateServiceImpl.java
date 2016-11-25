@@ -39,8 +39,7 @@ public class EnterpriseCreateServiceImpl extends BaseService<Enterprise,String> 
 			Block block = blockService.findById(entity.getBlockId());
 			if(block !=null && !"".equals(block)){
 				entity.setBlockLevelName(block.getBlockLevelName());
-//				entity.setBlockName(block.getPosition()+block.getBlockLeader());
-				entity.setBlockName(block.getBlockLeader());
+				entity.setBlockName("("+block.getPosition()+")"+block.getBlockLeader());
 			}
 
 		}
