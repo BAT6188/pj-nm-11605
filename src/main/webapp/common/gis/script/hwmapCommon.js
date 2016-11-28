@@ -1,18 +1,4 @@
 var HwmapCommon;
-function change10To16(num, sign) {
-    var charlength=8;
-    if("L" == sign){
-        charlength=2;
-    }
-    var n = parseInt(num);
-    num=n.toString(16);
-    var size=charlength-(num+"").length;
-    for (var i = 0; i < size; i++) {
-        num="0"+num;
-    }
-    num=sign+num;
-    return num;
-}
 HwmapCommon = {
     hwmap: undefined,
 
@@ -70,11 +56,9 @@ HwmapCommon = {
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        var level16 = change10To16(level,"L");
-                        var row16 = change10To16(row,"R");
-                        var col16 = change10To16(col,"C");
-                        //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
+                        //token=" + token.getToken() + "&appCode=" + token.getAppCode() + + "&timestamp=" + token.getTimestamp();
+                        //serviceCode=").append(this.BASEMAP).append("&mapName=").append(mapName).append("&level=").append(level).append("&col=").append(col).append("&row=")
+                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             }
@@ -121,11 +105,7 @@ HwmapCommon = {
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        var level16 = change10To16(level,"L");
-                        var row16 = change10To16(row,"R");
-                        var col16 = change10To16(col,"C");
-                        //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
+                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             }
