@@ -237,6 +237,7 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
         if(StringUtils.isNotBlank(params.get("startSdate")) || StringUtils.isNotBlank(params.get("lastSdate"))){
             whereSql.append("' OR t.rec_time > '").append(params.get("startSdate")).append("' and t.rec_time <= '").append(params.get("lastSdate")+"')");
         }
+        whereSql.append(" order by t.rec_time desc ");
 
 
         String countSql = "select count(*) from hw_dshbcbp_air_quality t" +whereSql.toString();
