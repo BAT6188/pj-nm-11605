@@ -40,7 +40,7 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         }
         whereSql += " GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,\n" +
-                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.port_status='1' AND DATE_FORMAT(t0.start_time,'%m') = DATE_FORMAT(t.start_time,'%m')) AS yjf\n" +
+                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.port_status='1' AND DATE_FORMAT(t0.start_time,'%Y-%m') = DATE_FORMAT(t.start_time,'%Y-%m')) AS yjf\n" +
                 "FROM `hw_dshbcbp_port_status_history` t WHERE DATE_FORMAT(start_time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(start_time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
         return list;
     }

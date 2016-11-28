@@ -48,7 +48,7 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
         }
         whereSql += "GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(event_time,'%Y-%m')AS MONTH,\n" +
-                "(SELECT COUNT(*) FROM `hw_dispatch_task` t0 WHERE DATE_FORMAT(t0.event_time,'%m') = DATE_FORMAT(t.event_time,'%m')) AS yjf\n" +
+                "(SELECT COUNT(*) FROM `hw_dispatch_task` t0 WHERE DATE_FORMAT(t0.event_time,'%Y-%m') = DATE_FORMAT(t.event_time,'%Y-%m')) AS yjf\n" +
                 "FROM `hw_dispatch_task` t WHERE DATE_FORMAT(event_time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(event_time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
         return list;
     }
