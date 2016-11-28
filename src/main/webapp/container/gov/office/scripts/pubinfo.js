@@ -250,8 +250,10 @@ var ef = form.easyform({
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         entity.status="0";
-        if( entity.grade){
-            entity.grade=entity.grade.join(",");
+        if(entity.grade){
+            if ($.isArray(entity.grade)) {//判断是否是数组
+                entity.grade=entity.grade.join(",");
+            }
         }
         saveAjax(entity,function (msg) {
             form.modal('hide');

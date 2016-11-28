@@ -16,7 +16,7 @@
             width: 270px;
         }
         .text-red{
-            color: #e4393c;
+            /*color: #e4393c;*/
         }
         .col-sm-2.selectBtn{
             padding-left: 0px;
@@ -52,6 +52,7 @@
     <script type="text/javascript">
         var enterpriseId='<%=enterpriseId%>';
         $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+        $('.media-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -150,7 +151,7 @@
                                     <tbody>
                                     <tr>
                                         <td class="success" rowspan="5">基本信息</td>
-                                        <td class="success text-red">项目名称:</td>
+                                        <td class="success text-red">项目名称：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -166,7 +167,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">环境保护管理类别:</td>
+                                        <td class="success text-red">环境保护管理类别：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="envManagType">
@@ -180,7 +181,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">项目性质:</td>
+                                        <td class="success text-red">项目性质：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="buildNature">
@@ -203,7 +204,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">建设地点:</td>
+                                        <td class="success text-red">建设地点：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -355,7 +356,7 @@
                                     <tbody>
                                     <tr>
                                         <td class="success" rowspan="5">基本信息</td>
-                                        <td class="success text-red">项目名称:</td>
+                                        <td class="success text-red">项目名称：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -370,7 +371,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">环境保护管理类别:</td>
+                                        <td class="success text-red">环境保护管理类别：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="envManagType">
@@ -384,7 +385,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">项目性质:</td>
+                                        <td class="success text-red">项目性质：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 basedata" name="buildNature">
@@ -407,7 +408,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">建设地点:</td>
+                                        <td class="success text-red">建设地点：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -625,7 +626,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">批复意见:</td>
+                                        <td class="success text-red">批复意见：</td>
                                         <td colspan="3">
                                             <div class="row">
                                                 <div class="col-sm-12">
@@ -672,7 +673,7 @@
                                     <tbody>
                                     <tr>
                                         <td class="success" rowspan="8">基本信息</td>
-                                        <td class="success text-red">建设项目名称(验收申请):</td>
+                                        <td class="success text-red">建设项目名称(验收申请)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -683,7 +684,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">建设项目名称(环评批复):</td>
+                                        <td class="success text-red">建设项目名称(环评批复)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -694,7 +695,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">项目性质:</td>
+                                        <td class="success text-red">项目性质：</td>
                                         <td>
                                             <div class="row">
                                                     <div class="col-sm-9 basedata" name="buildNature">
@@ -710,7 +711,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">行业类别:</td>
+                                        <td class="success text-red">行业类别：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -727,7 +728,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">行政区:</td>
+                                        <td class="success text-red">行政区：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -735,7 +736,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success">建设地点:</td>
+                                        <td class="success">建设地点：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -745,7 +746,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">环评批复单位:</td>
+                                        <td class="success text-red">环评批复单位：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -753,7 +754,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">环评批复文号:</td>
+                                        <td class="success text-red">环评批复文号：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -763,7 +764,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">环评批复时间:</td>
+                                        <td class="success text-red">环评批复时间：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -775,7 +776,7 @@
                                                     </div>
                                             </div>
                                         </td>
-                                        <td class="success">竣工验收单位:</td>
+                                        <td class="success">竣工验收单位：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -788,7 +789,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success">竣工验收时间:</td>
+                                        <td class="success">竣工验收时间：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -807,7 +808,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">实际总投资(万元):</td>
+                                        <td class="success text-red">实际总投资(万元)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -815,7 +816,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">实际环保投资(万元):</td>
+                                        <td class="success text-red">实际环保投资(万元)：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -826,7 +827,7 @@
                                     </tr>
                                     <tr>
                                         <td rowspan="3" class="success">建设单位</td>
-                                        <td class="success text-red">建设单位:</td>
+                                        <td class="success text-red">建设单位：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -834,7 +835,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success ">邮政编码:</td>
+                                        <td class="success ">邮政编码：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -844,7 +845,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">法人代表:</td>
+                                        <td class="success text-red">法人代表：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -852,7 +853,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">联系人:</td>
+                                        <td class="success text-red">联系人：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -862,7 +863,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">联系电话:</td>
+                                        <td class="success text-red">联系电话：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -870,7 +871,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">通讯地址:</td>
+                                        <td class="success text-red">通讯地址：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -881,7 +882,7 @@
                                     </tr>
                                     <tr>
                                         <td rowspan="3" class="success">审批结果</td>
-                                        <td class="success text-red">批复时间:</td>
+                                        <td class="success text-red">批复时间：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -896,7 +897,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success text-red">验收批复文号:</td>
+                                        <td class="success text-red">验收批复文号：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -906,7 +907,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">审批部门:</td>
+                                        <td class="success text-red">审批部门：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9">
@@ -914,7 +915,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="success">是否许可:</td>
+                                        <td class="success">是否许可：</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-sm-9 otherdata" name="isAccLicense">
@@ -927,7 +928,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="success text-red">批复意见:</td>
+                                        <td class="success text-red">批复意见：</td>
                                         <td colspan="3">
                                             <div class="row">
                                                 <div class="col-sm-12">

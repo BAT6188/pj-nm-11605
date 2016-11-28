@@ -19,16 +19,16 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <p>
-                        <label for="s_name">乡镇名称：</label> <input type="text" id="s_name" class="form-control"/>
-                        <label for="s_principal">网格负责人：</label> <input type="text" id="s_principal"
-                                                                       class="form-control"/>
-                    </p>
+                    <form class="form-inline" id="searchform">
+                        <label >乡镇名称：</label> <input type="text" name="name" class="form-control"/>
+                        <label >网格负责人：</label> <input type="text" name="principal" class="form-control"/>
+                   </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i
                         class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i
+                <button type="button" id="searchFix" class="btn btn-default"><i
                         class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <br/><br>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal"
                             data-target="#scfForm">

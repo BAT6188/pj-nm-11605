@@ -209,7 +209,7 @@ $(function(){
                 var series2 = {name: "现期空气质量",color: '#FF8800', data:zlist};
                 series.push(series1);
                 series.push(series2);
-                colMchart(categories,series,startSdate,lastSdate);
+                colMchart(categories,series,startXdate,lastXdate,startSdate,lastSdate);
 
             }
         });
@@ -298,15 +298,17 @@ $(function(){
                 var series2 = {name: "现期空气质量",color: '#FF8800', data:zlist};
                 series.push(series1);
                 series.push(series2);
-                loadLineChart(categories,series,startSdate,lastSdate);
+                loadLineChart(categories,series,startXdate,lastXdate,startSdate,lastSdate);
 
             }
         });
     }
 
+    var minValue;
+    var maxValue;
 
     //柱状图highchart
-    function colMchart(categories, series,startSdate,lastSdate){
+    function colMchart(categories, series,startXdate,lastXdate,startSdate,lastSdate){
         if(startSdate == '2016-01-01'){
             titleSub = '2015上半年与2016上半年空气质量(AQI)统计对比分析'
         }else{
@@ -333,8 +335,44 @@ $(function(){
             },
             plotOptions: {
                 column: {
-                    pointPadding: 0.1,
-                    borderWidth: 0
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#airRatioListForm").modal('show');
+                            var strValue = e.point.category;
+                            if(strValue == '优'){
+                                minValue = 1;
+                                maxValue = 50
+                            }else if(strValue == '良'){
+                                minValue = 50;
+                                maxValue = 100
+
+                            }else if(strValue == '轻度污染'){
+                                minValue = 100;
+                                maxValue = 150
+
+                            }else if(strValue == '中度污染'){
+                                minValue = 150;
+                                maxValue = 200
+
+                            }else if(strValue == '重度污染'){
+                                minValue = 201;
+                                maxValue = 300
+
+                            }else if(strValue == '严重污染'){
+                                minValue = 300;
+                                maxValue = 1000
+                            }
+
+                            initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue);
+                        }
+                    }
                 }
             },
             legend: {
@@ -382,6 +420,41 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#airRatioListForm2").modal('show');
+                            var strValue = e.point.name;
+                            if(strValue == '优'){
+                                minValue = 1;
+                                maxValue = 50
+                            }else if(strValue == '良'){
+                                minValue = 50;
+                                maxValue = 100
+
+                            }else if(strValue == '轻度污染'){
+                                minValue = 100;
+                                maxValue = 150
+
+                            }else if(strValue == '中度污染'){
+                                minValue = 150;
+                                maxValue = 200
+
+                            }else if(strValue == '重度污染'){
+                                minValue = 201;
+                                maxValue = 300
+
+                            }else if(strValue == '严重污染'){
+                                minValue = 300;
+                                maxValue = 1000
+                            }
+
+                            initTable2(startXdate,lastXdate,minValue,maxValue);
+                        }
+                    }
                 }
             },
             tooltip: {
@@ -427,6 +500,41 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#airRatioListForm2").modal('show');
+                            var strValue = e.point.name;
+                            if(strValue == '优'){
+                                minValue = 1;
+                                maxValue = 50
+                            }else if(strValue == '良'){
+                                minValue = 50;
+                                maxValue = 100
+
+                            }else if(strValue == '轻度污染'){
+                                minValue = 100;
+                                maxValue = 150
+
+                            }else if(strValue == '中度污染'){
+                                minValue = 150;
+                                maxValue = 200
+
+                            }else if(strValue == '重度污染'){
+                                minValue = 201;
+                                maxValue = 300
+
+                            }else if(strValue == '严重污染'){
+                                minValue = 300;
+                                maxValue = 1000
+                            }
+
+                            initTable2(startSdate,lastSdate,minValue,maxValue);
+                        }
+                    }
                 }
             },
             tooltip: {
@@ -447,7 +555,7 @@ $(function(){
     }
 
     //线状图highchart
-    function loadLineChart(categories, series,startSdate,lastSdate){
+    function loadLineChart(categories, series,startXdate,lastXdate,startSdate,lastSdate){
         if(startSdate == '2016-01-01'){
             titleSub = '2015上半年与2016上半年空气质量(AQI)统计对比分析'
         }else{
@@ -474,8 +582,45 @@ $(function(){
             //     text: 'Notice the difference between a 0 value and a null point'
             // },
             plotOptions: {
-                column: {
-                    depth: 25
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#airRatioListForm").modal('show');
+                            var strValue = e.point.category;
+                            if(strValue == '优'){
+                                minValue = 1;
+                                maxValue = 50
+                            }else if(strValue == '良'){
+                                minValue = 50;
+                                maxValue = 100
+
+                            }else if(strValue == '轻度污染'){
+                                minValue = 100;
+                                maxValue = 150
+
+                            }else if(strValue == '中度污染'){
+                                minValue = 150;
+                                maxValue = 200
+
+                            }else if(strValue == '重度污染'){
+                                minValue = 201;
+                                maxValue = 300
+
+                            }else if(strValue == '严重污染'){
+                                minValue = 300;
+                                maxValue = 1000
+                            }
+
+                            initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue);
+                        }
+                    }
                 }
             },
             xAxis: {
@@ -503,6 +648,123 @@ $(function(){
         });
 
     }
+
+
+    /********************  查询空气质量同期对比列表 (线状图)(柱状图) ********************/
+    var airRatioTable = $('#airRatioTable');
+    function initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue) {
+        airRatioTable.bootstrapTable('destroy');
+        airRatioTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_port_AirQuality_airRatiolist.action?startXdate="+startXdate+"&lastXdate="+lastXdate+"&startSdate="+startSdate+"&lastSdate="+lastSdate+"&minValue="+minValue+"&maxValue="+maxValue,
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:false,  //  true 单选， false多选
+                    valign: 'middle'
+                }, {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: false
+                },
+                {
+                    title: '更新时间',
+                    field: 'rec_Time',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '空气AQI值',
+                    field: 'airValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                }
+
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            airRatioTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            airRatioTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+    }
+
+    /********************  查询空气质量同期对比列表(饼状图)  ********************/
+    var airRatioTable2 = $('#airRatioTable2');
+    function initTable2(firstTime,lastTime,minValue,maxValue) {
+        airRatioTable2.bootstrapTable('destroy');
+        airRatioTable2.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_port_AirQuality_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:false,  //  true 单选， false多选
+                    valign: 'middle'
+                }, {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: false
+                },
+                {
+                    title: '更新时间',
+                    field: 'rec_Time',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '空气AQI值',
+                    field: 'airValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                }
+
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            airRatioTable2.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            airRatioTable2.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+    }
+
+
 
 });
 

@@ -489,7 +489,24 @@ $(function(){
             // },
             plotOptions: {
                 column: {
-                    depth: 25
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#projectListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            var isAcceptance = 1;
+                            var isEIA = 1;
+                            initTable(firstTime,lastTime,isAcceptance,isEIA);
+                        }
+                    }
                 }
             },
             xAxis: {
@@ -518,7 +535,7 @@ $(function(){
 
     }
 
-    //饼状图1highchart
+    //饼状图(环评)
     function loadPieChart1(series,startdate,lastdate){
         if(startdate == '2016-01-01'){
             titleSub= '2016年各企业已环评情况统计'
@@ -544,7 +561,22 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#projectEiaListForm").modal('show');
+                            var pointTime = e.point.name;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            var isEIA = 1;
+                            initEiaTable(firstTime,lastTime,isEIA);
+                        }
+                    }
                 }
+        
             },
             tooltip: {
                 shared: true,
@@ -589,6 +621,20 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#projectAccListForm").modal('show');
+                            var pointTime = e.point.name;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            var isAcceptance = 1;
+                            initAccTable(firstTime,lastTime,isAcceptance);
+                        }
+                    }
                 }
             },
             tooltip: {
@@ -638,8 +684,23 @@ $(function(){
             //     text: 'Notice the difference between a 0 value and a null point'
             // },
             plotOptions: {
-                column: {
+                line: {
                     depth: 25
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#projectListForm").modal('show');
+                            var pointTime = e.point.category;
+                            var firstTime = pointTime + "-"+"01";
+                            var lastTime = pointTime + "-"+"31";
+                            var isAcceptance = 1;
+                            var isEIA = 1;
+                            initTable(firstTime,lastTime,isAcceptance,isEIA);
+                        }
+                    }
                 }
             },
             xAxis: {
@@ -664,6 +725,376 @@ $(function(){
                 useHTML: true
             },
             series:  series
+        });
+
+    }
+
+
+    /**============grid 列表初始化相关代码(建设项目环评及验收信息)============**/
+    var projectTable = $('#projectTable');
+    projectTable.bootstrapTable('destroy');
+    function initTable(firstTime,lastTime,isAcceptance,isEIA) {
+        projectTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination: "server",
+            url: rootPath + "/action/S_composite_BuildProject_builsProlist.action?firstTime="+firstTime+"&lastTime="+lastTime+"&isAcceptance="+isAcceptance+"&isEIA="+isEIA,
+            method: 'post',
+            pagination: true,
+            clickToSelect: true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title: "全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio: false,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: false
+                },
+                {
+                    title: '项目名称',
+                    field: 'name',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '行政区',
+                    field: 'area',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                },
+                {
+                    title: '批复时间',
+                    field: 'replyTime',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        return pageUtils.sub10(value);
+                    }
+                },
+                {
+                    title: '建设性质',
+                    field: 'buildNature',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        if (1 == value) {
+                            value = "新建"
+                        } else if (2 == value) {
+                            value = "改扩建"
+                        } else if (3 == value) {
+                            value = "技术改造"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '环境保护管理类别',
+                    field: 'envManagType',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        if (1 == value) {
+                            value = "报告书"
+                        } else if (2 == value) {
+                            value = "报告表"
+                        } else if (3 == value) {
+                            value = "登记表"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '是否验收',
+                    field: 'isAcceptance',
+                    align: 'center',
+                    sortable: false,
+                    visible: true,
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="已验收"
+                        }else {
+                            value="未验收"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '是否环评',
+                    field: 'isEIA',
+                    align: 'center',
+                    sortable: false,
+                    visible: true,
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="已环评"
+                        }else {
+                            value="未环评"
+                        }
+                        return value;
+                    }
+                }
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            projectTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            projectTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+
+    }
+
+
+    /**============grid 列表初始化相关代码(建设项目环评及验收信息)饼状图 环评表============**/
+    var projectEiaTable = $('#projectEiaTable');
+    projectEiaTable.bootstrapTable('destroy');
+    function initEiaTable(firstTime,lastTime,isEIA) {
+        projectEiaTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination: "server",
+            url: rootPath + "/action/S_composite_BuildProject_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&isEIA="+isEIA,
+            method: 'post',
+            pagination: true,
+            clickToSelect: true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title: "全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio: false,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: false
+                },
+                {
+                    title: '项目名称',
+                    field: 'name',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '行政区',
+                    field: 'area',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                },
+                {
+                    title: '批复时间',
+                    field: 'replyTime',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        return pageUtils.sub10(value);
+                    }
+                },
+                {
+                    title: '建设性质',
+                    field: 'buildNature',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        if (1 == value) {
+                            value = "新建"
+                        } else if (2 == value) {
+                            value = "改扩建"
+                        } else if (3 == value) {
+                            value = "技术改造"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '环境保护管理类别',
+                    field: 'envManagType',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        if (1 == value) {
+                            value = "报告书"
+                        } else if (2 == value) {
+                            value = "报告表"
+                        } else if (3 == value) {
+                            value = "登记表"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '是否环评',
+                    field: 'isEIA',
+                    align: 'center',
+                    sortable: false,
+                    visible: true,
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="已环评"
+                        }else {
+                            value="未环评"
+                        }
+                        return value;
+                    }
+                }
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            projectEiaTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            projectEiaTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+
+    }
+
+
+
+    /**============grid 列表初始化相关代码(建设项目环评及验收信息)饼状图 验收表============**/
+    var projectAccTable = $('#projectAccTable');
+    projectAccTable.bootstrapTable('destroy');
+    function initAccTable(firstTime,lastTime,isAcceptance) {
+        projectAccTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination: "server",
+            url: rootPath + "/action/S_composite_BuildProject_list.action?startTime="+firstTime+"&endTime="+lastTime+"&isAcceptance="+isAcceptance,
+            method: 'post',
+            pagination: true,
+            clickToSelect: true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title: "全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio: false,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: false
+                },
+                {
+                    title: '项目名称',
+                    field: 'name',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '行政区',
+                    field: 'area',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                },
+                {
+                    title: '批复时间',
+                    field: 'replyTime',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        return pageUtils.sub10(value);
+                    }
+                },
+                {
+                    title: '建设性质',
+                    field: 'buildNature',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        if (1 == value) {
+                            value = "新建"
+                        } else if (2 == value) {
+                            value = "改扩建"
+                        } else if (3 == value) {
+                            value = "技术改造"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '环境保护管理类别',
+                    field: 'envManagType',
+                    sortable: false,
+                    align: 'center',
+                    editable: false,
+                    formatter: function (value, row, index) {
+                        if (1 == value) {
+                            value = "报告书"
+                        } else if (2 == value) {
+                            value = "报告表"
+                        } else if (3 == value) {
+                            value = "登记表"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    title: '是否验收',
+                    field: 'isAcceptance',
+                    align: 'center',
+                    sortable: false,
+                    visible: true,
+                    formatter:function (value, row, index) {
+                        if(1==value){
+                            value="已验收"
+                        }else {
+                            value="未验收"
+                        }
+                        return value;
+                    }
+                }
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            projectAccTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            projectAccTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
         });
 
     }

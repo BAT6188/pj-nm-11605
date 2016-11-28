@@ -62,6 +62,7 @@ function initTable() {
                 field: 'caseName',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -69,6 +70,7 @@ function initTable() {
                 field: 'caseReason',
                 sortable: false,
                 align: 'center',
+                isDown:true,
                 editable: false
             },
             {
@@ -76,6 +78,7 @@ function initTable() {
                 field: 'filingDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -83,13 +86,19 @@ function initTable() {
                 field: 'type',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    // return dict.getDctionnaryName(dict.getDctionnary({code:'punishType'}),value)
+                    return dict.get("punishType",value)
+                }
             },
             {
                 title: '结案日期',
                 field: 'closedDate',
                 editable: false,
                 sortable: false,
+                isDown:true,
                 align: 'center'
             },
             {
@@ -97,14 +106,22 @@ function initTable() {
                 field: 'exeDesc',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    return dict.get("exeDesc",value)
+                }
             },
             {
                 title: '案件来源',
                 field: 'caseSource',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true,
+                formatter:function (value, row, index) {
+                    return dict.get("caseSource",value)
+                }
             },
             {
                 field: 'operate',
@@ -210,6 +227,7 @@ $("#searchFix").click(function () {
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
+
 //初始化日期组件
 $('.form_datetime').datetimepicker({
     language:  'zh-CN',
@@ -282,7 +300,7 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -321,21 +339,21 @@ function resetForm() {
 
     $("#filingDate").val((new Date()).format("yyyy-MM-dd hh:mm"))
 
-//     if(dispatchTaskId){
-//         $.ajax({
-//             url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
-//             type:"post",
-//             data:{id:dispatchTaskId},
-//             success:function (d) {
-//                 d=JSON.parse(d)
-//                 if (d.total>0){
-//                     var row=d.rows[0]
-//                     setFormValueFromSelected(row)
-//                 }
-//             }
-//         });
-//     }
- }
+    // if(dispatchTaskId){
+    //     $.ajax({
+    //         url: rootPath + "/action/S_dispatch_DispatchTask_list.action",
+    //         type:"post",
+    //         data:{id:dispatchTaskId},
+    //         success:function (d) {
+    //             d=JSON.parse(d)
+    //             if (d.total>0){
+    //                 var row=d.rows[0]
+    //                 setFormValueFromSelected(row)
+    //             }
+    //         }
+    //     });
+    // }
+}
 
 //表单附件相关js
 var uploader;//附件上传组件对象
@@ -431,5 +449,13 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+var exportBtn = $('#export'); //下载按钮
+var options = {
+    fileName:'行政处罚',  //自定义文件名
+    type: 'excel',     //json,xml,csv,txt,sql,excel 文件类型(默认为excel，可不填)
+    escape: false
+}
+gridTable.BootstrapExport(exportBtn,options);
 
 

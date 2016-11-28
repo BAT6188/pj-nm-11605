@@ -57,7 +57,7 @@ public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> 
         String replyTime=request.getParameter("replyEIATime");
         String projectId=request.getParameter("projectId");
         if(replyTime!=null && projectId!=null){
-                projectEIAService.updateBuildProject(DateUtil.strToDate(replyTime,"yyyy-MM-dd"),projectId);
+                projectEIAService.updateBuildProject(DateUtil.strToDate(replyTime,"yyyy-MM-dd"),DateUtil.strToDate(replyTime,"yyyy-MM-dd"),projectId);
         }
         super.save();
     }

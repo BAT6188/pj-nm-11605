@@ -7,11 +7,8 @@
     String live_check = request.getParameter("live_check");
 %>
 <script>
-    var role='<%=role%>'
-    var live_check='<%=live_check%>'
-
-    console.log("登录人员的角色是："+role)
-    console.log("是否是环保站人员角色登录的现场检查："+live_check)
+    var role='<%=role%>';
+    var live_check='<%=live_check%>';
 </script>
 <!DOCTYPE html>
 <html>

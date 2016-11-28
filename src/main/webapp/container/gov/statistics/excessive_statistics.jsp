@@ -101,29 +101,6 @@
                 <h4 class="modal-title form-title">超标记录列表</h4>
             </div>
             <div class="modal-body">
-                <%--<form class="form-inline">--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" class="form-control"/>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="s_source">信息来源：</label>--%>
-                        <%--<select id="s_source" class="form-control">--%>
-                            <%--<option value="">全部</option>--%>
-                            <%--<option value="1">12369</option>--%>
-                            <%--<option value="2">区长热线</option>--%>
-                            <%--<option value="3">市长热线</option>--%>
-                            <%--<option value="4">现场监察</option>--%>
-                            <%--<option value="0">监控中心</option>--%>
-                        <%--</select>--%>
-
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<button type="button" id="sc" class="btn btn-md btn-success queryBtn"><span>查询</span></button>--%>
-                    <%--</div>--%>
-
-                <%--</form>--%>
-
-                <%--<br/>--%>
                 <div class="tableBox">
                     <table id="excessiveTable" class="table table-striped table-responsive">
                     </table>

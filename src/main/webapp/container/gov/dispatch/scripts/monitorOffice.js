@@ -93,14 +93,7 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter:function (value, row, index) {
-                    if(1==value){
-                        value="12369"
-                    }else if (2==value){
-                        value="区长热线"
-                    }else if (3==value){
-                        value="市长热线"
-                    }
-                    return value;
+                    return dict.get("caseSource",value)
                 }
             },
             {
@@ -522,18 +515,6 @@ $('.form_datetime').datetimepicker({
     forceParse: 0,
     showMeridian: 1
 });
-
-function appendOption(selector,options) {
-    $(selector).empty();
-    $.each(options,function (i,v) {
-        var option = $("<option>").val(v.code).text(v.name);
-        $(selector).append(option);
-    })
-}
-
-var code={code:"monitor_office_source"};
-var monitor_office_source=dict.getDctionnary(code)
-appendOption("#source",monitor_office_source)
 
 /**
  * Autocomplete  enterpriseName

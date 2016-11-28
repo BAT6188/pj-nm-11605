@@ -195,6 +195,28 @@ var pageUtils = {
         return localParams;
     },
     /**
+     * 序列化特定的查询区域form
+     * @param params
+     * @param queryForm
+     * @returns {{}}
+     */
+    getBaseParams:function (params,queryForm){
+        if(!queryForm){
+            queryForm = $('.queryBox').find('form');
+        }
+        var localParams = {};
+        //分页参数
+        localParams.take = params.limit;
+        localParams.skip = params.offset;
+        localParams.page = params.offset / params.limit + 1;
+        localParams.pageSize = params.limit;
+        var jsonData = $(queryForm).formSerializeObject();
+        if(!$.isEmptyObject(jsonData)){
+            Object.assign(localParams, jsonData);
+        }
+        return localParams;
+    },
+    /**
      * 获取radio Value
      * @param name
      */
@@ -313,24 +335,6 @@ var pageUtils = {
             callback(that._mainMenu,that._subMenu);
         }
     },
-    /**
-     * 手动转换
-     * @param params
-     * @returns {{}}
-     */
-    getBaseParams:function (params){
-        var localParams = {};
-        //分页参数
-        localParams.take = params.limit;
-        localParams.skip = params.offset;
-        localParams.page = params.offset / params.limit + 1;
-        localParams.pageSize = params.limit;
-        var jsonData = $('.queryBox').find('form').formSerializeObject();
-        if(!$.isEmptyObject(jsonData)){
-            Object.assign(localParams, jsonData);
-        }
-        return localParams;
-    },
     loading:function(msg){
         var showMsg = '数据载入中，请稍后......';
         if(msg!=undefined && msg!=""){
@@ -373,6 +377,23 @@ var pageUtils = {
             }
             return false;
         }
+    },
+    getAllBlockMap:function(){
+        var returnData={};
+        $.ajax({
+            url: rootPath + "/action/S_composite_BlockLevel_getAllBlockLevelAndBlock.action",
+            method:'post',
+            async :false,
+            dataType:"json",
+            success:function(data) {
+                if(data){
+                    $.each(data,function(k,v){
+                        returnData[v.id] = v;
+                    })
+                }
+            }
+        });
+        return returnData;
     }
 };
 (function($){
@@ -487,18 +508,18 @@ var pageUtils = {
                 hiddenTableDiv = $('#'+hiddenTableDivId);
                 hiddenTableDiv.append('<table id="'+tableId+'" class="table table-striped table-responsive"></table>');
                 downloadTable = $('#'+tableId);
+                var tableOptions = that.bootstrapTable('getOptions');
+                var tableClumns = tableOptions.columns[0];
                 that.bootstrapTable('refreshOptions',{onLoadSuccess:function(data){
-                    var tableOptions = that.bootstrapTable('getOptions');
                     var newColumns = [];
                     var columnIndex = 0;
-                    $.each(tableOptions.columns[0],function(k,v){
+                    $.each(tableClumns,function(k,v){
                         if(v.isDown){
                             v.visible = true;
                             newColumns[columnIndex] = v;
                             columnIndex +=1;
                         }
                     });
-                    tableOptions.columns[0] = newColumns;
                     var newTableOptions= {
                         contentType: tableOptions.contentType,
                         sidePagination:tableOptions.sidePagination,
@@ -509,17 +530,17 @@ var pageUtils = {
                         method:tableOptions.method,
                         pagination:tableOptions.pagination,
                         queryParams:tableOptions.queryParams,
-                        columns:tableOptions.columns,
+                        columns:newColumns,
                         onLoadSuccess:function(downloadData){
                             downloadTableData = downloadData;
                         }
                     };
                     downloadTable.bootstrapTable(newTableOptions);
-                }})
+                }});
             },
             exportTable:function(options){
                 options = $.extend({}, defaultOptions, options);
-                var exportObj = this,tableOptions = that.bootstrapTable('getOptions');
+                var exportObj = this;
                 downloadOptions = options;
                 switch (options.exportDataType){
                     case 'basic':

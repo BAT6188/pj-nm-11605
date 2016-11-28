@@ -2,9 +2,12 @@ package com.harmonywisdom.dshbcbp.port.service;
 
 
 import com.harmonywisdom.dshbcbp.port.bean.AirQuality;
+import com.harmonywisdom.framework.dao.Paging;
+import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.IBaseService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AirQualityService extends IBaseService<AirQuality, String> {
 
@@ -32,4 +35,12 @@ public interface AirQualityService extends IBaseService<AirQuality, String> {
      * 通过接口每15天查询空气质量指数 并保存记录到数据库
      */
     public void save15DayAQI();
+
+    /**
+     * 同期对比查询空气质量表
+     * @param params
+     * @param paging
+     * @return
+     */
+    QueryResult<AirQuality> findAirRatio(Map<String, String> params, Paging paging);
 }

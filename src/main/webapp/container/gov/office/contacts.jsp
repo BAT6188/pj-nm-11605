@@ -246,7 +246,7 @@
                         <div class="col-sm-12">
                             <div class="mainBox">
                                 <div class="dealBox">
-                                    <div class="queryBox marginLeft0">
+                                    <div class="queryBox1 marginLeft0">
                                         <form class="form-inline" id="searchChosePersonform">
                                             <label for="s_name">姓名：</label> <input type="text" name="name" class="form-control" />
                                             <label for="s_department">部门：</label> <input type="text" name="department" class="form-control" />

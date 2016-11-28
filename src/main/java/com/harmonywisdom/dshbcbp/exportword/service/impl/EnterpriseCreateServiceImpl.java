@@ -1,6 +1,8 @@
 package com.harmonywisdom.dshbcbp.exportword.service.impl;
 
 import com.harmonywisdom.dshbcbp.common.dict.util.DictUtil;
+import com.harmonywisdom.dshbcbp.composite.bean.Block;
+import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
 import com.harmonywisdom.framework.dao.BaseDAO;
@@ -8,7 +10,6 @@ import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 
 @Service("enterpriseCreateService")
@@ -20,6 +21,9 @@ public class EnterpriseCreateServiceImpl extends BaseService<Enterprise,String> 
 	@Autowired
 	private EnterpriseDAO enterpriseDAO;
 
+	@Autowired
+	private BlockService blockService;
+
 
 
 	/**
@@ -29,6 +33,16 @@ public class EnterpriseCreateServiceImpl extends BaseService<Enterprise,String> 
 	public Enterprise findById(String businessId){
 
 		Enterprise entity =  enterpriseDAO.findById(businessId);
+		if(entity.getBlockId() != null && !"".equals(entity.getBlockId())){
+//			Block block = blockDAO.findById(entity.getBlockId());
+			String value = "44acbe64447349719b80f838af701b1e";
+			Block block = blockService.findById(entity.getBlockId());
+			if(block !=null && !"".equals(block)){
+				entity.setBlockLevelName(block.getBlockLevelName());
+				entity.setBlockName(block.getPosition()+"("+block.getBlockLeader()+")");
+			}
+
+		}
 		if("1".equals(entity.getStatus())){
 			entity.setStatus("运行中");
 		}else{

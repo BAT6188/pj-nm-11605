@@ -23,15 +23,15 @@
                     <form role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="name">&nbsp;单位名称：</label><input type="text" id="name" name="name" class="form-control" />
-                                <label for="delOpinion" class="labelMarginLeft">&nbsp;删除意见：</label><input type="text" id="delOpinion" name="delOpinion" class="form-control" />
+                                <label for="name">&nbsp;单位名称：</label> <input type="text" id="name" name="name" class="form-control" />
+                                <label for="delOpinion" class="labelMarginLeft">&nbsp;删除意见：</label> <input type="text" id="delOpinion" name="delOpinion" class="form-control" />
                             </div>
                         </div>
                         <p></p>
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="delerName">&nbsp;&nbsp;操作人：</label><input type="text" id="delerName" name="delerName" class="form-control" />
-                                <label for="area"  class="labelMarginLeft">所属行政区：</label><input type="text" id="area" name="area" class="form-control" />
+                                <label for="delerName">&nbsp;&nbsp;操作人：</label> <input type="text" id="delerName" name="delerName" class="form-control" />
+                                <label for="area"  class="labelMarginLeft">所属行政区：</label> <input type="text" id="area" name="area" class="form-control" />
                             </div>
                         </div>
                         <p></p>

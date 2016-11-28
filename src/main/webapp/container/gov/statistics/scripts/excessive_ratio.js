@@ -594,11 +594,6 @@ $(function(){
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
             // },
-            plotOptions: {
-                column: {
-                    depth: 25
-                }
-            },
             xAxis: {
                 categories: categories,
                 title: {
@@ -622,6 +617,36 @@ $(function(){
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#excessiveRatioListForm").modal('show');
+                            var year = startSdate.substr(0,4);
+                            var month = parseInt(e.point.category);
+                            if(month < 10){
+                                month =  "0"+month;
+                            }else{
+                                month;
+                            }
+                            var firstTime = year + "-" + month + "-" + "01";
+                            var lastTime = year + "-" + month + "-" + "31";
+                            var year2 = year - 1;
+                            var lastStartTime = year2 + "-" + month + "-" + "01";
+                            var lastEndTime = year2 + "-" + month + "-" + "31";
+
+                            initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
+                        }
+                    }
+                }
             },
             series:  series
         });
@@ -654,6 +679,28 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#excessiveRatioListForm2").modal('show');
+                            var year = startSdate.substr(0,4);
+                            var month = parseInt(e.point.name);
+                            if(month < 10){
+                                month =  "0"+month;
+                            }else{
+                                month;
+                            }
+                            
+                            var year2 = year - 1;
+                            var firstTime = year2 + "-" + month + "-" + "01";
+                            var lastTime = year2 + "-" + month + "-" + "31";
+
+                            initlawTable2(firstTime,lastTime);
+                        }
+                    }
                 }
             },
             exporting: {
@@ -701,6 +748,27 @@ $(function(){
                         }
                     },
                     showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#excessiveRatioListForm2").modal('show');
+                            var year = startSdate.substr(0,4);
+                            var month = parseInt(e.point.name);
+                            if(month < 10){
+                                month =  "0"+month;
+                            }else{
+                                month;
+                            }
+
+                            var firstTime = year + "-" + month + "-" + "01";
+                            var lastTime = year + "-" + month + "-" + "31";
+
+                            initlawTable2(firstTime,lastTime);
+                        }
+                    }
                 }
             },
             exporting: {
@@ -748,11 +816,37 @@ $(function(){
             // subtitle: {
             //     text: 'Notice the difference between a 0 value and a null point'
             // },
-            // plotOptions: {
-            //     column: {
-            //         depth: 25
-            //     }
-            // },
+            plotOptions: {
+                line: {
+                    depth: 25,
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.category);
+                            $("#excessiveRatioListForm").modal('show');
+                            var year = startSdate.substr(0,4);
+                            var month = parseInt(e.point.category);
+                            if(month < 10){
+                                month =  "0"+month;
+                            }else{
+                                month;
+                            }
+                            var firstTime = year + "-" + month + "-" + "01";
+                            var lastTime = year + "-" + month + "-" + "31";
+                            var year2 = year - 1;
+                            var lastStartTime = year2 + "-" + month + "-" + "01";
+                            var lastEndTime = year2 + "-" + month + "-" + "31";
+
+                            initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
+                        }
+                    }
+                }
+            },
             xAxis: {
                 categories: categories,
                 title: {
@@ -781,5 +875,192 @@ $(function(){
         });
 
     }
+
+
+    /********************  查询超标异常记录列表 (柱状图)（线状图） ********************/
+    var excessiveRatioTable = $('#excessiveRatioTable');
+    function initlawTable(lastStartTime,lastEndTime,firstTime,lastTime) {
+        excessiveRatioTable.bootstrapTable('destroy');
+        excessiveRatioTable.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_port_PortStatusHistory_excessiveRatiolist.action?lastStartTime="+lastStartTime +"&lastEndTime="+lastEndTime+"&firstTime="+firstTime+"&lastTime="+lastTime+"&strStatus="+"1",
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:true,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible:false
+                },
+                {
+                    title: '企业名称',
+                    field: 'enterpriseName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标题',
+                    field: 'res_title',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '状态开始时间',
+                    field: 'startTime',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub16(value);
+                    }
+                },
+                {
+                    title: '状态',
+                    field: 'portStatus',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        if(0==value){
+                            value="正常"
+                        }else if (1==value){
+                            value="超标"
+                        }else if (2==value){
+                            value="异常"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'solution',
+                    title: '解决方案',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                }
+
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            excessiveRatioTable.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            excessiveRatioTable.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+    }
+
+
+    /********************  查询超标异常记录列表（饼状图）  ********************/
+    var excessiveRatioTable2 = $('#excessiveRatioTable2');
+    function initlawTable2(firstTime,lastTime) {
+        excessiveRatioTable2.bootstrapTable('destroy');
+        excessiveRatioTable2.bootstrapTable({
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            sidePagination:"server",
+            url: rootPath+"/action/S_port_PortStatusHistory_list.action?startTime="+firstTime+"&endTime="+lastTime+"&strStatus="+"1",
+            method:'post',
+            pagination:true,
+            clickToSelect:true,//单击行时checkbox选中
+            queryParams:pageUtils.localParams,
+            columns: [
+                {
+                    title:"全选",
+                    checkbox: true,
+                    align: 'center',
+                    radio:true,  //  true 单选， false多选
+                    valign: 'middle'
+                },
+                {
+                    title: 'ID',
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible:false
+                },
+                {
+                    title: '企业名称',
+                    field: 'enterpriseName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标题',
+                    field: 'res_title',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '状态开始时间',
+                    field: 'startTime',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return pageUtils.sub16(value);
+                    }
+                },
+                {
+                    title: '状态',
+                    field: 'portStatus',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        if(0==value){
+                            value="正常"
+                        }else if (1==value){
+                            value="超标"
+                        }else if (2==value){
+                            value="异常"
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'solution',
+                    title: '解决方案',
+                    sortable: false,
+                    align: 'center',
+                    editable: false
+                }
+
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            excessiveRatioTable2.bootstrapTable('resetView');
+        }, 200);
+
+        $(window).resize(function () {
+            // 重新设置表的高度
+            excessiveRatioTable2.bootstrapTable('resetView', {
+                height: pageUtils.getTableHeight()
+            });
+        });
+    }
+
 
 });

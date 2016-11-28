@@ -389,12 +389,12 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1});
     });
     //重置搜索
     $("#searchFix").click(function () {
         resetQuery();
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1});
     });
     gridTable.BootstrapExport($('#export'),{
         fileName:'删除排污单位列表',  //自定义文件名

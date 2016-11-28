@@ -43,6 +43,9 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
+                    <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
+                        <i class="btnIcon edit-icon"></i><span>反馈</span>
+                    </button>
                     <button id="export" type="button" class="btn btn-sm btn-success">
                         <span class="glyphicon glyphicon-export"></span>导出
                     </button>

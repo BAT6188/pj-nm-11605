@@ -83,6 +83,28 @@
     </div>
 </div>
 
+
+<%--空气质量统计表--%>
+<div class="modal fade" id="airListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">空气质量统计表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tableBox">
+                    <table id="airTable" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeBtn" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="<%=request.getContextPath()%>/container/gov/statistics/scripts/air_quality_statistics.js"></script>
 
 </body>

@@ -165,6 +165,8 @@ function auditFormFormatter(value, row, index) {
         value='同意'
     }else if(value=='2'){
         value='不同意'
+    }else {
+        value='-'
     }
     return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">'+value+'</div>';
 }

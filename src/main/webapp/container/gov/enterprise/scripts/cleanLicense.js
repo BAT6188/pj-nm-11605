@@ -68,7 +68,8 @@ function initTable() {
                 field: 'name',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                isDown:true
             },
             {
                 title: '有效起始日期',
@@ -78,7 +79,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 title: '有效结束日期',
@@ -88,14 +90,16 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 title: '发证机关',
                 field: 'pubOrg',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                isDown:true
             },
             {
                 title: '发证日期',
@@ -105,7 +109,8 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                },
+                isDown:true
             },
             {
                 field: 'operate',
@@ -136,6 +141,18 @@ function initTable() {
         gridTable.bootstrapTable('resetView', {
             height: pageUtils.getTableHeight()
         });
+    });
+    /*var downLoadObj = gridTable.BootstrapExport();
+    $('#export').click(function(){
+        downLoadObj.exportTable({
+            fileName:'清洁生产审核',
+            type: 'excel',
+            escape: false,
+            exportDataType:'all'
+        });
+    })*/
+    gridTable.BootstrapExport($('#export'),{
+        fileName:'清洁生产审核' //自定义文件名
     });
 }
 

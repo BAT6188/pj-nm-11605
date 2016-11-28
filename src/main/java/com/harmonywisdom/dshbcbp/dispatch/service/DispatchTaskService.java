@@ -1,9 +1,12 @@
 package com.harmonywisdom.dshbcbp.dispatch.service;
 
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.framework.dao.Paging;
+import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.IBaseService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DispatchTaskService extends IBaseService<DispatchTask, String> {
 
@@ -32,4 +35,12 @@ public interface DispatchTaskService extends IBaseService<DispatchTask, String> 
      * @return
      */
     String updateDispatchTask(DispatchTask dispatchTask);
+
+    /**
+     * 执法同期对比查询列表
+     * @param params
+     * @param paging
+     * @return
+     */
+    QueryResult<DispatchTask> lawRatiogrid(Map<String, String> params, Paging paging);
 }

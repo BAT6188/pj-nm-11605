@@ -434,6 +434,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
@@ -556,6 +557,8 @@ $( function() {
                             var ui={};
                             ui.id=data.rows[i].id
                             ui.value=data.rows[i].name
+                            ui.artificialPerson=data.rows[i].artificialPerson
+                            ui.apPhone=data.rows[i].apPhone
                             result.push(ui);
                         }
                         response( result);
@@ -566,10 +569,8 @@ $( function() {
         select: function( event, ui ) {
             console.info(ui.item.id)
             $("#enterpriseId").val(ui.item.id)
+            $("#enterpriseAP").val(ui.item.artificialPerson)
+            $("#apPhone").val(ui.item.apPhone)
         },
     } );
 } );
-
-$(function () {
-    //设置提醒
-})
