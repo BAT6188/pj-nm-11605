@@ -43,6 +43,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
             return null;
         }
 
+        //方式一：先保存短信记录到本地数据库，然后调用短信接口，最后更新本地数据库中短信记录的发送状态
         /*getDAO().save(smsRsecord);//保存短信记录
         Set<SmsSendStatus> statuses = new HashSet<>();
         for (SmsSendStatus status : receivers) {
@@ -64,7 +65,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         } catch (Exception e) {
         }*/
 
-        //先调用短信发送接口，然后再保存短信记录到本地数据库
+        //方式二：先调用短信发送接口，然后再保存短信记录到本地数据库
         try {
             sendSmsByDB(smsRsecord,receivers);//批量发送短信
             if (smsRsecord.getSendTime()==null){
@@ -85,6 +86,12 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         return receivers;
     }
 
+    /**
+     * 调用发送短信数据库接口
+     * @param smsRsecord
+     * @param receivers
+     * @throws Exception
+     */
     public void sendSmsByDB(SmsRecord smsRsecord, List<SmsSendStatus> receivers)throws Exception{
         String sql="INSERT INTO API_MT_SMS (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
                 ",SM_TYPE,MSG_FMT,TP_PID,TP_UDHI,FEE_TERMINAL_ID,FEE_TYPE,FEE_CODE" +
