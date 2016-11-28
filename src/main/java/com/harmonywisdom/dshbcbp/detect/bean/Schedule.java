@@ -52,7 +52,7 @@ public class Schedule implements Serializable {
     private String linkPhone;
 
     /**
-     * 备注
+     * 内容
      */
     @Column(name = "remark")
     private String remark;

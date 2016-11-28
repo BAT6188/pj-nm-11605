@@ -59,6 +59,43 @@
         -->
     </bean>
 
+    <!--短信接口数据库配置-->
+    <bean id="smsDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" lazy-init="false" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="jdbc:mysql://dev1.zthz.com:3306/dshbcbp?zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8" />
+        <property name="user" value="root" />
+        <property name="password" value="database.MySQ1.root" />
+
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}" />
+
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+        <property name="maxConnectionAge" value="${jdbc.maxConnectionAge}" />
+
+        <property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}" />
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}" />
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}" />
+        <!-- 驱动不支持isValid方法时使用下面的配置 -->
+        <!--<property name="preferredTestQuery" value="${jdbc.preferredTestQuery}" />-->
+
+        <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}" />
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}" />
+        <property name="breakAfterAcquireFailure" value="false" />
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}" />
+
+        <property name="maxStatements" value="${jdbc.maxStatements}" />
+        <property name="maxStatementsPerConnection" value="0" />
+        <property name="numHelperThreads" value="10" />
+
+        <!-- 检查连接泄露时使用 -->
+        <!--
+        <property name="debugUnreturnedConnectionStackTraces" value="true" />
+        <property name="unreturnedConnectionTimeout" value="30" />
+        -->
+    </bean>
+
     <bean id="mergingPersistenceUnitPostProcessor"
           class="com.harmonywisdom.framework.dao.MergingPersistenceUnitPostProcessor">
         <property name="persistenceUnitName" value="dshbcbp"/>

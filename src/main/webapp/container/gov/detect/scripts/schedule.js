@@ -311,6 +311,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#seter").attr("disabled",true);
