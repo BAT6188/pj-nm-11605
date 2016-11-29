@@ -50,6 +50,12 @@ public class SmsSendStatus implements Serializable {
      **/
     @Column(name = "status", length = 1)
     private String status;
+
+    /**
+     * 回执编码
+     */
+    @Column(name = "rpt_code", length = 2)
+    private String rptCode;
     /**
      *关联短信记录ID
      **/
@@ -138,5 +144,13 @@ public class SmsSendStatus implements Serializable {
 
     public void setMtSmId(String mtSmId) {
         this.mtSmId = mtSmId;
+    }
+
+    public String getRptCode() {
+        return rptCode;
+    }
+
+    public void setRptCode(String rptCode) {
+        this.rptCode = rptCode;
     }
 }

@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.sms.service.impl;
 
+import com.harmonywisdom.dshbcbp.sms.bean.ApiRptSmsVo;
 import com.harmonywisdom.dshbcbp.sms.bean.SmsRecord;
 import com.harmonywisdom.dshbcbp.sms.bean.SmsSendStatus;
 import com.harmonywisdom.dshbcbp.sms.dao.SmsRecordDAO;
@@ -20,6 +21,19 @@ import java.util.Set;
 
 @Service("smsRecordService")
 public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> implements SmsRecordService {
+
+    /**
+     * 短信发送表
+     */
+    private static final String api_mt_sms="API_MT_SMS";
+
+    /**
+     * 短信回执表
+     */
+    private static final String api_rpt_sms="api_rpt_sms";
+
+    private static Long sequence_init=1L;
+
     @Autowired
     private SmsRecordDAO smsRecordDAO;
 
@@ -93,7 +107,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
      * @throws Exception
      */
     public void sendSmsByDB(SmsRecord smsRsecord, List<SmsSendStatus> receivers)throws Exception{
-        String sql="INSERT INTO API_MT_SMS (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
+        String sql="INSERT INTO "+api_mt_sms+" (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
                 ",SM_TYPE,MSG_FMT,TP_PID,TP_UDHI,FEE_TERMINAL_ID,FEE_TYPE,FEE_CODE" +
                 ",FEE_USER_TYPE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         ComboPooledDataSource dataSource =  SpringUtil.getBean("smsDataSource");
@@ -108,7 +122,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < receivers.size(); i++) {
-                String smId="1";
+                String smId=String.valueOf(getSequence());
                 pstmt.setString(1,smId);  //SM_ID Decimal(8,0)  TODO 生成方式未定     (短信ID， 0到99999999之间的任何一个数值。 缺省值0。 当SM_ID为 0时， 表示这类短信不需要辨别其回执、回复。)
                 receivers.get(i).setMtSmId(smId);
                 pstmt.setString(2,"1");  //SRC_ID Decimal(8,0)
@@ -164,7 +178,62 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         }
     }
 
+    public Long getSequence(){
+        synchronized (this) {
+            sequence_init++;
+            if (sequence_init.equals(99999999L)){
+                sequence_init=1L;
+            }
+            return sequence_init;
+        }
+    }
 
+    /**
+     * 根据回执更新本地短信发送状态
+     */
+    public void updateStatusByReceipt(){
+        ComboPooledDataSource dataSource =  SpringUtil.getBean("smsDataSource");
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<SmsSendStatus> smsSendStatuses = smsSendStatusService.find("status=?", SmsSendStatus.SEND_STATUS_SENT);
+        log.debug("成功"+smsSendStatuses);
+        for (SmsSendStatus smsSendStatuse : smsSendStatuses) {
+            String mtSmId = smsSendStatuse.getMtSmId();
+            try {
+                PreparedStatement pstmt = conn.prepareStatement("SELECT a.SM_ID,a.MOBILE,a.RPT_CODE,a.RPT_DESC,a.RPT_TIME from "+api_rpt_sms+" a where a.SM_ID=?");
+                pstmt.setString(1,mtSmId);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()){
+                    String rpt_code = rs.getString("RPT_CODE");
+                    smsSendStatuse.setRptCode(rpt_code);
+                    if ("0".equals(rpt_code)){
+                        smsSendStatuse.setStatus(SmsSendStatus.SEND_STATUS_RECEIVED);
+                    }else{
+                        smsSendStatuse.setStatus(SmsSendStatus.SEND_STATUS_FAILED);
+                    }
+                    smsSendStatusService.update(smsSendStatuse);
+
+                }
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                try {
+                    if (conn != null) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
 
 
 
