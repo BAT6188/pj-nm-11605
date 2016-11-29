@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import java.util.Date;
+import java.util.List;
 
 public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
     @AutoService
@@ -117,5 +118,13 @@ public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
      */
     public void getEntityById(){
         write(fumesPortService.findById(entity.getId()));
+    }
+
+    /**
+     * 获取油烟排口的实时数据
+     */
+    public void realTimeFumesPort(){
+        List<FumesPort> list = fumesPortService.findAll();
+        write(list);
     }
 }

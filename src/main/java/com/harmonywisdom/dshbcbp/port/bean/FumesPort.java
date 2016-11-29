@@ -37,8 +37,8 @@ public class FumesPort implements Serializable {
     /**
      * 监测时间
      */
-    //@Column(name = "monitor_time")
-    //private Date monitorTime;
+    @Column(name = "monitor_time")
+    private Date monitorTime;
 
     /**
      * 状态
@@ -228,4 +228,13 @@ public class FumesPort implements Serializable {
     public void setHumidity(Double humidity) {
         this.humidity = humidity;
     }
+
+    public Date getMonitorTime() {
+        return monitorTime;
+    }
+
+    public void setMonitorTime(Date monitorTime) {
+        this.monitorTime = monitorTime;
+    }
+
 }

@@ -2,7 +2,6 @@
  * Created by Administrator on 2016/11/10.
  */
 //@ sourceURL=homePage.js
-
 $(function(){
 
     loadPageInEnterprise('homePage/realMonitoring.jsp');
@@ -46,7 +45,7 @@ $(function(){
                     $("#tablegrid").append($tr);
                 }
                 $(".moreInformation").bind('click',function(){
-                    var url = rootPath+"/container/company/pubInfo/pubinfo.jsp"
+                    var url = rootPath+"/container/company/pubInfo/pubinfo.jsp";
                     console.log(url);
                     toUrl(url);
 

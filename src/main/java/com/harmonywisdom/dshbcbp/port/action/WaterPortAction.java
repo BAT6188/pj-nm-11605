@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import java.util.Date;
+import java.util.List;
 
 public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
     @AutoService
@@ -109,5 +110,15 @@ public class WaterPortAction extends BaseAction<WaterPort, WaterPortService> {
      */
     public void getEntityById(){
         write(waterPortService.findById(entity.getId()));
+    }
+
+    /**
+     * 获取废水排口的实时数据
+     */
+    public void realTimeWaterPort(){
+        List<WaterPort> list = waterPortService.findAll();
+        write(list);
+
+
     }
 }
