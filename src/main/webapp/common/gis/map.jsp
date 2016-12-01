@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=request.getContextPath()%>/common/scripts/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
     <title>HM_GIS</title>
     <script>
+        var rootPath = "<%=request.getContextPath()%>";
         var token = "<%=token%>";
         var appCode = "<%=gisToken.getAppCode()%>";
         var timestamp = "<%=gisToken.getTimestamp()%>";
@@ -35,5 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body class="tundra" onload="HwmapCommon.initmap()" style="margin: 0;">
 	<div id="mapContainer"></div>
+    <div style="position: absolute;top: 10px;right: 10px;">
+        <span id="switchLayerBtn" data-layer-type="vector" style="display:inline-block;width:64px;height:42px;cursor:pointer;background-image: url('<%=request.getContextPath()%>/common/gis/images/image.png')"></span>
+    </div>
 </body>
 </html>
