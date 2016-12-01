@@ -270,4 +270,19 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
         return result;
     }
 
+    /**
+     * 获取最新空气质量信息
+     * @return
+     */
+    @Override
+    public AirQuality realTimeAir() {
+        List<AirQuality> list = airQualityDAO.queryJPQL("from AirQuality order by rec_Time desc");
+        if(list !=null && list.size()>0){
+            for(int i = 0;i < list.size();i++){
+                return list.get(0);
+            }
+        }
+        return null;
+    }
+
 }

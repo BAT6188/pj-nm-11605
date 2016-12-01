@@ -122,4 +122,13 @@ public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
             write(list);
         }
     }
+
+    /**
+     * 获取噪声排口实时数据
+     */
+    public void realTimeNoisesPort(){
+        List<NoisePort> list = noisePortService.findAll();
+        write(list);
+
+    }
 }

@@ -5,25 +5,28 @@
     <%
         String enterpriseId = request.getParameter("enterpriseId");
         enterpriseId = enterpriseId != null ? enterpriseId : "";
+        String gis = request.getParameter("viewType");
     %>
     <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <title>一张图综合检测预警</title>
     <script>
         var enterpriseId = "<%=enterpriseId%>";
+        var viewType = "<%=gis%>";
     </script>
     <style type="text/css">
         /*企业平面图展示设备信息，替换bootstrap样式*/
         .popover-content{
             padding: 0;
         }
+
     </style>
 </head>
 <body>
-<div class="content clearfix">
-    <div class="wrap">
-        <div class="tree-left left">
-            <div class="input-group input-group-sm" style="z-index: 0;">
+<div class="content clearfix" style="overflow: auto">
+    <div class="wrap" >
+        <div class="tree-left left" id="button" style="overflow: hidden;z-index: 1">
+            <div class="input-group input-group-sm"  style="z-index: 1;" id="inputBtn">
                 <input type="text" class="form-control" id="searchText" placeholder="查  询"/>
                 <span class="input-group-btn">
                         <button class="btn btn-default" id="searchBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
@@ -32,7 +35,7 @@
             <div class="ztree oneImageTree">
             </div>
         </div>
-        <div class="main-right right">
+        <div class="main-right right" style="overflow: hidden">
             <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
         </div>
 
