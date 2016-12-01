@@ -41,14 +41,17 @@
             margin: 0px;
             padding:0px;
             overflow-y: hidden;
-
         }
 
-        .panel-body{
-            height:330px;
+        .box_l{ padding-top:5%;margin-left:15%; margin-right:5%; height:100%;width:100%;background:url("<%=request.getContextPath()%>/container/gov/home/images/day.png") no-repeat left top;}
+        .daybox {
+            width: 160px;
+            margin: 106px auto 0 auto;
+            overflow: hidden;
+            border: 1px solid #c4976c;
+            text-align: center;
+            font-size: 14px
         }
-
-
 
     </style>
 
@@ -63,7 +66,7 @@
 
                     <div class="row">
                         <div class="col-md-12" style="margin: 0px;padding: 0px;">
-                            <div class="panel panel-primary" style="overflow-y: auto">
+                            <div class="panel panel-primary" style="overflow-y: hidden">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
                                         <i class="panel-icon icon-notice"></i>
@@ -71,7 +74,7 @@
                                         <i class="panel-icon icon-more"></i>
                                     </h3>
                                 </div>
-                                <div class="panel-body" style="height: 300px;">
+                                <div class="panel-body" style="overflow: auto">
                                         <ul id="myTab" class="nav nav-tabs">
                                             <li class="active">
                                                 <a href="#wasteGas" data-toggle="tab">
@@ -96,23 +99,20 @@
                                         </ul>
                                         <div id="myTabContent" class="tab-content">
                                             <div class="tab-pane fade in active" id="wasteGas">
-                                                <table class="table table-responsive table-condensed" id="gasTable" >
+                                                <table class="table table-striped" id="gasTable" >
                                                     <tbody>
                                                         <tr>
                                                         <td><i class="panelList-icon mail-icon"></i></td>
                                                         <td><span>名称</span></td>
                                                         <td><span>时间</span></td>
-                                                        <td><span >氮氧化物</span></td>
-                                                        <td><span >二氧化硫</span></td>
                                                         <td><span >废气流量</span></td>
-                                                        <td><span >烟尘</span></td>
                                                         <td><span >氧含量</span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="tab-pane fade" id="WasteWater">
-                                                <table class="table table-responsive table-condensed" id="waterTable" >
+                                                <table class="table table-striped" id="waterTable" >
                                                     <tbody>
                                                     <tr>
                                                         <td><i class="panelList-icon mail-icon"></i></td>
@@ -127,7 +127,7 @@
                                                 </table>
                                             </div>
                                             <div class="tab-pane fade" id="noises">
-                                                <table class="table table-responsive table-condensed" id="noiseTable" >
+                                                <table class="table table-striped" id="noiseTable" >
                                                     <tbody>
                                                     <tr>
                                                         <td><i class="panelList-icon mail-icon"></i></td>
@@ -141,7 +141,7 @@
                                                 </table>
                                             </div>
                                             <div class="tab-pane fade" id="fumes">
-                                                <table class="table table-responsive table-condensed" id="fumesTable" >
+                                                <table class="table table-striped" id="fumesTable" >
                                                     <tbody>
                                                     <tr>
                                                         <td><i class="panelList-icon mail-icon"></i></td>
@@ -171,7 +171,7 @@
                                         <i class="panel-icon icon-more"></i>
                                     </h3>
                                 </div>
-                                <div class="panel-body" style="height: 30%;">
+                                <div class="panel-body" >
                                     <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
 
                     <div class="row">
                         <div class="col-md-12" style="margin: 0px;padding: 0px;">
-                            <div class="panel panel-primary" style="overflow-y: auto">
+                            <div class="panel panel-primary" style="overflow:hidden; ">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
                                         <i class="panel-icon icon-monitor"></i>
@@ -207,7 +207,14 @@
                                         <i class="panel-icon icon-more"></i>
                                     </h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body" >
+                                    <%--<iframe id='time' name="time" src="http://www.weather.com.cn/weather/101080701.shtml" width="100%" height="100%" frameborder="0" scrolling="no" ></iframe>--%>
+
+                                        <div class="box_l " style="display: block;">
+                                            <table  id="airTable" style="margin-top: 35%;margin-left: 15%;">
+
+                                            </table>
+                                        </div>
 
                                 </div>
                             </div>
@@ -225,14 +232,11 @@
                                         <i class="panel-icon icon-more"></i>
                                     </h3>
                                 </div>
-                                <div class="panel-body">
-                                    <table class="table table-responsive table-condensed" id="">
-                                        <tbody>
-                                        <tr>
-                                            视频
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="panel-body" >
+                                    <img src="<%=request.getContextPath()%>/container/gov/home/images/01.png" alt="" style="width: 48%;height: 48%;"/>
+                                    <img src="<%=request.getContextPath()%>/container/gov/home/images/02.png" alt="" style="width: 48%;height: 48%;"/>
+                                    <img src="<%=request.getContextPath()%>/container/gov/home/images/03.png" alt="" style="width: 48%;height: 48%;"/>
+                                    <img src="<%=request.getContextPath()%>/container/gov/home/images/04.png" alt="" style="width: 48%;height: 48%;"/>
                                 </div>
                             </div>
                         </div>
@@ -247,27 +251,11 @@
     </div>
 </div>
 </div>
-<%--查看信息公告详情--%>
-<div class="modal fade modal-temp" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="height: 400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">未缴费提醒</h4>
-            </div>
-            <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-                <%--<button type="button" class="btn btn-primary">保存</button>--%>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
 <script src="<%=request.getContextPath()%>/common/scripts/main_css.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/home/scripts/homePage.js"></script>
 <script>
+    $(".panel-body").css("height", pageUtils.getTableHeight()*0.48);
 </script>
 
 </body>

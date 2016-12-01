@@ -6,7 +6,7 @@ $(function(){
     /**
      * 加载一张图
      */
-    $("#links").load(rootPath+"/container/gov/composite/one_image.jsp");
+    $("#links").load(rootPath+"/container/gov/composite/one_image.jsp?viewType="+"gis");
     /**
      * 获取最近三个月的时间
      * @type {Date}
@@ -171,14 +171,20 @@ $(function(){
                 for (var i = 0; i < result.length; i++) {
                 //清除原有列表数据
                     var trHtml = "";
+                    if( i >5){
+                        trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
+                        var $tr = $(trHtml);
+                        $("#gasTable").append($tr);
+                        break;
+                    }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon mail-icon'>" + "</i></td>"
                         + "<td ><span>" + (result[i].name == null ? "" : result[i].name) + "</span></td>"
                         + "<td ><span>" + (result[i].monitorTime == null ? "" : result[i].monitorTime) + "</span></td>"
-                        + "<td ><span>" + (result[i].nitrogen == null ? "" : result[i].nitrogen) + "</span></td>"
-                        + "<td ><span>" + (result[i].sulfur == null ? "" : result[i].sulfur) + "</span></td>"
+                        // + "<td ><span>" + (result[i].nitrogen == null ? "" : result[i].nitrogen) + "</span></td>"
+                        // + "<td ><span>" + (result[i].sulfur == null ? "" : result[i].sulfur) + "</span></td>"
                         + "<td ><span>" + (result[i].gasFlow == null ? "" : result[i].gasFlow) + "</span></td>"
-                        + "<td ><span>" + (result[i].dust == null ? "" : result[i].dust) + "</span></td>"
+                        // + "<td ><span>" + (result[i].dust == null ? "" : result[i].dust) + "</span></td>"
                         + "<td ><span>" + (result[i].oxygen == null ? "" : result[i].oxygen) + "</span></td>"
                         + "</tr>";
                     var $tr = $(trHtml);
@@ -201,6 +207,12 @@ $(function(){
                 for (var i = 0; i < result.length; i++) {
                     //清除原有列表数据
                     var trHtml = "";
+                    if( i >5){
+                        trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
+                        var $tr = $(trHtml);
+                        $("#gasTable").append($tr);
+                        break;
+                    }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon mail-icon'>" + "</i></td>"
                         + "<td ><span>" + (result[i].name == null ? "" : result[i].name) + "</span></td>"
@@ -231,6 +243,12 @@ $(function(){
                 for (var i = 0; i < result.length; i++) {
                     //清除原有列表数据
                     var trHtml = "";
+                    if( i >5){
+                        trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
+                        var $tr = $(trHtml);
+                        $("#gasTable").append($tr);
+                        break;
+                    }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon mail-icon'>" + "</i></td>"
                         + "<td ><span>" + (result[i].name == null ? "" : result[i].name) + "</span></td>"
@@ -260,6 +278,12 @@ $(function(){
                 for (var i = 0; i < result.length; i++) {
                     //清除原有列表数据
                     var trHtml = "";
+                    if( i >5){
+                        trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
+                        var $tr = $(trHtml);
+                        $("#gasTable").append($tr);
+                        break;
+                    }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon mail-icon'>" + "</i></td>"
                         + "<td ><span>" + (result[i].name == null ? "" : result[i].name) + "</span></td>"
@@ -273,6 +297,46 @@ $(function(){
                     $("#fumesTable").append($tr);
                 }
             }
+        });
+    }
+
+    //空气质量
+    airQualityIndex();
+    function airQualityIndex(){
+        $.ajax({
+            url: rootPath + "/action/action/S_port_AirQuality_realTimeAirIndex.action",
+            dataType: 'json',
+            type: 'post',
+            async: false,
+            data: {},
+            success: function (result) {
+
+                var value = result.airValue == null ? "": result.airValue;
+                if(value >=1 && value < 50){
+                     value = "优"
+                }else if(value >= 50 && value <100){
+                     value = "良"
+                }else if(value >=100 && value <150){
+                    value = "轻度污染"
+
+                }else if(value >=150 && value < 200){
+                    value = "中度污染"
+
+                }else if(value >= 200 && value < 300){
+                    value = "重度污染"
+
+                }else if(value >=300 && value<1000){
+                    value = "严重污染"
+                }
+                var trHtml =
+                        "<tr><td><span style='font-size: 12px; font-weight: bold;'>更新时间:</span></td><td ><span style='font-size:12px;font-weight: bold;margin-left: -20px;'>"+(result.rec_Time == null ? "" : result.rec_Time)+"</span></td></tr>"
+                        +"<tr><td><span style='font-size: 12px; font-weight: bold;'>空气质量指数:</span></td><td ><span style='font-size: 12px;font-weight: bold;'>"+(result.airValue == null ? "" : result.airValue)+"</span></td></tr>"
+                        +"<tr><td><span style='font-size: 12px; font-weight: bold;'>空气质量等级:</span></td><td ><span style='font-size: 12px;font-weight: bold;'>"+value+"</span></td></tr>";
+                var $html = $(trHtml);
+                $("#airTable").append($html);
+
+            }
+
         });
     }
 

@@ -29,8 +29,29 @@ var OneImagePage = function () {
 
         height:$(window).height()-125,
         init: function () {
-            this.initMap();
+            var VIEWTYPE_GIS = "gis",
+                VIEWTYPE_TREE = "tree";
             this.initTree();
+            if (viewType == VIEWTYPE_GIS) {
+                $(".main-right").css("float", "left");
+                $(".main-right").width("100%");
+
+                $(".tree-left").css(
+                    "position","absolute",
+                    "left","80px",
+                    "top","30px",
+                    "z-index","1"
+                );
+                $(".tree-left").css("height","30px");
+                $(".tree-left").css("width","20%");
+                $("#searchBtn").bind('click',function(){
+                    // $(this).unbind('click');
+                    $("#button").css('height','400px','overflow-y','auto');
+
+                });
+            }
+            this.initMap();
+
             var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
@@ -1193,6 +1214,7 @@ var OneImagePage = function () {
         }
 
     };
+
     page.init();
     return page;
 }();

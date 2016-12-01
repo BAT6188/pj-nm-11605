@@ -163,5 +163,14 @@ public class AirQualityAction extends BaseAction<AirQuality, AirQualityService> 
 
     }
 
+    /**
+     * 首页获取最新天气信息
+     */
+    public void realTimeAirIndex(){
+        AirQuality airQuality = airQualityService.realTimeAir();
+        write(airQuality);
+    }
+
+
 
 }
