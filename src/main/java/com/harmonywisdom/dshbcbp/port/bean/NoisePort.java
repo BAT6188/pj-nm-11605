@@ -230,6 +230,20 @@ public class NoisePort implements Serializable {
     private Date createTime;
 
     /**
+     * 监测时间
+     */
+    @Column(name = "monitor_time")
+    private Date monitorTime;
+
+    public Date getMonitorTime() {
+        return monitorTime;
+    }
+
+    public void setMonitorTime(Date monitorTime) {
+        this.monitorTime = monitorTime;
+    }
+
+    /**
      * 企业ID
      */
     @Column(name = "enterprise_id",length = 32)

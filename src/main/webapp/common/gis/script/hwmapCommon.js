@@ -1,18 +1,4 @@
 var HwmapCommon;
-function change10To16(num, sign) {
-    var charlength=8;
-    if("L" == sign){
-        charlength=2;
-    }
-    var n = parseInt(num);
-    num=n.toString(16);
-    var size=charlength-(num+"").length;
-    for (var i = 0; i < size; i++) {
-        num="0"+num;
-    }
-    num=sign+num;
-    return num;
-}
 HwmapCommon = {
     hwmap: undefined,
 
@@ -70,11 +56,55 @@ HwmapCommon = {
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        var level16 = change10To16(level,"L");
-                        var row16 = change10To16(row,"R");
-                        var col16 = change10To16(col,"C");
-                        //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
+                        //token=" + token.getToken() + "&appCode=" + token.getAppCode() + + "&timestamp=" + token.getTimestamp();
+                        //serviceCode=").append(this.BASEMAP).append("&mapName=").append(mapName).append("&level=").append(level).append("&col=").append(col).append("&row=")
+                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
+                    }
+                }
+            },
+            {
+                layerId: "layerId2",
+                //url:"http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+                url: "http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
+                visible: false,
+                type: com.hw.map.HWMapDefaultBaseLayerTypes.CUSTOM_TILED_MAP_LAYER,
+                attributes: {
+                    fullExtent: {
+                        xmin: 109.13633772570552,
+                        ymin: 39.51218267628951,
+                        xmax: 110.38671501398679,
+                        ymax: 39.97903171404245
+                    },
+                    initExtent: {
+                        xmin: 109.15619793210595,
+                        ymin: 39.82410961737357,
+                        xmax: 110.22981073793659,
+                        ymax: 40.279538453889494
+                    },
+                    tiledInfo: {
+                        "rows": 256,
+                        "cols": 256,
+                        "compressionQuality": 0,
+                        "origin": {"x": -400, "y": 400},
+                        "spatialReference": {"wkid": 4490},
+                        "lods": [
+                            {"level": 0, "scale": 2308574, "resolution": 0.005493161812073633},
+                            {"level": 1, "scale": 1154287, "resolution": 0.0027465809060368165},
+                            {"level": 2, "scale": 577143, "resolution": 0.0013732892632879053},
+                            {"level": 3, "scale": 288571, "resolution": 6.866434419134498E-4},
+                            {"level": 4, "scale": 144285, "resolution": 3.43320531226222E-4},
+                            {"level": 5, "scale": 72142, "resolution": 1.716590758826081E-4},
+                            {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
+                            {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
+                            {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
+                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
+                        ]
+                    },
+                    getImageFunc: function (level, row, col) {
+                        //token=" + token.getToken() + "&appCode=" + token.getAppCode() + + "&timestamp=" + token.getTimestamp();
+                        //serviceCode=").append(this.BASEMAP).append("&mapName=").append(mapName).append("&level=").append(level).append("&col=").append(col).append("&row=")
+                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsimagemap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             }
@@ -121,11 +151,52 @@ HwmapCommon = {
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        var level16 = change10To16(level,"L");
-                        var row16 = change10To16(row,"R");
-                        var col16 = change10To16(col,"C");
-                        //return "http://mt" + (col % 4) + ".google.cn/vt/lyrs=m@226000000&hl=zh-CN&gl=cn&x=" + col + "&y=" + row + "&z=" + level + "&s=Gali";
-                        return "http://dev1.zthz.com:9090/baidu_dongzheng/_alllayers/" + level16 + "/" + row16 + "/" + col16 + ".png";
+                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
+                    }
+                }
+            },
+            layer:{
+                layerId:"layerId2",
+                //url:"http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+                //url:"http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
+                url:"http://125.70.9.194:6080/common/rest/services/MAP1230/MapServer",
+                visible:false,
+                type:com.hw.map.HWMapDefaultBaseLayerTypes.CUSTOM_TILED_MAP_LAYER,
+                attributes: {
+                    fullExtent: {
+                        xmin: 109.13633772570552,
+                        ymin: 39.51218267628951,
+                        xmax: 110.38671501398679,
+                        ymax: 39.97903171404245
+                    },
+                    initExtent: {
+                        xmin: 109.15619793210595,
+                        ymin: 39.82410961737357,
+                        xmax: 110.22981073793659,
+                        ymax: 40.279538453889494
+                    },
+                    tiledInfo: {
+                        "rows": 256,
+                        "cols": 256,
+                        "compressionQuality": 0,
+                        "origin": {"x": -400, "y": 400},
+                        "spatialReference": {"wkid": 4490},
+                        "lods": [
+                            {"level": 0, "scale": 2308574, "resolution": 0.005493161812073633},
+                            {"level": 1, "scale": 1154287, "resolution": 0.0027465809060368165},
+                            {"level": 2, "scale": 577143, "resolution": 0.0013732892632879053},
+                            {"level": 3, "scale": 288571, "resolution": 6.866434419134498E-4},
+                            {"level": 4, "scale": 144285, "resolution": 3.43320531226222E-4},
+                            {"level": 5, "scale": 72142, "resolution": 1.716590758826081E-4},
+                            {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
+                            {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
+                            {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
+                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
+                        ]
+                    },
+                    getImageFunc: function (level, row, col) {
+                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsimagemap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             }
@@ -1076,3 +1147,20 @@ HwmapCommon = {
         this.hwmap.showBaseLayer(1);
     }
 };
+$(function () {
+    var LAYER_TYPE_VECTOR = "vector";
+    var LAYER_TYPE_IMAGE = "iamge";
+    $("#switchLayerBtn").bind("click",function () {
+        var layerType = $(this).attr("data-layer-type");
+        if (layerType == LAYER_TYPE_VECTOR) {
+            HwmapCommon.showImageGIS();
+            $(this).css("background", "url(" + rootPath + "/common/gis/images/vector.png)");
+            $(this).attr("data-layer-type",LAYER_TYPE_IMAGE);
+        }else{
+            HwmapCommon.showVectorGIS();
+            $(this).css("background", "url(" + rootPath + "/common/gis/images/image.png)");
+            $(this).attr("data-layer-type",LAYER_TYPE_VECTOR);
+        }
+
+    });
+});

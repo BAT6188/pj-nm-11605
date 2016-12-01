@@ -81,6 +81,10 @@
         <filter-name>AgentFilter</filter-name>
         <url-pattern>/index.jsp</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AgentFilter</filter-name>
+        <url-pattern>/main.jsp</url-pattern>
+    </filter-mapping>
 
     <filter>
         <filter-name>CompanyFilter</filter-name>

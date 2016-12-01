@@ -43,4 +43,12 @@ public interface AirQualityService extends IBaseService<AirQuality, String> {
      * @return
      */
     QueryResult<AirQuality> findAirRatio(Map<String, String> params, Paging paging);
+
+    /**
+     * 获取最新空气质量信息
+     * @return
+     */
+    AirQuality realTimeAir();
+
+
 }

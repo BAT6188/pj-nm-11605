@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import java.util.Date;
+import java.util.List;
 
 public class GasPortAction extends BaseAction<GasPort, GasPortService> {
     @AutoService
@@ -107,5 +108,14 @@ public class GasPortAction extends BaseAction<GasPort, GasPortService> {
      */
     public void getEntityById(){
         write(gasPortService.findById(entity.getId()));
+    }
+
+    /**
+     * 获取实时废气排口数据
+     */
+    public void realTimeExhaustPort(){
+        List<GasPort> list = gasPortService.fincdRealTimePort();
+        write(list);
+
     }
 }

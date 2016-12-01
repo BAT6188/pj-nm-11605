@@ -29,8 +29,29 @@ var OneImagePage = function () {
 
         height:$(window).height()-125,
         init: function () {
-            this.initMap();
+            var VIEWTYPE_GIS = "gis",
+                VIEWTYPE_TREE = "tree";
             this.initTree();
+            if (viewType == VIEWTYPE_GIS) {
+                $(".main-right").css("float", "left");
+                $(".main-right").width("100%");
+
+                $(".tree-left").css(
+                    "position","absolute",
+                    "left","80px",
+                    "top","30px",
+                    "z-index","1"
+                );
+                $(".tree-left").css("height","30px");
+                $(".tree-left").css("width","20%");
+                $("#searchBtn").bind('click',function(){
+                    // $(this).unbind('click');
+                    $("#button").css('height','400px','overflow-y','auto');
+
+                });
+            }
+            this.initMap();
+
             var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
@@ -76,6 +97,24 @@ var OneImagePage = function () {
                         if (that.hwmapFinished) {
                             that.defaultSelected();
                         }
+                    },
+                    onClick:function (event, treeId, treeNode) {
+                        //如果是子节点，并且已在地图上显示，地图移动到对应的位置
+                        var isChildNode = !treeNode.isParent;
+                        if ( isChildNode && treeNode.checked) {
+                            var overlay = that.hwmap.getOverlay(treeNode.id);
+                            if (overlay) {
+                                if (overlay.x && overlay.y) {
+                                    that.hwmap.centerAt(marker.x, marker.y);
+                                }else if (overlay.points){
+                                    var center = that.hwmap.MapTools.getPolygonCenter(overlay.points);
+                                    that.hwmap.centerAt(center.x, center.y);
+                                }
+
+                            }
+
+                        }
+
                     },
                     onCheck:function (event, treeId, treeNode) {
                         if (treeNode.checked) {//选中 加载对应的数据
@@ -614,12 +653,31 @@ var OneImagePage = function () {
             if (!points || points.length <=0) {
                 return;
             }
+            var blockLevelMapColor = {
+                1:{
+                    fillColor:"#CBF7EF",
+                    lineColor:"#0AC3E9"
+                },
+                2:{
+                    fillColor:"#EFFFAB",
+                    lineColor:"#C1D964"
+                },
+                3:{
+                    fillColor:"#CFE962",
+                    lineColor:"#F7F5BD"
+                },
+                4:{
+                    fillColor:"#F5A63C",
+                    lineColor:"#F7F5BD"
+                }
+            };
+            var blockColor = blockLevelMapColor[block.blockLevelId];
             this.hwmap.addPolygon({
                 id:block.id,
                 data:block,
                 points:points,
-                fillColor:"#C3F7EE",
-                lineColor:"#00C0E8",
+                fillColor:blockColor.fillColor,
+                lineColor:blockColor.lineColor,
                 lineWeight:1,
                 lineType:that.hwmap.LINE_TYPE_SOLID,
                 lineOpacity:2,
@@ -643,8 +701,8 @@ var OneImagePage = function () {
                     id:block.id+i,
                     data:block,
                     points:points,
-                    fillColor:"#C3F7EE",
-                    lineColor:"#00C0E8",
+                    fillColor:"#EFFFAB",
+                    lineColor:"#C1D964",
                     lineWeight:1,
                     lineType:that.hwmap.LINE_TYPE_SOLID,
                     lineOpacity:2,
@@ -1193,6 +1251,7 @@ var OneImagePage = function () {
         }
 
     };
+
     page.init();
     return page;
 }();

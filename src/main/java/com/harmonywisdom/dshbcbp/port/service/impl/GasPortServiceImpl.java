@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service("gasPortService")
 public class GasPortServiceImpl extends BaseService<GasPort, String> implements GasPortService {
     @Autowired
@@ -35,5 +36,20 @@ public class GasPortServiceImpl extends BaseService<GasPort, String> implements 
             }
         }
         gasPortDAO.remove(portId);
+    }
+
+    /**
+     * 获取实时废气排口数据
+     * @return
+     */
+    @Override
+    public List<GasPort> fincdRealTimePort() {
+        List<GasPort> list  = getDAO().queryJPQL("from GasPort order by monitorTime desc");
+        if(list != null && list.size()>0){
+            return list;
+        }else{
+            return null;
+        }
+
     }
 }
