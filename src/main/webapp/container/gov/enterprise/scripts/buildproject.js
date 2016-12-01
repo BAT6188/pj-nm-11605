@@ -287,7 +287,7 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    var t = '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal"  data-target="#buildForm">详情</button>';
+    var t = '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal"  data-target="#buildForm">查看</button>';
     if (row.isEIA == 0) {
         t += '&nbsp;&nbsp;&nbsp;' + '<button id="add" type="button" class="btn btn-sm btn-success hp-btn" data-toggle="modal" data-target="#hpForm">新增环评</button>';
     } else {

@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">管辖区域：</label>
+                        <label for="blockLevelId" class="col-sm-2 control-label">上级区域：</label>
                         <div class="col-sm-4">
                             <select id="parentBlockId" name="parentBlockId" class="form-control">
                             </select>
@@ -157,6 +157,13 @@
                             <button type="button" id="lookPoints" class="btn btn-info" style="display: none" onclick="lookMapBtn()">查看标绘</button>
                             <button type="button" id="editPoints" class="btn btn-primary " style="display: none" onclick="initMapBtn()">标绘</button>
 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="childBlockId" class="col-sm-2 control-label">下级管辖区域<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="childBlockId" name="childBlockId" class="form-control">
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

@@ -73,6 +73,13 @@ public class Block implements Serializable {
     @Column(name = "parent_Block_Id",length = 100)
     private String parentBlockId;
     /**
+     *下级网格id
+     */
+//    @Column(name = "CHILD_BLOCK_ID",length = 100)
+    @Transient
+    private String childBlockId;
+
+    /**
      *createTime
      */
     @Column(name = "CREATE_TIME")
@@ -121,6 +128,14 @@ public class Block implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    public String getChildBlockId() {
+        return childBlockId;
+    }
+
+    public void setChildBlockId(String childBlockId) {
+        this.childBlockId = childBlockId;
     }
 
     public void setId(String id) {

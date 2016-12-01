@@ -287,6 +287,7 @@ function setFormData(entity) {
     $("#orgAddress").val(entity.orgAddress);
     $("#position").val(entity.position);
     $("#areaPoints").val(entity.areaPoints);
+    $("#childBlockId").val(entity.childBlockId);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -319,6 +320,7 @@ function resetForm() {
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     BlockOption(blockLevelId);
+    ChildBlockOption(childBlockLevelId);
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
@@ -553,6 +555,7 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
         //获去第一个节点id
         ztreeId = nodes[0].id;
     }
+    selectChildZreeId();
     //刷新表格列表
     gridTable.bootstrapTable('refresh');
 }
@@ -560,7 +563,6 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 
 
 //点击节点事件
-var blockLevelId;
 function zTreeOnClick(event, treeId, treeNode) {
     if (treeNode.isParent) {
         ztreeId = treeNode.id;
@@ -575,6 +577,7 @@ function zTreeOnClick(event, treeId, treeNode) {
         }
     }
     selectZreeId();
+    selectChildZreeId();
     gridTable.bootstrapTable('refresh');
 }
 //右侧列表添加数据刷新zTree
@@ -602,6 +605,7 @@ function zTreeOnSuccess() {
     updateBtn.prop('disabled', true);
 }
 //获取选中节点ID
+var blockLevelId;
 function selectZreeId() {
     var treeObj = $.fn.zTree.getZTreeObj("ztree");
     var sNodes = treeObj.getSelectedNodes();
@@ -661,6 +665,72 @@ function BlockOption(blockLevelId) {
                     var is2Level = (msg[0].blockLevelId == "2");
                     for (var i = 0; i < msg.length; i++) {
                         $('#parentBlockId').append("<option value='" + msg[i].id + "'>" + (is2Level?msg[i].principal:msg[i].orgName) + "</option>")
+                    }
+                }
+
+            }
+        });
+    }
+}
+//获取当前节点的下级节点
+var childBlockLevelId;
+function selectChildZreeId() {
+    var treeObj = $.fn.zTree.getZTreeObj("ztree");
+    var sNodes = treeObj.getSelectedNodes();
+    //获得当前节点的下级节点
+    if (sNodes.length > 0) {
+        //当前节点的前一个节点是子节点如果是子节点
+        var node = sNodes[0].getNextNode();
+        if (node != null && node.isParent) {
+            childBlockLevelId = node.id;
+            console.log(blockLevelId)
+        } else if (node != null && node.isParent == false) {
+            var preNode = sNodes[0].getParentNode();
+            var childNode = preNode.getNextNode();
+            if (childNode == null) {
+                childBlockLevelId = "";
+            } else {
+                childBlockLevelId = childNode.id;
+                console.log(blockLevelId)
+            }
+        } else if (node == null && sNodes[0].isParent) {
+            childBlockLevelId = "";
+            console.log(blockLevelId)
+        } else if (node == null && sNodes[0].isParent == false) {
+            var preNode = sNodes[0].getParentNode();
+            if (preNode != null) {
+                var childNode = preNode.getNextNode();
+                if (childNode == null) {
+                    childBlockLevelId = "";
+                } else {
+                    childBlockLevelId = childNode.id;
+                }
+            } else {
+                childBlockLevelId = "";
+            }
+        }
+    }
+    return childBlockLevelId;
+}
+//默认赋值表单select赋值
+function ChildBlockOption(childBlockLevelId) {
+    if (childBlockLevelId == "" || childBlockLevelId==null) {//如果id为空，option设置默认值
+        $('#childBlockId').find("option").remove();
+        $('#childBlockId').empty();
+    } else {
+        $.ajax({//不为空，加载数据
+            url: rootPath + "/action/S_composite_Block_findLevelById.action",
+            type: "post",
+            async:false,
+            dataType: "json",
+            data: {blockLevelId: childBlockLevelId},
+            success: function (msg) {
+                $('#childBlockId').empty();
+                $('#childBlockId').append("<option value=''>请选择</option>");
+                if (msg && msg.length >0){
+                    // var is2Level = (msg[0].blockLevelId == "2");
+                    for (var i = 0; i < msg.length; i++) {
+                        $('#childBlockId').append("<option value='" + msg[i].id + "'>" + msg[i].principal + "</option>")
                     }
                 }
 
