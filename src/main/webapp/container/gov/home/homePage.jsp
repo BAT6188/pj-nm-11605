@@ -255,7 +255,7 @@
 <script src="<%=request.getContextPath()%>/common/scripts/main_css.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/home/scripts/homePage.js"></script>
 <script>
-    $(".panel-body").css("height", pageUtils.getTableHeight()*0.48);
+    $(".panel-body").css("height", pageUtils.getTableHeight()*0.46);
 </script>
 
 </body>
