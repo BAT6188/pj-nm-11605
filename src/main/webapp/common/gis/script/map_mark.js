@@ -120,7 +120,18 @@ var MapMarkDialog = function () {
                 Ewin.alert("未找到的查看类型"+type);
         }
     }
-
+    function resetSize(){
+        //初始化dialog大小
+        var markDialogModal = $("#markDialog").find(".modal-dialog")
+            .width($(window).width()-100);
+        var modalBody = markDialogModal.find(".modal-body");
+        modalBody.css("padding", 0);
+        var mapFrame = markDialogModal.find("iframe").css({
+            width:markDialogModal.width()-3,
+            height:$(window).height()-220,
+            marginBottom:'-10px'
+        });
+    }
     var dialog = {
         MODE_POINT:"point",
         MODE_POLYLINE:"polyline",
@@ -134,13 +145,9 @@ var MapMarkDialog = function () {
         init:function () {
             var that = this;
             //初始化dialog大小
-            var markDialogModal = $("#markDialog").find(".modal-dialog")
-                .width($(window).width()-100);
-            var mapFrame = markDialogModal.find("iframe").css({
-                width:markDialogModal.width()-3,
-                height:$(window).height()-200,
-                marginBottom:'-10px'
-            });
+            resetSize();
+            var markDialogModal = $("#markDialog").find(".modal-dialog");
+            var mapFrame = markDialogModal.find("iframe");
             //获取map对象
             var mapWindow = mapFrame[0].contentWindow;
             mapWindow.initMap = function (hwmapCommon,mapContainer) {
@@ -190,6 +197,8 @@ var MapMarkDialog = function () {
             }
         },
         open:function () {
+            //初始化dialog大小
+            resetSize();
             $("#markDialog").modal('show');
         },
         _closed:function (points,okBtn) {
