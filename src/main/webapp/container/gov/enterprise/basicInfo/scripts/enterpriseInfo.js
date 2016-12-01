@@ -534,3 +534,8 @@ function resetEnterpriseData(){
         }
     });
 }
+
+$("#backList").bind('click',function(){
+    $(".modal-backdrop").hide();
+
+});
