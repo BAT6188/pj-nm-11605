@@ -144,6 +144,7 @@ var MapMarkDialog = function () {
             //获取map对象
             var mapWindow = mapFrame[0].contentWindow;
             mapWindow.initMap = function (hwmapCommon,mapContainer) {
+                console.log(mapFrame.width()+","+mapFrame.height());
                 $(mapContainer).width(mapFrame.width());
                 $(mapContainer).height(mapFrame.height());
             };
