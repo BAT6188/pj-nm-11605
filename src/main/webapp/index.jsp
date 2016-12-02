@@ -56,15 +56,16 @@
     //加载主菜单
     pageUtils.loadMenu(function (mainMenu) {
         //加载一级主菜单
-        for(var i = 0; i < mainMenu.length; i++){
+        for (var i = 0; i < mainMenu.length; i++) {
             var menu = mainMenu[i];
-            var li = $('<li><a href="main.jsp?menuCode='+menu.code+'&SToken='+SToken+'"><img src="<%=request.getContextPath()%>/common/images/'+menu.code+'-img.png" alt="'+menu.text+'"/></a></li>');
+            var li = $('<li><a href="main.jsp?menuCode=' + menu.code + '&SToken=' + SToken + '"><img src="<%=request.getContextPath()%>/common/images/' + menu.code + '-img.png" alt="' + menu.text + '"/></a></li>');
             $(".link-list>ul").append(li);
         }
-    })
+    });
     //定义短信发送modal
     var options = {
-        title: "短信发送"//弹出框标题(可省略，默认值：“人员选择”)
+        title: "短信发送",//弹出框标题(可省略，默认值：“人员选择”)
+        width:'60%'
     };
     var model = $.fn.MsgSend.init(2,options,function(e,data){ //短信发送第一个参数为2
 
