@@ -126,7 +126,7 @@ var MapMarkDialog = function () {
             .width($(window).width()-100);
         var modalBody = markDialogModal.find(".modal-body");
         modalBody.css("padding", 0);
-        var mapFrame = markDialogModal.find("iframe").css({
+        markDialogModal.find("iframe").css({
             width:markDialogModal.width()-3,
             height:$(window).height()-220,
             marginBottom:'-10px'
@@ -151,7 +151,7 @@ var MapMarkDialog = function () {
             //获取map对象
             var mapWindow = mapFrame[0].contentWindow;
             mapWindow.initMap = function (hwmapCommon,mapContainer) {
-                console.log(mapFrame.width()+","+mapFrame.height());
+                console.log("initMap-FrameSize:"+mapFrame.width()+","+mapFrame.height());
                 $(mapContainer).width(mapFrame.width());
                 $(mapContainer).height(mapFrame.height());
             };
@@ -223,6 +223,7 @@ var MapMarkDialog = function () {
  });
 MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
 MapMarkDialog.open();
+
 //标注查看调用
 MapMarkDialog.setMode(MapMarkDialog.MODE_VIEW,{type:MapMarkDialog.VIEW_POINT,"points":"x,y"});
 MapMarkDialog.open();*/
