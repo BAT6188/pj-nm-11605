@@ -1,12 +1,32 @@
 /**
  * Created by Administrator on 2016/10/9.
  */
+//@ sourceURL=enterpriseInfo.js
 var enterpriseForm =$('#enterpriseForm');
 setBlock('#blockLevelId','#blockId');
 initZTree();
 initSelect();
 initMapBtn();
+// initMapBtn2();
 /*初始化标注按钮*/
+// function initMapBtn(){
+//     //绑定markDialog关闭事件
+//     MapMarkDialog.closed(function (mark) {
+//         if (mark) {
+//             $("#longitude").val(mark.x);
+//             $("#latitude").val(mark.y);
+//         }else{
+//             Ewin.alert({message:"请选择坐标"});
+//             return false;
+//         }
+//     });
+//     $('#mapMarkBtn').bind('click', function () {
+//         //设置标绘模式
+//         MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
+//         MapMarkDialog.open();
+//     });
+// }
+
 function initMapBtn(){
     //绑定markDialog关闭事件
     MapMarkDialog.closed(function (mark) {
@@ -19,11 +39,83 @@ function initMapBtn(){
         }
     });
     $('#mapMarkBtn').bind('click', function () {
+
+
+        var longitude = $("#longitude").val();
+        var latitude =  $("#latitude").val();
+
+        var punctuation = longitude + "," + latitude;
+
+        var blockId = $("#blockId").val();
+        var points = loadBlockPoints(blockId);
+
+        var blockLevelId = $("#blockLevelId").val();
+        if (blockLevelId == "2") {
+            points = loadChildrenBlockPoints(blockId);
+        }
+        
         //设置标绘模式
-        MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
+
+        MapMarkDialog.setMode(MapMarkDialog.MODE_POINT,{
+            type:MapMarkDialog.VIEW_POINT,
+            "points":punctuation,
+            backgroundOverlay:{
+                type:MapMarkDialog.MODE_POLYGON,
+                "points": points
+            },
+            coordinatePoint:{
+                type:MapMarkDialog.VIEW_POINT,
+                "points":punctuation
+            }
+        });
         MapMarkDialog.open();
     });
 }
+
+
+function loadBlockPoints(blockId) {
+    var points;
+    $.ajax({//不为空，加载数据
+        url: rootPath + "/action/S_composite_Block_findBlockId.action",
+        type: "post",
+        async:false,
+        dataType: "json",
+        data: {"blockId": blockId},
+        success: function (blocks) {
+            if (blocks && blocks.length > 0){
+                points = blocks[0].areaPoints;
+            }
+
+        }
+    });
+    return points;
+}
+
+
+function loadChildrenBlockPoints(parentBlockId) {
+    var points = [];
+    $.ajax({//不为空，加载数据
+        url: rootPath + "/action/S_composite_Block_findChildrenBlock.action",
+        type: "post",
+        async:false,
+        dataType: "json",
+        data: {"parentBlockId": parentBlockId},
+        success: function (blocks) {
+            if (blocks && blocks.length > 0){
+                for(var i =0; i < blocks.length; i++) {
+                    var block = blocks[i];
+                    if (block.areaPoints) {
+                        points.push(block.areaPoints);
+                    }
+                }
+            }
+
+        }
+    });
+    return points;
+}
+
+
 /*初始化选择菜单*/
 function initSelect(){
     /*数据字典*/
@@ -57,6 +149,7 @@ function setBlock(pSelector,cSelector){
         });
     }
 }
+
 function searchForAjax(url,entity) {
     var returnData;
     $.ajax({
@@ -500,6 +593,7 @@ function setEnterpriseForm(flag){
                 });
             }
             $(v).find("option[value='"+value+"']").attr("selected",true);
+            console.log($(v).find("option[value='"+value+"']").attr("selected",true));
         }else{
             $(v).val(value);
         }
