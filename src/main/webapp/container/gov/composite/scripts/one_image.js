@@ -806,8 +806,8 @@ var OneImagePage = function () {
         },
         showEnterpriseInfoWin:function(enterprise){
             var infoHtml = "<div>";
-            infoHtml +="<table class='table' style='margin-bottom: 10px;'>" +
-                "<tr><td style='text-align: right;width: 30px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+enterprise.name+"</td></tr>"+
+            infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
+                "<tr><td style='text-align: right;width: 80px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+enterprise.name+"</td></tr>"+
                 "<tr><td style='text-align: right;'>法人代表:</td><td style='text-align: left;'>"+enterprise.artificialPerson+"</td></tr>"+
                 "<tr><td style='text-align: right;'>联系电话:</td><td style='text-align: left;'>"+enterprise.apPhone+"</td></tr>"+
                 "<tr><td style='text-align: right;'>单位地址:</td><td style='text-align: left;'>"+enterprise.address+"</td></tr>"+
@@ -824,7 +824,7 @@ var OneImagePage = function () {
             var infoDOM = this.hwmap.showInfoWindow({
                 x:enterprise.longitude,
                 y:enterprise.latitude,
-                width:300,
+                width:350,
                 height:280,
                 html:infoHtml,
                 title:"企业信息"
@@ -872,11 +872,7 @@ var OneImagePage = function () {
                         var markers = that.getPlaneMapPortMakerByEid(enterprise.id);
                         PlottingDialog.data(markers);
                     }, Constant.CLOCK_DELAY);
-
-
                 }
-
-
             });
         },
 

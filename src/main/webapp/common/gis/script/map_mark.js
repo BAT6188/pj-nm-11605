@@ -18,6 +18,7 @@ var MapMarkDialog = function () {
             },
             after:function (mark) {
                 points = mark.point;
+                currentOverlayId = mark.id;
             }
         });
     }
