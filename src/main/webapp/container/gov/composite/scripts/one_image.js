@@ -12,7 +12,7 @@ var OneImagePage = function () {
         ENTERPRISE_FLAG: "Enterprise",
         VILLAGEENV_FLAG: "VillageEnv",
         VIDEO_FLAG: "Video",
-        CLOCK_DELAY:5000
+        CLOCK_DELAY:30000
     };
     var page = {
         zTree:undefined,

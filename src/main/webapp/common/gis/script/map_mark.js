@@ -18,7 +18,6 @@ var MapMarkDialog = function () {
             },
             after:function (mark) {
                 points = mark.point;
-                currentOverlayId = mark.id;
             }
         });
     }
@@ -134,7 +133,7 @@ var MapMarkDialog = function () {
             .width($(window).width()-100);
         var modalBody = markDialogModal.find(".modal-body");
         modalBody.css("padding", 0);
-        var mapFrame = markDialogModal.find("iframe").css({
+        markDialogModal.find("iframe").css({
             width:markDialogModal.width()-3,
             height:$(window).height()-220,
             marginBottom:'-10px'
@@ -159,7 +158,7 @@ var MapMarkDialog = function () {
             //获取map对象
             var mapWindow = mapFrame[0].contentWindow;
             mapWindow.initMap = function (hwmapCommon,mapContainer) {
-                console.log(mapFrame.width()+","+mapFrame.height());
+                console.log("initMap-FrameSize:"+mapFrame.width()+","+mapFrame.height());
                 $(mapContainer).width(mapFrame.width());
                 $(mapContainer).height(mapFrame.height());
             };
@@ -205,9 +204,8 @@ var MapMarkDialog = function () {
                     switchViewMode();
                     break;
                 default:
-                    Ewin.alert("未找到的模式" + mode);
-                }
-
+                    Ewin.alert("未找到的模式"+mode);
+            }
         },
         open:function () {
             //初始化dialog大小
@@ -225,19 +223,19 @@ var MapMarkDialog = function () {
     return dialog;
 
 }();
-//标注调用
-//  MapMarkDialog.closed(function (mark) {
-//      if (mark) {
-//         $("#points").val(mark);
-//      }else{
-//          Ewin.alert({message:"请选择坐标"});
-//          return false;
-//      }
-//  });
-// MapMarkDialog.setMode(MapMarkDialog.MODE_POINT,{type:MapMarkDialog.VIEW_POINT,"points":"x,y"});
-// MapMarkDialog.open();
+/*//标注调用
+ MapMarkDialog.closed(function (mark) {
+     if (mark) {
+        $("#points").val(mark);
+     }else{
+         Ewin.alert({message:"请选择坐标"});
+         return false;
+     }
+ });
+MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
+MapMarkDialog.open();
 //标注查看调用
-// MapMarkDialog.setMode(MapMarkDialog.MODE_VIEW,{type:MapMarkDialog.VIEW_POINT,"points":"x,y"});
-// MapMarkDialog.open();
+MapMarkDialog.setMode(MapMarkDialog.MODE_VIEW,{type:MapMarkDialog.VIEW_POINT,"points":"x,y"});
+MapMarkDialog.open();*/
 
 

@@ -8,7 +8,7 @@ var MessageDialog = function () {
     //news 新消息
     var newsCountElement,
         refreshNewsCountClock,
-        REFRESH_DELAY = 5000;
+        REFRESH_DELAY = 30000;
     var msgModal = $("#messageDialog"),
         msgForm = msgModal.find("form"),
         isAlert = true,

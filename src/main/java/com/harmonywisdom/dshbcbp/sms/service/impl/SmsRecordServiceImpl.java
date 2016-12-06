@@ -13,6 +13,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,12 +26,12 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
     /**
      * 短信发送表
      */
-    private static final String api_mt_sms="API_MT_SMS";
+    private static final String api_mt_sms="api_mt_003";
 
     /**
      * 短信回执表
      */
-    private static final String api_rpt_sms="api_rpt_sms";
+    private static final String api_rpt_sms="api_rpt_003";
 
     private static Long sequence_init=1L;
 
@@ -124,8 +125,9 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
             for (int i = 0; i < receivers.size(); i++) {
                 String smId=String.valueOf(getSequence());
                 pstmt.setString(1,smId);  //SM_ID Decimal(8,0)  TODO 生成方式未定     (短信ID， 0到99999999之间的任何一个数值。 缺省值0。 当SM_ID为 0时， 表示这类短信不需要辨别其回执、回复。)
+                pstmt.setBigDecimal(1,new BigDecimal(Double.valueOf(smId)));
                 receivers.get(i).setMtSmId(smId);
-                pstmt.setString(2,"1");  //SRC_ID Decimal(8,0)
+                pstmt.setBigDecimal(2,new BigDecimal(Double.valueOf(smId)));  //SRC_ID Decimal(8,0)
                 pstmt.setString(3, receivers.get(i).getReceiverPhone());
                 pstmt.setString(4,smsRsecord.getContent());
                 pstmt.setInt(5,0);
@@ -140,9 +142,9 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
                 pstmt.setInt(9,0);
                 pstmt.setInt(10,0);
                 pstmt.setInt(11,0);
-                pstmt.setString(12,null);
-                pstmt.setString(13,null);
-                pstmt.setString(14,null);
+                pstmt.setString(12,"");
+                pstmt.setString(13,"");
+                pstmt.setString(14,"");
                 pstmt.setInt(15,0);
                 //加入批处理
                 pstmt.addBatch();
