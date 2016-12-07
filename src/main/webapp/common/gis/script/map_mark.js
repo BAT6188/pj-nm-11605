@@ -1,8 +1,8 @@
 //@ sourceURL=map_mark.js
 var MapMarkDialog = function () {
     var $dialog = $("#markDialog"),points, hwmap, currentMode = "point",mapCallback;
-
-    function dragPoint() {
+    var currentOverlayId;
+    function dragPoint() {//标点
         showBtn();
         hwmap.dragPoint({
             id:"mark_"+(new Date()).getTime(),
@@ -11,14 +11,18 @@ var MapMarkDialog = function () {
             height:30,
             autoExit:false,
             before:function () {
-                hwmap.clearOverlays();
+                if(currentOverlayId){
+                    hwmap.removeOverlay(currentOverlayId);
+                }
+                // hwmap.clearOverlays();
             },
             after:function (mark) {
                 points = mark.point;
+                currentOverlayId = mark.id;
             }
         });
     }
-    function dragLine() {
+    function dragLine() {//标线
         showBtn();
         hwmap.dragLine({
             id:"polyline_"+(new Date()).getTime(),
@@ -36,7 +40,7 @@ var MapMarkDialog = function () {
             }
         });
     }
-    function dragPolygon() {
+    function dragPolygon() {//标区域
         showBtn();
         hwmap.dragPolygon({
             id:"polygon_"+(new Date()).getTime(),
@@ -87,7 +91,11 @@ var MapMarkDialog = function () {
                 hwmap.addMarker({
                     id:shapeId,
                     x: point[0],
-                    y: point[1]
+                    y: point[1],
+                    image:rootPath+"/common/gis/images/markers/mark.png",
+                    callback:function (mark) {
+                        currentOverlayId = mark.id;
+                    }
                 });
                 break;
             case dialog.VIEW_POLYLINE:
@@ -172,13 +180,17 @@ var MapMarkDialog = function () {
          * 设置标绘模式
          * @param mode: point polyline polygon view
          */
-        setMode:function (mode) {
+        setMode:function (mode,options) {
             if (!hwmap) {
                 currentMode = mode;
                 return;
             }
             hwmap.clearOverlays();
-            switch (mode){
+            if(options != null) {
+                addShape(arguments[1].backgroundOverlay);
+                addShape(arguments[1].coordinatePoint);
+            }
+            switch (mode) {
                 case this.MODE_POINT:
                     dragPoint();
                     break;
@@ -223,7 +235,6 @@ var MapMarkDialog = function () {
  });
 MapMarkDialog.setMode(MapMarkDialog.MODE_POINT);
 MapMarkDialog.open();
-
 //标注查看调用
 MapMarkDialog.setMode(MapMarkDialog.MODE_VIEW,{type:MapMarkDialog.VIEW_POINT,"points":"x,y"});
 MapMarkDialog.open();*/

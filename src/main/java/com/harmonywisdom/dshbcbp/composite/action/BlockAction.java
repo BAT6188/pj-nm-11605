@@ -92,4 +92,13 @@ public class BlockAction extends BaseAction<Block, BlockService> {
             write(false);
         }
     }
+
+    public void findBlockId(){
+        String id = request.getParameter("blockId");
+
+        List<Block> blocks = getService().queryJPQL("from Block where id=?",Block.class,id);
+        write(blocks);
+    }
+
+
 }
