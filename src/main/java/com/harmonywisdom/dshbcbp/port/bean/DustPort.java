@@ -113,43 +113,43 @@ public class DustPort implements Serializable {
      * 是否监测PM(mg/m3)
      */
     @Column(name = "is_pm",length = 1)
-    private Double isPm;
+    private String isPm;
 
     /**
      * 是否监测TSP(mg/m3)
      */
     @Column(name = "is_tsp",length = 1)
-    private Double isTsp;
+    private String isTsp;
 
     /**
      * 是否监测温度(.C)
      */
     @Column(name = "is_temperature",length = 1)
-    private Double isTemperature;
+    private String isTemperature;
 
     /**
      * 是否监测湿度(%)
      */
     @Column(name = "is_humidity",length = 1)
-    private Double isHumidity;
+    private String isHumidity;
 
     /**
      * 是否监测气压(hpa)
      */
     @Column(name = "is_air_pressure",length = 1)
-    private Double isAirPressure;
+    private String isAirPressure;
 
     /**
      * 是否监测风向(度)
      */
     @Column(name = "is_wind_direction",length = 1)
-    private Double isWindDirection;
+    private String isWindDirection;
 
     /**
      * 是否监测风速(m/s)
      */
     @Column(name = "is_wind_speed",length = 1)
-    private Double isWindSpeed;
+    private String isWindSpeed;
 
     /**
      * createTime
@@ -227,59 +227,59 @@ public class DustPort implements Serializable {
         this.portStatus = portStatus;
     }
 
-    public Double getIsPm() {
+    public String getIsPm() {
         return isPm;
     }
 
-    public void setIsPm(Double isPm) {
+    public void setIsPm(String isPm) {
         this.isPm = isPm;
     }
 
-    public Double getIsTsp() {
+    public String getIsTsp() {
         return isTsp;
     }
 
-    public void setIsTsp(Double isTsp) {
+    public void setIsTsp(String isTsp) {
         this.isTsp = isTsp;
     }
 
-    public Double getIsTemperature() {
+    public String getIsTemperature() {
         return isTemperature;
     }
 
-    public void setIsTemperature(Double isTemperature) {
+    public void setIsTemperature(String isTemperature) {
         this.isTemperature = isTemperature;
     }
 
-    public Double getIsHumidity() {
+    public String getIsHumidity() {
         return isHumidity;
     }
 
-    public void setIsHumidity(Double isHumidity) {
+    public void setIsHumidity(String isHumidity) {
         this.isHumidity = isHumidity;
     }
 
-    public Double getIsAirPressure() {
+    public String getIsAirPressure() {
         return isAirPressure;
     }
 
-    public void setIsAirPressure(Double isAirPressure) {
+    public void setIsAirPressure(String isAirPressure) {
         this.isAirPressure = isAirPressure;
     }
 
-    public Double getIsWindDirection() {
+    public String getIsWindDirection() {
         return isWindDirection;
     }
 
-    public void setIsWindDirection(Double isWindDirection) {
+    public void setIsWindDirection(String isWindDirection) {
         this.isWindDirection = isWindDirection;
     }
 
-    public Double getIsWindSpeed() {
+    public String getIsWindSpeed() {
         return isWindSpeed;
     }
 
-    public void setIsWindSpeed(Double isWindSpeed) {
+    public void setIsWindSpeed(String isWindSpeed) {
         this.isWindSpeed = isWindSpeed;
     }
 
