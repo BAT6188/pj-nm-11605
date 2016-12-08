@@ -1,0 +1,64 @@
+.behavior{
+    behavior:url(PIE.htc);
+}
+*{margin: 0px;padding: 0px;list-style: none;}
+html,body{height: 100%;}
+body{font: 14px/28px "SimSun", 'Microsoft YaHei', Arial, Verdana, "\5b8b\4f53", "Helvetica Neue", Helvetica, sans-serif;}
+.container{background: url("../image/bgRepeat.png") repeat-x center;background-size: contain;}
+.container,.controlBox{height: 100%;}
+.controlBox{width: 280px;margin-left: calc(100% - 280px);color: #666;}
+.controlBox:before{content: " ";display: table;}
+.videoBox{float:left;position:relative;width: calc(100% - 310px);height: calc(100% - 10px);margin: 5px; background-color: #000;border-radius: 3%;}
+.controlBtn{position: absolute;width: 90px;height: 90px;top: calc(50% - 45px);left:calc(50% - 45px);cursor: pointer;}
+.controlBtn.videoPause{background: url("../image/playbtn.png") no-repeat center;}
+.inner{height: calc(100% - 20px);margin-top: 10px; }
+.inner>h2{color: #666;line-height: 40px;border-bottom: 1px solid #D1D1D1;box-shadow: 0 1px 0 #F9F9F9;text-indent: 1em;text-shadow: 2px 2px 1px #F9F9F9;}
+.direction{position:relative;width: 120px;height: 120px;background-image: url("../image/zoom-maxextent-mini.png");background-repeat:no-repeat;background-position: center; background-size: 100%;margin:10px auto;}
+.inner>p{/*text-align: center;*/margin-left: 24px;}
+.btnList>a{color: #666;margin-left:5px;text-shadow: 0px 1px 0px #F9F9F9;padding: 3px 6px;background-color: #DCDCDC;border: 1px solid #BCBCBC;border-radius: 3px;box-shadow: 1px 1px 0px #f2f2f2;text-decoration: none;}
+.btnList>a.active{color: #fff;background-color: #0099FF;text-shadow: 0 0 0 #fff;border-top: 1px solid transparent;border-left: 1px solid transparent;border-right: 1px solid transparent;}
+.progressBar{position: relative; width: 140px; border: 1px solid transparent; margin: 10px auto 0;margin-left: 70px;color: #666;}
+.bg{height: 10px; margin-top: 19px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background: url("../image/sliderbarBg.png") repeat-x center;}
+.bgcolor{background: #5889B2; width: 0; height: 10px; border-radius: 5px;background: url("../image/sliderbarBgcolor.png") repeat-x 5px center;margin-left: 3px;}
+.bt{width: 34px; height: 34px; background: url("../image/PointerN.png") no-repeat center center; border-radius: 17px; overflow: hidden; position: absolute; left: 0px; margin-left: -17px; top: 8px; cursor: pointer;}
+.text{position: absolute;top: -6px;right: 20%; margin: 0 auto;  line-height: 2em;}
+span.speed{position: absolute;top: 10px;left: -44px;letter-spacing: 2px;}
+.opList{margin-top: 20px;}
+.opList>p{margin: 10px 30px;}
+.opList>p>span{display: inline-block;height: 25px;background-repeat: no-repeat;background-position: center;vertical-align: middle;font-size: 14px;line-height: 25px;}
+span.cut{width: 35px;background-image: url("../image/mini-.png");cursor: pointer;}
+span.add{width: 38px;background-image: url("../image/mini+.png");cursor: pointer;}
+span.cut:hover{background-image: url("../image/mini-hover.png");}
+span.add:hover{background-image: url("../image/mini+hover.png");}
+span.opText{width: 100px;background-image: url("../image/mini_name2.png");text-align: center;}
+.controlIcon{width: 36px;height: 55px;background: url("../image/pause.png") no-repeat center;background-size: 100%;margin:10px auto 0;cursor: pointer;}
+.controlIcon.pause{background-image: url("../image/play.png");}
+.showInput{width: 104px;margin-left: 6px;padding: 0 5px;height: 25px;border: 1px solid #ccc;box-shadow: 1px 2px 3px #ccc;border-radius: 2px;color: #666;letter-spacing: 1px;}
+.recP{margin-top: 5px;margin-bottom: 5px;}
+.recP>span,.recP>input{vertical-align: middle;}
+.inner>p,.opList>p{line-height: 40px;}
+.progressBar{height: 25px;}
+.direction>a{position: absolute;}
+.topDir,.bottomDir{width: 50px;height: 30px;left: 35px}
+.leftDir,.rightDir{width: 30px;height: 50px;top: 35px;}
+.topDir{top: 5px;}
+.bottomDir{bottom: 5px;}
+.leftDir{left: 5px;}
+.rightDir{right: 5px;}
+.videoBox .video{width: 100%;height: 100%;}
+@media (min-width:1921px) {
+    .inner>p,.opList>p{line-height: 40px;}
+    .progressBar{height: 25px;}
+}
+@media (min-width:1367px) and (max-width:1920px) {
+    .inner>p,.opList>p{line-height: 40px;}
+    .progressBar{height: 25px;}
+}
+@media (min-width:769px) and (max-width:1366px) {
+    .inner>p,.opList>p{line-height: 30px;}
+    .progressBar{height: 25px;}
+}
+@media (max-width:768px) {
+    .inner>p,.opList>p{line-height: 25px;}
+    .progressBar{height: 22px;}
+}

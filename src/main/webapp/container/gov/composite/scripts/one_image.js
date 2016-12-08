@@ -12,6 +12,7 @@ var OneImagePage = function () {
         ENTERPRISE_FLAG: "Enterprise",
         VILLAGEENV_FLAG: "VillageEnv",
         VIDEO_FLAG: "Video",
+        VIDEO_DEVICE_FLAG: "VideoDevice",
         CLOCK_DELAY:30000
     };
     var page = {
@@ -26,6 +27,7 @@ var OneImagePage = function () {
         MAP_LAYER_VIDEOPORT:"VideoLayer",
         MAP_LAYER_NOISEPORT:"NoisePortLayer",
         MAP_LAYER_DUSTPORT:"DustPortLayer",
+        MAP_LAYER_VIDEO_DEVICE:"VideoDeviceLayer",
 
         height:$(window).height()-125,
         init: function () {
@@ -1244,7 +1246,76 @@ var OneImagePage = function () {
         openVideoWin:function (eid) {
 
             window.open("http://baidu.boosj.com/watch/813504793906110606.html?page=videoMultiNeed");
+        },
+
+        /**
+         * 加载企业到地图
+         */
+        loadVideoDeviceToMap:function (ids) {
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_videodevice_VideoDevice_findByIds.action",
+                type:"post",
+                dataType:"json",
+                data:$.param({'ids':ids},true),
+                success:function (result) {
+                    if (result && result.length > 0){
+                        that.addVideoDevices(result);
+                    }
+                }
+            });
+
+        },
+
+        /**
+         * 公安视频
+         * @param videoDevices
+         * @param villageId
+         */
+        addVideoDevices: function (videoDevices) {
+            if (videoDevices && videoDevices.length > 0) {
+                for(var i = 0; i < videoDevices.length; i++) {
+                    this.addVideoDevice(videoDevices[i]);
+                }
+            }
+        },
+        addVideoDevice:function (videoDevice) {
+            var x = videoDevice.longitude;
+            var y = videoDevice.latitude;
+            if (!x || !y) {
+                return false;
+            }
+            var that = this;
+            this.hwmap.addMarker({
+                id:videoDevice.id,
+                data:videoDevice,
+                image:"images/markers/camera.png",
+                width:32,
+                height:32,
+                x:videoDevice.longitude,
+                y:videoDevice.latitude,
+                click:function (gra) {
+                    var videoDevice = gra.data;
+                    that.openVideoDeviceWin(videoDevice);
+                }
+            }, that.MAP_LAYER_VIDEO_DEVICE);
+        },
+        openVideoDeviceWin:function(videoDevice){
+            var url = rootPath+"/container/gov/videodevice/video_device_control.jsp";
+            var params = videoDevice;
+            var dialogWidth = "1000px";
+            var dialogHeight = "600px";
+            if (window.showModelessDialog) {
+                window.showModelessDialog(url, params, "dialogWidth=" + dialogWidth + ";dialogHeight=" + dialogHeight + ";");
+            }else if (window.showModalDialog) {
+                window.showModalDialog(url, params, "dialogWidth=" + dialogWidth + ";dialogHeight=" + dialogHeight + ";");
+            }else{
+                window.videoDevice = videoDevice;
+                window.open(url, "视频播放");
+            }
+
         }
+
 
     };
 

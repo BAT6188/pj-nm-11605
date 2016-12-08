@@ -15,6 +15,8 @@ import com.harmonywisdom.dshbcbp.port.bean.NoisePort;
 import com.harmonywisdom.dshbcbp.port.service.DustPortService;
 import com.harmonywisdom.dshbcbp.port.service.NoisePortService;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
+import com.harmonywisdom.dshbcbp.videodevice.bean.VideoDevice;
+import com.harmonywisdom.dshbcbp.videodevice.service.VideoDeviceService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,9 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
 
     @Autowired
     private VillageEnvService villageEnvService;
+
+    @Autowired
+    private VideoDeviceService videoDeviceService;
     @Override
     protected BaseDAO<BlockLevel, String> getDAO() {
         return blockLevelDAO;
@@ -123,6 +128,14 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
             ZNodeDTO villageMainNode = new ZNodeDTO(VillageEnv.class.getSimpleName(),"农村生态环境",true,VillageEnv.class.getSimpleName());
             villageMainNode.setChildren(villages);
             nodes.add(villageMainNode);
+        }
+
+        //查询公安视频
+        List<ZNodeDTO> videoDevices = videoDeviceService.searchNode(searchText);
+        if (videoDevices != null) {
+            ZNodeDTO videoDeviceMainNode = new ZNodeDTO(VideoDevice.class.getSimpleName(),"公安视频",true,VideoDevice.class.getSimpleName());
+            videoDeviceMainNode.setChildren(videoDevices);
+            nodes.add(videoDeviceMainNode);
         }
 
         return nodes;

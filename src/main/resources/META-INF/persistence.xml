@@ -88,6 +88,10 @@
         <class>com.harmonywisdom.dshbcbp.detect.bean.EntMonitorTask</class>
         <class>com.harmonywisdom.dshbcbp.detect.bean.MonitorReport</class>
 		<class>com.harmonywisdom.dshbcbp.alert.bean.SysOperationLog</class>
+
+        <!--公安局视频-->
+        <class>com.harmonywisdom.dshbcbp.videodevice.bean.VideoDevice</class>
+
         <!--pageoffice 模版维护-->
 		<class>com.harmonywisdom.dshbcbp.officetemp.bean.OfficeTemp</class>
 
