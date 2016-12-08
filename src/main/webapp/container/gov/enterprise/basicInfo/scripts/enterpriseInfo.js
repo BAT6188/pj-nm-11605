@@ -7,7 +7,6 @@ setBlock('#blockLevelId','#blockId');
 initZTree();
 initSelect();
 initMapBtn();
-// initMapBtn2();
 /*初始化标注按钮*/
 // function initMapBtn(){
 //     //绑定markDialog关闭事件
@@ -91,7 +90,6 @@ function loadBlockPoints(blockId) {
     return points;
 }
 
-
 function loadChildrenBlockPoints(parentBlockId) {
     var points = [];
     $.ajax({//不为空，加载数据
@@ -101,6 +99,7 @@ function loadChildrenBlockPoints(parentBlockId) {
         dataType: "json",
         data: {"parentBlockId": parentBlockId},
         success: function (blocks) {
+            console.log(blocks);
             if (blocks && blocks.length > 0){
                 for(var i =0; i < blocks.length; i++) {
                     var block = blocks[i];
