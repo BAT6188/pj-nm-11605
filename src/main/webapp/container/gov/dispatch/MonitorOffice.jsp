@@ -61,7 +61,7 @@
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">
-                        <i class="btnIcon edit-icon"></i><span>修改</span>
+                        <i class="btnIcon edit-icon"></i><span>处置</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>

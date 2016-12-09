@@ -34,7 +34,7 @@ var OneImagePage = function () {
             var VIEWTYPE_GIS = "gis",
                 VIEWTYPE_TREE = "tree";
             this.initTree();
-            if (viewType == VIEWTYPE_GIS) {
+            // if (viewType == VIEWTYPE_GIS) {
                 $(".main-right").css("float", "left");
                 $(".main-right").width("100%");
 
@@ -45,13 +45,33 @@ var OneImagePage = function () {
                     "z-index","1"
                 );
                 $(".tree-left").css("height","30px");
-                $(".tree-left").css("width","20%");
-                $("#searchBtn").bind('click',function(){
-                    // $(this).unbind('click');
-                    $("#button").css('height','400px','overflow-y','auto');
+                $(".tree-left").css("width","21%");
+
+                $("#switchBtn").bind('click',function(){
+                    var status = $(this).attr("data-status");
+                    if (status == "false") {
+                        $("#button").css('height',pageUtils.getTableHeight(),'overflow-y','auto');
+                        // $("#名称").attr("属性名","属性值");
+                        status = $("#switchBtn").attr("data-status","true");
+
+                    }else if(status == "true"){
+                        $(".main-right").css("float", "left");
+                        $(".main-right").width("100%");
+
+                        $(".tree-left").css(
+                            "position","absolute",
+                            "left","80px",
+                            "top","30px",
+                            "z-index","1"
+                        );
+                        $(".tree-left").css("height","30px");
+                        $(".tree-left").css("width","21%");
+
+                        status = $("#switchBtn").attr("data-status","false");
+                    }
 
                 });
-            }
+            // }
             this.initMap();
 
             var that = this;
@@ -658,19 +678,23 @@ var OneImagePage = function () {
             var blockLevelMapColor = {
                 1:{
                     fillColor:"#CBF7EF",
-                    lineColor:"#0AC3E9"
+                    lineColor:"#0AC3E9",
+                    lineWeight:6
                 },
                 2:{
                     fillColor:"#EFFFAB",
-                    lineColor:"#C1D964"
+                    lineColor:"#C1D964",
+                    lineWeight:6
                 },
                 3:{
                     fillColor:"#CFE962",
-                    lineColor:"#F7F5BD"
+                    lineColor:"#F7F5BD",
+                    lineWeight:6
                 },
                 4:{
                     fillColor:"#F5A63C",
-                    lineColor:"#F7F5BD"
+                    lineColor:"#F7F5BD",
+                    lineWeight:6
                 }
             };
             var blockColor = blockLevelMapColor[block.blockLevelId];
@@ -680,7 +704,7 @@ var OneImagePage = function () {
                 points:points,
                 fillColor:blockColor.fillColor,
                 lineColor:blockColor.lineColor,
-                lineWeight:1,
+                lineWeight:blockColor.lineWeight,
                 lineType:that.hwmap.LINE_TYPE_SOLID,
                 lineOpacity:2,
                 opacity:0.6,
@@ -705,7 +729,7 @@ var OneImagePage = function () {
                     points:points,
                     fillColor:"#EFFFAB",
                     lineColor:"#C1D964",
-                    lineWeight:1,
+                    lineWeight:3,
                     lineType:that.hwmap.LINE_TYPE_SOLID,
                     lineOpacity:2,
                     opacity:0.6,
@@ -1154,7 +1178,7 @@ var OneImagePage = function () {
                 points:points,
                 fillColor:"#FF0000",
                 lineColor:"#2D2424",
-                lineWeight:1,
+                lineWeight:2,
                 lineType:that.hwmap.LINE_TYPE_SOLID,
                 lineOpacity:0.7,
                 opacity:0.2,

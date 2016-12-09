@@ -29,6 +29,9 @@
             <div class="input-group input-group-sm"  style="z-index: 1;" id="inputBtn">
                 <input type="text" class="form-control" id="searchText" placeholder="查  询"/>
                 <span class="input-group-btn">
+                        <button class="btn btn-default" data-status="false" id="switchBtn" type="button"><span class="glyphicon glyphicon-sort"></span></button>
+                </span>
+                <span class="input-group-btn">
                         <button class="btn btn-default" id="searchBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
             </div>
