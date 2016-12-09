@@ -291,7 +291,7 @@
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-9">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
@@ -299,13 +299,13 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="blockName" class="col-sm-2 control-label">所属网格名称<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="blockName" name="blockName" class="form-control"
-                                   data-message="所属网格名称不为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
+                        <%--<label for="blockName" class="col-sm-2 control-label">所属网格名称<span class="text-danger">*</span>：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<input type="text" id="blockName" name="blockName" class="form-control"--%>
+                                   <%--data-message="所属网格名称不为空"--%>
+                                   <%--data-easytip="position:top;class:easy-red;"--%>
+                            <%--/>--%>
+                        <%--</div>--%>
                     </div>
                     <div class="form-group">
                         <label for="startTime" class="col-sm-2 control-label">开始时间<span class="text-danger">*</span>：</label>

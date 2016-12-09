@@ -95,7 +95,7 @@ $(function(){
                 var ylist = [];
                 if(list && list.length>0){
                     for (var i=0; i<list.length; i++) {
-                        ylist.push(parseInt(list[i]));
+                        ylist.push(parseFloat(list[i]));
                     }
                 }
                 var preMonth = [];//定义查询月份的数组
@@ -174,6 +174,7 @@ $(function(){
             data: {name:name,startYdate: startYdate, lastYdate: lastYdate},
             dataType: 'json',
             success:function(data){
+                debugger;
                 var categories = data['x'];
                 var series1 = data['y'];
                 var series = [{
@@ -232,7 +233,7 @@ $(function(){
                 console.log(preValue);
 
                 for (var i = 0; i < preValue.length; i++) {
-                    series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
+                    series[0].data.push({name:preMonth[i],y: parseFloat(preValue[i])});
                 }
                 pieMchart(series,startYdate,lastYdate);
             }
@@ -255,7 +256,7 @@ $(function(){
                 var ylist = [];
                 if(list && list.length>0){
                     for (var i=0; i<list.length; i++) {
-                        ylist.push(parseInt(list[i]));
+                        ylist.push(parseFloat(list[i]));
                     }
                 }
 
@@ -352,7 +353,8 @@ $(function(){
                     },
                     style: {
                         color: '#89A54E' //设置标签颜色
-                    }
+                    },
+                    allowDecimals: 'false'
                 },
                 min: 0,
                 title: {
@@ -366,7 +368,7 @@ $(function(){
                 pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
                 '<td style="text-align: right"><b>{point.y} %</b></td></tr>',
                 footerFormat: '</table>',
-                valueDecimals: 0
+                valueDecimals: 2
             },
             plotOptions: {
                 column: {
@@ -416,7 +418,7 @@ $(function(){
                 pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
                 '<td style="text-align: right"><b>{point.y} %</b></td></tr>',
                 footerFormat: '</table>',
-                valueDecimals: 0
+                valueDecimals: 2
             },
             plotOptions: {
                 pie: {
@@ -424,7 +426,7 @@ $(function(){
                     cursor: 'pointer',
                     dataLabels: {
                         enabled: true,
-                        format: '<b>{point.name}月</b>: {point.percentage:.1f} %',
+                        format: '<b>{point.name}月</b>: {point.y} %',
                         style: {
                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                         }
@@ -487,7 +489,7 @@ $(function(){
                 pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
                 '<td style="text-align: right"><b>{point.y} %</b></td></tr>',
                 footerFormat: '</table>',
-                valueDecimals: 0
+                valueDecimals: 2
             },
             plotOptions: {
                 line: {
@@ -593,7 +595,8 @@ $(function(){
                         if(value == null){
                             return "";
                         }else{
-                            return value + "%";
+                            var strValue = Math.round(value*100)/100;
+                            return strValue + "%";
                         }
                     }
                 },
@@ -607,7 +610,8 @@ $(function(){
                         if(value == null){
                             return "";
                         }else{
-                            return value + "%";
+                            var strValue = Math.round(value*100)/100;
+                            return strValue + "%";
                         }
                     }
                 },
@@ -621,7 +625,8 @@ $(function(){
                         if(value == null){
                             return "";
                         }else{
-                            return value + "%";
+                            var strValue = Math.round(value*100)/100;
+                            return strValue + "%";
                         }
                     }
                 }

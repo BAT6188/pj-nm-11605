@@ -101,7 +101,8 @@ function initTable() {
                     if(value == null){
                         return "";
                     }else{
-                        return value + "%";
+                        var strValue = Math.round(value*100)/100;
+                        return strValue + "%";
                     }
                 }
             },
@@ -115,7 +116,8 @@ function initTable() {
                     if(value == null){
                         return "";
                     }else{
-                        return value + "%";
+                        var strValue = Math.round(value*100)/100;
+                        return strValue + "%";
                     }
                 }
             },
@@ -129,7 +131,8 @@ function initTable() {
                     if(value == null){
                         return "";
                     }else{
-                        return value + "%";
+                        var strValue = Math.round(value*100)/100;
+                        return strValue + "%";
                     }
                 }
             },
