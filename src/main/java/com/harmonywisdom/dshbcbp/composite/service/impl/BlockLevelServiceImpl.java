@@ -118,7 +118,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         //查询企业
         List<ZNodeDTO> enterprises = enterpriseService.searchNode(searchText);
         if (enterprises != null) {
-            ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业",true,Enterprise.class.getSimpleName());
+            ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业分布",true,Enterprise.class.getSimpleName());
             enterpriseMainNode.setChildren(enterprises);
             nodes.add(enterpriseMainNode);
         }

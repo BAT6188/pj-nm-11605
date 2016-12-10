@@ -52,7 +52,6 @@
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button type="button" class="btn btn-primary" id="pub">发布</button>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#shareMeansForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
@@ -140,6 +139,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-warning needHide" id="pub">发布</button>
                 <button type="button" class="btn btn-primary" id="saveShareMeans">保存</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
             </div>

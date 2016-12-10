@@ -353,19 +353,19 @@ $(function(){
                                 minValue = 50;
                                 maxValue = 100
 
-                            }else if(strValue == '轻度污染'){
+                            }else if(strValue == '轻微污染'){
                                 minValue = 100;
                                 maxValue = 150
 
-                            }else if(strValue == '中度污染'){
+                            }else if(strValue == '轻度污染'){
                                 minValue = 150;
                                 maxValue = 200
 
-                            }else if(strValue == '重度污染'){
+                            }else if(strValue == '中度污染'){
                                 minValue = 201;
                                 maxValue = 300
 
-                            }else if(strValue == '严重污染'){
+                            }else if(strValue == '重度污染'){
                                 minValue = 300;
                                 maxValue = 1000
                             }
@@ -435,19 +435,19 @@ $(function(){
                                 minValue = 50;
                                 maxValue = 100
 
-                            }else if(strValue == '轻度污染'){
+                            }else if(strValue == '轻微污染'){
                                 minValue = 100;
                                 maxValue = 150
 
-                            }else if(strValue == '中度污染'){
+                            }else if(strValue == '轻度污染'){
                                 minValue = 150;
                                 maxValue = 200
 
-                            }else if(strValue == '重度污染'){
+                            }else if(strValue == '中度污染'){
                                 minValue = 201;
                                 maxValue = 300
 
-                            }else if(strValue == '严重污染'){
+                            }else if(strValue == '重度污染'){
                                 minValue = 300;
                                 maxValue = 1000
                             }
@@ -515,19 +515,19 @@ $(function(){
                                 minValue = 50;
                                 maxValue = 100
 
-                            }else if(strValue == '轻度污染'){
+                            }else if(strValue == '轻微污染'){
                                 minValue = 100;
                                 maxValue = 150
 
-                            }else if(strValue == '中度污染'){
+                            }else if(strValue == '轻度污染'){
                                 minValue = 150;
                                 maxValue = 200
 
-                            }else if(strValue == '重度污染'){
+                            }else if(strValue == '中度污染'){
                                 minValue = 201;
                                 maxValue = 300
 
-                            }else if(strValue == '严重污染'){
+                            }else if(strValue == '重度污染'){
                                 minValue = 300;
                                 maxValue = 1000
                             }
@@ -601,19 +601,19 @@ $(function(){
                                 minValue = 50;
                                 maxValue = 100
 
-                            }else if(strValue == '轻度污染'){
+                            }else if(strValue == '轻微污染'){
                                 minValue = 100;
                                 maxValue = 150
 
-                            }else if(strValue == '中度污染'){
+                            }else if(strValue == '轻度污染'){
                                 minValue = 150;
                                 maxValue = 200
 
-                            }else if(strValue == '重度污染'){
+                            }else if(strValue == '中度污染'){
                                 minValue = 201;
                                 maxValue = 300
 
-                            }else if(strValue == '严重污染'){
+                            }else if(strValue == '重度污染'){
                                 minValue = 300;
                                 maxValue = 1000
                             }

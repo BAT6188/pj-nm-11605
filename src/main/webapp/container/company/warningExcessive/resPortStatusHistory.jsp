@@ -180,7 +180,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="send">发送</button>
+                <button type="button" class="btn btn-md btn-warning needHide" id="send">发送</button>
                 <button type="button" class="btn btn-primary" id="save">保存</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
