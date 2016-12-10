@@ -46,10 +46,10 @@
                                 <option value="">请选择</option>
                                 <option value="1">优</option>
                                 <option value="2">良</option>
-                                <option value="3">轻度污染</option>
-                                <option value="4">中度污染</option>
-                                <option value="5">重度污染</option>
-                                <option value="6">严重污染</option>
+                                <option value="3">轻微污染</option>
+                                <option value="4">轻度污染</option>
+                                <option value="5">中度污染</option>
+                                <option value="6">重度污染</option>
                             </select>
                         </div>
                         <div class="form-group">

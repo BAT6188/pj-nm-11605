@@ -81,7 +81,7 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
                 "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')" +
                 "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
 
-        String[] title = new String[]{"优", "良", "轻度污染", "中度污染", "重度污染", "严重污染"};
+        String[] title = new String[]{"优", "良", "轻微污染","轻度污染", "中度污染", "重度污染"};
 
         List<Object[]> sList = new ArrayList<>();
         Object[] result = list.get(0);
@@ -157,7 +157,7 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
                 "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')" +
                 "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
 
-        String[] strAir = new String[]{"优", "良", "轻度污染", "中度污染", "重度污染", "严重污染"};
+        String[] strAir =new String[]{"优", "良", "轻微污染","轻度污染", "中度污染", "重度污染"};
 
         List<Object[]> aList = new ArrayList<>();
         Object[] aResult = list.get(0);
