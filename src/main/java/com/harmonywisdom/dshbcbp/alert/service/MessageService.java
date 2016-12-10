@@ -28,5 +28,7 @@ public interface MessageService extends IBaseService<Message, String> {
      */
     void deleteByBusinessId(String ...ids);
 
+    Message findByBusinessId(String businessId);
+
 
 }

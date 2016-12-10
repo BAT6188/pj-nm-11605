@@ -6,6 +6,10 @@ import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.alert.service.MessageTraceService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
+import com.harmonywisdom.framework.dao.QueryCondition;
+import com.harmonywisdom.framework.dao.QueryOperator;
+import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
@@ -23,6 +27,35 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
     @Override
     protected MessageTraceService getService() {
         return messageTraceService;
+    }
+
+    @Override
+    protected QueryCondition getQueryCondition() {
+        QueryParam param = new QueryParam();
+        if (StringUtils.isNotBlank(entity.getReceiverName())) {
+            param.andParam(new QueryParam("receiverName", QueryOperator.LIKE,entity.getReceiverName()));
+        }
+        if (StringUtils.isNotBlank(entity.getReceiveStatus())) {
+            param.andParam(new QueryParam("receiveStatus", QueryOperator.EQ,entity.getReceiveStatus()));
+        }
+
+        String businessId = request.getParameter("businessId");
+        if(StringUtils.isNotBlank(businessId)){
+            Message msg = messageService.findByBusinessId(businessId);
+            if (msg != null){
+                param.andParam(new QueryParam("msgId", QueryOperator.EQ, msg.getId()));
+            }else{
+                param.andParam(new QueryParam("msgId", QueryOperator.EQ, "EmptyMessage"));
+            }
+        }
+
+        QueryCondition condition = new QueryCondition();
+        if (param.getField() != null) {
+            condition.setParam(param);
+        }
+        condition.setPaging(getPaging());
+        condition.setOrderBy("receiveTime", Direction.DESC);
+        return condition;
     }
 
     /**

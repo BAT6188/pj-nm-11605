@@ -249,6 +249,7 @@ function pubSharemean(id){
                 dataType:'json',
                 data:{id:id},
                 success: function(msg){
+                    form.modal('hide');
                     gridTable.bootstrapTable('refresh');
                 }
             });
@@ -304,15 +305,21 @@ function setFormData(sharemeans) {
     resetForm();
     if (!sharemeans) {return false}
     form.find(".form-title").text("修改"+formTitle);
-        var id = sharemeans.id;
-        $("#id").val(sharemeans.id);
-        $("#removeId").val("");
-        $("#title").val(sharemeans.title);
-        $("#type").val(sharemeans.type);
-         $("#pubTime").val(pageUtils.sub10(sharemeans.pubTime));
-        $("#pubOrgName").val(sharemeans.pubOrgName);
-        $("#pubOrgId").val(sharemeans.pubOrgId);
-        $("#description").val(sharemeans.description);
+    var id = sharemeans.id;
+    $("#id").val(sharemeans.id);
+    $("#removeId").val("");
+    $("#title").val(sharemeans.title);
+    $("#type").val(sharemeans.type);
+    $("#pubTime").val(pageUtils.sub10(sharemeans.pubTime));
+    $("#pubOrgName").val(sharemeans.pubOrgName);
+    $("#pubOrgId").val(sharemeans.pubOrgId);
+    $("#description").val(sharemeans.description);
+    if(sharemeans.status == 1){
+       $('#pub').hide();
+    }else{
+        $('#pub').show();
+
+    }
         uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -327,6 +334,7 @@ function setFormView(entity) {
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
     form.find("#saveShareMeans").hide();
+    form.find("#pub").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
@@ -354,6 +362,7 @@ function resetForm() {
     $("#pubOrgId").val(orgCode);
     console.log(orgCode);
     disabledForm(false);
+    $('#pub').show();
     form.find("#saveShareMeans").show();
     form.find(".btn-cancel").text("取消")
 }

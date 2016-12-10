@@ -768,11 +768,11 @@ var OneImagePage = function () {
         showBlockInfoWin:function (block) {
             var height =227;
             var infoHtml = "<div>";
-            infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: left;width: 70px;'>网格级别:</td><td style='text-align: left;'>"+block.blockLevelName+"</td></tr>"+
+            infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
+                "<tr><td style='text-align: left;width: 100px;'>网格级别:</td><td style='text-align: left;'>"+block.blockLevelName+"</td></tr>"+
                 "<tr><td style='text-align: left;'>单位名称:</td><td style='text-align: left;'>"+block.orgName+"</td></tr>"+
                 "<tr><td style='text-align: left;'>单位地址:</td><td style='text-align: left;'>"+block.orgAddress+"</td></tr>"+
-                "<tr><td style='text-align: left;'>负责人:</td><td style='text-align: left;'>"+block.principal+"</td></tr>"+
+                "<tr><td style='text-align: left;'>网格负责人:</td><td style='text-align: left;'>"+block.principal+"</td></tr>"+
                 "<tr><td style='text-align: left;'>联系电话:</td><td style='text-align: left;'>"+block.principalPhone+"</td></tr>"+
                 "</table>";
             infoHtml+="</div>";
@@ -782,7 +782,7 @@ var OneImagePage = function () {
             this.hwmap.showInfoWindow({
                 x:center.x,
                 y:center.y,
-                width:240,
+                width:370,
                 height:height,
                 html:infoHtml,
                 title:"网格信息"
