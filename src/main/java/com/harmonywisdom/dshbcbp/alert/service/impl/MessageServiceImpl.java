@@ -70,4 +70,15 @@ public class MessageServiceImpl extends BaseService<Message, String> implements 
         getDAO().executeJPQL("delete from Message where businessId in ?1", Arrays.asList(ids));
     }
 
+    @Override
+    public Message findByBusinessId(String businessId) {
+        if (StringUtils.isNotBlank(businessId)) {
+            List<Message> messageList = getDAO().find("businessId = ?1 order by createTime desc", businessId);
+            if (messageList != null && messageList.size() > 0) {
+                return messageList.get(0);
+            }
+        }
+        return null;
+    }
+
 }
