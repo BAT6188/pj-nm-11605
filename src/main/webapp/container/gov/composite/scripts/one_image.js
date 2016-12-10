@@ -50,13 +50,15 @@ var OneImagePage = function () {
                 $("#switchBtn").bind('click',function(){
                     var status = $(this).attr("data-status");
                     if (status == "false") {
-                        $("#button").css('height',pageUtils.getTableHeight(),'overflow-y','auto');
+                        $("#button").css('height',pageUtils.getTableHeight(),'overflow-y','hiddden');
                         // $("#名称").attr("属性名","属性值");
                         status = $("#switchBtn").attr("data-status","true");
+                        $(".tree-left").css("overflow","auto");
 
                     }else if(status == "true"){
                         $(".main-right").css("float", "left");
                         $(".main-right").width("100%");
+                        $(".tree-left").css("overflow","hidden");
 
                         $(".tree-left").css(
                             "position","absolute",
@@ -99,7 +101,7 @@ var OneImagePage = function () {
                 },
                 async: {
                     enable: true,
-                    url:rootPath+"/action/S_composite_BlockLevel_getOneImageTree.action"
+                    url:rootPath+"/action/S_composite_BlockLevel_getOneImageTree.action",
                 },
                 check: {
                     enable: true
@@ -729,7 +731,7 @@ var OneImagePage = function () {
                     points:points,
                     fillColor:"#EFFFAB",
                     lineColor:"#C1D964",
-                    lineWeight:3,
+                    lineWeight:6,
                     lineType:that.hwmap.LINE_TYPE_SOLID,
                     lineOpacity:2,
                     opacity:0.6,
@@ -834,8 +836,9 @@ var OneImagePage = function () {
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
                 "<tr><td style='text-align: center;width: 80px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+enterprise.name+"</td></tr>"+
-                "<tr><td style='text-align: center;'>法人代表:</td><td style='text-align: left;'>"+enterprise.artificialPerson+"</td></tr>"+
-                "<tr><td style='text-align: center;'>联系电话:</td><td style='text-align: left;'>"+enterprise.apPhone+"</td></tr>"+
+                "<tr><td style='text-align: center;'>企业法人:</td><td style='text-align: left;'>"+enterprise.artificialPerson+"</td></tr>"+
+                "<tr><td style='text-align: center;'>环保负责人:</td><td style='text-align: left;'>"+enterprise.envPrincipal+"</td></tr>"+
+                "<tr><td style='text-align: center;'>环保负责人电话:</td><td style='text-align: left;'>"+enterprise.apPhone+"</td></tr>"+
                 "<tr><td style='text-align: center;'>单位地址:</td><td style='text-align: left;'>"+enterprise.address+"</td></tr>"+
                 "<tr><td style='text-align: center;'>所属网格:</td><td style='text-align: left;'>"+""+"</td></tr>"+
                 "</table>"+
@@ -850,8 +853,8 @@ var OneImagePage = function () {
             var infoDOM = this.hwmap.showInfoWindow({
                 x:enterprise.longitude,
                 y:enterprise.latitude,
-                width:350,
-                height:280,
+                width:370,
+                height:320,
                 html:infoHtml,
                 title:"企业信息"
             });
