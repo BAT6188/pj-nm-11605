@@ -73,7 +73,7 @@ function initTable() {
                 editable: false
             },
             {
-                title: '发布单位',
+                title: '发布部门',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
