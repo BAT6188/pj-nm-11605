@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">[Title]</h4>
                 </div>
-                <div class="modal-body">
+                <div class="msg-modal-body">
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="Node-frame-menubar" style="height: 500px;">
@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">[Title]</h4>
                 </div>
-                <div class="modal-body">
+                <div class="contact-modal-body">
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="Node-frame-menubar"  style="height: 600px;">

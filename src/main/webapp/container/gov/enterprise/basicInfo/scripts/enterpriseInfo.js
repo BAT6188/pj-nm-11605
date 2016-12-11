@@ -223,7 +223,8 @@ function initTimeInput(){
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        forceParse: 0
+        forceParse: 0,
+        pickerPosition: "bottom-left"
     });
 }
 
@@ -433,6 +434,8 @@ function initEnterpriseForm(type){
 var isEditBtnFromlook = false;
 function saveForm(){
     //$('#planeMap').val(getplaneMapUploader());
+    $('#blockLevelName').val($("#blockLevelId").find("option:selected").text());
+    $('#blockName').val($("#blockId").find("option:selected").text());
     $('#attachmentId').val(getAttachmentIds());
     if(checkForm('enterpriseForm')){
         $('#enterpriseForm').ajaxSubmit({
@@ -526,8 +529,8 @@ function setLookBtn(){
 function reloadThisPage(){
     var thisUrl = rootPath +'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=look';
     //$(".main-right").load(url);
-    $('#enterpriseForm').html(pageUtils.loading()); // 设置页面加载时的loading图片
-    $('#enterpriseForm').load(thisUrl); // ajax加载页面
+    $('.level3MenuContent').html(pageUtils.loading()); // 设置页面加载时的loading图片
+    $('.level3MenuContent').load(thisUrl); // ajax加载页面
 }
 /*显示并设置保存和编辑状态按钮*/
 function setEditBtn(isFromEditBtn){

@@ -23,6 +23,8 @@ public class ZtreeObj {
 
     private String department;
 
+    private String pcode;
+
     private String icon;
     private String iconOpen;
     private String iconClose;
@@ -131,6 +133,14 @@ public class ZtreeObj {
 
     public void setCouldChose(Boolean couldChose) {
         this.couldChose = couldChose;
+    }
+
+    public String getPcode() {
+        return pcode;
+    }
+
+    public void setPcode(String pcode) {
+        this.pcode = pcode;
     }
 
     public ZtreeObj() {

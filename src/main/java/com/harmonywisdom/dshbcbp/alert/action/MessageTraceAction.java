@@ -13,7 +13,6 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +99,9 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
         write(false);
     }
 
+    /**
+     * 设置消息为已读
+     */
     public void setStatusReceived(){
         String[] ids = request.getParameterValues("ids");
         if (ids != null && ids.length > 0) {
@@ -108,6 +110,17 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
         }else{
             write(false);
         }
+    }
+
+    public void msgHasUnReceivedByBusinessId(){
+        String businessId = request.getParameter("businessId");
+        if (StringUtils.isNotBlank(businessId)){
+            boolean hasUnReiceived = getService().msgHasUnReceivedByBusinessId(businessId);
+            write(hasUnReiceived);
+        }else{
+            write(false);
+        }
+
 
     }
 

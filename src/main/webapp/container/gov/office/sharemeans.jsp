@@ -83,7 +83,7 @@
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="id">
+                            <input type="hidden" id="id" name="id">
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="pubOrgId" name="pubOrgId">
                             <input type="hidden" id="removeId">

@@ -75,6 +75,10 @@ MsgSend.tree = {};
                 },
                 expandZtree:function(){
                     treeObj.expandAll(true);
+                },
+                clearChose:function(){
+                    $(dialog).find('#search'+timeId).val('');
+                    search_ztree('selModel'+timeId,'choseZtree'+timeId,'search'+timeId);
                 }
             }
             return msgSendTools;
@@ -102,7 +106,7 @@ function setDialogTypeOne(dialog,options,callback){
                 sourceId:sourceId_msgSend
             }
             callback(true,returnData);
-            $(dialog).find(searchId).val('');
+            $(dialog).find('#'+searchId).val('');
             search_ztree(modalId,choseZtreeId, searchId);
             removeFromGrid();
             dialog.modal('hide');
@@ -118,6 +122,14 @@ function setDialogTypeOne(dialog,options,callback){
         width:200,
         view: {
             showLine: true
+        },
+        check : {
+            autoCheckTrigger : true,
+            chkboxType : {"Y": "ps", "N": "ps"},
+            chkStyle : "checkbox",
+            enable : options.choseMore?true:false,
+            nocheckInherit : true,
+            radioType : "level"
         },
         data:{
             simpleData: {
@@ -136,6 +148,7 @@ function setDialogTypeOne(dialog,options,callback){
         },
         callback: {
             onClick: zTreeOnClick,
+            onCheck: zTreeOnCheck,
             onAsyncSuccess:function (event, treeId, treeNode, msg) {
                 $('#'+searchId).keydown(function(event){
                     event=document.all?window.event:event;
@@ -152,7 +165,12 @@ function setDialogTypeOne(dialog,options,callback){
     function filter(treeId, parentNode, childNodes) {
         if (!childNodes) return null;
         for (var i=0, l=childNodes.length; i<l; i++) {
-            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+            childNodes[i].saveName = childNodes[i].name.replace(/\.n/g, '.');
+            if(childNodes[i].pcode=="1"){
+                childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.')+"(党员)";
+            }else{
+                childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+            }
         }
         return childNodes;
     }
@@ -169,6 +187,7 @@ function setDialogTypeOne(dialog,options,callback){
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             height: 540,
             clickToSelect:true,//单击行时checkbox选中
+            uniqueId: "id",
             columns: [
                 {
                     title:"全选",
@@ -176,14 +195,10 @@ function setDialogTypeOne(dialog,options,callback){
                     align: 'center',
                     radio:false,  //  true 单选， false多选
                     valign: 'middle'
-                }, {
-                    title: 'id',
-                    field: 'id',
-                    visible:false
                 },
                 {
                     title: '已选名单',
-                    field: 'name',
+                    field: 'saveName',
                     editable: false,
                     sortable: false,
                     align: 'center'
@@ -195,11 +210,27 @@ function setDialogTypeOne(dialog,options,callback){
                     sortable: false,
                     align: 'center'
                 },
+                {
+                    title: '联系方式',
+                    field: 'mobilePhone',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
                 /*{
-                 field: 'operate',
-                 align: 'center',
-                 events: operateEvents,
-                 formatter: operateFormatter
+                    title: '操作',
+                     field: 'id',
+                     align: 'center',
+                     editable: false,
+                     sortable: false,
+                     events: {
+                         'click .buttonClose': function (e, value, row, index) {
+                             treeObj.checkNode(row, false, true);
+                             jsMap.remove(value);
+                             gridSelectPeopleTable.bootstrapTable('removeByUniqueId',value);
+                         }
+                     },
+                     formatter: operateFormatter
                  }*/
             ]
         });
@@ -208,8 +239,9 @@ function setDialogTypeOne(dialog,options,callback){
     initSelectPeopleTable();
 
     function operateFormatter(value, row, index) {
-        return '<button type="button" class="close buttonClose" value="'+row.id+'"><span aria-hidden="true" title="删除">×</span></button>';
+        return '<button type="button" class="close buttonClose"><span aria-hidden="true" title="删除">×</span></button>';
     }
+
     /**
      * 获取列表所有的选中数据id
      * @returns {*}
@@ -224,18 +256,19 @@ function setDialogTypeOne(dialog,options,callback){
      * 往表格中添加数据，如果已有这条数据则忽略
      */
     function appendToGrid(treeNode) {
-        if(!jsMap.isHave(treeNode.id)){
+        if(options.choseMore){
+            if(treeNode.checked && !jsMap.isHave(treeNode.id)){
+                jsMap.put(treeNode.id,treeNode.id);
+                gridSelectPeopleTable.bootstrapTable("append",treeNode);
+                gridSelectPeopleTable.bootstrapTable('checkAll');
+            }else{
+                jsMap.remove(treeNode.id);
+                gridSelectPeopleTable.bootstrapTable('removeByUniqueId',treeNode.id);
+            }
+        }else if(!jsMap.isHave(treeNode.id)){
             jsMap.put(treeNode.id,treeNode.id);
             gridSelectPeopleTable.bootstrapTable("append",treeNode);
             gridSelectPeopleTable.bootstrapTable('checkAll');
-            $(dialog).find('.buttonClose').click(function(){
-                var id = $(this).attr('value');
-                jsMap.remove(id);
-                gridSelectPeopleTable.bootstrapTable('remove', {
-                    field: 'id',
-                    values: id
-                });
-            });
         }
     }
 
@@ -248,16 +281,38 @@ function setDialogTypeOne(dialog,options,callback){
     }
     var selectedId="";
     function zTreeOnClick(event, treeId, treeNode) {
-        if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
-            if(!options.choseMore && selectedId!=""){
-                jsMap.remove(selectedId);
-                gridSelectPeopleTable.bootstrapTable('removeAll');
+        if(options.choseMore){
+            if(treeNode.checked){
+                clickOrCheckZtree(true,treeNode,false);
+            }else{
+                clickOrCheckZtree(true,treeNode,true);
             }
-            selectedId = treeNode.id;
-            appendToGrid(treeNode);
+        }else{
+            if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
+                if(selectedId!=""){
+                    jsMap.remove(selectedId);
+                    gridSelectPeopleTable.bootstrapTable('removeAll');
+                }
+                selectedId = treeNode.id;
+                appendToGrid(treeNode);
+            }
         }
     };
+    function zTreeOnCheck(event, treeId, treeNode) {
+        clickOrCheckZtree(false,treeNode);
+    };
 
+    function clickOrCheckZtree(isClick,treeNode,checked){
+        if(isClick){treeObj.checkNode(treeNode, checked, true);}
+        if(treeNode.check_Child_State=="0"){
+            $.each(treeNode.children,function(k,v){
+                clickOrCheckZtree(isClick,v,checked);
+            });
+        }
+        if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
+            appendToGrid(treeNode);
+        }
+    }
     return treeObj;
 }
 /**************通讯录选择***************************/

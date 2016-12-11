@@ -84,6 +84,13 @@ public class MeetingNotice implements Serializable {
      */
     @Column(name = "PERSON_NAMES",length = 100)
     private String personNames;
+
+    @Column(name = "PARTICIPANTS")
+    /**
+     * 参会人员
+     */
+    private String participants;
+
     @Transient
     private String attachmentIds;
 
@@ -97,6 +104,14 @@ public class MeetingNotice implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    public String getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(String participants) {
+        this.participants = participants;
     }
 
     public void setId(String id) {
