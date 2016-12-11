@@ -35,6 +35,12 @@ public class CreateModeDetail implements Serializable {
     private String type;
 
     /**
+     * 任务名称
+     */
+    @Column(name = "create_mode_name")
+    private String createModeName;
+
+    /**
      * 指标/工程类型 输入框
      */
     @Column(name = "type_text")
@@ -170,5 +176,13 @@ public class CreateModeDetail implements Serializable {
 
     public void setTypeText(String typeText) {
         this.typeText = typeText;
+    }
+
+    public String getCreateModeName() {
+        return createModeName;
+    }
+
+    public void setCreateModeName(String createModeName) {
+        this.createModeName = createModeName;
     }
 }
