@@ -88,7 +88,7 @@
                                     <option value="10">其他</option>
                                 </select>
                                 <label for="monitorTime" class="labelMarginLeft">超标时间段：</label>
-                                <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                     <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

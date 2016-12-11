@@ -6,7 +6,16 @@ var gridTable = $('#table'),
     selections = [];
 
 
-
+$('.form_date').datetimepicker({
+    language:   'zh-CN',
+    format: 'yyyy-mm-dd hh:00',
+    minView:1,
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    pickerPosition: "bottom-left"
+});
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({

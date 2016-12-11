@@ -25,8 +25,25 @@
                     <form class="form-horizontal" role="form" id="searchform">
                     <div class="form-inline">
                         <div class="form-group">
-                            <label for="snumber" class="labelMarginLeft">排口编号：</label><input type="text" id="snumber" name="portNumber" class="form-control">
-                            <label for="sname" class="labelMarginLeft">排口名称：</label><input type="text" id="sname" name="portName" class="form-control">
+                            <label for="snumber" class="labelMarginLeft">排口编号：</label> <input style="width: 238px;" type="text" id="snumber" name="portNumber" class="form-control">
+                            <label for="sname" class="labelMarginLeft">排口名称：</label> <input style="width: 238px;" type="text" id="sname" name="portName" class="form-control">
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="form-inline">
+                        <div class="form-goup">
+                            <label for="monitorTime">监测时间段：</label>
+                            <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            —
+                            <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
                     </div>
                     </form>

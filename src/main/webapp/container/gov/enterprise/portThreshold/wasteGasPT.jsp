@@ -180,25 +180,25 @@
                 <input type="hidden" name="pollutantCode" value="wgOxygen"/>
                 <input type="hidden" name="enterpriseId" value=""/>
                 <input type="hidden" name="createTime" value="" class="form-control" />
-                <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">氧含量</div>
+                <div class="alert alert-success" style="margin-left: 100px;text-align: center;font-size: 15px;">含氧量</div>
                 <div class="form-group">
-                    <label for="overValue" class="col-sm-2 control-label">氧含量超标值：</label>
+                    <label for="overValue" class="col-sm-2 control-label">含氧量超标值：</label>
                     <div class="col-sm-4">
-                        <input type="text" name="overValue" class="form-control needCheck" title="氧含量超标值" readonly
+                        <input type="text" name="overValue" class="form-control needCheck" title="含氧量超标值" readonly
                                data-message="不能为空"
                                data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="%"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="maxValue" class="col-sm-2 control-label">氧含量异常上限值：</label>
+                    <label for="maxValue" class="col-sm-2 control-label">含氧量异常上限值：</label>
                     <div class="col-sm-4">
-                        <input type="text" name="maxValue" class="form-control needCheck" title="氧含量异常上限值" readonly
+                        <input type="text" name="maxValue" class="form-control needCheck" title="含氧量异常上限值" readonly
                                data-message="不能为空"
                                data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="%"/>
                     </div>
-                    <label for="minValue" class="col-sm-2 control-label">废气流量异常下限值：</label>
+                    <label for="minValue" class="col-sm-2 control-label">含氧量异常下限值：</label>
                     <div class="col-sm-4">
-                        <input type="text" name="minValue" class="form-control needCheck" title="氧含量异常下限值" readonly
+                        <input type="text" name="minValue" class="form-control needCheck" title="含氧量异常下限值" readonly
                                data-message="不能为空"
                                data-easytip="position:top;class:easy-red;" data-easyform="checknumber" placeholder="%"/>
                     </div>

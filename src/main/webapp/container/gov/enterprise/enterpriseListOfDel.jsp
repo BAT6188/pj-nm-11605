@@ -31,7 +31,7 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <label for="delerName">&nbsp;&nbsp;操作人：</label> <input type="text" id="delerName" name="delerName" class="form-control" />
-                                <label for="area"  class="labelMarginLeft">所属行政区：</label> <input type="text" id="area" name="area" class="form-control" />
+                               <%-- <label for="area"  class="labelMarginLeft">所属行政区：</label> <input type="text" id="area" name="area" class="form-control" />--%>
                             </div>
                         </div>
                         <p></p>
