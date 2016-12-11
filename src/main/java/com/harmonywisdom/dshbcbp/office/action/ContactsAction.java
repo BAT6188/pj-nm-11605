@@ -26,6 +26,9 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
     protected QueryCondition getQueryCondition() {
         QueryParam param=new QueryParam();
 
+        if (StringUtils.isNotBlank(entity.getType())) {
+            param.andParam(new QueryParam("type", QueryOperator.EQ,entity.getType()));
+        }
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }

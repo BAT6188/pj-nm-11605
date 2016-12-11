@@ -11,7 +11,7 @@ var gridTable = $('#table'),
     thisOrgId="",
     selections = [];
 
-var setting = {
+var blockSetting = {
     height:500,
     width:200,
     view: {
@@ -27,35 +27,36 @@ var setting = {
     },
     async: {
         enable: true,
-        url:rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
+        url:rootPath + "/action/S_composite_BlockLevel_getAllBlocksZtree.action",//"/container/gov/dispatch/selectPeople.json"
         autoParam:["id", "name=n", "level=lv"],
-        otherParam:{orgCode:["0170001000"]},
+        otherParam:{},
         dataFilter: filter
     },
     callback: {
-        onClick: orgTreeOnClick,
+        onClick: blockTreeOnClick,
         onAsyncSuccess:function(event, treeId, treeNode, msg) {
-            $('#orgScrollContent').slimScroll({
+            //$('.scrollContent').find('table').remove();
+            $('#blockScrollContent').slimScroll({
                 height:"100%",
                 railOpacity:.9,
                 alwaysVisible:!1
             });
-            $('#orgDiv').find('table').remove();
-            orgTreeObj.expandAll(true);
+            setBlock('#blockLevelId','#blockId');
+            blockTreeObj.expandAll(true);
         }
     }
 };
-function orgTreeOnClick(event, treeId, treeNode){
+function blockTreeOnClick(event, treeId, treeNode) {
     $('.hidden').val("");
     if(treeNode.parentId!="-1"){
-        thisOrgId=treeNode.id;
-        $('#s_orgId').val(treeNode.id);
+        addBtn.prop('disabled', false);
+        $('#s_blockId').val(treeNode.id);
+        $('#s_blockLevelId').val(treeNode.parentId);
         searchForm();
-        addBtn.prop('disabled',false);
     }else{
-        $('#s_orgId').val("");
+        addBtn.prop('disabled', true);
+        $('#s_blockLevelId').val(treeNode.id);
         searchForm();
-        addBtn.prop('disabled',true);
     }
 }
 function filter(treeId, parentNode, childNodes) {
@@ -65,7 +66,29 @@ function filter(treeId, parentNode, childNodes) {
     }
     return childNodes;
 }
-var orgTreeObj = $.fn.zTree.init($("#orgZtree"), setting);
+var blockTreeObj = $.fn.zTree.init($("#blockZtree"), blockSetting);
+function setBlock(pSelector,cSelector){
+    var pBlock = $(pSelector),cBlock = $(cSelector);
+    var blockLevel = blockTreeObj.getNodes();
+    if(blockLevel){
+         $.each(blockLevel,function(k,v){
+            pBlock.append($("<option>").val(v.id).text(v.name));
+         });
+         pBlock.change(function(){
+             var pid = $(this).val();
+             if(pid!=""){
+                 var childData = blockTreeObj.getNodeByParam("id", pid, null).children;
+                 cBlock.empty();
+                 $.each(childData,function(k,v){
+                     cBlock.append($("<option>").val(v.id).text(v.name));
+                 });
+             }else{
+                 cBlock.empty();
+                 cBlock.append($("<option>").val("").text(""));
+             }
+         });
+     }
+}
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -102,7 +125,7 @@ function initTable() {
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function (param) {
             var temps = pageUtils.getBaseParams(param);
-            temps.type = 0;
+            temps.type = 1;
             return temps;
         },
         columns: [
@@ -165,6 +188,21 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
+                isDown:true
+            },
+            {
+                title: '关联系统人员',
+                field: 'apportalUserName',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function(value, row, index){
+                    if(row.apportalUserName){
+                        return row.apportalUserName;
+                    }else{
+                        return "暂未关联任何系统用户!";
+                    }
+                },
                 isDown:true
             },
             {
@@ -231,7 +269,6 @@ function getIdSelections() {
         return row.id
     });
 }
-
 /**
  *  获取列表所有的选中数据
  * @returns {*}
@@ -250,13 +287,15 @@ removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 addPersonBtn.prop('disabled', true);
 removePersonBtn.prop('disabled', true);
-refPersonBtn.prop('disabled', true);
+//refPersonBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 addBtn.bind('click',function () {
     resetForm();
-    form.find('#orgId').val(thisOrgId);
+    form.find('#type').val(1);
+    form.find('#blockLevelId').val($('#s_blockLevelId').val());
+    form.find('#blockId').val($('#s_blockId').val());
 });
 updateBtn.bind("click",function () {
     setFormData(getSelections()[0]);
@@ -279,12 +318,50 @@ removeBtn.click(function () {
         });
     });
 });
+var options = {
+    choseMore:false,
+    title:"通讯录关联系统用户",//弹出框标题(可省略，默认值：“人员选择”)
+    width:"60%",        //宽度(可省略，默认值：850)
+    btnok:"确定"
+}
+/*var model = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
+    $.ajax({
+        url: rootPath + "/action/S_office_Contacts_updateContact.action",
+        type:"post",
+        async:false,
+        data:{
+            id:obj.sourceId,
+            apportalUserId:obj.personObj[0].id,
+            apportalUserName:obj.personObj[0].name
+        },//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function (data) {
+            if(data.success){
+                Ewin.alert("人员关联成功！");
+                searchForm();
+                refPersonBtn.prop('disabled', true);
+            }else{
+                Ewin.confirm({ message: obj.personObj[0].name+" 已关联 ["+data.name+"]!<br/>是否重新选择？" }).on(function (e) {
+                    if (!e) {
+                        return;
+                    }
+                    var ids = getIdSelections();
+                    model.open(ids[0]);
+                });
+            }
+        }
+    });
+});*/
+var model2 = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
+    form.find('#apportalUserId').val(obj.personObj[0].id);
+    form.find('#apportalUserName').val(obj.personObj[0].saveName);
+});
 addPersonBtn.click(function(){
     choseTable.bootstrapTable('refresh');
 });
 refPersonBtn.click(function(){
-    var ids = getIdSelections();
-    model.open(ids[0]);
+    model2.clearChose();
+    model2.open();
 });
 removePersonBtn.click(function () {
     var ids = getIdSelections();
@@ -350,7 +427,7 @@ $("#chosePersonFormReset").click(function () {
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
-        var entity = $("#scfForm").find("form").formSerializeObject();
+        var entity = form.find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
             form.modal('hide');
