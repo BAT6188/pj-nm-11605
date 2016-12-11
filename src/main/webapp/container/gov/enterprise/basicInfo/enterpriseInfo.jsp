@@ -95,6 +95,8 @@
             <input type="hidden" id="delTime" name="delTime" class="form-control" />
             <input type="hidden" id="delOpinion" name="delOpinion" class="form-control" />
             <input type="hidden" id="haveFumesPort" name="haveFumesPort" class="form-control" />
+            <input type="hidden" id="blockLevelName" name="blockLevelName" class="form-control" />
+            <input type="hidden" id="blockName" name="blockName" class="form-control" />
             <div class="row">
                 <div class="col-sm-12">
                     <table class="table table-bordered table-responsive">

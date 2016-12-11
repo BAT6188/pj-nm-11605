@@ -21,13 +21,12 @@ function setBlockMap(){
 }
 $('.form_date').datetimepicker({
     language:   'zh-CN',
+    format: 'yyyy-mm-dd hh:00',
+    minView:1,
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
     todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0,
     pickerPosition: "bottom-left"
 });
 /**============grid 列表初始化相关代码============**/

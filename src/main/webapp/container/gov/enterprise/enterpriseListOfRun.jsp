@@ -24,14 +24,20 @@
                     <form role="form" id="searchform">
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="name">单位名称：</label> <input type="text" id="name" name="name" class="form-control" />
-                                <label for="area"  class="labelMarginLeft">&nbsp;所属行政区：</label> <input type="text" id="area" name="area" class="form-control" />
+                                <label for="name">企业名称：</label> <input type="text" id="name" name="name" class="form-control" />
+                                <%--<label for="area"  class="labelMarginLeft">&nbsp;所属行政区：</label> <input type="text" id="area" name="area" class="form-control" />--%>
+                                <label for="status" class="labelMarginLeft">企业运行状态：</label>
+                                <select style="width: 300px;" class="form-control"  id="status" name="status">
+                                    <option value="">全部</option>
+                                    <option value="1">运营中</option>
+                                    <option value="0">未运营</option>
+                                </select>
                             </div>
                         </div>
                         <p></p>
                         <div class="form-inline">
                             <div class="form-group">
-                                <label for="pollutantType">单位类型：</label>
+                                <label for="pollutantType">企业类型：</label>
                                 <select style="width: 300px;" class="form-control" id="pollutantType" name="pollutantType">
                                     <option value="">全部</option>
                                     <option value="01">废水</option>
@@ -45,7 +51,7 @@
                                     <option value="09">二级以上医院</option>
                                     <option value="10">其他</option>
                                 </select>
-                                <label for="superviseType" class="labelMarginLeft">单位监管类型：</label>
+                                <label for="superviseType" class="labelMarginLeft">企业监管类型：</label>
                                 <select style="width: 300px;" class="form-control"  id="superviseType" name="superviseType">
                                     <option value="">全部</option>
                                     <option value="01">重点排污单位</option>
@@ -64,19 +70,15 @@
                                     <option value="03">市控</option>
                                     <option value="04">其他</option>
                                 </select>
-                                <label for="status" class="labelMarginLeft">企业运行状态：</label>
-                                <select style="width: 300px;" class="form-control"  id="status" name="status">
-                                    <option value="">全部</option>
-                                    <option value="1">运营中</option>
-                                    <option value="0">未运营</option>
-                                </select>
+                            </div>
+                            <div class="form-group" style = "float: right;right: 5px;">
+                                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                                <button id="resetSearch" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                             </div>
                         </div>
                     </form>
                     <p></p>
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="resetSearch" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success">
                         <i class="btnIcon add-icon"></i><span>新增</span>
