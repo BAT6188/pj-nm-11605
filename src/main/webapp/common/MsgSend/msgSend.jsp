@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </div>
                         </div>
                         <div class="col-sm-8">
-                            <div class="form-horizontal" style="width: 100%">
+                            <div class="form-horizontal" style="width: 100%;padding-right: 10px;">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div class="panel panel-primary">
