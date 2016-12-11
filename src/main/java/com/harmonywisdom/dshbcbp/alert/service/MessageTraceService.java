@@ -38,4 +38,11 @@ public interface MessageTraceService extends IBaseService<MessageTrace, String> 
      */
     int setStatusReceived(String... ids);
 
+    /**
+     * 根据业务id查看发送的消息是否有人未接收
+     * @param businessId
+     * @return
+     */
+    boolean msgHasUnReceivedByBusinessId(String businessId);
+
 }
