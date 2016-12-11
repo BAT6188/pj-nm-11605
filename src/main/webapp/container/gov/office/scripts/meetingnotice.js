@@ -108,6 +108,20 @@ function initTable() {
                 title: '跟踪状态',
                 align: 'center',
                 events: operateEvents,
+                formatter: function (value, row, index) {
+                    var msgHasUnReceived = MessageTraceModal.msgHasUnReceived(row.id);
+                    if (msgHasUnReceived) {
+                        return '<button type="button" class="btn btn-md btn-warning message-trace" data-toggle="modal">未接收</button>';
+                    }else{
+                        return '<button type="button" class="btn btn-md btn-success message-trace" data-toggle="modal">已接收</button>';
+                    }
+                }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
                 formatter: operateFormatter
             }
         ]
@@ -142,6 +156,10 @@ function operateFormatter(value, row, index) {
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
         setFormView(row);
+    },
+    'click .message-trace': function (e, value, row, index) {
+        MessageTraceModal.refreshTableGrid(row.id);
+        MessageTraceModal.show();
     }
 };
 /**

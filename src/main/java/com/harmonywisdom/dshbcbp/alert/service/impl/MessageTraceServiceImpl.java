@@ -82,12 +82,26 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
     @Override
     public int setStatusReceived(String... ids) {
         if (ids != null && ids.length > 0) {
-            return getDAO().executeJPQL("update MessageTrace set receiveStatus=?1 where id in ?2", MessageTrace.RECEIVE_STATUS_RECEIVED, Arrays.asList(ids));
+            return getDAO().executeJPQL("update MessageTrace set receiveStatus=?1,receiveTime=?2 where id in ?3", MessageTrace.RECEIVE_STATUS_RECEIVED,new Date(), Arrays.asList(ids));
         }else {
             return 0;
         }
 
 
+    }
+
+    @Override
+    public boolean msgHasUnReceivedByBusinessId(String businessId) {
+        Message msg = messageService.findByBusinessId(businessId);
+        int unReceivedCount = 0;
+        if (msg != null) {
+            List list = getDAO().queryJPQL("select count(mt) from MessageTrace as mt where mt.msgId=?1 and mt.receiveStatus=?2",
+                    msg.getId(), MessageTrace.RECEIVE_STATUS_UNRECEIVE);
+            unReceivedCount = Integer.valueOf(list.get(0).toString());
+
+        }
+        boolean hasUnReceived = unReceivedCount > 0;
+        return hasUnReceived;
     }
 
 }

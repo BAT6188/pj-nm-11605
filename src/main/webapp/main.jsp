@@ -54,6 +54,7 @@
     </div>
 </div>
 <%@include file="/container/gov/alert/message_dialog.jsp"%>
+<%@include file="/container/gov/alert/messagetrace.jsp"%>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <script src="common/scripts/main_css.js"></script>
 <script src="common/scripts/main.js"></script>

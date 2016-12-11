@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/common_include.jsp"%>
     <title>消息跟踪列表</title>
     <script>
         var businessId = "${param.businessId}";
@@ -19,7 +18,7 @@
                 <h4 class="modal-title form-title">消息跟踪</h4>
             </div>
             <div class="modal-body" style="padding: 0;">
-                <div class="content content1 clearfix">
+                <div class="content clearfix">
                     <div class="wrap">
                         <div class="mainBox">
                             <div class="dealBox">

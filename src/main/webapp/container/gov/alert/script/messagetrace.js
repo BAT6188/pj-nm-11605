@@ -109,14 +109,33 @@ var MessageTracePage = function () {
     return pubMember;
 }();
 var MessageTraceModal = function () {
+    var dialogWidth = 780;
+    var dialogHeight = 370;
     var $messageTraceModal = $("#messageTraceModal");
     var $modalDialog = $messageTraceModal.find(".modal-dialog");
-    $modalDialog.width(780);
+    $modalDialog.width(dialogWidth);
     var $modalBody = $messageTraceModal.find(".modal-body");
-    $modalBody.height(370);
+    $modalBody.height(dialogHeight);
 
+    function msgHasUnReceived(businessId) {
+        var msgHasUnReceived = false;
+        $.ajax({
+            url: rootPath + "/action/S_alert_MessageTrace_msgHasUnReceivedByBusinessId.action",
+            type:"post",
+            async:false,
+            data:{businessId:businessId},
+            dataType:"json",
+            success:function(hasUnReceived){
+                msgHasUnReceived = hasUnReceived;
+            }
+        });
+        return msgHasUnReceived;
+    }
     var pubMember={
+        refreshTableGrid:MessageTracePage.refreshTableGrid,
+        msgHasUnReceived:msgHasUnReceived,
         show:function () {
+            $messageTraceModal.find(".content").height("auto");
             $messageTraceModal.modal("show");
         }
     };
