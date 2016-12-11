@@ -1202,7 +1202,7 @@ var OneImagePage = function () {
         showVillageInfoWin:function(village){
             var height =260;
             var infoHtml = "<div>";
-            infoHtml +="<table class='table'>" +
+            infoHtml +="<table class='table table-condensed'>" +
                 "<tr><td style='text-align: left;width: 90px;'>乡镇名称:</td><td style='text-align: left;'>"+pageUtils.getStr(village.name)+"</td></tr>"+
                 "<tr><td style='text-align: left;'>所属网格:</td><td style='text-align: left;'>"+pageUtils.getStr(village.blockName)+"</td></tr>"+
                 "<tr><td style='text-align: left;'>网格负责人:</td><td style='text-align: left;'>"+pageUtils.getStr(village.principal)+"</td></tr>"+
