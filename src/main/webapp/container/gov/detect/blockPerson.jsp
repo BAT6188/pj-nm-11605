@@ -16,18 +16,15 @@
         }
     </style>
     <script>
-        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
-        $('#orgDiv').prepend(pageUtils.loading());
+        $('.shouldSet').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
 <div class="wrap">
     <div class="menu-left left">
         <div id="myTabContent" class="tab-content" style="margin-left: 10px;">
-            <div class="tab-pane fade in active" id="orgDiv">
-                <div id="orgScrollContent" class="scrollContent">
-                    <ul id="orgZtree" class="ztree"></ul>
-                </div>
+            <div id="blockScrollContent" class="scrollContent">
+                <ul id="blockZtree" class="ztree"></ul>
             </div>
         </div>
     </div>
@@ -56,12 +53,15 @@
                         <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                         <br/><br>
                         <p class="btnListP">
-                            <button id="add" type="button" class="btn btn-sm btn-success orgBtn" data-toggle="modal" data-target="#scfForm">
+                            <button id="add" type="button" class="btn btn-sm btn-success blockBtn" data-toggle="modal" data-target="#scfForm">
                                 <i class="btnIcon add-icon"></i><span>新建</span>
                             </button>
-                            <button id="update" type="button" class="btn btn-sm btn-warning orgBtn" data-toggle="modal" data-target="#scfForm">
+                            <button id="update" type="button" class="btn btn-sm btn-warning blockBtn" data-toggle="modal" data-target="#scfForm">
                                 <i class="btnIcon edit-icon"></i><span>修改</span>
                             </button>
+                            <%--<button id="refPerson" type="button" class="btn btn-sm btn-info blockBtn">
+                                <i class="btnIcon edit-icon"></i><span>关联</span>
+                            </button>--%>
                             <button id="remove" type="button" class="btn btn-sm btn-danger orgBtn">
                                 <i class="btnIcon delf-icon"></i><span>删除</span>
                             </button>
@@ -85,15 +85,18 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title form-title">添加人员信息</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body shouldSet">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">姓名<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
                                     <input type="hidden" id="id" name="id" class="form-control">
+                                    <input type="hidden" id="type" name="type" class="form-control">
                                     <input type="hidden" id="orgId" name="orgId" class="form-control">
                                     <input type="hidden" id="apportalUserId" name="apportalUserId" class="form-control">
                                     <input type="hidden" id="removeId" name="removeId" class="form-control">
+                                    <input type="hidden" id="blockLevelId" name="blockLevelId" class="form-control">
+                                    <input type="hidden" id="blockId" name="blockId" class="form-control">
                                     <input type="text" id="name" name="name" class="form-control"
                                            data-message="姓名不能为空"
                                            data-easytip="position:top;class:easy-red;"
@@ -139,10 +142,17 @@
                                     />
                                 </div>
                             </div>
-                            <div class="form-group blockBtn" style="display: none">
+                            <div class="form-group blockBtn">
                                 <label for="apportalUserName" class="col-sm-2 control-label">关联系统用户：</label>
-                                <div class="col-sm-4">
-                                    <input type="text" id="apportalUserName" name="apportalUserName" class="form-control"/>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="apportalUserName" name="apportalUserName" readonly/>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default formBtn" type="button" id="refPerson">
+                                                选择
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -164,6 +174,6 @@
     </div>
 </div>
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/office/scripts/contacts.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/detect/scripts/blockPerson.js"></script>
 </body>
 </html>
