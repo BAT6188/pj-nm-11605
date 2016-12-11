@@ -13,6 +13,12 @@ public class Contacts implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * 通讯录类型 0:通讯录人员 1:网格人员
+     */
+    @Column(name = "TYPE",length = 1)
+    private String type;
     /**
      *姓名
      */
@@ -218,5 +224,13 @@ public class Contacts implements Serializable {
 
     public void setIds(String[] ids) {
         this.ids = ids;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -26,6 +26,11 @@ public class WorkSum implements Serializable {
     @Column(name = "PUB_TIME")
     private Date pubTime;
     /**
+     *发布时间
+     */
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
+    /**
      *发布单位Id
      */
     @Column(name = "PUB_ORG_ID",length = 100)
@@ -87,6 +92,14 @@ public class WorkSum implements Serializable {
 
     public void setPubTime(Date pubTime) {
         this.pubTime = pubTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getPubOrgId() {

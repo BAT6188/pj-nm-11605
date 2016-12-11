@@ -66,7 +66,7 @@ function initTable() {
                 },
                 isDown:true
             }, {
-                title: '发布单位',
+                title: '发布部门',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
@@ -80,6 +80,22 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
+                },
+                isDown:true
+            },{
+                title: '发布状态',
+                field: 'publishStatus',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    switch (value) {
+                        case "1":
+                            return '<span style="color: green;">已发布</span>';
+                            break;
+                        default:
+                            return '<span style="color: red;">未发布</span>';
+                    }
                 },
                 isDown:true
             },
@@ -164,12 +180,13 @@ updateBtn.prop('disabled', true);
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
 $("#add").bind('click',function () {
+    $('#publishBtn').attr('disabled',false);
     resetForm();
 });
 $("#update").bind("click",function () {
     var entity = getSelections()[0];
     if(orgId==entity.pubOrgId){
-        if(entity.publishStatus==1)$('#publishBtn').hide();
+        if(entity.publishStatus==1){$('#publishBtn').attr('disabled',true); }else{$('#publishBtn').attr('disabled',false);}
         setFormData(entity);
         $('#typeName').val(workType[entity.type]);
         form.modal('show');
@@ -296,6 +313,7 @@ function setFormData(entity) {
 }
 function setFormView(entity) {
     setFormData(entity);
+    if(entity.publishStatus==1){$('#publishBtn').attr('disabled',true); }else{$('#publishBtn').attr('disabled',false);}
     $('#typeName').val(workType[entity.type]);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);

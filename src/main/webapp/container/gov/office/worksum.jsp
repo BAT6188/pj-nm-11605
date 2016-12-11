@@ -169,7 +169,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-md btn-warning needHide" id="publishBtn">发布</button>
+                <button type="button" class="btn btn-md btn-warning" id="publishBtn">发布</button>
                 <button type="button" class="btn btn-primary needHide" id="saveWorkSum">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>

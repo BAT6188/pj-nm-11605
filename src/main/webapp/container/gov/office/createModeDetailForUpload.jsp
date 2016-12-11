@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">指标内容<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label"><span class="contentLabel">指标内容</span><span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea id="content" name="content" class="form-control" style="height: 267px;" placeholder=""></textarea>
                         </div>
@@ -133,17 +133,25 @@
 </div>
 <script>
     var type=1
+    var content='指标内容'
     function changeTab(f) {
         if (f==1){
             $("#typeBtn").text("新增指标")
             $(".material").hide()
+
+            content='指标内容'
+            $(".contentLabel").text(content)
         }else{
             $("#typeBtn").text("新增重点工程")
             $(".material").show()
+
+            content='工程任务'
+            $(".contentLabel").text(content)
         }
         type=f;
         $("#type").val(type)
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+        $(".th-inner:eq(1)").text(content)
     }
 
     function ajaxLoadStringtoOption(url,selector,optionsSetting,isShowAll){

@@ -102,6 +102,7 @@ function initTable() {
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
     }, 200);
+    console.log(22)
 
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +

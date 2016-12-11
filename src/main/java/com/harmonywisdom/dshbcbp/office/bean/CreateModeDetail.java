@@ -35,6 +35,13 @@ public class CreateModeDetail implements Serializable {
     private String type;
 
     /**
+     * 指标/工程类型 输入框
+     */
+    @Column(name = "type_text")
+    private String typeText;
+
+
+    /**
      * 发布单位
      */
     @Column(name = "publish_org_id")
@@ -155,5 +162,13 @@ public class CreateModeDetail implements Serializable {
 
     public void setCompleteStatus(String completeStatus) {
         this.completeStatus = completeStatus;
+    }
+
+    public String getTypeText() {
+        return typeText;
+    }
+
+    public void setTypeText(String typeText) {
+        this.typeText = typeText;
     }
 }
