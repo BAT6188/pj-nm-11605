@@ -57,6 +57,13 @@ function initTable() {
                 visible:false
             },
             {
+                title: '任务名称',
+                field: 'createModeName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '指标内容',
                 field: 'content',
                 editable: false,
@@ -219,9 +226,29 @@ var ef = form.easyform({
         entity.attachmentIds = getAttachmentIds([uploader,uploader2,uploader3]);
         entity.createModeId=createModeId
         console.log(entity)
-        saveAjax(entity,function (msg) {
+        saveAjax(entity,function (ret) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
+
+            $.ajax({
+                url: rootPath + "/action/S_office_CreateModeDetail_getUserIdByOrgid.action?orgId="+entity.responsibleDepartmentId,
+                type:"post",
+                success:function (msg) {
+                    var p=JSON.parse(msg)
+                    var receivers = [];
+                    $.each(p,function (i,v) {
+                        var receiver1 = {receiverId:v.userId,receiverName:v.userName};
+                        receivers.push(receiver1);
+                    })
+                    var msg = {
+                        'msgType':5,
+                        'title':entity.createModeName,
+                        'content':entity.content,
+                        'businessId':ret.id
+                    };
+                    pageUtils.sendMessage(msg, receivers);
+                }
+            });
         });
     }
 });
@@ -306,6 +333,7 @@ function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
     form.find("textarea").val("");
+    $("#createModeName").val(createModeName)
     $("#deadline").val(deadline)
     uploader = new qq.FineUploader(getUploaderOptions());
     uploader2 = new qq.FineUploader(getUploaderOptions2());

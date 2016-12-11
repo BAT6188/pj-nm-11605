@@ -55,6 +55,13 @@ function initTable() {
                 visible:false
             },
             {
+                title: '任务名称',
+                field: 'createModeName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '指标内容',
                 field: 'content',
                 editable: false,

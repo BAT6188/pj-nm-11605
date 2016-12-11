@@ -44,6 +44,9 @@
                                     <option value="0">未完成</option>
                                     <option value="1">完成</option>
                                 </select>
+
+                                <label>任务名称：</label>
+                                <input type="text" name="createModeName" class="form-control"/>
                             </div>
                         </form>
                         <p></p>
@@ -98,6 +101,18 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="typeText" class="col-sm-2 control-label">任务名称<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="createModeName" name="createModeName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;">
+                        </div>
+                        <label for="typeText" class="col-sm-2 control-label"><span class="typeTextLable">指标类型</span><span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="typeText" name="typeText" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="" class="col-sm-2 control-label"><span class="contentLabel">指标内容</span><span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea id="content" name="content" class="form-control" style="height: 267px;" placeholder=""></textarea>
@@ -141,12 +156,14 @@
 
             content='指标内容'
             $(".contentLabel").text(content)
+            $(".typeTextLable").text("指标类型")
         }else{
             $("#typeBtn").text("新增重点工程")
             $(".material").show()
 
             content='工程任务'
             $(".contentLabel").text(content)
+            $(".typeTextLable").text("工程类型")
         }
         type=f;
         $("#type").val(type)

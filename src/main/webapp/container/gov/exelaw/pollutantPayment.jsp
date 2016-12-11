@@ -161,7 +161,7 @@
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
 
-                        <label for="enterpriseAP" class="col-sm-2 control-label">企业法人<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseAP" class="col-sm-2 control-label">企业联系人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseAP" name="enterpriseAP" class="form-control" data-message="不能为空"
                                    data-easytip="position:top;class:easy-red;"
