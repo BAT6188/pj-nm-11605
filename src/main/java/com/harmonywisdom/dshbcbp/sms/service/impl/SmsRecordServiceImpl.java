@@ -6,6 +6,7 @@ import com.harmonywisdom.dshbcbp.sms.bean.SmsSendStatus;
 import com.harmonywisdom.dshbcbp.sms.dao.SmsRecordDAO;
 import com.harmonywisdom.dshbcbp.sms.service.SmsRecordService;
 import com.harmonywisdom.dshbcbp.sms.service.SmsSendStatusService;
+import com.harmonywisdom.dshbcbp.utils.SmsSender;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import com.harmonywisdom.framework.service.SpringUtil;
@@ -108,7 +109,15 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
      * @throws Exception
      */
     public void sendSmsByDB(SmsRecord smsRsecord, List<SmsSendStatus> receivers)throws Exception{
-        String sql="INSERT INTO "+api_mt_sms+" (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
+        SmsSender smssender=new SmsSender();
+        Date sendTime = smsRsecord.getSendTime();
+        for (SmsSendStatus receiver : receivers) {
+            String[] _addressReceiver={receiver.getReceiverPhone()};
+            smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime());
+        }
+        log.info("调用短信发送接口成功");
+
+        /*String sql="INSERT INTO "+api_mt_sms+" (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
                 ",SM_TYPE,MSG_FMT,TP_PID,TP_UDHI,FEE_TERMINAL_ID,FEE_TYPE,FEE_CODE" +
                 ",FEE_USER_TYPE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         ComboPooledDataSource dataSource =  SpringUtil.getBean("smsDataSource");
@@ -177,7 +186,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
             } catch (SQLException e) {
                log.error("",e);
             }
-        }
+        }*/
     }
 
     public Long getSequence(){
