@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pubOrgName" class="col-sm-2 control-label">发布单位<span class="text-danger">*</span>：</label>
+                        <label for="pubOrgName" class="col-sm-2 control-label">发布部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
                                    data-message="发布单位不能为空"

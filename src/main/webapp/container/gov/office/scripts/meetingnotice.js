@@ -84,7 +84,10 @@ function initTable() {
                 field: 'time',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter: function (value, row, index) {
+                    return pageUtils.sub16(value);
+                },
             },
             {
                 title: '发布部门',
@@ -199,6 +202,7 @@ $("#add").bind('click',function () {
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
     $("#pubOrgName").attr("disabled",true)
+
 });
 
 //<!---组织机构发送--START-->
@@ -362,7 +366,7 @@ function setFormData(entity) {
     $("#pubOrgId").val(entity.pubOrgId);
     $("#linkMan").val(entity.linkMan);
     $("#linkPhone").val(entity.linkPhone);
-    $("#time").val(entity.time);
+    $("#time").val(pageUtils.sub16(entity.time));
     $("#content").val(entity.content);
     $("#participants").val(entity.participants);
 
