@@ -194,6 +194,7 @@ updateBtn.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     resetForm();
+    $("#pubOrgName").attr("disabled",true)
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
@@ -294,8 +295,9 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        // entity.isSms=0;
+        entity.pubOrgName=$("#pubOrgName").val();
         saveAjax(entity,function (msg) {
+            $("#id").val(msg.id);
             if(buttonSend=="#save"){
                 model.open(msg.id);
             }else{
@@ -406,7 +408,6 @@ function resetForm() {
     $("#pubOrgName").val(orgName);
     $("#pubOrgId").val(orgId);
     $("#isSms").val(0);
-    // $("#pubOrgName").attr("disabled",true);
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");

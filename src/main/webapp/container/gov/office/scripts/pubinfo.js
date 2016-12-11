@@ -300,15 +300,17 @@ function setFormData(entity) {
     $("#status").val(entity.status);
     $("#type").val(entity.type);
     if(entity.grade){
-        $("#grade").val(entity.grade.split(","));
+       var gradeArray= entity.grade.split(",");//
+        for(var i = 0; i < gradeArray.length; i++) {
+            var orgCode = gradeArray[i];
+            $('input[name="grade"][value="' + orgCode + '"]').prop("checked", true);
+        }
     }
     $("#content").val(entity.content);
-
     if(entity.status == 1){
         $('#pub').hide();
     }else{
         $('#pub').show();
-
     }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -356,7 +358,7 @@ function resetForm() {
     $("#userID").val(userId);
     $("#userName").val(userName);
     $("#status").val(0);
-    $("#grade").val("");
+    // $("#grade").val("");
     orgOption();
     disabledForm(false);
     $('#pub').show();
@@ -374,7 +376,7 @@ function orgOption(){
             $('#grade').empty();
             for (var i = 0; i < org.length; i++) {
                 // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
-                $('#grade').append("<label></lab><input type='checkbox' value='" + org[i].orgCode + "' >"+org[i].orgName+"</label>&nbsp;&nbsp;")
+                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgCode + "' >"+org[i].orgName+"</label>&nbsp;&nbsp;")
 
             }
         }
