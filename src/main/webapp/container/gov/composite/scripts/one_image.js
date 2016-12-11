@@ -582,7 +582,7 @@ var OneImagePage = function () {
 
             var infoHtml = "<div>";
             infoHtml +="<table class='table'>" +
-                "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+dustPort.name+"</td></tr>"+
+                "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+(dustPort.name==null?"":dustPort.name)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.number)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+dict.get("noiseType",dustPort.longitude)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+dict.get("noiseFnType",dustPort.latitude)+"</td></tr>"+
@@ -769,11 +769,11 @@ var OneImagePage = function () {
             var height =227;
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
-                "<tr><td style='text-align: left;width: 100px;'>网格级别:</td><td style='text-align: left;'>"+block.blockLevelName+"</td></tr>"+
-                "<tr><td style='text-align: left;'>单位名称:</td><td style='text-align: left;'>"+block.orgName+"</td></tr>"+
-                "<tr><td style='text-align: left;'>单位地址:</td><td style='text-align: left;'>"+block.orgAddress+"</td></tr>"+
-                "<tr><td style='text-align: left;'>网格负责人:</td><td style='text-align: left;'>"+block.principal+"</td></tr>"+
-                "<tr><td style='text-align: left;'>联系电话:</td><td style='text-align: left;'>"+block.principalPhone+"</td></tr>"+
+                "<tr><td style='text-align: left;width: 100px;'>网格级别:</td><td style='text-align: left;'>"+(block.blockLevelName == null?"":block.blockLevelName)+"</td></tr>"+
+                "<tr><td style='text-align: left;'>单位名称:</td><td style='text-align: left;'>"+(block.orgName==null?"":block.orgName)+"</td></tr>"+
+                "<tr><td style='text-align: left;'>单位地址:</td><td style='text-align: left;'>"+(block.orgAddress==null?"":block.orgAddress)+"</td></tr>"+
+                "<tr><td style='text-align: left;'>网格负责人:</td><td style='text-align: left;'>"+(block.principal==null?"":block.principal)+"</td></tr>"+
+                "<tr><td style='text-align: left;'>联系电话:</td><td style='text-align: left;'>"+(block.principalPhone==null?"":block.principalPhone)+"</td></tr>"+
                 "</table>";
             infoHtml+="</div>";
             var points = this.hwmap.MapTools.strToPoints(block.areaPoints);
@@ -835,18 +835,18 @@ var OneImagePage = function () {
         showEnterpriseInfoWin:function(enterprise){
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
-                "<tr><td style='text-align: center;width: 80px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+enterprise.name+"</td></tr>"+
-                "<tr><td style='text-align: center;'>企业法人:</td><td style='text-align: left;'>"+enterprise.artificialPerson+"</td></tr>"+
-                "<tr><td style='text-align: center;'>环保负责人:</td><td style='text-align: left;'>"+enterprise.envPrincipal+"</td></tr>"+
-                "<tr><td style='text-align: center;'>联系电话:</td><td style='text-align: left;'>"+enterprise.apPhone+"</td></tr>"+
-                "<tr><td style='text-align: center;'>单位地址:</td><td style='text-align: left;'>"+enterprise.address+"</td></tr>"+
+                "<tr><td style='text-align: center;width: 80px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+(enterprise.name == null?"":enterprise.name)+"</td></tr>"+
+                "<tr><td style='text-align: center;'>企业法人:</td><td style='text-align: left;'>"+(enterprise.artificialPerson == null?"":enterprise.artificialPerson)+"</td></tr>"+
+                "<tr><td style='text-align: center;'>环保负责人:</td><td style='text-align: left;'>"+(enterprise.envPrincipal == null?"":enterprise.envPrincipal)+"</td></tr>"+
+                "<tr><td style='text-align: center;'>联系电话:</td><td style='text-align: left;'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
+                "<tr><td style='text-align: center;'>单位地址:</td><td style='text-align: left;'>"+(enterprise.address == null?"":enterprise.address)+"</td></tr>"+
                 "<tr><td style='text-align: center;'>所属网格:</td><td style='text-align: left;'>"+""+"</td></tr>"+
                 "</table>"+
                 "<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>" +
                 "<button id='mainInfo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业台账</button>" +
                 "<button id='enterprisePlan' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业平面图</button>" +
                 "<button id='mineImage' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>工矿图</button>" +
-                // "<button id='surroundingVideo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>周边视频</button>" +
+                "<button id='surroundingVideo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>周边视频</button>" +
                 "</div>";
             infoHtml+="</div>";
 
