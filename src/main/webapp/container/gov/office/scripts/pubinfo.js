@@ -370,11 +370,11 @@ function orgOption(){
         type:"post",
         async:false,
         dataType:"json",
-        success:function(msg){
+        success:function(org){
             $('#grade').empty();
-            for (var i = 0; i < msg.length; i++) {
+            for (var i = 0; i < org.length; i++) {
                 // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
-                $('#grade').append("<input type='checkbox' value='" + msg[i].orgCode + "'/>")
+                $('#grade').append("<label></lab><input type='checkbox' value='" + org[i].orgCode + "' >"+org[i].orgName+"</label>&nbsp;&nbsp;")
 
             }
         }

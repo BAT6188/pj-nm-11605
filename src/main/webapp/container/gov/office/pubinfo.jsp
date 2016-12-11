@@ -123,10 +123,7 @@
                     </div>
                     <div class="form-group">
                         <label for="grade" class="col-sm-2 control-label">查看权限<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-10">
-                            <%--<select style="width: 100%" multiple class="form-control"  id="grade" name="grade">
-                            </select>--%>
-                            <input type="checkbox"  class="form-control"  id="grade" name="grade">
+                        <div class="col-sm-10" id="grade">
                         </div>
                     </div>
                     <div class="form-group">
