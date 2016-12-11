@@ -1,13 +1,16 @@
-<%@ page import="com.mchange.v3.decode.Decoder" %>
 <%@ page import="java.net.URLDecoder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String createModeId = request.getParameter("createModeId");
+    String createModeName = request.getParameter("createModeName");
+    createModeName= URLDecoder.decode(createModeName,"utf-8");
     String deadline = request.getParameter("deadline");
     deadline= URLDecoder.decode(deadline);
+
 %>
 <script>
     var createModeId='<%=createModeId%>'
+    var createModeName='<%=createModeName%>'
     var deadline='<%=deadline%>'
 </script>
 <!DOCTYPE html>
@@ -103,16 +106,30 @@
                         <label for="" class="col-sm-2 control-label">上报截止时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="deadline"  name="deadline" type="text" value="" readonly>
+                                <input class="form-control" size="16" id="deadline"  name="deadline" type="text" value="" readonly data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">任务名称<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="createModeName" name="createModeName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;">
+                        </div>
+                        <label for="typeText" class="col-sm-2 control-label"><span class="typeTextLable">指标类型</span><span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="typeText" name="typeText" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="" class="col-sm-2 control-label"><span class="contentLabel">指标内容</span><span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="content" name="content" class="form-control" style="height: 267px;" placeholder=""></textarea>
+                            <textarea id="content" name="content" class="form-control" style="height: 267px;" placeholder="" data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -154,12 +171,14 @@
 
             content='指标内容'
             $(".contentLabel").text(content)
+            $(".typeTextLable").text("指标类型")
         }else{
             $("#typeBtn").text("新增重点工程")
             $(".material").show()
 
             content='工程任务'
             $(".contentLabel").text(content)
+            $(".typeTextLable").text("工程类型")
         }
         type=f;
         $("#type").val(type)

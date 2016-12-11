@@ -95,20 +95,14 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter : function(value, row, index){
-                    /**
-                     * 1:已发布
-                     * 2：未发布
-                     */
-                    if(value == 1){
-                        value = "已发布"
-                    }else if(value == 0){
-                        value = "未发布"
-                    }else if(value ==""){
-                        value = "未发布"
+                formatter:function (value, row, index) {
+                    switch (value) {
+                        case "1":
+                            return '<span style="color: green;">已发布</span>';
+                            break;
+                        default:
+                            return '<span style="color: red;">未发布</span>';
                     }
-                    return value;
-
                 }
             },
             {
@@ -206,6 +200,7 @@ function pubInfo(id){
                 dataType:'json',
                 data:{id:id},
                 success: function(msg){
+                    form.modal('hide');
                     gridTable.bootstrapTable('refresh');
                 }
             });
@@ -249,7 +244,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        entity.status="0";
+        // entity.status="0";
         if(entity.grade){
             if ($.isArray(entity.grade)) {//判断是否是数组
                 entity.grade=entity.grade.join(",");
@@ -258,6 +253,17 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
+
+            var receivers = [];
+            var receiver1 = {receiverId:userId,receiverName:userName};
+            receivers.push(receiver1);
+            var msg = {
+                'msgType':3,
+                'title':'信息公告提醒',
+                'content':entity.content,
+                'businessId':msg.id
+            };
+            pageUtils.sendMessage(msg, receivers);
         });
     }
 });
@@ -291,11 +297,21 @@ function setFormData(entity) {
     $("#pubOrgId").val(entity.pubOrgId);
     $("#userID").val(entity.userID);
     $("#userName").val(entity.userName);
+    $("#status").val(entity.status);
     $("#type").val(entity.type);
     if(entity.grade){
-        $("#grade").val(entity.grade.split(","));
+       var gradeArray= entity.grade.split(",");//
+        for(var i = 0; i < gradeArray.length; i++) {
+            var orgCode = gradeArray[i];
+            $('input[name="grade"][value="' + orgCode + '"]').prop("checked", true);
+        }
     }
     $("#content").val(entity.content);
+    if(entity.status == 1){
+        $('#pub').hide();
+    }else{
+        $('#pub').show();
+    }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -309,6 +325,7 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    form.find("#pub").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
@@ -340,9 +357,11 @@ function resetForm() {
     $("#pubOrgId").val(orgCode);
     $("#userID").val(userId);
     $("#userName").val(userName);
-    $("#grade").val("");
+    $("#status").val(0);
+    // $("#grade").val("");
     orgOption();
     disabledForm(false);
+    $('#pub').show();
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }
@@ -353,10 +372,12 @@ function orgOption(){
         type:"post",
         async:false,
         dataType:"json",
-        success:function(msg){
+        success:function(org){
             $('#grade').empty();
-            for (var i = 0; i < msg.length; i++) {
-                $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
+            for (var i = 0; i < org.length; i++) {
+                // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
+                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgCode + "' >"+org[i].orgName+"</label>&nbsp;&nbsp;")
+
             }
         }
     })

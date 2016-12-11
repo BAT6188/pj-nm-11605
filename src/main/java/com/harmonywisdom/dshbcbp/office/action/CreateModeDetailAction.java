@@ -3,6 +3,8 @@ package com.harmonywisdom.dshbcbp.office.action;
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.org.domain.Org;
+import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.domain.Person;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.CreateMode;
 import com.harmonywisdom.dshbcbp.office.bean.CreateModeDetail;
@@ -74,11 +76,21 @@ public class CreateModeDetailAction extends BaseAction<CreateModeDetail, CreateM
         write(allNotDelOrg);
     }
 
+    public void getUserIdByOrgid(){
+        String id = request.getParameter("orgId");
+        List<Person> persons = PersonServiceUtil.getPersonByOrgId(id);
+        write(persons);
+    }
+
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
         if (StringUtils.isNotEmpty(entity.getCreateModeId())) {
             params.andParam(new QueryParam("createModeId", QueryOperator.EQ,entity.getCreateModeId()));
+        }
+
+        if (StringUtils.isNotEmpty(entity.getCreateModeName())) {
+            params.andParam(new QueryParam("createModeName", QueryOperator.LIKE,"%"+entity.getCreateModeName()+"%"));
         }
 
         if (StringUtils.isNotBlank(entity.getResponsibleDepartmentId())) {

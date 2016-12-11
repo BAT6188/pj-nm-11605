@@ -71,20 +71,14 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter : function(value, row, index){
-                    /**
-                     * 1:已发布
-                     * 2：未发布
-                     */
-                    if(value == 1){
-                        value = "已发布"
-                    }else if(value == 0){
-                        value = "未发布"
-                    }else if(value ==""){
-                        value = "未发布"
+                formatter:function (value, row, index) {
+                    switch (value) {
+                        case "1":
+                            return '<span style="color: green;">已发布</span>';
+                            break;
+                        default:
+                            return '<span style="color: red;">未发布</span>';
                     }
-                    return value;
-
                 },
                 isDown:true
             },
@@ -263,7 +257,7 @@ var ef = form.easyform({
     success:function(ef){
         var sharemeans = form.find("form").formSerializeObject();
         sharemeans.attachmentIds = getAttachmentIds();
-        sharemeans.status="0";
+        // sharemeans.status="0";
         saveShareMeans(sharemeans,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -314,6 +308,7 @@ function setFormData(sharemeans) {
     $("#pubOrgName").val(sharemeans.pubOrgName);
     $("#pubOrgId").val(sharemeans.pubOrgId);
     $("#description").val(sharemeans.description);
+    $("#status").val(sharemeans.status);
     if(sharemeans.status == 1){
        $('#pub').hide();
     }else{
@@ -360,6 +355,7 @@ function resetForm() {
     uploader = new qq.FineUploader(getUploaderOptions());
     $("#pubOrgName").val(orgName);
     $("#pubOrgId").val(orgCode);
+    $("#status").val(0);
     console.log(orgCode);
     disabledForm(false);
     $('#pub').show();

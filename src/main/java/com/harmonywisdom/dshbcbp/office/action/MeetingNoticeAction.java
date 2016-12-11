@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.MeetingNotice;
@@ -16,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNoticeService> {
     @AutoService
     private MeetingNoticeService meetingNoticeService;
+    @AutoService
+    private MessageService messageService;
     @AutoService
     private AttachmentService attachmentService;
 
@@ -33,10 +36,10 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         if (StringUtils.isNotEmpty(startTime)){
-            param.andParam(new QueryParam("time", QueryOperator.GE, DateUtil.strToDate(startTime,"yyyy-MM-dd")));
+            param.andParam(new QueryParam("time", QueryOperator.GE, DateUtil.strToDate(startTime,DateUtil.format1)));
         }
         if (StringUtils.isNotEmpty(endTime)){
-            param.andParam(new QueryParam("time", QueryOperator.LE, DateUtil.strToDate(endTime,"yyyy-MM-dd")));
+            param.andParam(new QueryParam("time", QueryOperator.LE, DateUtil.strToDate(endTime,DateUtil.format1)));
         }
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
@@ -49,7 +52,6 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
     @Override
     public void save() {
         //获取删除的附件IDS
-
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件

@@ -3,6 +3,7 @@ var pageUtils = {
     MSG_TYPE_MEETINGNOTICE:"2",
     MSG_TYPE_PUBINFO : "3",
     MSG_TYPE_POLLUTANTPAYMENT : "4",
+    MSG_TYPE_CREATEMODEDETAIL:"5",
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
 
@@ -50,6 +51,7 @@ var pageUtils = {
             typeMapUrl[that.MSG_TYPE_MEETINGNOTICE] = 'container/gov/office/meetingnotice.jsp';
             typeMapUrl[that.MSG_TYPE_PUBINFO] = 'container/gov/office/pubinfo.jsp';
             typeMapUrl[that.MSG_TYPE_POLLUTANTPAYMENT] = 'container/gov/exelaw/pollutantPayment.jsp';
+            typeMapUrl[that.MSG_TYPE_CREATEMODEDETAIL] = 'container/gov/office/createModeDetailForUpload.jsp';
             msg.senderId = userId;
             msg.senderName = userName;
             msg.detailsUrl = typeMapUrl[msg.msgType];

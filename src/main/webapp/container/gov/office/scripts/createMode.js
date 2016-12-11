@@ -138,7 +138,7 @@ var DemoPage = function () {
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/createModeDetailForInner.jsp?createModeId=" + row.id+"&deadline="+encodeURIComponent(row.deadline);
+            var url = rootPath + "/container/gov/office/createModeDetailForInner.jsp?createModeId=" + row.id+"&createModeName="+encodeURIComponent(encodeURIComponent(row.name))+"&deadline="+encodeURIComponent(row.deadline);
             pageUtils.toUrl(url);
         }
     };
@@ -192,11 +192,17 @@ var DemoPage = function () {
                 return;
             }
             deleteAjax(ids,function (msg) {
-                gridTable.bootstrapTable('remove', {
-                    field: 'id',
-                    values: ids
-                });
-                removeBtn.prop('disabled', true);
+                if(msg.success){
+                    gridTable.bootstrapTable('remove', {
+                        field: 'id',
+                        values: ids
+                    });
+                    removeBtn.prop('disabled', true);
+                    Ewin.alert(msg.msg)
+                }else {
+                    Ewin.alert(msg.msg)
+                }
+
             });
         });
 

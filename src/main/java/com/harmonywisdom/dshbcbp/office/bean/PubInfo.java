@@ -64,7 +64,7 @@ public class PubInfo implements Serializable {
      * 0：未发布
      * 1：已发布
      */
-    @Column(name = "STATUS",length = 255)
+    @Column(name = "STATUS",length = 1)
     private String status;
     @Transient
     private String startTime;
