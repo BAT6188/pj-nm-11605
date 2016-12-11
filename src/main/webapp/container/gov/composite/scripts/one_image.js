@@ -465,7 +465,7 @@ var OneImagePage = function () {
         showNoisePortInfoWin:function(noisePort){
 
             var infoHtml = "<div>";
-            infoHtml +="<table class='table'>" +
+            infoHtml +="<table class='table table-condensed'>" +
                 "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+noisePort.name+"</td></tr>"+
                 "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(noisePort.number)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(noisePort.position)+"</td></tr>"+
@@ -581,7 +581,7 @@ var OneImagePage = function () {
 
 
             var infoHtml = "<div>";
-            infoHtml +="<table class='table'>" +
+            infoHtml +="<table class='table table-condensed'>" +
                 "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+(dustPort.name==null?"":dustPort.name)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.number)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+dict.get("noiseType",dustPort.longitude)+"</td></tr>"+
@@ -867,6 +867,12 @@ var OneImagePage = function () {
             $(infoDOM).find("#mainInfo").bind("click", function () {
                 EnterpriseInfoDialog.show(enterprise.id);
             });
+            //绑定周边视频按钮
+            // $(infoDOM).find("#surroundingVideo").bind("click",function(){
+            //     $("#videoBtn").show();
+            //     alert(enterprise.longitude + "--------" + enterprise.latitude);
+            //
+            // });
             var that = this;
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
