@@ -1,3 +1,4 @@
+//@ sourceURL = common/scripts/main.js
 pageUtils.loadMenu(function (mainMenu, subMenu) {
     var siderUl = $(".siderNav>ul");
     //加载一级主菜单
@@ -50,13 +51,15 @@ function loadLevel2Menu(subMenus) {
     }
 }
 //定义短信发送modal
-var options = {
-    title: "短信发送"//弹出框标题(可省略，默认值：“人员选择”)
-};
-var model = $.fn.MsgSend.init(2,options,function(e,data){ //短信发送第一个参数为2
 
-});
+
 $("#mainSmsSendBtn").bind('click', function () {
+    var options = {
+        title: "短信发送",//弹出框标题(可省略，默认值：“人员选择”)
+        width:"60%"
+    };
+    var model = $.fn.MsgSend.init(2,options,function(e,data){ //短信发送第一个参数为2
+    });
     model.open();//打开dialog,
 });
 //消息弹窗
