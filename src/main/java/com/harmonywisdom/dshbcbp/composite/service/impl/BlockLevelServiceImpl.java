@@ -156,7 +156,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
             villageMainNode.setChildren(villages);
             nodes.add(villageMainNode);
         }
-        if(monitoringChildren !=null){
+        if(monitoringChildren !=null && monitoringChildren.size()>0){
             nodes.add(monitoring);
         }
 
