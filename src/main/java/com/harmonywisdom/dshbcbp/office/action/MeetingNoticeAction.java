@@ -52,8 +52,6 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
     @Override
     public void save() {
         //获取删除的附件IDS
-        String id=entity.getId();
-        MeetingNotice meetingNotice=meetingNoticeService.findById(id);
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(org.apache.commons.lang.StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件

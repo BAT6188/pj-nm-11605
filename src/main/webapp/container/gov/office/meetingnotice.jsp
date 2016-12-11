@@ -72,9 +72,9 @@
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">会议标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="id" name="id">
-                            <input type="hidden" id="isSms" name="isSms">
-                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="isSms" name="isSms" class="form-control">
+                            <input type="hidden" id="removeId" name="removeId" class="form-control">
                             <input type="text" id="title" name="title" class="form-control"
                                    data-message="会议标题不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -101,11 +101,8 @@
                         </div>
                         <label for="pubOrgName" class="col-sm-2 control-label">发布单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
-                                   <%--data-message="发布单位不能为空"--%>
-                                   <%--data-easytip="position:top;class:easy-red;"--%>
-                            />
-                            <input type="hidden" id="pubOrgId" name="pubOrgId"/>
+                            <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"/>
+                            <input type="hidden" id="pubOrgId" name="pubOrgId" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
