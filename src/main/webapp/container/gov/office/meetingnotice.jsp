@@ -23,13 +23,13 @@
                             </div>
                             <div class="form-group">
                                 <label>日期：</label>
-                                <div id="s_timeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                                <div id="s_timeContent" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="time">
                                     <input class="form-control" size="16" id="startTime" name="startTime"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
                                 -
-                                <div id="t_startCreateDateContent" class="input-group date searchInput form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time">
+                                <div id="t_startCreateDateContent" class="input-group date searchInput form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="time">
                                     <input class="form-control" size="16" name="endTime"  type="text" value="" readonly>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -73,6 +73,7 @@
                         <label for="title" class="col-sm-2 control-label">会议标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="isSms" name="isSms">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="title" name="title" class="form-control"
                                    data-message="会议标题不能为空"
@@ -91,16 +92,20 @@
                         <label for="type" class="col-sm-2 control-label">会议类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select style="width: 100%" class="form-control"  id="type" name="type">
-                                <option value="1">会场会议</option>
-                                <option value="2">视频会议</option>
+                                <option value="1">视频会议</option>
+                                <option value="2">局务会</option>
+                                <option value="3">党员学习会</option>
+                                <option value="4">大队例会</option>
+                                <option value="5">监测站例会</option>
                             </select>
                         </div>
                         <label for="pubOrgName" class="col-sm-2 control-label">发布单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="pubOrgName" name="pubOrgName" class="form-control"
-                                   data-message="发布单位不能为空"
-                                   data-easytip="position:top;class:easy-red;"
+                                   <%--data-message="发布单位不能为空"--%>
+                                   <%--data-easytip="position:top;class:easy-red;"--%>
                             />
+                            <input type="hidden" id="pubOrgId" name="pubOrgId"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -114,6 +119,7 @@
                         <label for="linkPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="linkPhone" name="linkPhone" class="form-control"
+                                   data-easyform="regex:^1(3|4|5|7|8)\d{9}$;"
                                    data-message="联系方式不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
@@ -122,14 +128,21 @@
                     <div class="form-group">
                         <label for="time" class="col-sm-2 control-label">会议时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                        <div id="timeContent" class="input-group date form_date" data-date="" data-link-field="time" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                        <div id="timeContent" class="input-group date time form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input" >
                             <input class="form-control" id="time" name="time" size="16" type="text" value="" readonly
                                    data-message="会议时间不能为空"
                                    data-easytip="position:top;class:easy-red;">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
-                            </div>
+                        </div>
+                        <label for="participants" class="col-sm-2 control-label">参会人员<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="participants" name="participants" class="form-control"
+                                   data-message="参会人员不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="content" class="col-sm-2 control-label">会议内容<span class="text-danger">*</span>：</label>
@@ -150,7 +163,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="smsSend">短信发送</button>
+                <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
                 <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
@@ -158,5 +171,21 @@
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/meetingnotice.js"></script>
+<script>
+    $(function(){
+        initSelect();
+    });
+    function initSelect(){
+        /*数据字典*/
+        var dictData = dict.getDctionnary({code:['type']});
+        $.each(dictData,function(k,v){
+            var optionsHtml = '';
+            $.each(v,function(i,obj){
+                optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
+            })
+            $('#'+k).append(optionsHtml);
+        });
+    }
+</script>
 </body>
 </html>

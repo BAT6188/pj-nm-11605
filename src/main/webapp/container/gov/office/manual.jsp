@@ -41,11 +41,11 @@
                             <div class="form-group">
                                 <label for="s_type">公文类型：</label>
                                 <select style="width: 180px;" class="form-control"  id="s_type" name="s_type">
-                                    <option value="">全部</option>
+                                  <%--  <option value="">全部</option>
                                     <option value="1">法律法规</option>
                                     <option value="2">行业标准</option>
                                     <option value="3">监察指南</option>
-                                    <option value="4">知识案例</option>
+                                    <option value="4">知识案例</option>--%>
                                     </select>
                             </div>
                         </form>
@@ -158,11 +158,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="remark" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <label for="remark" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">
                             <textarea  id="remark" name="remark" class="form-control" rows="5"
-                                       data-message="备注不能为空"
-                                       data-easytip="position:top;class:easy-red;"
                             ></textarea>
                         </div>
                     </div>

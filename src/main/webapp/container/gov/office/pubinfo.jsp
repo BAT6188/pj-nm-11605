@@ -54,7 +54,7 @@
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button type="button" class="btn btn-primary" id="pub">发布</button>
+                    <%--<button type="button" class="btn btn-primary" id="pub">发布</button>--%>
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
@@ -86,6 +86,7 @@
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="pubOrgId" name="pubOrgId">
                             <input type="hidden" id="userName" name="userName">
+                            <input type="hidden" id="status" name="status">
                             <input type="hidden" id="userID" name="userID">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="text" id="title" name="title" class="form-control"
@@ -123,8 +124,9 @@
                     <div class="form-group">
                         <label for="grade" class="col-sm-2 control-label">查看权限<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <select style="width: 100%" multiple class="form-control"  id="grade" name="grade">
-                            </select>
+                            <%--<select style="width: 100%" multiple class="form-control"  id="grade" name="grade">
+                            </select>--%>
+                            <input type="checkbox"  class="form-control"  id="grade" name="grade">
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,6 +148,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-warning needHide" id="pub">发布</button>
                 <button type="button" class="btn btn-primary" id="save">保存</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>

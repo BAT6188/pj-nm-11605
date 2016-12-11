@@ -70,14 +70,7 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter:function (value, row, index) {
-                    if(1==value){
-                        value="会场会议"
-                    }else if (2==value){
-                        value="视频会议"
-                    }
-                    return value;
-                }
+                formatter:meetingTypeFormatter
             },
             {
                 title: '会议地点',
@@ -91,21 +84,25 @@ function initTable() {
                 field: 'time',
                 sortable: false,
                 align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                editable: false
             },
             {
-                title: '发布单位',
+                title: '发布部门',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
+                title: '参会人员',
+                field: 'participants',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
                 field: 'operate',
-                title: '跟踪状态',
+                title: '接收状态',
                 align: 'center',
                 events: operateEvents,
                 formatter: function (value, row, index) {
@@ -152,6 +149,11 @@ function initTable() {
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
+
+function meetingTypeFormatter(value, row, index){
+    return dict.get('type',value);
+}
+
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
@@ -195,6 +197,7 @@ $("#add").bind('click',function () {
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
+    $("#pubOrgName").attr("disabled",true)
 });
 
 //<!---组织机构发送--START-->
@@ -291,7 +294,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        entity.isSms=0;
+        // entity.isSms=0;
         saveAjax(entity,function (msg) {
             if(buttonSend=="#save"){
                 model.open(msg.id);
@@ -299,6 +302,17 @@ var ef = form.easyform({
                 modelMsg.open(msg.id);
             }
             gridTable.bootstrapTable('refresh');
+
+            var receivers = [];
+            var receiver1 = {receiverId:userId,receiverName:userName};
+            receivers.push(receiver1);
+            var msg = {
+                'msgType':2,
+                'title':'会议通知提醒',
+                'content':entity.content,
+                'businessId':msg.id
+            };
+            pageUtils.sendMessage(msg, receivers);
         });
     }
 });
@@ -317,12 +331,15 @@ $('#smsSend').bind('click',function () {
 });
 //初始化日期组件
 $('.form_datetime').datetimepicker({
-    language:   'zh-CN',
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
     autoclose: 1,
-    minView: 2
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
-
-
 
 /**
  * 设置表单数据
@@ -340,12 +357,13 @@ function setFormData(entity) {
     $("#address").val(entity.address);
     $("#type").val(entity.type);
     $("#pubOrgName").val(entity.pubOrgName);
+    $("#pubOrgId").val(entity.pubOrgId);
     $("#linkMan").val(entity.linkMan);
     $("#linkPhone").val(entity.linkPhone);
-    $("#time").val(pageUtils.sub10(entity.time));
+    $("#time").val(entity.time);
     $("#content").val(entity.content);
+    $("#participants").val(entity.participants);
 
-    uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
     setFormData(entity);
@@ -367,13 +385,13 @@ function disabledForm(disabled) {
     form.find("textarea").attr("disabled", disabled);
     if (!disabled) {
         //初始化日期组件
-        $('.form_date').datetimepicker({
+        $('.form_datetime').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
             minView: 2
         });
     }else{
-        $('.form_date').datetimepicker('remove');
+        $('.form_datetime').datetimepicker('remove');
     }
 
 }
@@ -382,8 +400,13 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
-    form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
+    $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
+    $("#pubOrgName").val(orgName);
+    $("#pubOrgId").val(orgId);
+    $("#isSms").val(0);
+    // $("#pubOrgName").attr("disabled",true);
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
