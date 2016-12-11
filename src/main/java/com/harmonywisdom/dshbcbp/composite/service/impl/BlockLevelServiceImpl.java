@@ -19,6 +19,7 @@ import com.harmonywisdom.dshbcbp.videodevice.bean.VideoDevice;
 import com.harmonywisdom.dshbcbp.videodevice.service.VideoDeviceService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -172,7 +173,11 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
             List<Block> blocks = blockService.findByLevelId(bl.getId());
             if(blocks.size()>0){
                 for(Block b:blocks){
-                    ztreeObjs.add(new ZtreeObj(b.getId(),b.getOrgName()+" ("+b.getBlockLeader()+")",bl.getId()));
+                    String blockLeader = "无";
+                    if(StringUtils.isNotBlank(b.getBlockLeader())){
+                        blockLeader = b.getBlockLeader();
+                    }
+                    ztreeObjs.add(new ZtreeObj(b.getId(),b.getOrgName()+" ( "+blockLeader+" )",bl.getId()));
                 }
             }
         }
