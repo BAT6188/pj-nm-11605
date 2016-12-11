@@ -59,28 +59,28 @@ function initTable() {
                 visible:false
             },
             {
-                title: '企业名称',
+                title: '监测对象',
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '监测内容',
+                title: '监测项目',
                 field: 'monitorContent',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
             {
-                title: '监测时间',
+                title: '委托时间',
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '申请人',
+                title: '委托人',
                 field: 'applicant',
                 editable: false,
                 sortable: false,
@@ -94,7 +94,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '发送人',
+                title: '审核人',
                 field: 'environmentalProtectionStationSelectPersonNameList',
                 editable: false,
                 sortable: false,
@@ -110,7 +110,7 @@ function initTable() {
                 formatter:auditFormFormatter
             },
             {
-                title: '反馈状态',
+                title: '被委托单位反馈状态',
                 field:'status',
                 align: 'center',
                 events: operateEvents,
@@ -143,9 +143,9 @@ function initTable() {
 
 function auditFormFormatter(value, row, index) {
     if(value=='1'){
-        return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">同意</div>';
+        return '<div style="cursor: pointer;padding: 8px;color: green;" class="view" data-toggle="modal" data-target="#auditForm">同意</div>';
     }else if(value=='2'){
-        return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">不同意</div>';
+        return '<div style="cursor: pointer;padding: 8px;color: red;" class="view" data-toggle="modal" data-target="#auditForm">不同意</div>';
     }else {
         return '-'
     }

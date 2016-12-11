@@ -73,7 +73,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '企业法人',
+                title: '企业联系人',
                 field: 'enterpriseAP',
                 editable: false,
                 sortable: false,
