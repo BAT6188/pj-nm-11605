@@ -20,6 +20,17 @@
             padding: 0;
         }
 
+        #videoBtn{
+            width:100px;
+            position:absolute;
+            left:8%;
+            top:100px;
+            z-index:1
+
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -38,8 +49,16 @@
             <div class="ztree oneImageTree">
             </div>
         </div>
+        <div class="input-group input-group-sm"  style="z-index: 999;padding-left: 500px; display: none;" id="videoBtn">
+            <input type="text" class="form-control" style="width: 200px;" id="searchContent" value="5" placeholder="企业周边视频查询"/>
+            <span class="input-group-addon">(公里)</span>
+            <span class="input-group-btn">
+                <button class="btn btn-default" id="searBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
         <div class="main-right right" style="overflow: hidden">
             <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
+
         </div>
 
     </div>
@@ -51,6 +70,7 @@
 
     </div>
 </div>
+
 
 <%@include file="/container/gov/composite/enterprise_info_dialog.jsp" %>
 <%@include file="/container/gov/composite/portstatus_form_view.jsp" %>

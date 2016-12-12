@@ -833,6 +833,7 @@ var OneImagePage = function () {
             },this.MAP_LAYER_ENTERPRISE);
         },
         showEnterpriseInfoWin:function(enterprise){
+            var that = this;
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
                 "<tr><td style='text-align: center;width: 80px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+(enterprise.name == null?"":enterprise.name)+"</td></tr>"+
@@ -867,13 +868,37 @@ var OneImagePage = function () {
             $(infoDOM).find("#mainInfo").bind("click", function () {
                 EnterpriseInfoDialog.show(enterprise.id);
             });
-            //绑定周边视频按钮
-            // $(infoDOM).find("#surroundingVideo").bind("click",function(){
-            //     $("#videoBtn").show();
-            //     alert(enterprise.longitude + "--------" + enterprise.latitude);
-            //
-            // });
-            var that = this;
+           // 绑定周边视频按钮
+            $(infoDOM).find("#surroundingVideo").bind("click",function(){
+                $("#videoBtn").show();
+            });
+
+            //查询按钮
+            var videoLength = 5;
+            $("#searBtn").bind('click',function(){
+                that.hwmap.removeLayer(that.MAP_LAYER_VIDEO_DEVICE);
+                $("#videoBtn").hide();
+                videoLength  = $("#searchContent").val();
+                var longitude = enterprise.longitude;
+                var latitude = enterprise.latitude;
+                console.log(enterprise.longitude+"-------"+enterprise.latitude);
+                $.ajax({
+                    url :rootPath + "/action/S_videodevice_VideoDevice_querySurroundingVideo.action",
+                    type:'post',
+                    dataType:'json',
+                    data:{videoLength:videoLength,longitude:longitude,latitude:latitude},
+                    success:function (result) {
+                        console.log(result);
+                        if(result && result.length > 0){
+                            for(var i=0;i < result.length; i++){
+                                that.addVideoDevice(result[i])
+                            }
+                        }
+                    }
+                });
+
+            });
+
             //绑定企业平面图按钮事件
             $(infoDOM).find("#enterprisePlan").bind("click", function () {
                 //获取企业平面图附件
@@ -882,7 +907,6 @@ var OneImagePage = function () {
                 if (attachments.length <= 0) {
                     Ewin.alert({message:"该企业未上传平面图"});
                 }else{
-
                     var markers = that.getPlaneMapPortMakerByEid(enterprise.id);
                     //获取企业所有排口的标绘信息
                     PlottingDialog.dialog({

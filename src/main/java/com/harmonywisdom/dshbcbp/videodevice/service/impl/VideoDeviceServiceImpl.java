@@ -43,4 +43,32 @@ public class VideoDeviceServiceImpl extends BaseService<VideoDevice, String> imp
         List<VideoDevice> list = getDAO().find("id in ?1", Arrays.asList(ids));
         return list;
     }
+
+    /**
+     * 查询企业周边摄像头数量
+     * @param videoLength
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    @Override
+    public List<VideoDevice> queryVideoAmount(String videoLength, String longitude, String latitude) {
+        Double i = Double.parseDouble(videoLength);
+        Double x = Double.parseDouble(longitude);
+        Double y = Double.parseDouble(latitude);
+        Double x1 = x-i;
+        Double y1 = y-i;
+        Double x2 = x+i;
+        Double y2 = y+i;
+        double minLon = x1 < x2 ? x1 : x2;
+        double maxLon = x1 < x2 ? x2 : x1;
+        double minLat = y1 < y2 ? y1 : y2;
+        double maxLat = y1 < y2 ? y2 : y1;
+        List<VideoDevice> list = getDAO().queryJPQL("from VideoDevice t where t.longitude > ? and t.longitude < ? and t.latitude > ? and " +
+                "t.latitude < ?",minLon, maxLon, minLat, maxLat);
+        if(list != null && list.size()>0){
+            return list;
+        }
+        return null;
+    }
 }

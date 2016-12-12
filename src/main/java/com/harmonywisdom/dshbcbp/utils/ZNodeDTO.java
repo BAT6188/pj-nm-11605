@@ -19,6 +19,8 @@ public class ZNodeDTO {
 
     private String type;
 
+    private Boolean open;
+
     private List<ZNodeDTO> children;
 
     public ZNodeDTO(){}
@@ -110,5 +112,13 @@ public class ZNodeDTO {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Boolean getOpen() {
+        return true;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = true;
     }
 }

@@ -45,4 +45,18 @@ public class VideoDeviceAction extends BaseAction<VideoDevice, VideoDeviceServic
         condition.setPaging(getPaging());
         return condition;
     }
+
+    /**
+     * 查询企业周边视频
+     */
+    public void querySurroundingVideo(){
+        String videoLength = request.getParameter("videoLength");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+
+        List<VideoDevice> list = videoDeviceService.queryVideoAmount(videoLength,longitude,latitude);
+        write(list);
+
+    }
+
 }
