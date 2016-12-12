@@ -1,10 +1,11 @@
 package com.harmonywisdom.dshbcbp.attachment.action;
 
-import com.harmonywisdom.framework.service.SpringUtil;
-import com.harmonywisdom.framework.utils.UUIDGenerator;
+import com.alibaba.fastjson.JSONObject;
 import com.harmonywisdom.dshbcbp.attachment.bean.Attachment;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.attachment.service.impl.AttachmentConfigManager;
+import com.harmonywisdom.framework.service.SpringUtil;
+import com.harmonywisdom.framework.utils.UUIDGenerator;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -128,7 +129,12 @@ public class AttachmentServlet extends HttpServlet {
             response.setContentType("text/plain;charset=utf-8");
             response.setHeader("Cache-Control", "no-cache");
             out = response.getWriter();
-            out.write(String.format("{\"success\": true, \"id\": \"%s\"}", attachment.getId()));
+
+            JSONObject jsobjcet = new JSONObject();
+            jsobjcet.put("success", true);
+            jsobjcet.put("id", attachment.getId());
+            //jsobjcet.put("path",attachment.getPath());
+            out.write(jsobjcet.toJSONString());
         } catch (FileUploadException e) {
             logger.error(e.getMessage(), e);
         } finally {
