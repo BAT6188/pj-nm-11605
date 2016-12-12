@@ -1,18 +1,16 @@
 package com.harmonywisdom.dshbcbp.videodevice.service.impl;
 
-import com.harmonywisdom.dshbcbp.composite.bean.Video;
-import com.harmonywisdom.dshbcbp.composite.bean.VillageEnv;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.dshbcbp.videodevice.bean.VideoDevice;
 import com.harmonywisdom.dshbcbp.videodevice.dao.VideoDeviceDAO;
 import com.harmonywisdom.dshbcbp.videodevice.service.VideoDeviceService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service("videoDeviceService")

@@ -11,7 +11,6 @@ import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
-import org.apache.activeio.xnet.hba.ExactIPAddressPermission;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;

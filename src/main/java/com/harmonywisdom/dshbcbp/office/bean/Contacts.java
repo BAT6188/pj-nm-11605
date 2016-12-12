@@ -19,6 +19,12 @@ public class Contacts implements Serializable {
      */
     @Column(name = "TYPE",length = 1)
     private String type;
+
+    /**
+     * 头像
+     */
+    @Column(name = "head_image",columnDefinition = "mediumtext")
+    private String headImage;
     /**
      *姓名
      */
@@ -91,6 +97,12 @@ public class Contacts implements Serializable {
     private String pinyinCodes;
 
     /**
+     * 人员简介
+     */
+    @Column(name = "summary",columnDefinition = "mediumtext")
+    private String summary;
+
+    /**
      *附件
      */
     @Transient
@@ -104,6 +116,14 @@ public class Contacts implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
     }
 
     public String getName() {
@@ -232,5 +252,13 @@ public class Contacts implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }
