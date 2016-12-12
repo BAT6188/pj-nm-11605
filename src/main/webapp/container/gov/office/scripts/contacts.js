@@ -130,6 +130,18 @@ function initTable() {
                 isDown:true
             },
             {
+                title: '头像',
+                field: 'headImage',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                isDown:false,
+                formatter: function (value, row, index){
+                    if(!value){value=options.defaultImgSrc}
+                    return '<img src="'+value+'" align="absmiddle" style="width:32px;margin-top:4px;border-radius:0px;box-shadow:0px 0px 12px #7E7E7E;">';
+                }
+            },
+            {
                 title: '部门名称',
                 field: 'department',
                 sortable: false,
@@ -350,10 +362,10 @@ $("#chosePersonFormReset").click(function () {
 //初始化表单验证
 var ef = form.easyform({
     success:function (ef) {
+        form.modal('hide');
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            form.modal('hide');
             Ewin.alert('保存成功！');
             gridTable.bootstrapTable('refresh');
             searchForm();
@@ -376,6 +388,7 @@ function setFormData(entity) {
     if (!entity) {return false}
     form.find(".form-title").text("修改"+formTitle);
     var id = entity.id;
+    setHeadImage(entity.headImage);
     var inputs = form.find('.form-control');
     $.each(inputs,function(k,v){
         var tagId = $(v).attr('name');
@@ -413,7 +426,9 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
+    disabledType = disabled;
     if (!disabled) {
+        $('#image-uploader-gallery').addClass('upHeadImage');
         //初始化日期组件
         $('#pubTimeContent').datetimepicker({
             language:   'zh-CN',
@@ -422,6 +437,7 @@ function disabledForm(disabled) {
             pickerPosition: "bottom-left"
         });
     }else{
+        $('#image-uploader-gallery').removeClass('upHeadImage');
         $('#pubTimeContent').datetimepicker('remove');
     }
 
@@ -432,10 +448,12 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find('form')[0].reset();
+    setHeadImage(null);
     $('#blockLevelId').find('option[value=""]').attr("selected",true);
     $('#blockId').empty();
     //form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
+    //imgUploader = new qq.FineUploader(getHeadimageUploaderOptions());
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
@@ -443,6 +461,8 @@ function resetForm() {
 
 //表单附件相关js
 var uploader;//附件上传组件对象
+var imgUploader;
+
 /**
  * 获取上传组件options
  * @param bussinessId
@@ -507,9 +527,76 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
+            itemLimit: 5
+        },
+        debug: true
+    };
+}
+function getHeadimageUploaderOptions(bussinessId) {
+    return {
+        element: document.getElementById("image-uploader-gallery"),
+        template: 'qq-template',
+        chunking: {
+            enabled: false,
+            concurrent: {
+                enabled: true
+            }
+        },
+        resume: {
+            enabled: false
+        },
+        retry: {
+            enableAuto: false,
+            showButton: false
+        },
+        failedUploadTextDisplay: {
+            mode: 'custom'
+        },
+        callbacks: {
+            onComplete:function (id,fileName,msg,request) {
+                imgUploader.setUuid(id, msg.id);
+                if (msg.success) {
+                    imgUploader.append('<img id="logoimg" style="width:200px;hight:300px;"  src="' + rootPath+"/action/S_attachment_Attachment_download.action?id="+msg.id+ '">');
+                }
+            },
+            onDeleteComplete:function (id) {
+                var file = imgUploader.getUploads({id:id});
+                var removeIds = $("#removeId").val();
+                if (removeIds) {
+                    removeIds+= ("," + file.uuid)
+                }else{
+                    removeIds = file.uuid;
+                }
+                $("#removeId").val(removeIds);
+            },
+            onAllComplete: function (succeed) {
+                var self = this;
+                $.each(succeed, function (k, v) {
+                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                });
+            }
+        },
+        request: {
+            endpoint: rootPath + '/Upload?type=head',
+            params: {
+                businessId:bussinessId
+            }
+        },
+        session:{
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+            params: {
+                businessId:bussinessId
+            }
+        },
+        deleteFile: {
+            enabled: true,
+            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+            method:"POST"
+        },
+        validation: {
             acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
             allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 1
         },
         debug: true
     };
