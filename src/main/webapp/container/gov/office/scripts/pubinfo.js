@@ -73,7 +73,7 @@ function initTable() {
                 editable: false
             },
             {
-                title: '发布单位',
+                title: '发布部门',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
@@ -179,9 +179,12 @@ pub.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     resetForm();
+    $("#pubOrgName").attr("disabled",true)
+
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
+    $("#pubOrgName").attr("disabled",true)
 });
 $("#pub").bind("click",function () {
     var id=getIdSelections()[0];
@@ -244,7 +247,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        // entity.status="0";
+        entity.pubOrgName=$("#pubOrgName").val();
         if(entity.grade){
             if ($.isArray(entity.grade)) {//判断是否是数组
                 entity.grade=entity.grade.join(",");
@@ -308,9 +311,9 @@ function setFormData(entity) {
     }
     $("#content").val(entity.content);
     if(entity.status == 1){
-        $('#pub').hide();
+        form.find('#pub').hide();
     }else{
-        $('#pub').show();
+        form.find('#pub').show();
     }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
@@ -361,7 +364,7 @@ function resetForm() {
     // $("#grade").val("");
     orgOption();
     disabledForm(false);
-    $('#pub').show();
+    form.find('#pub').show();
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }

@@ -48,7 +48,7 @@ function initTable() {
                 editable: false,
                 isDown:true
             }, {
-                title: '发布单位',
+                title: '发布部门',
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
@@ -220,9 +220,11 @@ updateBtn.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     resetForm();
+    $("#pubOrgName").attr("disabled",true)
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
+    $("#pubOrgName").attr("disabled",true)
 });
 
 $("#pub").bind("click",function () {
@@ -257,7 +259,7 @@ var ef = form.easyform({
     success:function(ef){
         var sharemeans = form.find("form").formSerializeObject();
         sharemeans.attachmentIds = getAttachmentIds();
-        // sharemeans.status="0";
+        sharemeans.pubOrgName=$("#pubOrgName").val();
         saveShareMeans(sharemeans,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -310,9 +312,9 @@ function setFormData(sharemeans) {
     $("#description").val(sharemeans.description);
     $("#status").val(sharemeans.status);
     if(sharemeans.status == 1){
-       $('#pub').hide();
+        form.find('#pub').hide();
     }else{
-        $('#pub').show();
+        form.find('#pub').show();
 
     }
         uploader = new qq.FineUploader(getUploaderOptions(id));
@@ -358,7 +360,7 @@ function resetForm() {
     $("#status").val(0);
     console.log(orgCode);
     disabledForm(false);
-    $('#pub').show();
+    form.find('#pub').show();
     form.find("#saveShareMeans").show();
     form.find(".btn-cancel").text("取消")
 }

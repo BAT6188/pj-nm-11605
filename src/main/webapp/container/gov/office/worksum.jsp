@@ -56,7 +56,7 @@
                             <p></p>
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <label for="s_title">发布单位：</label> <input type="text" id="s_pubOrgName" name="pubOrgName" style="width: 254px;" class="form-control" />
+                                    <label for="s_title">发布部门：</label> <input type="text" id="s_pubOrgName" name="pubOrgName" style="width: 254px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label for="s_pubTime" class="labelMarginLeft">发布时间：</label>
