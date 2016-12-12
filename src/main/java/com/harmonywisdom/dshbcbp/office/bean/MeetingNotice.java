@@ -77,12 +77,14 @@ public class MeetingNotice implements Serializable {
     /**
      * 参会人员id(,号分隔)
      */
-    @Column(name = "PERSON_IDS",length = 100)
+    @Lob
+    @Column(name = "PERSON_IDS")
     private String personIds;
     /**
      * 参会人员名称(,号分隔)
      */
-    @Column(name = "PERSON_NAMES",length = 100)
+    @Lob
+    @Column(name = "PERSON_NAMES")
     private String personNames;
 
     @Column(name = "PARTICIPANTS")
