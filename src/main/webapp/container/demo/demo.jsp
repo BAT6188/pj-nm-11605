@@ -151,6 +151,13 @@
                         <button type="button" class="btn btn-primary" id="mapMarkBtn">标绘</button>
                     </div>
                     <div class="form-group">
+                        <label for="remark" class="col-sm-2 control-label">备注：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="remark" name="remark" class="form-control" rows="5"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>

@@ -26,6 +26,13 @@ public class Demo implements Serializable {
     private String xg;
 
     /**
+     * 备注
+     */
+    @Lob
+    @Column(name = "remark")
+    private String remark;
+
+    /**
      * x坐标
      */
     @Column
@@ -109,5 +116,13 @@ public class Demo implements Serializable {
 
     public void setXg(String xg) {
         this.xg = xg;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
