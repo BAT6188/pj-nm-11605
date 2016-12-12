@@ -400,7 +400,7 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            itemLimit: 3
+            itemLimit: 5
         },
         debug: true
     };
