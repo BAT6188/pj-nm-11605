@@ -16,4 +16,13 @@ public interface VideoDeviceService extends IBaseService<VideoDevice, String> {
     List<ZNodeDTO> searchNode(String searchText);
 
     List<VideoDevice> findByIds(String... ids);
+
+    /**
+     * 查询企业周边摄像头数据
+     * @param videoLength
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    List<VideoDevice> queryVideoAmount(String videoLength, String longitude, String latitude);
 }
