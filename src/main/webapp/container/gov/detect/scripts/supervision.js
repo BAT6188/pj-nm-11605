@@ -176,13 +176,13 @@ initTable();
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 function showEditPointsBtn(blockLevel) {
-    if (blockLevel==4) {
+    // if (blockLevel==4) {
         $('#lookPoints').hide();
         $('#editPoints').show();
-    }else{
-        $('#lookPoints').show();
-        $('#editPoints').hide();
-    }
+    // }else{
+    //     $('#lookPoints').show();
+    //     $('#editPoints').hide();
+    // }
 
 }
 /**
@@ -201,15 +201,15 @@ $("#update").bind("click", function () {
 });
 
 function setPointsMarkBtnByPoints(areaPoints) {
-    if (ztreeId == "4") {
+    // if (ztreeId == "4") {
         if(!areaPoints){
             setPointsMarkBtn('add');
         }else{
             setPointsMarkBtn('edit');
         }
-    }else{
-        setPointsMarkBtn("look");
-    }
+    // }else{
+    //     setPointsMarkBtn("look");
+    // }
 }
 /**
  * 列表工具栏 删除按钮
@@ -294,7 +294,8 @@ function setFormData(entity) {
 function setFormView(entity) {
     setFormData(entity);
     $('#editPoints').hide();
-    setPointsMarkBtnByPoints(entity.areaPoints);
+    // setPointsMarkBtnByPoints(entity.areaPoints);
+    setPointsMarkBtn("look");
     form.find(".form-title").text("查看" + formTitle);
     disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
