@@ -3580,7 +3580,7 @@ var port = null,
       if (token === null) {
           token = prompt("getToken", "gap_callbackServer:");
       }
-      xmlhttp.open("GET", "http://172.17.29.46:"+port+"/"+token , true);
+      xmlhttp.open("GET", "http://127.0.0.1:"+port+"/"+token , true);
       xmlhttp.send();
 };
 

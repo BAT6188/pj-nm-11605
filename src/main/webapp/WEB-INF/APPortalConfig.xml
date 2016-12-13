@@ -12,10 +12,10 @@
 
     <SSOConfigure>
         <SSOEnable>true</SSOEnable>
-        <SSOGateWaySite>http://172.17.29.46:8080/apportal</SSOGateWaySite>
+        <SSOGateWaySite>http://dev1.zthz.com:8083/apportal</SSOGateWaySite>
         <SSOGateWayURL>/SSOGateWay</SSOGateWayURL>
-        <SSOLoginPage>http://172.17.29.46:8080/apportal</SSOLoginPage>
-        <SSOLogoutPage>http://172.17.29.46:8080/apportal</SSOLogoutPage>
+        <SSOLoginPage>http://dev1.zthz.com:8083/apportal</SSOLoginPage>
+        <SSOLogoutPage>http://dev1.zthz.com:8083/apportal</SSOLogoutPage>
         <SSOSecureEnable>false</SSOSecureEnable>
         <SSOValidateMode>DataBase</SSOValidateMode>
         <SSOTimeOut>30000</SSOTimeOut>
@@ -27,7 +27,7 @@
         <AccountPolicy>false</AccountPolicy>
         <IpPolicy>false</IpPolicy>
         <LoginMode>MIX</LoginMode>
-        <LoginFailurePage>http://172.17.29.46:8080/apportal/layout/default/error/error.jsp</LoginFailurePage>
+        <LoginFailurePage>http://dev1.zthz.com:8083/apportal/layout/default/error/error.jsp</LoginFailurePage>
         <LoginSuccessPage>/main/index.action</LoginSuccessPage>
         <ConcurrentNum>10</ConcurrentNum>
         <WaitInterval>100</WaitInterval>
