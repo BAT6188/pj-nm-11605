@@ -92,7 +92,7 @@ function initTable() {
     // sometimes footer render error.
     setTimeout(function () {
         gridTable.bootstrapTable('resetView');
-    }, 200);
+    }, 200)
 
     //列表checkbox选中事件
     gridTable.on('check.bs.table uncheck.bs.table ' +
