@@ -115,6 +115,13 @@ function initTable() {
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: seeOperateEvents,
+                formatter: seeOperateFormatter
             }
 
         ]
@@ -195,6 +202,15 @@ window.operateEvents = {
         };
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
+    }
+};
+
+function seeOperateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+}
+window.seeOperateEvents = {
+    'click .view': function (e, value, row, index) {
+        setFormView(row);
     }
 };
 /**
@@ -376,9 +392,14 @@ function disabledForm(selector,disabled) {
     if (!disabled) {
         //初始化日期组件
         $('.lookover').datetimepicker({
-            language:   'zh-CN',
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
             autoclose: 1,
-            minView: 2
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
         });
 
     }else{

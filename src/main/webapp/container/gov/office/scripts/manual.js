@@ -68,20 +68,17 @@ function initTable() {
                 sortable: false,
                 align: 'center'
             }, {
-                title: '创建时间',
-                field: 'createTime',
-                sortable: false,
-                align: 'center',
-                editable: false
-            }, {
-                title: '备注',
-                field: 'remark',
-                sortable: false,
-                align: 'center',
+                title: '颁布单位',
+                field: 'enactOrgName',
                 editable: false,
-                formatter: function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
+                sortable: false,
+                align: 'center'
+            }, {
+                title: '颁布时间',
+                field: 'pubTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 field: 'operate',

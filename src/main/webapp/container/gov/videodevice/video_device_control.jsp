@@ -8,35 +8,37 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand" />
     <title>视频监控-云台控制</title>
     <link href="${pageContext.request.contextPath}/container/gov/videodevice/css/video_device_control.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/container/gov/videodevice/css/DSSPlay.css" rel="stylesheet">
 </head>
-<body>
+<body id="mbody" onunload="ButtonLogout_onclick()">
 <div class="container">
     <div class="videoBox">
         <div class="controlBtn videoPause"></div>
-        <div class="video">
+        <div class="video" id="obj">
+            <object id="DPSDK_OCX" classid="CLSID:D3E383B6-765D-448D-9476-DFD8B499926D" style="width: 100%; height: 80%" codebase="DpsdkOcx.cab#version=1.0.0.0"></object>
         </div>
     </div>
     <div class="controlBox">
         <div class="inner">
             <h2>云台监控</h2>
             <div class="direction">
-                <a class="topDir" href="javascript:;"></a>
-                <a class="bottomDir" href="javascript:;"></a>
-                <a class="leftDir" href="javascript:;"></a>
-                <a class="rightDir" href="javascript:;"></a>
+                <a class="topDir" href="javascript:return ButtonPtzDirection_onclick(1);"></a>
+                <a class="bottomDir" href="javascript:return ButtonPtzDirection_onclick(2);"></a>
+                <a class="leftDir" href="javascript:return ButtonPtzDirection_onclick(3);"></a>
+                <a class="rightDir" href="javascript:return ButtonPtzDirection_onclick(4);"></a>
             </div>
-            <p class="btnList"><a href="javascript:;">灯光</a><a href="javascript:;">控件下载</a><a class="active" href="javascript:;">雨刷</a></p>
+            <%--<p class="btnList"><a href="javascript:;">灯光</a><a href="javascript:;">控件下载</a><a class="active" href="javascript:;">雨刷</a></p>
             <div class="progressBar"><span class="speed">速度</span><div class="bg"><div class="bgcolor"></div></div><div class="bt"></div><div class="text"></div></div>
             <div class="progressBar"><span class="speed">亮度</span><div class="bg"><div class="bgcolor"></div></div><div class="bt"></div><div class="text"></div></div>
-            <div class="progressBar"><span class="speed">色度</span><div class="bg"> <div class="bgcolor"></div></div><div class="bt"></div><div class="text"></div></div>
+            <div class="progressBar"><span class="speed">色度</span><div class="bg"> <div class="bgcolor"></div></div><div class="bt"></div><div class="text"></div></div>--%>
             <div class="opList">
-                <p><span class="cut"></span><span class="opText">光圈</span><span class="add"></span></p>
-                <p><span class="cut"></span><span class="opText">焦距</span><span class="add"></span></p>
-                <p><span class="cut"></span><span class="opText">变倍</span><span class="add"></span></p>
+                <p><span class="cut" onclick="return ButtonPtzCameraOperation_onclick(5)"></span><span class="opText">光圈</span><span class="add" onclick="return ButtonPtzCameraOperation_onclick(2)"></span></p>
+                <p><span class="cut" onclick="return ButtonPtzCameraOperation_onclick(4)"></span><span class="opText">焦距</span><span class="add" onclick="return ButtonPtzCameraOperation_onclick(1)"></span></p>
+                <p><span class="cut" onclick="return ButtonPtzCameraOperation_onclick(3)"></span><span class="opText">变倍</span><span class="add" onclick="return ButtonPtzCameraOperation_onclick(0)"></span></p>
             </div>
-            <p class="recP"><span>录制位置</span><input class="showInput" type="text" value="00:21/03:34"/></p>
+            <%--<p class="recP"><span>录制位置</span><input class="showInput" type="text" value="00:21/03:34"/></p>
             <p class="recP"><span>录制时间</span><input class="showInput" type="text" value="00:40/03:34"/></p>
-            <div class="controlIcon pause"></div>
+            <div class="controlIcon pause"></div>--%>
         </div>
     </div>
 </div>

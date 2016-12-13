@@ -129,7 +129,7 @@ function initTable() {
                 align: 'center',
                 isDown:true
             },
-            {
+            /*{
                 title: '头像',
                 field: 'headImage',
                 editable: false,
@@ -140,7 +140,7 @@ function initTable() {
                     if(!value){value=options.defaultImgSrc}
                     return '<img src="'+value+'" align="absmiddle" style="width:32px;margin-top:4px;border-radius:0px;box-shadow:0px 0px 12px #7E7E7E;">';
                 }
-            },
+            },*/
             {
                 title: '部门名称',
                 field: 'department',

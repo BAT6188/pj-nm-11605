@@ -114,24 +114,26 @@
                         <label for="level" class="col-sm-2 control-label">级别<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select  class="form-control"  id="level" name="level">
-                                <option value="1">一级</option>
-                                <option value="2">二级</option>
+                                <option value="1">国家环保部</option>
+                                <option value="2">自治区环保厅</option>
+                                <option value="3">鄂尔多斯环保局</option>
+                                <option value="4">东胜区环保局</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enactOrgName" class="col-sm-2 control-label">制订单位<span class="text-danger">*</span>：</label>
+                        <label for="enactOrgName" class="col-sm-2 control-label">颁布单位<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enactOrgName" name="enactOrgName" class="form-control"
-                                   data-message="制订单位不能为空"
+                                   data-message="颁布单位不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubTime" class="col-sm-2 control-label">发布时间<span class="text-danger">*</span>：</label>
+                        <label for="pubTime" class="col-sm-2 control-label">颁布时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
-                                       data-message="发布时间不能为空"
+                                       data-message="颁布时间不能为空"
                                        data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

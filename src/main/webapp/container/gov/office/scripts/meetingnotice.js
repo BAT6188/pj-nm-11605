@@ -104,7 +104,7 @@ function initTable() {
                 editable: false
             },
             {
-                field: 'operate',
+                field: 'operate1',
                 title: '接收状态',
                 align: 'center',
                 events: operateEvents,
@@ -118,7 +118,7 @@ function initTable() {
                 }
             },
             {
-                field: 'operate',
+                field: 'operate2',
                 title: '操作',
                 align: 'center',
                 events: operateEvents,
@@ -211,11 +211,25 @@ var options = {
     width:"60%"     //宽度(可省略，默认值：850)
 };
 var model = $.fn.MsgSend.init(1,options,function(e,data){
+    var entity=data.sourceId;
+    console.log(data)
     var d,ids=[],names=[];
+    var receivers = [];
     $.each(data.personObj,function(k,v){
         ids[k] = v.id;
-        names[k]=v.name
+        names[k]=v.name;
+
+        var receiver1 = {receiverId:v.userId,receiverName:v.name};
+        receivers.push(receiver1);
     });
+    var msg = {
+        'msgType':2,
+        'title':'会议通知提醒',
+        'content':entity.content,
+        'businessId':entity.id
+    };
+    pageUtils.sendMessage(msg, receivers);
+
     d=$.param({ids:ids,names:names},true);
     d+="&id="+data.sourceId;
     console.log(d);//回调函数，data为所选人员ID
@@ -303,22 +317,14 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             $("#id").val(msg.id);
             if(buttonSend=="#save"){
-                model.open(msg.id);
+                entity.id=msg.id;
+                model.open(entity);
             }else{
                 modelMsg.open(msg.id);
             }
             gridTable.bootstrapTable('refresh');
 
-            var receivers = [];
-            var receiver1 = {receiverId:userId,receiverName:userName};
-            receivers.push(receiver1);
-            var msg = {
-                'msgType':2,
-                'title':'会议通知提醒',
-                'content':entity.content,
-                'businessId':msg.id
-            };
-            pageUtils.sendMessage(msg, receivers);
+
         });
     }
 });
