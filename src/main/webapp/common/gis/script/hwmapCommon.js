@@ -51,8 +51,7 @@ HwmapCommon = {
                             {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
                             {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
                             {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
-                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
-                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5}
                         ]
                     },
                     getImageFunc: function (level, row, col) {
@@ -97,8 +96,7 @@ HwmapCommon = {
                             {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
                             {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
                             {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
-                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
-                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5}
                         ]
                     },
                     getImageFunc: function (level, row, col) {
@@ -146,8 +144,7 @@ HwmapCommon = {
                             {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
                             {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
                             {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
-                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
-                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5}
                         ]
                     },
                     getImageFunc: function (level, row, col) {
@@ -191,8 +188,7 @@ HwmapCommon = {
                             {"level": 6, "scale": 36071, "resolution": 8.582953794130404E-5},
                             {"level": 7, "scale": 18035, "resolution": 4.2913579240149105E-5},
                             {"level": 8, "scale": 9017, "resolution": 2.145559988957164E-5},
-                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5},
-                            {"level": 10, "scale": 2254, "resolution":5.363305107141452E-6}
+                            {"level": 9, "scale": 4508, "resolution": 1.0726610214282904E-5}
                         ]
                     },
                     getImageFunc: function (level, row, col) {
