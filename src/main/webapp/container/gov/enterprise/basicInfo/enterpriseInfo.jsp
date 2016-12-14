@@ -155,7 +155,7 @@
                             <td class="success">经度</td>
                             <td>
                                 <div class="col-sm-12">
-                                    <input type="text" id="longitude" name="longitude" class="form-control needCheck" readonly
+                                    <input type="text" id="longitude" name="longitude" class="form-control needCheck needshow"
                                            data-message="" data-easyform="notnull" title="经纬度"/>
                                 </div>
                             </td>
@@ -163,7 +163,7 @@
                             <td>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="latitude" name="latitude" readonly
+                                        <input type="text" class="form-control needCheck needshow" id="latitude" name="latitude"
                                                data-easyform="null;"/>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default formBtn" type="button" id="mapMarkBtn">

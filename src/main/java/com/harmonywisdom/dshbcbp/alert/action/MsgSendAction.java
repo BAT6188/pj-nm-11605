@@ -156,7 +156,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             ztreeObj.setCouldChose(true);
             ztreeObj.setId(iPerson.getPersonId());
             ztreeObj.setName(iPerson.getUserName());
-            if(iPerson.getPcode().equals("1")){
+            if("1".equals(iPerson.getPcode())){
                 //ztreeObj.setName(iPerson.getUserName()+"(党员)");
                 ztreeObj.setPcode(iPerson.getPcode());
                 ztreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iPerson.getUserName()+"党员"));
