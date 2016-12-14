@@ -318,6 +318,7 @@ var ef = form.easyform({
             $("#id").val(msg.id);
             if(buttonSend=="#save"){
                 entity.id=msg.id;
+                entity.isSendSms=$("#isSendSms").is(':checked');
                 model.open(entity);
             }else{
                 modelMsg.open(msg.id);

@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/10/17.
  */
-var sourceId_msgSend; //源id
+var sourceId_msgSend; //一个entity实体对象{isSendSms:true,content:"短信内容",其他实体字段}                 //源id
 var MsgSend = {};
 MsgSend.tree = {};
 (function($){
@@ -101,6 +101,33 @@ function setDialogTypeOne(dialog,options,callback){
                 Ewin.alert("请选择人员");
                 return;
             }
+            //发送短信
+            if (sourceId_msgSend.isSendSms){
+                //转换短信接收人结构
+                var receivers = [];
+                var RECEIVER_SOURCE_CONTACTS = "2";
+                for(var i =0; i < persons.length; i++){
+                    var people = persons[i];
+                    var receiver = {};
+                    receiver.receiverId = people.id;
+                    receiver.receiverName = people.name;
+                    receiver.receiverPhone = people.mobilePhone;
+                    receiver.receiverSource = RECEIVER_SOURCE_CONTACTS;
+                    receivers.push(receiver);
+                }
+                $.ajax({
+                    url:rootPath + "/action/S_sms_SmsRecord_sendSms.action",
+                    type:"post",
+                    dataType:"json",
+                    data:{'senderId':userId,'senderName':userName,'content':sourceId_msgSend.content,"receivers":JSON.stringify(receivers)},
+                    success:function (sendStatuses) {
+                        if (sendStatuses && sendStatuses.length > 0) {
+                           console.log("短信发送成功")
+                        }
+                    }
+                });
+            }
+
             var returnData={
                 personObj:persons,
                 sourceId:sourceId_msgSend
