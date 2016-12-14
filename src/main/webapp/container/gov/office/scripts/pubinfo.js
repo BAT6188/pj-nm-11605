@@ -11,10 +11,10 @@ var gridTable = $('#table'),
 function saveAjax(entity, callback) {
     $.ajax({
         url: rootPath + "/action/S_office_PubInfo_save.action",
-        type:"post",
-        data:entity,
-        dataType:"json",
-        success:callback
+        type: "post",
+        data: entity,
+        dataType: "json",
+        success: callback
     });
 }
 /**
@@ -127,7 +127,7 @@ function initTable() {
         //选中一条数据启用修改按钮
         updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
 
-        // pub.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        pub.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -173,7 +173,7 @@ initTable();
 //初始化按钮状态
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
-// pub.prop('disabled', true);
+pub.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
