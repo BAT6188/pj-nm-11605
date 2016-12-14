@@ -57,7 +57,7 @@ HwmapCommon = {
                     getImageFunc: function (level, row, col) {
                         //token=" + token.getToken() + "&appCode=" + token.getAppCode() + + "&timestamp=" + token.getTimestamp();
                         //serviceCode=").append(this.BASEMAP).append("&mapName=").append(mapName).append("&level=").append(level).append("&col=").append(col).append("&row=")
-                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
+                        return "http://172.17.29.42:8080/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             },
@@ -102,7 +102,7 @@ HwmapCommon = {
                     getImageFunc: function (level, row, col) {
                         //token=" + token.getToken() + "&appCode=" + token.getAppCode() + + "&timestamp=" + token.getTimestamp();
                         //serviceCode=").append(this.BASEMAP).append("&mapName=").append(mapName).append("&level=").append(level).append("&col=").append(col).append("&row=")
-                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsimagemap&level="+level+"&row="+row+"&col="+col;
+                        return "http://172.17.29.42:8080/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsimagemap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             }
@@ -148,7 +148,7 @@ HwmapCommon = {
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
+                        return "http://172.17.29.42:8080/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsmap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             },
@@ -192,7 +192,7 @@ HwmapCommon = {
                         ]
                     },
                     getImageFunc: function (level, row, col) {
-                        return "http://harmonywisdom.eicp.net:19105/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsimagemap&level="+level+"&row="+row+"&col="+col;
+                        return "http://172.17.29.42:8080/dsgissrv/rest?token="+token+"&appCode="+appCode+"&timestamp="+timestamp+"&serviceCode=basemap&mapName=dsimagemap&level="+level+"&row="+row+"&col="+col;
                     }
                 }
             }

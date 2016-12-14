@@ -165,10 +165,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <db.host>dev1.zthz.com</db.host>
+                <db.host>172.17.29.45</db.host>
+                <db.port>1521</db.port>
                 <db.name>dshbcbp</db.name>
                 <db.username>root</db.username>
-                <db.password>database.MySQ1.root</db.password>
+                <db.password>root</db.password>
                 <db.show.sql>true</db.show.sql>
             </properties>
         </profile>
