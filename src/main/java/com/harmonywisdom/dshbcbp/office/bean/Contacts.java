@@ -109,6 +109,12 @@ public class Contacts implements Serializable {
     private String summary;
 
     /**
+     * 职责
+     */
+    @Column(name="BLOCK_DUTY",length = 255)
+    private String blockDuty;
+
+    /**
      *附件
      */
     @Transient
@@ -274,5 +280,13 @@ public class Contacts implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public String getBlockDuty() {
+        return blockDuty;
+    }
+
+    public void setBlockDuty(String blockDuty) {
+        this.blockDuty = blockDuty;
     }
 }

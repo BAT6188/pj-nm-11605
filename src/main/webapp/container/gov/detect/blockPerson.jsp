@@ -96,29 +96,31 @@
                                     <input type="hidden" id="apportalUserId" name="apportalUserId" class="form-control">
                                     <input type="hidden" id="removeId" name="removeId" class="form-control">
                                     <input type="hidden" id="blockLevelId" name="blockLevelId" class="form-control">
-                                    <input type="hidden" id="blockId" name="blockId" class="form-control">
                                     <input type="text" id="name" name="name" class="form-control"
                                            data-message="姓名不能为空"
                                            data-easytip="position:top;class:easy-red;"
                                     />
                                 </div>
-                                <label for="department" class="col-sm-2 control-label">所属部门<span class="text-danger">*</span>：</label>
-                                <div class="col-sm-4">
-                                    <input type="text" id="department" name="department" class="form-control"
-                                           data-message="所属部门不能为空"
-                                           data-easytip="position:top;class:easy-red;"
-                                    />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="position" class="col-sm-2 control-label">职务<span class="text-danger">*</span>：</label>
+
+
+                                <label for="position" class="col-sm-2 control-label">网格职务：<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
                                     <input type="text" id="position" name="position" class="form-control"
                                            data-message="职务不能为空"
                                            data-easytip="position:top;class:easy-red;"
                                     />
                                 </div>
-                                <label for="address" class="col-sm-2 control-label">单位地址<span class="text-danger">*</span>：</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="col-sm-2 control-label">手机号码<span class="text-danger">*</span>：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="phone" name="phone" class="form-control"
+                                           data-message="单位地址不能为空"
+                                           data-easytip="position:top;class:easy-red;"
+                                    />
+                                </div>
+
+                                <label for="address" class="col-sm-2 control-label">单位地址：<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
                                     <input type="address" id="address" name="address" class="form-control"
                                            data-message="单位地址不能为空"
@@ -127,20 +129,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="tel" class="col-sm-2 control-label">座机号码<span class="text-danger">*</span>：</label>
+                                <label for="blockId" class="col-sm-2 control-label">所属网格:<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" id="tel" name="tel" class="form-control"
+                                    <input type="text" id="blockId" name="blockId" class="form-control"
                                            data-message="单位地址不能为空"
                                            data-easytip="position:top;class:easy-red;"
                                     />
                                 </div>
-                                <label for="phone" class="col-sm-2 control-label">手机号码<span class="text-danger">*</span>：</label>
-                                <div class="col-sm-4">
-                                    <input type="text" id="phone" name="phone" class="form-control"
-                                           data-message="单位地址不能为空"
-                                           data-easytip="position:top;class:easy-red;"
-                                    />
-                                </div>
+
                             </div>
                             <div class="form-group blockBtn">
                                 <label for="apportalUserName" class="col-sm-2 control-label">关联系统用户：</label>
@@ -155,6 +151,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="blockDuty" class="col-sm-2 control-label">职责：<span class="text-danger">*</span>：</label>
+                                <div class="col-sm-10">
+                            <textarea  id="blockDuty" name="blockDuty" class="form-control" rows="5"
+                                       data-message="职责不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                            ></textarea>
+                                </div>
                             <div class="form-group">
                                 <label for="attachment" class="col-sm-2 control-label">附件：</label>
                                 <div class="col-sm-10">

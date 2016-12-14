@@ -49,9 +49,9 @@ function initMapBtn(){
         var points = loadBlockPoints(blockId);
 
         var blockLevelId = $("#blockLevelId").val();
-        if (blockLevelId == "2") {
-            points = loadChildrenBlockPoints(blockId);
-        }
+        // if (blockLevelId == "2") {
+        //     points = loadChildrenBlockPoints(blockId);
+        // }
         
         //设置标绘模式
 
@@ -589,7 +589,7 @@ function setEnterpriseForm(flag){
         if(v.tagName=='SELECT'){
             if(tagId=="blockLevelId" && value!=null){
                 var childData = allBlockMap[value].blocks;
-                $('#blockId').empty();
+                // $('#blockId').empty();
                 $.each(childData,function(k,v){
                     $('#blockId').append($("<option>").val(v.id).text(v.orgName+" ("+v.blockLeader+")"));
                 });

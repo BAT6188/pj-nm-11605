@@ -1,3 +1,4 @@
+//@ sourceURL=blockPerson.js
 var gridTable = $('#table'),
     choseTable = $('#choseTable'),
     addBtn = $("#add"),
@@ -46,11 +47,20 @@ var blockSetting = {
         }
     }
 };
+
+var treeName;
 function blockTreeOnClick(event, treeId, treeNode) {
     $('.hidden').val("");
     if(treeNode.parentId!="-1"){
         addBtn.prop('disabled', false);
-        $('#s_blockId').val(treeNode.id);
+        if(treeNode.parentId =="1"){
+            treeName = "一级网格"
+        }else if(treeNode.parentId == "3"){
+            treeName = "二级网格"
+        }else if(treeNode.parentId == "4"){
+            treeName = "三级网格"
+        }
+        $('#s_blockId').val(treeName);
         $('#s_blockLevelId').val(treeNode.parentId);
         searchForm();
     }else{
@@ -152,31 +162,32 @@ function initTable() {
                 align: 'center',
                 isDown:true
             },
+            // {
+            //     title: '部门名称',
+            //     field: 'department',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false,
+            //     isDown:true
+            // },
             {
-                title: '部门名称',
-                field: 'department',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                isDown:true
-            },
-            {
-                title: '职务',
+                title: '网格职务',
                 field: 'position',
                 sortable: false,
                 align: 'center',
                 editable: false,
                 isDown:true
             },
+            // {
+            //     title: '座机号码',
+            //     field: 'tel',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false,
+            //     isDown:true
+            // },
             {
-                title: '座机号码',
-                field: 'tel',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                isDown:true
-            },{
-                title: '手机号码',
+                title: '联系电话',
                 field: 'phone',
                 sortable: false,
                 align: 'center',
@@ -510,7 +521,7 @@ function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find('form')[0].reset();
     $('#blockLevelId').find('option[value=""]').attr("selected",true);
-    $('#blockId').empty();
+    // $('#blockId').empty();
     //form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
