@@ -15,6 +15,12 @@ public class Contacts implements Serializable {
     private String id;
 
     /**
+     * 排序：值越大越靠前
+     */
+    @Column(name = "sort")
+    private Integer sort;
+
+    /**
      * 通讯录类型 0:通讯录人员 1:网格人员
      */
     @Column(name = "TYPE",length = 1)
@@ -260,5 +266,13 @@ public class Contacts implements Serializable {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

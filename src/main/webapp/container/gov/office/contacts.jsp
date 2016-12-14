@@ -196,6 +196,16 @@
                                     </tr>
                                     <p></p>
                                     <tr>
+                                        <td><label for="sort" class="col-sm-4 control-label">排序<span class="text-danger">*</span>：</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="sort" name="sort" class="form-control"
+                                                       data-message="不能为空"
+                                                       data-easytip="position:top;class:easy-red;"
+                                                />
+                                            </div></td>
+                                    </tr>
+                                    <p></p>
+                                    <tr>
                                         <td>
                                             <label for="tel" class="col-sm-4 control-label">座机号码<span class="text-danger">*</span>：</label>
                                             <div class="col-sm-8">
