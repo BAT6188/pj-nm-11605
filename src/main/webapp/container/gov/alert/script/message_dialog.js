@@ -390,6 +390,10 @@ var MessageDialog = function () {
                 msgModal.modal("hide");
             });
         });
+        msgModal.find(".btn-later").bind("click", function () {
+            setIsAlert(false);
+        });
+
 
     }
 
