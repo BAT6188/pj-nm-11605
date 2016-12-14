@@ -123,14 +123,14 @@
                         </div>
                         <label for="pubTime" class="col-sm-2 control-label">提交时间：</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="pubTime" name="pubTime" placeholder="系统自动添加" size="16" type="text" value="" readonly>
-                            <%--<div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                            <%--<input class="form-control" id="pubTime" name="pubTime" placeholder="系统自动添加" size="16" type="text" value="" readonly>--%>
+                            <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
                                        data-message="发布时间不能为空"
                                        data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>--%>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

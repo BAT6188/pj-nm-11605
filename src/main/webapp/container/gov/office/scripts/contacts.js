@@ -273,6 +273,7 @@ addBtn.bind('click',function () {
     form.find('#orgId').val(thisOrgId);
     form.find('#department').val(thisOrgName);
     form.find('#type').val("0");
+    form.find('#sort').val("0");
 });
 updateBtn.bind("click",function () {
     setFormData(getSelections()[0]);

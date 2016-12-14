@@ -4,6 +4,7 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.Contacts;
 import com.harmonywisdom.dshbcbp.office.service.ContactsService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -57,6 +58,7 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("sort", Direction.DESC);
         return condition;
     }
 

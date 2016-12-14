@@ -4,6 +4,7 @@
 var sourceId_msgSend; //一个entity实体对象{isSendSms:true,content:"短信内容",其他实体字段}                 //源id
 var MsgSend = {};
 MsgSend.tree = {};
+
 (function($){
     $.fn.MsgSend = {
         init:function(type,options,callback){
@@ -70,6 +71,9 @@ MsgSend.tree = {};
                 treeObj:treeObj,
                 open:function(sourceId){
                     sourceId_msgSend=sourceId;
+                    if (!sourceId_msgSend){
+                        sourceId_msgSend={isSendSms:false}
+                    }
                     dialog.modal('show');
                     treeObj.expandAll(true);
                 },

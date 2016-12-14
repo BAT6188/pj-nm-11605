@@ -227,30 +227,47 @@ $("#update").bind("click",function () {
     $("#pubOrgName").attr("disabled",true)
 });
 
-$("#pub").bind("click",function () {
-    var id=getIdSelections()[0];
-    pubSharemean(id);
+
+var ef2 = form.easyform({
+    success:function(ef2){
+        Ewin.confirm({ message: "是否发布信息" }).on(function (e) {
+            if (!e) {
+                return;
+            }else{
+                var sharemeans = form.find("form").formSerializeObject();
+                sharemeans.attachmentIds = getAttachmentIds();
+                sharemeans.pubOrgName=$("#pubOrgName").val();
+                saveShareMeans(sharemeans,function (msg) {
+                    pubSharemean(msg.id);
+                    form.modal('hide');
+                });
+            }
+        })
+
+    }
 });
+
+
+$("#pub").bind("click",function () {
+    ef2.submit(false);
+});
+
+
 
 
 function pubSharemean(id){
     console.log(id);
-    Ewin.confirm({ message: "是否发布信息" }).on(function (e) {
-        if (!e) {
-            return;
-        }else{
-            $.ajax({
-                url: rootPath + "/action/S_office_ShareMeans_pubsave.action",
-                type:"post",
-                dataType:'json',
-                data:{id:id},
-                success: function(msg){
-                    form.modal('hide');
-                    gridTable.bootstrapTable('refresh');
-                }
-            });
+    $.ajax({
+        url: rootPath + "/action/S_office_ShareMeans_pubsave.action",
+        type:"post",
+        async:false,
+        dataType:'json',
+        data:{id:id},
+        success: function(msg){
+            form.modal('hide');
+            gridTable.bootstrapTable('refresh');
         }
-    })
+    });
 }
 
 

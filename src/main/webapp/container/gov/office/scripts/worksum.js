@@ -182,6 +182,7 @@ updateBtn.prop('disabled', true);
 $("#add").bind('click',function () {
     $('#publishBtn').attr('disabled',false);
     resetForm();
+    $("#pubTime").val((new Date()).format("yyyy-MM-dd"))
 });
 $("#update").bind("click",function () {
     var entity = getSelections()[0];
