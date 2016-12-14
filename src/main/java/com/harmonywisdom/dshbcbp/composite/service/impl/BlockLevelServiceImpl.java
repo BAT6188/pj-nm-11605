@@ -10,8 +10,10 @@ import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.composite.service.VillageEnvService;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
+import com.harmonywisdom.dshbcbp.port.bean.AirEquipment;
 import com.harmonywisdom.dshbcbp.port.bean.DustPort;
 import com.harmonywisdom.dshbcbp.port.bean.NoisePort;
+import com.harmonywisdom.dshbcbp.port.service.AirEquipmentService;
 import com.harmonywisdom.dshbcbp.port.service.DustPortService;
 import com.harmonywisdom.dshbcbp.port.service.NoisePortService;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
@@ -48,6 +50,10 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
 
     @Autowired
     private VideoDeviceService videoDeviceService;
+
+    @Autowired
+    private AirEquipmentService airEquipmentService;
+
     @Override
     protected BaseDAO<BlockLevel, String> getDAO() {
         return blockLevelDAO;
@@ -106,6 +112,15 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
 //            nodes.addAll(blocks);
             nodes.add(blocks);
         }
+
+        //查询企业
+        List<ZNodeDTO> enterprises = enterpriseService.searchNode(searchText);
+        if (enterprises != null) {
+            ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业分布",true,Enterprise.class.getSimpleName());
+            enterpriseMainNode.setChildren(enterprises);
+            nodes.add(enterpriseMainNode);
+        }
+
         ZNodeDTO monitoring = new ZNodeDTO("monitoring","在线监控",true,"monitoring");
         List<ZNodeDTO> monitoringChildren = new ArrayList<>();
         monitoring.setChildren(monitoringChildren);
@@ -127,16 +142,19 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
             dustMainNode.setChildren(dustPorts);
             monitoringChildren.add(dustMainNode);
             monitoring.setChildren(monitoringChildren);
+        }
 
+        //空气质量在线监测
+        List<ZNodeDTO> airEquipment = airEquipmentService.searchNode(searchText);
+        if(airEquipment != null){
+            ZNodeDTO airMainNode = new ZNodeDTO(AirEquipment.class.getSimpleName(),"空气质量在线加测",true,AirEquipment.class.getSimpleName());
+            monitoring.setChildren(airEquipment);
+            airMainNode.setChildren(airEquipment);
+            monitoringChildren.add(airMainNode);
+            monitoring.setChildren(monitoringChildren);
 
         }
-        //查询企业
-        List<ZNodeDTO> enterprises = enterpriseService.searchNode(searchText);
-        if (enterprises != null) {
-            ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业分布",true,Enterprise.class.getSimpleName());
-            enterpriseMainNode.setChildren(enterprises);
-            nodes.add(enterpriseMainNode);
-        }
+
 
         //查询公安视频
         List<ZNodeDTO> videoDevices = videoDeviceService.searchNode(searchText);

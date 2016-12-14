@@ -29,7 +29,7 @@ public class DustPortServiceImpl extends BaseService<DustPort, String> implement
 
     @Override
     public List<ZNodeDTO> searchNode(String searchText) {
-        List<DustPort> ports = getDAO().find("name like ?1", searchText);;
+        List<DustPort> ports = getDAO().find("name like ?1", searchText);
         if (ports != null && ports.size() > 0) {
             List<ZNodeDTO> nodes = new ArrayList<>();
             for (DustPort port : ports) {

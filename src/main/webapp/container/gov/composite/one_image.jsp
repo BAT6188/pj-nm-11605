@@ -72,6 +72,7 @@
 <%@include file="/container/gov/composite/noise_form_view.jsp" %>
 <%@include file="/container/gov/composite/dust_form_view.jsp" %>
 <%@include file="/container/gov/composite/enterprise_plotting.jsp" %>
+<%@include file="/container/gov/composite/air_form_view.jsp" %>
 <script src="<%=request.getContextPath()%>/container/gov/composite/scripts/one_image.js"></script>
 </body>
 </html>
