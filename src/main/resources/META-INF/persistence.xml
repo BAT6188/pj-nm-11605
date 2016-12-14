@@ -50,6 +50,9 @@
         <class>com.harmonywisdom.dshbcbp.port.bean.NoisePortHistory</class>
         <class>com.harmonywisdom.dshbcbp.port.bean.PortThreshold</class>
         <class>com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory</class>
+        <!-- 空气设备表 -->
+        <class>com.harmonywisdom.dshbcbp.port.bean.AirEquipment</class>
+
         <!-- 传输有效率 -->
         <class>com.harmonywisdom.dshbcbp.port.bean.TransportEfficient</class>
         <!-- 空气质量监控表-->

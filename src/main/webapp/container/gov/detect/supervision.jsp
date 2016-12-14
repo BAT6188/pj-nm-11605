@@ -30,7 +30,7 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline" id="searchform">
                         <div class="form-group">
-                            <label>单位名称：</label> <input type="text" name="orgName" style="width: 180px;"
+                            <label>网格名称：</label> <input type="text" name="orgName" style="width: 180px;"
                                                         class="form-control"/>
                         </div>
                     </form>
@@ -72,7 +72,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="orgName" class="col-sm-2 control-label">单位名称<span
+                        <label for="orgName" class="col-sm-2 control-label">网格名称<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
@@ -84,6 +84,13 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
+                        <label for="blockLevelId" class="col-sm-2 control-label">上级网格：</label>
+                        <div class="col-sm-4">
+                            <select id="parentBlockId" name="parentBlockId" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <%--<div class="form-group">
                         <label for="principal" class="col-sm-2 control-label">姓名<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -91,13 +98,6 @@
                                    data-message="名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">上级区域：</label>
-                        <div class="col-sm-4">
-                            <select id="parentBlockId" name="parentBlockId" class="form-control">
-                            </select>
                         </div>
                         <label for="principalPhone" class="col-sm-2 control-label">联系方式<span
                                 class="text-danger">*</span>：</label>
@@ -108,7 +108,7 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="form-group">
                         <label for="blockLeader" class="col-sm-2 control-label">网格长<span
                                 class="text-danger">*</span>：</label>
@@ -118,30 +118,31 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="blockLeaderTel" class="col-sm-2 control-label">网格长电话<span
+                        <label for="blockLeaderTel" class="col-sm-2 control-label">联系电话<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="blockLeaderTel" name="blockLeaderTel" class="form-control"
                                    data-easyform="regex:^1(3|4|5|7|8)\d{9}$;"
-                                   data-message="网格长电话格式不正确"
+                                   data-message="联系电话格式不正确"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="orgAddress" class="col-sm-2 control-label">单位地址<span
+                        <label for="environmentalLeader" class="col-sm-2 control-label">环保负责人<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="orgAddress" name="orgAddress" class="form-control"
-                                   data-message="单位地址不能为空"
+                            <input type="text" id="environmentalLeader" name="environmentalLeader" class="form-control"
+                                   data-message="环保负责人不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="position" class="col-sm-2 control-label">职务<span
+                        <label for="environmentalPhone" class="col-sm-2 control-label">联系电话<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="position" name="position" class="form-control"
-                                   data-message="职务不能为空"
+                            <input type="text" id="environmentalPhone" name="environmentalPhone" class="form-control"
+                                   data-easyform="regex:^1(3|4|5|7|8)\d{9}$;"
+                                   data-message="联系电话格式不正确"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
@@ -160,11 +161,30 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="childBlockId" class="col-sm-2 control-label">下级管辖区域<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="childBlockId" name="childBlockId" class="form-control">
-                            </select>
+                        <label for="orgAddress" class="col-sm-2 control-label">详细地址<span
+                                class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="orgAddress" name="orgAddress" class="form-control"
+                                   data-message="详细地址不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
                         </div>
+                        <%--<label for="position" class="col-sm-2 control-label">职务<span
+                                class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="position" name="position" class="form-control"
+                                   data-message="职务不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>--%>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockDuty" class="col-sm-2 control-label">网格职责<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="blockDuty" name="blockDuty" class="form-control" rows="5"
+                                       data-message="网格职责不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                            ></textarea>
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">附件：</label>

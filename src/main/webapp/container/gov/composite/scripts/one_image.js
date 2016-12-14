@@ -13,6 +13,7 @@ var OneImagePage = function () {
         VILLAGEENV_FLAG: "VillageEnv",
         VIDEO_FLAG: "Video",
         VIDEO_DEVICE_FLAG: "VideoDevice",
+        AIR_EQUIPMENT_FLAG:"AirEquipment",
         CLOCK_DELAY:30000
     };
     var page = {
@@ -28,6 +29,7 @@ var OneImagePage = function () {
         MAP_LAYER_NOISEPORT:"NoisePortLayer",
         MAP_LAYER_DUSTPORT:"DustPortLayer",
         MAP_LAYER_VIDEO_DEVICE:"VideoDeviceLayer",
+        MAP_LAYER_AIR_EQUIPMENT:"AirEquipmentLayer",
 
         height:$(window).height()-125,
         init: function () {
@@ -151,7 +153,7 @@ var OneImagePage = function () {
                                     ids.push(childNode.id);
                                 }
                             }
-                            that["load"+treeNode.type+"ToMap"](ids);
+                            that["load"+treeNode.type+"ToMap"](ids);//1获取节点id，加载load+Tomap方法
                         }else{//取消选择 清除数据
                             if (treeNode.isParent){//如果是主节点，清空子图层
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
@@ -391,6 +393,9 @@ var OneImagePage = function () {
                     this[Constant.VIDEO_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/camera.png'
                     };
+                    this[Constant.AIR_EQUIPMENT_FLAG] = {
+                        '0': rootPath+'/common/gis/images/markers/gas_n.png'
+                    }
                 },
                 getIcon:function (type,status) {
                     var iconMap = this[type];
@@ -639,6 +644,119 @@ var OneImagePage = function () {
 
             });
         },
+
+        /**
+         * 添加在线空气质量监测
+         */
+        loadAirEquipment:function (ids,callback) {
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_port_AirEquipment_findByIds.action",
+                type:"post",
+                dataType:"json",
+                data:$.param({'ids':ids},true),
+                success:function (result) {
+                    callback(result);
+                }
+            });
+
+        },
+
+        /**
+         * 添加空气质量监测到地图
+         */
+        loadAirEquipmentToMap:function(ids){
+            var that = this;
+            that.loadAirEquipment(ids, function (airs) {
+                if (airs && airs.length > 0) {
+                    for (var i = 0; i < airs.length; i++) {
+                        var airEquipment = airs[i];
+                        that.addAirEquipmentMark(airEquipment);
+                    }
+                }
+            });
+        },
+
+        addAirEquipmentMark:function (airEquipment) {
+            var x = airEquipment.longitude;
+            var y = airEquipment.latitude;
+            if (!x || !y) {
+                return false;
+            }
+            var that = this;
+            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.AIR_EQUIPMENT_FLAG,airEquipment.status);
+            this.hwmap.addMarker({
+                id:airEquipment.id,
+                data:airEquipment,
+                type:Constant.AIR_EQUIPMENT_FLAG,
+                image:image,
+                width:33,
+                height:37,
+                x:airEquipment.longitude,
+                y:airEquipment.latitude,
+                click:function (gra) {
+                    that.showAirEquipmentInfoWin(gra.data);
+                }
+            },this.MAP_LAYER_AIR_EQUIPMENT);
+        },
+
+
+        showAirEquipmentInfoWin:function(airEquipment){
+            var infoHtml = "<div>";
+            infoHtml +="<table class='table table-condensed'>" +
+                "<tr><td style='text-align: right;width: 120px;'>空气质量监测点:</td><td style='text-align: left;'>"+(airEquipment.airMonitoringName==null?"":airEquipment.airMonitoringName)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测点编号:</td><td style='text-align: left;'>"+(airEquipment.monitoringNumber==null?"":airEquipment.monitoringNumber)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+(airEquipment.monitoringTime==null?"":airEquipment.monitoringTime)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+(airEquipment.monitoringPosition==null?"":airEquipment.monitoringPosition)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>空气质量指数:</td><td style='text-align: left;'>"+(airEquipment.airIndex==null?"":airEquipment.airIndex)+"</td></tr>";
+
+            infoHtml += "</table>";
+            //添加按钮
+            infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
+            infoHtml+="<button data-air-id='"+airEquipment.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
+            //超标按钮
+            // var statusBtnText = "";
+            // var statusBtnHtml = "<button data-air-id='" + airEquipment.id + "' class='btn btn-primary show-status-btn' href='javascript:void(0);'>"+statusBtnText+"</button>";
+            // if(statusBtnText){
+            //     infoHtml+=statusBtnHtml;
+            // }
+            // infoHtml+="</div>";
+            //添加按钮结束
+            infoHtml += "</div>";
+
+
+            //显示信息窗口
+            var infoWindowAir = this.hwmap.showInfoWindow({
+                x:airEquipment.longitude,
+                y:airEquipment.latitude,
+                width:300,
+                height:280,
+                html:infoHtml,
+                title:"空气质量监测设备"
+            });
+            $(infoWindowAir).find(".show-info-btn").bind("click",function () {
+                var airId = $(this).data("air-id");
+                //打开噪音详情表单
+                AirFormViewDialog.modal({
+                    id:airId
+                });
+                AirFormViewDialog.modal("show");
+            });
+            // $(infoWindowAir).find(".show-status-btn").bind("click",function () {
+            //     var id = $(this).data("air-id");
+            //     var text = $(this).text();
+            //     var result = AirFormViewDialog.setPortId(id);
+            //     if (result) {
+            //         AirFormViewDialog.open();
+            //     }else{
+            //         Ewin.alert({message:"未找到"+text});
+            //     }
+            //
+            // });
+
+
+        },
+
 
         /**
          * 加载网格区域

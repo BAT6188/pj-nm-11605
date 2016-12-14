@@ -727,11 +727,10 @@ function ChildBlockOption(childBlockLevelId) {
             data: {blockLevelId: childBlockLevelId},
             success: function (msg) {
                 $('#childBlockId').empty();
-                $('#childBlockId').append("<option value=''>请选择</option>");
+                // $('#childBlockId').append("<option value=''>请选择</option>");
                 if (msg && msg.length >0){
-                    // var is2Level = (msg[0].blockLevelId == "2");
                     for (var i = 0; i < msg.length; i++) {
-                        $('#childBlockId').append("<option value='" + msg[i].id + "'>" + msg[i].principal + "</option>")
+                        $('#childBlockId').append("<option value='" + msg[i].id + "'>" + (msg[i].principal) + "</option>")
                     }
                 }
 
