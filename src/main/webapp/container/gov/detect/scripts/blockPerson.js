@@ -366,6 +366,8 @@ var options = {
 var model2 = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
     form.find('#apportalUserId').val(obj.personObj[0].id);
     form.find('#apportalUserName').val(obj.personObj[0].saveName);
+    form.find("#name").val(obj.personObj[0].saveName);
+    form.find("#phone").val(obj.personObj[0].mobilePhone);
 });
 addPersonBtn.click(function(){
     choseTable.bootstrapTable('refresh');
