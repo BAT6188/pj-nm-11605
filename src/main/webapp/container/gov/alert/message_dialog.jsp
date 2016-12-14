@@ -9,7 +9,7 @@
 
 <!--消息列表弹出框-->
 <div class="modal fade" id="messageListDialog" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="messageListDialog" aria-hidden="true">
-    <div class="modal-dialog" style="width: 800px;">
+    <div class="modal-dialog" style="width: 873px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -23,8 +23,8 @@
                             <th><span>消息标题</span></th>
                             <th><span>消息内容</span></th>
                             <th><span>发送时间</span></th>
-                            <th><span class="text-danger">未接收</span></th>
-                            <th><button type="button" class="btn btn-primary btn-sm">详情</button></th>
+                            <th><span>接收状态</span></th>
+                            <th><span>操作</span></th>
                         </tr>
                     </thead>
                     <tbody>
