@@ -157,10 +157,12 @@
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">
                 <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
+                <input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>
                 <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>

@@ -7,8 +7,9 @@ var gridTable = $('#table'),
     refPersonBtn = $('#refPerson'),
     removePersonBtn = $('#removePerson'),
     form = $("#scfForm"),
-    formTitle = "人员管理",
+    formTitle = "人员信息",
     thisOrgId="",
+    thisOrgName="",
     selections = [];
 
 var setting = {
@@ -49,6 +50,7 @@ function orgTreeOnClick(event, treeId, treeNode){
     $('.hidden').val("");
     if(treeNode.parentId!="-1"){
         thisOrgId=treeNode.id;
+        thisOrgName=treeNode.name;
         $('#s_orgId').val(treeNode.id);
         searchForm();
         addBtn.prop('disabled',false);
@@ -269,6 +271,8 @@ refPersonBtn.prop('disabled', true);
 addBtn.bind('click',function () {
     resetForm();
     form.find('#orgId').val(thisOrgId);
+    form.find('#department').val(thisOrgName);
+    form.find('#type').val("0");
 });
 updateBtn.bind("click",function () {
     setFormData(getSelections()[0]);
