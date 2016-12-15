@@ -798,7 +798,7 @@ var OneImagePage = function () {
             var blockLevelMapColor = {
                 1:{
                     fillColor:"#CBF7EF",
-                    lineColor:"#0AC3E9",
+                    lineColor:"#CBF7EF",
                     lineWeight:6
                 },
                 2:{
@@ -806,14 +806,19 @@ var OneImagePage = function () {
                     lineColor:"#C1D964",
                     lineWeight:6
                 },
+                // 3:{
+                //     fillColor:"#CFE962",
+                //     lineColor:"#F7F5BD",
+                //     lineWeight:6
+                // },
                 3:{
-                    fillColor:"#CFE962",
-                    lineColor:"#F7F5BD",
-                    lineWeight:6
-                },
+                        fillColor:"#CFE962",
+                        lineColor:"#CFE962",
+                        lineWeight:6
+                    },
                 4:{
                     fillColor:"#F5A63C",
-                    lineColor:"#F7F5BD",
+                    lineColor:"#F5A63C",
                     lineWeight:6
                 }
             };
@@ -827,7 +832,7 @@ var OneImagePage = function () {
                 lineWeight:blockColor.lineWeight,
                 lineType:that.hwmap.LINE_TYPE_SOLID,
                 lineOpacity:2,
-                opacity:0.6,
+                opacity:0.3,
                 click:function (gra) {
                     var block = gra.data;
                     that.showBlockInfoWin(block);
