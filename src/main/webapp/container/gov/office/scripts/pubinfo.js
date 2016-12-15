@@ -204,27 +204,27 @@ function pubInfo(id) {
         type: "post",
         dataType: 'json',
         data: {id: id},
-        success: function (msg) {
+        success: function (pub) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
             var receivers = [];
-            if (msg && msg.persons && msg.persons.length> 0) {
+            if (pub && pub.persons && pub.persons.length > 0) {
                 var receivers = [];
-                $.each(msg.persons, function (i, v) {
+                $.each(pub.persons, function (i, v) {
                     var receiver1 = {receiverId: v.userId, receiverName: v.userName};
                     receivers.push(receiver1);
                 });
             }
-            if(msg && msg.pubInfos && msg.pubInfos.length> 0){
-                var msg = {
-                    'msgType':3,
-                    'title':msg.pubInfos.title,
-                    'content':msg.pubInfos.content,
-                    'businessId':msg.pubInfos.id
+            if (pub && pub.pubInfos && pub.pubInfos.length > 0) {
+                var pub = {
+                    'msgType': 3,
+                    'title': "信息公告提醒",
+                    'content': pub.pubInfos.content,
+                    'businessId': pub.pubInfos.id
                 }
             }
-                pageUtils.sendMessage(msg, receivers);
-            }
+            pageUtils.sendMessage(pub, receivers);
+        }
     })
 }
 var ef2 = form.easyform({
@@ -245,7 +245,6 @@ var ef2 = form.easyform({
                     form.modal('hide');
                     gridTable.bootstrapTable('refresh');
                     pubInfo(pub.id);
-                    form.modal('hide');
                 });
             }
         })
