@@ -109,7 +109,7 @@ public class Block implements Serializable {
     /**
      * 网格职责
      */
-    @Column(name="BLOCK_DUTY")
+    @Column(name="BLOCK_DUTY",length=1000)
     private String blockDuty;
     /**
      *附件
