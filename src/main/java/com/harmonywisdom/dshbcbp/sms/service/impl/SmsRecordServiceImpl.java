@@ -96,7 +96,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
             }
             smsSendStatusService.saveBatch(statuses);//保存发送联系人
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("短信发送失败",e);
         }
 
         return receivers;

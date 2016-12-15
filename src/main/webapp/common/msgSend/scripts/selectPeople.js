@@ -11,7 +11,7 @@ MsgSend.tree = {};
             options = $.extend({}, {
                 title: "人员选择",
                 url:rootPath + "/action/S_alert_MsgSend_getOrgPersonList.action",
-                params:{orgCode:["0170001000"],type:1},
+                params:{orgCode:["dsgov"],type:1},
                 choseMore:true,
                 btnok: "发送",
                 btncl: "取消",

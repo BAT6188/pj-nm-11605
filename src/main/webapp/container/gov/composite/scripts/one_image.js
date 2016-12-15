@@ -153,9 +153,25 @@ var OneImagePage = function () {
                                     ids.push(childNode.id);
                                 }
                             }
-                            that["load"+treeNode.type+"ToMap"](ids);//1获取节点id，加载load+Tomap方法
+                            if(treeNode.type == "monitoring"){
+                                for(var i =0; i < treeNode.length;i++){
+                                    that["loadNoisePortToMap"]("NoisePort");
+                                    that["loadDustPortToMap"]("DustPort");
+                                    that["loadAirEquipmentToMap"]("AirEquipment");
+                                    that["loadVideoDeviceToMap"]("VideoDevice");
+                                }
+                            }else{
+                                that["load"+treeNode.type+"ToMap"](ids);//1获取节点id，加载load+Tomap方法
+                            }
                         }else{//取消选择 清除数据
                             if (treeNode.isParent){//如果是主节点，清空子图层
+                                if(treeNode.name=="在线监控"){
+                                    that.hwmap.removeLayer("NoisePortLayer");
+                                    that.hwmap.removeLayer("DustPortLayer");
+                                    that.hwmap.removeLayer("AirEquipmentLayer");
+                                    that.hwmap.removeLayer("VideoDeviceLayer");
+
+                                }
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
                                 var children = treeNode.children;
                                 for(var i = 0; i < children.length; i++) {
@@ -797,8 +813,8 @@ var OneImagePage = function () {
             }
             var blockLevelMapColor = {
                 1:{
-                    fillColor:"#CBF7EF",
-                    lineColor:"#CBF7EF",
+                    fillColor:"#0AC3E9",
+                    lineColor:"#0AC3E9",
                     lineWeight:6
                 },
                 2:{
