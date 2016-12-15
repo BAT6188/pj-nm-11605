@@ -176,6 +176,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             }else{
                 ztreeObj.setIcon("common/images/ztree/head_male_man_user.png");
             }
+            ztreeObj.setIperson(iPerson);
         }
         if(contacts!=null){
             ztreeObj.setCouldChose(true);

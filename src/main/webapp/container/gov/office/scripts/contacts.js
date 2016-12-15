@@ -456,7 +456,7 @@ function resetForm() {
     setHeadImage(null);
     $('#blockLevelId').find('option[value=""]').attr("selected",true);
     $('#blockId').empty();
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     //imgUploader = new qq.FineUploader(getHeadimageUploaderOptions());
     disabledForm(false);

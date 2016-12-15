@@ -140,7 +140,7 @@
                             <label class="checkbox-inline"><input type="radio" name="isGasFlow" id="isGasFlow1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测废气流量">是</label>
                             <label class="checkbox-inline"><input type="radio" name="isGasFlow" id="isGasFlow0" value="0">否</label>
                         </div>
-                        <label for="isOxygen" class="col-sm-2 control-label">监测氧含量<span class="text-danger">(*)</span>：</label>
+                        <label for="isOxygen" class="col-sm-2 control-label">监测含氧量<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4 isRadio" id="isOxygen">
                             <label class="checkbox-inline"><input type="radio" name="isOxygen" id="isOxygen1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测氧含量">是</label>
                             <label class="checkbox-inline"><input type="radio" name="isOxygen" id="isOxygen0" value="0">否</label>
