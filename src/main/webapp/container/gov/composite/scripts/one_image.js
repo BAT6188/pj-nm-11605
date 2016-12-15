@@ -136,11 +136,8 @@ var OneImagePage = function () {
                                     var center = that.hwmap.MapTools.getPolygonCenter(overlay.points);
                                     that.hwmap.centerAt(center.x, center.y);
                                 }
-
                             }
-
                         }
-
                     },
                     onCheck:function (event, treeId, treeNode) {
                         if (treeNode.checked) {//选中 加载对应的数据
@@ -524,7 +521,7 @@ var OneImagePage = function () {
             var infoWindowDom = this.hwmap.showInfoWindow({
                 x:noisePort.longitude,
                 y:noisePort.latitude,
-                width:300,
+                width:370,
                 height:280,
                 html:infoHtml,
                 title:"噪音监测设备"
@@ -643,8 +640,8 @@ var OneImagePage = function () {
             var infoWindowDom = this.hwmap.showInfoWindow({
                 x:dustPort.longitude,
                 y:dustPort.latitude,
-                width:300,
-                height:280,
+                width:370,
+                height:300,
                 html:infoHtml,
                 title:"沙尘暴监测设备"
             });
@@ -753,8 +750,8 @@ var OneImagePage = function () {
             var infoWindowAir = this.hwmap.showInfoWindow({
                 x:airEquipment.longitude,
                 y:airEquipment.latitude,
-                width:300,
-                height:280,
+                width:370,
+                height:300,
                 html:infoHtml,
                 title:"空气质量监测设备"
             });

@@ -1,7 +1,7 @@
 /**
  * Created by ezgoing on 14/9/2014.
  */
-
+//@ sourceURL=cropbox.js
 "use strict";
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
