@@ -15,10 +15,7 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     @AutoService
@@ -88,6 +85,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("pubTime", Direction.DESC);
+        condition.setOrderBy("status", Direction.ASC);
         return condition;
     }
 
@@ -144,22 +142,34 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         }
         PubInfo pubInfo = pubInfoService.findById(id);
         String[] grade = pubInfo.getGrade().split(",");
-        List<IPerson> authorizationRoles = new ArrayList<>();
+        List<IPerson> authorizationIPerson = new ArrayList<>();
         List list = Arrays.asList(grade);
         for (int i = 0; i < list.size(); i++) {
             IOrg iOrgs = OrgServiceUtil.getOrgByOrgCode((String) list.get(i));
-            List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrgs.getOrgId());
+            List<IOrg> orgs = getChilrenOrgByPerentId(iOrgs.getOrgId());
             if (orgs.size() > 0) {
                 for (IOrg iOrgChild : orgs) {
                     List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(iOrgChild.getOrgId());
-                    authorizationRoles.addAll(persons);
+                    authorizationIPerson.addAll(persons);
                 }
             } else {
                 List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(iOrgs.getOrgId());
-                authorizationRoles.addAll(persons);
+                authorizationIPerson.addAll(persons);
             }
         }
-        write(authorizationRoles);
+        Map map=new HashMap();
+        map.put("persons",authorizationIPerson);
+        map.put("pubInfos",pubInfo);
+        write(map);
+    }
+
+    private List<IOrg> getChilrenOrgByPerentId(String perentOrgId){
+        if(StringUtils.isNotBlank(perentOrgId)){
+            List<IOrg> chilrenOrgs = OrgServiceUtil.getOrgsByParentOrgId(perentOrgId);
+            return chilrenOrgs;
+        }else{
+            return null;
+        }
     }
 
     /**
