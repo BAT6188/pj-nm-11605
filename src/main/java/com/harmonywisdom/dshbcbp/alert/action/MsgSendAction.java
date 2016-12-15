@@ -35,17 +35,33 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         findType = StringUtils.isNotBlank(findType)?findType:"null";
         if (orgCode.length == 1) {
             if(findType.equals("2")){
-                ztreeObjList = findOrgContactsPerson(orgCode[0],"-1");
+                ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgContactsPerson"+orgCode[0]);
+                if (null==ztreeObjList){
+                    ztreeObjList = findOrgContactsPerson(orgCode[0],"-1");
+                    request.getSession().setAttribute("findOrgContactsPerson"+orgCode[0],ztreeObjList);
+                }
             }else{
-                ztreeObjList = findOrgPersonByOrgCode(orgCode[0],"-1",type);
+                ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgPersonByOrgCode"+orgCode[0]);
+                if (null==ztreeObjList){
+                    ztreeObjList = findOrgPersonByOrgCode(orgCode[0],"-1",type);
+                    request.getSession().setAttribute("findOrgPersonByOrgCode"+orgCode[0],ztreeObjList);
+                }
             }
         } else {
             for (String code : orgCode) {
                 List<ZtreeObj> thisOPList = new ArrayList<ZtreeObj>();
                 if(findType.equals("2")){
-                    thisOPList = findOrgContactsPerson(code,"-1");
+                    ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgContactsPerson"+code);
+                    if (null==ztreeObjList){
+                        thisOPList = findOrgContactsPerson(code,"-1");
+                        request.getSession().setAttribute("findOrgContactsPerson"+code,ztreeObjList);
+                    }
                 }else{
-                    thisOPList = findOrgPersonByOrgCode(code,"-1",type);
+                    ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgPersonByOrgCode"+code);
+                    if (null==ztreeObjList){
+                        thisOPList = findOrgPersonByOrgCode(code,"-1",type);
+                        request.getSession().setAttribute("findOrgPersonByOrgCode"+code,ztreeObjList);
+                    }
                 }
                 for(ZtreeObj op:thisOPList){
                     ztreeObjList.add(op);

@@ -13,7 +13,7 @@ if (window.dialogArguments) {
     videoDevice = {"addr":"长安街7号","channalId":"2","deviceId":"1002","id":"2","latitude":"39.77978779325209","longitude":"110.10313785803981","type":"1","unit":"公安局"};
 }
 if (videoDevice){
-    console.log(JSON.stringify(videoDevice));  //{"addr":"长安街7号","channalId":"2","deviceId":"1002","id":"2","latitude":"39.77978779325209","longitude":"110.10313785803981","type":"1","unit":"公安局"}
+    // console.log(JSON.stringify(videoDevice));  //{"addr":"长安街7号","channalId":"2","deviceId":"1002","id":"2","latitude":"39.77978779325209","longitude":"110.10313785803981","type":"1","unit":"公安局"}
     init(videoDevice.channalId);
     $(".videoPause").remove();
 
@@ -32,7 +32,7 @@ function ShowCallRetInfo(nRet, strInfo)
     {
         str = strInfo + "失败！错误码：" + nRet;
     }
-    console.log(str);
+    // console.log(str);
 }
 
 //设置窗口数量
