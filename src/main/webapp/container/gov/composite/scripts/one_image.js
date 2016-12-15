@@ -136,11 +136,8 @@ var OneImagePage = function () {
                                     var center = that.hwmap.MapTools.getPolygonCenter(overlay.points);
                                     that.hwmap.centerAt(center.x, center.y);
                                 }
-
                             }
-
                         }
-
                     },
                     onCheck:function (event, treeId, treeNode) {
                         if (treeNode.checked) {//选中 加载对应的数据
