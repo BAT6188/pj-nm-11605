@@ -50,10 +50,12 @@ public class TransportEfficientAction extends BaseAction<TransportEfficient, Tra
         }
 
         QueryCondition condition = new QueryCondition();
+        condition.setPaging(getPaging());
+        condition.setOrderBy("startTime", Direction.DESC);
         if (param.getField() != null) {
             condition.setParam(param);
+
         }
-        condition.setPaging(getPaging());
         return condition;
     }
 
