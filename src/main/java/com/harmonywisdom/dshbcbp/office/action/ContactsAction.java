@@ -63,6 +63,16 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
     }
 
     @Override
+    public void list() {
+        try {
+            super.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void save() {
         //获取删除的附件IDS
 

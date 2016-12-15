@@ -21,6 +21,10 @@
         .upHeadImage{
             cursor: pointer;
         }
+        #headImageDiv > img {
+            margin-top: -50px;
+            margin-left: -20px;
+        }
     </style>
     <script src="<%=request.getContextPath()%>/common/scripts/cropbox/js/cropbox.js"></script>
     <script>
@@ -68,7 +72,7 @@
             if(!img){img=options.defaultImgSrc;}
             options.imgSrc = img;
             $('#headImageDiv').html('');
-            $('#headImageDiv').append('<img src="'+img+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:0px;box-shadow:0px 0px 12px #7E7E7E;">');//<p>180px*180px</p>
+            $('#headImageDiv').append('<img src="'+img+'" align="absmiddle" style="width:180px;margin-top:-50px; margin-left:-20px;border-radius:0px;box-shadow:0px 0px 12px #7E7E7E;">');//<p>180px*180px</p>
         }
     </script>
 </head>
@@ -159,7 +163,7 @@
                                             <label for="name" class="col-sm-4 control-label" style="margin-top: 20%;">头像：</label>
                                             <div class="col-sm-8">
                                                 <div id="image-uploader-gallery" class="upHeadImage">
-                                                    <div id="headImageDiv" class="qq-uploader-selector qq-uploader"></div>
+                                                    <div id="headImageDiv" class="qq-uploader-selector qq-uploader" style="width: 180px; height: 228px; overflow-x: hidden;"></div>
                                                 </div>
                                             </div>
                                         </td>

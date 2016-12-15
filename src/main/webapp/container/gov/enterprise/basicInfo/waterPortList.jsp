@@ -181,24 +181,26 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="isFlow" class="col-sm-2 control-label">监测流量<span class="text-danger">(*)</span>：</label>
-                        <div class="col-sm-4 isRadio" id="isFlow">
-                            <label class="checkbox-inline"><input type="radio" name="isFlow" id="isFlow1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测该项">是</label>
-                            <label class="checkbox-inline"><input type="radio" name="isFlow" id="isFlow0" value="0">否</label>
-                        </div>
-                        <label for="isOxygen" class="col-sm-2 control-label">监测化学需氧量<span class="text-danger">(*)</span>：</label>
-                        <div class="col-sm-4 isRadio" id="isOxygen">
-                            <label class="checkbox-inline"><input type="radio" name="isOxygen" id="isOxygen1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测该项">是</label>
-                            <label class="checkbox-inline"><input type="radio" name="isOxygen" id="isOxygen0" value="0">否</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="isNitrogen" class="col-sm-2 control-label">监测氨氮<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4 isRadio" id="isNitrogen">
                             <label class="checkbox-inline"><input type="radio" name="isNitrogen" id="isNitrogen1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测该项">是</label>
                             <label class="checkbox-inline"><input type="radio" name="isNitrogen" id="isNitrogen0" value="0">否</label>
                         </div>
-                        <label for="isPh" class="col-sm-2 control-label">监测氧含量<span class="text-danger">(*)</span>：</label>
+                        <label for="isFlow" class="col-sm-2 control-label">监测流量<span class="text-danger">(*)</span>：</label>
+                        <div class="col-sm-4 isRadio" id="isFlow">
+                            <label class="checkbox-inline"><input type="radio" name="isFlow" id="isFlow1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测该项">是</label>
+                            <label class="checkbox-inline"><input type="radio" name="isFlow" id="isFlow0" value="0">否</label>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="isOxygen" class="col-sm-2 control-label">监测化学需氧量<span class="text-danger">(*)</span>：</label>
+                        <div class="col-sm-4 isRadio" id="isOxygen">
+                            <label class="checkbox-inline"><input type="radio" name="isOxygen" id="isOxygen1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测该项">是</label>
+                            <label class="checkbox-inline"><input type="radio" name="isOxygen" id="isOxygen0" value="0">否</label>
+                        </div>
+
+                        <label for="isPh" class="col-sm-2 control-label">监测含氧量<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4 isRadio" id="isPh">
                             <label class="checkbox-inline"><input type="radio" name="isPh" id="isPh1" value="1" data-easytip="class:easy-red;" data-message="请选择是否监测该项">是</label>
                             <label class="checkbox-inline"><input type="radio" name="isPh" id="isPh0" value="0">否</label>

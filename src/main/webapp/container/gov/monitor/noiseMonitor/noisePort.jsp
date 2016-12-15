@@ -99,20 +99,26 @@
                         <div class="col-sm-4">
                             <input type="text" id="position" name="position" class="form-control">
                         </div>
+
+                    </div>
+                    <div class="form-group">
                         <label for="noiseType" class="col-sm-2 control-label">噪声源类型：</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-9">
                             <select id="noiseType" name="noiseType" class="form-control">
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="dischargeStandard" class="col-sm-2 control-label">排放标准：</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-9">
                             <select id="noiseDischargeStandard" name="dischargeStandard" class="form-control">
                             </select>
                         </div>
+                    </div>
+                    <div class="form-group">
+
                         <label for="fnType" class="col-sm-2 control-label">功能区类别：</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-9">
                             <select id="noiseFnType" name="fnType" class="form-control">
                             </select>
                         </div>

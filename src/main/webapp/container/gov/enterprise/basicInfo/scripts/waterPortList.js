@@ -149,7 +149,7 @@ function dischargeModeFormatter(value, row, index){
     return dict.get('dischargeMode',value);
 }
 function dischargeStandardFormatter(value, row, index){
-    return dict.get('waterDischargeStandard',value);
+    return dict.get('waterDischargeDirection',value);
 }
 function monitorTypeFormatter(value, row, index){
     return dict.get('monitorType',value);

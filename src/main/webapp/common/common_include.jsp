@@ -24,6 +24,7 @@
         orgCode = org.getOrgCode();
         orgName = org.getOrgName();
 
+        orgName=org.getOrgName();
     }
     ConfigureManager manager = ConfigureManager.getInstance();
     String apportalRootPath = "";
@@ -63,6 +64,7 @@
 <link href="${pageContext.request.contextPath}/demo/easyform/js/jquery-ui.css" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/demo/easyform/js/easyform/easyform.css">
 <link href="<%=request.getContextPath()%>/common/css/pageStyle.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
 
 <%--<script src="<%=request.getContextPath()%>/common/scripts/jquery1.12.4/jquery.js"></script>--%>
 <script src="<%=request.getContextPath()%>/demo/easyform/js/jquery-2.1.0.min.js"></script>

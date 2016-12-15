@@ -108,8 +108,6 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-
-
                     </div>
                     <div class="form-group">
                         <label for="age" class="col-sm-2 control-label">年龄<span class="text-danger">*</span>：</label>

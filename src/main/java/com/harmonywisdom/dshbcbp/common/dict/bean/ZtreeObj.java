@@ -1,5 +1,7 @@
 package com.harmonywisdom.dshbcbp.common.dict.bean;
 
+import com.harmonywisdom.apportal.sdk.person.IPerson;
+
 /**
  * Created by Administrator on 2016/11/1.
  */
@@ -30,6 +32,16 @@ public class ZtreeObj {
     private String iconClose;
 
     private String pinyinCodes;
+
+    private IPerson iperson;
+
+    public IPerson getIperson() {
+        return iperson;
+    }
+
+    public void setIperson(IPerson iperson) {
+        this.iperson = iperson;
+    }
 
     public String getId() {
         return id;

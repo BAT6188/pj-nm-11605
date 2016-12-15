@@ -1,3 +1,4 @@
+//@ sourceURL=createModeDetailForInner
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),

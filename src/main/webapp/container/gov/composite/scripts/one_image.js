@@ -136,11 +136,8 @@ var OneImagePage = function () {
                                     var center = that.hwmap.MapTools.getPolygonCenter(overlay.points);
                                     that.hwmap.centerAt(center.x, center.y);
                                 }
-
                             }
-
                         }
-
                     },
                     onCheck:function (event, treeId, treeNode) {
                         if (treeNode.checked) {//选中 加载对应的数据
@@ -153,9 +150,33 @@ var OneImagePage = function () {
                                     ids.push(childNode.id);
                                 }
                             }
-                            that["load"+treeNode.type+"ToMap"](ids);//1获取节点id，加载load+Tomap方法
+                            if(treeNode.type == "monitoring"){
+                                if(treeNode.children[0].children.length>0){
+                                    for(var i=0; i <treeNode.children[0].children.length ;i++){
+                                        that["loadNoisePortToMap"](treeNode.children[0].children[i].id);
+                                    }
+                                    for(var i=0; i <treeNode.children[1].children.length ;i++){
+                                        that["loadDustPortToMap"](treeNode.children[1].children[i].id);
+                                    }
+                                    for(var i = 0; i < treeNode.children[2].children.length;i++){
+                                        that["loadAirEquipmentToMap"](treeNode.children[2].children[i].id);
+                                    }
+                                    for(var i = 0; i < treeNode.children[3].children.length;i++){
+                                        that["loadVideoDeviceToMap"](treeNode.children[3].children[i].id);
+                                    }
+                                }
+                            }else{
+                                that["load"+treeNode.type+"ToMap"](ids);//1获取节点id，加载load+Tomap方法
+                            }
                         }else{//取消选择 清除数据
                             if (treeNode.isParent){//如果是主节点，清空子图层
+                                if(treeNode.name=="在线监控"){
+                                    that.hwmap.removeLayer("NoisePortLayer");
+                                    that.hwmap.removeLayer("DustPortLayer");
+                                    that.hwmap.removeLayer("AirEquipmentLayer");
+                                    that.hwmap.removeLayer("VideoDeviceLayer");
+
+                                }
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
                                 var children = treeNode.children;
                                 for(var i = 0; i < children.length; i++) {
@@ -500,7 +521,7 @@ var OneImagePage = function () {
             var infoWindowDom = this.hwmap.showInfoWindow({
                 x:noisePort.longitude,
                 y:noisePort.latitude,
-                width:300,
+                width:370,
                 height:280,
                 html:infoHtml,
                 title:"噪音监测设备"
@@ -619,8 +640,8 @@ var OneImagePage = function () {
             var infoWindowDom = this.hwmap.showInfoWindow({
                 x:dustPort.longitude,
                 y:dustPort.latitude,
-                width:300,
-                height:280,
+                width:370,
+                height:300,
                 html:infoHtml,
                 title:"沙尘暴监测设备"
             });
@@ -729,8 +750,8 @@ var OneImagePage = function () {
             var infoWindowAir = this.hwmap.showInfoWindow({
                 x:airEquipment.longitude,
                 y:airEquipment.latitude,
-                width:300,
-                height:280,
+                width:370,
+                height:300,
                 html:infoHtml,
                 title:"空气质量监测设备"
             });
@@ -797,7 +818,7 @@ var OneImagePage = function () {
             }
             var blockLevelMapColor = {
                 1:{
-                    fillColor:"#CBF7EF",
+                    fillColor:"#0AC3E9",
                     lineColor:"#0AC3E9",
                     lineWeight:6
                 },
@@ -806,14 +827,19 @@ var OneImagePage = function () {
                     lineColor:"#C1D964",
                     lineWeight:6
                 },
+                // 3:{
+                //     fillColor:"#CFE962",
+                //     lineColor:"#F7F5BD",
+                //     lineWeight:6
+                // },
                 3:{
-                    fillColor:"#CFE962",
-                    lineColor:"#F7F5BD",
-                    lineWeight:6
-                },
+                        fillColor:"#CFE962",
+                        lineColor:"#CFE962",
+                        lineWeight:6
+                    },
                 4:{
                     fillColor:"#F5A63C",
-                    lineColor:"#F7F5BD",
+                    lineColor:"#F5A63C",
                     lineWeight:6
                 }
             };
@@ -827,7 +853,7 @@ var OneImagePage = function () {
                 lineWeight:blockColor.lineWeight,
                 lineType:that.hwmap.LINE_TYPE_SOLID,
                 lineOpacity:2,
-                opacity:0.6,
+                opacity:0.3,
                 click:function (gra) {
                     var block = gra.data;
                     that.showBlockInfoWin(block);

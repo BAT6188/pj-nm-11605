@@ -14,6 +14,7 @@ import com.harmonywisdom.core.user.impl.UserProfile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +158,23 @@ public class ApportalUtil {
 		List<Right> list  = RightServiceUtil.getNormalRightByPersonId(getUserProfile(request).getPersonId());
 		return list;
 	}
-	
 
+	public static List<IOrg> getAllChidrenOrgByOrgId(String orgId){
+
+		List<IOrg> orgList = OrgServiceUtil.getOrgsByParentOrgId(orgId);
+		if (orgList != null && orgList.size() > 0) {
+			List<IOrg> resultOrgList = new ArrayList<>();
+			resultOrgList.addAll(orgList);
+			for (IOrg org : orgList) {
+				List<IOrg> nextLevelOrgs = getAllChidrenOrgByOrgId(org.getOrgId());
+				if (nextLevelOrgs != null && nextLevelOrgs.size() > 0) {
+					resultOrgList.addAll(nextLevelOrgs);
+				}
+			}
+			return resultOrgList;
+		}else{
+			return null;
+		}
+
+	}
 }

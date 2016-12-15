@@ -12,62 +12,94 @@ var gridTable = $('#table'),
     thisOrgName="",
     selections = [];
 
-var setting = {
-    height:500,
-    width:200,
-    view: {
-        showLine: true
-    },
-    data:{
-        simpleData: {
-            enable: true,
-            idKey: "id",
-            pIdKey: "parentId",
-            rootPId: "-1",
+var orgTreeObj;
+function initZtree(data) {
+    // data=JSON.parse(data)
+    var setting = {
+        height:500,
+        width:200,
+        view: {
+            showLine: true
+        },
+        data:{
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parentId",
+                rootPId: "-1",
+            }
+        },
+        // async: {
+        //     enable: true,
+        //     url:rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
+        //     autoParam:["id", "name=n", "level=lv"],
+        //     otherParam:{orgCode:["dsgov"]},
+        //     dataFilter: filter
+        // },
+        callback: {
+            onClick: orgTreeOnClick,
+            // onAsyncSuccess:function(event, treeId, treeNode, msg) {
+            //     $('#orgScrollContent').slimScroll({
+            //         height:"100%",
+            //         railOpacity:.9,
+            //         alwaysVisible:!1
+            //     });
+            //     $('#orgDiv').find('table').remove();
+            //     orgTreeObj.expandAll(true);
+            // }
         }
-    },
-    async: {
-        enable: true,
-        url:rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
-        autoParam:["id", "name=n", "level=lv"],
-        otherParam:{orgCode:["0170001000"]},
-        dataFilter: filter
-    },
-    callback: {
-        onClick: orgTreeOnClick,
-        onAsyncSuccess:function(event, treeId, treeNode, msg) {
-            $('#orgScrollContent').slimScroll({
-                height:"100%",
-                railOpacity:.9,
-                alwaysVisible:!1
-            });
-            $('#orgDiv').find('table').remove();
-            orgTreeObj.expandAll(true);
+    };
+    function orgTreeOnClick(event, treeId, treeNode){
+        $('.hidden').val("");
+        if(treeNode.parentId!="-1"){
+            thisOrgId=treeNode.id;
+            thisOrgName=treeNode.name;
+            $('#s_orgId').val(treeNode.id);
+            searchForm();
+            addBtn.prop('disabled',false);
+        }else{
+            $('#s_orgId').val("");
+            searchForm();
+            addBtn.prop('disabled',true);
         }
     }
-};
-function orgTreeOnClick(event, treeId, treeNode){
-    $('.hidden').val("");
-    if(treeNode.parentId!="-1"){
-        thisOrgId=treeNode.id;
-        thisOrgName=treeNode.name;
-        $('#s_orgId').val(treeNode.id);
-        searchForm();
-        addBtn.prop('disabled',false);
-    }else{
-        $('#s_orgId').val("");
-        searchForm();
-        addBtn.prop('disabled',true);
+    function filter(treeId, parentNode, childNodes) {
+        if (!childNodes) return null;
+        for (var i=0, l=childNodes.length; i<l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+        }
+        return childNodes;
     }
+    orgTreeObj = $.fn.zTree.init($("#orgZtree"), setting,data);
+
+    $('#orgScrollContent').slimScroll({
+        height:"100%",
+        railOpacity:.9,
+        alwaysVisible:!1
+    });
+    $('#orgDiv').find('table').remove();
+    orgTreeObj.expandAll(true);
 }
-function filter(treeId, parentNode, childNodes) {
-    if (!childNodes) return null;
-    for (var i=0, l=childNodes.length; i<l; i++) {
-        childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-    }
-    return childNodes;
+
+if (window.orgTreeObjData){
+    initZtree(window.orgTreeObjData)
+}else {
+    $.ajax({
+        url: rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
+        type:"post",
+        traditional:true,
+        data:{"orgCode":["dsgov"]},
+        dataType:"json",
+        success:function (data) {
+            initZtree(data);
+            window.orgTreeObjData=data;
+        }
+    });
+
 }
-var orgTreeObj = $.fn.zTree.init($("#orgZtree"), setting);
+
+
+
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -456,7 +488,7 @@ function resetForm() {
     setHeadImage(null);
     $('#blockLevelId').find('option[value=""]').attr("selected",true);
     $('#blockId').empty();
-    //form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     //imgUploader = new qq.FineUploader(getHeadimageUploaderOptions());
     disabledForm(false);

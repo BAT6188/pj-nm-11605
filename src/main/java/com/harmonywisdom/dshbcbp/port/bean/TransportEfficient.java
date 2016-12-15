@@ -77,6 +77,13 @@ public class TransportEfficient implements Serializable {
     private Double ratio;
 
     /**
+     * 状态
+     * 0:停运 1：整改 2：正常
+     */
+    @Column(name="STATUS")
+    private String status;
+
+    /**
      * 备注
      */
     @Column(name="REMARK")
@@ -190,5 +197,13 @@ public class TransportEfficient implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
