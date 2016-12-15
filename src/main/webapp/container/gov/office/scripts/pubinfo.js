@@ -218,7 +218,7 @@ function pubInfo(id) {
             if(msg && msg.pubInfos && msg.pubInfos.length> 0){
                 var msg = {
                     'msgType':3,
-                    'title':msg.pubInfos.createModeName,
+                    'title':msg.pubInfos.title,
                     'content':msg.pubInfos.content,
                     'businessId':msg.pubInfos.id
                 }
