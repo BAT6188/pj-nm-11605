@@ -154,7 +154,7 @@ var MessageDialog = function () {
                 var msgTrHtml = '<tr>'+
                     '<td style="width: 108px;"><span>'+dict.get(DICT_CODE_MSG_TYPE,msg.msgType)+'</span></td>'+
                     '<td><span>'+that.filterUndefine(msg.title)+'</span></td>'+
-                    '<td><span>'+that.filterUndefine(msg.content)+'</span></td>'+
+                    '<td><span>'+that.filterUndefine(msg.senderName)+'</span></td>'+
                     '<td style="width: 140px;"><span>'+that.filterUndefine(msg.alertTime)+'</span></td>'+
                     '<td style="width: 108px;"><span class="'+(unReceive?"text-danger":"")+'">'+receiveStatusName+'</span></td>'+
                     '<td><button type="button" class="btn btn-primary btn-sm btn-details" data-details-url="'+msg.detailsUrl+'">详情</button></td>'+
