@@ -154,17 +154,19 @@ var OneImagePage = function () {
                                 }
                             }
                             if(treeNode.type == "monitoring"){
-                                for(var i=0; i <treeNode.children[0].children.length ;i++){
-                                    that["loadNoisePortToMap"](treeNode.children[0].children[i].id);
-                                }
-                                for(var i=0; i <treeNode.children[1].children.length ;i++){
-                                    that["loadDustPortToMap"](treeNode.children[1].children[i].id);
-                                }
-                                for(var i = 0; i < treeNode.children[2].children.length;i++){
-                                    that["loadAirEquipmentToMap"](treeNode.children[2].children[i].id);
-                                }
-                                for(var i = 0; i < treeNode.children[3].children.length;i++){
-                                    that["loadVideoDeviceToMap"](treeNode.children[3].children[i].id);
+                                if(treeNode.children[0].children.length>0){
+                                    for(var i=0; i <treeNode.children[0].children.length ;i++){
+                                        that["loadNoisePortToMap"](treeNode.children[0].children[i].id);
+                                    }
+                                    for(var i=0; i <treeNode.children[1].children.length ;i++){
+                                        that["loadDustPortToMap"](treeNode.children[1].children[i].id);
+                                    }
+                                    for(var i = 0; i < treeNode.children[2].children.length;i++){
+                                        that["loadAirEquipmentToMap"](treeNode.children[2].children[i].id);
+                                    }
+                                    for(var i = 0; i < treeNode.children[3].children.length;i++){
+                                        that["loadVideoDeviceToMap"](treeNode.children[3].children[i].id);
+                                    }
                                 }
                             }else{
                                 that["load"+treeNode.type+"ToMap"](ids);//1获取节点id，加载load+Tomap方法
