@@ -215,15 +215,16 @@ function pubInfo(id) {
                     receivers.push(receiver1);
                 });
             }
-            if (pub && pub.pubInfos && pub.pubInfos.length > 0) {
-                var pub = {
+            var pubInfoMsg;
+            if (pub && pub.pubInfos) {
+                pubInfoMsg = {
                     'msgType': 3,
-                    'title': "信息公告提醒",
+                    'title': pub.pubInfos.title,
                     'content': pub.pubInfos.content,
                     'businessId': pub.pubInfos.id
                 }
             }
-            pageUtils.sendMessage(pub, receivers);
+            pageUtils.sendMessage(pubInfoMsg, receivers);
         }
     })
 }
