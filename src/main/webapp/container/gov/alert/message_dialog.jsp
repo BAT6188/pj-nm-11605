@@ -21,7 +21,7 @@
                         <tr>
                             <th><span>消息类型</span></th>
                             <th><span>消息标题</span></th>
-                            <th><span>消息内容</span></th>
+                            <th><span>发送人</span></th>
                             <th><span>发送时间</span></th>
                             <th><span>接收状态</span></th>
                             <th><span>操作</span></th>

@@ -30,7 +30,7 @@ var setting = {
         enable: true,
         url:rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
         autoParam:["id", "name=n", "level=lv"],
-        otherParam:{orgCode:["0170001000"]},
+        otherParam:{orgCode:["dsgov"]},
         dataFilter: filter
     },
     callback: {
