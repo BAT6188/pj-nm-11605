@@ -142,11 +142,12 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         }
         PubInfo pubInfo = pubInfoService.findById(id);
         String[] grade = pubInfo.getGrade().split(",");
+        if(grade!=null){
         List<IPerson> authorizationIPerson = new ArrayList<>();
         List list = Arrays.asList(grade);
         for (int i = 0; i < list.size(); i++) {
             IOrg iOrgs = OrgServiceUtil.getOrgByOrgCode((String) list.get(i));
-            List<IOrg> orgs = getChilrenOrgByPerentId(iOrgs.getOrgId());
+            List<IOrg> orgs =  OrgServiceUtil.getOrgsByParentOrgId(iOrgs.getOrgId());
             if (orgs.size() > 0) {
                 for (IOrg iOrgChild : orgs) {
                     List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(iOrgChild.getOrgId());
@@ -162,15 +163,17 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         map.put("pubInfos",pubInfo);
         write(map);
     }
-
-    private List<IOrg> getChilrenOrgByPerentId(String perentOrgId){
-        if(StringUtils.isNotBlank(perentOrgId)){
-            List<IOrg> chilrenOrgs = OrgServiceUtil.getOrgsByParentOrgId(perentOrgId);
-            return chilrenOrgs;
-        }else{
-            return null;
-        }
     }
+
+
+//    private List<IOrg> getChilrenOrgByPerentId(String perentOrgId){
+//        if(StringUtils.isNotBlank(perentOrgId)){
+//            List<IOrg> chilrenOrgs = OrgServiceUtil.getOrgsByParentOrgId(perentOrgId);
+//            return chilrenOrgs;
+//        }else{
+//            return null;
+//        }
+//    }
 
     /**
      * 企业查看信息公告
@@ -187,9 +190,11 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (orgs.size() > 0) {
             List<IOrg> authorizationOrgs = new ArrayList<>();
             for (IOrg iOrg : orgs) {
-                authorizationOrgs.add(iOrg);
-                List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
-                authorizationOrgs.addAll(childOrgs);
+                List<IOrg> childParent = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
+                if(childParent.size()>0){
+                    List childOrgs=OrgServiceUtil.getOrgsByParentOrgId(childParent.get(0).getOrgId());
+                    authorizationOrgs.addAll(childOrgs);
+                }
             }
             IOrg company = new IOrg() {
                 @Override
