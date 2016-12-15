@@ -371,7 +371,6 @@ var model2 = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一�
     if(obj.personObj[0].iperson.extattrMap){
         form.find("#position").val(obj.personObj[0].iperson.extattrMap.job);
         form.find("#address").val(obj.personObj[0].iperson.extattrMap.departmentAddress);
-
     }
 });
 addPersonBtn.click(function(){
