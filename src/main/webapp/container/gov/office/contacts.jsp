@@ -100,7 +100,7 @@
                         </div>
                         <div class="queryBox marginLeft0">
                             <form class="form-inline" id="searchform">
-                                <input type="hidden" id="s_orgId" name="orgId" class="form-control hidden" />
+                                <%--<input type="hidden" id="s_orgId" name="orgId" class="form-control hidden" />--%>
                                 <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />
                                 <input type="hidden" id="s_blockId" name="blockId" class="form-control hidden" />
                                 <label for="s_name">姓名：</label> <input type="text" id="s_name" name="name" class="form-control" />
