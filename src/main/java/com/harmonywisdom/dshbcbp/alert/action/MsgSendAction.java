@@ -247,18 +247,30 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
                     for(IOrg iOrg:orgs){
                         List<ZtreeObj> thisOPList = findOrg(iOrg.getOrgCode(),"-1");
                         for(ZtreeObj op:thisOPList){
-                            ztreeObjList.add(op);
+                            ztreeObjList = (List<ZtreeObj>)request.getSession().getAttribute("ztreeObjListaddop" + orgCode[0]);
+                            if (ztreeObjList==null){
+                                ztreeObjList.add(op);
+                                request.getSession().setAttribute("ztreeObjListaddop" + orgCode[0],ztreeObjList);
+                            }
                         }
                     }
                 }
             }else{
-                ztreeObjList =  findOrg(orgCode[0],"-1");
+                ztreeObjList = (List<ZtreeObj>)request.getSession().getAttribute("ztreeObjListfindOrg" + orgCode[0]);
+                if (ztreeObjList==null){
+                    ztreeObjList =  findOrg(orgCode[0],"-1");
+                    request.getSession().setAttribute("ztreeObjListfindOrg" + orgCode[0],ztreeObjList);
+                }
             }
         } else {
             for (String code : orgCode) {
                 List<ZtreeObj> thisOPList = findOrg(code,"-1");
                 for(ZtreeObj op:thisOPList){
-                    ztreeObjList.add(op);
+                    ztreeObjList = (List<ZtreeObj>)request.getSession().getAttribute("ztreeObjListthisOPList" + orgCode[0]);
+                    if (ztreeObjList==null){
+                        ztreeObjList.add(op);
+                        request.getSession().setAttribute("ztreeObjListthisOPList" + orgCode[0],ztreeObjList);
+                    }
                 }
             }
         }
