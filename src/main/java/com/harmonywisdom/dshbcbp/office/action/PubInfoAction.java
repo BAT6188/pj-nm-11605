@@ -191,9 +191,11 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             List<IOrg> authorizationOrgs = new ArrayList<>();
             for (IOrg iOrg : orgs) {
                 List<IOrg> childParent = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
-                if(childParent.size()>0){
-                    List childOrgs=OrgServiceUtil.getOrgsByParentOrgId(childParent.get(0).getOrgId());
-                    authorizationOrgs.addAll(childOrgs);
+                if(childParent.size()>0) {
+                    for (IOrg childOrg:childParent) {
+                        List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(childOrg.getOrgId());
+                        authorizationOrgs.addAll(childOrgs);
+                    }
                 }
             }
             IOrg company = new IOrg() {
