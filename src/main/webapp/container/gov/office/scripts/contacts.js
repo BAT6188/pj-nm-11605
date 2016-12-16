@@ -71,14 +71,19 @@ function initZtree(data) {
         return childNodes;
     }
     orgTreeObj = $.fn.zTree.init($("#orgZtree"), setting,data);
-
+    var nodes = orgTreeObj.getNodes();
+    if(nodes[0].children){
+        $.each(nodes[0].children,function(k,v){
+            orgTreeObj.expandNode(v, true, false, true);
+        })
+    };
     $('#orgScrollContent').slimScroll({
         height:"100%",
         railOpacity:.9,
         alwaysVisible:!1
     });
     $('#orgDiv').find('table').remove();
-    orgTreeObj.expandAll(true);
+    //orgTreeObj.expandAll(true);
 }
 
 if (window.orgTreeObjData){
