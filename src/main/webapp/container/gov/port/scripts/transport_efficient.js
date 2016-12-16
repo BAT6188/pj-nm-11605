@@ -286,6 +286,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentId = getAttachmentIds();
+        entity.status = $("#status").val();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -401,6 +402,7 @@ function setFormData(entity) {
     $("#efficient").val(entity.efficient);
     $("#ratio").val(entity.ratio);
     $("#remark").val(entity.remark);
+    $("#status").val(entity.status);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 
@@ -423,6 +425,7 @@ function setFormView(entity) {
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#datetimepicker').datetimepicker({
