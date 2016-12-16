@@ -8,6 +8,7 @@
         var menuCode = '${param.menuCode}';
         var subMenuId = '${param.subMenuId}';
         var firsetLoad = true;
+
     </script>
     <title>东胜环保</title>
 </head>
@@ -21,7 +22,7 @@
             <ul>
                 <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
-                <li class="user"><a href="javascript:;"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>
+                <li class="user"><a href="javascript:;" id="updatePasswordBtn"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>
                 <li><a href="javascript:void(0);" class="msg-icon" id="msgListBtn"><span class="new-icon" id="msgCountSpan">0</span></a></li>
                 <li class="divider"><i class="long-divider"></i></li>
                 <li><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
@@ -56,6 +57,7 @@
 <%@include file="/container/gov/alert/message_dialog.jsp"%>
 <%@include file="/container/gov/alert/messagetrace.jsp"%>
 <%@include file="/common/msgSend/msgSend.jsp"%>
+<%@include file="/common/updatePassword/updatePassword.jsp"%>
 <script src="common/scripts/main_css.js"></script>
 <script src="common/scripts/main.js"></script>
 <script>
