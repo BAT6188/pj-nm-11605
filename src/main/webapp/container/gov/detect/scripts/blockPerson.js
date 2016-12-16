@@ -53,14 +53,8 @@ function blockTreeOnClick(event, treeId, treeNode) {
     $('.hidden').val("");
     if(treeNode.parentId!="-1"){
         addBtn.prop('disabled', false);
-        if(treeNode.parentId =="1"){
-            treeName = "一级网格"
-        }else if(treeNode.parentId == "3"){
-            treeName = "二级网格"
-        }else if(treeNode.parentId == "4"){
-            treeName = "三级网格"
-        }
-        $('#s_blockId').val(treeName);
+        $('#s_blockName').val(treeNode.name);
+        $('#s_blockId').val(treeNode.id);
         $('#s_blockLevelId').val(treeNode.parentId);
         searchForm();
     }else{
@@ -77,7 +71,7 @@ function filter(treeId, parentNode, childNodes) {
     return childNodes;
 }
 var blockTreeObj = $.fn.zTree.init($("#blockZtree"), blockSetting);
-function setBlock(pSelector,cSelector){
+/*function setBlock(pSelector,cSelector){
     var pBlock = $(pSelector),cBlock = $(cSelector);
     var blockLevel = blockTreeObj.getNodes();
     if(blockLevel){
@@ -98,7 +92,7 @@ function setBlock(pSelector,cSelector){
              }
          });
      }
-}
+}*/
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -305,6 +299,7 @@ removePersonBtn.prop('disabled', true);
 addBtn.bind('click',function () {
     resetForm();
     form.find('#type').val(1);
+    form.find('#blockName').val($('#s_blockName').val());
     form.find('#blockLevelId').val($('#s_blockLevelId').val());
     form.find('#blockId').val($('#s_blockId').val());
 });
@@ -369,7 +364,6 @@ var model2 = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一�
     form.find("#name").val(obj.personObj[0].saveName);
     form.find("#phone").val(obj.personObj[0].mobilePhone);
     if(obj.personObj[0].iperson.extattrMap){
-        form.find("#position").val(obj.personObj[0].iperson.extattrMap.job);
         form.find("#address").val(obj.personObj[0].iperson.extattrMap.departmentAddress);
     }
 });
@@ -488,7 +482,8 @@ function setFormData(entity) {
             $(v).val(value);
         }
     });
-
+    var block = blockTreeObj.getNodeByParam("id", entity.blockId, null);
+    form.find('#blockName').val(block.name);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
