@@ -218,6 +218,10 @@ function setDialogTypeOne(dialog,options,callback){
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             height: 540,
             clickToSelect:true,//单击行时checkbox选中
+            pagination:true,
+            sidePagination:'client',
+            pageNumber:1,
+            pageSize:10,
             uniqueId: "id",
             columns: [
                 {
@@ -419,6 +423,14 @@ function setDialogTypeTwo(dialog,options,callback){
         view: {
             showLine: true
         },
+        check : {
+            autoCheckTrigger : true,
+            chkboxType : {"Y": "ps", "N": "ps"},
+            chkStyle : "checkbox",
+            enable : true,
+            nocheckInherit : true,
+            radioType : "level"
+        },
         data:{
             simpleData: {
                 enable: true,
@@ -436,6 +448,7 @@ function setDialogTypeTwo(dialog,options,callback){
         },
         callback: {
             onClick: zTreeOnClick,
+            onCheck: zTreeOnCheck,
             onAsyncSuccess:function (event, treeId, treeNode, msg) {
                 $('#'+searchId).keydown(function(event){
                     event=document.all?window.event:event;
@@ -468,6 +481,11 @@ function setDialogTypeTwo(dialog,options,callback){
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             height: 400,
             clickToSelect:true,//单击行时checkbox选中
+            pagination:true,
+            sidePagination:'client',
+            pageNumber:1,
+            pageSize:8,
+            uniqueId: "id",
             columns: [
                 {
                     title:"全选",
@@ -544,18 +562,19 @@ function setDialogTypeTwo(dialog,options,callback){
      * 往表格中添加数据，如果已有这条数据则忽略
      */
     function appendToGrid(treeNode) {
-        if(!jsMap.isHave(treeNode.id)){
+        if(options.choseMore){
+            if(treeNode.checked && !jsMap.isHave(treeNode.id)){
+                jsMap.put(treeNode.id,treeNode.id);
+                gridSelectPeopleTable.bootstrapTable("append",treeNode);
+                gridSelectPeopleTable.bootstrapTable('checkAll');
+            }else{
+                jsMap.remove(treeNode.id);
+                gridSelectPeopleTable.bootstrapTable('removeByUniqueId',treeNode.id);
+            }
+        }else if(!jsMap.isHave(treeNode.id)){
             jsMap.put(treeNode.id,treeNode.id);
             gridSelectPeopleTable.bootstrapTable("append",treeNode);
             gridSelectPeopleTable.bootstrapTable('checkAll');
-            $(dialog).find('.buttonClose').click(function(){
-                var id = $(this).attr('value');
-                jsMap.remove(id);
-                gridSelectPeopleTable.bootstrapTable('remove', {
-                    field: 'id',
-                    values: id
-                });
-            });
         }
     }
 
@@ -566,11 +585,39 @@ function setDialogTypeTwo(dialog,options,callback){
         gridSelectPeopleTable.bootstrapTable('removeAll');
         jsMap.removeAll();
     }
-
+    var selectedId="";
     function zTreeOnClick(event, treeId, treeNode) {
+        if(options.choseMore){
+            if(treeNode.checked){
+                clickOrCheckZtree(true,treeNode,false);
+            }else{
+                clickOrCheckZtree(true,treeNode,true);
+            }
+        }else{
+            if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
+                if(selectedId!=""){
+                    jsMap.remove(selectedId);
+                    gridSelectPeopleTable.bootstrapTable('removeAll');
+                }
+                selectedId = treeNode.id;
+                appendToGrid(treeNode);
+            }
+        }
+    };
+    function zTreeOnCheck(event, treeId, treeNode) {
+        clickOrCheckZtree(false,treeNode);
+    };
+
+    function clickOrCheckZtree(isClick,treeNode,checked){
+        if(isClick){treeObj.checkNode(treeNode, checked, true);}
+        if(treeNode.check_Child_State=="0"){
+            $.each(treeNode.children,function(k,v){
+                clickOrCheckZtree(isClick,v,checked);
+            });
+        }
         if(treeNode.check_Child_State=="-1" && treeNode.couldChose){
             appendToGrid(treeNode);
         }
-    };
+    }
     return treeObj;
 }
