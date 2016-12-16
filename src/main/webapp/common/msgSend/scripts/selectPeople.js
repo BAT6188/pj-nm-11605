@@ -75,7 +75,13 @@ MsgSend.tree = {};
                         sourceId_msgSend={isSendSms:false}
                     }
                     dialog.modal('show');
-                    treeObj.expandAll(true);
+                    //treeObj.expandAll(true);
+                    var nodes = treeObj.getNodes();
+                    if(nodes[0].children){
+                        $.each(nodes[0].children,function(k,v){
+                            treeObj.expandNode(v, true, false, true);
+                        })
+                    };
                 },
                 expandZtree:function(){
                     treeObj.expandAll(true);

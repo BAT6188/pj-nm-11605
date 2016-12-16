@@ -154,11 +154,11 @@
                             <div class="form-group">
                                 <label for="blockDuty" class="col-sm-2 control-label">职责：<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-10">
-                            <textarea  id="blockDuty" name="blockDuty" class="form-control" rows="5"
+                                    <textarea  id="blockDuty" name="blockDuty" class="form-control" rows="5"
                                        data-message="职责不能为空"
-                                       data-easytip="position:top;class:easy-red;"
-                            ></textarea>
+                                       data-easytip="position:top;class:easy-red;"></textarea>
                                 </div>
+                            </div>
                             <div class="form-group">
                                 <label for="attachment" class="col-sm-2 control-label">附件：</label>
                                 <div class="col-sm-10">
