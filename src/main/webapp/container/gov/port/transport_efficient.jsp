@@ -357,6 +357,15 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
+                        <label for="status" class="col-sm-2 control-label">状态<span class="text-danger"></span>：</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="status" id="status">
+                                <option value="">请选择</option>
+                                <option value="0">正常</option>
+                                <option value="1">停运</option>
+                                <option value="2">整改</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="remark" class="col-sm-2 control-label">备注：</label>

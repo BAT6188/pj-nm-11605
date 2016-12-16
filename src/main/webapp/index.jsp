@@ -16,7 +16,7 @@
             <ul>
                 <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
-                <li class="user" id="userinfo"><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
+                <li class="user" id="userinfo"><a href="javascript:void(0);" id="updatePasswordBtn"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
                 <li><a href="javascript:void(0);" class="msg-icon" id="msgListBtn"><span class="new-icon" id="msgCountSpan">0</span></a></li>
                 <li class="divider"><i class="long-divider"></i></li>
                 <li><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/common/images/loginout-icon.png" onclick='window.location.href = "<%=ConfigureManager.getInstance().getSsoConfig().getSsoGateWaySite()%>/logout.action";' alt="退出登陆"/></a></li>
@@ -44,6 +44,7 @@
 <p class="copyrightP"><span>版权所有：鄂尔多斯市东胜区环境保护局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <%@include file="/container/gov/alert/message_dialog.jsp"%>
+<%@include file="/common/updatePassword/updatePassword.jsp"%>
 <!--样式js-->
 <script>
     function loadHeight(){

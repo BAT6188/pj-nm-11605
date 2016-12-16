@@ -8,6 +8,7 @@ import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.office.bean.Contacts;
 import com.harmonywisdom.dshbcbp.office.service.ContactsService;
 import com.harmonywisdom.dshbcbp.utils.PinyinUtil;
+import com.harmonywisdom.dshbcbp.utils.SortList;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
@@ -82,12 +83,16 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         List<ZtreeObj> ztreeObjList = new ArrayList<>();
 
         IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
+        if(iOrg.getDeltag().equals("1")) return ztreeObjList;
         ztreeObjList.add(coverToOrgPerson(iOrg,null,null,orgParentId));
 
         List<IPerson> personList = PersonServiceUtil.getPersonByOrgId(iOrg.getOrgId());
         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
         if(StringUtils.isNotBlank(type) && (type.equals("1") || type.equals("2"))){
             if(personList.size()>0){
+                //调用排序通用类
+                SortList<IPerson> sortList = new SortList<IPerson>();
+                sortList.Sort(personList, "serialIndex", "asc");
                 for (IPerson iPerson:personList){
                     ztreeObjList.add(coverToOrgPerson(null,iPerson,null,iOrg.getOrgId()));
                 }
@@ -99,6 +104,9 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         }
         if(StringUtils.isNotBlank(type) && (type.equals("1") || type.equals("3"))){
             if(orgs.size()>0){
+                //调用排序通用类
+                SortList<IOrg> orgList = new SortList<IOrg>();
+                orgList.Sort(orgs, "serialIndex", "asc");
                 for(IOrg iOrgChild:orgs){
                     List<ZtreeObj> ztreeObjs = findOrgPersonByOrgCode(iOrgChild.getOrgCode(),iOrg.getOrgId(),"1");
                     if(ztreeObjs.size()>0){
@@ -122,13 +130,16 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         List<ZtreeObj> ztreeObjList = new ArrayList<>();
 
         IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
+        if(iOrg.getDeltag().equals("1")) return ztreeObjList;
         ztreeObjList.add(coverToOrgPerson(iOrg,null,null,orgParentId));
-
         Contacts contacts = new Contacts();
         contacts.setOrgId(iOrg.getOrgId());
         List<Contacts> contactsList = contactsService.findBySample(contacts);
         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
         if(contactsList.size()>0){
+            //调用排序通用类
+            SortList<Contacts> sortList = new SortList<Contacts>();
+            sortList.Sort(contactsList, "sort", "desc");
             for (Contacts c:contactsList){
                 ztreeObjList.add(coverToOrgPerson(null,null,c,iOrg.getOrgId()));
             }
@@ -138,6 +149,9 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             }
         }*/
         if(orgs.size()>0){
+            //调用排序通用类
+            SortList<IOrg> orgList = new SortList<IOrg>();
+            orgList.Sort(orgs, "serialIndex", "asc");
             for(IOrg iOrgChild:orgs){
                 List<ZtreeObj> ztreeObjs = findOrgContactsPerson(iOrgChild.getOrgCode(),iOrg.getOrgId());
                 if(ztreeObjs.size()>0){
@@ -254,9 +268,12 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
     public List<ZtreeObj> findOrg(String orgCode, String orgParentId){
         List<ZtreeObj> ztreeObjList = new ArrayList<>();
         IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
+        if(iOrg.getDeltag().equals("1")) return ztreeObjList;
         ztreeObjList.add(coverToOrgPerson(iOrg,null,null,orgParentId));
         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
         if(orgs.size()>0){
+            SortList<IOrg> orgList = new SortList<IOrg>();
+            orgList.Sort(orgs, "serialIndex", "asc");
             for(IOrg iOrgChild:orgs){
                 List<ZtreeObj> ztreeObjs = findOrg(iOrgChild.getOrgCode(),iOrg.getOrgId());
                 if(ztreeObjs.size()>0){
