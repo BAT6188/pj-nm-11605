@@ -12,6 +12,7 @@ MsgSend.tree = {};
                 title: "人员选择",
                 url:rootPath + "/action/S_alert_MsgSend_getOrgPersonList.action",
                 params:{orgCode:["dsgov"],type:1},
+                expandLevel:0,
                 choseMore:true,
                 btnok: "发送",
                 btncl: "取消",
@@ -69,6 +70,7 @@ MsgSend.tree = {};
             }
             var msgSendTools = {
                 treeObj:treeObj,
+                expandLevel:options.expandLevel,
                 open:function(sourceId){
                     sourceId_msgSend=sourceId;
                     if (!sourceId_msgSend){
@@ -83,8 +85,17 @@ MsgSend.tree = {};
                         })
                     };
                 },
-                expandZtree:function(){
-                    treeObj.expandAll(true);
+                expandZtree:function(level,expandNodes){
+                    if(!expandNodes){expandNodes = treeObj.getNodes();}
+                    if(!level || level==0){
+                        treeObj.expandAll(true);
+                    }else{
+                        if(expandNodes){
+                            $.each(expandNodes,function(k,v){
+                                treeObj.expandNode(v, true, false, true);
+                            });
+                        };
+                    }
                 },
                 clearChose:function(){
                     $(dialog).find('#search'+timeId).val('');
@@ -477,9 +488,9 @@ function setDialogTypeTwo(dialog,options,callback){
     }
     var treeObj = $.fn.zTree.init($("#"+choseZtreeId), setting);
     MsgSend.tree[modalId] = treeObj;
-    setTimeout(function () {
+    /*setTimeout(function () {
         treeObj.expandAll(true);
-    },500);
+    },500);*/
 //-------------选择人员 table配置--------------------//
     var gridSelectPeopleTable = $('#'+selectTableId);
     function initSelectPeopleTable() {
