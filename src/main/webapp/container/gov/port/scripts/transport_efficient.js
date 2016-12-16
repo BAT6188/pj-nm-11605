@@ -286,6 +286,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.attachmentId = getAttachmentIds();
+        entity.status = $("#status").val();
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -401,6 +402,7 @@ function setFormData(entity) {
     $("#efficient").val(entity.efficient);
     $("#ratio").val(entity.ratio);
     $("#remark").val(entity.remark);
+    $("#status").val(entity.status);
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 
