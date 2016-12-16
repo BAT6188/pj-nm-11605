@@ -1,4 +1,4 @@
-//接收公安视频参数
+﻿//接收公安视频参数
 var videoDevice;
 var gWndId = 0;
 var bLogin = 0;
@@ -10,7 +10,7 @@ if (window.dialogArguments) {
 }else if (window.opener && window.opener.videoDevice) {
     videoDevice = window.opener.videoDevice
 }else{
-    videoDevice = {"addr":"长安街7号","channalId":"2","deviceId":"1002","id":"2","latitude":"39.77978779325209","longitude":"110.10313785803981","type":"1","unit":"公安局"};
+    videoDevice = {"addr":"长安街7号","channalId":"1001814@008@016$1$0$0","deviceId":"1001814@008@016$1$0$0","id":"1001814@008@016$1$0$0","latitude":"39.77978779325209","longitude":"110.10313785803981","type":"1","unit":"公安局"};
 }
 if (videoDevice){
     // console.log(JSON.stringify(videoDevice));  //{"addr":"长安街7号","channalId":"2","deviceId":"1002","id":"2","latitude":"39.77978779325209","longitude":"110.10313785803981","type":"1","unit":"公安局"}
