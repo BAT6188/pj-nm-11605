@@ -377,6 +377,7 @@ $('#addPersonToBlock').click(function(){
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
+    $("#s_orgId").val(" ");
     searchForm();
 });
 $("#chosePersonFormSearch").click(function(){
