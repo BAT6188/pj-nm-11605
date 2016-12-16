@@ -42,7 +42,7 @@ var blockSetting = {
                 railOpacity:.9,
                 alwaysVisible:!1
             });
-            setBlock('#blockLevelId','#blockId');
+            //setBlock('#blockLevelId','#blockId');
             blockTreeObj.expandAll(true);
         }
     }
