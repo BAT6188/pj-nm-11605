@@ -40,7 +40,8 @@
                             </span>
                         </div>
                         <div class="queryBox marginLeft0">
-                            <form class="form-inline" id="searchform">
+                            <form class="form-inline" id="searchform">s
+                                <input type="hidden" id="s_blockName" name="blockName" class="form-control hidden"/>
                                 <input type="hidden" id="s_orgId" name="orgId" class="form-control hidden" />
                                 <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />
                                 <input type="hidden" id="s_blockId" name="blockId" class="form-control hidden" />
@@ -96,6 +97,7 @@
                                     <input type="hidden" id="apportalUserId" name="apportalUserId" class="form-control">
                                     <input type="hidden" id="removeId" name="removeId" class="form-control">
                                     <input type="hidden" id="blockLevelId" name="blockLevelId" class="form-control">
+                                    <input type="hidden" id="blockId" name="blockId" class="form-control"/>
                                     <input type="text" id="name" name="name" class="form-control"
                                            data-message="姓名不能为空"
                                            data-easytip="position:top;class:easy-red;"
@@ -131,7 +133,7 @@
                             <div class="form-group">
                                 <label for="blockId" class="col-sm-2 control-label">所属网格:<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" id="blockId" name="blockId" class="form-control"
+                                    <input type="text" id="blockName" name="blockName" readonly class="form-control"
                                            data-message="单位地址不能为空"
                                            data-easytip="position:top;class:easy-red;"
                                     />
@@ -159,6 +161,7 @@
                                        data-easytip="position:top;class:easy-red;"
                             ></textarea>
                                 </div>
+                            </div>
                             <div class="form-group">
                                 <label for="attachment" class="col-sm-2 control-label">附件：</label>
                                 <div class="col-sm-10">
