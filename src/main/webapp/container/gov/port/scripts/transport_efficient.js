@@ -425,6 +425,7 @@ function setFormView(entity) {
 function disabledForm(disabled) {
     form.find("input").attr("disabled",disabled);
     form.find("textarea").attr("disabled",disabled);
+    form.find("select").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#datetimepicker').datetimepicker({
