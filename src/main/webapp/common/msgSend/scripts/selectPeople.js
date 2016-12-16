@@ -529,9 +529,18 @@ function setDialogTypeTwo(dialog,options,callback){
                     align: 'center'
                 },
                 /*{
-                 field: 'operate',
+                 title: '操作',
+                 field: 'id',
                  align: 'center',
-                 events: operateEvents,
+                 editable: false,
+                 sortable: false,
+                 events: {
+                    'click .buttonClose': function (e, value, row, index) {
+                        treeObj.checkNode(row, false, true);
+                        jsMap.remove(value);
+                        gridSelectPeopleTable.bootstrapTable('removeByUniqueId',value);
+                    }
+                 },
                  formatter: operateFormatter
                  }*/
             ]
