@@ -8,7 +8,7 @@ var gridTable = $('#table'),
     refPersonBtn = $('#refPerson'),
     removePersonBtn = $('#removePerson'),
     form = $("#scfForm"),
-    formTitle = "人员管理",
+    formTitle = "网格人员",
     thisOrgId="",
     selections = [];
 
