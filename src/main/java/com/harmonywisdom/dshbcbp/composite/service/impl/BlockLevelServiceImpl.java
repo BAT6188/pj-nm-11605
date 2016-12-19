@@ -108,6 +108,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         List<ZNodeDTO> blockNodes = blockService.searchNode(searchText);
         if (blockNodes != null) {
             ZNodeDTO blocks = new ZNodeDTO(Block.class.getSimpleName(),"网格分布",true,Block.class.getSimpleName());
+            blocks.setOpen(true);
             blocks.setChildren(blockNodes);
 //            nodes.addAll(blocks);
             nodes.add(blocks);
@@ -117,6 +118,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         List<ZNodeDTO> enterprises = enterpriseService.searchNode(searchText);
         if (enterprises != null) {
             ZNodeDTO enterpriseMainNode = new ZNodeDTO(Enterprise.class.getSimpleName(),"企业分布",true,Enterprise.class.getSimpleName());
+            enterpriseMainNode.setOpen(true);
             enterpriseMainNode.setChildren(enterprises);
             nodes.add(enterpriseMainNode);
         }
@@ -124,12 +126,16 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         ZNodeDTO monitoring = new ZNodeDTO("monitoring","在线监控",true,"monitoring");
         List<ZNodeDTO> monitoringChildren = new ArrayList<>();
         monitoring.setChildren(monitoringChildren);
+        monitoring.setOpen(true);
         //查询环保局排口信息，噪声和沙尘暴
         List<ZNodeDTO> noisePorts = noisePortService.searchNode(searchText);
         if (noisePorts != null) {
             ZNodeDTO noiseMainNode = new ZNodeDTO(NoisePort.class.getSimpleName(),"噪声监测",true,NoisePort.class.getSimpleName());
             monitoring.setChildren(noisePorts);
             noiseMainNode.setChildren(noisePorts);
+            if(searchText != "%%" && !"%%".equals(searchText)){
+                noiseMainNode.setOpen(true);
+            }
             monitoringChildren.add(noiseMainNode);
             monitoring.setChildren(monitoringChildren);
         }
@@ -140,6 +146,9 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
 //            nodes.add(dustMainNode);
             monitoring.setChildren(dustPorts);
             dustMainNode.setChildren(dustPorts);
+            if(searchText != "%%" && !"%%".equals(searchText)){
+                dustMainNode.setOpen(true);
+            }
             monitoringChildren.add(dustMainNode);
             monitoring.setChildren(monitoringChildren);
         }
@@ -150,6 +159,9 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
             ZNodeDTO airMainNode = new ZNodeDTO(AirEquipment.class.getSimpleName(),"空气质量在线加测",true,AirEquipment.class.getSimpleName());
             monitoring.setChildren(airEquipment);
             airMainNode.setChildren(airEquipment);
+            if(searchText != "%%" && !"%%".equals(searchText)){
+                airMainNode.setOpen(true);
+            }
             monitoringChildren.add(airMainNode);
             monitoring.setChildren(monitoringChildren);
 
@@ -164,6 +176,9 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
 //            nodes.add(videoDeviceMainNode);
             monitoring.setChildren(videoDevices);
             videoDeviceMainNode.setChildren(videoDevices);
+            if(searchText != "%%" && !"%%".equals(searchText)){
+                videoDeviceMainNode.setOpen(true);
+            }
             monitoringChildren.add(videoDeviceMainNode);
             monitoring.setChildren(monitoringChildren);
         }
@@ -173,6 +188,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         if (villages != null) {
             ZNodeDTO villageMainNode = new ZNodeDTO(VillageEnv.class.getSimpleName(),"农村生态环境",true,VillageEnv.class.getSimpleName());
             villageMainNode.setChildren(villages);
+            villageMainNode.setOpen(true);
             nodes.add(villageMainNode);
         }
         if(monitoringChildren !=null && monitoringChildren.size()>0){

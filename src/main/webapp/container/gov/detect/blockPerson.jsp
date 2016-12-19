@@ -40,7 +40,7 @@
                             </span>
                         </div>
                         <div class="queryBox marginLeft0">
-                            <form class="form-inline" id="searchform">s
+                            <form class="form-inline" id="searchform">
                                 <input type="hidden" id="s_blockName" name="blockName" class="form-control hidden"/>
                                 <input type="hidden" id="s_orgId" name="orgId" class="form-control hidden" />
                                 <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />

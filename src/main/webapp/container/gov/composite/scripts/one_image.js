@@ -34,7 +34,8 @@ var OneImagePage = function () {
         height:$(window).height()-125,
         init: function () {
             var VIEWTYPE_GIS = "gis",
-                VIEWTYPE_TREE = "tree";
+                VIEWTYPE_TREE = "tree",
+                that = this;
             this.initTree();
             // if (viewType == VIEWTYPE_GIS) {
                 $(".main-right").css("float", "left");
@@ -56,7 +57,13 @@ var OneImagePage = function () {
                         // $("#名称").attr("属性名","属性值");
                         status = $("#switchBtn").attr("data-status","true");
                         $(".tree-left").css("overflow","auto");
-
+                        // var nodes = that.zTree.getNodes();
+                        // console.log(nodes);
+                        // if(nodes){
+                        //     $.each(nodes,function(k,v){
+                        //         that.zTree.expandNode(v, true, false, true);
+                        //     });
+                        // };
                     }else if(status == "true"){
                         $(".main-right").css("float", "left");
                         $(".main-right").width("100%");
@@ -72,13 +79,14 @@ var OneImagePage = function () {
                         $(".tree-left").css("width","21%");
 
                         status = $("#switchBtn").attr("data-status","false");
+
                     }
 
                 });
             // }
             this.initMap();
 
-            var that = this;
+            //var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
             var alertTimer = setInterval(function () {
@@ -195,7 +203,9 @@ var OneImagePage = function () {
                     }
                 }
             });
+            ZtreeObj.tree.blockZtree = that.zTree;
             $("#searchBtn").bind("click",function () {
+                // search_ztree('blockZtree','blockZtree', 'searchText');
                 that.zTree.setting.async.otherParam = {"searchText": $("#searchText").val()};
                 that.zTree.reAsyncChildNodes(null, "refresh");
             })
