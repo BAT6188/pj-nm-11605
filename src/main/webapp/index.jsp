@@ -84,6 +84,20 @@
         });
     }
 
+    function initCacheData() {
+        $.ajax({
+            url: rootPath + "/action/S_alert_MsgSend_getOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
+            type:"post",
+            traditional:true,
+            data:{"orgCode":["dsgov"]},
+            dataType:"json",
+            success:function (data) {
+                console.log(data)
+            }
+        });
+    }
+    initCacheData();
+
 
 </script>
 </body>
