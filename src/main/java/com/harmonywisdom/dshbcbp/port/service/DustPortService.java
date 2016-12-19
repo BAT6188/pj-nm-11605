@@ -23,4 +23,13 @@ public interface DustPortService extends IBaseService<DustPort, String> {
     List<DustPort> findByIds(String...ids);
 
     void delete(String portId);
+
+    /**
+     * 一张图圈选沙尘暴
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    List<DustPort> circleQueryDusts(String radius, String longitude, String latitude);
 }

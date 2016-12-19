@@ -194,6 +194,7 @@
                             <div id="fine-uploader-gallery"></div>
                         </div>
                     </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

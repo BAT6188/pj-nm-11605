@@ -22,4 +22,13 @@ public interface VillageEnvService extends IBaseService<VillageEnv, String> {
      * @return
      */
     List<VillageEnv> findByIds(String...ids);
+
+    /**
+     * 一张图圈选农村生态环境
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+//    List<VillageEnv> circleQueryEnvironmens(String radius, String longitude, String latitude);
 }

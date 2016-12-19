@@ -19,4 +19,13 @@ public interface AirEquipmentService extends IBaseService<AirEquipment, String> 
     List<ZNodeDTO> searchNode(String searchText);
 
     List<AirEquipment> findByIds(String...ids);
+
+    /**
+     * 一张图圈选空气质量到地图
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    List<AirEquipment> circleQueryAirs(String radius, String longitude, String latitude);
 }

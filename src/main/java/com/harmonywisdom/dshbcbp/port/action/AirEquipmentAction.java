@@ -26,4 +26,15 @@ public class AirEquipmentAction extends BaseAction<AirEquipment, AirEquipmentSer
         }
     }
 
+    /**
+     * 一张图圈选空气质量监测到地图
+     */
+    public void circleQueryAir(){
+        String radius = request.getParameter("radius");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+        List<AirEquipment> airEquipments = getService().circleQueryAirs(radius,longitude,latitude);
+        write(airEquipments);
+    }
+
 }
