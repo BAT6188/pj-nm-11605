@@ -100,11 +100,13 @@ var MessageDialog = function () {
                     that.clearMsgList();
                     that.updateMoreLink();
                     that.addMsgListToTableAndData(newMsgList);
-                }else if(!msgListData || msgListData <= 0){//如果列表为空，加载历史消息，否则不加载
+                }
+                /*else if(!msgListData || msgListData <= 0){//如果列表为空，加载历史消息，否则不加载
                     that.getUserHistoryMsgList(userId,function (historyMsgList) {
                         that.addMsgListToTableAndData(historyMsgList);
                     })
-                }else{
+                }*/
+                else{
                     //没有新消息，消息列表有其他消息，所以什么也不做。
                 }
 
