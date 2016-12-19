@@ -291,6 +291,7 @@ HwmapCommon = {
     OVERLAY_TYPE_HWMARKER: "com.hw.map.HWMarker",
     OVERLAY_TYPE_HWPOLYLINE: "com.hw.map.HWPolyline",
     OVERLAY_TYPE_HWPOLYGON: "com.hw.map.HWPolygon",
+    OVERLAY_TYPE_HWCIRCLE: "com.hw.map.HWCircle",
     DEFALUT_LAYER_ID: "default_layer_id",
     //_idMapOverlay:{},
     _idMapLayer: {},
@@ -582,7 +583,12 @@ HwmapCommon = {
      */
     addPolygon: function (options, layerId) {
         var opt = this.extend({}, this.OPTIONS_DEF_POLYGON, options);
-        var polygon = new com.hw.map.HWPolygon(opt.id, opt.points, opt.fillColor, opt.lineColor,
+        var points = opt.points;
+        var opintsIsObj = points && !points.length;
+        if (opintsIsObj) {
+            points = points.points;
+        }
+        var polygon = new com.hw.map.HWPolygon(opt.id, points, opt.fillColor, opt.lineColor,
             opt.lineWeight, opt.lineType, opt.lineOpacity, opt.opacity);
         this.hwmap.addPolygon(polygon);
         polygon.addEventListener(com.hw.map.HWMapEvents.GRAPHIC_MOUSE_CLICK, opt.click);
@@ -614,6 +620,52 @@ HwmapCommon = {
         polygon.addEventListener(com.hw.map.HWMapEvents.GRAPHIC_MOUSE_CLICK, options.click);
         return polygon;
     },
+
+    /**
+     * 增加圆
+     * @param opt
+     * id,
+     * point,
+     * radius,
+     * fillColor,
+     * lineColor,
+     * lineWeight,
+     * lineType,
+     * lineOpacity,
+     * opacity,
+     * type
+     * 
+     */
+    addCircle:function(options,layerId){
+        var opt = this.extend({}, this.OPTIONS_DEF_POLYGON, options);
+        var points = opt.points;
+
+        var circle = new com.hw.map.HWCircle(opt.id, points.center, opt.points.radius,opt.fillColor, opt.lineColor,
+            opt.lineWeight, opt.lineType, opt.lineOpacity, opt.opacity,"com.hw.map.HWCircle");
+        this.hwmap.addCircle(circle);
+        circle.addEventListener(com.hw.map.HWMapEvents.GRAPHIC_MOUSE_CLICK, opt.click);
+        circle.data = opt.data;
+        this._addOverlay(circle, layerId);
+        if (options.callback) options.callback(circle);
+        return circle;
+        
+    },
+
+//     com.hw.map.HWCircle = function(a, b, c, d, e, f, g, h, i) {
+//     this.id = a,
+//         this.point = b,
+//         this.radius = c,
+//         this.fillColor = d,
+//         this.lineColor = e,
+//         this.lineWeight = f,
+//         this.lineType = g,
+//         this.lineOpacity = h,
+//         this.opacity = i,
+//         this.type = "com.hw.map.HWCircle"
+// },
+//     com.hw.map.HWCircle.prototype.addEventListener = function() {
+//         alert(" no defined ! ")
+//     };
     /**
      * 增加线
      * @param opt
@@ -1041,7 +1093,7 @@ HwmapCommon = {
         var that = this;
         this.preDragCircle(function (geometry) {
             options.points = geometry;
-            that.addPolygon(options, layerId);
+            that.addCircle(options, layerId);
             that.pan();
         });
     },
@@ -1159,4 +1211,5 @@ $(function () {
         }
 
     });
+
 });

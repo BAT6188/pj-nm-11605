@@ -118,4 +118,16 @@ public class DustPortAction extends BaseAction<DustPort, DustPortService> {
     public void getEntityById(){
         write(dustPortService.findById(entity.getId()));
     }
+
+
+    /**
+     * 一张图圈选沙尘暴
+     */
+    public void circleQueryDust(){
+        String radius = request.getParameter("radius");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+        List<DustPort> dustPorts = getService().circleQueryDusts(radius,longitude,latitude);
+        write(dustPorts);
+    }
 }

@@ -131,4 +131,17 @@ public class NoisePortAction extends BaseAction<NoisePort, NoisePortService> {
         write(list);
 
     }
+
+    /**
+     * 一张图圈选噪声监测
+     */
+    public void circleQueryNoise(){
+        String radius = request.getParameter("radius");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+        List<NoisePort> noisePorts = getService().circleQueryNoise(radius,longitude,latitude);
+        write(noisePorts);
+    }
+
+
 }

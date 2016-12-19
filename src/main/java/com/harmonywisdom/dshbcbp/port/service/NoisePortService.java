@@ -23,4 +23,13 @@ public interface NoisePortService extends IBaseService<NoisePort, String> {
     List<NoisePort> findByIds(String...ids);
 
     void delete(String portId);
+
+    /**
+     * 一张图圈选噪声监测
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    List<NoisePort> circleQueryNoise(String radius, String longitude, String latitude);
 }
