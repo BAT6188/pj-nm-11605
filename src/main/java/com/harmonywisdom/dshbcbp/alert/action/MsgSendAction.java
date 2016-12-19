@@ -134,6 +134,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         ztreeObjList.add(coverToOrgPerson(iOrg,null,null,orgParentId));
         Contacts contacts = new Contacts();
         contacts.setOrgId(iOrg.getOrgId());
+        contacts.setType("0");
         List<Contacts> contactsList = contactsService.findBySample(contacts);
         List<IOrg> orgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
         if(contactsList.size()>0){
