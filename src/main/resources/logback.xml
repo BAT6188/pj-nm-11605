@@ -53,5 +53,6 @@
 
     <root level="${log.level}">
         <appender-ref ref="${log.appender}"/>
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>
