@@ -336,6 +336,12 @@ public class Enterprise implements Serializable {
     private String haveFumesPort;
 
     /**
+     * 是否在线监控 0:否：1：是
+     */
+    @Column(name = "IS_ONLINE_MONITORING")
+    private String isOnlineMonitoring;
+
+    /**
      * 用户登录名
      */
     @Column(name="USERNAME",length=100)
@@ -754,5 +760,13 @@ public class Enterprise implements Serializable {
 
     public void setEnterpriseList(String enterpriseList) {
         this.enterpriseList = enterpriseList;
+    }
+
+    public String getIsOnlineMonitoring() {
+        return isOnlineMonitoring;
+    }
+
+    public void setIsOnlineMonitoring(String isOnlineMonitoring) {
+        this.isOnlineMonitoring = isOnlineMonitoring;
     }
 }

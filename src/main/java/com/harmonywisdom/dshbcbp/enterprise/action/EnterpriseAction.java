@@ -68,6 +68,9 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (StringUtils.isNotBlank(entity.getIsDel())) {
             param.andParam(new QueryParam("isDel", QueryOperator.EQ,entity.getIsDel()));
         }
+        if(StringUtils.isNotBlank(entity.getIsOnlineMonitoring())){
+            param.andParam(new QueryParam("isOnlineMonitoring",QueryOperator.EQ,entity.getIsOnlineMonitoring()));
+        }
         /*----排污档案列表查询条件---*/
         if (StringUtils.isNotBlank(entity.getName())) {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,"%"+entity.getName()+"%"));
