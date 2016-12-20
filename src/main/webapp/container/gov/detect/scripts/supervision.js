@@ -72,7 +72,7 @@ function initTable() {
             },
             {
                 title: '管辖区域',
-                field: 'orgName',
+                field: 'orgAddress',
                 editable: false,
                 sortable: false,
                 align: 'center'
