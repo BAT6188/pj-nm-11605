@@ -294,7 +294,7 @@
                         </tr>
                         <tr>
                             <td class="success"><span class="text-danger">(*)</span>污染源管理级别</td>
-                            <td colspan="3">
+                            <td colspan="1">
                                 <div class="col-sm-12" id="pollutantLevel">
                                     <fieldset class="fieldset">
                                         <label class="checkbox-inline">
@@ -311,6 +311,20 @@
                                         </label></fieldset>
                                 </div>
                             </td>
+
+                            <td  class="success"><span class="text-danger">(*)</span>是否在线监控</td>
+                            <td>
+                                <div class="col-sm-12" id="isOnlineMonitoring">
+                                    <fieldset class="fieldset">
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="isOnlineMonitoring" id="isOnlineMonitoring1" value="1" class="needCheck" data-easyform="radio" title="是否特殊监管对象" data-message="请选择是否特殊监管对象">是
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="isOnlineMonitoring" id="isOnlineMonitoring2" value="0">否
+                                        </label></fieldset>
+                                </div>
+                            </td>
+
                         </tr>
                         <tr>
                             <td class="success">排污单位监管类型</td>
