@@ -8,7 +8,7 @@ var gridTable = $('#table'),
     refPersonBtn = $('#refPerson'),
     removePersonBtn = $('#removePerson'),
     form = $("#scfForm"),
-    formTitle = "网格人员",
+    formTitle = "网格人员管理",
     thisOrgId="",
     selections = [];
 
@@ -214,6 +214,14 @@ function initTable() {
                 isDown:true
             },
             {
+                title: '排序',
+                field: 'sort',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                isDown:true
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
@@ -366,9 +374,9 @@ var model2 = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一�
     form.find('#apportalUserName').val(obj.personObj[0].saveName);
     form.find("#name").val(obj.personObj[0].saveName);
     form.find("#phone").val(obj.personObj[0].mobilePhone);
-    if(obj.personObj[0].iperson.extattrMap){
-        form.find("#address").val(obj.personObj[0].iperson.extattrMap.departmentAddress);
-    }
+    // if(obj.personObj[0].iperson.extattrMap){
+    //     form.find("#address").val(obj.personObj[0].iperson.extattrMap.departmentAddress);
+    // }
 });
 addPersonBtn.click(function(){
     choseTable.bootstrapTable('refresh');
@@ -493,10 +501,12 @@ function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
+    form.find(".formBtn").attr("disabled",true);
+
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传附件");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
@@ -529,6 +539,7 @@ function resetForm() {
     //form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
+    form.find(".formBtn").attr("disabled",false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }

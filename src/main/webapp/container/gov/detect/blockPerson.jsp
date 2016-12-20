@@ -41,17 +41,23 @@
                         </div>
                         <div class="queryBox marginLeft0">
                             <form class="form-inline" id="searchform">
-                                <input type="hidden" id="s_blockName" name="blockName" class="form-control hidden"/>
-                                <input type="hidden" id="s_orgId" name="orgId" class="form-control hidden" />
-                                <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />
-                                <input type="hidden" id="s_blockId" name="blockId" class="form-control hidden" />
-                                <label for="s_name">姓名：</label> <input type="text" id="s_name" name="name" class="form-control" />
-                                <label for="s_department">部门：</label> <input type="text" id="s_department" name="department" class="form-control" />
-                                <label for="s_position">职务：</label><input type="text" id="s_position" name="position" class="form-control" />
+                                <div class="form-group">
+                                    <input type="hidden" id="s_blockName" name="blockName" class="form-control hidden"/>
+                                    <input type="hidden" id="s_orgId" name="orgId" class="form-control hidden" />
+                                    <input type="hidden" id="s_blockLevelId" name="blockLevelId" class="form-control hidden" />
+                                    <input type="hidden" id="s_blockId" name="blockId" class="form-control hidden" />
+                                    <label for="s_name">姓名：</label> <input type="text" id="s_name" name="name" class="form-control" />
+                                    <label for="s_department">部门：</label> <input type="text" id="s_department" name="department" class="form-control" />
+                                </div>
+                                <br/><br>
+                                <div class="form-group">
+                                    <label for="s_position">职务：</label><input type="text" id="s_position" name="position" class="form-control" />
+                                    <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                                    <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                                </div>
                             </form>
                         </div>
-                        <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                        <button id="reset" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+
                         <br/><br>
                         <p class="btnListP">
                             <button id="add" type="button" class="btn btn-sm btn-success blockBtn" data-toggle="modal" data-target="#scfForm">
@@ -136,6 +142,13 @@
                                 <label for="blockId" class="col-sm-2 control-label">所属网格:<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
                                     <input type="text" id="blockName" name="blockName" readonly class="form-control"
+                                           data-message="单位地址不能为空"
+                                           data-easytip="position:top;class:easy-red;"
+                                    />
+                                </div>
+                                <label for="sort" class="col-sm-2 control-label">排序:<span class="text-danger">*</span>：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="sort" name="sort" class="form-control"
                                            data-message="单位地址不能为空"
                                            data-easytip="position:top;class:easy-red;"
                                     />
