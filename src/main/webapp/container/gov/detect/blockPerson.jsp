@@ -107,10 +107,12 @@
 
                                 <label for="position" class="col-sm-2 control-label">网格职务：<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" id="position" name="position" class="form-control"
-                                           data-message="职务不能为空"
-                                           data-easytip="position:top;class:easy-red;"
-                                    />
+                                    <select  id="position" name="position" class="form-control">
+                                        <option value="1">责任领导</option>
+                                        <option value="2">分管领导</option>
+                                        <option value="3">主要负责人</option>
+                                        <option value="4">直接负责人</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">

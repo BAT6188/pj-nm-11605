@@ -1,11 +1,13 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
 import com.alibaba.fastjson.JSON;
+import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.office.bean.MeetingNotice;
 import com.harmonywisdom.dshbcbp.office.service.MeetingNoticeService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -41,6 +43,10 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
         if (StringUtils.isNotEmpty(endTime)){
             param.andParam(new QueryParam("time", QueryOperator.LE, DateUtil.strToDate(endTime,DateUtil.format1)));
         }
+
+        IPerson person = ApportalUtil.getPerson(request);
+        param.andParam(new QueryParam("personIds", QueryOperator.LIKE, "%"+person.getPersonId()+"%"));
+
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
