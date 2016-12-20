@@ -9,7 +9,7 @@
     %>
     <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
-    <script src="<%=request.getContextPath()%>/container/gov/composite/scripts/selectBlockTree.js"></script>
+    <%--<script src="<%=request.getContextPath()%>/container/gov/composite/scripts/selectBlockTree.js"></script>--%>
     <title>一张图综合检测预警</title>
     <script>
         var enterpriseId = "<%=enterpriseId%>";

@@ -378,7 +378,7 @@ var OneImagePage = function () {
                     }
                 }
             });
-            ZtreeObj.tree.blockZtree = that.zTree;
+            // ZtreeObj.tree.blockZtree = that.zTree;
             $("#searchBtn").bind("click",function () {
                 // search_ztree('blockZtree','blockZtree', 'searchText');
                 that.zTree.setting.async.otherParam = {"searchText": $("#searchText").val()};

@@ -521,7 +521,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find('form')[0].reset();
-    $('#blockLevelId').find('option[value=""]').attr("selected",true);
+    // $('#blockLevelId').find('option[value=""]').attr("selected",true);
     // $('#blockId').empty();
     //form.find("input[type!='radio'][type!='checkbox']").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
