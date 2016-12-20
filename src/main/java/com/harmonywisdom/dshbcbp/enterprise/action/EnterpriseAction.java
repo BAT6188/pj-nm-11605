@@ -49,11 +49,27 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         write(enterprise);
     }
 
+    /**
+     * 一张圈选企业
+     * @return
+     */
+    public void circleQueryEnterprise(){
+        String radius = request.getParameter("radius");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+        List<Enterprise> enterprises = enterpriseService.queryEnterprises(radius,longitude,latitude);
+        write(enterprises);
+
+    }
+
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
         if (StringUtils.isNotBlank(entity.getIsDel())) {
             param.andParam(new QueryParam("isDel", QueryOperator.EQ,entity.getIsDel()));
+        }
+        if(StringUtils.isNotBlank(entity.getIsOnlineMonitoring())){
+            param.andParam(new QueryParam("isOnlineMonitoring",QueryOperator.EQ,entity.getIsOnlineMonitoring()));
         }
         /*----排污档案列表查询条件---*/
         if (StringUtils.isNotBlank(entity.getName())) {

@@ -1,6 +1,5 @@
 package com.harmonywisdom.dshbcbp.sms.service.impl;
 
-import com.harmonywisdom.dshbcbp.sms.bean.ApiRptSmsVo;
 import com.harmonywisdom.dshbcbp.sms.bean.SmsRecord;
 import com.harmonywisdom.dshbcbp.sms.bean.SmsSendStatus;
 import com.harmonywisdom.dshbcbp.sms.dao.SmsRecordDAO;
@@ -14,7 +13,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -54,7 +52,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
      * @return
      */
     @Override
-    public List<SmsSendStatus> sendSms(SmsRecord smsRsecord, List<SmsSendStatus> receivers) {
+    public List<SmsSendStatus> sendSms(SmsRecord smsRsecord, List<SmsSendStatus> receivers) throws Exception{
         if (receivers == null || receivers.size() <= 0) {
             return null;
         }
@@ -69,7 +67,7 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         }
         smsSendStatusService.saveBatch(statuses);//保存发送联系人，并初始化为未发送状态
         try {
-            sendSmsByDB(smsRsecord,receivers);//批量发送短信
+            sendSmsByAPI(smsRsecord,receivers);//批量发送短信
             for (SmsSendStatus statuse : statuses) {
                 statuse.setStatus(SmsSendStatus.SEND_STATUS_SENT);
             }
@@ -82,40 +80,43 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         }*/
 
         //方式二：先调用短信发送接口，然后再保存短信记录到本地数据库
-        try {
-            sendSmsByDB(smsRsecord,receivers);//批量发送短信
-            if (smsRsecord.getSendTime()==null){
-                smsRsecord.setSendTime(new Date());//更新短信记录表中需要立即发送短信 的发送时间
-            }
-            getDAO().save(smsRsecord);//保存短信记录
-            Set<SmsSendStatus> statuses = new HashSet<>();
-            for (SmsSendStatus status : receivers) {
-                status.setSmsRecordId(smsRsecord.getId());
-                status.setStatus(SmsSendStatus.SEND_STATUS_SENT);
-                statuses.add(status);
-            }
-            smsSendStatusService.saveBatch(statuses);//保存发送联系人
-        } catch (Exception e) {
-            log.error("短信发送失败",e);
+        sendSmsByAPI(smsRsecord,receivers);//批量发送短信
+        if (smsRsecord.getSendTime()==null){
+            smsRsecord.setSendTime(new Date());//更新短信记录表中需要立即发送短信 的发送时间
         }
+        getDAO().save(smsRsecord);//保存短信记录
+        Set<SmsSendStatus> statuses = new HashSet<>();
+        for (SmsSendStatus status : receivers) {
+            status.setSmsRecordId(smsRsecord.getId());
+            status.setStatus(SmsSendStatus.SEND_STATUS_SENT);
+            statuses.add(status);
+        }
+        smsSendStatusService.saveBatch(statuses);//保存发送联系人
 
         return receivers;
     }
 
     /**
-     * 调用发送短信数据库接口
+     * 调用发送短信API接口
      * @param smsRsecord
      * @param receivers
      * @throws Exception
      */
-    public void sendSmsByDB(SmsRecord smsRsecord, List<SmsSendStatus> receivers)throws Exception{
-        SmsSender smssender=new SmsSender();
-        Date sendTime = smsRsecord.getSendTime();
-        for (SmsSendStatus receiver : receivers) {
-            String[] _addressReceiver={receiver.getReceiverPhone()};
-            smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime());
+    public void sendSmsByAPI(SmsRecord smsRsecord, List<SmsSendStatus> receivers)throws Exception{
+        SmsSender smssender= null;
+        try {
+            smssender = new SmsSender();
+//            Date sendTime = smsRsecord.getSendTime();
+            for (SmsSendStatus receiver : receivers) {
+                String[] _addressReceiver={receiver.getReceiverPhone()};
+                smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime(),getSequence());
+            }
+            log.info("调用短信发送接口成功");
+        }finally {
+            if(smssender != null){
+                smssender.release();
+            }
         }
-        log.info("调用短信发送接口成功");
 
         /*String sql="INSERT INTO "+api_mt_sms+" (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
                 ",SM_TYPE,MSG_FMT,TP_PID,TP_UDHI,FEE_TERMINAL_ID,FEE_TYPE,FEE_CODE" +

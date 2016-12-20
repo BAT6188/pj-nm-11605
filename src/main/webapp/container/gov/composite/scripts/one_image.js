@@ -34,7 +34,8 @@ var OneImagePage = function () {
         height:$(window).height()-125,
         init: function () {
             var VIEWTYPE_GIS = "gis",
-                VIEWTYPE_TREE = "tree";
+                VIEWTYPE_TREE = "tree",
+                that = this;
             this.initTree();
             // if (viewType == VIEWTYPE_GIS) {
                 $(".main-right").css("float", "left");
@@ -56,7 +57,13 @@ var OneImagePage = function () {
                         // $("#名称").attr("属性名","属性值");
                         status = $("#switchBtn").attr("data-status","true");
                         $(".tree-left").css("overflow","auto");
-
+                        // var nodes = that.zTree.getNodes();
+                        // console.log(nodes);
+                        // if(nodes){
+                        //     $.each(nodes,function(k,v){
+                        //         that.zTree.expandNode(v, true, false, true);
+                        //     });
+                        // };
                     }else if(status == "true"){
                         $(".main-right").css("float", "left");
                         $(".main-right").width("100%");
@@ -72,13 +79,45 @@ var OneImagePage = function () {
                         $(".tree-left").css("width","21%");
 
                         status = $("#switchBtn").attr("data-status","false");
+
                     }
 
                 });
             // }
             this.initMap();
 
-            var that = this;
+            /**
+             * 地图圆选查询
+             */
+            $("#circleLayerBtn").bind("click",function(){
+                that.hwmap.clear();
+                that.hwmap.dragCircle({
+                    id:(new Date().getTime()),
+                    callback:function (gra) {
+                        console.log(gra);
+                        var radius = gra.radius;
+                        var longitude = gra.point.x;
+                        var latitude = gra.point.y;
+                        //企业分布
+                        that.loadEnterprises(radius,longitude,latitude);
+                        //农村生态环境
+                        // that.loadRuralEnvironment(radius,longitude,latitude);
+                        //噪声监测
+                        that.noiseMonitorings(radius,longitude,latitude);
+                        //沙尘暴监测
+                        that.loadDustStormMonitoring(radius,longitude,latitude);
+                        //空气质量在线监测
+                        that.loadAirMonitoring(radius,longitude,latitude);
+                        //公安视频
+                        that.loadSecurityVideo(radius,longitude,latitude);
+
+
+                    }
+                });
+
+            });
+
+            //var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
             var alertTimer = setInterval(function () {
@@ -89,6 +128,150 @@ var OneImagePage = function () {
             });
 
         },
+
+
+        /**
+         * 圆选企业
+         */
+        loadEnterprises:function(radius,longitude,latitude){
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_enterprise_Enterprise_circleQueryEnterprise.action",
+                type:"post",
+                dataType:"json",
+                data:{radius:radius,longitude:longitude,latitude:latitude},
+                success:function (result) {
+                    if (result && result.length > 0){
+                        for(var i = 0; i < result.length; i++){
+                            var enterprise = result[i];
+                            that.addEnterpriseMark(enterprise);
+                        }
+                    }
+                }
+            });
+            
+        },
+
+        /**
+         * 圈选农村生态环境
+         */
+        // loadRuralEnvironment: function (radius,longitude,latitude){
+        //     var that = this;
+        //     $.ajax({
+        //         url:rootPath + "/action/S_composite_VillageEnv_circleQueryEnvironmen.action",
+        //         type:"post",
+        //         dataType:"json",
+        //         data:{radius:radius,longitude:longitude,latitude:latitude},
+        //         success:function (result) {
+        //             if (result && result.length > 0){
+        //                 for(var i = 0; i < result.length; i++){
+        //                     var village = result[i];
+        //                     var videos = village.videos;
+        //                     that.addVillageArea(village);
+        //                     that.addVideos(videos,village.id);
+        //                 }
+        //             }
+        //         }
+        //     });
+        //
+        //
+        // },
+
+        /**
+         * 圈选噪声监测
+         * @param radius
+         * @param longitude
+         * @param latitude
+         */
+        noiseMonitorings:function (radius,longitude,latitude){
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_port_NoisePort_circleQueryNoise.action",
+                type:"post",
+                dataType:"json",
+                data:{radius:radius,longitude:longitude,latitude:latitude},
+                success:function (noises) {
+                    if (noises && noises.length > 0){
+                        for(var i = 0; i < noises.length; i++){
+                            var noisePort = noises[i];
+                            that.addNoisePortMark(noisePort);
+                        }
+                    }
+                }
+            });
+        },
+
+
+        /**
+         * 圈选沙尘暴
+         */
+        loadDustStormMonitoring: function (radius,longitude,latitude){
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_port_DustPort_circleQueryDust.action",
+                type:"post",
+                dataType:"json",
+                data:{radius:radius,longitude:longitude,latitude:latitude},
+                success:function (dusts) {
+                    if (dusts && dusts.length > 0) {
+                        for (var i = 0; i < dusts.length; i++) {
+                            var dustPort = dusts[i];
+                            that.addDustPortMark(dustPort);
+                        }
+                    };
+                }
+            });
+
+
+        },
+
+        /**
+         * 圈选空气质量在线监测
+         */
+        loadAirMonitoring:function (radius,longitude,latitude){
+            var that = this;
+            $.ajax({
+                url:rootPath + "/action/S_port_AirEquipment_circleQueryAir.action",
+                type:"post",
+                dataType:"json",
+                data:{radius:radius,longitude:longitude,latitude:latitude},
+                success:function (airs) {
+                    if (airs && airs.length > 0) {
+                        for (var i = 0; i < airs.length; i++) {
+                            var airEquipment = airs[i];
+                            that.addAirEquipmentMark(airEquipment);
+                        }
+                    }
+                }
+            });
+            
+        },
+        
+        /**
+         * 圆选公安视频
+         * @param radius
+         * @param longitude
+         * @param latitude
+         */
+        loadSecurityVideo:function(radius,longitude,latitude){
+            var that = this;
+            $.ajax({
+                url :rootPath + "/action/S_videodevice_VideoDevice_querySurroundingVideo.action",
+                type:'post',
+                dataType:'json',
+                data:{videoLength:radius,longitude:longitude,latitude:latitude},
+                success:function (result) {
+                    console.log(result);
+                    if(result && result.length > 0){
+                        for(var i=0;i < result.length; i++){
+                            that.addVideoDevice(result[i])
+                        }
+                    }
+                }
+            });
+
+        },
+
         initTree:function () {
             var that = this;
             $(".tree-left").height(that.height);
@@ -195,7 +378,9 @@ var OneImagePage = function () {
                     }
                 }
             });
+            // ZtreeObj.tree.blockZtree = that.zTree;
             $("#searchBtn").bind("click",function () {
+                // search_ztree('blockZtree','blockZtree', 'searchText');
                 that.zTree.setting.async.otherParam = {"searchText": $("#searchText").val()};
                 that.zTree.reAsyncChildNodes(null, "refresh");
             })
@@ -985,7 +1170,7 @@ var OneImagePage = function () {
                 "<tr><td style='text-align: center;'>环保负责人:</td><td style='text-align: left;'>"+(enterprise.envPrincipal == null?"":enterprise.envPrincipal)+"</td></tr>"+
                 "<tr><td style='text-align: center;'>联系电话:</td><td style='text-align: left;'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
                 "<tr><td style='text-align: center;'>单位地址:</td><td style='text-align: left;'>"+(enterprise.address == null?"":enterprise.address)+"</td></tr>"+
-                "<tr><td style='text-align: center;'>所属网格:</td><td style='text-align: left;'>"+""+"</td></tr>"+
+                "<tr><td style='text-align: center;'>所属网格:</td><td style='text-align: left;'>"+(enterprise.blockName == null?"":enterprise.blockName)+"</td></tr>"+
                 "</table>"+
                 "<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>" +
                 "<button id='mainInfo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业台账</button>" +
@@ -1517,8 +1702,7 @@ var OneImagePage = function () {
             }
 
         }
-
-
+        
     };
 
     page.init();

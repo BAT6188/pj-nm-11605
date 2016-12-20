@@ -30,6 +30,7 @@ function initTable() {
         queryParams:function (param) {
             var temp = pageUtils.getBaseParams(param);
             temp.isDel = '0';
+            temp.isOnlineMonitoring = '1';
             //temp.haveFumesPort = '0';
             return temp;
         },

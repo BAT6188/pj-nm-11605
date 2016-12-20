@@ -602,6 +602,7 @@ function setEnterpriseForm(flag){
     });
     $("input#isSpecial"+data.isSpecial).get(0).checked=true;
     $("input#pollutantLevel"+data.pollutantLevel).get(0).checked=true;
+    $("input#isOnlineMonitoring"+data.isOnlineMonitoring).get(0).checked=true;
     var pollutantTypes = data.pollutantType.split(',');
     $.each(pollutantTypes,function(k,v){
         $("input#pollutantType"+ v.replace(/\s/g,'')).attr("checked", true);

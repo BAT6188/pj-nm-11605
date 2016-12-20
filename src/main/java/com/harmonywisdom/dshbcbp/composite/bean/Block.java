@@ -48,7 +48,7 @@ public class Block implements Serializable {
     @Column(name = "AREA_POINTS")
     private String areaPoints;
     /**
-     *网格负责人
+     *环保负责人
      */
     @Column(name = "PRINCIPAL",length = 100)
     private String principal;
@@ -111,6 +111,8 @@ public class Block implements Serializable {
      */
     @Column(name="BLOCK_DUTY",length=1000)
     private String blockDuty;
+
+
     /**
      *附件
      */

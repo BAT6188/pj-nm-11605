@@ -1,5 +1,7 @@
 package com.harmonywisdom.dshbcbp.utils;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -20,15 +22,22 @@ public class SortList<E>{
                     //Method m1 = ((E)a).getClass().getMethod(method, null);
                     //Method m2 = ((E)b).getClass().getMethod(method, null);
                     String m1Value = mapA.get(method).toString();
-                    String m2Value = mapB.get(method).toString();
-                    if(!(m1Value==null || m2Value==null)){
-                        if(sort != null && "desc".equals(sort))//倒序
-                            ret = m2Value.compareTo(m1Value);
-                        else//正序
-                            ret = m1Value.compareTo(m2Value);
+                    if (StringUtils.isEmpty(m1Value)){
+                        m1Value="0";
                     }
+                    String m2Value = mapB.get(method).toString();
+                    if (StringUtils.isEmpty(m2Value)){
+                        m2Value="0";
+                    }
+                    Double m1=Double.valueOf(m1Value);
+                    Double m2=Double.valueOf(m2Value);
+
+                    if(sort != null && "desc".equals(sort))//倒序
+                        ret = m2.compareTo(m1);
+                    else//正序
+                        ret = m1.compareTo(m2);
                 }catch(Exception e){
-                    System.out.println(e);
+                    e.printStackTrace();
                 }
                 return ret;
             }

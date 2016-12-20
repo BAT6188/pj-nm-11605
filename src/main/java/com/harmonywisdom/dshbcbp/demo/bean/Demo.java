@@ -28,8 +28,8 @@ public class Demo implements Serializable {
     /**
      * 备注
      */
-    @Lob
-    @Column(name = "remark")
+    //@Lob
+    @Column(name = "remark",columnDefinition = "longtext")
     private String remark;
 
     /**

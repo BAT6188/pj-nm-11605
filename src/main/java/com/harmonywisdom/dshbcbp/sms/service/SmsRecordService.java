@@ -15,5 +15,5 @@ public interface SmsRecordService extends IBaseService<SmsRecord, String> {
      * @param receivers 接收人list
      * @return 短信接收状态
      */
-    List<SmsSendStatus> sendSms(SmsRecord smsRsecord, List<SmsSendStatus> receivers);
+    List<SmsSendStatus> sendSms(SmsRecord smsRsecord, List<SmsSendStatus> receivers) throws Exception;
 }

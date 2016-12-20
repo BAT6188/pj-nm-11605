@@ -148,7 +148,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="areaPoints" class="col-sm-2 control-label">管辖区域标绘<span class="text-danger">*</span>：</label>
+                        <label for="areaPoints" class="col-sm-2 control-label">管辖区域标绘<span class="text-danger"></span>：</label>
                         <div class="col-sm-10">
                             <div class="input-group" style="display:none">
                                 <textarea id="areaPoints" type="hidden" name="areaPoints" class="form-control"
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="orgAddress" class="col-sm-2 control-label">详细地址<span
+                        <label for="orgAddress" class="col-sm-2 control-label">管辖区域<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <input type="text" id="orgAddress" name="orgAddress" class="form-control"
@@ -193,6 +193,7 @@
                                          flush="false"></jsp:include>
                             <div id="fine-uploader-gallery"></div>
                         </div>
+                    </div>
                     </div>
                 </form>
             </div>

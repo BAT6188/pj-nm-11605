@@ -8,6 +8,7 @@ import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,9 @@ public class BlockServiceImpl extends BaseService<Block, String> implements Bloc
                 if (blockNodes.size() > 0) {
                     //创建网格级别node
                     ZNodeDTO levelNode = new ZNodeDTO(level.getId(), level.getName(), Block.class.getSimpleName());
+                    if(searchText != "%%" && !"%%".equals(searchText)){
+                        levelNode.setOpen(true);
+                    }
                     levelNode.setChildren(blockNodes);
                     nodes.add(levelNode);
                 }

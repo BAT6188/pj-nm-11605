@@ -38,9 +38,9 @@ public class Attachment implements Serializable {
     @Column(name = "FILE_PATH", length = 255)
     private String path;
 
-    @Lob
+    //@Lob
     @Basic(fetch = FetchType.LAZY, optional = true)
-    @Column(name = "DATA")
+    @Column(name = "DATA",columnDefinition = "longtext")
     private byte[] data;
 
     /**

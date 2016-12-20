@@ -80,4 +80,15 @@ public class VillageEnvAction extends BaseAction<VillageEnv, VillageEnvService> 
         }
     }
 
+    /**
+     * 一张图圈选农村生态环境
+     */
+//    public void circleQueryEnvironmen(){
+//        String radius = request.getParameter("radius");
+//        String longitude = request.getParameter("longitude");
+//        String latitude = request.getParameter("latitude");
+//        List<VillageEnv> villageEnvs = getService().circleQueryEnvironmens(radius,longitude,latitude);
+//        write(villageEnvs);
+//    }
+
 }

@@ -276,15 +276,15 @@ public class Enterprise implements Serializable {
     /**
      * 单位介绍
      */
-    @Lob
-    @Column(name = "org_info")
+    //@Lob
+    @Column(name = "org_info",columnDefinition = "longtext")
     private String orgInfo;
 
     /**
      * 周边环境敏感点
      */
-    @Lob
-    @Column(name = "env_desc")
+    //@Lob
+    @Column(name = "env_desc",columnDefinition = "longtext")
     private String envDesc;
 
     /**
@@ -334,6 +334,12 @@ public class Enterprise implements Serializable {
      */
     @Column(name = "have_fumes_port")
     private String haveFumesPort;
+
+    /**
+     * 是否在线监控 0:否：1：是
+     */
+    @Column(name = "IS_ONLINE_MONITORING")
+    private String isOnlineMonitoring;
 
     /**
      * 用户登录名
@@ -754,5 +760,13 @@ public class Enterprise implements Serializable {
 
     public void setEnterpriseList(String enterpriseList) {
         this.enterpriseList = enterpriseList;
+    }
+
+    public String getIsOnlineMonitoring() {
+        return isOnlineMonitoring;
+    }
+
+    public void setIsOnlineMonitoring(String isOnlineMonitoring) {
+        this.isOnlineMonitoring = isOnlineMonitoring;
     }
 }

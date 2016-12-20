@@ -72,4 +72,13 @@ public interface EnterpriseService extends IBaseService<Enterprise, String> {
      * @return
      */
     String delete(String enterpriseId);
+
+    /**
+     * 一张图圈选企业
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    List<Enterprise> queryEnterprises(String radius, String longitude, String latitude);
 }

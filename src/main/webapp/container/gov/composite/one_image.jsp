@@ -9,6 +9,7 @@
     %>
     <link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
+    <%--<script src="<%=request.getContextPath()%>/container/gov/composite/scripts/selectBlockTree.js"></script>--%>
     <title>一张图综合检测预警</title>
     <script>
         var enterpriseId = "<%=enterpriseId%>";
@@ -41,7 +42,7 @@
                         <button class="btn btn-default" id="searchBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
             </div>
-            <div class="ztree oneImageTree">
+            <div class="ztree oneImageTree" id="blockZtree">
             </div>
         </div>
         <div class="input-group input-group-sm"  style="z-index: 1;padding-left: 500px; display: none;" id="videoBtn">
@@ -51,11 +52,14 @@
                 <button class="btn btn-default" id="searBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
         </div>
+        <div>
+            <span id="circleLayerBtn" data-layer-type="vector" style="display:inline-block;width:42px;height:42px;cursor:pointer; position:absolute;right:80px;
+            top:12px;z-index:1;background-image: url('<%=request.getContextPath()%>/common/gis/images/tool_quanxuan.png')"></span>
+        </div>
         <div class="main-right right" style="overflow: hidden">
             <iframe id="mapFrame" name="mapFrame" src="${pageContext.request.contextPath}/common/gis/map.jsp" style="overflow: hidden;" frameborder="0"></iframe>
 
         </div>
-
     </div>
 </div>
 <div class="popover fade bottom in" role="tooltip" id="planeMap_popover" style="display: none; top: 361px; left: 499px;">

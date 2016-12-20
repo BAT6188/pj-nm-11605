@@ -115,10 +115,10 @@ public class ZNodeDTO {
     }
 
     public Boolean getOpen() {
-        return true;
+        return open;
     }
 
     public void setOpen(Boolean open) {
-        this.open = true;
+        this.open = open;
     }
 }

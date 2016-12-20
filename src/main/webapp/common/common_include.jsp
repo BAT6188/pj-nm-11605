@@ -12,12 +12,14 @@
     IPerson person = ApportalUtil.getPerson(request);
     String userID = "";
     String userName = "";
+    String personId ="";
     String orgId="";
     String orgCode="";
     String orgName ="";
     if (person != null) {
         userID = person.getUserId();
         userName = person.getUserName();
+        personId = person.getPersonId();
         orgId=person.getOrgId();
 
         IOrg org = OrgServiceUtil.getOrgByOrgId(orgId);
@@ -43,6 +45,7 @@
     var SToken = '${param.SToken}';
     var userId = '<%=userID%>';
     var userName = '<%=userName%>';
+    var personId = '<%=personId%>';
 
     var orgId='<%=orgId%>';
     var orgCode='<%=orgCode%>';
