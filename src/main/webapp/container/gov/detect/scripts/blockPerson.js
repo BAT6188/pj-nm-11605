@@ -211,6 +211,14 @@ function initTable() {
                 isDown:true
             },
             {
+                title: '排序',
+                field: 'sort',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                isDown:true
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',

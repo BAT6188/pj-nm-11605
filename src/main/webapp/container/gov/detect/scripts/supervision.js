@@ -64,21 +64,21 @@ function initTable() {
                 visible: false
             },
             {
-                title: '单位名称',
+                title: '网格名称',
                 field: 'orgName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '姓名',
-                field: 'principal',
+                title: '管辖区域',
+                field: 'orgName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '管辖网格',
+                title: '上级网格',
                 field: 'parentBlockId',
                 sortable: false,
                 align: 'center',
@@ -86,12 +86,10 @@ function initTable() {
                 formatter: function (value, row, index) {
                     if (value == 1) {
                         value = "一级网格"
-                    } else if (value == 2) {
-                        value = "二级网格"
                     } else if (value == 3) {
-                        value = "三级网格"
+                        value = "二级网格"
                     } else if (value == 4) {
-                        value = "四级网格"
+                        value = "三级网格"
                     } else {
                         value = "东胜区"
                     }
@@ -99,12 +97,34 @@ function initTable() {
                 }
             },
             {
+                title: '网格长',
+                field: 'blockLeader',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '联系方式',
-                field: 'principalPhone',
+                field: 'blockLeaderTel',
                 sortable: false,
                 align: 'center',
                 editable: false
             },
+            {
+                title: '环保负责人',
+                field: 'environmentalLeader',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '联系方式',
+                field: 'environmentalPhone',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            
             {
                 field: 'operate',
                 title: '操作',
@@ -663,7 +683,7 @@ function BlockOption(blockLevelId) {
                 $('#parentBlockId').empty();
                 $('#parentBlockId').append("<option value=''>请选择</option>");
                 if (msg && msg.length >0){
-                    var is2Level = (msg[0].blockLevelId == "2");
+                    var is2Level = (msg[0].blockLevelId == "3");
                     for (var i = 0; i < msg.length; i++) {
                         $('#parentBlockId').append("<option value='" + msg[i].id + "'>" + (is2Level?msg[i].principal:msg[i].orgName) + "</option>")
                     }
