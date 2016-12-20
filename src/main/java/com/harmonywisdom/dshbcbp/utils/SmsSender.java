@@ -3,7 +3,7 @@ package com.harmonywisdom.dshbcbp.utils;
 
 
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
-import com.jasson.im.api.APIClient;
+
 
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -21,7 +21,7 @@ public class SmsSender
   public static String name = "mas";
   public static String pwd = "HUATENGSOFT_mas08";
   public static boolean smsFlag = true;
-  private static APIClient handler = new APIClient();
+  private static APIClientTest handler = new APIClientTest();
   private static Log logger = LogFactory.getFactory().getInstance(SmsSender.class);
 
   public SmsSender() { init();
@@ -181,5 +181,14 @@ public class SmsSender
       smsBean.setSuccess(false);
     }
     return smsBean;
+  }
+
+  /**
+   * 关闭连接
+   */
+  public void release(){
+    if(handler != null){
+      handler.release();
+    }
   }
 }

@@ -88,7 +88,11 @@ public class ScheduleAction extends BaseAction<Schedule, ScheduleService> {
         r.setReceiverPhone(entity.getLinkPhone());
         r.setReceiverSource("3");
         receivers.add(r);
-        smsRecordService.sendSms(smsRsecord,receivers);
+        try {
+            smsRecordService.sendSms(smsRsecord,receivers);
+        } catch (Exception e) {
+            log.error("短信发送失败:"+e.getMessage(),e);
+        }
     }
 
     /**

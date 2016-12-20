@@ -414,9 +414,11 @@ function setDialogTypeTwo(dialog,options,callback){
                 dataType:"json",
                 data:{'senderId':userId,'senderName':userName,'content':smsContent,"receivers":JSON.stringify(receivers)},
                 success:function (sendStatuses) {
+                    $("#"+msgContentsId).val("");
                     if (sendStatuses && sendStatuses.length > 0) {
-                        $("#"+msgContentsId).val("");
                         Ewin.alert("短信发送成功");
+                    }else {
+                        Ewin.alert("短信发送失败");
                     }
                 }
             });

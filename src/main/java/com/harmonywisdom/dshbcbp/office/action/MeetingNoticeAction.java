@@ -45,7 +45,7 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
         }
 
         IPerson person = ApportalUtil.getPerson(request);
-        param.andParam(new QueryParam("personIds", QueryOperator.LIKE, "%"+person.getPersonId()+"%"));
+        param.andParam(new QueryParam("personIds", QueryOperator.LIKE, "%\\\""+person.getPersonId()+"\\\"%"));
 
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {

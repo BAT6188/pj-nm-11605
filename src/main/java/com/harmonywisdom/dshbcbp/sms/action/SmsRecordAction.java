@@ -51,8 +51,13 @@ public class SmsRecordAction extends BaseAction<SmsRecord, SmsRecordService> {
         String receiversStr = request.getParameter("receivers");
         if (entity != null && StringUtils.isNotBlank(receiversStr)) {
             List<SmsSendStatus> receivers =JSONArray.parseArray(receiversStr, SmsSendStatus.class);
-            List<SmsSendStatus> sendStatuses =getService().sendSms(entity, receivers);
-            write(sendStatuses);
+            try {
+                List<SmsSendStatus> sendStatuses =getService().sendSms(entity, receivers);
+                write(sendStatuses);
+            } catch (Exception e) {
+               log.error("短信发送失败:"+e.getMessage(),e);
+               write(false);
+            }
         }else{
             write(false);
         }
