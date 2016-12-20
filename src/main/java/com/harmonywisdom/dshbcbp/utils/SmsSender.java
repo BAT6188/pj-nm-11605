@@ -40,7 +40,7 @@ public class SmsSender
       logger.error("apiID不存在");
   }
 
-  public ISmsBean sendSms(String message, String[] _addressReceiver,Date sendTime) {
+  public ISmsBean sendSms(String message, String[] _addressReceiver,Date sendTime,Long paramSmId) {
     SmsBean smsBean = new SmsBean();
     if (!(smsFlag)) {
       smsBean.setErrMsg("警告：短信发送功能未开启，不能继续操作。请在系统配置管理中修改。");
@@ -132,9 +132,9 @@ public class SmsSender
     }
     int result = 0;
     if (sendTime==null){//如果发送时间为空，立即发送
-      result = handler.sendSM(mobiles, message, smId, Long.parseLong(tmpSrcID));
+      result = handler.sendSM(mobiles, message, paramSmId, Long.parseLong(tmpSrcID));
     }else {//如果发送时间不为空，则到设置的定时时间再发送
-      result = handler.sendSM(mobiles, message, DateUtil.dateToStr(sendTime,"yyyy-MM-dd HH:mm:ss"), smId, Long.parseLong(tmpSrcID));
+      result = handler.sendSM(mobiles, message, DateUtil.dateToStr(sendTime,"yyyy-MM-dd HH:mm:ss"), paramSmId, Long.parseLong(tmpSrcID));
     }
 
     if (result == 0)

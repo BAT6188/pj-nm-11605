@@ -276,15 +276,15 @@ public class Enterprise implements Serializable {
     /**
      * 单位介绍
      */
-    @Lob
-    @Column(name = "org_info")
+    //@Lob
+    @Column(name = "org_info",columnDefinition = "longtext")
     private String orgInfo;
 
     /**
      * 周边环境敏感点
      */
-    @Lob
-    @Column(name = "env_desc")
+    //@Lob
+    @Column(name = "env_desc",columnDefinition = "longtext")
     private String envDesc;
 
     /**

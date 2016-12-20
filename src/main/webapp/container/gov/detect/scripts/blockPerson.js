@@ -43,7 +43,10 @@ var blockSetting = {
                 alwaysVisible:!1
             });
             //setBlock('#blockLevelId','#blockId');
-            blockTreeObj.expandAll(true);
+            // blockTreeObj.expandAll(true);
+
+            var nodes = blockTreeObj.getNodes();
+            blockTreeObj.expandNode(nodes[0], true, false, true);
         }
     }
 };

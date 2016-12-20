@@ -106,10 +106,10 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         SmsSender smssender= null;
         try {
             smssender = new SmsSender();
-            Date sendTime = smsRsecord.getSendTime();
+//            Date sendTime = smsRsecord.getSendTime();
             for (SmsSendStatus receiver : receivers) {
                 String[] _addressReceiver={receiver.getReceiverPhone()};
-                smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime());
+                smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime(),getSequence());
             }
             log.info("调用短信发送接口成功");
         }finally {

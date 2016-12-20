@@ -2,6 +2,8 @@ package com.harmonywisdom.dshbcbp.utils;
 
 import com.jasson.im.api.MOItem;
 import com.jasson.im.api.RPTItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.*;
@@ -12,6 +14,7 @@ import java.util.*;
  * Created by Administrator on 2016/12/20.
  */
 public class APIClientTest {
+    protected static Logger log = LoggerFactory.getLogger(APIClientTest.class);
     public static final int IMAPI_SUCC = 0;
     public static final int IMAPI_CONN_ERR = -1;
     public static final int IMAPI_CONN_CLOSE_ERR = -2;
@@ -207,8 +210,8 @@ public class APIClientTest {
                     rs.close();
                     st1.executeUpdate(delMoSql + snBuf.toString() + ")");
                     break label84;
-                } catch (Exception var14) {
-                    var14.printStackTrace();
+                } catch (Exception e) {
+                    log.error("",e);
                     this.releaseConn();
                 } finally {
                     this.closeStatment(st1);
@@ -278,11 +281,11 @@ public class APIClientTest {
                     rs.close();
                     st.executeUpdate(delRPTSql + snBuf.toString() + ")");
                     break label86;
-                } catch (SQLException var16) {
-                    var16.printStackTrace();
+                } catch (SQLException e) {
+                    log.error("",e);
                     this.releaseConn();
                 } catch (Exception var17) {
-                    var17.printStackTrace();
+                    log.error("",var17);
                 } finally {
                     this.closeStatment(st);
                 }
@@ -314,8 +317,8 @@ public class APIClientTest {
 
             this.getConn();
             st = this.conn.createStatement();
-        } catch (Exception var15) {
-            var15.printStackTrace();
+        } catch (Exception e) {
+            log.error("",e);
             return -1;
         }
 
@@ -324,13 +327,14 @@ public class APIClientTest {
             rs = st.executeQuery("select * from " + tableName + " limit 1");
             rs.close();
             return 0;
-        } catch (SQLException var13) {
-            var13.printStackTrace();
+        } catch (SQLException e) {
+            log.error("",e);
+
         } finally {
             try {
                 st.close();
-            } catch (Exception var12) {
-                var12.printStackTrace();
+            } catch (Exception e) {
+                log.error("",e);
             }
 
         }
@@ -342,14 +346,15 @@ public class APIClientTest {
         try {
             this.getConn();
             return 0;
-        } catch (Exception var2) {
-            var2.printStackTrace();
+        } catch (Exception e) {
+            log.error("初始化连接异常",e);
             return -1;
         }
     }
 
     private void getConn() throws ClassNotFoundException, SQLException {
         Class.forName("org.gjt.mm.mysql.Driver");
+//        Class.forName("com.mysql.jdbc.Driver");
         this.conn = DriverManager.getConnection(this.dbUrl, this.dbUser, this.dbPwd);
     }
 
@@ -357,8 +362,8 @@ public class APIClientTest {
         if(this.conn != null) {
             try {
                 this.conn.close();
-            } catch (SQLException var2) {
-                var2.printStackTrace();
+            } catch (SQLException e) {
+                log.error("",e);
             }
         }
 
@@ -394,8 +399,8 @@ public class APIClientTest {
             st = this.conn.createStatement();
             st.executeUpdate(this.gb2Iso(sendMTSql1));
             return 0;
-        } catch (Exception var23) {
-            var23.printStackTrace();
+        } catch (Exception e) {
+            log.error("",e);
             this.releaseConn();
         } finally {
             this.closeStatment(st);
@@ -407,8 +412,8 @@ public class APIClientTest {
     private void closeStatment(Statement st) {
         try {
             st.close();
-        } catch (Exception var3) {
-            var3.printStackTrace();
+        } catch (Exception e) {
+            log.error("",e);
         }
 
     }
@@ -445,9 +450,9 @@ public class APIClientTest {
             try {
                 byte[] e = str.trim().getBytes("GBK");
                 temp = new String(e, "iso8859-1");
-            } catch (UnsupportedEncodingException var4) {
+            } catch (UnsupportedEncodingException e) {
                 temp = str;
-                var4.printStackTrace();
+               log.error("",e);
             }
 
             return temp;
@@ -480,13 +485,13 @@ public class APIClientTest {
 
             rs.close();
             return ret;
-        } catch (SQLException var14) {
-            var14.printStackTrace();
+        } catch (SQLException e) {
+            log.error("",e);
         } finally {
             try {
                 st.close();
-            } catch (Exception var13) {
-                var13.printStackTrace();
+            } catch (Exception e) {
+                log.error("",e);
             }
 
         }
@@ -516,8 +521,8 @@ public class APIClientTest {
                                 try {
                                     returnDate = df.parse(str);
                                     return returnDate.toString();
-                                } catch (Exception var5) {
-                                    var5.printStackTrace();
+                                } catch (Exception e) {
+                                    log.error("",e);
                                     return null;
                                 }
                             } else {
@@ -567,8 +572,8 @@ public class APIClientTest {
             try {
                 byte[] e = str.trim().getBytes("iso8859-1");
                 temp = new String(e, "GBK");
-            } catch (UnsupportedEncodingException var4) {
-                var4.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                log.error("",e);
                 temp = str;
             }
 
