@@ -7,7 +7,7 @@
 <body style="overflow: hidden;">
 <!--噪音排口查看dialog-->
 <div class="modal fade" id="airFormViewDialog" style="z-index: 9999;" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="otherProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 900px">
+    <div class="modal-dialog" style="width: 900px ">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
