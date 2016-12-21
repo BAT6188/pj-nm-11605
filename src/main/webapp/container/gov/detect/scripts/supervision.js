@@ -330,6 +330,7 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find("input").attr("disabled", disabled);
+    form.find('select').attr("disabled",disabled);
 }
 /**
  * 重置表单
