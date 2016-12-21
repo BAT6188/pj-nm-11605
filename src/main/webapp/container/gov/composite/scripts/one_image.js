@@ -47,7 +47,7 @@ var OneImagePage = function () {
                     "top","30px",
                     "z-index","1"
                 );
-                $(".tree-left").css("height","35px");
+                $(".tree-left").css("height","32px");
                 $(".tree-left").css("width","21%");
 
                 $("#switchBtn").bind('click',function(){
@@ -75,7 +75,7 @@ var OneImagePage = function () {
                             "top","30px",
                             "z-index","1"
                         );
-                        $(".tree-left").css("height","35px");
+                        $(".tree-left").css("height","32px");
                         $(".tree-left").css("width","21%");
 
                         status = $("#switchBtn").attr("data-status","false");
