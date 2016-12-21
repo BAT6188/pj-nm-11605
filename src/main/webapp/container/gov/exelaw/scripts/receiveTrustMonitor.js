@@ -326,7 +326,7 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.jianCeZhan.orgCode],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
         type:2
     },
     choseMore:false,

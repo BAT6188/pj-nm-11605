@@ -344,7 +344,7 @@ var options = {
         orgCode:[orgCodeConfig.org.jianChaDaDuiLingDao.orgCode],//组织机构代码(必填，组织机构代码)
         type:2 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
-    choseMore:false,
+    choseMore:true,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
@@ -396,7 +396,9 @@ var ef = $("#systemSendForm").easyform({
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
             if (buttonToggle=="#save"){
-                model.open(msg.id);
+                entity.id=msg.id;
+                entity.isSendSms=$("#isSendSms").is(':checked');
+                model.open(entity);
             }else if(buttonToggle=="#smsSend"){
                 model_sms.open(msg.id);
             }
