@@ -221,8 +221,6 @@ var OneImagePage = function () {
                     };
                 }
             });
-
-
         },
 
         /**
@@ -244,7 +242,6 @@ var OneImagePage = function () {
                     }
                 }
             });
-            
         },
         
         /**

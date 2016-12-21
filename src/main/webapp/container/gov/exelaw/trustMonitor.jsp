@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>申请委托监测</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
     <style>
         .ui-autocomplete { z-index:2147483647;}
     </style>

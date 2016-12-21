@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>监察大队办公室</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
     <style>
         .ui-autocomplete { z-index:2147483647;}
     </style>
@@ -25,7 +25,7 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="">投诉对象：</label> <input type="text" id="search_enterpriseName" name="enterpriseName" class="form-control" />
+                            <label for="">举报对象：</label> <input type="text" id="search_enterpriseName" name="enterpriseName" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label for="search_source">信息来源：</label>
@@ -90,7 +90,7 @@
                     <input type="hidden" id="removeId" name="removeId">
                     <input type="hidden" id="status" name="status">
                     <div class="form-group">
-                        <label for="eventTime" class="col-sm-2 control-label">接电时间<span class="text-danger">*</span>：</label>
+                        <label for="eventTime" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="eventTime" name="eventTime" readonly>
@@ -99,16 +99,16 @@
                             </div>
                         </div>
 
-                        <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
+                        <label for="answer" class="col-sm-2 control-label">接收人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="answer" name="answer" class="form-control"
                             />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">举报对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="举报对象不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格：</label>
                         <div class="col-sm-4">
                             <select id="blockLevelId" name="blockLevelId" class="form-control">
                             </select>
@@ -133,19 +133,31 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="supervisor" class="col-sm-2 control-label">企业负责人：</label>
+                        <label for="supervisor" class="col-sm-2 control-label">监管人员：</label>
                         <div class="col-sm-4">
                             <input type="text" id="supervisor" name="supervisor" class="form-control"/>
                         </div>
 
-                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式：</label>
+                        <%--<label for="supervisorPhone" class="col-sm-2 control-label">联系方式：</label>
                         <div class="col-sm-4">
                             <input type="text" id="supervisorPhone" name="supervisorPhone" class="form-control"
+                            />
+                        </div>--%>
+                    </div>
+                    <div class="form-group">
+                        <label for="informer" class="col-sm-2 control-label">举报人姓名：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="informer" name="informer" class="form-control"/>
+                        </div>
+
+                        <label for="informerPhone" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="informerPhone" name="informerPhone" class="form-control"
                             />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="content" class="col-sm-2 control-label">来电详情<span class="text-danger">*</span>：</label>
+                        <label for="content" class="col-sm-2 control-label">事件详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea id="content" name="content" class="form-control" rows="4" cols="50" placeholder="" data-message="不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>

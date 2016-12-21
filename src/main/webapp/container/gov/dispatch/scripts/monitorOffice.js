@@ -63,25 +63,8 @@ function initTable() {
                 visible:false
             },
             {
-                title: '投诉对象',
+                title: '举报对象',
                 field: 'enterpriseName',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '接电时间',
-                field: 'eventTime',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                }
-            },
-            {
-                title: '接电人',
-                field: 'answer',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -97,8 +80,40 @@ function initTable() {
                 }
             },
             {
+                title: '事件时间',
+                field: 'eventTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                title: '接电人',
+                field: 'answer',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                visible:false
+            },
+            {
                 title: '所属网格',
                 field: 'blockName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '监管人员',
+                field: 'supervisor',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '发送对象',
+                field: 'senderName',
                 editable: false,
                 sortable: false,
                 align: 'center'

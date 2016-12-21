@@ -69,7 +69,7 @@ function initTable() {
                 }
             },
             {
-                title: '申请单位',
+                title: '申请部门',
                 field: 'applyOrg',
                 editable: false,
                 sortable: false,
@@ -128,8 +128,20 @@ function initTable() {
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
-            }
-
+            },
+            {
+                field: 'operate',
+                title: '查看',
+                align: 'center',
+                events: {
+                    'click .justLook': function (e, value, entity, index) {
+                        setEntity(entity);
+                    }
+                },
+                formatter: function(value,row,index){
+                    return '<button id="checkButton" type="button" class="btn btn-sm btn-warning justLook" data-toggle="modal" data-target="#lookOverFeedbackDetailForm"><span>查看</span></button>';
+                }
+            },
         ]
     });
     // sometimes footer render error.
@@ -194,7 +206,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, entity, index) {
-        disabledForm($("#lookOverFeedbackDetailForm"),true)
+        disabledForm($("#lookOverFeedbackDetailForm"),true);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
         $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
@@ -247,7 +259,10 @@ checkButton.prop('disabled', true);
 
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
+    setEntity(entity);
+});
 
+function setEntity(entity){
     $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
     $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
     $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
@@ -273,11 +288,7 @@ $("#checkButton").bind("click",function () {
     uploader = new qq.FineUploader(fuOptions);
     bindDownloadSelector();
     $(".qq-upload-button").hide();
-
-
-});
-
-
+}
 
 
 /**============列表搜索相关处理============**/
