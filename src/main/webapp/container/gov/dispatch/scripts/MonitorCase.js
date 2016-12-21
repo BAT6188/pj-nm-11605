@@ -33,14 +33,6 @@ var gridTable = $('#table'),
                 visible:false
             },
             {
-                title: '事件时间',
-                field: 'eventTime',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                align: 'center'
-            },
-            {
                 title: '企业名称',
                 field: 'enterpriseName',
                 editable: false,
@@ -53,6 +45,14 @@ var gridTable = $('#table'),
                     }
                     return '<div>'+value+isNewDiv+'</div>';
                 }
+            },
+            {
+                title: '事件时间',
+                field: 'eventTime',
+                editable: false,
+                sortable: false,
+                footerFormatter: totalTextFormatter,
+                align: 'center'
             }, {
                 field: 'blockLevelName',
                 sortable: false,
@@ -65,7 +65,37 @@ var gridTable = $('#table'),
                 align: 'center',
                 editable: false,
                 footerFormatter: totalTextFormatter
+            },{
+                field: 'portName',
+                title: '排口',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },{
+                field: 'pollutantType',
+                title: '污染源类型',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },{
+                field: '',
+                title: '超标项',
+                sortable: false,
+                align: 'center',
+                editable: false
             }, {
+                field: '',
+                title: '超标值',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },{
+                field: '',
+                title: '超标实时值',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },{
                 title: '监管人员',
                 field: 'supervisor',
                 editable: false,

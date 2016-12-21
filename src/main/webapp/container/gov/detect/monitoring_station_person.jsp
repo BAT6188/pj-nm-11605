@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>监测站站长</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
     <style>
         a{
             color: #0b0c0d;
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">申请部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select id="applyOrgId" name="applyOrgId" style="width: 274px;" class="form-control"></select>
                         </div>
@@ -216,7 +216,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">申请部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="applyOrg_lookOverFeedbackDetailForm" class="form-control"/>
                         </div>

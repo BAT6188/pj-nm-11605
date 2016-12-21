@@ -8,6 +8,8 @@ MsgSend.tree = {};
 (function($){
     $.fn.MsgSend = {
         init:function(type,options,callback){
+            var reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
+            var dialog,treeObj,timeId = new Date().valueOf();
             options = $.extend({}, {
                 title: "人员选择",
                 url:rootPath + "/action/S_alert_MsgSend_getOrgPersonList.action",
@@ -17,54 +19,38 @@ MsgSend.tree = {};
                 btnok: "发送",
                 btncl: "取消",
                 width: 850,
-                auto: false
+                auto: false,
+                Id: 'selModel'+timeId,
+                ScrollContent:'sContent'+timeId,
+                SearchInputId:'search'+timeId,
+                SearchBtnId:'searchBtn'+timeId,
+                ChoseZtreeId:'choseZtree'+timeId,
+                MsgContentsId:'msgContents'+timeId,
+                SelectTableId:'selectTable'+timeId
             }, options || {});
             var width = isNaN(options.width)?options.width:options.width+"px;";
             options.params.orgCode = options.params.orgCode!=null?options.params.orgCode:["0170001000"];
             options.params.type = options.params.type!=null?options.params.type:1;
 
-            var reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
-            var dialog,treeObj,timeId = new Date().valueOf();
             if(type==1){//系统发送
                 var html = $('#selectOrgPeopleDialog').html();
                 var content = html.replace(reg, function (node, key) {
-                    return {
-                        Id: 'selModel'+timeId,
-                        ScrollContent:'sContent'+timeId,
-                        SearchOrgPeopleId:'search'+timeId,
-                        SearchOrgPeopleBtnId:'searchBtn'+timeId,
-                        orgPeopleZtreeId:'choseZtree'+timeId,
-                        selectOrgPeopleTableId:'selectTable'+timeId,
-                        Width:options.width,
-                        Title: options.title,
-                        btnok: options.btnok,
-                        btncl: options.btncl
-                    }[key];
+                    return options[key];
                 });
                 options.timeId = timeId;
                 $('#msgSendBoday').append(content);
+                $('#'+options.ScrollContent).append(pageUtils.loading());
                 dialog = $('#selModel'+timeId);
                 treeObj=setDialogTypeOne(dialog,options,callback);
             }else{//短信发送
                 var html = $('#selectContactsDialog').html();
                 var content = html.replace(reg, function (node, key) {
-                    return {
-                        Id: 'selModel'+timeId,
-                        ScrollContent:'sContent'+timeId,
-                        SearchInputId:'search'+timeId,
-                        SearchBtnId:'searchBtn'+timeId,
-                        ChoseZtreeId:'choseZtree'+timeId,
-                        MsgContentsId:'msgContents'+timeId,
-                        SelectTableId:'selectTable'+timeId,
-                        Width:options.width,
-                        Title: options.title,
-                        btnok: options.btnok,
-                        btncl: options.btncl
-                    }[key];
+                    return options[key];
                 });
                 options.timeId = timeId;
                 options.params.findType="2";
                 $('#msgSendBoday').append(content);
+                $('#'+options.ScrollContent).append(pageUtils.loading());
                 dialog = $('#selModel'+timeId);
                 treeObj=setDialogTypeTwo(dialog,options,callback);
             }
@@ -110,11 +96,11 @@ MsgSend.tree = {};
 //-------------加载组织机构、人员url，需要区分 flag哪个源的数据：  1-监控中心，监控办公室的调度单   2-执法管理列表的调度单--------------------//
 //-------------选择人员 ztree配置--------------------//
 function setDialogTypeOne(dialog,options,callback){
-    var modalId = 'selModel'+options.timeId,
-        searchId = 'search'+options.timeId,
-        searchBtnId='searchBtn'+options.timeId,
-        choseZtreeId='choseZtree'+options.timeId,
-        selectTableId='selectTable'+options.timeId;
+    var modalId = options.Id,
+        searchId = options.SearchInputId,
+        searchBtnId=options.SearchBtnId,
+        choseZtreeId=options.ChoseZtreeId,
+        selectTableId=options.SelectTableId;
     if (callback && callback instanceof Function) {
         $(dialog).find('.sendToButton').click(function () {
             var persons = getIdsSelectionsFromGridSelectPeople();
@@ -154,11 +140,18 @@ function setDialogTypeOne(dialog,options,callback){
                 sourceId:sourceId_msgSend
             }
             callback(true,returnData);
-            $(dialog).find('#'+searchId).val('');
-            search_ztree(modalId,choseZtreeId, searchId);
-            removeFromGrid();
-            dialog.modal('hide');
+            refreshZtree();
         });
+    }
+    /*$(dialog).on('hidden.bs.modal', function () {
+        refreshZtree();
+     });*/
+    function refreshZtree(){
+        $('#'+searchId).val('');
+        treeObj.checkAllNodes(false);
+        close_ztree(modalId);
+        removeFromGrid();
+        dialog.modal('hide');
     }
     $('#sContent'+options.timeId).slimScroll({
         height:"100%",
@@ -198,6 +191,7 @@ function setDialogTypeOne(dialog,options,callback){
             onClick: zTreeOnClick,
             onCheck: zTreeOnCheck,
             onAsyncSuccess:function (event, treeId, treeNode, msg) {
+                $('#'+options.ScrollContent).find('table').remove();
                 $('#'+searchId).keydown(function(event){
                     event=document.all?window.event:event;
                     if((event.keyCode || event.which)==13){
@@ -207,6 +201,12 @@ function setDialogTypeOne(dialog,options,callback){
                 $('#'+searchBtnId).click(function(){
                     search_ztree(modalId,choseZtreeId, searchId);
                 });
+                var nodes = treeObj.getNodes();
+                if(nodes[0].children){
+                    $.each(nodes[0].children,function(k,v){
+                        treeObj.expandNode(v, true, false, true);
+                    })
+                };
             }
         }
     };
@@ -369,12 +369,12 @@ function setDialogTypeOne(dialog,options,callback){
 }
 /**************通讯录选择***************************/
 function setDialogTypeTwo(dialog,options,callback){
-    var modalId = 'selModel'+options.timeId,
-        searchId = 'search'+options.timeId,
-        searchBtnId='searchBtn'+options.timeId,
-        choseZtreeId='choseZtree'+options.timeId,
-        msgContentsId='msgContents'+options.timeId,
-        selectTableId='selectTable'+options.timeId;
+    var modalId = options.Id,
+        searchId = options.SearchInputId,
+        searchBtnId=options.SearchBtnId,
+        choseZtreeId=options.ChoseZtreeId,
+        selectTableId=options.SelectTableId,
+        msgContentsId=options.MsgContentsId;
     if (callback && callback instanceof Function) {
         $(dialog).find('.sendToButton').click(function () {
             var smsContent = $("#"+msgContentsId).val();
@@ -423,13 +423,19 @@ function setDialogTypeTwo(dialog,options,callback){
                 }
             });
             callback(true,returnData);
-            $('#'+searchId).val('');
-            search_ztree(modalId,choseZtreeId, searchId);
-            removeFromGrid();
-            dialog.modal('hide');
+            refreshZtree();
         });
     }
-
+    /*$(dialog).on('hidden.bs.modal', function () {
+        refreshZtree();
+    });*/
+    function refreshZtree(){
+        $('#'+searchId).val('');
+        treeObj.checkAllNodes(false);
+        close_ztree(modalId);
+        removeFromGrid();
+        dialog.modal('hide');
+    }
     $('#sContent'+options.timeId).slimScroll({
         height:"100%",
         railOpacity:.9,
@@ -469,6 +475,7 @@ function setDialogTypeTwo(dialog,options,callback){
             onClick: zTreeOnClick,
             onCheck: zTreeOnCheck,
             onAsyncSuccess:function (event, treeId, treeNode, msg) {
+                $('#'+options.ScrollContent).find('table').remove();
                 $('#'+searchId).keydown(function(event){
                     event=document.all?window.event:event;
                     if((event.keyCode || event.which)==13){
@@ -478,6 +485,12 @@ function setDialogTypeTwo(dialog,options,callback){
                 $('#'+searchBtnId).click(function(){
                     search_ztree(modalId,choseZtreeId, searchId);
                 });
+                var nodes = treeObj.getNodes();;
+                if(nodes[0].children){
+                    $.each(nodes[0].children,function(k,v){
+                        treeObj.expandNode(v, true, false, true);
+                    })
+                };
             }
         }
     };

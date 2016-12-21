@@ -19,7 +19,7 @@
 <html>
 <head>
     <title>执法管理</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
     <style>
         .ui-autocomplete { z-index:2147483647;}
         #isNew{

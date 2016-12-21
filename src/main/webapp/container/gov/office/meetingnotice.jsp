@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
     <title>会议通知系统</title>
 </head>
 <body>
