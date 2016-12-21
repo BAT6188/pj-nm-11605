@@ -11,6 +11,9 @@
         a{
             color: #337ab7;
         }
+        .glyphicon{
+            padding:5px;
+        }
     </style>
 </head>
 <body style="overflow: hidden;">
@@ -40,10 +43,10 @@
 
                 <div class="navbar" style="display:block;">
                     <ul>
-                        <li><span class="glyphicon glyphicon-zoom-in" title="放大"> </span></li>
-                        <li><span class="glyphicon glyphicon-zoom-out" title="缩小"> </span></li>
-                        <li><span class="glyphicon glyphicon-fullscreen" title="原始尺寸"> </span></li>
-                        <li><span class="glyphicon glyphicon-move" title="平移"> </span></li>
+                        <li><a href="#"><img class="glyphicon glyphicon-zoom-in" title="放大" src="<%=request.getContextPath()%>/container/gov/composite/images/blowup.png" alt=""/></a></li>
+                        <li><a href="#"><img class="glyphicon glyphicon-zoom-out" title="缩小" src="<%=request.getContextPath()%>/container/gov/composite/images/letting.png" alt=""/></a></li>
+                        <li><a href="#"><img class="glyphicon glyphicon-fullscreen" title="原始尺寸" src="<%=request.getContextPath()%>/container/gov/composite/images/fullscreen.png" alt=""/></a></li>
+                        <li><a href="#"><img class="glyphicon glyphicon-move" title="平移" src="<%=request.getContextPath()%>/container/gov/composite/images/moving.png" alt=""/></a></li>
                     </ul>
                 </div>
             </div>
