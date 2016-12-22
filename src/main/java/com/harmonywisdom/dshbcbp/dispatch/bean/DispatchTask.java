@@ -174,12 +174,19 @@ public class DispatchTask implements Serializable {
     private String supervisorPhone;
 
     /**
-     * 事件原因 caseReason
+     * 原因
      * 1.异常
      * 2.超标
      */
     @Column(name = "reason", length = 2)
     private String reason;
+
+    /**
+     * 事件原因
+     */
+    @Column(name = "case_reason",columnDefinition = "longtext")
+    private String caseReason;
+
 
     /**
      * 超标值
@@ -211,10 +218,33 @@ public class DispatchTask implements Serializable {
     private String sendPhone;
 
     /**
+     * 调度人
+     */
+    @Column(name = "dispatch_person_name", length = 20)
+    private String dispatchPersonName;
+    /**
+     * 调度时间
+     */
+    @Column(name = "dispatch_time")
+    private Date dispatchTime;
+    /**
+     * 调度内容
+     */
+    @Column(name = "dispatch_content")
+    private String dispatchContent;
+
+    /**
      * 备注
      */
     @Column(name = "send_remark")
     private String sendRemark;
+
+    /**
+     * 最后修改时间，每次修改的时候都需要修改该字段
+     */
+    @Column(name = "update_time")
+    private Date updateTime;
+
 
 
     ///////////////////////////////////////////////////
@@ -578,5 +608,45 @@ public class DispatchTask implements Serializable {
 
     public void setOverTime(Date overTime) {
         this.overTime = overTime;
+    }
+
+    public String getDispatchContent() {
+        return dispatchContent;
+    }
+
+    public void setDispatchContent(String dispatchContent) {
+        this.dispatchContent = dispatchContent;
+    }
+
+    public String getDispatchPersonName() {
+        return dispatchPersonName;
+    }
+
+    public void setDispatchPersonName(String dispatchPersonName) {
+        this.dispatchPersonName = dispatchPersonName;
+    }
+
+    public Date getDispatchTime() {
+        return dispatchTime;
+    }
+
+    public void setDispatchTime(Date dispatchTime) {
+        this.dispatchTime = dispatchTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getCaseReason() {
+        return caseReason;
+    }
+
+    public void setCaseReason(String eventReason) {
+        this.caseReason = eventReason;
     }
 }

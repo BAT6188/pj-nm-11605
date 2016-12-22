@@ -61,6 +61,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
         d.setContent(entity.getContent());
         d.setSendRemark(entity.getSendRemark());
+        d.setUpdateTime(new Date());
         dispatchTaskService.update(d);
 
         if (org.apache.commons.lang.StringUtils.isNotBlank(entity.getAttachmentIds())){
@@ -103,7 +104,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
         IPerson person = ApportalUtil.getPerson(request);
         String[] ids={person.getPersonId()};
-        entity.setEnvProStaPersonList(arrayToString(ids));
+        entity.setEnvProStaPersonList(arrayToString(ids,true));
 
         String blockLevelId = entity.getBlockLevelId();
         String blockId = entity.getBlockId();
@@ -115,7 +116,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             Block block = blockService.findById(blockId);
             entity.setBlockName(block.getOrgName());
         }
-
+        entity.setUpdateTime(new Date());
         super.save();
     }
 
@@ -133,9 +134,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         IPerson person = ApportalUtil.getPerson(request);
         if (StringUtils.isNotEmpty(role)){
             if (monitor_master.equals(role)){
-                params=new QueryParam("monitorMasterPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+                params=new QueryParam("monitorMasterPersonList", QueryOperator.LIKE, "%\""+person.getPersonId()+"\"%");
             }else if (env_pro_sta.equals(role)){
-                params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%"+person.getPersonId()+"%");
+                params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%\""+person.getPersonId()+"\"%");
             }
 
         }
@@ -144,6 +145,8 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         String startEventTime = request.getParameter("startEventTime");
         String endEventTime = request.getParameter("endEventTime");
+        String isPunish = request.getParameter("isPunish");
+
         String enterpriseName = entity.getEnterpriseName();
         String source = entity.getSource();
         String status = entity.getStatus();
@@ -164,9 +167,14 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (org.apache.commons.lang.StringUtils.isNotBlank(source)) {
             params.andParam(new QueryParam("source", QueryOperator.EQ, source));
         }
-        if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
-            params.andParam(new QueryParam("status", QueryOperator.EQ, status));
+        if ("1".equals(isPunish)){
+            params.andParam(new QueryParam("status", QueryOperator.NE, "5"));
+        }else {
+            if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
+                params.andParam(new QueryParam("status", QueryOperator.EQ, status));
+            }
         }
+
         if (org.apache.commons.lang.StringUtils.isNotBlank(blockLevelId)) {
             params.andParam(new QueryParam("blockLevelId", QueryOperator.EQ, blockLevelId));
         }
@@ -189,7 +197,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("eventTime", Direction.DESC);
+        condition.setOrderBy("updateTime", Direction.DESC);
         return condition;
     }
 
@@ -248,8 +256,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public void dispathTaskBtnSave(){
         String id = entity.getId();
         DispatchTask dispatchTask = dispatchTaskService.findById(id);
-        dispatchTask.setContent(entity.getContent());
-        dispatchTask.setSendRemark(entity.getSendRemark());
+//        dispatchTask.setContent(entity.getContent());
+//        dispatchTask.setSendRemark(entity.getSendRemark());
+        dispatchTask.setDispatchPersonName(entity.getDispatchPersonName());
+        dispatchTask.setDispatchTime(entity.getDispatchTime());
+        dispatchTask.setDispatchContent(entity.getDispatchContent());
 
         //获取删除的附件IDS
         String attachmentIdsRemoveId = request.getParameter("removeId");
@@ -274,7 +285,8 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         dispatchTask.setMonitorMasterPersonList(JSON.toJSONString(ids));
 
         String[] names = getParamValues("names");
-        dispatchTask.setMonitorMasterPersonNameList(arrayToString(names));
+        dispatchTask.setMonitorMasterPersonNameList(arrayToString(names,false));
+        dispatchTask.setUpdateTime(new Date());
         dispatchTaskService.update(dispatchTask);
     }
 
@@ -288,34 +300,40 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String[] ids = this.getParamValues("ids");
         String envProStaPersonList = dispatchTask.getEnvProStaPersonList();
         if (null!=envProStaPersonList){
-            envProStaPersonList+=","+DispatchTaskAction.arrayToString(ids);
+            envProStaPersonList+=","+DispatchTaskAction.arrayToString(ids,true);
         }else {
-            envProStaPersonList=DispatchTaskAction.arrayToString(ids);
+            envProStaPersonList=DispatchTaskAction.arrayToString(ids,true);
         }
         dispatchTask.setEnvProStaPersonList(envProStaPersonList);
 
         String[] names = getParamValues("names");
         String envProStaPersonNameList = dispatchTask.getEnvProStaPersonNameList();
         if (null!=envProStaPersonNameList){
-            envProStaPersonNameList+=","+DispatchTaskAction.arrayToString(names);
+            envProStaPersonNameList+=","+DispatchTaskAction.arrayToString(names,false);
         }else {
-            envProStaPersonNameList=DispatchTaskAction.arrayToString(names);
+            envProStaPersonNameList=DispatchTaskAction.arrayToString(names,false);
         }
         dispatchTask.setEnvProStaPersonNameList(envProStaPersonNameList);
 
         dispatchTask.setStatus("2");
         dispatchTask.setSendTime(new Date());
+        dispatchTask.setUpdateTime(new Date());
 
         String pk = this.getService().saveOrUpdate(dispatchTask);
         write(pk);
     }
 
-    public static String  arrayToString(String[] arr){
+    public static String  arrayToString(String[] arr,boolean isEscape){
         String ret="";
         if (null!=arr){
             if (arr.length>0){
                 for (String s : arr) {
-                    ret+=s+"，";
+                    if (isEscape){
+                        ret+="\""+s+"\"，";
+                    }else {
+                        ret+=s+"，";
+                    }
+
                 }
                 ret=ret.substring(0,ret.length()-1);
             }
@@ -324,9 +342,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     }
 
     public static void main(String[] args) {
-        String[] a=null;
-        String s = arrayToString(a);
-        System.out.println(s);
     }
 
     /**
@@ -363,12 +378,13 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         entity.setSendPhone(mc.getSendPhone());
         entity.setSendRemark(mc.getSendRemark());
         entity.setStatus(DispatchTask.status_1);
+        entity.setUpdateTime(new Date());
         super.save();
 
 
         mc.setMonitorOfficePersonId(jsonIds);
         String[] names = this.getParamValues("names");
-        mc.setMonitorOfficePersonName(arrayToString(names));
+        mc.setMonitorOfficePersonName(arrayToString(names,false));
         mc.setDispatchId(entity.getId());
         mc.setStatus(MonitorCase.status_1);
         mc.setReceiveStatus("0");

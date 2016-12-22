@@ -146,7 +146,7 @@ function initTable() {
             },
             {
                 field: '',
-                title: '发送人',
+                title: '发送至',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -232,6 +232,15 @@ function initTable() {
                 visible:false
             },
             {
+                title: '反馈状态',
+                field: 'feedbackStatus',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: operateEvents,
+                formatter: feedbackStatusoperateFormatter
+            },
+            {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
@@ -261,6 +270,14 @@ function initTable() {
             height: pageUtils.getTableHeight()
         });
     });
+}
+
+function feedbackStatusoperateFormatter(value, row, index) {
+    if (row.status>='3'){
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">已反馈</button>';
+    }else {
+        return '未反馈'
+    }
 }
 
 function lookOverFormatter(value, row, index) {
@@ -391,7 +408,12 @@ $("#feedback").bind("click",function () {
     feedbackForm.find("input").val("")
     feedbackForm.find("textarea").val("")
     disabledForm(feedbackForm,false)
-    $("#dispatchId").val(getSelections()[0].id)
+    if (getSelections()[0]){
+        $("#dispatchId").val(getSelections()[0].id)
+        $("#caseReason").val(getSelections()[0].caseReason)
+    }
+    $("#lawerName").val(userId)
+    $("#phone").val(mobile)
 
     uploaderToggle(".bUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
@@ -500,15 +522,19 @@ var ef_eventMsgForm = eventMsgForm.easyform({
     success:function (ef_eventMsgForm) {
         var entity={}
         entity.id=$("#id").val();
-        entity.content=$("#content").val();
-        entity.sendRemark=$("#sendRemark").val();
+        // entity.sendRemark=$("#sendRemark").val();
         entity.removeId=$("#removeId").val();
+        entity.dispatchPersonName=$("#dispatchPersonName").val();
+        entity.dispatchTime=$("#dispatchTime").val();
+        entity.dispatchContent=$("#dispatchContent").val();
         entity.attachmentIds = getAttachmentIds();
         console.log("点调度按钮，只保存能编辑的表单数据："+JSON.stringify(entity))
 
-        saveAjax(entity,function (msg) {
+        saveAjax(entity,function (id) {
             gridTable.bootstrapTable('refresh');
-            model.open(msg);//打开dialog
+            entity.id=id;
+            entity.isSendSms=$("#isSendSms").is(':checked');
+            model.open(entity);
         });
     },
     error:function () {
@@ -533,6 +559,8 @@ function setEventMsgFormData(entity) {
     var id = entity.id;
 
     disabledForm(eventMsgForm,true)
+    $("#dispatchContent").attr("disabled",false);
+    $("#isSendSms").attr("disabled",false);
 
     $("#id").val(entity.id);
     $("#eventTime").val(entity.eventTime);
@@ -546,20 +574,27 @@ function setEventMsgFormData(entity) {
     $("#supervisorPhone").val(entity.supervisorPhone);
     $("#content").val(entity.content);
     $("#sendRemark").val(entity.sendRemark);
+    $("#senderName").val(entity.senderName);
+    $("#senderId").val(entity.senderId);
+    $("#sendTime").val(entity.sendTime);
 
-    if(entity.senderName==null){
-        $("#senderName").val(userName);
-        $("#senderId").val(userId);
+    if(entity.dispatchPersonName){
+        $("#dispatchPersonName").val(entity.dispatchPersonName);
     }else {
-        $("#senderName").val(entity.senderName);
-        $("#senderId").val(entity.senderId);
+        $("#dispatchPersonName").val(userName);
     }
 
-    if(null==entity.sendTime){
-        $("#sendTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
+    if(entity.dispatchTime){
+        $("#dispatchTime").val(entity.dispatchTime);
     }else {
-        $("#sendTime").val(entity.sendTime);
+        $("#dispatchTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     }
+
+    if(entity.dispatchContent){
+        $("#dispatchTime").val(entity.dispatchContent);
+    }
+
+
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(entity.monitorCaseId));
@@ -574,6 +609,7 @@ function setEventMsgFormData(entity) {
  */
 function resetEventMsgFormData() {
     eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("#isSendSms").attr("checked",false);
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm($("#eventMsg"),false);

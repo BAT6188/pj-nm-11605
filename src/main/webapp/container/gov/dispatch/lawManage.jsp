@@ -323,6 +323,8 @@
     </div><!-- /.modal -->
 </div>
 
+
+
 <!--点反馈按钮打开反馈表单添加反馈信息 或 查看反馈表单详情-->
 <div class="modal fade" id="feedbackForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:842px;">
@@ -360,9 +362,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="exeDesc" class="col-sm-2 control-label">执法详情：</label>
+                        <label for="exeDesc" class="col-sm-2 control-label">执法详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea id="exeDesc" name="exeDesc" class="form-control" rows="4" cols="50" placeholder="" data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="caseReason" class="col-sm-2 control-label">事件原因<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="caseReason" name="caseReason" class="form-control" rows="4" cols="50" placeholder="" data-message="不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
@@ -486,6 +495,24 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="dispatchPersonName" class="col-sm-2 control-label">调度人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="dispatchPersonName" class="form-control"
+                            />
+                        </div>
+
+                        <label for="dispatchTime" class="col-sm-2 control-label">调度时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="dispatchTime" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dispatchContent" class="col-sm-2 control-label">调度内容：</label>
+                        <div class="col-sm-10">
+                            <textarea id="dispatchContent" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
@@ -495,6 +522,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>
                 <button type="button" class="btn btn-primary" id="dispatch" >调度</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
             </div>

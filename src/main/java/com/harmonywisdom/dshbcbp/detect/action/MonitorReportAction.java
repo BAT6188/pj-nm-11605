@@ -81,7 +81,7 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         String[] ids = getParamValues("ids");
         mr.setSendPersonId(JSON.toJSONString(ids));
         String[] names = getParamValues("names");
-        mr.setSendPersonName(DispatchTaskAction.arrayToString(names));
+        mr.setSendPersonName(DispatchTaskAction.arrayToString(names,false));
 
         mr.setStatus("1");
         monitorReportService.update(mr);

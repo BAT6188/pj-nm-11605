@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/10/17.
  */
-var sourceId_msgSend; //一个entity实体对象{isSendSms:true,content:"短信内容",其他实体字段}                 //源id
+var sourceId_msgSend; //一个entity实体对象{isSendSms:true,smsContent:"短信内容",id:"id值",其他实体字段}                 //源id
 var MsgSend = {};
 MsgSend.tree = {};
 
@@ -62,6 +62,7 @@ MsgSend.tree = {};
                     if (!sourceId_msgSend){
                         sourceId_msgSend={isSendSms:false}
                     }
+                    console.log("打开对话框时传过来的参数："+JSON.stringify(sourceId_msgSend));
                     dialog.modal('show');
                     //treeObj.expandAll(true);
                     var nodes = treeObj.getNodes();
@@ -122,11 +123,13 @@ function setDialogTypeOne(dialog,options,callback){
                     receiver.receiverSource = RECEIVER_SOURCE_CONTACTS;
                     receivers.push(receiver);
                 }
+                var smsData={'senderId':userId,'senderName':userName,'content':sourceId_msgSend.smsContent,"receivers":JSON.stringify(receivers)};
+                console.log("发送短信数据："+JSON.stringify(smsData));
                 $.ajax({
                     url:rootPath + "/action/S_sms_SmsRecord_sendSms.action",
                     type:"post",
                     dataType:"json",
-                    data:{'senderId':userId,'senderName':userName,'content':sourceId_msgSend.content,"receivers":JSON.stringify(receivers)},
+                    data:smsData,
                     success:function (sendStatuses) {
                         if (sendStatuses && sendStatuses.length > 0) {
                            console.log("短信发送成功")

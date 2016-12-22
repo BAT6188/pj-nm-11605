@@ -74,7 +74,7 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         String jsonIds = JSON.toJSONString(ids);
         mc.setSmsPersonId(jsonIds);
         String[] names = this.getParamValues("names");
-        mc.setSmsPersonName(DispatchTaskAction.arrayToString(names));
+        mc.setSmsPersonName(DispatchTaskAction.arrayToString(names,false));
         monitorCaseService.update(mc);
         write(mc);
     }

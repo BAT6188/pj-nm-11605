@@ -96,7 +96,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         String[] ids = {person.getPersonId()};
         String[] names = {person.getUserName()};
         entity.setMonitoringStationMasterPersonList(JSON.toJSONString(ids));
-        entity.setMonitoringStationMasterPersonNameList(DispatchTaskAction.arrayToString(names));
+        entity.setMonitoringStationMasterPersonNameList(DispatchTaskAction.arrayToString(names,false));
 
         if (StringUtils.isNotEmpty(id)){
             entity.setId(id);
@@ -120,7 +120,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         trustMonitor.setMonitoringStationMasterPersonList(JSON.toJSONString(personIds));
 
         String[] names = getParamValues("names");
-        trustMonitor.setMonitoringStationMasterPersonNameList(DispatchTaskAction.arrayToString(names));
+        trustMonitor.setMonitoringStationMasterPersonNameList(DispatchTaskAction.arrayToString(names,false));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -138,7 +138,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         trustMonitor.setMonitoringStationPersonList(JSON.toJSONString(personIds));
 
         String[] names = getParamValues("names");
-        trustMonitor.setMonitoringStationPersonNameList(DispatchTaskAction.arrayToString(names));
+        trustMonitor.setMonitoringStationPersonNameList(DispatchTaskAction.arrayToString(names,false));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -158,7 +158,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         trustMonitor.setMonitoringStationOfficePersonList(JSON.toJSONString(personIds));
 
         String[] names = getParamValues("names");
-        trustMonitor.setMonitoringStationOfficePersonNameList(DispatchTaskAction.arrayToString(names));
+        trustMonitor.setMonitoringStationOfficePersonNameList(DispatchTaskAction.arrayToString(names,false));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
@@ -176,7 +176,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         trustMonitor.setEnvironmentalProtectionStationSelectPersonList(JSON.toJSONString(personIds));
 
         String[] names = getParamValues("names");
-        trustMonitor.setEnvironmentalProtectionStationSelectPersonNameList(DispatchTaskAction.arrayToString(names));
+        trustMonitor.setEnvironmentalProtectionStationSelectPersonNameList(DispatchTaskAction.arrayToString(names,false));
 
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
