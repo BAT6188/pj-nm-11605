@@ -51,7 +51,7 @@ public class PortStatusHistory implements Serializable {
     private String enterpriseName;
 
     /**
-     * 关联企业名称
+     * 关联企业类型
      */
     @Column(name = "enterprise_type")
     private String enterpriseType;

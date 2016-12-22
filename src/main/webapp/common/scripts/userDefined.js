@@ -193,7 +193,8 @@ var pageUtils = {
         localParams.pageSize = params.limit;
         var jsonData = $('.queryBox').find('form').formSerializeObject();
         if(!$.isEmptyObject(jsonData)){
-            Object.assign(localParams, jsonData);
+            $.extend(localParams,jsonData);
+            //Object.assign(localParams, jsonData);
         }
         return localParams;
     },
@@ -219,7 +220,8 @@ var pageUtils = {
         localParams.pageSize = params.limit;
         var jsonData = $(queryForm).formSerializeObject();
         if(!$.isEmptyObject(jsonData)){
-            Object.assign(localParams, jsonData);
+            $.extend(localParams,jsonData);
+            //Object.assign(localParams, jsonData);
         }
         return localParams;
     },
