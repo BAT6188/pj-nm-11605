@@ -460,7 +460,7 @@ function initlawTable() {
     lawTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_DispatchTask_list.action",
+        url: rootPath+"/action/S_dispatch_DispatchTask_list.action?isPunish=1",
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中

@@ -47,7 +47,7 @@ var OneImagePage = function () {
                     "top","30px",
                     "z-index","1"
                 );
-                $(".tree-left").css("height","30px");
+                $(".tree-left").css("height","32px");
                 $(".tree-left").css("width","21%");
 
                 $("#switchBtn").bind('click',function(){
@@ -75,7 +75,7 @@ var OneImagePage = function () {
                             "top","30px",
                             "z-index","1"
                         );
-                        $(".tree-left").css("height","30px");
+                        $(".tree-left").css("height","32px");
                         $(".tree-left").css("width","21%");
 
                         status = $("#switchBtn").attr("data-status","false");
@@ -221,8 +221,6 @@ var OneImagePage = function () {
                     };
                 }
             });
-
-
         },
 
         /**
@@ -244,7 +242,6 @@ var OneImagePage = function () {
                     }
                 }
             });
-            
         },
         
         /**
@@ -1569,8 +1566,8 @@ var OneImagePage = function () {
             this.hwmap.showInfoWindow({
                 x:center.x,
                 y:center.y,
-                width:240,
-                height:height,
+                width:370,
+                height:300,
                 html:infoHtml,
                 title:"农村生态环境"
             });

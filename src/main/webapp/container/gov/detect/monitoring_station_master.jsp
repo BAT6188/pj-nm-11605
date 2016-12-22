@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>监测站站长</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
     <style>
         a{
             color: #0b0c0d;
@@ -19,7 +19,7 @@
         }
     </style>
     <script>
-        $('.modal-content').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -67,9 +67,9 @@
                     <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                     <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                     <p class="btnListP">
-                        <button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
+                        <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                             <i class="btnIcon edit-icon"></i><span>查看</span>
-                        </button>
+                        </button>--%>
                         <span id="b_span">
                         <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#enterpriseSelfDialog">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">申请部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select id="applyOrgId" name="applyOrgId" style="width: 274px;" class="form-control"></select>
                         </div>
@@ -219,6 +219,9 @@
                 <h4 class="modal-title form-title">委托监测</h4>
             </div>
             <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">委托监测</h4>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
@@ -234,7 +237,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">申请单位<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">申请部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="applyOrg_lookOverFeedbackDetailForm" class="form-control"/>
                         </div>
@@ -283,12 +286,9 @@
                         </div>
                     </div>
                 </form>
-            </div>
-
-            <div class="modal-header">
-                <h4 class="modal-title form-title">监测站反馈</h4>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">监测站反馈</h4>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>

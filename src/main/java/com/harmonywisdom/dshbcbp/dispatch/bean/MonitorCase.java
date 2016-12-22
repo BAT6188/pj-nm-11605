@@ -134,6 +134,23 @@ public class MonitorCase implements Serializable {
     private String reason;
 
     /**
+     * 排口名称
+     */
+    @Column(name = "port_name")
+    private Double portName;
+    /**
+     * 污染源类型
+     */
+    @Column(name = "pollutant_type")
+    private Double pollutantType;
+
+    /**
+     * 超标项
+     */
+    @Column(name = "over_obj")
+    private Double overObj;
+
+    /**
      * 超标值
      */
     @Column(name = "over_value")
@@ -170,8 +187,10 @@ public class MonitorCase implements Serializable {
     @Column(name = "send_remark")
     private String sendRemark;
 
-
-
+    @Column(name = "informer")
+    private String informer;
+    @Column(name = "informer_phone")
+    private String informerPhone;
 
     @Transient
     private String attachmentIds;
@@ -461,5 +480,21 @@ public class MonitorCase implements Serializable {
 
     public void setSmsPersonName(String smsPersonName) {
         this.smsPersonName = smsPersonName;
+    }
+
+    public String getInformer() {
+        return informer;
+    }
+
+    public void setInformer(String informer) {
+        this.informer = informer;
+    }
+
+    public String getInformerPhone() {
+        return informerPhone;
+    }
+
+    public void setInformerPhone(String informerPhone) {
+        this.informerPhone = informerPhone;
     }
 }

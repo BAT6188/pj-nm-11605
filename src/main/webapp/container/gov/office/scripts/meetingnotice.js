@@ -250,7 +250,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 });
 
 /************  短信发送  ****************/
-var optionsMsg = {
+/*var optionsMsg = {
     params:{
         // orgCode:[],//组织机构代码(必填，组织机构代码)
         //type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
@@ -272,7 +272,7 @@ var modelMsg = $.fn.MsgSend.init(2,optionsMsg,function(e,data){ //短信发送�
             pageUtils.saveOperationLog({opType: '4', opModule: '短信会议通知', opContent: '短信发送数据', refTableId: ''})
         }
     })
-});
+});*/
 
 
 
@@ -324,7 +324,7 @@ var ef = form.easyform({
                 entity.isSendSms=$("#isSendSms").is(':checked');
                 model.open(entity);
             }else{
-                modelMsg.open(msg.id);
+                /*modelMsg.open(msg.id);*/
             }
             gridTable.bootstrapTable('refresh');
 

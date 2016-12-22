@@ -69,7 +69,7 @@ function initTable() {
                 }
             },
             {
-                title: '申请单位',
+                title: '申请部门',
                 field: 'applyOrg',
                 editable: false,
                 sortable: false,
@@ -128,8 +128,20 @@ function initTable() {
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
-            }
-
+            },
+            {
+                field: 'operate',
+                title: '查看',
+                align: 'center',
+                events: {
+                    'click .justLook': function (e, value, entity, index) {
+                        setEntity(entity);
+                    }
+                },
+                formatter: function(value,row,index){
+                    return '<button id="checkButton" type="button" class="btn btn-sm btn-warning justLook" data-toggle="modal" data-target="#lookOverFeedbackDetailForm"><span>查看</span></button>';
+                }
+            },
         ]
     });
     // sometimes footer render error.
@@ -194,7 +206,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, entity, index) {
-        disabledForm($("#lookOverFeedbackDetailForm"),true)
+        disabledForm($("#lookOverFeedbackDetailForm"),true);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
         $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
@@ -247,7 +259,10 @@ checkButton.prop('disabled', true);
 
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
+    setEntity(entity);
+});
 
+function setEntity(entity){
     $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
     $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
     $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
@@ -273,11 +288,7 @@ $("#checkButton").bind("click",function () {
     uploader = new qq.FineUploader(fuOptions);
     bindDownloadSelector();
     $(".qq-upload-button").hide();
-
-
-});
-
-
+}
 
 
 /**============列表搜索相关处理============**/
@@ -326,8 +337,8 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.jianCeZhan.orgCode],//组织机构代码(必填，组织机构代码)
-        type:2
+        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
+        type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
@@ -359,7 +370,10 @@ var ef = form.easyform({
         saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
 
-            model.open(msg.id);//打开dialog
+            entity.id=msg.id;
+            entity.smsContent=entity.content
+            entity.isSendSms=$("#isSendSms").is(':checked');
+            model.open(entity);
         });
     }
 });
@@ -448,37 +462,23 @@ function resetForm() {
 
 /**============不同意表单============**/
 $("#saveAndNotAgree").click(function () {
-    $("#trustMonitorId").val($("#id").val())
-    $("#auditor").val(userName)
-    $("#auditTime").val((new Date()).format("yyyy-MM-dd hh:mm"))
-    disabledForm(auditForm,false)
-    auditForm.modal('show');
-    $("#save").show()
-    $("#cancel").text("取消")
-})
+    Ewin.confirm({ message: "确认不同意吗？" }).on(function (e) {
+        if (!e) {
+            return;
+        }
 
-//初始化表单验证
-var notAgreeForm = auditForm.easyform({
-    success:function (notAgreeForm) {
-        var entity = auditForm.find("form").formSerializeObject();
         $.ajax({
-            url: rootPath + "/action/S_exelaw_TrustMonitor_saveNotAgreeForm.action",
-            type:"post",
-            data:entity,
+            url: rootPath + "/action/S_exelaw_TrustMonitor_saveNotAgreeForm.action?trustMonitorId="+$("#id").val(),
             success:function (msg) {
-                auditForm.modal('hide');
                 form.modal('hide');
                 gridTable.bootstrapTable('refresh');
             }
         });
-    }
-});
+
+    });
+})
 
 
-//表单 保存按钮
-$("#save").bind('click',function () {
-    notAgreeForm.submit(false);
-});
 
 //表单附件相关js
 var uploader;//附件上传组件对象

@@ -22,6 +22,7 @@ var pageUtils = {
     },
 
     sendParamDataToString:function (data) {
+        console.log("sendParamDataToString:"+JSON.stringify(data))
         var d=""
         // data: {"personObj":[{"0":true,"couldChose":true,"icon":"common/images/ztree/head_male_man_user.png","id":"402883b3577422f00157fa2def64042f","mobilePhone":"13604779948","name":"张一乐","parentId":"402883b3577422f00157f9d874d103e9","pinyinCodes":"ZYL,zhangyile","userId":"zhangyile","level":1,"tId":"choseZtree1479095001232_3","parentTId":"choseZtree1479095001232_1","open":false,"isParent":false,"zAsync":true,"isFirstNode":false,"isLastNode":false,"isAjaxing":false,"checked":false,"checkedOld":false,"nocheck":false,"chkDisabled":false,"halfCheck":false,"check_Child_State":-1,"check_Focus":false,"isHover":true,"editNameFlag":false}],"sourceId":"ba1750b4768647aba501e8a583c3c0bc"}
         $.each(data.personObj,function (i,v) {
@@ -29,7 +30,7 @@ var pageUtils = {
             d+="&names="+v.name
 
         })
-        d+="&sourceId="+data.sourceId;
+        d+="&sourceId="+data.sourceId.id
         return d;
     },
 
@@ -192,7 +193,8 @@ var pageUtils = {
         localParams.pageSize = params.limit;
         var jsonData = $('.queryBox').find('form').formSerializeObject();
         if(!$.isEmptyObject(jsonData)){
-            Object.assign(localParams, jsonData);
+            $.extend(localParams,jsonData);
+            //Object.assign(localParams, jsonData);
         }
         return localParams;
     },
@@ -218,7 +220,8 @@ var pageUtils = {
         localParams.pageSize = params.limit;
         var jsonData = $(queryForm).formSerializeObject();
         if(!$.isEmptyObject(jsonData)){
-            Object.assign(localParams, jsonData);
+            $.extend(localParams,jsonData);
+            //Object.assign(localParams, jsonData);
         }
         return localParams;
     },

@@ -515,6 +515,7 @@ function setFormView(entity) {
 }
 function disabledForm(disabled) {
     form.find(".form-control").attr("disabled",disabled);
+    form.find('.formBtn').attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#pubTimeContent').datetimepicker({

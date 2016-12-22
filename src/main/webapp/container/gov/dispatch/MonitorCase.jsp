@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>监控中心</title>
-    <%@include file="/common/msgSend/msgSend.jsp"%>
+    <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
 </head>
 <style>
     a{
@@ -106,42 +106,59 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="eventTime" class="col-sm-2 control-label">事件时间：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="eventTime" class="form-control" disabled
-                            />
-                        </div>
-
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName" class="form-control"  disabled
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="blockLevelName" class="col-sm-2 control-label">所属网格：</label>
+                        <label for="eventTime" class="col-sm-2 control-label">事件时间：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="blockLevelName" class="form-control"  disabled
-                            />
-                        </div>
-
-                        <label for="blockName" class="col-sm-2 control-label"></label>
-                        <div class="col-sm-4">
-                            <input type="text" id="blockName" class="form-control" disabled
+                            <input type="text" id="eventTime" class="form-control" disabled
                             />
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="envPrincipal" name="envPrincipal" class="form-control" disabled
+                            />
+                        </div>
+                        <label for="epPhone" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="epPhone" name="epPhone" class="form-control" disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockName" class="col-sm-2 control-label">所属网格：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="blockName" name="blockName" class="form-control" disabled
+                            />
+                        </div>
                         <label for="supervisor" class="col-sm-2 control-label">监管人员：</label>
                         <div class="col-sm-4">
                             <input type="text" id="supervisor" class="form-control" disabled
                             />
                         </div>
-
-                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式：</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="portName" class="col-sm-2 control-label">排口名称：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="supervisorPhone" class="form-control" disabled
+                            <input type="text" id="portName" class="form-control" disabled
+                            />
+                        </div>
+
+                        <label for="pollutantType" class="col-sm-2 control-label">污染源类型：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="pollutantType" class="form-control" disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overObj" class="col-sm-2 control-label">超标项：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="overObj" class="form-control" disabled
                             />
                         </div>
                     </div>
@@ -169,8 +186,7 @@
                     <div class="form-group">
                         <label for="senderName" class="col-sm-2 control-label">发送人：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="senderName" class="form-control"
-                            />
+                            <input type="text" id="senderName" class="form-control"/>
                         </div>
 
                         <label for="sendTime" class="col-sm-2 control-label">发送时间：</label>
@@ -188,7 +204,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="smsSend">短信发送</button>
+                <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
+                <input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>
                 <button type="button" class="btn btn-primary" id="send">发送</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>

@@ -32,40 +32,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%--短信发送--%>
 <div id="selectOrgPeopleDialog">
     <div class="modal fade selectPeople" id="[Id]" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog" style="width:[Width];">
+        <div class="modal-dialog" style="width:[width];min-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">[Title]</h4>
+                    <h4 class="modal-title">[title]</h4>
                 </div>
                 <div class="msg-modal-body">
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="Node-frame-menubar" style="height: 500px;">
-                                <div class="padd" style="padding-bottom: 0px;">
-                                    <div class="input-append row-fluid" style="margin-bottom: 0px;">
-                                        <input type="text" id="[SearchOrgPeopleId]" placeholder="请输入搜索条件" class="span8" style="font-size:12px"/>
-                                        <button id="[SearchOrgPeopleBtnId]" type="button" class="btn btn-info">搜索</button>
+                                <div class="form-inline padd" style="padding-bottom: 0px;">
+                                    <div class="input-group" style="margin-bottom: 0px;">
+                                        <input type="text" id="[SearchInputId]" placeholder="请输入搜索条件"  class="form-control" style="font-size:12px"/>
+                                        <span class="input-group-btn">
+                                            <button id="[SearchBtnId]" type="button" class="btn btn-info">搜索</button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="scrollContent" id="[ScrollContent]">
-                                    <ul id="[orgPeopleZtreeId]" class="ztree"></ul>
+                                    <ul id="[ChoseZtreeId]" class="ztree"></ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-9">
                             <div class="mainBox"  style="width: 100%">
                                 <div class="tableBox">
-                                    <table id="[selectOrgPeopleTableId]" class="table table-striped table-responsive">
+                                    <table id="[SelectTableId]" class="table table-striped table-responsive">
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="clear: both;">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-primary sendToButton" data-toggle="modal">[btnok]</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">[btncl]</button>
+                    <button type="button" class="btn btn-default cancelButton" data-dismiss="modal">[btncl]</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
@@ -74,21 +76,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div  id="selectContactsDialog">
     <div class="modal fade selectPeople" id="[Id]" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog" style="width:[Width];">
+        <div class="modal-dialog" style="width:[width];min-width: 800px;max-height: 600px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">[Title]</h4>
+                    <h4 class="modal-title">[title]</h4>
                 </div>
                 <div class="contact-modal-body">
                     <div class="row">
                         <div class="col-sm-4">
-                            <div class="Node-frame-menubar"  style="height: 600px;">
+                            <div class="Node-frame-menubar"  style="height: 500px;">
                                 <div class="padd" style="padding-bottom: 0px;">
-                                    <div class="input-append row-fluid" style="margin-bottom: 0px;">
+                                    <div class="form-inline padd" style="padding-bottom: 0px;">
+                                        <div class="input-group" style="margin-bottom: 0px;">
+                                            <input type="text" id="[SearchInputId]" placeholder="请输入搜索条件"  class="form-control" style="font-size:12px"/>
+                                        <span class="input-group-btn">
+                                            <button id="[SearchBtnId]" type="button" class="btn btn-info">搜索</button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <%--<div class="input-append row-fluid" style="margin-bottom: 0px;">
                                         <input id="[SearchInputId]" type="text" placeholder="请输入搜索条件" class="span8 search_contacts" style="font-size:12px"/>
                                         <button id="[SearchBtnId]" type="button" class="btn btn-info search_contactsBtn">搜索</button>
-                                    </div>
+                                    </div>--%>
                                 </div>
                                 <div class="scrollContent" id="[ScrollContent]">
                                     <ul id="[ChoseZtreeId]" class="ztree"></ul>
@@ -126,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="clear: both;">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-primary sendToButton" data-toggle="modal">[btnok]</button>
                     <button type="button" class="btn btn-default cancelButton" data-dismiss="modal">[btncl]</button>
                 </div>
