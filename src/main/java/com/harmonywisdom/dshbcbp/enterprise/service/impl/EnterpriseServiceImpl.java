@@ -333,6 +333,33 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         return enterpriseId;
     }
 
+
+    /**
+     * 地图查询矩形
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return
+     */
+    private List<Enterprise> queryByRectangle(double x1,double y1,double x2, double y2) {
+        double minLon = x1 < x2 ? x1 : x2;
+        double maxLon = x1 < x2 ? x2 : x1;
+        double minLat = y1 < y2 ? y1 : y2;
+        double maxLat = y1 < y2 ? y2 : y1;
+        //已知矩形对角两个坐标，小于最大x,y坐标，大于最小x,y坐标，为矩形内的数据
+        return this.getDAO().queryJPQL("from Enterprise t where t.longitude > ? and t.longitude < ? and t.latitude > ? and " +
+                "t.latitude < ?",minLon, maxLon, minLat, maxLat);
+    }
+
+
+    /**
+     * 地图查询圆形区域
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
     @Override
     public List<Enterprise> queryEnterprises(String radius, String longitude, String latitude) {
         if(StringUtils.isNotBlank(radius)) {
@@ -343,14 +370,22 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
             Double y1 = y - i;
             Double x2 = x + i;
             Double y2 = y + i;
-            double minLon = x1 < x2 ? x1 : x2;
-            double maxLon = x1 < x2 ? x2 : x1;
-            double minLat = y1 < y2 ? y1 : y2;
-            double maxLat = y1 < y2 ? y2 : y1;
-            List<Enterprise> list = getDAO().queryJPQL("from Enterprise t where t.longitude > ? and t.longitude < ? and t.latitude > ? and " +
-                    "t.latitude < ?", minLon, maxLon, minLat, maxLat);
-            if (list != null && list.size() > 0) {
-                return list;
+            //2.查询矩形内的数据
+            List<Enterprise> rectInnerEnterprise = queryByRectangle(x1, y1, x2, y2);
+            //3.查找小于半径内的数据 (已知两点坐标，求距离)
+            if (rectInnerEnterprise != null && rectInnerEnterprise.size() > 0) {
+                List<Enterprise> result = new ArrayList<Enterprise>();
+                for (Enterprise enterprises : rectInnerEnterprise) {
+                    if (enterprises.getLongitude() == null || enterprises.getLatitude() == null) {
+                        continue;
+                    }
+                    double cLon = enterprises.getLongitude();
+                    double clat = enterprises.getLatitude();
+                    if ((cLon - x) * (cLon - x) + (clat - y) * (clat - y) <= i * i) {
+                        result.add(enterprises);
+                    }
+                }
+                return result;
             }
         }
         return null;

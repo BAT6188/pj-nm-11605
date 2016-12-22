@@ -253,10 +253,10 @@ var OneImagePage = function () {
         loadSecurityVideo:function(radius,longitude,latitude){
             var that = this;
             $.ajax({
-                url :rootPath + "/action/S_videodevice_VideoDevice_querySurroundingVideo.action",
+                url :rootPath + "/action/S_videodevice_VideoDevice_circleVideo.action",
                 type:'post',
                 dataType:'json',
-                data:{videoLength:radius,longitude:longitude,latitude:latitude},
+                data:{radius:radius,longitude:longitude,latitude:latitude},
                 success:function (result) {
                     console.log(result);
                     if(result && result.length > 0){
@@ -355,7 +355,6 @@ var OneImagePage = function () {
                                     that.hwmap.removeLayer("DustPortLayer");
                                     that.hwmap.removeLayer("AirEquipmentLayer");
                                     that.hwmap.removeLayer("VideoDeviceLayer");
-
                                 }
                                 that.hwmap.removeLayer(treeNode.type+"Layer");
                                 var children = treeNode.children;
