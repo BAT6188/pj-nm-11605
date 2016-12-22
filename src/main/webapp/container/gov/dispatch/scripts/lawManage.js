@@ -158,7 +158,7 @@ function initTable() {
                     if(row.envProStaPersonNameList!=undefined){
                         value=" "+row.envProStaPersonNameList
                     }
-                    return value;
+                    return pageUtils.sub30(value);
                 }
             },
             {
@@ -538,6 +538,7 @@ var ef_eventMsgForm = eventMsgForm.easyform({
         saveAjax(entity,function (id) {
             gridTable.bootstrapTable('refresh');
             entity.id=id;
+            entity.smsContent=entity.content;
             entity.isSendSms=$("#isSendSms").is(':checked');
             model.open(entity);
         });
@@ -596,7 +597,7 @@ function setEventMsgFormData(entity) {
     }
 
     if(entity.dispatchContent){
-        $("#dispatchTime").val(entity.dispatchContent);
+        $("#dispatchContent").val(entity.dispatchContent);
     }
 
 

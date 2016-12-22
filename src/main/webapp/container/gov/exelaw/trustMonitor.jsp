@@ -143,6 +143,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <span id="isSendSmsSpan"><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
                 <button type="button" class="btn btn-primary" id="saveAndSend">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
