@@ -296,7 +296,10 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             // form.modal('hide');
             gridTable.bootstrapTable('refresh');
-            model.open(msg.id);
+            entity.id=msg.id;
+            entity.smsContent=entity.content
+            entity.isSendSms=$("#isSendSms").is(':checked');
+            model.open(entity);
 
         });
     }

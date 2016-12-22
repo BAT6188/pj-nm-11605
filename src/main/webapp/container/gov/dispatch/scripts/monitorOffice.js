@@ -318,6 +318,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         success:function (msg) {
             eventMsgForm.modal('hide');
             gridTable.bootstrapTable('refresh');
+
             pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'发送数据',refTableId:''})
         }
     });
@@ -345,7 +346,10 @@ var ef = eventMsgForm.easyform({
             pageUtils.saveOperationLog({opType:'1',opModule:'监察大队办公室',opContent:'新增数据',refTableId:''})
             gridTable.bootstrapTable('refresh');
             if (buttonToggle=="#save"){
-                model.open(msg.id);
+                entity.id=msg.id;
+                entity.smsContent=entity.content
+                entity.isSendSms=$("#isSendSms").is(':checked');
+                model.open(entity);
             }else if(buttonToggle=="#smsSend"){
                 model_sms.open(msg.id);
             }

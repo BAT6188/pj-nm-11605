@@ -56,6 +56,12 @@ public class DispatchTask implements Serializable {
     @Column(name = "over_time")
     private Date overTime;
 
+    /**
+     * 办结意见
+     */
+    @Column(name = "over_suggestion")
+    private String overSuggestion;
+
     //--------------  查看状态  --------------------------//
     /**
      * 监察大队查看状态：
@@ -648,5 +654,13 @@ public class DispatchTask implements Serializable {
 
     public void setCaseReason(String eventReason) {
         this.caseReason = eventReason;
+    }
+
+    public String getOverSuggestion() {
+        return overSuggestion;
+    }
+
+    public void setOverSuggestion(String overSuggestion) {
+        this.overSuggestion = overSuggestion;
     }
 }

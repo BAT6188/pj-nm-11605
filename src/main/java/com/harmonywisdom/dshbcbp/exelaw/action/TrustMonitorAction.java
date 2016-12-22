@@ -190,12 +190,6 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         TrustMonitor trustMonitor = trustMonitorService.findById(id);
         trustMonitor.setAuditSuggestionStatus("2");
         trustMonitor.setStatus("3");
-        trustMonitor.setAuditor(entity.getAuditor());
-        trustMonitor.setAuditTime(entity.getAuditTime());
-        trustMonitor.setAuditPosition(entity.getAuditPosition());
-        trustMonitor.setAuditorPhone(entity.getAuditorPhone());
-        trustMonitor.setAuditSuggestion(entity.getAuditSuggestion());
-
         String pk = trustMonitorService.saveOrUpdate(trustMonitor);
         write(pk);
     }
@@ -285,13 +279,13 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         QueryParam params = new QueryParam();
         //TODO 以下注释的代码调试的时候用，正式测试、部署需要放开注释
         if ("receiveTrustMonitor".equals(module)){//监察大队接收委托监测页面
-            params.andParam(new QueryParam("environmentalProtectionStationSelectPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+            params.andParam(new QueryParam("environmentalProtectionStationSelectPersonList", QueryOperator.LIKE,"%\""+person.getPersonId()+"\"%"));
         }else if ("monitoring_station_office".equals(module)){//监测站办公室页面
-            params.andParam(new QueryParam("monitoringStationOfficePersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+            params.andParam(new QueryParam("monitoringStationOfficePersonList", QueryOperator.LIKE,"%\""+person.getPersonId()+"\"%"));
         }else if ("monitoring_station_master".equals(module)){//监测站站长页面
-            params.andParam(new QueryParam("monitoringStationMasterPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+            params.andParam(new QueryParam("monitoringStationMasterPersonList", QueryOperator.LIKE,"%\""+person.getPersonId()+"\"%"));
         }else if ("monitoring_station_person".equals(module)){//监测站检测员页面
-            params.andParam(new QueryParam("monitoringStationPersonList", QueryOperator.LIKE,"%"+person.getPersonId()+"%"));
+            params.andParam(new QueryParam("monitoringStationPersonList", QueryOperator.LIKE,"%\""+person.getPersonId()+"\"%"));
         }
 
 

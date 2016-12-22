@@ -6,6 +6,7 @@ var gridTable = $('#table'),
     feedbackBtn = $('#feedback'),
     eventMsgForm = $("#eventMsg"),
     feedbackForm=$("#feedbackForm"),
+    overDialog=$("#overDialog"),
     selections = [];
 
 //保存ajax请求
@@ -258,10 +259,11 @@ function initTable() {
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
-        overBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        // overBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
         //选中一条数据启用修改按钮
         dealWithBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         feedbackBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        overBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -463,7 +465,10 @@ var ef_$monitorReport = $monitorReport.easyform({
             type:"post",
             data:entity,
             success:function (id) {
-                model_monitorReport.open(id);
+                entity.id=id;
+                entity.smsContent=entity.content
+                // entity.isSendSms=$("#isSendSms").is(':checked');
+                model_monitorReport.open(entity);
                 gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
             }
         });
@@ -870,17 +875,22 @@ function initfeedbackRecordTable() {
 initfeedbackRecordTable()
 
 $("#overBtn").click(function () {
+    $("#overId").val(getIdSelections())
+})
+
+$("#overSure").click(function () {
     Ewin.confirm({ title:"办结提示",message: "是否归入办结管理？" }).on(function (e) {
         if (!e) {
             return;
         }
 
-        var ids = getIdSelections();
+        var entity = overDialog.find("form").formSerializeObject();
         $.ajax({
             url: rootPath + "/action/S_dispatch_DispatchTask_overStatus.action",
             type:"post",
-            data:  $.param({ids:ids},true),
+            data:  entity,
             success:function (msg) {
+                overDialog.modal('hide');
                 gridTable.bootstrapTable('refresh');
             }
         });
@@ -943,7 +953,10 @@ var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
         saveXianChangJianChaAjax(entity,function (msg) {
             msg=JSON.parse(msg)
             console.log(msg)
-            model_newXianChangJianChaForm.open(msg.id);
+            entity.id=msg.id;
+            entity.smsContent=entity.content
+            // entity.isSendSms=$("#isSendSms").is(':checked');
+            model_newXianChangJianChaForm.open(entity);
             gridTable.bootstrapTable('refresh');
         });
     },

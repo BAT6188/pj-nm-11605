@@ -1,6 +1,6 @@
 //@ sourceURL=monitoring_station_office.js
 var gridTable = $('#table'),
-    checkButton = $('#checkButton'),
+    // checkButton = $('#checkButton'),
     form = $("#demoForm"),
     formTitle = "委托监测",
     selections = [];
@@ -90,12 +90,19 @@ function initTable() {
                 }
             },
             {
-                title: '发送人',
+                title: '发送至',
                 field: 'monitoringStationMasterPersonNameList',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
+            }
 
         ]
     });
@@ -108,7 +115,7 @@ function initTable() {
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
-        checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        // checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -119,6 +126,39 @@ function initTable() {
     });
 }
 
+function operateFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
+}
+
+window.operateEvents = {
+    'click .view': function (e, value, entity, index) {
+        disabledForm($("#lookOverFeedbackDetailForm"),true)
+        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+        $("#monitor").val(entity.monitor);
+        $("#monitorPhone").val(entity.monitorPhone);
+        $("#feedbackContent").val(entity.feedbackContent);
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+    }
+};
+
 // 列表操作事件
 window.sendEvents = {
     'click .send': function (e, value, row, index) {
@@ -128,21 +168,6 @@ window.sendEvents = {
     }
 };
 
-// 生成列表操作方法
-function operateFormatter(value, row, index) {
-    if (value==2){
-        value="同意"
-    }else if(value==3){
-        value="不同意"
-    }else if(value==4){
-        value="已发送"
-    }else if(value==5){
-        value="已反馈"
-    }else {
-        value="-"
-    }
-    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">'+value+'</div>';
-}
 /**
  * 获取列表所有的选中数据id
  * @returns {*}
@@ -166,38 +191,15 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-checkButton.prop('disabled', true);
+// checkButton.prop('disabled', true);
 
-$("#checkButton").bind("click",function () {
+/*$("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
 
-    disabledForm($("#lookOverFeedbackDetailForm"),true)
-    $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
-    $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
-    $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
-    $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
-    $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
-    $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
-    $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
-    $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
-    $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
-
-    $("#monitor").val(entity.monitor);
-    $("#monitorPhone").val(entity.monitorPhone);
-    $("#feedbackContent").val(entity.feedbackContent);
-
-    uploaderToggle(".bUploader")
-    var fuOptions = getUploaderOptions(entity.id);
-    fuOptions.callbacks.onSessionRequestComplete = function () {
-        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
-    };
-    uploader = new qq.FineUploader(fuOptions);
-    bindDownloadSelector();
-    $(".qq-upload-button").hide();
 
 
-});
+
+});*/
 
 
 
@@ -240,7 +242,7 @@ $('.form_datetime').datetimepicker({
 var options = {
     params:{
         orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
-        type:2
+        type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
@@ -262,7 +264,11 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 
 //表单 保存按钮
 $("#sendButton").bind('click',function () {
-    model.open($("#demoForm").find("#id").val())
+    var entity={};
+    entity.id=$("#demoForm").find("#id").val();
+    entity.smsContent=entity.content
+    entity.isSendSms=$("#isSendSms").is(':checked');
+    model.open(entity);
 });
 
 function disabledForm(selector,disabled) {

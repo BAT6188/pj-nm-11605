@@ -339,7 +339,10 @@ var ef = form.easyform({
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
 
-            model.open(msg.id);//打开dialog
+            entity.id=msg.id;
+            entity.smsContent=entity.content
+            entity.isSendSms=$("#isSendSms").is(':checked');
+            model.open(entity);
         });
     }
 });

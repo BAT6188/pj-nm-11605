@@ -12,6 +12,9 @@
             background: url('<%=request.getContextPath()%>/common/images/isNew.png') no-repeat;
         }
     </style>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -50,9 +53,9 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
-                    <button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
+                    <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                         <i class="btnIcon edit-icon"></i><span>查看</span>
-                    </button>
+                    </button>--%>
                 </p>
             </div>
             <div class="tableBox">
@@ -188,6 +191,9 @@
                 <h4 class="modal-title form-title">委托监测</h4>
             </div>
             <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">委托监测</h4>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
@@ -252,12 +258,9 @@
                         </div>
                     </div>
                 </form>
-            </div>
-
-            <div class="modal-header">
-                <h4 class="modal-title form-title">监测站反馈</h4>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">监测站反馈</h4>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
@@ -287,6 +290,8 @@
                     </div>
                 </form>
             </div>
+
+
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>

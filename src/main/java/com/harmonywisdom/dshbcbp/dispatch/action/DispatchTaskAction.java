@@ -2,6 +2,9 @@ package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
+import com.harmonywisdom.dshbcbp.alert.bean.Message;
+import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
+import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
@@ -18,15 +21,15 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskService> {
 
     public static final String monitor_master="monitor_master";
     public static final String env_pro_sta="env_pro_sta";
+
+    @AutoService
+    private MessageService messageService;
 
     @AutoService
     private BlockService blockService;
@@ -134,7 +137,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         IPerson person = ApportalUtil.getPerson(request);
         if (StringUtils.isNotEmpty(role)){
             if (monitor_master.equals(role)){
-                params=new QueryParam("monitorMasterPersonList", QueryOperator.LIKE, "%\""+person.getPersonId()+"\"%");
+//                params=new QueryParam("monitorMasterPersonList", QueryOperator.LIKE, "%\""+person.getPersonId()+"\"%");
             }else if (env_pro_sta.equals(role)){
                 params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%\""+person.getPersonId()+"\"%");
             }
@@ -240,13 +243,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
      * 办结管理
      */
     public void overStatus(){
-        String[] ids = this.getParamValues("ids");
-        for (String id : ids) {
-            DispatchTask dt = dispatchTaskService.findById(id);
-            dt.setStatus("5");
-            dt.setOverTime(new Date());
-            dispatchTaskService.update(dt);
-        }
+        DispatchTask dt = dispatchTaskService.findById(entity.getId());
+        dt.setOverSuggestion(entity.getOverSuggestion());
+        dt.setStatus("5");
+        dt.setOverTime(new Date());
+        dispatchTaskService.update(dt);
 
     }
 
@@ -388,7 +389,37 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         mc.setDispatchId(entity.getId());
         mc.setStatus(MonitorCase.status_1);
         mc.setReceiveStatus("0");
+
+        sendSystemMessage("1","监察大队办公室消息",mc.getContent(),"1",ids,names,messageService);
+
         monitorCaseService.update(mc);
+    }
+
+    /**
+     * 发送系统消息
+     * @param msgType
+     * @param title
+     * @param content
+     * @param businessId
+     * @param ids
+     * @param names
+     * @param messageService
+     */
+    public static void sendSystemMessage(String msgType,String title,String content,String businessId,String[] ids,String[] names,MessageService messageService){
+        Message message=new Message();
+        message.setMsgType(msgType);
+        message.setTitle(title);
+        message.setContent(content);
+        message.setBusinessId(businessId);
+        MessageTrace receiver=new MessageTrace();
+        for (int i = 0; i < ids.length; i++) {
+            receiver.setReceiverId(ids[i]);
+            receiver.setReceiverName(names[i]);
+        }
+
+        List<MessageTrace> receivers=new ArrayList<>();
+        receivers.add(receiver);
+        messageService.sendMessage(message,receivers);
     }
 
     /**

@@ -97,16 +97,16 @@
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                 <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
-                    <button id="insert" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#newXianChangJianChaForm">
-                        <i class="btnIcon edit-icon"></i><span>新增（现场监察）</span>
-                    </button>
+                    <%--<button id="insert" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#newXianChangJianChaForm">--%>
+                        <%--<i class="btnIcon edit-icon"></i><span>新增（现场监察）</span>--%>
+                    <%--</button>--%>
                     <button id="dealWith" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">
                         <i class="btnIcon edit-icon"></i><span>处置</span>
                     </button>
                     <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
                         <i class="btnIcon edit-icon"></i><span>反馈</span>
                     </button>
-                    <button id="overBtn" type="button" class="btn btn-sm btn-danger">
+                    <button id="overBtn" type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#overDialog">
                         <i class="btnIcon delf-icon"></i><span>办结</span>
                     </button>
                 </p>
@@ -117,6 +117,32 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="overDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width: 844px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">办结</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="overSuggestion" class="col-sm-2 control-label">办结意见：</label>
+                        <div class="col-sm-10">
+                            <input id="overId" name="id" type="hidden"/>
+                            <textarea id="overSuggestion" name="overSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="overSure">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 
 <%--新增（现场监察）表单--%>
