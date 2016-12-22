@@ -142,7 +142,7 @@ function initTable() {
                 }
             },
             {
-                title: '发送人',
+                title: '发送至',
                 field: 'monitorOfficePersonName',
                 editable: false,
                 sortable: false,

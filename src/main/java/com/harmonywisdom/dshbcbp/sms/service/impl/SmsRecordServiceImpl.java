@@ -10,6 +10,7 @@ import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
 import com.harmonywisdom.framework.service.SpringUtil;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,10 +107,14 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         SmsSender smssender= null;
         try {
             smssender = new SmsSender();
-//            Date sendTime = smsRsecord.getSendTime();
             for (SmsSendStatus receiver : receivers) {
-                String[] _addressReceiver={receiver.getReceiverPhone()};
-                smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime(),getSequence());
+                String receiverPhone = receiver.getReceiverPhone();
+                if (StringUtils.isNotEmpty(receiverPhone)){
+                    String[] _addressReceiver={receiverPhone};
+                    smssender.sendSms(smsRsecord.getContent(),_addressReceiver,smsRsecord.getSendTime(),getSequence());
+                }else {
+                    log.debug(receiver.getReceiverName()+"的手机号为空");
+                }
             }
             log.info("调用短信发送接口成功");
         }finally {
