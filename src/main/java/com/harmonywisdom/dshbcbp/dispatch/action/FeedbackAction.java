@@ -33,6 +33,7 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
     public void save() {
         String dispathId = entity.getDispatchId();
         DispatchTask dispatchTask = dispatchTaskService.findById(dispathId);
+        dispatchTask.setCaseReason(request.getParameter("caseReason"));
         dispatchTask.setStatus(DispatchTask.status_3);//置为已反馈状态
         dispatchTaskService.update(dispatchTask);
 

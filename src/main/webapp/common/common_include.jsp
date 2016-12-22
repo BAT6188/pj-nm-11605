@@ -12,6 +12,7 @@
     IPerson person = ApportalUtil.getPerson(request);
     String userID = "";
     String userName = "";
+    String mobile ="";
     String personId ="";
     String orgId="";
     String orgCode="";
@@ -19,6 +20,7 @@
     if (person != null) {
         userID = person.getUserId();
         userName = person.getUserName();
+        mobile = person.getMobile();
         personId = person.getPersonId();
         orgId=person.getOrgId();
 
@@ -45,6 +47,7 @@
     var SToken = '${param.SToken}';
     var userId = '<%=userID%>';
     var userName = '<%=userName%>';
+    var mobile = '<%=mobile%>';
     var personId = '<%=personId%>';
 
     var orgId='<%=orgId%>';

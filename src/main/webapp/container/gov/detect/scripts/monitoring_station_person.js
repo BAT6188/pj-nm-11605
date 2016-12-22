@@ -1,5 +1,5 @@
 var gridTable = $('#table'),
-    checkButton = $('#checkButton'),
+    // checkButton = $('#checkButton'),
     form = $("#demoForm"),
     lookOverFeedbackDetailForm = $("#lookOverFeedbackDetailForm"),
     formTitle = "委托监测",
@@ -109,7 +109,7 @@ function initTable() {
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
-        checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        // checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
 
     });
 
@@ -130,11 +130,17 @@ window.sendEvents = {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">反馈</button>';
+    var disabled="";
+    if (row.status==7){
+        disabled="disabled";
+    }
+    var ret='<button type="button" class="btn btn-md btn-warning feedback" '+disabled+' data-toggle="modal" data-target="#lookOverFeedbackDetailForm">反馈</button>&nbsp;';
+    ret+='<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
+    return ret;
 }
 // 列表操作事件
 window.operateEvents = {
-    'click .view': function (e, value, entity, index) {
+    'click .feedback': function (e, value, entity, index) {
         $("#trustMonitorId").val(entity.id);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
@@ -158,6 +164,34 @@ window.operateEvents = {
         bindDownloadSelector();
 
         $("#saveFeedback").show()
+    },
+    'click .view': function (e, value, entity, index) {
+        disabledForm($("#lookOverFeedbackDetailForm"),true)
+        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+        $("#monitor").val(entity.monitor);
+        $("#monitorPhone").val(entity.monitorPhone);
+        $("#feedbackContent").val(entity.feedbackContent);
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+
+        $("#saveFeedback").hide()
     }
 };
 
@@ -217,9 +251,9 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-checkButton.prop('disabled', true);
+// checkButton.prop('disabled', true);
 
-$("#checkButton").bind("click",function () {
+/*$("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
 
     disabledForm($("#lookOverFeedbackDetailForm"),true)
@@ -248,7 +282,7 @@ $("#checkButton").bind("click",function () {
     $(".qq-upload-button").hide();
 
     $("#saveFeedback").hide()
-});
+});*/
 
 
 
