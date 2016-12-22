@@ -548,7 +548,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>
+                <span id="isSendSmsSpan"><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
                 <button type="button" class="btn btn-primary" id="dispatch" >调度</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
             </div>
