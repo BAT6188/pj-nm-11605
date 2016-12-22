@@ -140,8 +140,8 @@
         </div>
     </div>
 </div>
-</div>
-</div>
+
+
 
 <%--执法管理同期对比列表--%>
 <div class="modal fade" id="lawRatioListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

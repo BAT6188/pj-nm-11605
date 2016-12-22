@@ -59,4 +59,20 @@ public class VideoDeviceAction extends BaseAction<VideoDevice, VideoDeviceServic
 
     }
 
+    /**
+     * 地图圈选公安视频
+     */
+    public void circleVideo(){
+        String radius = request.getParameter("radius");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+
+        List<VideoDevice> list = videoDeviceService.circleByVideo(radius,longitude,latitude);
+        write(list);
+
+
+
+    }
+
+
 }
