@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-<div class="content clearfix" style="overflow: auto">
+<div class="content clearfix" style="overflow: hidden">
     <div class="wrap" >
         <div class="tree-left left" id="button" style="overflow: hidden;z-index: 1">
             <div class="input-group input-group-sm"  style="z-index: 1;" id="inputBtn">

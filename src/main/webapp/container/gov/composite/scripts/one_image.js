@@ -41,19 +41,16 @@ var OneImagePage = function () {
                 $(".main-right").css("float", "left");
                 $(".main-right").width("100%");
 
-                $(".tree-left").css(
-                    "position","absolute",
-                    "left","80px",
-                    "top","30px",
-                    "z-index","1"
-                );
-                $(".tree-left").css("height","32px");
-                $(".tree-left").css("width","21%");
+                $(".tree-left").css({
+                    "position": "absolute",
+                    "height" :"32px",
+                    "width":"21%"
+                });
 
                 $("#switchBtn").bind('click',function(){
                     var status = $(this).attr("data-status");
                     if (status == "false") {
-                        $("#button").css('height',pageUtils.getTableHeight(),'overflow-y','hiddden');
+                        $("#button").css({'height':pageUtils.getTableHeight(),'overflow-y':'hidden'});
                         // $("#名称").attr("属性名","属性值");
                         status = $("#switchBtn").attr("data-status","true");
                         $(".tree-left").css("overflow","auto");
@@ -67,19 +64,15 @@ var OneImagePage = function () {
                     }else if(status == "true"){
                         $(".main-right").css("float", "left");
                         $(".main-right").width("100%");
-                        $(".tree-left").css("overflow","hidden");
 
-                        $(".tree-left").css(
-                            "position","absolute",
-                            "left","80px",
-                            "top","30px",
-                            "z-index","1"
-                        );
-                        $(".tree-left").css("height","32px");
-                        $(".tree-left").css("width","21%");
+                        $(".tree-left").css({
+                            "overflow":"hidden",
+                            "position":"absolute",
+                            "height":"32px",
+                            "width":"21%"
+                        });
 
                         status = $("#switchBtn").attr("data-status","false");
-
                     }
 
                 });
