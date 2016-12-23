@@ -183,6 +183,17 @@ function getIdSelections() {
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
+        if(row.personId==personId){
+            updateBtn.prop('disabled', false);
+        }else{
+            updateBtn.prop('disabled', true);
+            removeBtn.prop('disabled', true);
+            Ewin.alert({message: "没有操作权限！"}).on(function (e) {
+                if (!e) {
+                    return;
+                }
+            });
+        }
         return row;
     });
 }
@@ -422,6 +433,7 @@ function resetForm() {
     uploader = new qq.FineUploader(getUploaderOptions());
     $("#pubOrgName").val(orgName);
     $("#pubOrgId").val(orgId);
+    $("#personId").val(personId);
     $("#isSms").val(0);
     disabledForm(false);
     form.find("#save").show();

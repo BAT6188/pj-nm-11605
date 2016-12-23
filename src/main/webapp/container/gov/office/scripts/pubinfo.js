@@ -165,6 +165,17 @@ function getIdSelections() {
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
+        if(row.pubOrgId==orgCode){
+            updateBtn.prop('disabled', false);
+        }else{
+            updateBtn.prop('disabled', true);
+            removeBtn.prop('disabled', true);
+            Ewin.alert({message: "没有操作权限！"}).on(function (e) {
+                if (!e) {
+                    return;
+                }
+            });
+        }
         return row;
     });
 }
