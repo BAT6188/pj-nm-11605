@@ -315,9 +315,23 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         url: rootPath + "/action/S_dispatch_DispatchTask_save.action",
         type:"post",
         data:d,
-        success:function (msg) {
+        success:function (ret) {
+            ret=JSON.parse(ret);
             eventMsgForm.modal('hide');
             gridTable.bootstrapTable('refresh');
+
+            var receivers = [];
+            $.each(data.personObj,function (i,v) {
+                var receiver1 = {receiverId:v.userId,receiverName:v.name};
+                receivers.push(receiver1);
+            })
+            var msg = {
+                'msgType':6,
+                'title':'监察大队办公室消息',
+                'content':data.sourceId.content,
+                'businessId':ret.id
+            };
+            pageUtils.sendMessage(msg, receivers);
 
             pageUtils.saveOperationLog({opType:'4',opModule:'监察大队办公室',opContent:'发送数据',refTableId:''})
         }

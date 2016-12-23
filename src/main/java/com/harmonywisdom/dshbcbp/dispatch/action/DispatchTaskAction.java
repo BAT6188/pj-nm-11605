@@ -406,7 +406,8 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         mc.setStatus(MonitorCase.status_1);
         mc.setReceiveStatus("0");
 
-        sendSystemMessage("1","监察大队办公室消息",mc.getContent(),"1",ids,names,messageService);
+//        sendSystemMessage("1","监察大队办公室消息",mc.getContent(),entity.getId(),ids,names,messageService);
+//        log.debug("发送系统消息成功");
 
         monitorCaseService.update(mc);
     }
