@@ -271,9 +271,24 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitoringStationPersonList.action",
         type:"post",
         data:d,
-        success:function (msg) {
+        success:function (ret) {
             form.modal('hide');
             gridTable.bootstrapTable("refresh")
+
+            var receivers = [];
+            $.each(data.personObj,function (i,v) {
+                var receiver1 = {receiverId:v.userId,receiverName:v.name};
+                receivers.push(receiver1);
+            })
+            var msg = {
+                'msgType':12,
+                'title':'委托监测',
+                'content':data.sourceId.monitorContentDetail,
+                'businessId':ret
+            };
+            pageUtils.sendMessage(msg, receivers);
+
+            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -282,7 +297,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 $("#sendButton").bind('click',function () {
     var entity={};
     entity.id=$("#id").val();
-    entity.smsContent=entity.content
+    entity.smsContent=entity.monitorContentDetail
     entity.isSendSms=$("#isSendSms").is(':checked');
     model.open(entity);
 });
