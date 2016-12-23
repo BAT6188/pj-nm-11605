@@ -23,6 +23,13 @@ public class Feedback implements Serializable {
     private String dispatchId;
 
     /**
+     * 事件原因
+     */
+    @Transient
+    private String caseReason;
+
+
+    /**
      * 现场执法人姓名
      */
     @Column(name = "lawer_name", length = 20)
@@ -105,5 +112,13 @@ public class Feedback implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCaseReason() {
+        return caseReason;
+    }
+
+    public void setCaseReason(String caseReason) {
+        this.caseReason = caseReason;
     }
 }

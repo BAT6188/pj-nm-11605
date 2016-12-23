@@ -107,7 +107,7 @@ function initTable() {
                 }
             },
             {
-                title: '发送人',
+                title: '发送至',
                 field: 'monitoringStationOfficePersonNameList',
                 editable: false,
                 sortable: false,

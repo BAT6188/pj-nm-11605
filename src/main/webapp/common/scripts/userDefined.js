@@ -287,6 +287,17 @@ var pageUtils = {
             return str.substr(0,16);
         }
     },
+
+    /**
+     * 名字列表
+     * @param str
+     * @returns {string}
+     */
+    sub30:function (str) {
+        if(str){
+            return str.substr(0,30);
+        }
+    },
     //加载菜单
     _mainMenu: [],//主菜单
     _subMenu:{}, //子菜单

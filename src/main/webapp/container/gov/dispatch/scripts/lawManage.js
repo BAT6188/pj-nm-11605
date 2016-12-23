@@ -93,7 +93,12 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter:function (value, row, index) {
-                    return dict.get("caseSource",value)
+                    if (value==0){
+                        value="监控中心"
+                    }else {
+                        value=dict.get("caseSource",value)
+                    }
+                    return value;
                 }
             },
             {
@@ -158,7 +163,7 @@ function initTable() {
                     if(row.envProStaPersonNameList!=undefined){
                         value=" "+row.envProStaPersonNameList
                     }
-                    return value;
+                    return pageUtils.sub30(value);
                 }
             },
             {
@@ -322,6 +327,7 @@ window.lookOverEvents = {
         $(".qq-upload-button").hide();
 
         $("#dispatch").hide();
+        $("#isSendSmsSpan").hide();
         $("#cancel").text("关闭")
     }
 };
@@ -538,6 +544,7 @@ var ef_eventMsgForm = eventMsgForm.easyform({
         saveAjax(entity,function (id) {
             gridTable.bootstrapTable('refresh');
             entity.id=id;
+            entity.smsContent=entity.content;
             entity.isSendSms=$("#isSendSms").is(':checked');
             model.open(entity);
         });
@@ -596,7 +603,7 @@ function setEventMsgFormData(entity) {
     }
 
     if(entity.dispatchContent){
-        $("#dispatchTime").val(entity.dispatchContent);
+        $("#dispatchContent").val(entity.dispatchContent);
     }
 
 
@@ -606,6 +613,7 @@ function setEventMsgFormData(entity) {
     bindDownloadSelector();
 
     $("#dispatch").show();
+    $("#isSendSmsSpan").show();
     $("#cancel").text("取消")
 }
 
@@ -786,6 +794,7 @@ window.seeEvent = {
         $("#phone").val(row.phone)
         $("#exeTime").val(row.exeTime)
         $("#exeDesc").val(row.exeDesc)
+        $("#caseReason").val(row.caseReason)
         disabledForm($("#feedbackForm"),true)
 
         uploaderToggle(".bUploader")

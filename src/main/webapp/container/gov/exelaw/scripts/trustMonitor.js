@@ -340,6 +340,7 @@ var ef = form.easyform({
             gridTable.bootstrapTable('refresh');
 
             entity.id=msg.id;
+            //TODO 申请委托监测短信内容
             entity.smsContent=entity.content
             entity.isSendSms=$("#isSendSms").is(':checked');
             model.open(entity);
@@ -385,6 +386,7 @@ function setFormView(entity) {
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     form.find("#saveAndSend").hide();
+    form.find("#isSendSmsSpan").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(selector,disabled) {
@@ -414,10 +416,12 @@ function disabledForm(selector,disabled) {
  */
 function resetForm() {
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("#isSendSms").attr("checked",false);
     form.find("textarea").val("");
     form.find("#applicant").val(userName)
     disabledForm(form,false);
     form.find("#saveAndSend").show();
+    form.find("#isSendSmsSpan").show();
     form.find(".btn-cancel").text("取消");
 }
 

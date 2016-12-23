@@ -25,4 +25,13 @@ public interface VideoDeviceService extends IBaseService<VideoDevice, String> {
      * @return
      */
     List<VideoDevice> queryVideoAmount(String videoLength, String longitude, String latitude);
+
+    /**
+     * 地图圈选公安视频
+     * @param radius
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    List<VideoDevice> circleByVideo(String radius, String longitude, String latitude);
 }

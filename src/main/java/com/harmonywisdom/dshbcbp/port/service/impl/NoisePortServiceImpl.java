@@ -61,6 +61,20 @@ public class NoisePortServiceImpl extends BaseService<NoisePort, String> impleme
         noisePortDAO.remove(portId);
     }
 
+
+    /**
+     * 查询矩形范围
+     */
+    private List<NoisePort> queryByRectangle(double x1,double y1,double x2, double y2) {
+        double minLon = x1 < x2 ? x1 : x2;
+        double maxLon = x1 < x2 ? x2 : x1;
+        double minLat = y1 < y2 ? y1 : y2;
+        double maxLat = y1 < y2 ? y2 : y1;
+        //已知矩形对角两个坐标，小于最大x,y坐标，大于最小x,y坐标，为矩形内的数据
+        return this.getDAO().queryJPQL("from NoisePort t where t.longitude > ? and t.longitude < ? and t.latitude > ? and " +
+                "t.latitude < ?",minLon, maxLon, minLat, maxLat);
+    }
+
     /**
      * 一张图圈选噪声监测
      * @param radius
@@ -78,14 +92,23 @@ public class NoisePortServiceImpl extends BaseService<NoisePort, String> impleme
             Double y1 = y - i;
             Double x2 = x + i;
             Double y2 = y + i;
-            double minLon = x1 < x2 ? x1 : x2;
-            double maxLon = x1 < x2 ? x2 : x1;
-            double minLat = y1 < y2 ? y1 : y2;
-            double maxLat = y1 < y2 ? y2 : y1;
-            List<NoisePort> list = getDAO().queryJPQL("from NoisePort t where t.longitude > ? and t.longitude < ? and t.latitude > ? and " +
-                    "t.latitude < ?", minLon, maxLon, minLat, maxLat);
-            if (list != null && list.size() > 0) {
-                return list;
+
+            //2.查询矩形内的数据
+            List<NoisePort> rectInnerNoisePort = queryByRectangle(x1, y1, x2, y2);
+            //3.查找小于半径内的数据 (已知两点坐标，求距离)
+            if (rectInnerNoisePort != null && rectInnerNoisePort.size() > 0) {
+                List<NoisePort> result = new ArrayList<NoisePort>();
+                for (NoisePort noisePort : rectInnerNoisePort) {
+                    if (noisePort.getLongitude() == null || noisePort.getLatitude() == null) {
+                        continue;
+                    }
+                    double cLon = noisePort.getLongitude();
+                    double clat = noisePort.getLatitude();
+                    if ((cLon-x)*(cLon-x)+(clat-y)*(clat-y) <= i * i){
+                        result.add(noisePort);
+                    }
+                }
+                return result;
             }
         }
         return null;
