@@ -6,7 +6,7 @@ var pageUtils = {
     MSG_TYPE_CREATEMODEDETAIL:"5",
     MSG_TYPE_MONITOR_OFFICE:"6",
     MSG_TYPE_MONITOR_CASE:"7",
-    MSG_TYPE_law_manage:"8",
+    MSG_TYPE_law_manage:"8",//监察大队
     MSG_TYPE_trustMonitor:"9",//申请委托监测
     MSG_TYPE_receiveTrustMonitor:"10",//接收委托监测
     MSG_TYPE_monitoring_station_office:"11",//监测站办公室
