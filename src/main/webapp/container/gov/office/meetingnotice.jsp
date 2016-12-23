@@ -73,6 +73,7 @@
                         <label for="title" class="col-sm-2 control-label">会议标题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="personId" name="personId" class="form-control">
                             <input type="hidden" id="isSms" name="isSms" class="form-control">
                             <input type="hidden" id="removeId" name="removeId" class="form-control">
                             <input type="text" id="title" name="title" class="form-control"

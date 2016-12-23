@@ -188,8 +188,7 @@ function getIdSelections() {
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        console.log(row.pubOrgId +'+'+orgCode);
-        if(row.pubOrgId==orgCode){
+        if(row.pubOrgId==orgId){
             updateBtn.prop('disabled', false);
         }else{
             updateBtn.prop('disabled', true);
@@ -373,7 +372,7 @@ function resetForm() {
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     $("#pubOrgName").val(orgName);
-    $("#pubOrgId").val(orgCode);
+    $("#pubOrgId").val(orgId);
     $("#status").val(0);
     console.log(orgCode);
     disabledForm(false);
