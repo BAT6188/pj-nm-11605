@@ -5,6 +5,13 @@
 <head lang="en">
     <%@include file="/common/common_include.jsp"%>
     <title>东胜环保</title>
+    <style>
+        .myText{
+            font-size: 25px;
+            font-weight:600;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <div class="main clearfix">
@@ -59,7 +66,7 @@
         //加载一级主菜单
         for (var i = 0; i < mainMenu.length; i++) {
             var menu = mainMenu[i];
-            var li = $('<li><a href="main.jsp?menuCode=' + menu.code + '&SToken=' + SToken + '"><img src="<%=request.getContextPath()%>/common/images/' + menu.code + '-img.png" alt="' + menu.text + '"/></a></li>');
+            var li = $('<li><a href="main.jsp?menuCode=' + menu.code + '&SToken=' + SToken + '" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/common/images/side-' + menu.code + '-icon.png" alt="' + menu.text + '"/><p class="myText">' + menu.text + '</p></a></li>');
             $(".link-list>ul").append(li);
         }
     });

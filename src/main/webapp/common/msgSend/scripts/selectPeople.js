@@ -522,13 +522,13 @@ function setDialogTypeTwo(dialog,options,callback){
             pageSize:8,
             uniqueId: "id",
             columns: [
-                {
+                /*{
                     title:"全选",
                     checkbox: true,
                     align: 'center',
                     radio:false,  //  true 单选， false多选
                     valign: 'middle'
-                },{
+                },*/{
                     title: '姓名',
                     field: 'name',
                     editable: false,
