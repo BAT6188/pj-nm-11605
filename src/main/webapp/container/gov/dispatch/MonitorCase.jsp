@@ -92,9 +92,39 @@
     </div>
 </div>
 
+<div class="modal fade" id="overDialog" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">查看办结</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="overTime" class="col-sm-2 control-label">办结时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="overTime" name="overTime" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overSuggestion" class="col-sm-2 control-label">办结意见：</label>
+                        <div class="col-sm-10">
+                            <textarea id="overSuggestion" name="overSuggestion" class="form-control" rows="4" cols="50" placeholder="" disabled></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <!--调度单-->
 <div class="modal fade" id="systemSendForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:718px;">
+    <div class="modal-dialog" style="width:815px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -311,6 +341,7 @@
     }
 </script>
 <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
+<script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/MonitorCase.js"></script>
 </body>
 </html>

@@ -36,6 +36,24 @@ public class MonitorCase implements Serializable {
     private String dispatchId;
 
     /**
+     * 办结状态
+     */
+    @Column(name = "over_status", length = 2)
+    private String overStatus;
+
+    /**
+     * 办结时间
+     */
+    @Column(name = "over_time")
+    private Date overTime;
+
+    /**
+     * 办结意见
+     */
+    @Column(name = "over_suggestion")
+    private String overSuggestion;
+
+    /**
      * 选择的 监察大队人员
      */
     @Column(name = "monitor_office_person_id")
@@ -496,5 +514,53 @@ public class MonitorCase implements Serializable {
 
     public void setInformerPhone(String informerPhone) {
         this.informerPhone = informerPhone;
+    }
+
+    public String getOverStatus() {
+        return overStatus;
+    }
+
+    public void setOverStatus(String overStatus) {
+        this.overStatus = overStatus;
+    }
+
+    public Double getPortName() {
+        return portName;
+    }
+
+    public void setPortName(Double portName) {
+        this.portName = portName;
+    }
+
+    public Double getPollutantType() {
+        return pollutantType;
+    }
+
+    public void setPollutantType(Double pollutantType) {
+        this.pollutantType = pollutantType;
+    }
+
+    public Double getOverObj() {
+        return overObj;
+    }
+
+    public void setOverObj(Double overObj) {
+        this.overObj = overObj;
+    }
+
+    public Date getOverTime() {
+        return overTime;
+    }
+
+    public void setOverTime(Date overTime) {
+        this.overTime = overTime;
+    }
+
+    public String getOverSuggestion() {
+        return overSuggestion;
+    }
+
+    public void setOverSuggestion(String overSuggestion) {
+        this.overSuggestion = overSuggestion;
     }
 }

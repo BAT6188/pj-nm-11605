@@ -46,4 +46,9 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
     }
+
+    @Override
+    public void list() {
+        super.list();
+    }
 }

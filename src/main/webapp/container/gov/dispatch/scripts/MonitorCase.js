@@ -138,6 +138,20 @@ var gridTable = $('#table'),
                 editable: false,
                 sortable: false,
                 align: 'center'
+            },{
+                field: 'overStatus',
+                title: '办结状态',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: overEvents,
+                formatter: function (value, row, index) {
+                    if (value=='1'){
+                        return '<button type="button" class="btn btn-md btn-warning overView" data-toggle="modal" data-target="#overDialog">已办结</button>';
+                    }else {
+                        return '未办结'
+                    }
+                }
             },
             {
                 field: 'queryFeedback',
@@ -188,7 +202,6 @@ var gridTable = $('#table'),
                 field: 'sendRemark',
                 editable: false,
                 sortable: false,
-                footerFormatter: totalTextFormatter,
                 visible:false
             }
 
@@ -293,6 +306,14 @@ function queryFeedbackFormatter(value, row, index) {
         return '未反馈'
     }
 }
+
+window.overEvents = {
+    'click .overView': function (e, value, row, index) {
+        $("#overTime").val(row.overTime)
+        $("#overSuggestion").val(row.overSuggestion)
+    }
+};
+
 // 列表操作事件
 window.queryFeedbackEvents = {
     'click .view': function (e, value, row, index) {

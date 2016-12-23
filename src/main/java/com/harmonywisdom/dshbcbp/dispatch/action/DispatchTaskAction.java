@@ -249,6 +249,12 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         dt.setOverTime(new Date());
         dispatchTaskService.update(dt);
 
+        MonitorCase monitorCase = monitorCaseService.findById(dt.getMonitorCaseId());
+        monitorCase.setOverStatus("1");
+        monitorCase.setOverSuggestion(entity.getOverSuggestion());
+        monitorCase.setOverTime(dt.getOverTime());
+        monitorCaseService.update(monitorCase);
+
     }
 
     /**
