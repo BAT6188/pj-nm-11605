@@ -295,8 +295,15 @@ function setFormData(entity) {
     $("#userID").val(entity.userID);
     $("#userName").val(entity.userName);
     $("#type").val(entity.type);
-    if(entity.grade){
+    /*if(entity.grade){
         $("#grade").val(entity.grade.split(","));
+    }*/
+    if (entity.grade) {
+        var gradeArray = entity.grade.split(",");//
+        for (var i = 0; i < gradeArray.length; i++) {
+            var orgCode = gradeArray[i];
+            $('input[name="grade"][value="' + orgCode + '"]').prop("checked", true);
+        }
     }
     $("#content").val(entity.content);
     uploader = new qq.FineUploader(getUploaderOptions(id));
@@ -344,7 +351,7 @@ function resetForm() {
     $("#userID").val(userId);
     $("#userName").val(userName);
     $("#grade").val("");
-    orgOption();
+    // orgOption();
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
@@ -359,7 +366,8 @@ function orgOption(){
         success:function(msg){
             $('#grade').empty();
             for (var i = 0; i < msg.length; i++) {
-                $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
+                // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
+                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgCode + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;")
             }
         }
     })

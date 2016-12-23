@@ -57,6 +57,13 @@ public class MeetingNotice implements Serializable {
      */
     @Column(name = "PUB_ORG_NAME",length = 100)
     private String pubOrgName;
+
+    /**
+     * 发布单位Id
+     */
+    @Column(name = "PERSON_ID",length = 100)
+    private String personId;
+
     /**
      * 会议内容
      */
@@ -106,6 +113,14 @@ public class MeetingNotice implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public String getParticipants() {

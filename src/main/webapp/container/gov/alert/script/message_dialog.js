@@ -177,15 +177,15 @@ var MessageDialog = function () {
 
         },
         updateMoreLink:function () {
-            var that = this;
-            var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a>");
-            moreLink.bind("click",function () {
-                that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
-                    that.addMsgListToTableAndData(historyMsgTraceList);
-                });
-            });
-            moreLinkDiv.html("");
-            moreLinkDiv.append(moreLink);
+            // var that = this;
+            // var moreLink = $("<a href='javascript:void(0);' style='color: #337ab7;' >点击加载更多历史消息</a>");
+            // moreLink.bind("click",function () {
+            //     that.getUserHistoryMsgList(userId, function (historyMsgTraceList) {
+            //         that.addMsgListToTableAndData(historyMsgTraceList);
+            //     });
+            // });
+            // moreLinkDiv.html("");
+            // moreLinkDiv.append(moreLink);
         },
 
         getUserNewMsgList:function (userId, callback) {

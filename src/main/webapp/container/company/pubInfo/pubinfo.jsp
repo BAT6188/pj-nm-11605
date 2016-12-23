@@ -124,13 +124,13 @@
                             />
                         </div>
                     </div>
-                    <div class="form-group">
+                   <%-- <div class="form-group">
                         <label for="grade" class="col-sm-2 control-label">查看权限<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <select style="width: 100%" multiple class="form-control"  id="grade" name="grade">
                             </select>
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="form-group">
                         <label for="content" class="col-sm-2 control-label">公告详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">

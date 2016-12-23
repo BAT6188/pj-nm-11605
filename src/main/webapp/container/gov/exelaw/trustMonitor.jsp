@@ -160,6 +160,7 @@
                 <h4 class="modal-title form-title">委托监测</h4>
             </div>
             <div class="modal-body">
+                <h4 class="modal-title form-title">委托监测</h4>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
@@ -224,12 +225,10 @@
                         </div>
                     </div>
                 </form>
-            </div>
 
-            <div class="modal-header">
-                <h4 class="modal-title form-title">大队审核</h4>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">大队审核</h4>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">审核人<span class="text-danger">*</span>：</label>
@@ -248,12 +247,10 @@
                         </div>
                     </div>
                 </form>
-            </div>
 
-            <div class="modal-header">
-                <h4 class="modal-title form-title">监测站反馈</h4>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">监测站反馈</h4>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
@@ -280,7 +277,6 @@
                     </div>
                 </form>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
             </div>

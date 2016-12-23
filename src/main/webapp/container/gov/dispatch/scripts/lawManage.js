@@ -520,9 +520,24 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         url: rootPath + "/action/S_dispatch_DispatchTask_saveToEnvProStaPersonList.action",
         type:"post",
         data:d,
-        success:function (msg) {
+        success:function (ret) {
             eventMsgForm.modal('hide');
             gridTable.bootstrapTable('refresh');
+
+            var receivers = [];
+            $.each(data.personObj,function (i,v) {
+                var receiver1 = {receiverId:v.userId,receiverName:v.name};
+                receivers.push(receiver1);
+            })
+            var msg = {
+                'msgType':8,
+                'title':'执法管理消息',
+                'content':data.sourceId.content,
+                'businessId':ret
+            };
+            pageUtils.sendMessage(msg, receivers);
+
+            pageUtils.saveOperationLog({opType:'4',opModule:'执法管理',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -622,7 +637,7 @@ function setEventMsgFormData(entity) {
  */
 function resetEventMsgFormData() {
     eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find("#isSendSms").attr("checked",false);
+    eventMsgForm.find("#isSendSms").attr("checked",false);
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm($("#eventMsg"),false);
