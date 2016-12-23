@@ -15,6 +15,8 @@ import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.exelaw.bean.OverManage;
+import com.harmonywisdom.dshbcbp.exelaw.service.impl.OverManageServiceImpl;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
@@ -27,6 +29,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
     public static final String monitor_master="monitor_master";
     public static final String env_pro_sta="env_pro_sta";
+
+    @AutoService
+    private OverManageServiceImpl overManageService;
 
     @AutoService
     private MessageService messageService;
@@ -49,6 +54,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     @Override
     protected DispatchTaskService getService() {
         return dispatchTaskService;
+    }
+
+    public void queryOverManageByDispatchId(){
+        OverManage overManage = overManageService.findById(entity.getId());
+        write(overManage);
     }
 
     /**
