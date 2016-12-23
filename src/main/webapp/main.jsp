@@ -40,7 +40,7 @@
         </div>
         <div id="level2content" class="content show clearfix" style="margin: 5px 5px 8px;">
         </div>
-        <div class="siderNav">
+        <div class="siderNav" style="z-index: 9999">
             <ul>
                 <%--<li><a href="compre-supervision.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-composite-icon.png" alt=""/></dt><dd>综合监管</dd></dl></a></li>
                 <li><a href="pollution-23.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-monitor-icon.png" alt=""/></dt><dd>污染源监控</dd></dl></a></li>
