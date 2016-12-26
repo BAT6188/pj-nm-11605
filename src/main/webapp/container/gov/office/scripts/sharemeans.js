@@ -117,18 +117,28 @@ function initTable() {
     //处理删除按钮状态
     removeBtn.click(function () {
         var ids = getIdSelections();
-        Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-            if (!e) {
-                return;
-            }
-            deleteShareMeans(ids,function (msg) {
-                gridTable.bootstrapTable('remove', {
-                    field: 'id',
-                    values: ids
+        var entity = getSelections()[0];
+        if(entity.pubOrgId==orgId) {
+            Ewin.confirm({message: "确认要删除选择的数据吗？"}).on(function (e) {
+                if (!e) {
+                    return;
+                }
+                deleteShareMeans(ids, function (msg) {
+                    gridTable.bootstrapTable('remove', {
+                        field: 'id',
+                        values: ids
+                    });
+                    removeBtn.prop('disabled', true);
                 });
-                removeBtn.prop('disabled', true);
             });
-        });
+        }else{
+            removeBtn.prop('disabled', true);
+            Ewin.alert({message: "没有操作权限！"}).on(function (e) {
+                if (!e) {
+                    return;
+                }
+            });
+        }
     });
     /**============列表搜索相关处理============**/
     $("#search").click(function () {
@@ -192,7 +202,6 @@ function getSelections() {
             updateBtn.prop('disabled', false);
         }else{
             updateBtn.prop('disabled', true);
-            removeBtn.prop('disabled', true);
             Ewin.alert({message: "没有操作权限！"}).on(function (e) {
                 if (!e) {
                     return;
