@@ -31,8 +31,8 @@ $(function(){
     }
 
     $("#search").bind('click',function(){
-        var startYdate = $("#start_createTime").val();
-        var lastYdate = $("#end_createTime").val();
+        var startYdate = $("#start_createTime").val()+"-"+"01";
+        var lastYdate = $("#end_createTime").val()+"-"+"31";
         var airType = $("#airType").val();
         search(valueChart,startYdate,lastYdate,airType);
     });
@@ -201,29 +201,31 @@ $(function(){
                             $("#airListForm").modal('show');
                             var strValue = e.point.category;
                             if(strValue == '优'){
-                                minValue = 1;
-                                maxValue = 50
+                                minValue = 0;
+                                maxValue = 50;
                             }else if(strValue == '良'){
                                 minValue = 50;
                                 maxValue = 100
 
                             }else if(strValue == '轻微污染'){
                                 minValue = 100;
-                                maxValue = 150
+                                maxValue = 150;
 
                             }else if(strValue == '轻度污染'){
                                 minValue = 150;
-                                maxValue = 200
+                                maxValue = 200;
 
                             }else if(strValue == '中度污染'){
-                                minValue = 201;
+                                minValue = 200;
                                 maxValue = 300
 
                             }else if(strValue == '重度污染'){
-                                minValue = 300;
+                                minValue = 299;
                                 maxValue = 1000
                             }
-                            initTable(startYdate,lastYdate,minValue,maxValue);
+                            var startYdates = startYdate ;
+                            var lastYdates = lastYdate ;
+                            initTable(startYdates,lastYdates,minValue,maxValue);
                         }
                     }
                 }
@@ -310,7 +312,9 @@ $(function(){
                                 minValue = 300;
                                 maxValue = 1000
                             }
-                            initTable(startYdate,lastYdate,minValue,maxValue);
+                            var startYdates = startYdate + "-"+"01";
+                            var lastYdates = lastYdate + "-"+"31";
+                            initTable(startYdates,lastYdates,minValue,maxValue);
                         }
                     }
                 }
@@ -396,7 +400,9 @@ $(function(){
                                 minValue = 300;
                                 maxValue = 1000
                             }
-                            initTable(startYdate,lastYdate,minValue,maxValue);
+                            var startYdates = startYdate + "-"+"01";
+                            var lastYdates = lastYdate + "-"+"31";
+                            initTable(startYdates,lastYdates,minValue,maxValue);
                         }
                     }
                 }

@@ -73,12 +73,12 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
     @Override
     public List<Object[]> findByAirData(String startYdate,String lastYdate,String airType) {
         List<Object[]> list = getDAO().queryNativeSQL("SELECT" +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastYdate+"')" +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')" +
                 "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
 
         String[] title = new String[]{"优", "良", "轻微污染","轻度污染", "中度污染", "重度污染"};
@@ -140,21 +140,21 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
     @Override
     public List<Object[]> findByAirRadioData(String startXdate, String lastXdate, String startSdate, String lastSdate, String airType) {
         List<Object[]> list = getDAO().queryNativeSQL("SELECT" +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastXdate+"')" +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m%-d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')" +
                 "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
 
         List<Object[]> list2 = getDAO().queryNativeSQL("SELECT" +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m') <= '"+lastSdate+"')" +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')" +
                 "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
 
         String[] strAir =new String[]{"优", "良", "轻微污染","轻度污染", "中度污染", "重度污染"};

@@ -8,7 +8,7 @@
     <style>
         .myText{
             font-size: 25px;
-            font-weight:600;
+            font-weight:900;
             color: black;
         }
     </style>

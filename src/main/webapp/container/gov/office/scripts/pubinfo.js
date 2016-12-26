@@ -165,11 +165,10 @@ function getIdSelections() {
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        if(row.pubOrgId==orgCode){
+        if (row.pubOrgId == orgCode) {
             updateBtn.prop('disabled', false);
-        }else{
+        } else {
             updateBtn.prop('disabled', true);
-            removeBtn.prop('disabled', true);
             Ewin.alert({message: "没有操作权限！"}).on(function (e) {
                 if (!e) {
                     return;
@@ -270,18 +269,28 @@ var ef2 = form.easyform({
  */
 removeBtn.click(function () {
     var ids = getIdSelections();
-    Ewin.confirm({message: "确认要删除选择的数据吗？"}).on(function (e) {
-        if (!e) {
-            return;
-        }
-        deleteAjax(ids, function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
+    var entity = getSelections()[0];
+    if (entity.pubOrgId == orgCode) {
+        Ewin.confirm({message: "确认要删除选择的数据吗？"}).on(function (e) {
+            if (!e) {
+                return;
+            }
+            deleteAjax(ids, function (msg) {
+                gridTable.bootstrapTable('remove', {
+                    field: 'id',
+                    values: ids
+                });
+                removeBtn.prop('disabled', true);
             });
-            removeBtn.prop('disabled', true);
         });
-    });
+    }else{
+        removeBtn.prop('disabled', true);
+        Ewin.alert({message: "没有操作权限！"}).on(function (e) {
+            if (!e) {
+                return;
+            }
+        });
+    }
 });
 
 /**============列表搜索相关处理============**/

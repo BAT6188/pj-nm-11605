@@ -149,7 +149,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="envPrincipal" class="col-sm-2 control-label">环保负责人：</label>
+                        <label for="envPrincipal" class="col-sm-2 control-label">企业环保负责人：</label>
                         <div class="col-sm-4">
                             <input type="text" id="envPrincipal" name="envPrincipal" class="form-control" disabled
                             />
@@ -179,11 +179,11 @@
                             />
                         </div>
 
-                        <label for="pollutantType" class="col-sm-2 control-label">污染源类型：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="pollutantType" class="form-control" disabled
-                            />
-                        </div>
+                        <%--<label for="pollutantType" class="col-sm-2 control-label">污染源类型：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<input type="text" id="pollutantType" class="form-control" disabled--%>
+                            <%--/>--%>
+                        <%--</div>--%>
                     </div>
                     <div class="form-group">
                         <label for="overObj" class="col-sm-2 control-label">超标项：</label>
@@ -235,9 +235,9 @@
             </div>
             <div class="modal-footer">
                 <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
-                <input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>
+                <input type="checkbox" id="isSendSms"><label for="isSendSms" id="messages">同时发送短信</label>
                 <button type="button" class="btn btn-primary" id="send">发送</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" id="changeBtn" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -329,11 +329,13 @@
             status_search=0
             gridTable.bootstrapTable('hideColumn',"status");
             gridTable.bootstrapTable('hideColumn',"queryFeedback");
+            gridTable.bootstrapTable('hideColumn',"overStatus");
             gridTable.bootstrapTable('showColumn',"operate");
         }else{
             status_search='!0'
             gridTable.bootstrapTable('showColumn',"status");
             gridTable.bootstrapTable('showColumn',"queryFeedback");
+            gridTable.bootstrapTable('showColumn',"overStatus");
             gridTable.bootstrapTable('hideColumn',"operate");
         }
         $("#status_search").val(status_search)

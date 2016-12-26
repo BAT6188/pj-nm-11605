@@ -34,13 +34,13 @@ public class AirQualityAction extends BaseAction<AirQuality, AirQualityService> 
         Integer maxValues = Integer.parseInt(maxValue);
 
         if(StringUtils.isNotBlank(firstTime)){
-            param.andParam(new QueryParam("rec_Time", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM")));
+            param.andParam(new QueryParam("rec_Time", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
         }
         if(StringUtils.isNotBlank(lastTime)){
-            param.andParam(new QueryParam("rec_Time",QueryOperator.LE,DateUtil.strToDate(lastTime,"yyyy-MM")));
+            param.andParam(new QueryParam("rec_Time",QueryOperator.LE,DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
         }
         if(StringUtils.isNotBlank(minValue)){
-            param.andParam(new QueryParam("airValue",QueryOperator.GE,minValues));
+            param.andParam(new QueryParam("airValue",QueryOperator.GT,minValues));
         }
         if(StringUtils.isNotBlank(maxValue)){
             param.andParam(new QueryParam("airValue",QueryOperator.LE,maxValues));

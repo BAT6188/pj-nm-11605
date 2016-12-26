@@ -46,6 +46,14 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
         StringBuffer sb = new StringBuffer();
         Map<String, Object> paramValues = new HashMap<>();
         sb.append(" 1=1 ");
+        if (StringUtils.isNotBlank(entity.getStatus())) {
+            paramValues.put("status","1");
+            sb.append("AND entity.status = :status ");
+        }
+        if (StringUtils.isNotBlank(entity.getGrade())) {
+            paramValues.put("grade","%"+"company"+"%");
+            sb.append("AND entity.grade LIKE :grade ");
+        }
         if (StringUtils.isNotBlank(entity.getTitle())) {
             paramValues.put("title","%"+entity.getTitle()+"%");
             sb.append("AND entity.title LIKE :title ");

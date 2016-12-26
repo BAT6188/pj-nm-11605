@@ -65,7 +65,8 @@ function initTable() {
                 sortable: false,
                 align: 'center'
             },{
-                title: '类型',
+                // title: '类型',
+                title: '监测项目',
                 field: 'type',
                 editable: false,
                 sortable: false,
@@ -77,6 +78,21 @@ function initTable() {
                         value="大气污染防治监测报告"
                     }else if (value==3){
                         value="水污染防治监测报告"
+                    }
+                    return value;
+                }
+            },
+            {
+                title: '监测类型',
+                field: 'monitoringType',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    if (value==1){
+                        value="监督性监测"
+                    }else if (value==2){
+                        value="企业委托监测"
                     }
                     return value;
                 }
@@ -100,31 +116,32 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },{
-                title: '所属网格',
-                field: 'blockName',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },{
-                title: '网格负责人',
-                field: 'blockPersonName',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },{
-                title: '联系方式',
-                field: 'blockPersonPhone',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },{
-                title: '发送人',
-                field: 'sendPersonName',
-                editable: false,
-                sortable: false,
-                align: 'center'
             },
+            // {
+            //     title: '所属网格',
+            //     field: 'blockName',
+            //     editable: false,
+            //     sortable: false,
+            //     align: 'center'
+            // },{
+            //     title: '网格负责人',
+            //     field: 'blockPersonName',
+            //     editable: false,
+            //     sortable: false,
+            //     align: 'center'
+            // },{
+            //     title: '联系方式',
+            //     field: 'blockPersonPhone',
+            //     editable: false,
+            //     sortable: false,
+            //     align: 'center'
+            // },{
+            //     title: '发送人',
+            //     field: 'sendPersonName',
+            //     editable: false,
+            //     sortable: false,
+            //     align: 'center'
+            // },
             {
                 field: 'status',
                 title: '监督性监测报告',
