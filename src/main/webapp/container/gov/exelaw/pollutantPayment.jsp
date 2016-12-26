@@ -189,7 +189,7 @@
                     <div class="form-group">
                         <label for="registDate" class="col-sm-2 control-label">登记日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd">
+                            <div class="input-group date form_datetime lookoverDate" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" id="registDate" name="registDate" data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -199,7 +199,7 @@
 
                         <label for="payDate" class="col-sm-2 control-label">缴费日期<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd">
+                            <div class="input-group date form_datetime lookoverDate" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" id="payDate" name="payDate" data-message="不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -211,7 +211,7 @@
                     <div class="form-group">
                         <label for="alertDate" class="col-sm-2 control-label">提醒日期一：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div class="input-group date form_datetime lookoverTime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" id="alertDate" name="alertDate" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -220,7 +220,7 @@
 
                         <label for="realertDate" class="col-sm-2 control-label">提醒日期二：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <div class="input-group date form_datetime lookoverTime" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" id="realertDate" name="realertDate" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>

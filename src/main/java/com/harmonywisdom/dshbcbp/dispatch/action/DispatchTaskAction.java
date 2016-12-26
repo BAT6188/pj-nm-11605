@@ -158,7 +158,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         String startEventTime = request.getParameter("startEventTime");
         String endEventTime = request.getParameter("endEventTime");
-        String isPunish = request.getParameter("isPunish");
+        String notOver = request.getParameter("notOver");
 
         String enterpriseName = entity.getEnterpriseName();
         String source = entity.getSource();
@@ -180,7 +180,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (org.apache.commons.lang.StringUtils.isNotBlank(source)) {
             params.andParam(new QueryParam("source", QueryOperator.EQ, source));
         }
-        if ("1".equals(isPunish)){
+        if ("TRUE".equals(notOver)){
             params.andParam(new QueryParam("status", QueryOperator.NE, "5"));
         }else {
             if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
@@ -394,7 +394,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         entity.setSendTime(mc.getSendTime());
         entity.setSendPhone(mc.getSendPhone());
         entity.setSendRemark(mc.getSendRemark());
-        entity.setStatus(DispatchTask.status_1);
+        entity.setStatus(DispatchTask.status_2);
         entity.setUpdateTime(new Date());
         super.save();
 

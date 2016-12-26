@@ -370,10 +370,12 @@ var options = {
     });
 });*/
 var model2 = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
-    form.find('#apportalUserId').val(obj.personObj[0].id);
-    form.find('#apportalUserName').val(obj.personObj[0].saveName);
-    form.find("#name").val(obj.personObj[0].saveName);
-    form.find("#phone").val(obj.personObj[0].mobilePhone);
+    var iperson = obj.personObj[0].iperson;
+    form.find('#apportalPersonId').val(iperson.personId);
+    form.find('#apportalUserId').val(iperson.userId);
+    form.find('#apportalUserName').val(iperson.userName);
+    form.find("#name").val(iperson.userName);
+    form.find("#phone").val(iperson.mobile);
     // if(obj.personObj[0].iperson.extattrMap){
     //     form.find("#address").val(obj.personObj[0].iperson.extattrMap.departmentAddress);
     // }

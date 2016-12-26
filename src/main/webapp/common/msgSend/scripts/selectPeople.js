@@ -236,7 +236,7 @@ function setDialogTypeOne(dialog,options,callback){
     function initSelectPeopleTable() {
         gridSelectPeopleTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            height: 540,
+            height: 480,
             clickToSelect:true,//单击行时checkbox选中
             pagination:true,
             sidePagination:'client',
@@ -592,12 +592,12 @@ function setDialogTypeTwo(dialog,options,callback){
      * @returns {*}
      */
     function getIdsSelectionsFromGridSelectPeople() {
-        return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
+        return $.map(gridSelectPeopleTable.bootstrapTable('getData'), function (row) {
             return row.id
         });
     }
     function getSelectPeoples() {
-        return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
+        return $.map(gridSelectPeopleTable.bootstrapTable('getData'), function (row) {
             return row
         });
     }

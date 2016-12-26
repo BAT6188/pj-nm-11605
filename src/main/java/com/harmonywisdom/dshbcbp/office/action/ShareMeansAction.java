@@ -33,7 +33,7 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }
-        String orgCode=request.getParameter("orgCode");
+//        String orgCode=request.getParameter("orgCode");
        /* QueryParam statusParam=new QueryParam();
         if (orgCode != null) {
             statusParam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE, orgCode));
@@ -46,16 +46,15 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
         if (StringUtils.isNotBlank(pubTime)) {
             param.andParam(new QueryParam("pubTime", QueryOperator.EQ, DateUtil.strToDate(pubTime, "yyyy-MM-dd")));
         }*/
-
         IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
         if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgId());}
         if (StringUtils.isNotBlank(entity.getStatus())) {
             param.andParam(new QueryParam("status", QueryOperator.EQ,entity.getStatus()));
-            param.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE,orgCode));
+            param.andParam(new QueryParam("pubOrgId", QueryOperator.EQ,entity.getPubOrgId()));
         }else{
             param.andParam(new QueryParam("status", QueryOperator.EQ,"1"));
             QueryParam otherparam=new QueryParam();
-            otherparam.andParam(new QueryParam("pubOrgId", QueryOperator.LIKE,orgCode));
+            otherparam.andParam(new QueryParam("pubOrgId", QueryOperator.EQ,entity.getPubOrgId()));
             otherparam.andParam(new QueryParam("status", QueryOperator.EQ,"0"));
             param.andParam(otherparam);
         }
@@ -81,8 +80,6 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
     public void list() {
         QueryCondition var1 = this.getQueryCondition();
         QueryResult<ShareMeans> queryResult = new QueryResult<ShareMeans>();
-        IOrg iOrg = ApportalUtil.getIOrgOfCurrentUser(request);
-        if(iOrg!=null){this.entity.setPubOrgId(iOrg.getOrgCode());}
         try {
             queryResult = var1!=null?this.getService().find(var1,this.entity):this.getService().findBySample(this.entity, this.getPaging(), this.getOrderBy(), this.getDirection());
         } catch (Exception var2) {

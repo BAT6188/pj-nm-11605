@@ -403,7 +403,7 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
-    form.find("#smsSend").hide();
+    form.find("#isSendSms").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
 }
@@ -437,6 +437,7 @@ function resetForm() {
     $("#isSms").val(0);
     disabledForm(false);
     form.find("#save").show();
+    form.find("#isSendSms").show();
     form.find(".btn-cancel").text("取消");
 }
 

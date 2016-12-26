@@ -78,7 +78,10 @@ function initTable() {
                 field: 'pubTime',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                },
             },
             {
                 field: 'operate',
@@ -176,12 +179,13 @@ removeBtn.click(function () {
 $("#search").click(function () {
     var queryParams = {};
     var name = $("#s_fileName").val();
-    var type = $("#s_type").val();
+    var fitRange = $("#s_fitRange").val();
+    
     if (name) {
         queryParams["name"] = name;
     }
     if (type) {
-        queryParams["type"] = type;
+        queryParams["fitRange"] = fitRange;
     }
     gridTable.bootstrapTable('refresh', {
         query: queryParams

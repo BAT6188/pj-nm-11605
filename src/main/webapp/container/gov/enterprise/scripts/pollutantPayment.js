@@ -350,7 +350,7 @@ var ef = form.easyform({
 
         entity.attachmentIds = getAttachmentIds();
         console.info("保存表单数据："+JSON.stringify(entity))
-        saveAjax(entity,function (msg) {
+        saveAjax(entity,function (ret) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
 
@@ -361,9 +361,19 @@ var ef = form.easyform({
                 'msgType':4,
                 'title':'排污申报提醒',
                 'content':entity.enterpriseName+"缴费提醒",
-                'businessId':msg.id
+                'businessId':ret.id,
+                'alertTime':entity.alertDate
             };
             pageUtils.sendMessage(msg, receivers);
+
+            var msg2 = {
+                'msgType':4,
+                'title':'排污申报提醒',
+                'content':entity.enterpriseName+"缴费提醒",
+                'businessId':ret.id,
+                'alertTime':entity.realertDate
+            };
+            pageUtils.sendMessage(msg2, receivers);
         });
     }
 });

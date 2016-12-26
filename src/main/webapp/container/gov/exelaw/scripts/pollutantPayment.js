@@ -98,14 +98,20 @@ function initTable() {
                 field: 'registDate',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
             },
             {
                 title: '缴费日期',
                 field: 'payDate',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
             },
             {
                 title: '距缴费日期',
@@ -324,7 +330,7 @@ dropdownMenu.find("li[class='month']").bind("click", function() {
 
 
 //初始化日期组件
-$('.form_datetime').datetimepicker({
+/*$('.form_datetime').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
     todayBtn:  1,
@@ -333,7 +339,7 @@ $('.form_datetime').datetimepicker({
     startView: 2,
     forceParse: 0,
     showMeridian: 1
-});
+});*/
 
 /**============表单初始化相关代码============**/
 
@@ -343,7 +349,7 @@ var ef = form.easyform({
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         console.info("保存表单数据："+JSON.stringify(entity))
-        saveAjax(entity,function (msg) {
+        saveAjax(entity,function (ret) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
 
@@ -354,9 +360,19 @@ var ef = form.easyform({
                 'msgType':4,
                 'title':'排污申报提醒',
                 'content':entity.enterpriseName+"缴费提醒",
-                'businessId':msg.id
+                'businessId':ret.id,
+                'alertTime':entity.alertDate
             };
             pageUtils.sendMessage(msg, receivers);
+
+            var msg2 = {
+                'msgType':4,
+                'title':'排污申报提醒',
+                'content':entity.enterpriseName+"缴费提醒",
+                'businessId':ret.id,
+                'alertTime':entity.realertDate
+            };
+            pageUtils.sendMessage(msg2, receivers);
         });
     }
 });
@@ -418,14 +434,27 @@ function disabledForm(disabled) {
 
     if (!disabled) {
         //初始化日期组件
-        $('.lookover').datetimepicker({
-            language:   'zh-CN',
+        $('.lookoverTime').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
             autoclose: 1,
-            minView: 2
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            pickerPosition: "bottom-left"
         });
-
+        $('.lookoverDate').datetimepicker({
+            format:'yyyy-mm-dd',
+            language:  'zh-CN',
+            autoclose: 1,
+            minView: 2,
+            pickerPosition: "bottom-left"
+        });
     }else{
-        $('.lookover').datetimepicker('remove');
+        $('.lookoverDate').datetimepicker('remove');
+        $('.lookoverTime').datetimepicker('remove');
     }
 
 }
