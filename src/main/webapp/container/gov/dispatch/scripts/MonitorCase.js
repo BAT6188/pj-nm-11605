@@ -1,4 +1,6 @@
 var gridTable = $('#table'),
+    form = $("#systemSendForm"),
+    formTitle = "调度单",
     feedbackRecordTable=$("#feedbackRecordTable"),
     selections = [];
 
@@ -71,74 +73,67 @@ var gridTable = $('#table'),
                 sortable: false,
                 align: 'center',
                 editable: false
-            },{
-                field: 'pollutantType',
-                title: '污染源类型',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },{
-                field: '',
+            },
+            // {
+            //     field: 'pollutantType',
+            //     title: '污染源类型',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false
+            // },
+            {
+                field: 'overObj',
                 title: '超标项',
                 sortable: false,
                 align: 'center',
                 editable: false
             }, {
-                field: '',
-                title: '超标值',
+                field: 'thrValue',
+                title: '超标阈值',
                 sortable: false,
                 align: 'center',
                 editable: false
-            },{
-                field: '',
-                title: '超标实时值',
-                sortable: false,
-                align: 'center',
-                editable: false
-            },{
-                title: '监管人员',
-                field: 'supervisor',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                align: 'center'
-            },{
-                field: 'reason',
-                title: '原因',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter: function (value, row, index) {
-                    return dict.get("caseReason",value)
-                }
-            },{
+            }, {
                 field: 'overValue',
                 title: '超标值',
                 sortable: false,
                 align: 'center',
                 editable: false,
                 footerFormatter: totalTextFormatter
-            },{
-                field: 'operate',
-                title: '查看',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
-            }, {
-                field: 'status',
-                title: '状态跟踪',
-                align: 'center',
-                events: operateEvents,
-                formatter: statusFormatter,
-                visible:false
             },
+            // {
+            //     title: '监管人员',
+            //     field: 'supervisor',
+            //     editable: false,
+            //     sortable: false,
+            //     footerFormatter: totalTextFormatter,
+            //     align: 'center'
+            // },{
+            //     field: 'reason',
+            //     title: '原因',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false,
+            //     formatter: function (value, row, index) {
+            //         return dict.get("caseReason",value)
+            //     }
+            // },
+            // {
+            //     field: 'status',
+            //     title: '状态跟踪',
+            //     align: 'center',
+            //     events: operateEvents,
+            //     formatter: statusFormatter,
+            //     visible:false
+            // },
+            // {
+            //     title: '发送至',
+            //     field: 'monitorOfficePersonName',
+            //     editable: false,
+            //     sortable: false,
+            //     align: 'center'
+            // },
             {
-                title: '发送至',
-                field: 'monitorOfficePersonName',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },{
                 field: 'overStatus',
                 title: '办结状态',
                 editable: false,
@@ -151,8 +146,18 @@ var gridTable = $('#table'),
                     }else {
                         return '未办结'
                     }
-                }
+                },
+                visible:false
             },
+            //未调度
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
+            },
+            //已调度
             {
                 field: 'queryFeedback',
                 title: '操作',
@@ -272,7 +277,8 @@ function detailFormatter(index, row) {
 // 生成操作方法
 function operateFormatter(value, row, index) {
     return [
-        '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#systemSendForm" >系统发送</button>'
+        '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#systemSendForm" >系统调度</button>'+
+        '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-status="false" data-toggle="modal" data-target="#systemSendForm">查看</button>'
     ].join('');
 }
 
@@ -294,6 +300,27 @@ window.operateEvents = {
         var url=rootPath + "/action/S_dispatch_MonitorCase_updateSelfReadStatus.action";
         pageUtils.updateSelfReadStatus(url,row.id,1)
         refreshDemoForm(row);
+        $("#isSendSms").show();
+        $("#send").show();
+        $("#messages").show();
+        $("#changeBtn").text("取消");
+        $("#content").attr("disabled",false);
+        $("#senderName").attr("disabled",false);
+        $("#sendRemark").attr("disabled",false);
+        // form.find("input").attr("disabled",false);
+        // form.find("textarea").attr("disabled",false);
+    },
+    'click .looks':function(e, value, row, index){
+        var url=rootPath + "/action/S_dispatch_MonitorCase_updateSelfReadStatus.action";
+        pageUtils.updateSelfReadStatus(url,row.id,1);
+        refreshDemoForm(row);
+        $("#demoFormTitle").text("查看"+formTitle);
+        $("#isSendSms").hide();
+        $("#send").hide();
+        $("#messages").hide();
+        $("#changeBtn").text("关闭");
+        form.find("input").attr("disabled",true);
+        form.find("textarea").attr("disabled",true);
     }
 };
 
@@ -301,9 +328,10 @@ window.operateEvents = {
 // 生成列表操作方法
 function queryFeedbackFormatter(value, row, index) {
     if (row.status=='2'){
-        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>';
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>'+
+        '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }else {
-        return '未反馈'
+        return '未反馈'+'&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }
 }
 

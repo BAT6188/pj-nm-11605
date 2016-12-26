@@ -96,6 +96,12 @@ public class MonitorReport implements Serializable {
     private String blockPersonPhone;
 
     /**
+     * 监测类型
+     */
+    private String monitoringType;
+
+
+    /**
      * 备注
      */
     @Column(name = "remark")
@@ -250,5 +256,13 @@ public class MonitorReport implements Serializable {
 
     public void setLookStatus(String lookStatus) {
         this.lookStatus = lookStatus;
+    }
+
+    public String getMonitoringType() {
+        return monitoringType;
+    }
+
+    public void setMonitoringType(String monitoringType) {
+        this.monitoringType = monitoringType;
     }
 }
