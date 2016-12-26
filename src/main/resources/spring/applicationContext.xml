@@ -108,7 +108,7 @@
         <property name="persistenceUnitPostProcessors" ref="mergingPersistenceUnitPostProcessor"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="showSql" value="${jdbc.showsql}"/>
+                <!--<property name="showSql" value="${jdbc.showsql}"/>-->
                 <property name="generateDdl" value="${jdbc.genddl}"/>
                 <property name="databasePlatform" value="${jdbc.type}"/>
             </bean>

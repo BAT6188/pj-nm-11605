@@ -33,10 +33,10 @@
     <!--hibernate-->
     <logger name="org.hibernate" level="WARN"/>
     <!--打印sql参数-->
-    <${log.show.sql.param.start}logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
-    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG"/>
-    <logger name="org.hibernate.engine.spi.QueryParameters" level="DEBUG"/>
-    <logger name="org.hibernate.engine.query.spi.HQLQueryPlan" level="DEBUG"/${log.show.sql.param.end}>
+    <${log.show.sql.param.start}logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="ERROR"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="ERROR"/>
+    <logger name="org.hibernate.engine.spi.QueryParameters" level="ERROR"/>
+    <logger name="org.hibernate.engine.query.spi.HQLQueryPlan" level="ERROR"/${log.show.sql.param.end}>
 
     <!--spring-->
     <logger name="org.springframework" level="WARN"/>
