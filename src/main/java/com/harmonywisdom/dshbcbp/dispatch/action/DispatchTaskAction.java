@@ -394,7 +394,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         entity.setSendTime(mc.getSendTime());
         entity.setSendPhone(mc.getSendPhone());
         entity.setSendRemark(mc.getSendRemark());
-        entity.setStatus(DispatchTask.status_1);
+        entity.setStatus(DispatchTask.status_2);
         entity.setUpdateTime(new Date());
         super.save();
 

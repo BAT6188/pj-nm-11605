@@ -393,16 +393,60 @@ var ef = eventMsgForm.easyform({
         }else if(buttonToggle=="#smsSend"){
             entity.sendType="#smsSend"
         }
+        entity.blockLevelId=$('#blockLevelId').val();
         entity.attachmentIds = getAttachmentIds();
         console.log("点发送按钮，保存调度单信息："+JSON.stringify(entity))
         saveAjax(entity,function (msg) {
             pageUtils.saveOperationLog({opType:'1',opModule:'监察大队办公室',opContent:'新增数据',refTableId:''})
             gridTable.bootstrapTable('refresh');
             if (buttonToggle=="#save"){
-                entity.id=msg.id;
-                entity.smsContent=entity.content
-                entity.isSendSms=$("#isSendSms").is(':checked');
-                model.open(entity);
+                // entity.id=msg.id;
+                // entity.smsContent=entity.content
+                // entity.isSendSms=$("#isSendSms").is(':checked');
+                // model.open(entity);
+
+                var blockId=entity.blockId;
+                $.ajax({
+                    url: rootPath + "/action/S_office_Contacts_list.action?blockId="+blockId,
+                    // type:"post",
+                    dataType:"json",
+                    success:function (rows) {
+                        console.log(rows)
+                        var d=""
+                        $.each(rows,function (i,v) {
+                            d+="&ids="+v.apportalPersonId
+                            d+="&names="+v.apportalUserName
+                        })
+                        d+="&sourceId="+msg.id
+                        $.ajax({
+                            url: rootPath + "/action/S_dispatch_DispatchTask_save.action",
+                            type:"post",
+                            data:d,
+                            success:function (ret) {
+                                ret=JSON.parse(ret);
+                                eventMsgForm.modal('hide');
+                                gridTable.bootstrapTable('refresh');
+
+                                var receivers = [];
+                                $.each(rows,function (i,v) {
+                                    var receiver1 = {receiverId:v.apportalUserId,receiverName:v.apportalUserName};
+                                    receivers.push(receiver1);
+                                })
+                                var msg = {
+                                    'msgType':6,
+                                    'title':'监察大队办公室消息',
+                                    'content':data.sourceId.content,
+                                    'businessId':ret.id
+                                };
+                                pageUtils.sendMessage(msg, receivers);
+                            }
+                        });
+                    }
+                });
+
+
+
+
             }else if(buttonToggle=="#smsSend"){
                 model_sms.open(msg.id);
             }
@@ -502,6 +546,11 @@ function resetForm() {
     $("#answer").val(userName);
     $("#senderName").val(userName);
     disabledForm(false);
+
+    $("#blockLevelId").val('3');
+    $("#blockLevelId").attr("disabled",true);
+
+
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
     bindDownloadSelector();
