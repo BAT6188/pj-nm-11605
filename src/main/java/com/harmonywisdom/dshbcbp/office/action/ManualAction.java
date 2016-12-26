@@ -35,6 +35,9 @@ public class ManualAction extends BaseAction<Manual, ManualService> {
         if (StringUtils.isNotBlank(entity.getType())) {
             params.andParam(new QueryParam("type", QueryOperator.LIKE,entity.getType()));
         }
+        if(StringUtils.isNotBlank(entity.getFitRange())){
+            params.andParam(new QueryParam("fitRange",QueryOperator.LIKE,entity.getFitRange()));
+        }
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {

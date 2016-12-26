@@ -111,15 +111,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="type" class="col-sm-2 control-label">类型<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-10">
+                        <label for="type" class="col-sm-2 control-label">监测项目<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
                             <select id="type" name="type" class="form-control">
                                 <option value="1">水源地监测报告</option>
                                 <option value="2">大气污染防治监测报告</option>
                                 <option value="3">水污染防治监测报告</option>
                             </select>
                         </div>
+
+                        <label for="monitoringType" class="col-sm-2 control-label">监测类型<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="monitoringType" name="monitoringType" class="form-control">
+                                <option value="1">监督性监测</option>
+                                <option value="2">企业委托监测</option>
+                            </select>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -134,33 +143,33 @@
                             />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control">
-                            </select>
-                        </div>
+                    <%--<div class="form-group">--%>
+                        <%--<label for="" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<select id="blockLevelId" name="blockLevelId" class="form-control">--%>
+                            <%--</select>--%>
+                        <%--</div>--%>
 
-                        <label for="" class="col-sm-2 control-label"></label>
-                        <div class="col-sm-4">
-                            <select id="blockId" name="blockId" class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">网格负责人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="blockPersonName" name="blockPersonName" class="form-control"
-                                   data-message="不能为空"
-                                   data-easytip="position:top;class:easy-red;"
-                            />
-                        </div>
-                        <label for="" class="col-sm-2 control-label">联系方式：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="blockPersonPhone" name="blockPersonPhone" class="form-control"
-                            />
-                        </div>
-                    </div>
+                        <%--<label for="" class="col-sm-2 control-label"></label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<select id="blockId" name="blockId" class="form-control">--%>
+                            <%--</select>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                        <%--<label for="" class="col-sm-2 control-label">网格负责人<span class="text-danger">*</span>：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<input type="text" id="blockPersonName" name="blockPersonName" class="form-control"--%>
+                                   <%--data-message="不能为空"--%>
+                                   <%--data-easytip="position:top;class:easy-red;"--%>
+                            <%--/>--%>
+                        <%--</div>--%>
+                        <%--<label for="" class="col-sm-2 control-label">联系方式：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<input type="text" id="blockPersonPhone" name="blockPersonPhone" class="form-control"--%>
+                            <%--/>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">

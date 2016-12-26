@@ -5,6 +5,9 @@
     <%--<%@include file="/common/common_include.jsp"%>--%>
     <jsp:include page="/common/common_ztree.jsp"></jsp:include>
     <title>环保手册</title>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
     <div class="wrap">
@@ -39,14 +42,16 @@
                                 <input type="text" id="s_fileName" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="s_type">公文类型：</label>
-                                <select style="width: 180px;" class="form-control"  id="s_type" name="s_type">
-                                  <%--  <option value="">全部</option>
-                                    <option value="1">法律法规</option>
-                                    <option value="2">行业标准</option>
-                                    <option value="3">监察指南</option>
-                                    <option value="4">知识案例</option>--%>
-                                    </select>
+                                <%--<label for="s_type">公文类型：</label>--%>
+                                <%--<select style="width: 180px;" class="form-control"  id="s_type" name="s_type">--%>
+                                  <%--&lt;%&ndash;  <option value="">全部</option>--%>
+                                    <%--<option value="1">法律法规</option>--%>
+                                    <%--<option value="2">行业标准</option>--%>
+                                    <%--<option value="3">监察指南</option>--%>
+                                    <%--<option value="4">知识案例</option>&ndash;%&gt;--%>
+                                    <%--</select>--%>
+                                    <label for="s_fitRange">适用范围：</label>
+                                    <input type="text" id="s_fitRange" style="width: 180px;" class="form-control" />
                             </div>
                         </form>
                 </div>
