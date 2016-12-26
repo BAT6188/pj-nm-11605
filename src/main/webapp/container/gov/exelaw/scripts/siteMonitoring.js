@@ -96,7 +96,15 @@ function initTable() {
                 title: '是否存在问题',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="是"
+                    }else if(2==value){
+                        value="否"
+                    }
+                    return value;
+                }
             },
             {
                 field: 'attachmentId',
