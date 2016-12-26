@@ -70,16 +70,6 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '信息来源',
-                field: 'source',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                formatter:function (value, row, index) {
-                    return dict.get("caseSource",value)
-                }
-            },
-            {
                 title: '事件时间',
                 field: 'eventTime',
                 sortable: false,
@@ -87,6 +77,16 @@ function initTable() {
                 editable: false,
                 formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
+                }
+            },
+            {
+                title: '信息来源',
+                field: 'source',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return dict.get("caseSource",value)
                 }
             },
             {
@@ -105,56 +105,95 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '监管人员',
-                field: 'supervisor',
+                title: '举报人姓名',
+                field: 'informer',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
-                title: '发送对象',
-                field: 'senderName',
+                title: '状态',
+                field: 'overStatus',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                events:{
+                    'click .overStatusView': function (e, value, row, index) {
+                        $('#overDialog').find('#overTime').val(row.overTime);
+                        $('#overDialog').find('#overSuggestion').val(row.overSuggestion);
+                    }
+                },
+                formatter: function (value, row, index) {
+                    switch(value){
+                        case '1':
+                            return '<button type="button" class="btn btn-md btn-warning overStatusView" data-toggle="modal" data-target="#overDialog">已办结</button>';
+                        default:
+                            return '未办结';
+                    }
+                }
             },
             {
-                title: '状态跟踪',
+                field: 'monitorReportStatus',
+                title: '现场监察报告',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                //events: monitorReportEvents,
+                formatter: function (value, row, index) {
+                    switch(value){
+                        case '1':
+                            return '<button type="button" class="btn btn-md btn-warning overStatusView" data-toggle="modal" data-target="#overDialog">已报送</button>';
+                        default:
+                            return '未报送';
+                    }
+                }
+            },
+            {
+                field: 'col2',
+                title: '行政处罚',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                events: {
+                    'click .punish': function (e, value, row, index) {
+                        var url = rootPath + "/container/gov/exelaw/punish.jsp?id=" + row.dispatchId;
+                        pageUtils.toUrl(url);
+                    }
+                },
+                formatter: function (value, row, index) {
+                    console.log('行政处罚-----------');
+                    console.log(row.status);
+                    if(row.status>=4){
+                        value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
+                    }else{
+                        value="——"
+                    }
+                    return value
+                }
+            },
+            {
+                title: '反馈状态',
                 field: 'status',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                formatter: function (value, row, index) {
-                    /**
-                     * 状态
-                     * 0：未调度
-                     * 1：已调度
-                     * 2：已反馈
-                     */
-                    if (value==0){
-                        value="未调度"
-                    }else if (value==1){
-                        value="已调度"
-                    }else if (value==2){
-                        value='已反馈'
-                    }
-                    return value;
-                }
-            },
-            {
-                title: '发送至',
-                field: 'monitorOfficePersonName',
-                editable: false,
-                sortable: false,
-                align: 'center'
+                events: operateEvents,
+                formatter: operateFormatter
             },
             {
                 title: '操作',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                events: {
+                    'click .lookView': function (e, value, row, index) {
+                        setFormView(row);
+                    }
+                },
+                formatter: function (value, row, index) {
+                    return '<button type="button" class="btn btn-md btn-warning lookView" data-toggle="modal" data-target="#eventMsg">查看</button>';
+                }
+
             }
 
         ]
@@ -183,10 +222,10 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    if (row.status=='2'){
+    if(row.status && row.status>1){
         return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>';
     }else {
-        return '未反馈'
+        return '未反馈';
     }
 }
 // 列表操作事件
@@ -407,23 +446,18 @@ function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
     var id = entity.id;
-    $("#id").val(entity.id);
+    var inputs = eventMsgForm.find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('id');
+        var value = entity[tagId];
+        if(v.tagName=='SELECT'){
+            $(v).find("option[value='"+value+"']").attr("selected",true);
+        }else{
+            $(v).val(value);
+        }
+    });
 
-    $("#eventTime").val(entity.eventTime);
-    $("#answer").val(entity.answer);
-    $("#enterpriseId").val(entity.enterpriseId);
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#source").val(entity.source);
-    $("#blockLevelId").val(entity.blockLevelId);
-    $("#blockId").val(entity.blockId);
-    $("#supervisor").val(entity.supervisor);
-    $("#supervisorPhone").val(entity.supervisorPhone);
-    $("#content").val(entity.content);
-    $("#senderName").val(entity.senderName);
-    $("#sendPhone").val(entity.sendPhone);
-    $("#status").val(entity.status);
-
-    uploaderToggle(".aUploader")
+    uploaderToggle(".aUploader");
     uploader = new qq.FineUploader(getUploaderOptions(id));
     bindDownloadSelector();
 }
@@ -435,6 +469,26 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    disabledForm(true);
+}
+function disabledForm(disabled) {
+    eventMsgForm.find(".form-control").attr("disabled",disabled);
+    if (!disabled) {
+        //初始化日期组件
+        $('#datetimepicker1').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            pickerPosition: "bottom-left"
+        });
+    }else{
+        $('#datetimepicker1').datetimepicker('remove');
+    }
 }
 /**
  * 重置表单
@@ -447,7 +501,7 @@ function resetForm() {
     $("#eventTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#answer").val(userName);
     $("#senderName").val(userName);
-
+    disabledForm(false);
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
     bindDownloadSelector();
@@ -538,7 +592,7 @@ function getAttachmentIds() {
 }
 
 //初始化日期组件
-$('.form_datetime').datetimepicker({
+/*$('.form_datetime').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
     todayBtn:  1,
@@ -547,7 +601,7 @@ $('.form_datetime').datetimepicker({
     startView: 2,
     forceParse: 0,
     showMeridian: 1
-});
+});*/
 
 /**
  * Autocomplete  enterpriseName
@@ -593,7 +647,7 @@ $( function() {
 
 } );
 
-function disabledForm(dialogSelector,disabled) {
+/*function disabledForm(dialogSelector,disabled) {
     dialogSelector.find("input").attr("disabled",disabled);
     dialogSelector.find("textarea").attr("disabled",disabled);
     dialogSelector.find("select").attr("disabled",disabled);
@@ -607,7 +661,7 @@ function disabledForm(dialogSelector,disabled) {
     }else{
         $('.lookover').datetimepicker('remove');
     }
-}
+}*/
 
 
 $(document).ready(function () {
@@ -621,8 +675,6 @@ $(document).ready(function () {
  */
 window.seeEvent = {
     'click .see': function (e, value, row, index) {
-        console.log(JSON.stringify(row))
-
         disabledForm($("#feedbackForm"),true)
         $("#lawerName").val(row.lawerName)
         $("#phone").val(row.phone)

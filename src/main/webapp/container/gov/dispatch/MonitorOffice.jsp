@@ -60,9 +60,9 @@
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#eventMsg">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">
+                    <%--<button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">
                         <i class="btnIcon edit-icon"></i><span>处置</span>
-                    </button>
+                    </button>--%>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
@@ -264,6 +264,35 @@
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery" class="uploaderToggle bUploader"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="overDialog" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">查看办结</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="overTime" class="col-sm-2 control-label">办结时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="overTime" name="overTime" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overSuggestion" class="col-sm-2 control-label">办结意见：</label>
+                        <div class="col-sm-10">
+                            <textarea id="overSuggestion" name="overSuggestion" class="form-control" rows="4" cols="50" placeholder="" disabled></textarea>
                         </div>
                     </div>
                 </form>

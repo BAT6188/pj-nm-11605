@@ -592,12 +592,12 @@ function setDialogTypeTwo(dialog,options,callback){
      * @returns {*}
      */
     function getIdsSelectionsFromGridSelectPeople() {
-        return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
+        return $.map(gridSelectPeopleTable.bootstrapTable('getData'), function (row) {
             return row.id
         });
     }
     function getSelectPeoples() {
-        return $.map(gridSelectPeopleTable.bootstrapTable('getSelections'), function (row) {
+        return $.map(gridSelectPeopleTable.bootstrapTable('getData'), function (row) {
             return row
         });
     }

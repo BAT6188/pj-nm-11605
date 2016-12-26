@@ -3,11 +3,12 @@ package com.harmonywisdom.dshbcbp.exelaw.action;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
+import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.Punish;
 import com.harmonywisdom.dshbcbp.exelaw.service.PunishService;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -17,6 +18,8 @@ import org.apache.commons.lang.StringUtils;
 public class PunishAction extends BaseAction<Punish, PunishService> {
     @AutoService
     private PunishService punishService;
+    @AutoService
+    private MonitorCaseService monitorCaseService;
 
     @AutoService
     private DispatchTaskService dispatchTaskService;
@@ -66,7 +69,10 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
             if (dispatchTask!=null){
                 dispatchTask.setStatus("4");
                 dispatchTaskService.update(dispatchTask);
-
+                MonitorCase monitorCase = new MonitorCase();
+                monitorCase.setId(dispatchTask.getMonitorCaseId());
+                monitorCase.setStatus("4");
+                monitorCaseService.updateMonitorCase(monitorCase);
                 entity.setEnterpriseId(dispatchTask.getEnterpriseId());
             }
         }
