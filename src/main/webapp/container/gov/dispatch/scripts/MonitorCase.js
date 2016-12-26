@@ -278,6 +278,7 @@ function detailFormatter(index, row) {
 function operateFormatter(value, row, index) {
     return [
         '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#systemSendForm" >系统调度</button>'+
+        '&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'+
         '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-status="false" data-toggle="modal" data-target="#systemSendForm">查看</button>'
     ].join('');
 }
@@ -329,9 +330,12 @@ window.operateEvents = {
 function queryFeedbackFormatter(value, row, index) {
     if (row.status=='2'){
         return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>'+
-        '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
+            '&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'+
+                '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }else {
-        return '未反馈'+'&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
+        return '未反馈'
+            +'&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'
+            + '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }
 }
 
@@ -654,6 +658,66 @@ function initfeedbackRecordTable() {
     }, 200);
 
 }
-initfeedbackRecordTable()
+initfeedbackRecordTable();
+
+
+
+/********************  查询传输有效率列表  ********************/
+var realTimeTrackingTable = $('#realTimeTrackingTable');
+function initrealTimeTrackingTable() {
+    realTimeTrackingTable.bootstrapTable('destroy');
+    realTimeTrackingTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"",
+        method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title:"全选",
+                checkbox: true,
+                align: 'center',
+                radio:false,  //  true 单选， false多选
+                valign: 'middle'
+            }, {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '超标时间',
+                field: '',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: '',
+                title: '超标值',
+                sortable: false,
+                align: 'center',
+                valign: 'middle'
+            }
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        realTimeTrackingTable.bootstrapTable('resetView');
+    }, 200);
+
+    $(window).resize(function () {
+        // 重新设置表的高度
+        realTimeTrackingTable.bootstrapTable('resetView', {
+            height: pageUtils.getTableHeight()
+        });
+    });
+}
+
+initrealTimeTrackingTable();
 
 
