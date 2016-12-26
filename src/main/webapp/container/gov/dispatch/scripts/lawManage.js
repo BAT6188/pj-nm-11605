@@ -24,7 +24,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_dispatch_DispatchTask_list.action?role="+role,
+        url: rootPath+"/action/S_dispatch_DispatchTask_list.action?role="+role+"&notOver=TRUE",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -47,26 +47,7 @@ function initTable() {
                 visible:false
             },
             {
-                title: '事件时间',
-                field: 'eventTime',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub16(value);
-                }
-            },
-            {
-                title: '接电人',
-                field: 'answer',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                visible:false
-            },
-
-            {
-                title: '企业名称',
+                title: '事件对象',
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
@@ -85,9 +66,29 @@ function initTable() {
                     return value+isNewDiv;
                 }
             },
+            {
+                title: '事件时间',
+                field: 'eventTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub16(value);
+                }
+            },
+            {
+                title: '接电人',
+                field: 'answer',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                visible:false
+            },
+
+
 
             {
-                title: '信息来源',
+                title: '事件来源',
                 field: 'source',
                 editable: false,
                 sortable: false,
@@ -108,18 +109,18 @@ function initTable() {
                 sortable: false,
                 align: 'center'
             },
+            // {
+            //     field: 'reason',
+            //     title: '原因',
+            //     sortable: false,
+            //     align: 'center',
+            //     editable: false,
+            //     formatter: function (value, row, index) {
+            //         return dict.get("caseReason",value)
+            //     }
+            // },
             {
-                field: 'reason',
-                title: '原因',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter: function (value, row, index) {
-                    return dict.get("caseReason",value)
-                }
-            },
-            {
-                title: '状态',
+                title: '调度状态',
                 field: 'status',
                 editable: false,
                 sortable: false,
@@ -137,21 +138,15 @@ function initTable() {
                      */
                     if (value==1){
                         value="未调度"
-                    }else if(value==2){
-                        value="已发送"
-                    }else if(value==3){
-                        value='<a class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">已反馈</a>'
-                    }else if(value==4){
-                        value="已处罚"
-                    }else if(value==5){
-                        value="已办结"
+                    }else{
+                        value="已调度"
                     }
 
                     return value
                 }
             },
             {
-                field: '',
+                field: 'sendToPerson',
                 title: '发送至',
                 sortable: false,
                 align: 'center',
@@ -167,8 +162,15 @@ function initTable() {
                 }
             },
             {
+                title: '发送人',
+                field: 'dispatchPersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 field: 'monitorReportStatus',
-                title: '现场监察监测报告',
+                title: '现场监察报告',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -201,7 +203,7 @@ function initTable() {
                     if(row.status>=4){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
-                        value="未处罚"
+                        value="--"//未处罚
                     }
                     return value
                 }
@@ -406,10 +408,20 @@ dealWithBtn.prop('disabled', true);
 feedbackBtn.prop('disabled', true);
 
 $("#dealWith").bind("click",function () {
-    var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
-    pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
+    var row=getSelections()[0];
+    if(row){
+        if(row.source=='0'){
+            var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
+            pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
+            eventMsgForm.modal('show');
+            setEventMsgFormData(row);
+        }else {
+            Ewin.alert("不能够处置信访案件")
+        }
 
-    setEventMsgFormData(getSelections()[0]);
+    }
+
+
 });
 
 $("#feedback").bind("click",function () {
