@@ -44,10 +44,10 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
+                            <label for="s_enterpriseName">事件对象：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="s_source">信息来源：</label>
+                            <label for="s_source">事件来源：</label>
                             <select id="s_source" name="source" class="form-control caseSource" style="width: 266px;">
                                 <option value="">全部</option>
                                 <option value="0">监控中心</option>
@@ -100,7 +100,7 @@
                     <%--<button id="insert" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#newXianChangJianChaForm">--%>
                         <%--<i class="btnIcon edit-icon"></i><span>新增（现场监察）</span>--%>
                     <%--</button>--%>
-                    <button id="dealWith" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">
+                    <button id="dealWith" type="button" class="btn btn-sm btn-warning">
                         <i class="btnIcon edit-icon"></i><span>处置</span>
                     </button>
                     <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
@@ -165,7 +165,7 @@
                             </div>
                         </div>
 
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">事件对象：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName_newXianChangJianChaForm" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
@@ -257,13 +257,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseId" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseId" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="lookOverFeedbackForm_enterpriseName" class="form-control"
                             />
                         </div>
 
-                        <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
+                        <label for="source" class="col-sm-2 control-label">事件来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select id="lookOverFeedbackForm_source" class="form-control caseSource">
                                 <option value="0">监控中心</option>
@@ -446,13 +446,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
-                        <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
+                        <label for="source" class="col-sm-2 control-label">事件来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select id="source" name="source" class="form-control caseSource">
                                 <option value="0">监控中心</option>
@@ -584,12 +584,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName_monitorReport"  class="form-control noEdit" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
-                        <label for="source" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
+                        <label for="source" class="col-sm-2 control-label">事件来源<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select id="source_monitorReport" class="form-control noEdit caseSource">
                                 <option value="0">监控中心</option>
@@ -695,12 +695,23 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script>
-    pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
-</script>
+
 <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/lawManage.js"></script>
+<script>
+    pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
+
+    $(document).ready(function (){
+        if('monitor_master'==role){
+            gridTable.bootstrapTable('showColumn',"sendToPerson");
+            gridTable.bootstrapTable('hideColumn',"dispatchPersonName");
+        }else if('env_pro_sta'==role){
+            gridTable.bootstrapTable('showColumn',"dispatchPersonName");
+            gridTable.bootstrapTable('hideColumn',"sendToPerson");
+        }
+    })
+</script>
 </body>
 </html>
