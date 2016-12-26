@@ -78,8 +78,8 @@ $(function(){
 
     //查询按钮
     $("#search").bind('click',function(){
-        var startSdate = $("#start_createTime").val();
-        var lastSdate = $("#end_createTime").val();
+        var startSdate = $("#start_createTime").val() + "-" + "01";
+        var lastSdate = $("#end_createTime").val() + "-" + "31";
         var dateStr = startSdate;
         var arr = dateStr.split("-");
         var lastDate = new Date(parseInt(arr[0])-1, parseInt(arr[1])-1);
@@ -87,7 +87,7 @@ $(function(){
         if (lastMonth < 10) {
             lastMonth = "0" + lastMonth;
         }
-        var startXdate = lastDate.getFullYear() + "-" + lastMonth;
+        var startXdate = lastDate.getFullYear() + "-" + lastMonth +"-"+ "01";
 
         var dateLtr2 = lastSdate;
         var arr2 = dateLtr2.split("-");
@@ -96,7 +96,7 @@ $(function(){
         if (lastMonth2 < 10) {
             lastMonth2 = "0" + lastMonth2;
         }
-        var lastXdate = lastDate2.getFullYear() + "-" + lastMonth2;
+        var lastXdate = lastDate2.getFullYear() + "-" + lastMonth2+"-"+31;
         var airType = $("#airType").val();
         search(valueChart,startXdate,lastXdate,startSdate,lastSdate,airType);
 
@@ -595,7 +595,7 @@ $(function(){
                             $("#airRatioListForm").modal('show');
                             var strValue = e.point.category;
                             if(strValue == '优'){
-                                minValue = 1;
+                                minValue = 0;
                                 maxValue = 50
                             }else if(strValue == '良'){
                                 minValue = 50;
@@ -610,7 +610,7 @@ $(function(){
                                 maxValue = 200
 
                             }else if(strValue == '中度污染'){
-                                minValue = 201;
+                                minValue = 200;
                                 maxValue = 300
 
                             }else if(strValue == '重度污染'){
