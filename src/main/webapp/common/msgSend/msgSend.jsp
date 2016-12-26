@@ -40,8 +40,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <div class="msg-modal-body">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <div class="Node-frame-menubar" style="height: 500px;">
+                        <div class="col-sm-4">
+                            <div class="Node-frame-menubar" style="height: 450px;">
                                 <div class="form-inline padd" style="padding-bottom: 0px;">
                                     <div class="input-group" style="margin-bottom: 0px;">
                                         <input type="text" id="[SearchInputId]" placeholder="请输入搜索条件"  class="form-control" style="font-size:12px"/>
@@ -55,13 +55,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-9">
-                            <div class="mainBox"  style="width: 100%">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title" style="text-align: center">已选系统用户列表</h3>
+                                        </div>
+                                        <div class="mainBox">
+                                            <div class="tableBox">
+                                                <table id="[SelectTableId]" class="table table-striped table-responsive">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%--<div class="mainBox"  style="width: 100%">
                                 <div class="tableBox">
                                     <table id="[SelectTableId]" class="table table-striped table-responsive">
                                     </table>
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>
@@ -85,20 +100,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="contact-modal-body">
                     <div class="row">
                         <div class="col-sm-4">
-                            <div class="Node-frame-menubar"  style="height: 500px;">
-                                <div class="padd" style="padding-bottom: 0px;">
-                                    <div class="form-inline padd" style="padding-bottom: 0px;">
-                                        <div class="input-group" style="margin-bottom: 0px;">
-                                            <input type="text" id="[SearchInputId]" placeholder="请输入搜索条件"  class="form-control" style="font-size:12px"/>
+                            <div class="Node-frame-menubar" style="height: 550px;">
+                                <div class="form-inline padd" style="padding-bottom: 0px;">
+                                    <div class="input-group" style="margin-bottom: 0px;">
+                                        <input type="text" id="[SearchInputId]" placeholder="请输入搜索条件"  class="form-control" style="font-size:12px"/>
                                         <span class="input-group-btn">
                                             <button id="[SearchBtnId]" type="button" class="btn btn-info">搜索</button>
                                         </span>
-                                        </div>
                                     </div>
-                                    <%--<div class="input-append row-fluid" style="margin-bottom: 0px;">
-                                        <input id="[SearchInputId]" type="text" placeholder="请输入搜索条件" class="span8 search_contacts" style="font-size:12px"/>
-                                        <button id="[SearchBtnId]" type="button" class="btn btn-info search_contactsBtn">搜索</button>
-                                    </div>--%>
                                 </div>
                                 <div class="scrollContent" id="[ScrollContent]">
                                     <ul id="[ChoseZtreeId]" class="ztree"></ul>

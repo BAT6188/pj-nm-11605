@@ -79,6 +79,12 @@ public class Contacts implements Serializable {
     private String apportalUserId;
 
     /**
+     *关联apportal用户PersonId
+     */
+    @Column(name = "APPORTAL_PERSON_Id",length = 100)
+    private String apportalPersonId;
+
+    /**
      *关联apportal用户name
      */
     @Column(name = "APPORTAL_USER_NAME",length = 100)
@@ -288,5 +294,13 @@ public class Contacts implements Serializable {
 
     public void setBlockDuty(String blockDuty) {
         this.blockDuty = blockDuty;
+    }
+
+    public String getApportalPersonId() {
+        return apportalPersonId;
+    }
+
+    public void setApportalPersonId(String apportalPersonId) {
+        this.apportalPersonId = apportalPersonId;
     }
 }
