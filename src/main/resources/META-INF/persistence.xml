@@ -80,6 +80,9 @@
         <class>com.harmonywisdom.dshbcbp.exelaw.bean.PollutantPayment</class>
         <class>com.harmonywisdom.dshbcbp.exelaw.bean.SelfCheckReport</class>
         <class>com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor</class>
+        <!--现场监察-->
+        <class>com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring</class>
+
 
         <!--调度系统-->
         <class>com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase</class>

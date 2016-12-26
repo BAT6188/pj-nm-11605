@@ -315,6 +315,33 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+
+<%--实时跟踪列表--%>
+<div class="modal fade" id="realTimeTrackingForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1017px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">实时跟踪列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tableBox">
+                    <table id="realTimeTrackingTable" class="table table-striped table-responsive">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeBtn" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script>
     var status_search="0";
