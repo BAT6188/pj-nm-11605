@@ -435,7 +435,7 @@ var ef = eventMsgForm.easyform({
                                 var msg = {
                                     'msgType':6,
                                     'title':'监察大队办公室消息',
-                                    'content':data.sourceId.content,
+                                    'content':entity.content,
                                     'businessId':ret.id
                                 };
                                 pageUtils.sendMessage(msg, receivers);
