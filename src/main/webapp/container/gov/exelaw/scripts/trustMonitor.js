@@ -334,7 +334,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             var msg = {
                 'msgType':9,
                 'title':'申请委托监测',
-                'content':data.sourceId.content,
+                'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
