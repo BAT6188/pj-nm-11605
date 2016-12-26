@@ -102,6 +102,7 @@
                                     <input type="hidden" id="type" name="type" class="form-control">
                                     <input type="hidden" id="orgId" name="orgId" class="form-control">
                                     <input type="hidden" id="apportalUserId" name="apportalUserId" class="form-control">
+                                    <input type="hidden" id="apportalPersonId" name="apportalPersonId" class="form-control">
                                     <input type="hidden" id="removeId" name="removeId" class="form-control">
                                     <input type="hidden" id="blockLevelId" name="blockLevelId" class="form-control">
                                     <input type="hidden" id="blockId" name="blockId" class="form-control"/>
