@@ -924,7 +924,7 @@ var OneImagePage = function () {
                 x:airEquipment.longitude,
                 y:airEquipment.latitude,
                 width:370,
-                height:300,
+                height:250,
                 html:infoHtml,
                 title:"空气质量监测设备"
             });
