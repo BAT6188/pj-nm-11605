@@ -124,7 +124,7 @@
 
 <!--调度单-->
 <div class="modal fade" id="systemSendForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:815px;">
+    <div class="modal-dialog" style="width:943px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -149,14 +149,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="envPrincipal" class="col-sm-2 control-label">企业环保负责人：</label>
+                        <label for="supervisor" class="col-sm-2 control-label">企业环保负责人：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="envPrincipal" name="envPrincipal" class="form-control" disabled
+                            <input type="text" id="supervisor" name="supervisor" class="form-control" disabled
                             />
                         </div>
                         <label for="epPhone" class="col-sm-2 control-label">联系方式：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="epPhone" name="epPhone" class="form-control" disabled
+                            <input type="text" id="supervisorPhone" name="supervisorPhone" class="form-control" disabled
                             />
                         </div>
                     </div>
@@ -166,11 +166,6 @@
                             <input type="text" id="blockName" name="blockName" class="form-control" disabled
                             />
                         </div>
-                        <label for="supervisor" class="col-sm-2 control-label">监管人员：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="supervisor" class="form-control" disabled
-                            />
-                        </div>
                     </div>
                     <div class="form-group">
                         <label for="portName" class="col-sm-2 control-label">排口名称：</label>
@@ -178,14 +173,6 @@
                             <input type="text" id="portName" class="form-control" disabled
                             />
                         </div>
-
-                        <%--<label for="pollutantType" class="col-sm-2 control-label">污染源类型：</label>--%>
-                        <%--<div class="col-sm-4">--%>
-                            <%--<input type="text" id="pollutantType" class="form-control" disabled--%>
-                            <%--/>--%>
-                        <%--</div>--%>
-                    </div>
-                    <div class="form-group">
                         <label for="overObj" class="col-sm-2 control-label">超标项：</label>
                         <div class="col-sm-4">
                             <input type="text" id="overObj" class="form-control" disabled

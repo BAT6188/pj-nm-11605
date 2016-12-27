@@ -67,7 +67,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                field: 'belongReseau',
+                field: 'blockName',
                 title: '所属网格',
                 sortable: false,
                 align: 'center',
@@ -252,7 +252,7 @@ $("#update").bind("click",function () {
 removeBtn.click(function () {
     var ids = getIdSelections();
     Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
+            if (!e) {
             return;
         }
         deleteAjax(ids,function (msg) {
@@ -269,28 +269,16 @@ removeBtn.click(function () {
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
+//搜索按钮处理
 $("#search").click(function () {
-    //查询之前重置table
-    var queryParams = {};
-    var enterpriseName = $("#s_enterpriseName").val();
-    var checkPeople = $("#s_checkPeople").val();
-   
-    if (enterpriseName){
-        queryParams["enterpriseName"] = enterpriseName;
-    }
-    if (checkPeople){
-        queryParams["checkPeople"] = checkPeople;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: pageUtils.PAGE_SIZE});
 });
-//重置按钮处理
-$("#reset").click(function () {
-    debugger;
+//重置搜索
+$("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refresh');
+    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: pageUtils.PAGE_SIZE});
 });
+
 
 /**============表单初始化相关代码============**/
 //初始化表单验证
@@ -340,7 +328,8 @@ function setFormData(entity) {
     $("#enterpriseName").val(entity.enterpriseName);
     $("#monitoringTime").val(pageUtils.sub10(entity.monitoringTime));
     pageUtils.setRadioValue("isNotProblem",entity.isNotProblem);
-    $("#belongReseau").val(entity.belongReseau);
+    $("#blockLevelId").val(entity.blockLevelId);
+    $("#blockId").val(entity.blockId);
     $("#checkPeople").val(entity.checkPeople);
     $("#realAbility").val(entity.realAbility);
     $("#enterpriseId").val(entity.enterpriseId);
@@ -364,9 +353,7 @@ function setFormView(entity) {
 }
 
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
-    form.find("radio").attr("disabled",disabled);
-    form.find("textarea").attr("disabled",disabled);
+    form.find(".form-control").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#datetimepicker').datetimepicker({
@@ -391,7 +378,8 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增" + formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find(".form-control").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();

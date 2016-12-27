@@ -26,12 +26,12 @@
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
-            <ul id="myTab" class="nav nav-tabs">
-                <li>
-                    <a href="#a" data-toggle="tab" onclick="changeTab(1)">环保站委托监测</a>
-                </li>
-                <li><a href="#b" data-toggle="tab" onclick="changeTab(2)">企业委托监测</a></li>
-            </ul>
+            <%--<ul id="myTab" class="nav nav-tabs">--%>
+                <%--<li>--%>
+                    <%--<a href="#a" data-toggle="tab" onclick="changeTab(1)">环保站委托监测</a>--%>
+                <%--</li>--%>
+                <%--<li><a href="#b" data-toggle="tab" onclick="changeTab(2)">企业委托监测</a></li>--%>
+            <%--</ul>--%>
             <div id="myTabContent" class="tab-content">
                 <div class="dealBox">
                     <div class="sideTitle left">

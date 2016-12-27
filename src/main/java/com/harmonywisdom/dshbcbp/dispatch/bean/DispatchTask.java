@@ -193,6 +193,23 @@ public class DispatchTask implements Serializable {
     @Column(name = "case_reason",columnDefinition = "longtext")
     private String caseReason;
 
+    /**
+     * 排口名称
+     */
+    @Column(name = "port_name")
+    private Double portName;
+    /**
+     * 污染源类型
+     */
+    @Column(name = "pollutant_type")
+    private Double pollutantType;
+
+    /**
+     * 超标项
+     */
+    @Column(name = "over_obj")
+    private Double overObj;
+
 
     /**
      * 超标值
@@ -222,6 +239,14 @@ public class DispatchTask implements Serializable {
     private Date sendTime;
     @Column(name = "send_phone")
     private String sendPhone;
+
+    /**
+     * 举报人
+     */
+    @Column(name = "informer")
+    private String informer;
+    @Column(name = "informer_phone")
+    private String informerPhone;
 
     /**
      * 调度人
@@ -662,5 +687,45 @@ public class DispatchTask implements Serializable {
 
     public void setOverSuggestion(String overSuggestion) {
         this.overSuggestion = overSuggestion;
+    }
+
+    public String getInformer() {
+        return informer;
+    }
+
+    public void setInformer(String informer) {
+        this.informer = informer;
+    }
+
+    public String getInformerPhone() {
+        return informerPhone;
+    }
+
+    public void setInformerPhone(String informerPhone) {
+        this.informerPhone = informerPhone;
+    }
+
+    public Double getPortName() {
+        return portName;
+    }
+
+    public void setPortName(Double portName) {
+        this.portName = portName;
+    }
+
+    public Double getPollutantType() {
+        return pollutantType;
+    }
+
+    public void setPollutantType(Double pollutantType) {
+        this.pollutantType = pollutantType;
+    }
+
+    public Double getOverObj() {
+        return overObj;
+    }
+
+    public void setOverObj(Double overObj) {
+        this.overObj = overObj;
     }
 }

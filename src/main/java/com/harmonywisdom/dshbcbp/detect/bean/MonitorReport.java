@@ -17,6 +17,7 @@ public class MonitorReport implements Serializable {
 
     /**
      * 类型：1水源地  2大气污染防治  3水污染防治
+     * 4:噪声 5:土壤污染防治
      */
     @Column(length = 2)
     private String type;
