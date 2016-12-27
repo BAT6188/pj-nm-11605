@@ -421,11 +421,11 @@ var OneImagePage = function () {
             if(dnode[0]){
                 that.zTree.checkNode(dnode[0],true,true,true);
             }
-            //企业
-            var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
-            if(enode[0]){
-                that.zTree.checkNode(enode[0],true,true,true);
-            }
+            // //企业
+            // var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
+            // if(enode[0]){
+            //     that.zTree.checkNode(enode[0],true,true,true);
+            // }
         },
         selectEnterpriseById:function (eid){
             var that = this;
