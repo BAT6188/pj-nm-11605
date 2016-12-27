@@ -6,7 +6,7 @@ var gridTable = $('#table'),
     form = $("#scfForm"),
     formTitle = "信息公告",
     selections = [];
-
+orgOption();
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -42,9 +42,6 @@ function initTable() {
         pagination: true,
         clickToSelect: true,//单击行时checkbox选中
         queryParams: pageUtils.localParams,
-        onLoadSuccess:function(data){
-            orgOption();
-        },
         columns: [
             {
                 title: "全选",
@@ -445,7 +442,6 @@ function orgOption() {
     $.ajax({
         url: rootPath + "/action/S_office_PubInfo_findOrg.action",
         type: "post",
-        async: false,
         dataType: "json",
         success: function (org) {
             $('#grade').empty();
