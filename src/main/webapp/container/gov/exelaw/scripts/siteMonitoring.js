@@ -67,7 +67,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                field: 'belongReseau',
+                field: 'blockName',
                 title: '所属网格',
                 sortable: false,
                 align: 'center',
@@ -328,7 +328,8 @@ function setFormData(entity) {
     $("#enterpriseName").val(entity.enterpriseName);
     $("#monitoringTime").val(pageUtils.sub10(entity.monitoringTime));
     pageUtils.setRadioValue("isNotProblem",entity.isNotProblem);
-    $("#belongReseau").val(entity.belongReseau);
+    $("#blockLevelId").val(entity.blockLevelId);
+    $("#blockId").val(entity.blockId);
     $("#checkPeople").val(entity.checkPeople);
     $("#realAbility").val(entity.realAbility);
     $("#enterpriseId").val(entity.enterpriseId);
@@ -352,9 +353,7 @@ function setFormView(entity) {
 }
 
 function disabledForm(disabled) {
-    form.find("input").attr("disabled",disabled);
-    form.find("radio").attr("disabled",disabled);
-    form.find("textarea").attr("disabled",disabled);
+    form.find(".form-control").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#datetimepicker').datetimepicker({
@@ -379,7 +378,7 @@ function disabledForm(disabled) {
  */
 function resetForm() {
     form.find(".form-title").text("新增" + formTitle);
-    form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find(".form-control").val("");
     form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
