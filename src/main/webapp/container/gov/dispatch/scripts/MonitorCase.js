@@ -69,7 +69,7 @@ var gridTable = $('#table'),
                 footerFormatter: totalTextFormatter
             },{
                 field: 'portName',
-                title: '排口',
+                title: '排口名称',
                 sortable: false,
                 align: 'center',
                 editable: false
@@ -83,23 +83,25 @@ var gridTable = $('#table'),
             // },
             {
                 field: 'overObj',
-                title: '超标项',
+                title: '监测指标',
                 sortable: false,
                 align: 'center',
                 editable: false
-            }, {
-                field: 'thrValue',
-                title: '超标阈值',
-                sortable: false,
-                align: 'center',
-                editable: false
-            }, {
+            },
+            {
                 field: 'overValue',
-                title: '超标值',
+                title: '检测值',
                 sortable: false,
                 align: 'center',
                 editable: false,
                 footerFormatter: totalTextFormatter
+            },
+            {
+                field: 'thrValue',
+                title: '标准值',
+                sortable: false,
+                align: 'center',
+                editable: false
             },
             // {
             //     title: '监管人员',
