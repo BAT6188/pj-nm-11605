@@ -16,6 +16,10 @@ public class SiteMonitoring implements Serializable {
     @Column(length = 32)
     private String id;
 
+    @Column(name = "dispatch_id",length=32)
+    private String dispatchId;
+
+
     /**
      * 企业id
      */
@@ -181,5 +185,13 @@ public class SiteMonitoring implements Serializable {
 
     public void setBlockName(String blockName) {
         this.blockName = blockName;
+    }
+
+    public String getDispatchId() {
+        return dispatchId;
+    }
+
+    public void setDispatchId(String dispatchId) {
+        this.dispatchId = dispatchId;
     }
 }

@@ -73,6 +73,7 @@
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" name="enterpriseId" id="enterpriseId">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
                                    data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -98,7 +99,7 @@
                         <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                         <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
-                            <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value="" readonly
+                            <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value=""
                                    data-message="监察时间不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
