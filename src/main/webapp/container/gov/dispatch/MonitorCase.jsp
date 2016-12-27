@@ -64,12 +64,12 @@
                         </form>
                         <p></p>
                         <form class="form-inline">
-                            <div class="form-group">
-                                <label for="">原&nbsp;&nbsp;因：</label>
-                                <select id="s_reason" name="reason" class="form-control caseReason" style="width: 301px;">
-                                    <option value="">全部</option>
-                                </select>
-                            </div>
+                            <%--<div class="form-group">--%>
+                                <%--<label for="">原&nbsp;&nbsp;因：</label>--%>
+                                <%--<select id="s_reason" name="reason" class="form-control caseReason" style="width: 301px;">--%>
+                                    <%--<option value="">全部</option>--%>
+                                <%--</select>--%>
+                            <%--</div>--%>
                             <div class="form-group">
                                 <label for="">调度网格：</label>
                                 <select id="s_blockLevelId" name="blockLevelId" class="form-control"  style="width: 262px;">
@@ -173,20 +173,19 @@
                             <input type="text" id="portName" class="form-control" disabled
                             />
                         </div>
-                        <label for="overObj" class="col-sm-2 control-label">超标项：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="overObj" class="form-control" disabled
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="overValue" class="col-sm-2 control-label">超标值：</label>
+                        <label for="overValue" class="col-sm-2 control-label">检测值：</label>
                         <div class="col-sm-4">
                             <input type="text" id="overValue" class="form-control" disabled
                             />
                         </div>
-
-                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="overObj" class="col-sm-2 control-label">监测指标：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="overObj" class="form-control" disabled
+                            />
+                        </div>
+                        <label for="thrValue" class="col-sm-2 control-label">标准值：</label>
                         <div class="col-sm-4">
                             <input type="text" id="thrValue" class="form-control" disabled
                             />

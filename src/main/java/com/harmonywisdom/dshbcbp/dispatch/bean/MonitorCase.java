@@ -163,18 +163,18 @@ public class MonitorCase implements Serializable {
     private Double pollutantType;
 
     /**
-     * 超标项
+     * 监测指标
      */
     @Column(name = "over_obj")
     private Double overObj;
 
     /**
-     * 超标值
+     * 检测值
      */
     @Column(name = "over_value")
     private Double overValue;
     /**
-     * 超标阈值
+     * 标准值
      */
     @Column(name = "thr_value")
     private Double thrValue;
