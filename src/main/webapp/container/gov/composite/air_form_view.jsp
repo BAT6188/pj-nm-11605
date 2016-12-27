@@ -16,7 +16,7 @@
             <div class="modal-body" style="overflow-y: auto;">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="airMonitoringName" class="col-sm-2 control-label">噪声监测点：</label>
+                        <label for="airMonitoringName" class="col-sm-2 control-label">监测点名称：</label>
                         <div class="col-sm-4">
                             <input type="text" id="airMonitoringName" name="airMonitoringName" class="form-control"
                                    data-message="监测点名称不能为空"
@@ -29,28 +29,12 @@
                             <input type="text" id="monitoringNumber" name="monitoringNumber" class="form-control"/>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="longitude" class="col-sm-2 control-label">经度：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="longitude" name="longitude" class="form-control" readonly
-                                   data-message="监测点经度不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
-                        </div>
-                        <label for="latitude" class="col-sm-2 control-label">纬度：</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="latitude" name="latitude" readonly
-                                   data-message="监测点纬度不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="position" class="col-sm-2 control-label">监测点位置：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="position" name="position" class="form-control">
-                        </div>
+
                         <label for="monitoringTime" class="col-sm-2 control-label">监测时间：<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="createTimeContent" class="input-group date form_date col-md-12" data-date="" data-link-field="monitoringTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
+                            <div id="createTimeContent" class="input-group date form_date col-md-12" data-date="" data-link-field="monitoringTime" data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value="" readonly
                                        data-message="监测时间不能为空"
                                        data-easytip="position:top;class:easy-red;">
@@ -58,11 +42,25 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="airIndex" class="col-sm-2 control-label">空气质量指数：</label>
-                        <div class="col-sm-10 ">
+
+                        <label for="airIndex" class="col-sm-2 control-label">AQI指数：</label>
+                        <div class="col-sm-4 ">
                             <input type="text" id="airIndex" name="airIndex" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="airQualityGrade" class="col-sm-2 control-label">空气质量等级：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="airQualityGrade" name="airQualityGrade" class="form-control" readonly
+                                   data-message="监测点经度不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                        <label for="primaryPollutant" class="col-sm-2 control-label">首要污染物：</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="primaryPollutant" name="primaryPollutant" readonly
+                                   data-message="监测点纬度不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group" style="display: none">
