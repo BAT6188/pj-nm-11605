@@ -100,6 +100,7 @@
 
         <!--pageoffice 模版维护-->
 		<class>com.harmonywisdom.dshbcbp.officetemp.bean.OfficeTemp</class>
+		<class>com.harmonywisdom.dshbcbp.office.bean.PubInfoRelTable</class>
 
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

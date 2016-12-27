@@ -36,19 +36,27 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination: "server",
-        url: rootPath + "/action/S_office_PubInfo_list.action?orgCode=" + orgCode,
+        url: rootPath + "/action/S_office_PubInfoRelTable_list.action?orgId=" + orgId,
         height: pageUtils.getTableHeight() - 45,
         method: 'post',
         pagination: true,
         clickToSelect: true,//单击行时checkbox选中
         queryParams: pageUtils.localParams,
+        onLoadSuccess:function(data){
+            orgOption();
+        },
         columns: [
             {
                 title: "全选",
                 checkbox: true,
                 align: 'center',
                 radio: false,  //  true 单选， false多选
-                valign: 'middle'
+                valign: 'middle',
+                formatter:function(value, row, index){
+                    $.each(row.pubInfo,function(i,j){
+                        row[i]=j;
+                    })
+                }
             },
             {
                 title: 'ID',
@@ -77,7 +85,7 @@ function initTable() {
                 field: 'pubOrgName',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
             },
             {
                 title: '发布时间',
@@ -165,7 +173,7 @@ function getIdSelections() {
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        if (row.pubOrgId == orgCode) {
+        if (row.pubOrgId == orgId) {
             updateBtn.prop('disabled', false);
         } else {
             updateBtn.prop('disabled', true);
@@ -245,6 +253,7 @@ var ef2 = form.easyform({
                 return;
             } else {
                 var entity = $("#scfForm").find("form").formSerializeObject();
+                entity.status = 1;
                 entity.attachmentIds = getAttachmentIds();
                 entity.pubOrgName = $("#pubOrgName").val();
                 if (entity.grade) {
@@ -270,7 +279,7 @@ var ef2 = form.easyform({
 removeBtn.click(function () {
     var ids = getIdSelections();
     var entity = getSelections()[0];
-    if (entity.pubOrgId == orgCode) {
+    if (entity.pubOrgId == orgId) {
         Ewin.confirm({message: "确认要删除选择的数据吗？"}).on(function (e) {
             if (!e) {
                 return;
@@ -360,8 +369,8 @@ function setFormData(entity) {
     if (entity.grade) {
         var gradeArray = entity.grade.split(",");//
         for (var i = 0; i < gradeArray.length; i++) {
-            var orgCode = gradeArray[i];
-            $('input[name="grade"][value="' + orgCode + '"]').prop("checked", true);
+            var orgId = gradeArray[i];
+            $('input[name="grade"][value="' + orgId + '"]').prop("checked", true);
         }
     }
     $("#content").val(entity.content);
@@ -420,19 +429,18 @@ function resetForm() {
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     $("#pubOrgName").val(orgName);
-    $("#pubOrgId").val(orgCode);
+    $("#pubOrgId").val(orgId);
     $("#userID").val(userId);
     $("#userName").val(userName);
     $("#status").val(0);
 
     // $("#grade").val("");
-    orgOption();
+    $('#grade').find('input').prop("checked",false);
     disabledForm(false);
     form.find('#pub').show();
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }
-
 function orgOption() {
     $.ajax({
         url: rootPath + "/action/S_office_PubInfo_findOrg.action",
@@ -443,7 +451,7 @@ function orgOption() {
             $('#grade').empty();
             for (var i = 0; i < org.length; i++) {
                 // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
-                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgCode + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;")
+                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgId + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;")
 
             }
         }
