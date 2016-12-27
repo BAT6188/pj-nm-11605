@@ -159,7 +159,7 @@ public class BlockLevelServiceImpl extends BaseService<BlockLevel, String> imple
         //空气质量在线监测
         List<ZNodeDTO> airEquipment = airEquipmentService.searchNode(searchText);
         if(airEquipment != null){
-            ZNodeDTO airMainNode = new ZNodeDTO(AirEquipment.class.getSimpleName(),"空气质量在线加测",true,AirEquipment.class.getSimpleName());
+            ZNodeDTO airMainNode = new ZNodeDTO(AirEquipment.class.getSimpleName(),"空气质量监测",true,AirEquipment.class.getSimpleName());
             monitoring.setChildren(airEquipment);
             airMainNode.setChildren(airEquipment);
             if(searchText != "%%" && !"%%".equals(searchText)){
