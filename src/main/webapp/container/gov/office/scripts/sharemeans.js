@@ -118,7 +118,7 @@ function initTable() {
     removeBtn.click(function () {
         var ids = getIdSelections();
         var entity = getSelections()[0];
-        if(entity.pubOrgId==orgId) {
+        if(entity) {
             Ewin.confirm({message: "确认要删除选择的数据吗？"}).on(function (e) {
                 if (!e) {
                     return;
@@ -130,13 +130,6 @@ function initTable() {
                     });
                     removeBtn.prop('disabled', true);
                 });
-            });
-        }else{
-            removeBtn.prop('disabled', true);
-            Ewin.alert({message: "没有操作权限！"}).on(function (e) {
-                if (!e) {
-                    return;
-                }
             });
         }
     });
@@ -200,6 +193,7 @@ function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         if(row.pubOrgId==orgId){
             updateBtn.prop('disabled', false);
+            return row;
         }else{
             updateBtn.prop('disabled', true);
             Ewin.alert({message: "没有操作权限！"}).on(function (e) {
@@ -207,8 +201,8 @@ function getSelections() {
                     return;
                 }
             });
+            return null;
         }
-        return row;
     });
 }
 
