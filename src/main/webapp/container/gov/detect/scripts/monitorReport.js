@@ -78,6 +78,10 @@ function initTable() {
                         value="大气污染防治监测报告"
                     }else if (value==3){
                         value="水污染防治监测报告"
+                    }else if(value == 4){
+                        value="噪声监测报告"
+                    }else if(value == 5){
+                        value="土壤污染防治监测报告"
                     }
                     return value;
                 }

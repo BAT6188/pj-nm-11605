@@ -899,12 +899,11 @@ var OneImagePage = function () {
         showAirEquipmentInfoWin:function(airEquipment){
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed'>" +
-                "<tr><td style='text-align: right;width: 120px;'>空气质量监测点:</td><td style='text-align: left;'>"+(airEquipment.airMonitoringName==null?"":airEquipment.airMonitoringName)+"</td></tr>"+
+                "<tr><td style='text-align: right;width: 150px;'>空气质量监测点:</td><td style='text-align: left;'>"+(airEquipment.airMonitoringName==null?"":airEquipment.airMonitoringName)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>监测点编号:</td><td style='text-align: left;'>"+(airEquipment.monitoringNumber==null?"":airEquipment.monitoringNumber)+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测时间:</td><td style='text-align: left;'>"+(airEquipment.monitoringTime==null?"":airEquipment.monitoringTime)+"</td></tr>"+
-                "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+(airEquipment.monitoringPosition==null?"":airEquipment.monitoringPosition)+"</td></tr>"+
-                "<tr><td style='text-align: right;'>空气质量指数:</td><td style='text-align: left;'>"+(airEquipment.airIndex==null?"":airEquipment.airIndex)+"</td></tr>";
-
+                "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+(airEquipment.longitude==null?"":airEquipment.longitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+(airEquipment.latitude==null?"":airEquipment.latitude)+"</td></tr>";
+            
             infoHtml += "</table>";
             //添加按钮
             infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
