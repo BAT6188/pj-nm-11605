@@ -252,7 +252,7 @@ $("#update").bind("click",function () {
 removeBtn.click(function () {
     var ids = getIdSelections();
     Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-        if (!e) {
+            if (!e) {
             return;
         }
         deleteAjax(ids,function (msg) {
@@ -380,6 +380,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增" + formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
+    form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
     form.find("#save").show();

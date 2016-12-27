@@ -44,9 +44,9 @@
                     <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
-                        <i class="btnIcon delf-icon"></i><span>删除</span>
-                    </button>
+                    <%--<button id="remove" type="button" class="btn btn-sm btn-danger">--%>
+                        <%--<i class="btnIcon delf-icon"></i><span>删除</span>--%>
+                    <%--</button>--%>
                 </p>
             </div>
             <div class="tableBox">
