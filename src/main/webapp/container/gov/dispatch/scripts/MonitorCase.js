@@ -371,6 +371,8 @@ function refreshDemoForm(demo) {
     $("#senderName").val(userName);
     $("#sendTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#sendRemark").val(demo.sendRemark);
+    $("#portName").val(demo.portName);
+    $("#overObj").val(demo.overObj);
 
 }
 
