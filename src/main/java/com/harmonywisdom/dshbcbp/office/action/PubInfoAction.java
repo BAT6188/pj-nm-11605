@@ -7,6 +7,7 @@ import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.PubInfo;
+import com.harmonywisdom.dshbcbp.office.service.PubInfoRelTableService;
 import com.harmonywisdom.dshbcbp.office.service.PubInfoService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
@@ -20,6 +21,8 @@ import java.util.*;
 public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     @AutoService
     private PubInfoService pubInfoService;
+    @AutoService
+    private PubInfoRelTableService pubInfoRelTableService;
     @AutoService
     private AttachmentService attachmentService;
 
@@ -117,6 +120,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
         super.save();
+        pubInfoService.savePubInfoRelTable(entity);
         if (StringUtils.isNotBlank(entity.getAttachmentIds())) {
             attachmentService.updateBusinessId(entity.getId(), entity.getAttachmentIds().split(","));
         }
@@ -132,6 +136,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             attachmentService.removeByBusinessIds(deleteId);
         }
         super.delete();
+        pubInfoRelTableService.executeJPQL("delete from PubInfoRelTable where pubInfoId=?",deleteId);
     }
 
     //公告发布
@@ -151,10 +156,24 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             if (orgs.size() > 0) {
                 for (IOrg iOrgChild : orgs) {
                     List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(iOrgChild.getOrgId());
+                    if(persons.size()>0){
+                        for (IPerson iPerson:persons){
+                            if(iPerson.getUserId().equals(pubInfo.getUserID())){
+                                persons.remove(iPerson);
+                            }
+                        }
+                    }
                     authorizationIPerson.addAll(persons);
                 }
             } else {
                 List<IPerson> persons = PersonServiceUtil.getPersonByOrgId(iOrgs.getOrgId());
+                if(persons.size()>0){
+                    for (IPerson iPerson:persons){
+                        if(iPerson.getUserId().equals(pubInfo.getUserID())){
+                            persons.remove(iPerson);
+                        }
+                    }
+                }
                 authorizationIPerson.addAll(persons);
             }
         }
@@ -201,7 +220,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             IOrg company = new IOrg() {
                 @Override
                 public String getOrgId() {
-                    return null;
+                    return "company";
                 }
 
                 @Override
