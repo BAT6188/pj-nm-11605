@@ -204,43 +204,43 @@ public class NoisePortHistory implements Serializable {
         this.lmin = lmin;
     }
 
-    public Double getlFive() {
+    public Double getLFive() {
         return lFive;
     }
 
-    public void setlFive(Double lFive) {
+    public void setLFive(Double lFive) {
         this.lFive = lFive;
     }
 
-    public Double getlTen() {
+    public Double getLTen() {
         return lTen;
     }
 
-    public void setlTen(Double lTen) {
+    public void setLTen(Double lTen) {
         this.lTen = lTen;
     }
 
-    public Double getlFifty() {
+    public Double getLFifty() {
         return lFifty;
     }
 
-    public void setlFifty(Double lFifty) {
+    public void setLFifty(Double lFifty) {
         this.lFifty = lFifty;
     }
 
-    public Double getlNinety() {
+    public Double getLNinety() {
         return lNinety;
     }
 
-    public void setlNinety(Double lNinety) {
+    public void setLNinety(Double lNinety) {
         this.lNinety = lNinety;
     }
 
-    public Double getlNinetyFive() {
+    public Double getLNinetyFive() {
         return lNinetyFive;
     }
 
-    public void setlNinetyFive(Double lNinetyFive) {
+    public void setLNinetyFive(Double lNinetyFive) {
         this.lNinetyFive = lNinetyFive;
     }
 

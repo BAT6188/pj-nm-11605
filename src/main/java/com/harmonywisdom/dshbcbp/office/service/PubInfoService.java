@@ -16,4 +16,6 @@ public interface PubInfoService extends IBaseService<PubInfo, String> {
      */
     List<PubInfo> companyByPower();
     QueryResult<PubInfo> find(QueryCondition var1, PubInfo entity);
+
+    void savePubInfoRelTable(PubInfo pubInfo);
 }

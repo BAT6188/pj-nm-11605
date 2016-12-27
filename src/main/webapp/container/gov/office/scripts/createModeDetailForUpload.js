@@ -62,6 +62,16 @@ function initTable() {
                 align: 'center'
             },
             {
+                title: '上报截止时间',
+                field: 'deadline',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
                 title: '指标内容',
                 field: 'content',
                 editable: false,

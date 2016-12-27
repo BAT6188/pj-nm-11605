@@ -22,7 +22,7 @@
                                    data-message="监测点名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
-                        <label for="monitoringNumber" class="col-sm-2 control-label">噪声源编号：</label>
+                        <label for="monitoringNumber" class="col-sm-2 control-label">监测点编号：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
