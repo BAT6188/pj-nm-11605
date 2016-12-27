@@ -1,3 +1,4 @@
+//@ sourceURL=monitorReport.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -97,6 +98,8 @@ function initTable() {
                         value="监督性监测"
                     }else if (value==2){
                         value="企业委托监测"
+                    }else if (value==3){
+                        value="环境"
                     }
                     return value;
                 }
@@ -114,13 +117,13 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },{
+            },/*{
                 title: '联系方式',
                 field: 'monitorPhone',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
+            },*/
             // {
             //     title: '所属网格',
             //     field: 'blockName',

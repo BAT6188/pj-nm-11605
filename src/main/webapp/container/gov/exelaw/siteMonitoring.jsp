@@ -112,16 +112,14 @@
                     <div class="form-group">
                         <label for="isNotProblem" class="col-sm-3 control-label">是否存在问题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4 radio">
-                            <label><input type="radio" value="1" checked name="isNotProblem">是</label>
-                            <label><input type="radio" value="2" name="isNotProblem">否</label>
+                            <label><input type="radio" value="1" name="isNotProblem">是</label>
+                            <label><input type="radio" value="2" name="isNotProblem" checked>否</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sendRemark" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
                         <div class="col-sm-10">
                             <textarea  id="sendRemark" name="sendRemark" class="form-control" rows="5"
-                                       data-message="公告详情不能为空"
-                                       data-easytip="position:top;class:easy-red;"
                             ></textarea>
                         </div>
                     </div>

@@ -19,22 +19,24 @@
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label for="">监测名称：</label> <input type="text" id="s_monitorName" name="monitorName" style="width: 207px;" class="form-control" />
+                                <label for="">监测对象：</label> <input type="text" id="s_monitorName" name="monitorName" style="width: 207px;" class="form-control" />
                             </div>
+                            <%--<div class="form-group">--%>
+                                <%--<label for="">所属网格：</label>--%>
+                                <%--<select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 266px;">--%>
+                                <%--</select>--%>
+                                <%-----%>
+                                <%--<select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 266px;">--%>
+                                <%--</select>--%>
+                            <%--</div>--%>
                             <div class="form-group">
-                                <label for="">所属网格：</label>
-                                <select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 266px;">
-                                </select>
-                                -
-                                <select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 266px;">
-                                </select>
+                                <label for="">监测人员：</label> <input type="text" id="s_monitorPersonName" name="monitorPersonName" style="width: 207px;" class="form-control" />
                             </div>
-
                         </form>
                     <p></p>
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="">类&nbsp;&nbsp;型：</label>
+                            <label for="">监测项目：</label>
                             <select id="s_type" name="type" class="form-control">
                                 <option value="">全部</option>
                                 <option value="1">水源地监测报告</option>
@@ -90,7 +92,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">监测名称<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="status" name="status">
@@ -127,6 +129,7 @@
                             <select id="monitoringType" name="monitoringType" class="form-control">
                                 <option value="1">监督性监测</option>
                                 <option value="2">企业委托监测</option>
+                                <option value="3">环境</option>
                             </select>
                         </div>
                     </div>
