@@ -135,7 +135,7 @@ public class MonitorCase implements Serializable {
     private String answer;
 
     /**
-     * 监管人员
+     * 监管人员、企业环保负责人
      */
     @Column(name = "supervisor")
     private String supervisor;

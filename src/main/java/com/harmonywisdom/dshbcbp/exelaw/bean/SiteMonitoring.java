@@ -16,6 +16,10 @@ public class SiteMonitoring implements Serializable {
     @Column(length = 32)
     private String id;
 
+    @Column(name = "dispatch_id",length=32)
+    private String dispatchId;
+
+
     /**
      * 企业id
      */
@@ -29,10 +33,20 @@ public class SiteMonitoring implements Serializable {
     private String enterpriseName;
 
     /**
-     * 所属网格
+     * 网格级别，
      */
-    @Column(name="BELONG_RESEAU",length=100)
-    private String belongReseau;
+    @Column(name = "block_level_id")
+    private String blockLevelId;
+    @Column(name = "block_level_name")
+    private String blockLevelName;
+
+    /**
+     * 所属网格，
+     */
+    @Column(name = "block_id", length = 32)
+    private String blockId;
+    @Column(name = "block_name")
+    private String blockName;
 
     /**
      * 监察人员
@@ -92,13 +106,6 @@ public class SiteMonitoring implements Serializable {
         this.enterpriseName = enterpriseName;
     }
 
-    public String getBelongReseau() {
-        return belongReseau;
-    }
-
-    public void setBelongReseau(String belongReseau) {
-        this.belongReseau = belongReseau;
-    }
 
     public String getCheckPeople() {
         return checkPeople;
@@ -146,5 +153,45 @@ public class SiteMonitoring implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public String getBlockLevelId() {
+        return blockLevelId;
+    }
+
+    public void setBlockLevelId(String blockLevelId) {
+        this.blockLevelId = blockLevelId;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockLevelName() {
+        return blockLevelName;
+    }
+
+    public void setBlockLevelName(String blockLevelName) {
+        this.blockLevelName = blockLevelName;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getDispatchId() {
+        return dispatchId;
+    }
+
+    public void setDispatchId(String dispatchId) {
+        this.dispatchId = dispatchId;
     }
 }

@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="blockLevelId">所属区域：</label>
+                            <label for="">所属区域：</label>
                             <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;">
                             </select>
                             -
@@ -118,6 +118,471 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" data-backdrop="static" id="scfDialog" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title" id="">添加现场监察</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" name="enterpriseId" id="enterpriseId">
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
+                                   data-message="企业名称不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+
+                        <label for="blockId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="blockLevelId" name="blockLevelId" class="s_blockLevelId">
+                            <select id="blockId" name="blockId" class="form-control s_blockId" data-message="所属网格不能为空"
+                                    data-easytip="position:top;class:easy-red;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkPeople" class="col-sm-2 control-label">监察人员<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="checkPeople" name="checkPeople" class="form-control"
+                                   data-message="监察人员不为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                        <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value=""
+                                       data-message="监察时间不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="isNotProblem" class="col-sm-3 control-label">是否存在问题<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4 radio">
+                            <label><input type="radio" value="1" checked name="isNotProblem">是</label>
+                            <label><input type="radio" value="2" name="isNotProblem">否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="" name="sendRemark" class="form-control" rows="5"
+                                       data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentIds" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery" class="uploaderToggle dUploader"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="eventMsg_monitorOffice" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="demoFormTitle">事件信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="removeId" name="removeId">
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                                <input class="form-control" size="16" type="text" value="" id="" name="eventTime" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">接收人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="answer" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="enterpriseName" class="form-control" data-message="事件对象不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                            <input type="hidden" id="" name="enterpriseId"/>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="" name="source" class="form-control caseSource">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">所属网格：</label>
+                        <div class="col-sm-4">
+                            <select id="" name="blockLevelId" class="form-control s_blockLevelId">
+                            </select>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
+                            <select id="" name="blockId" class="form-control s_blockId">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">监管人员：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="supervisor" class="form-control"/>
+                        </div>
+
+                        <%--<label for="supervisorPhone" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="supervisorPhone" class="form-control"
+                            />
+                        </div>--%>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">举报人姓名：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="informer" class="form-control"/>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="informerPhone" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">事件详情<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="" name="content" class="form-control" rows="4" cols="50" placeholder="" data-message="不能为空"
+                                      data-easytip="position:top;class:easy-red;"></textarea>
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">处理人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="senderName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="sendPhone" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery" class="uploaderToggle aUploader"></div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <%--<input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>--%>
+                <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
+                <%--<button type="button" class="btn btn-primary" id="save">保存</button>--%>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="eventMsg_monitorCase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:943px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="">调度单</h4>
+                <input type="hidden" id="id">
+                <input type="hidden" id="removeId">
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">企业名称：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                            <input type="hidden" id="" name="enterpriseId"/>
+                        </div>
+                        <label for="" class="col-sm-2 control-label">事件时间：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="eventTime" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">企业环保负责人：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="supervisor" class="form-control"
+                            />
+                        </div>
+                        <label for="" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="supervisorPhone" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">所属网格：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="blockName" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="portName" class="col-sm-2 control-label">排口名称：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="portName" class="form-control"
+                            />
+                        </div>
+                        <label for="" class="col-sm-2 control-label">超标项：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="overObj" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">超标值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="overValue" class="form-control" disabled
+                            />
+                        </div>
+
+                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="thrValue" class="form-control" disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-sm-2 control-label">事件内容：</label>
+                        <div class="col-sm-10">
+                            <textarea name="content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <div class="form-group">
+                        <label for="senderName" class="col-sm-2 control-label">发送人：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="senderName" class="form-control"/>
+                        </div>
+
+                        <label for="sendTime" class="col-sm-2 control-label">发送时间：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="sendTime" class="form-control" disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sendRemark" class="col-sm-2 control-label"> 备注：</label>
+                        <div class="col-sm-10">
+                            <textarea name="sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dispatchPersonName" class="col-sm-2 control-label">调度人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="dispatchPersonName" name="dispatchPersonName" class="form-control"
+                            />
+                        </div>
+
+                        <label for="dispatchTime" class="col-sm-2 control-label">调度时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="dispatchTime" name="dispatchTime" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dispatchContent" class="col-sm-2 control-label">调度内容：</label>
+                        <div class="col-sm-10">
+                            <textarea id="dispatchContent" name="dispatchContent" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span id="isSendSmsSpan"><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
+                <button type="button" class="btn btn-primary" id="dispatch" >调度</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--处置按钮弹出框 或 查看按钮弹出框 事件信息-->
+<%--<div class="modal fade" id="eventMsg" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:842px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="demoFormTitle">事件信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="removeId" name="removeId">
+                    <div class="form-group">
+                        <label for="eventTime" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
+                                <input class="form-control" size="16" type="text" id="eventTime" name="eventTime" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                        <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="answer" name="answer" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseName" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                            <input type="hidden" id="enterpriseId" name="enterpriseId"/>
+                        </div>
+                        <label for="source" class="col-sm-2 control-label">事件来源<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="source" name="source" class="form-control caseSource">
+                                <option value="0">监控中心</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="blockLevelId" name="blockLevelId" class="form-control">
+                            </select>
+                        </div>
+                        <label for="blockId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
+                            <select id="blockId" name="blockId" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisor" class="col-sm-2 control-label">监管人员<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="supervisor" name="supervisor" class="form-control"/>
+                        </div>
+
+                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="supervisorPhone" name="supervisorPhone" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="senderName" class="col-sm-2 control-label">发送人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="senderName" name="senderName" class="form-control" disabled
+                            />
+                        </div>
+
+                        <label for="sendTime" class="col-sm-2 control-label">发送时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="sendTime" name="sendTime" class="form-control lookover" disabled/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overValue" class="col-sm-2 control-label">超标值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="overValue" name="overValue" class="form-control"
+                            />
+                        </div>
+
+                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="thrValue" name="thrValue" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-sm-2 control-label">事件内容：</label>
+                        <div class="col-sm-10">
+                            <textarea id="content" name="content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group">
+                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
+                        <div class="col-sm-10">
+                            <textarea id="sendRemark" name="sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dispatchPersonName" class="col-sm-2 control-label">调度人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="dispatchPersonName" class="form-control"
+                            />
+                        </div>
+
+                        <label for="dispatchTime" class="col-sm-2 control-label">调度时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="dispatchTime" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dispatchContent" class="col-sm-2 control-label">调度内容：</label>
+                        <div class="col-sm-10">
+                            <textarea id="dispatchContent" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery" class="uploaderToggle aUploader"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span id="isSendSmsSpan"><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
+                <button type="button" class="btn btn-primary" id="dispatch" >调度</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>--%>
 
 <div class="modal fade" id="overDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width: 844px;">
@@ -349,8 +814,6 @@
     </div><!-- /.modal -->
 </div>
 
-
-
 <!--点反馈按钮打开反馈表单添加反馈信息 或 查看反馈表单详情-->
 <div class="modal fade" id="feedbackForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabe3" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:842px;">
@@ -418,143 +881,7 @@
     </div><!-- /.modal -->
 </div>
 
-<!--处置按钮弹出框 或 查看按钮弹出框 事件信息-->
-<div class="modal fade" id="eventMsg" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:842px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="demoFormTitle">事件信息</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <input type="hidden" id="id" name="id">
-                    <input type="hidden" id="removeId" name="removeId">
-                    <div class="form-group">
-                        <label for="eventTime" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="eventTime">
-                                <input class="form-control" size="16" type="text" id="eventTime" name="eventTime" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </div>
-                        <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="answer" name="answer" class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
-                            <input type="hidden" id="enterpriseId" name="enterpriseId"/>
-                        </div>
-                        <label for="source" class="col-sm-2 control-label">事件来源<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="source" name="source" class="form-control caseSource">
-                                <option value="0">监控中心</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control">
-                            </select>
-                        </div>
-                        <label for="blockId" class="col-sm-2 control-label"></label>
-                        <div class="col-sm-4">
-                            <select id="blockId" name="blockId" class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="supervisor" class="col-sm-2 control-label">监管人员<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="supervisor" name="supervisor" class="form-control"/>
-                        </div>
 
-                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="supervisorPhone" name="supervisorPhone" class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="senderName" class="col-sm-2 control-label">发送人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="senderName" name="senderName" class="form-control" disabled
-                            />
-                        </div>
-
-                        <label for="sendTime" class="col-sm-2 control-label">发送时间<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="sendTime" name="sendTime" class="form-control lookover" disabled/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="overValue" class="col-sm-2 control-label">超标值：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="overValue" name="overValue" class="form-control"
-                            />
-                        </div>
-
-                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="thrValue" name="thrValue" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="content" class="col-sm-2 control-label">事件内容：</label>
-                        <div class="col-sm-10">
-                            <textarea id="content" name="content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="form-group">
-                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
-                        <div class="col-sm-10">
-                            <textarea id="sendRemark" name="sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dispatchPersonName" class="col-sm-2 control-label">调度人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="dispatchPersonName" class="form-control"
-                            />
-                        </div>
-
-                        <label for="dispatchTime" class="col-sm-2 control-label">调度时间<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="dispatchTime" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dispatchContent" class="col-sm-2 control-label">调度内容：</label>
-                        <div class="col-sm-10">
-                            <textarea id="dispatchContent" class="form-control" rows="4" cols="50" placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
-                        <div class="col-sm-10">
-                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
-                            <div id="fine-uploader-gallery" class="uploaderToggle aUploader"></div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <span id="isSendSmsSpan"><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
-                <button type="button" class="btn btn-primary" id="dispatch" >调度</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
 
 <!--现场监察监测报告-->
 <div class="modal fade" id="monitorReport" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
@@ -711,6 +1038,44 @@
             gridTable.bootstrapTable('showColumn',"dispatchPersonName");
             gridTable.bootstrapTable('hideColumn',"sendToPerson");
         }
+
+        $("#enterpriseName").autocomplete({
+            source: function( request, response ) {
+                $.ajax( {
+                    url: rootPath + "/action/S_enterprise_Enterprise_list.action",
+                    method:'post',
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        for(var i = 0;i<data.rows.length;i++){
+                            var result = [];
+                            for(var i = 0; i <  data.rows.length; i++) {
+                                var ui={};
+                                ui.id=data.rows[i].id
+                                ui.value=data.rows[i].name
+//                                ui.envPrincipal=data.rows[i].envPrincipal
+//                                ui.epPhone=data.rows[i].epPhone
+                                ui.blockLevelId=data.rows[i].blockLevelId
+                                ui.blockId=data.rows[i].blockId
+                                result.push(ui);
+                            }
+                            response( result);
+                        }
+                    }
+                } );
+            },
+            select: function( event, ui ) {
+                console.info(ui.item.id)
+                $("#enterpriseId").val(ui.item.id)
+//                $("#supervisor").val(ui.item.envPrincipal)
+//                $("#supervisorPhone").val(ui.item.epPhone)
+                $("#blockLevelId").val(ui.item.blockLevelId)
+                $("#blockId").val(ui.item.blockId)
+            },
+        } );
+
     })
 </script>
 </body>

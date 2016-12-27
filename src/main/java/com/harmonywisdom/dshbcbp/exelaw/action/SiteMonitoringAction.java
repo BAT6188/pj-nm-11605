@@ -1,6 +1,10 @@
 package com.harmonywisdom.dshbcbp.exelaw.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.composite.bean.Block;
+import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
+import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
+import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -16,6 +20,12 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
 
     @AutoService
     private AttachmentService attachmentService;
+
+    @AutoService
+    private BlockLevelService blockLevelService;
+
+    @AutoService
+    private BlockService blockService;
 
 
     @Override
@@ -56,6 +66,19 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
+
+        String blockLevelId = entity.getBlockLevelId();
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(blockLevelId)){
+            BlockLevel bl = blockLevelService.findById(blockLevelId);
+            entity.setBlockLevelName(bl.getName());
+        }
+
+        String blockId = entity.getBlockId();
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(blockId)){
+            Block b = blockService.findById(blockId);
+            entity.setBlockName(b.getOrgName());
+        }
+
         super.save();
         if(StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));

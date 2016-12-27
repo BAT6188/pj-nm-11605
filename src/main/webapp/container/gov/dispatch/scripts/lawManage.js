@@ -4,9 +4,11 @@ var gridTable = $('#table'),
     overBtn = $('#overBtn'),
     dealWithBtn = $('#dealWith'),
     feedbackBtn = $('#feedback'),
-    eventMsgForm = $("#eventMsg"),
+    eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice"),
+    eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase"),
     feedbackForm=$("#feedbackForm"),
     overDialog=$("#overDialog"),
+    scfDialog=$("#scfDialog"),
     selections = [];
 
 //保存ajax请求
@@ -290,47 +292,66 @@ function feedbackStatusoperateFormatter(value, row, index) {
 }
 
 function lookOverFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#eventMsg">查看</button>';
+    var sm='<button type="button" class="btn btn-md btn-warning sm">现场监察</button>&nbsp';
+    var h='<button type="button" class="btn btn-md btn-warning lookOver">查看</button>';
+    if('env_pro_sta'==role){
+        h=sm+h;
+    }
+    return h;
 }
 
 window.lookOverEvents = {
     'click .lookOver': function (e, value, entity, index) {
-        resetEventMsgFormData();
-        if (!entity) {return false}
-        var id = entity.id;
+        if (entity) {
+            var id = entity.id;
+            if(entity.source==0){
+                eventMsg_monitorCase_dialog.modal('show')
+                resetDialog(eventMsg_monitorCase_dialog);
+                disabledForm(eventMsg_monitorCase_dialog,true)
 
-        disabledForm(eventMsgForm,true)
+                var inputs = eventMsg_monitorCase_dialog.find('[name]');
+                $.each(inputs,function(k,v){
+                    var tagId = $(v).attr('name');
+                    $(v).val(entity[tagId]);
+                });
 
-        $("#id").val(entity.id);
-        $("#eventTime").val(entity.eventTime);
-        $("#answer").val(entity.answer);
-        $("#enterpriseId").val(entity.enterpriseId);
-        $("#enterpriseName").val(entity.enterpriseName);
-        $("#source").val(entity.source);
-        $("#blockLevelId").val(entity.blockLevelId);
-        $("#blockId").val(entity.blockId);
-        $("#supervisor").val(entity.supervisor);
-        $("#supervisorPhone").val(entity.supervisorPhone);
-        $("#content").val(entity.content);
-        $("#sendRemark").val(entity.sendRemark);
-        $("#senderName").val(entity.senderName);
-        $("#senderId").val(entity.senderId);
-        $("#sendTime").val(entity.sendTime);
+                $("#dispatch").hide();
+                $("#isSendSmsSpan").hide();
+                $("#cancel").text("关闭")
+
+            }else {
+                eventMsg_monitorOffice_dialog.modal('show')
+                resetDialog(eventMsg_monitorOffice_dialog);
+                disabledForm(eventMsg_monitorOffice_dialog,true)
+
+                var inputs = eventMsg_monitorOffice_dialog.find('[name]');
+                $.each(inputs,function(k,v){
+                    var tagId = $(v).attr('name');
+                    $(v).val(entity[tagId]);
+                });
 
 
-        uploaderToggle(".aUploader")
-        var fuOptions = getUploaderOptions(entity.monitorCaseId);
-        fuOptions.callbacks.onSessionRequestComplete = function () {
-            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
-        };
-        uploader = new qq.FineUploader(fuOptions);
-        bindDownloadSelector();
-        $(".qq-upload-button").hide();
+                uploaderToggle(".aUploader")
+                var fuOptions = getUploaderOptions(entity.monitorCaseId);
+                fuOptions.callbacks.onSessionRequestComplete = function () {
+                    $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+                    $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+                };
+                uploader = new qq.FineUploader(fuOptions);
+                bindDownloadSelector();
+                $(".qq-upload-button").hide();
 
-        $("#dispatch").hide();
-        $("#isSendSmsSpan").hide();
-        $("#cancel").text("关闭")
+                var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
+                pageUtils.updateSelfReadStatus(url,id,1)
+            }
+
+        }
+    },
+
+    'click .sm': function (e, value, entity, index) {
+        scfDialog.modal('show')
+        resetDialog(scfDialog);
+
     }
 };
 
@@ -413,7 +434,7 @@ $("#dealWith").bind("click",function () {
         if(row.source=='0'){
             var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
             pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
-            eventMsgForm.modal('show');
+            eventMsg_monitorCase_dialog.modal('show');
             setEventMsgFormData(row);
         }else {
             Ewin.alert("不能够处置信访案件")
@@ -533,7 +554,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         type:"post",
         data:d,
         success:function (ret) {
-            eventMsgForm.modal('hide');
+            eventMsg_monitorCase_dialog.modal('hide');
             gridTable.bootstrapTable('refresh');
 
             var receivers = [];
@@ -556,16 +577,14 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 
 /**============表单初始化相关代码============**/
 //初始化表单验证
-var ef_eventMsgForm = eventMsgForm.easyform({
-    success:function (ef_eventMsgForm) {
+var ef_eventMsg_monitorCase_dialog = eventMsg_monitorCase_dialog.easyform({
+    success:function (ef_eventMsg_monitorCase_dialog) {
         var entity={}
         entity.id=$("#id").val();
         // entity.sendRemark=$("#sendRemark").val();
-        entity.removeId=$("#removeId").val();
         entity.dispatchPersonName=$("#dispatchPersonName").val();
         entity.dispatchTime=$("#dispatchTime").val();
         entity.dispatchContent=$("#dispatchContent").val();
-        entity.attachmentIds = getAttachmentIds();
         console.log("点调度按钮，只保存能编辑的表单数据："+JSON.stringify(entity))
 
         saveAjax(entity,function (id) {
@@ -584,7 +603,7 @@ var ef_eventMsgForm = eventMsgForm.easyform({
 //表单 保存按钮
 $("#dispatch").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
-    ef_eventMsgForm.submit(false);
+    ef_eventMsg_monitorCase_dialog.submit(false);
 });
 
 /**
@@ -593,29 +612,19 @@ $("#dispatch").bind('click',function () {
  * @returns {boolean}
  */
 function setEventMsgFormData(entity) {
-    resetEventMsgFormData();
+    resetDialog(eventMsg_monitorCase_dialog);
     if (!entity) {return false}
     var id = entity.id;
 
-    disabledForm(eventMsgForm,true)
+    disabledForm(eventMsg_monitorCase_dialog,true)
     $("#dispatchContent").attr("disabled",false);
     $("#isSendSms").attr("disabled",false);
 
-    $("#id").val(entity.id);
-    $("#eventTime").val(entity.eventTime);
-    $("#answer").val(entity.answer);
-    $("#enterpriseId").val(entity.enterpriseId);
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#source").val(entity.source);
-    $("#blockLevelId").val(entity.blockLevelId);
-    $("#blockId").val(entity.blockId);
-    $("#supervisor").val(entity.supervisor);
-    $("#supervisorPhone").val(entity.supervisorPhone);
-    $("#content").val(entity.content);
-    $("#sendRemark").val(entity.sendRemark);
-    $("#senderName").val(entity.senderName);
-    $("#senderId").val(entity.senderId);
-    $("#sendTime").val(entity.sendTime);
+    var inputs = eventMsg_monitorCase_dialog.find('[name]');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        $(v).val(entity[tagId]);
+    });
 
     if(entity.dispatchPersonName){
         $("#dispatchPersonName").val(entity.dispatchPersonName);
@@ -632,13 +641,6 @@ function setEventMsgFormData(entity) {
     if(entity.dispatchContent){
         $("#dispatchContent").val(entity.dispatchContent);
     }
-
-
-
-    uploaderToggle(".aUploader")
-    uploader = new qq.FineUploader(getUploaderOptions(entity.monitorCaseId));
-    bindDownloadSelector();
-
     $("#dispatch").show();
     $("#isSendSmsSpan").show();
     $("#cancel").text("取消")
@@ -647,12 +649,12 @@ function setEventMsgFormData(entity) {
 /**
  * 重置表单
  */
-function resetEventMsgFormData() {
-    eventMsgForm.find("input[type!='radio'][type!='checkbox']").val("");
-    eventMsgForm.find("#isSendSms").attr("checked",false);
+function resetDialog(dialog) {
+    dialog.find(".form-control").val("");
+    dialog.find("#isSendSms").attr("checked",false);
     $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
-    disabledForm($("#eventMsg"),false);
+    disabledForm(dialog,false);
 }
 
 function disabledForm(dialogSelector,disabled) {
@@ -1064,6 +1066,34 @@ $( function() {
     } );
 
 } );
+
+function saveAjax_scfDialog(entity, callback) {
+    $.ajax({
+        url: rootPath + "/action/S_exelaw_SiteMonitoring_save.action",
+        type:"post",
+        data:entity,
+        dataType:"json",
+        success:callback
+    });
+}
+
+var ef_scfDialog = scfDialog.easyform({
+    success:function (ef_scfDialog) {
+        var entity = $("#scfDialog").find("form").formSerializeObject();
+        entity.attachmentIds = getAttachmentIds();
+        entity.userId=userId;
+        console.log(entity);
+        saveAjax_scfDialog(entity,function (msg) {
+            scfDialog.modal('hide');
+        });
+    }
+});
+
+//表单 保存按钮
+$("#save").bind('click',function () {
+    //验证表单，验证成功后触发ef.success方法保存数据
+    ef_scfDialog.submit(false);
+});
 
 
 
