@@ -442,8 +442,7 @@ function orgOption() {
             $('#grade').empty();
             for (var i = 0; i < org.length; i++) {
                 // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
-                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgId + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;")
-
+                $('#grade').append("<label><input type='checkbox' name='grade' value='" + org[i].orgId + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;");
             }
         }
     })

@@ -6,7 +6,11 @@ import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.office.bean.Contacts;
+import com.harmonywisdom.dshbcbp.office.bean.PartyOrg;
+import com.harmonywisdom.dshbcbp.office.bean.PartyOrgIperson;
 import com.harmonywisdom.dshbcbp.office.service.ContactsService;
+import com.harmonywisdom.dshbcbp.office.service.PartyOrgIpersonService;
+import com.harmonywisdom.dshbcbp.office.service.PartyOrgService;
 import com.harmonywisdom.dshbcbp.utils.PinyinUtil;
 import com.harmonywisdom.dshbcbp.utils.SortList;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -20,6 +24,10 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
 
     @AutoService
     private ContactsService contactsService;
+    @AutoService
+    private PartyOrgService partyOrgService;
+    @AutoService
+    private PartyOrgIpersonService partyOrgIpersonService;
     @Override
     protected ContactsService getService() {
         return contactsService;
@@ -35,41 +43,42 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
         String findType = request.getParameter("findType");
         findType = StringUtils.isNotBlank(findType)?findType:"null";
         if (orgCode.length == 1) {
-            if(findType.equals("2")){
-                ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgContactsPerson"+orgCode[0]);
-                if (null==ztreeObjList){
-                    ztreeObjList = findOrgContactsPerson(orgCode[0],"-1");
-                    request.getSession().setAttribute("findOrgContactsPerson"+orgCode[0],ztreeObjList);
-                }
-            }else{
-                ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgPersonByOrgCode"+orgCode[0]);
-                if (null==ztreeObjList){
-                    ztreeObjList = findOrgPersonByOrgCode(orgCode[0],"-1",type);
-                    request.getSession().setAttribute("findOrgPersonByOrgCode"+orgCode[0],ztreeObjList);
-                }
-            }
+            ztreeObjList = getZtreeListFromSession(findType,orgCode[0],"-1",type);
         } else {
             for (String code : orgCode) {
-                List<ZtreeObj> thisOPList = new ArrayList<ZtreeObj>();
-                if(findType.equals("2")){
-                    ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgContactsPerson"+code);
-                    if (null==ztreeObjList){
-                        thisOPList = findOrgContactsPerson(code,"-1");
-                        request.getSession().setAttribute("findOrgContactsPerson"+code,ztreeObjList);
-                    }
-                }else{
-                    ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute("findOrgPersonByOrgCode"+code);
-                    if (null==ztreeObjList){
-                        thisOPList = findOrgPersonByOrgCode(code,"-1",type);
-                        request.getSession().setAttribute("findOrgPersonByOrgCode"+code,ztreeObjList);
-                    }
-                }
-                for(ZtreeObj op:thisOPList){
+                List<ZtreeObj> thisOPList = getZtreeListFromSession(findType,code,"-1",type);
+                ztreeObjList.addAll(thisOPList);
+                /*for(ZtreeObj op:thisOPList){
                     ztreeObjList.add(op);
-                }
+                }*/
             }
         }
         write(ztreeObjList);
+    }
+
+    public List<ZtreeObj> getZtreeListFromSession(String fidType,String code,String parentId,String type){
+        List<ZtreeObj> ztreeObjList = new ArrayList<ZtreeObj>();
+        String attributeString = "OrgIPersonZtree";
+        if(fidType.equals("2")){
+            attributeString = "OrgCPersonZtree";
+        }
+        if(fidType.equals("3")){
+            attributeString = "PartyOrgPersonZtree";
+        }
+        ztreeObjList=(List<ZtreeObj>)request.getSession().getAttribute(attributeString+code);
+        if (null==ztreeObjList){
+            if(fidType.equals("2")){
+                ztreeObjList = findOrgContactsPerson(code,parentId);
+            }else if(fidType.equals("3")) {
+                ztreeObjList = getZtreeListFromSession("1",code,parentId,type);
+                List<ZtreeObj> partyZtree = findPartyOrgAndPerson("root");
+                ztreeObjList.addAll(partyZtree);
+            }else{
+                ztreeObjList = findOrgPersonByOrgCode(code,parentId,type);
+            }
+            request.getSession().setAttribute(attributeString+code,ztreeObjList);
+        }
+        return ztreeObjList;
     }
 
     /**
@@ -156,9 +165,10 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             for(IOrg iOrgChild:orgs){
                 List<ZtreeObj> ztreeObjs = findOrgContactsPerson(iOrgChild.getOrgCode(),iOrg.getOrgId());
                 if(ztreeObjs.size()>0){
-                    for(ZtreeObj op: ztreeObjs){
+                    ztreeObjList.addAll(ztreeObjs);
+                    /*for(ZtreeObj op: ztreeObjs){
                         ztreeObjList.add(op);
-                    }
+                    }*/
                 }
             }
         }
@@ -187,14 +197,7 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
             ztreeObj.setCouldChose(true);
             ztreeObj.setId(iPerson.getPersonId());
             ztreeObj.setName(iPerson.getUserName());
-            if("1".equals(iPerson.getPcode())){
-                //ztreeObj.setName(iPerson.getUserName()+"(党员)");
-                ztreeObj.setPcode(iPerson.getPcode());
-                ztreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iPerson.getUserName()+"党员"));
-            }else{
-                //ztreeObj.setName(iPerson.getUserName());
-                ztreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iPerson.getUserName()));
-            }
+            ztreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(iPerson.getUserName()));
             ztreeObj.setUserId(iPerson.getUserId());
             ztreeObj.setMobilePhone(iPerson.getMobile());
             String job = (String) iPerson.getExtattrMap().get("job");
@@ -293,6 +296,47 @@ public class MsgSendAction extends BaseAction<Contacts, ContactsService> {
                     for(ZtreeObj op: ztreeObjs){
                         ztreeObjList.add(op);
                     }
+                }
+            }
+        }
+        return ztreeObjList;
+    }
+
+    /**
+     * 查找党员组织及人员
+     * @return
+     */
+    public List<ZtreeObj> findPartyOrgAndPerson(String parentOrgId){
+        List<ZtreeObj> ztreeObjList = new ArrayList<>();
+        PartyOrg queryPartyOrg = new PartyOrg();
+        queryPartyOrg.setParentId(parentOrgId);
+        List<PartyOrg> partyOrgs = partyOrgService.findBySample(queryPartyOrg);
+        parentOrgId = parentOrgId.equals("root")?"-1":parentOrgId;
+        if(partyOrgs.size()>0){
+            for(PartyOrg partyOrg:partyOrgs){
+                ZtreeObj orgZtreeObj = new ZtreeObj();
+                orgZtreeObj.setCouldChose(false);
+                orgZtreeObj.setId(partyOrg.getId());
+                orgZtreeObj.setParentId(parentOrgId);
+                orgZtreeObj.setName(partyOrg.getOrgName());
+                orgZtreeObj.setIcon("common/images/ztree/department.png");
+                orgZtreeObj.setPinyinCodes(PinyinUtil.getAllPinYinCodes(partyOrg.getOrgName()));
+                ztreeObjList.add(orgZtreeObj);
+
+                PartyOrgIperson partyOrgIperson = new PartyOrgIperson();
+                partyOrgIperson.setPartyOrgId(partyOrg.getId());
+                List<PartyOrgIperson> partyOrgIpersonList = partyOrgIpersonService.findBySample(partyOrgIperson);
+                if(partyOrgIpersonList.size()>0){
+                    for(PartyOrgIperson poi:partyOrgIpersonList){
+                        IPerson ciperson = PersonServiceUtil.getPerson(poi.getIpersonId());
+                        ZtreeObj perZtreeObj = coverToOrgPerson(null,ciperson,null,partyOrg.getId());
+                        ztreeObjList.add(perZtreeObj);
+                    }
+                }
+
+                List<ZtreeObj> childPartyOrgs = findPartyOrgAndPerson(partyOrg.getId());
+                if(childPartyOrgs.size()>0){
+                    ztreeObjList.addAll(childPartyOrgs);
                 }
             }
         }
