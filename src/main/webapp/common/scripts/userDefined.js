@@ -4,14 +4,13 @@ var pageUtils = {
     MSG_TYPE_PUBINFO : "3",
     MSG_TYPE_POLLUTANTPAYMENT : "4",
     MSG_TYPE_CREATEMODEDETAIL:"5",
-    MSG_TYPE_MONITOR_OFFICE:"6",
-    MSG_TYPE_MONITOR_CASE:"7",
-    MSG_TYPE_law_manage:"8",//监察大队
-    MSG_TYPE_trustMonitor:"9",//申请委托监测
-    MSG_TYPE_receiveTrustMonitor:"10",//接收委托监测
-    MSG_TYPE_monitoring_station_office:"11",//监测站办公室
-    MSG_TYPE_monitoring_station_master:"12",//监测站站长
-    MSG_TYPE_monitoring_station_person:"13",//监测人员
+    MSG_TYPE_MONITOR_OFFICE:"6",//监察大队办公室发送给环保站
+    MSG_TYPE_MONITOR_CASE:"7",//监控中心发送给监察大队
+    MSG_TYPE_law_manage:"8",//监察大队发送给环保站
+    MSG_TYPE_trustMonitor:"9",//申请委托监测发送给接收委托监测
+    MSG_TYPE_receiveTrustMonitor:"10",//接收委托监测发送给监测站办公室
+    MSG_TYPE_monitoring_station_office:"11",//监测站办公室发送给监测站站长
+    MSG_TYPE_monitoring_station_master:"12",//监测站站长发送给监测人员
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
 
@@ -61,7 +60,7 @@ var pageUtils = {
             typeMapUrl[that.MSG_TYPE_PUBINFO] = 'container/gov/office/pubinfo.jsp';
             typeMapUrl[that.MSG_TYPE_POLLUTANTPAYMENT] = 'container/gov/exelaw/pollutantPayment.jsp';
             typeMapUrl[that.MSG_TYPE_CREATEMODEDETAIL] = 'container/gov/office/createModeDetailForUpload.jsp';
-            typeMapUrl[that.MSG_TYPE_MONITOR_OFFICE] = 'container/gov/dispatch/lawManage.jsp?role=monitor_master';
+            typeMapUrl[that.MSG_TYPE_MONITOR_OFFICE] = 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta';
             typeMapUrl[that.MSG_TYPE_MONITOR_CASE] = 'container/gov/dispatch/lawManage.jsp?role=monitor_master';
             typeMapUrl[that.MSG_TYPE_law_manage] = 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta';
             typeMapUrl[that.MSG_TYPE_trustMonitor] = 'container/gov/exelaw/receiveTrustMonitor.jsp';

@@ -373,10 +373,17 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String jsonIds = JSON.toJSONString(ids);
         entity.setMonitorMasterPersonList(jsonIds);
 
+        String[] names = this.getParamValues("names");
+        String source = mc.getSource();
+        if (!"0".equals(source)){
+            entity.setEnvProStaPersonList(arrayToString(ids,true));
+            entity.setEnvProStaPersonNameList(arrayToString(names,false));
+        }
+
         entity.setMonitorCaseId(monitorCaseId);
         entity.setEnterpriseId(mc.getEnterpriseId());
         entity.setEnterpriseName(mc.getEnterpriseName());
-        entity.setSource(mc.getSource());
+        entity.setSource(source);
         entity.setEventTime(mc.getEventTime());
         entity.setBlockLevelId(mc.getBlockLevelId());
         entity.setBlockLevelName(mc.getBlockLevelName());
@@ -405,7 +412,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
 
         mc.setMonitorOfficePersonId(jsonIds);
-        String[] names = this.getParamValues("names");
         mc.setMonitorOfficePersonName(arrayToString(names,false));
         mc.setDispatchId(entity.getId());
         mc.setStatus(MonitorCase.status_1);
