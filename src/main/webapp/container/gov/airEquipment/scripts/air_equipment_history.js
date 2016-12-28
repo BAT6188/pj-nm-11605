@@ -2,13 +2,13 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "空气质量在线监测",
+    formTitle = "空气质量历史",
     selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_AirEquipment_save.action",
+        url: rootPath + "/action/S_port_AirEquipmentHistory_save.action",
         type:"post",
         data:entity,
         dataType:"json",
@@ -23,7 +23,7 @@ function saveAjax(entity, callback) {
  */
 function deleteAjax(ids, callback) {
     $.ajax({
-        url: rootPath + "/action/S_port_AirEquipment_delete.action",
+        url: rootPath + "/action/S_port_AirEquipmentHistory_delete.action",
         type:"post",
         data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
         dataType:"json",
@@ -35,7 +35,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_AirEquipment_list.action",
+        url: rootPath+"/action/S_port_AirEquipmentHistory_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -61,8 +61,23 @@ function initTable() {
                 visible:false
             },
             {
+                title: '设备ID',
+                field: 'equipmentId',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
                 title: '空气质量监测点',
                 field: 'airMonitoringName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '监测时间',
+                field: 'monitoringTime',
                 editable: false,
                 sortable: false,
                 align: 'center'

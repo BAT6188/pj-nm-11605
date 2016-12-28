@@ -5,6 +5,8 @@ import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
 import com.harmonywisdom.dshbcbp.composite.service.BlockService;
+import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -17,6 +19,10 @@ import org.apache.commons.lang.StringUtils;
 public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitoringService> {
     @AutoService
     private SiteMonitoringService siteMonitoringService;
+
+    @AutoService
+    private DispatchTaskService dispatchTaskService;
+
 
     @AutoService
     private AttachmentService attachmentService;
@@ -36,8 +42,11 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
+        if(StringUtils.isNotBlank(entity.getDispatchId())){
+            params.andParam(new QueryParam("dispatchId", QueryOperator.EQ,entity.getDispatchId()));
+        }
         if(StringUtils.isNotBlank(entity.getEnterpriseId())){
-            params.andParam(new QueryParam("enterpriseId", QueryOperator.LIKE,entity.getEnterpriseId()));
+            params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
             params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
@@ -59,7 +68,12 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
 
     @Override
     public void save() {
-        //获取删除的附件IDS
+        String dispatchId = entity.getDispatchId();
+        if (StringUtils.isNotEmpty(dispatchId)){
+            DispatchTask dispatchTask = dispatchTaskService.findById(dispatchId);
+            dispatchTask.setMonitorReportStatus("1");
+            dispatchTaskService.update(dispatchTask);
+        }
 
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
