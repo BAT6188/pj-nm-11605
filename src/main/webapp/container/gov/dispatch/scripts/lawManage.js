@@ -1,15 +1,34 @@
 //@ sourceURL=lawManage.js
 var gridTable = $('#table'),
     feedbackRecordTable=$("#feedbackRecordTable"),
+    table_siteMonitoringReportDialog = $('#table_siteMonitoringReportDialog'),
     overBtn = $('#overBtn'),
     dealWithBtn = $('#dealWith'),
     feedbackBtn = $('#feedback'),
+    addSiteMonitoring = $('#addSiteMonitoring'),
     eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice"),
     eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase"),
     feedbackForm=$("#feedbackForm"),
     overDialog=$("#overDialog"),
-    scfDialog=$("#scfDialog"),
+    addSiteMonitoringDialog=$("#addSiteMonitoringDialog"),
     selections = [];
+
+$("#addSiteMonitoring").click(function () {
+    resetDialog(addSiteMonitoringDialog);
+    var row=getSelections()[0];
+    var inputs = addSiteMonitoringDialog.find('[name]');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        $(v).val(row[tagId]);
+    });
+
+    $("#dispatchId").val(row.id)
+    $("#checkPeople").val(userName)
+    $("#monitoringTime").val((new Date()).format("yyyy-MM-dd"))
+
+
+
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -176,14 +195,15 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                events: monitorReportEvents,
+                events: siteMonitoringReportEvents,
                 formatter: function (value, row, index) {
                     if(value=='1'){
-                        value="已报送"
+                        value="已报送";
+                        value="<a class='btn btn-md btn-warning siteMonitoringReport' data-toggle='modal' data-target='#siteMonitoringReportDialog'>"+value+"</a>";
                     }else {
                         value="未报送"
                     }
-                    return "<a class='btn btn-md btn-warning monitorReport' data-toggle='modal' data-target='#monitorReport'>"+value+"</a>";
+                    return value;
                 }
             },
             {
@@ -272,6 +292,7 @@ function initTable() {
         //选中一条数据启用修改按钮
         dealWithBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         feedbackBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        addSiteMonitoring.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         overBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
@@ -292,12 +313,7 @@ function feedbackStatusoperateFormatter(value, row, index) {
 }
 
 function lookOverFormatter(value, row, index) {
-    var sm='<button type="button" class="btn btn-md btn-warning sm">现场监察</button>&nbsp';
-    var h='<button type="button" class="btn btn-md btn-warning lookOver">查看</button>';
-    if('env_pro_sta'==role){
-        h=sm+h;
-    }
-    return h;
+    return '<button type="button" class="btn btn-md btn-warning lookOver">查看</button>';
 }
 
 window.lookOverEvents = {
@@ -346,27 +362,14 @@ window.lookOverEvents = {
             }
 
         }
-    },
-
-    'click .sm': function (e, value, entity, index) {
-        scfDialog.modal('show')
-        resetDialog(scfDialog);
-
     }
 };
 
-window.monitorReportEvents = {
-    'click .monitorReport': function (e, value, entity, index) {
-        for(p in entity){
-            var selector="#"+p+"_monitorReport"
-            $(selector).val(entity[p])
-        }
-        $(".noEdit").attr("disabled",true)
-        $('.lookover').datetimepicker('remove');
-
-        uploaderToggle(".cUploader")
-        uploader = new qq.FineUploader(getUploaderOptions(entity.id));
-        bindDownloadSelector();
+window.siteMonitoringReportEvents = {
+    'click .siteMonitoringReport': function (e, value, entity, index) {
+        table_siteMonitoringReportDialog.bootstrapTable('refresh',{
+            query:{dispatchId:entity.dispatchId}
+        });
     }
 };
 
@@ -427,6 +430,7 @@ initTable();
 overBtn.prop('disabled', true);
 dealWithBtn.prop('disabled', true);
 feedbackBtn.prop('disabled', true);
+addSiteMonitoring.prop('disabled', true);
 
 $("#dealWith").bind("click",function () {
     var row=getSelections()[0];
@@ -468,7 +472,7 @@ $("#feedback").bind("click",function () {
 });
 
 /***********  现场监察监测报告  *******************/
-var $monitorReport = $("#monitorReport");
+/*var $monitorReport = $("#monitorReport");
 var options_monitorReport = {
     params:{
         orgCode:[orgCodeConfig.org.wuKongShi.orgCode],//组织机构代码(必填，组织机构代码)
@@ -517,7 +521,7 @@ var ef_$monitorReport = $monitorReport.easyform({
 
 $("#save_monitorReport").click(function () {
     ef_$monitorReport.submit(false);
-})
+})*/
 
 
 
@@ -937,7 +941,7 @@ $("#overSure").click(function () {
 })
 
 /************  新增（现场监察）表单 ******************/
-var newXianChangJianChaForm=$("#newXianChangJianChaForm");
+/*var newXianChangJianChaForm=$("#newXianChangJianChaForm");
 $("#insert").click(function () {
     disabledForm(newXianChangJianChaForm,false)
 
@@ -953,10 +957,10 @@ function saveXianChangJianChaAjax(entity, callback) {
         data:entity,
         success:callback
     });
-}
+}*/
 
 //------------ 现场监察发送，保存发送人员和 ------------------//
-var options_newXianChangJianChaForm = {
+/*var options_newXianChangJianChaForm = {
     params:{
         orgCode:[orgCodeConfig.org.jianChaDaDui.orgCode],//组织机构代码(必填，组织机构代码)
         type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
@@ -1007,7 +1011,7 @@ var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
 $("#saveXianChangJianChaBtn").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef_newXianChangJianChaForm.submit(false);
-});
+});*/
 
 
 
@@ -1017,7 +1021,7 @@ $(document).ready(function () {
     loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
     loadBlockLevelAndBlockOption("#blockLevelId_feedback","#blockId_feedback")
     loadBlockLevelAndBlockOption("#lookOverFeedbackForm_blockLevelId","#lookOverFeedbackForm_blockId")
-    loadBlockLevelAndBlockOption("#blockLevelId_newXianChangJianChaForm","#blockId_newXianChangJianChaForm")
+    // loadBlockLevelAndBlockOption("#blockLevelId_newXianChangJianChaForm","#blockId_newXianChangJianChaForm")
 
     if("monitor_master"==role){
         $("#insert").hide();
@@ -1030,7 +1034,7 @@ $(document).ready(function () {
 /**
  * Autocomplete  enterpriseName
  */
-$( function() {
+/*$( function() {
 
     $("#enterpriseName_newXianChangJianChaForm").autocomplete({
         source: function( request, response ) {
@@ -1065,9 +1069,9 @@ $( function() {
         },
     } );
 
-} );
+} );*/
 
-function saveAjax_scfDialog(entity, callback) {
+function saveAjax_addSiteMonitoringDialog(entity, callback) {
     $.ajax({
         url: rootPath + "/action/S_exelaw_SiteMonitoring_save.action",
         type:"post",
@@ -1077,14 +1081,14 @@ function saveAjax_scfDialog(entity, callback) {
     });
 }
 
-var ef_scfDialog = scfDialog.easyform({
-    success:function (ef_scfDialog) {
-        var entity = $("#scfDialog").find("form").formSerializeObject();
+var ef_addSiteMonitoringDialog = addSiteMonitoringDialog.easyform({
+    success:function (ef_addSiteMonitoringDialog) {
+        var entity = $("#addSiteMonitoringDialog").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
         entity.userId=userId;
         console.log(entity);
-        saveAjax_scfDialog(entity,function (msg) {
-            scfDialog.modal('hide');
+        saveAjax_addSiteMonitoringDialog(entity,function (msg) {
+            addSiteMonitoringDialog.modal('hide');
         });
     }
 });
@@ -1092,8 +1096,101 @@ var ef_scfDialog = scfDialog.easyform({
 //表单 保存按钮
 $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
-    ef_scfDialog.submit(false);
+    ef_addSiteMonitoringDialog.submit(false);
 });
 
+//------------------------现场监察报告列表---------------------------//
+function initTable_siteMonitoringReportDialog() {
+    table_siteMonitoringReportDialog.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_exelaw_SiteMonitoring_list.action",
+        height: pageUtils.getTableHeight(),
+        method:'post',
+        pagination:true,
+        clickToSelect:true,//单击行时checkbox选中
+        queryParams:function(param){
+            var temp = pageUtils.getBaseParams(param);
+            return temp;
+        },
+        columns: [
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'blockName',
+                title: '所属网格',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'checkPeople',
+                title: '监察人员',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'monitoringTime',
+                title: '监察时间',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+
+            {
+                field: 'isNotProblem',
+                title: '是否存在问题',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="是"
+                    }else if(2==value){
+                        value="否"
+                    }
+                    return value;
+                }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: operateEvents,
+                formatter: operateFormatter
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        table_siteMonitoringReportDialog.bootstrapTable('resetView');
+    }, 200);
+
+    $(window).resize(function () {
+        // 重新设置表的高度
+        table_siteMonitoringReportDialog.bootstrapTable('resetView', {
+            height: pageUtils.getTableHeight()
+        });
+    });
+}
+initTable_siteMonitoringReportDialog();
 
 

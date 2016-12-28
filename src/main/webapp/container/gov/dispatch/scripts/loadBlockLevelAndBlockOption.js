@@ -22,7 +22,7 @@ function loadBlockLevelAndBlockOption(blockLevelSelector,blockSelector) {
             data: {
                 page:1,
                 pageSize:1000,
-                blockLevelId:blockLevelId
+                blockLevelId:3
             },
             success: function( msg ) {
                 var data=msg.rows
