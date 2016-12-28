@@ -71,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">委托监测</h4>
+                <h4 class="modal-title form-title">新增委托监测</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
@@ -94,7 +94,9 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">委托部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="applyOrgId" name="applyOrgId" class="form-control"></select>
+                            <%--<select id="applyOrgId" name="applyOrgId" class="form-control"></select>--%>
+                                <input type="text" id="applyOrgId" name="applyOrgId" class="form-control" data-message="监测内容不能为空"
+                                       data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">委托人<span class="text-danger">*</span>：</label>
@@ -127,10 +129,10 @@
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
-                        <label for="enterpriseName" class="col-sm-2 control-label">监测地点<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测地点<span class="text-danger"></span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorAddress" name="monitorAddress" class="form-control" data-message="监测地点不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
+                            <input type="text" id="monitorAddress" name="monitorAddress" class="form-control"
+                                  />
                         </div>
                     </div>
                     <div class="form-group">
