@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>人员信息管理</title>
+    <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <%--<link href="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/metrStyle-cd/metroStyle.css" rel="stylesheet">
     <script src="<%=request.getContextPath()%>/common/scripts/ztree-3.5.24/jquery.ztree.all.js"></script>
     <script src="<%=request.getContextPath()%>/common/scripts/slimScroll/jquery.slimscroll.js"></script>--%>
@@ -17,6 +18,20 @@
     </style>
     <script>
         $('.shouldSet').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+
+        $(function(){
+            initSelect();
+        });
+        /*初始化选择菜单*/
+        function initSelect(){
+            var dictData = dict.getDctionnary({code:['position']});
+            /*数据字典*/
+            var optionsHtml = '';
+            $.each(dictData,function(i,obj){
+                optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
+            })
+            $('#position').append(optionsHtml);
+        }
     </script>
 </head>
 <body>
@@ -116,10 +131,10 @@
                                 <label for="position" class="col-sm-2 control-label">网格职务：<span class="text-danger">*</span>：</label>
                                 <div class="col-sm-4">
                                     <select  id="position" name="position" class="form-control">
-                                        <option value="1">责任领导</option>
-                                        <option value="2">分管领导</option>
-                                        <option value="3">主要负责人</option>
-                                        <option value="4">直接负责人</option>
+                                        <%--<option value="1">责任领导</option>--%>
+                                        <%--<option value="2">分管领导</option>--%>
+                                        <%--<option value="3">主要负责人</option>--%>
+                                        <%--<option value="4">直接负责人</option>--%>
                                     </select>
                                 </div>
                             </div>
@@ -195,6 +210,7 @@
     </div>
 </div>
 </div>
+
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/blockPerson.js"></script>
 </body>
 </html>
