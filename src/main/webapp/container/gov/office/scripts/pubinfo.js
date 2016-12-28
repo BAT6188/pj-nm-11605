@@ -172,6 +172,7 @@ function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
         if (row.pubOrgId == orgId) {
             updateBtn.prop('disabled', false);
+            return row;
         } else {
             updateBtn.prop('disabled', true);
             Ewin.alert({message: "没有操作权限！"}).on(function (e) {
@@ -179,8 +180,8 @@ function getSelections() {
                     return;
                 }
             });
+            return null;
         }
-        return row;
     });
 }
 
@@ -201,14 +202,15 @@ $("#add").bind('click', function () {
 });
 $("#update").bind("click", function () {
     var entity = getSelections()[0];
-    if (entity.status == 1) {
-        $('#pub').attr('disabled', true);
-    } else {
-        $('#pub').attr('disabled', false);
+    if(entity){
+        if (entity.status == 1) {
+            $('#pub').attr('disabled', true);
+        } else {
+            $('#pub').attr('disabled', false);
+        }
+        setFormData(entity);
+        $("#pubOrgName").attr("disabled", true);
     }
-    setFormData(entity);
-
-    $("#pubOrgName").attr("disabled", true)
 });
 $("#pub").bind("click", function () {
     ef2.submit(false);
@@ -276,7 +278,7 @@ var ef2 = form.easyform({
 removeBtn.click(function () {
     var ids = getIdSelections();
     var entity = getSelections()[0];
-    if (entity.pubOrgId == orgId) {
+    if (entity) {
         Ewin.confirm({message: "确认要删除选择的数据吗？"}).on(function (e) {
             if (!e) {
                 return;
@@ -288,13 +290,6 @@ removeBtn.click(function () {
                 });
                 removeBtn.prop('disabled', true);
             });
-        });
-    }else{
-        removeBtn.prop('disabled', true);
-        Ewin.alert({message: "没有操作权限！"}).on(function (e) {
-            if (!e) {
-                return;
-            }
         });
     }
 });

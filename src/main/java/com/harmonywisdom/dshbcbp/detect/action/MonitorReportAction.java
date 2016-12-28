@@ -45,6 +45,9 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         if (StringUtils.isNotBlank(entity.getMonitorName())) {
             params.andParam(new QueryParam("monitorName", QueryOperator.LIKE,"%"+entity.getMonitorName()+"%"));
         }
+        if (StringUtils.isNotBlank(entity.getMonitorPersonName())) {
+            params.andParam(new QueryParam("monitorPersonName", QueryOperator.LIKE,"%"+entity.getMonitorPersonName()+"%"));
+        }
         if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
             params.andParam(new QueryParam("blockLevelId", QueryOperator.EQ,entity.getBlockLevelId()));
         }

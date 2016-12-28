@@ -120,29 +120,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格：</label>
+                        <label for="" class="col-sm-2 control-label">所属网格：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control">
+                            <select id="blockLevelId" name="blockLevelId" class="form-control" style="display: none">
                             </select>
-                        </div>
-
-                        <label for="blockId" class="col-sm-2 control-label"></label>
-                        <div class="col-sm-4">
                             <select id="blockId" name="blockId" class="form-control">
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group">
+
                         <label for="supervisor" class="col-sm-2 control-label">监管人员：</label>
                         <div class="col-sm-4">
                             <input type="text" id="supervisor" name="supervisor" class="form-control"/>
                         </div>
-
-                        <%--<label for="supervisorPhone" class="col-sm-2 control-label">联系方式：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="supervisorPhone" name="supervisorPhone" class="form-control"
-                            />
-                        </div>--%>
                     </div>
                     <div class="form-group">
                         <label for="informer" class="col-sm-2 control-label">举报人姓名：</label>
