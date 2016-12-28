@@ -55,10 +55,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">所属区域：</label>
-                            <select class="form-control s_blockLevelId" style="width: 266px;">
+                            <label for="">所属网格：</label>
+                            <select class="form-control s_blockLevelId" style="width: 266px;display: none">
                             </select>
-                            -
+                            <%-----%>
                             <select class="form-control s_blockId" style="width: 266px;">
                             </select>
                         </div>
