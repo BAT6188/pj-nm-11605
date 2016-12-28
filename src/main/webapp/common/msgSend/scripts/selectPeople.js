@@ -28,11 +28,21 @@ MsgSend.tree = {};
                 MsgContentsId:'msgContents'+timeId,
                 SelectTableId:'selectTable'+timeId
             }, options || {});
-            var width = isNaN(options.width)?options.width:options.width+"px;";
+            options.width = isNaN(options.width)?options.width:options.width+"px;";
             options.params.orgCode = options.params.orgCode!=null?options.params.orgCode:["0170001000"];
             options.params.type = options.params.type!=null?options.params.type:1;
-
-            if(type==1){//系统发送
+            options.params.findType=type;
+            if(type==2){//短信发送
+                var html = $('#selectContactsDialog').html();
+                var content = html.replace(reg, function (node, key) {
+                    return options[key];
+                });
+                options.timeId = timeId;
+                $('#msgSendBoday').append(content);
+                $('#'+options.ScrollContent).append(pageUtils.loading());
+                dialog = $('#selModel'+timeId);
+                treeObj=setDialogTypeTwo(dialog,options,callback);
+            }else{//系统发送
                 var html = $('#selectOrgPeopleDialog').html();
                 var content = html.replace(reg, function (node, key) {
                     return options[key];
@@ -42,17 +52,6 @@ MsgSend.tree = {};
                 $('#'+options.ScrollContent).append(pageUtils.loading());
                 dialog = $('#selModel'+timeId);
                 treeObj=setDialogTypeOne(dialog,options,callback);
-            }else{//短信发送
-                var html = $('#selectContactsDialog').html();
-                var content = html.replace(reg, function (node, key) {
-                    return options[key];
-                });
-                options.timeId = timeId;
-                options.params.findType="2";
-                $('#msgSendBoday').append(content);
-                $('#'+options.ScrollContent).append(pageUtils.loading());
-                dialog = $('#selModel'+timeId);
-                treeObj=setDialogTypeTwo(dialog,options,callback);
             }
             var msgSendTools = {
                 treeObj:treeObj,
@@ -217,11 +216,12 @@ function setDialogTypeOne(dialog,options,callback){
         if (!childNodes) return null;
         for (var i=0, l=childNodes.length; i<l; i++) {
             childNodes[i].saveName = childNodes[i].name.replace(/\.n/g, '.');
-            if(childNodes[i].pcode=="1"){
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+            /*if(childNodes[i].pcode=="1"){
                 childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.')+"(党员)";
             }else{
                 childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-            }
+            }*/
         }
         return childNodes;
     }
