@@ -173,7 +173,8 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                isDown:true
+                isDown:true,
+                formatter:positionFormatter
             },
             // {
             //     title: '座机号码',
@@ -270,6 +271,12 @@ function initTable() {
 function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#scfForm">查看</button>';
 }
+
+
+function positionFormatter(value, row, index){
+    return dict.get('position',value);
+}
+
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {

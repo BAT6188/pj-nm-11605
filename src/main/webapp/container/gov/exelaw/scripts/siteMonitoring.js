@@ -242,6 +242,9 @@ updateBtn.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     resetForm();
+    $('#checkPeople').val(userName)
+    $('#monitoringTime').val((new Date()).format("yyyy-MM-dd"))
+
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);

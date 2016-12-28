@@ -52,6 +52,7 @@
         <class>com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory</class>
         <!-- 空气设备表 -->
         <class>com.harmonywisdom.dshbcbp.port.bean.AirEquipment</class>
+        <class>com.harmonywisdom.dshbcbp.port.bean.AirEquipmentHistory</class>
 
         <!-- 传输有效率 -->
         <class>com.harmonywisdom.dshbcbp.port.bean.TransportEfficient</class>

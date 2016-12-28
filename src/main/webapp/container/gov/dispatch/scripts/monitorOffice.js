@@ -410,14 +410,15 @@ var ef = eventMsgForm.easyform({
                     url: rootPath + "/action/S_office_Contacts_list.action?blockId="+blockId,
                     // type:"post",
                     dataType:"json",
-                    success:function (rows) {
-                        console.log(rows)
+                    success:function (o) {
+                        console.log(o)
                         var d=""
-                        $.each(rows,function (i,v) {
+                        $.each(o.rows,function (i,v) {
                             d+="&ids="+v.apportalPersonId
                             d+="&names="+v.apportalUserName
                         })
                         d+="&sourceId="+msg.id
+                        console.log("保存的信息："+d);
                         $.ajax({
                             url: rootPath + "/action/S_dispatch_DispatchTask_save.action",
                             type:"post",
@@ -428,7 +429,7 @@ var ef = eventMsgForm.easyform({
                                 gridTable.bootstrapTable('refresh');
 
                                 var receivers = [];
-                                $.each(rows,function (i,v) {
+                                $.each(o.rows,function (i,v) {
                                     var receiver1 = {receiverId:v.apportalUserId,receiverName:v.apportalUserName};
                                     receivers.push(receiver1);
                                 })

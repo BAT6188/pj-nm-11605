@@ -6,7 +6,7 @@
 function loadBlockLevelAndBlockOption(blockLevelSelector,blockSelector) {
     function appendOption(selector,options) {
         $(selector).empty();
-        $(selector).append($("<option>").val('').text("全部"));
+        $(selector).append($("<option>").val('').text("请选择"));
         $.each(options,function (i,v) {
             var option = $("<option>").val(v.code).text(v.name);
             $(selector).append(option);
@@ -20,7 +20,9 @@ function loadBlockLevelAndBlockOption(blockLevelSelector,blockSelector) {
             async :false,
             dataType: "json",
             data: {
-                blockLevelId:blockLevelId
+                page:1,
+                pageSize:1000,
+                blockLevelId:3
             },
             success: function( msg ) {
                 var data=msg.rows
