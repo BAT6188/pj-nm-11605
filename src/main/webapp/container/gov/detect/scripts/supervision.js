@@ -308,6 +308,9 @@ function setFormData(entity) {
     $("#position").val(entity.position);
     $("#areaPoints").val(entity.areaPoints);
     $("#childBlockId").val(entity.childBlockId);
+    $("#environmentalLeader").val(entity.environmentalLeader);
+    $("#environmentalPhone").val(entity.environmentalPhone);
+    $("#blockDuty").val(entity.blockDuty);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }

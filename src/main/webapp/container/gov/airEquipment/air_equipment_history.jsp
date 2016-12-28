@@ -57,37 +57,47 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title" id="demoFormTitle">添加控制质量在线监测</h4>
+                <h4 class="modal-title form-title" id="demoFormTitle">添加空气质量历史</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="airMonitoringName" class="col-sm-2 control-label">空气质量监测点<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
-                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
-                                   data-message="企业名称不能为空"
+                            <input type="text" id="airMonitoringName" name="airMonitoringName" class="form-control"
+                                   data-message="空气质量监测点不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
 
-                        <label for="belongReseau" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <label for="monitoringNumber" class="col-sm-2 control-label">监测点名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="belongReseau" name="belongReseau" class="form-control"
-                                   data-message="所属网格不为空"
+                            <input type="text" id="monitoringNumber" name="monitoringNumber" class="form-control"
+                                   data-message="监测点名称不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="checkPeople" class="col-sm-2 control-label">监察人员<span class="text-danger">*</span>：</label>
+                        <label for="longitude" class="col-sm-2 control-label">经度<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="checkPeople" name="checkPeople" class="form-control"
+                            <input type="text" id="longitude" name="longitude" class="form-control"
                                    data-message="监察人员不为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
+
+                        <label for="longitude" class="col-sm-2 control-label">纬度<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="latitude" name="latitude" class="form-control"
+                                   data-message="监察人员不为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
@@ -98,14 +108,6 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="isNotProblem" class="col-sm-3 control-label">是否存在问题<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4 radio">
-                            <label><input type="radio" value="1" checked name="isNotProblem">是</label>
-                            <label><input type="radio" value="2" name="isNotProblem">否</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -133,6 +135,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script src="<%=request.getContextPath()%>/container/gov/airEquipment/scripts/air_equipment.js"></script>
+<script src="<%=request.getContextPath()%>/container/gov/airEquipment/scripts/air_equipment_history.js"></script>
 </body>
 </html>
