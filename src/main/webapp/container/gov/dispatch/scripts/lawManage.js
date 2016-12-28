@@ -6,6 +6,7 @@ var gridTable = $('#table'),
     dealWithBtn = $('#dealWith'),
     feedbackBtn = $('#feedback'),
     addSiteMonitoring = $('#addSiteMonitoring'),
+    addPunish = $('#addPunish'),
     eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice"),
     eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase"),
     feedbackForm=$("#feedbackForm"),
@@ -13,20 +14,28 @@ var gridTable = $('#table'),
     addSiteMonitoringDialog=$("#addSiteMonitoringDialog"),
     selections = [];
 
+$("#addPunish").click(function () {
+    var row=getSelections()[0];
+    var url = rootPath + "/container/gov/exelaw/punish.jsp?id=" + row.id;
+    pageUtils.toUrl(url);
+})
+
 $("#addSiteMonitoring").click(function () {
     resetDialog(addSiteMonitoringDialog);
     var row=getSelections()[0];
-    var inputs = addSiteMonitoringDialog.find('[name]');
+    var inputs = addSiteMonitoringDialog.find('.form-control');
     $.each(inputs,function(k,v){
         var tagId = $(v).attr('name');
         $(v).val(row[tagId]);
     });
 
-    $("#dispatchId").val(row.id)
+    $("#dispatchId_addSiteMonitoringDialog").val(row.id)
     $("#checkPeople").val(userName)
     $("#monitoringTime").val((new Date()).format("yyyy-MM-dd"))
 
-
+    uploaderToggle(".dUploader")
+    uploader = new qq.FineUploader(getUploaderOptions());
+    bindDownloadSelector();
 
 })
 
@@ -293,6 +302,7 @@ function initTable() {
         dealWithBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         feedbackBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         addSiteMonitoring.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        addPunish.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         overBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
@@ -368,7 +378,7 @@ window.lookOverEvents = {
 window.siteMonitoringReportEvents = {
     'click .siteMonitoringReport': function (e, value, entity, index) {
         table_siteMonitoringReportDialog.bootstrapTable('refresh',{
-            query:{dispatchId:entity.dispatchId}
+            query:{dispatchId:entity.id}
         });
     }
 };
@@ -431,6 +441,7 @@ overBtn.prop('disabled', true);
 dealWithBtn.prop('disabled', true);
 feedbackBtn.prop('disabled', true);
 addSiteMonitoring.prop('disabled', true);
+addPunish.prop('disabled', true);
 
 $("#dealWith").bind("click",function () {
     var row=getSelections()[0];
@@ -654,9 +665,8 @@ function setEventMsgFormData(entity) {
  * 重置表单
  */
 function resetDialog(dialog) {
-    dialog.find(".form-control").val("");
+    dialog.find('form')[0].reset();
     dialog.find("#isSendSms").attr("checked",false);
-    $("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(dialog,false);
 }
@@ -1089,6 +1099,7 @@ var ef_addSiteMonitoringDialog = addSiteMonitoringDialog.easyform({
         console.log(entity);
         saveAjax_addSiteMonitoringDialog(entity,function (msg) {
             addSiteMonitoringDialog.modal('hide');
+            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
         });
     }
 });
@@ -1105,14 +1116,12 @@ function initTable_siteMonitoringReportDialog() {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_exelaw_SiteMonitoring_list.action",
-        height: pageUtils.getTableHeight(),
+        // height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
-        clickToSelect:true,//单击行时checkbox选中
-        queryParams:function(param){
-            var temp = pageUtils.getBaseParams(param);
-            return temp;
-        },
+        pageSize:5,
+        pageList:[5],
+        queryParams:pageUtils.localParams,
         columns: [
             {
                 title: 'ID',
@@ -1168,13 +1177,6 @@ function initTable_siteMonitoringReportDialog() {
                     }
                     return value;
                 }
-            },
-            {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
             }
 
         ]
@@ -1184,12 +1186,6 @@ function initTable_siteMonitoringReportDialog() {
         table_siteMonitoringReportDialog.bootstrapTable('resetView');
     }, 200);
 
-    $(window).resize(function () {
-        // 重新设置表的高度
-        table_siteMonitoringReportDialog.bootstrapTable('resetView', {
-            height: pageUtils.getTableHeight()
-        });
-    });
 }
 initTable_siteMonitoringReportDialog();
 
