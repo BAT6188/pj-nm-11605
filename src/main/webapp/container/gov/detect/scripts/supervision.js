@@ -4,7 +4,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
-    formTitle = "网格人员",
+    formTitle = "网格信息",
     selections = [];
 
 //保存ajax请求
