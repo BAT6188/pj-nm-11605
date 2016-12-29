@@ -313,7 +313,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         type:"post",
         data:d,
         success:function (ret) {
-            form.modal('hide');
+            $("#demoForm").modal('hide');
             gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 
             var receivers = [];
@@ -439,18 +439,18 @@ function getNowFormatDate() {
  * 重置表单
  */
 function resetForm() {
-    form.find("input[type!='radio'][type!='checkbox']").val("");
-    form.find("#isSendSms").attr("checked",false);
-    form.find("textarea").val("");
-    form.find("#applicant").val(userName);
-    form.find("#applyOrgId").val(orgName);
-    form.find("#applicantPhone").val(mobile);
-    form.find("#trustOrgAddress").val("监测站");
-    form.find("#monitorTime").val(getNowFormatDate());
-    disabledForm(form,false);
-    form.find("#saveAndSend").show();
-    form.find("#isSendSmsSpan").show();
-    form.find(".btn-cancel").text("取消");
+    $("#demoForm").find("input[type!='radio'][type!='checkbox']").val("");
+    $("#demoForm").find("#isSendSms").attr("checked",false);
+    $("#demoForm").find("textarea").val("");
+    $("#demoForm").find("#applicant").val(userName);
+    $("#demoForm").find("#applyOrgId").val(orgName);
+    $("#demoForm").find("#applicantPhone").val(mobile);
+    $("#demoForm").find("#trustOrgAddress").val("监测站");
+    $("#demoForm").find("#monitorTime").val(getNowFormatDate());
+    disabledForm($("#demoForm"),false);
+    $("#demoForm").find("#saveAndSend").show();
+    $("#demoForm").find("#isSendSmsSpan").show();
+    $("#demoForm").find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
