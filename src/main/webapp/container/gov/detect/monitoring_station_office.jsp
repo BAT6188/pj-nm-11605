@@ -81,92 +81,92 @@
                 <form class="form-horizontal" role="form">
                     <input type="hidden" id="id" name="id">
                     <input type="hidden" id="removeId" name="removeId">
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
-                        <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label demoForms">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent" name="monitorContent" class="form-control" data-message="监测内容不能为空"
+                            <input type="text" id="monitorContent" name="monitorContent" class="form-control " data-message="监测内容不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">申请部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="applyOrgId" name="applyOrgId" style="width: 274px;" class="form-control"></select>
+                            <select id="applyOrgId" name="applyOrgId" style="width: 274px;" class="form-control demoForms"></select>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">申请人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applicant" name="applicant" class="form-control" data-message="申请人不能为空"
+                            <input type="text" id="applicant" name="applicant" class="form-control demoForms" data-message="申请人不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applicantPhone" name="applicantPhone" class="form-control" data-message="联系方式不能为空"
+                            <input type="text" id="applicantPhone" name="applicantPhone" class="form-control demoForms" data-message="联系方式不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">委托时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
-                                <input class="form-control" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="监测时间不能为空"
+                                <input class="form-control demoForms" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="监测时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">委托单位地点<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="trustOrgAddress" name="trustOrgAddress" class="form-control" data-message="委托单位地点不能为空"
+                            <input type="text" id="trustOrgAddress" name="trustOrgAddress" class="form-control demoForms" data-message="委托单位地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测地点<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorAddress" name="monitorAddress" class="form-control" data-message="监测地点不能为空"
+                            <input type="text" id="monitorAddress" name="monitorAddress" class="form-control demoForms" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">监测内容详情<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="monitorContentDetail" name="monitorContentDetail" class="form-control" rows="4" cols="50" placeholder="" data-message="监测内容详情不能为空"
+                            <textarea id="monitorContentDetail" name="monitorContentDetail" class="form-control demoForms" rows="4" cols="50" placeholder="" data-message="监测内容详情不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">审核人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="auditor" name="monitorAddress" class="form-control" data-message="监测地点不能为空"
+                            <input type="text" id="auditor" name="monitorAddress" class="form-control demoForms" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">联系方式：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="auditorPhone" name="monitorAddress" class="form-control" data-message="监测地点不能为空"
+                            <input type="text" id="auditorPhone" name="monitorAddress" class="form-control demoForms" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">审批时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="auditTime" name="auditTime" class="form-control" data-message="监测地点不能为空"
+                            <input type="text" id="auditTime" name="auditTime" class="form-control demoForms" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="auditSuggestion" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                            <textarea id="auditSuggestion" name="auditSuggestion" class="form-control demoForms" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <%--<div class="form-group">
@@ -176,6 +176,34 @@
                             <div id="fine-uploader-gallery" class="uploaderToggle aUploader"></div>
                         </div>
                     </div>--%>
+
+                    <div class="form-group ">
+                        <label for="officeShouLiPersonName" class="col-sm-2 control-label">受理人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="officeShouLiPersonName" name="officeShouLiPersonName" class="form-control" data-message="受理人不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+
+
+                        <label for="officeShouLiTime" class="col-sm-2 control-label">受理时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <div  id = "datetimepicker2"class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                                <input class="form-control demoForms" size="16" type="text" value="" id="officeShouLiTime" name="officeShouLiTime" data-message="受理时间不能为空"
+                                       data-easytip="position:top;class:easy-red;">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">受理意见<span class="text-danger"></span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="officeShouLiYiJian" name="officeShouLiYiJian" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+
+
+
                 </form>
             </div>
             <div class="modal-footer">
