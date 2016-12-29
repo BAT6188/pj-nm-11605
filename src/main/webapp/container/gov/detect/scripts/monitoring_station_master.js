@@ -223,6 +223,9 @@ $("#diaoDuButton").bind("click",function () {
     var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorMaster.action";
     pageUtils.updateSelfReadStatus(url,row.id,1)
     setFormData(row);
+    form.find("[name=masterShouLiPersonName]").val(userName)
+    form.find("[name=masterShouLiTime]").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    form.find("[name=masterShouLiYiJian]").attr("disabled",false)
 });
 
 
