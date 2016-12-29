@@ -71,9 +71,9 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="id" name="id">
-                            <input type="hidden" id="removeId" name="removeId">
-                            <input type="hidden" name="enterpriseId" id="enterpriseId">
+                            <input type="hidden" id="id" name="id" class="form-control">
+                            <input type="hidden" id="removeId" name="removeId" class="form-control">
+                            <input type="hidden" name="enterpriseId" id="enterpriseId" class="form-control">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
                                    data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"

@@ -45,6 +45,9 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         if (StringUtils.isNotBlank(entity.getMonitorName())) {
             params.andParam(new QueryParam("monitorName", QueryOperator.LIKE,"%"+entity.getMonitorName()+"%"));
         }
+        if (StringUtils.isNotBlank(entity.getReportNumber())) {
+            params.andParam(new QueryParam("reportNumber", QueryOperator.LIKE,"%"+entity.getReportNumber()+"%"));
+        }
         if (StringUtils.isNotBlank(entity.getMonitorPersonName())) {
             params.andParam(new QueryParam("monitorPersonName", QueryOperator.LIKE,"%"+entity.getMonitorPersonName()+"%"));
         }
@@ -56,6 +59,9 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         }
         if (StringUtils.isNotBlank(entity.getType())) {
             params.andParam(new QueryParam("type", QueryOperator.EQ,entity.getType()));
+        }
+        if (StringUtils.isNotBlank(entity.getMonitoringType())) {
+            params.andParam(new QueryParam("monitoringType", QueryOperator.EQ,entity.getMonitoringType()));
         }
         if (StringUtils.isNotBlank(start_monitorTime)) {
             params.andParam(new QueryParam("monitorTime", QueryOperator.GE,start_monitorTime));
