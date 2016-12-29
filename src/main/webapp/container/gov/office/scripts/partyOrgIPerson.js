@@ -252,7 +252,10 @@ removeBtn.click(function () {
         });
     });
 });
-var choseModel = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
+var choseModel = $.fn.MsgSend.init(1,{
+    title:'人员选择',
+    btnok:'保存'
+},function(e,obj){ //短信发送第一个参数为2
     var ipersons = obj.personObj;
     var saveIPersons = [];
     $.each(ipersons,function(k,v){
