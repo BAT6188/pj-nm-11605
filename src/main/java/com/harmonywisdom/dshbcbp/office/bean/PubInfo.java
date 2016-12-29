@@ -53,7 +53,7 @@ public class PubInfo implements Serializable {
      * 4:监测站
      * 5:企业
       */
-    @Column(name = "GRADE",length = 100)
+    @Column(name = "GRADE",columnDefinition = "mediumtext")
     private String grade;
     /**
      *公告详情
