@@ -66,6 +66,9 @@
                     <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                         <i class="btnIcon edit-icon"></i><span>查看</span>
                     </button>--%>
+                    <button id="shenPiButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                        <i class="btnIcon edit-icon"></i><span>审批</span>
+                    </button>
                 </p>
             </div>
             <div class="tableBox">

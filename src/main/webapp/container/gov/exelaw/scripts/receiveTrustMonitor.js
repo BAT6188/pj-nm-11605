@@ -1,5 +1,6 @@
 var gridTable = $('#table'),
     checkButton = $('#checkButton'),
+    shenPiButton = $('#shenPiButton'),
     form = $("#demoForm"),
     auditForm=$("#auditForm"),
     formTitle = "Demo",
@@ -49,13 +50,13 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: approveAndSendEvents,
+                // events: approveAndSendEvents,
                 formatter: function (value, row, index) {
                     var isNewDiv=""
                     if (row.selfReadStatusForJianchadadui!='1'){
                         isNewDiv='<div id="isNew">&nbsp;</div>'
                     }
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="approveAndSend" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
+                    return '<div style="padding: 8px" class="approveAndSend">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -119,14 +120,14 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: lookoverAuditFormEvents,
+                // events: lookoverAuditFormEvents,
                 formatter:auditFormFormatter
             },
             {
                 field: 'status',
                 title: '反馈状态',
                 align: 'center',
-                events: operateEvents,
+                // events: operateEvents,
                 formatter: operateFormatter
             },
             {
@@ -154,6 +155,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        shenPiButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -174,13 +176,13 @@ window.approveAndSendEvents = {
 };
 function auditFormFormatter(value, row, index) {
     if(value=='1'){
-        value='同意'
+        value='审核通过'
     }else if(value=='2'){
-        value='不同意'
+        value='审批不通过'
     }else {
-        value='-'
+        value='待审批'
     }
-    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">'+value+'</div>';
+    return '<div style="padding: 8px;color: #c3a61d;" class="view">'+value+'</div>';
 }
 window.lookoverAuditFormEvents = {
     'click .view': function (e, value, entity, index) {
@@ -197,7 +199,7 @@ window.lookoverAuditFormEvents = {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     if (value==7){
-        value='<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">已反馈</div>'
+        value='<div style="padding: 8px;color: #c3a61d;" class="view">已反馈</div>'
     }else {
         value="未反馈"
     }
@@ -256,10 +258,18 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 checkButton.prop('disabled', true);
+shenPiButton.prop('disabled', true);
 
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
     setEntity(entity);
+});
+
+$("#shenPiButton").bind("click",function () {
+    var row=getSelections()[0];
+    var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForJianchadadui.action";
+    pageUtils.updateSelfReadStatus(url,row.id,1)
+    setFormData(row);
 });
 
 function setEntity(entity){
