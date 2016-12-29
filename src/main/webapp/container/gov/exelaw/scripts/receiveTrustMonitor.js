@@ -347,14 +347,15 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
-        type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+        orgCode:[orgCodeConfig.org.jianCeZhanOffice.orgCode],//组织机构代码(必填，组织机构代码)
+        type:2 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
+    console.log(data)
     var d=pageUtils.sendParamDataToString(data)
     d+="&auditor="+userName;
     console.log("发送："+d)
@@ -373,13 +374,13 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             })
             var msg = {
                 'msgType':10,
-                'title':'委托监测',
+                'title':'污染纠纷监测申请',
                 'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
 
-            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
+            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测申请',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -391,6 +392,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.monitorContentDetail=$("#monitorContentDetail").val();
         console.log("同意并发送："+JSON.stringify(entity))
         saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
@@ -422,6 +424,7 @@ function setFormData(entity) {
     $("#id").attr("disabled",false);
     $("#removeId").attr("disabled",false);
     $(".edit").attr("disabled",false);
+    $("#isSendSms").attr("disabled",false);
 
     var id = entity.id;
     $("#id").val(entity.id);

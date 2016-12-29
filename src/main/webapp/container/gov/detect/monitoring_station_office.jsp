@@ -56,6 +56,9 @@
                     <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                         <i class="btnIcon edit-icon"></i><span>查看</span>
                     </button>--%>
+                    <button id="shouLiButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                        <i class="btnIcon edit-icon"></i><span>受理</span>
+                    </button>
                 </p>
             </div>
             <div class="tableBox">
@@ -165,13 +168,13 @@
                             <textarea id="auditSuggestion" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <%--<div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery" class="uploaderToggle aUploader"></div>
                         </div>
-                    </div>
+                    </div>--%>
                 </form>
             </div>
             <div class="modal-footer">

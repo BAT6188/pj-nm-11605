@@ -199,6 +199,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>
                 <button type="button" class="btn btn-primary" id="saveAndAgreeAndSend">同意并发送</button>
                 <button type="button" class="btn btn-primary" id="saveAndNotAgree">不同意</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
