@@ -72,9 +72,9 @@
                             <%--</div>--%>
                             <div class="form-group">
                                 <label for="">调度网格：</label>
-                                <select id="s_blockLevelId" name="blockLevelId" class="form-control"  style="width: 262px;">
+                                <select id="s_blockLevelId" name="blockLevelId" class="form-control"  style="width: 262px;display: none">
                                 </select>
-                                -
+                                <%-----%>
                                 <select id="s_blockId" name="blockId" class="form-control"  style="width: 262px;">
                                 </select>
                             </div>

@@ -24,9 +24,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="" class="labelMarginLeft">所属网格：</label>
-                                <select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 238px;">
+                                <select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 238px;display: none">
                                 </select>
-                                -
+                                <%-----%>
                                 <select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 238px;">
                                 </select>
                             </div>

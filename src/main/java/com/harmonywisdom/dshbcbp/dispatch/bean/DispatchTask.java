@@ -83,12 +83,12 @@ public class DispatchTask implements Serializable {
 
     //--------------  现场监察监测报告  --------------------------//
     /**
-     * 监测报告是否填写状态：0未报送，1已报送
+     * 现场监察报告是否填写状态：0未报送，1已报送
      */
     @Column(name = "monitor_report_status", length = 2)
     private String monitorReportStatus;
     /**
-     * 监测报告读取状态：0未读，1已读
+     * 现场监察报告读取状态：0未读，1已读
      */
     @Column(name = "monitor_report_read_status", length = 2)
     private String monitorReportReadStatus;

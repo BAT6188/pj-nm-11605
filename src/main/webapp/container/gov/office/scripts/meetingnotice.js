@@ -221,9 +221,9 @@ var options = {
     title:"信息发送",//弹出框标题(可省略，默认值：“人员选择”)
     width:"60%"     //宽度(可省略，默认值：850)
 };
-var model = $.fn.MsgSend.init(1,options,function(e,data){
+var model = $.fn.MsgSend.init(3,options,function(e,data){
     var entity=data.sourceId;
-    console.log(data)
+    console.log(data);
     var d,ids=[],names=[];
 
     var receivers = [];
