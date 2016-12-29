@@ -22,6 +22,9 @@ import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorService> {
@@ -360,15 +363,23 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     /**
      * 更新保存受理信息
      */
-    public void updateAcceptInformatio(){
+    public void updateAcceptInformation(){
         String id = request.getParameter("id");
         String officeShouLiPersonName = request.getParameter("officeShouLiPersonName");
         String officeShouLiTime = request.getParameter("officeShouLiTime");
         String officeShouLiYiJian = request.getParameter("officeShouLiYiJian");
+        Date times = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            times = sdf.parse(officeShouLiTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if(id != null && !"".equals(id)){
             TrustMonitor trustMonitor = trustMonitorService.findById(id);
             trustMonitor.setOfficeShouLiPersonName(officeShouLiPersonName);
-            trustMonitor.setOfficeShouLiTime(DateUtil.strToDate(officeShouLiTime,"yyyy-MM-dd HH:mm"));
+            trustMonitor.setOfficeShouLiTime(times);
             trustMonitor.setOfficeShouLiYiJian(officeShouLiYiJian);
             trustMonitorService.update(trustMonitor);
         }
