@@ -42,6 +42,8 @@
                                 <option value="1">水源地监测报告</option>
                                 <option value="2">大气污染防治监测报告</option>
                                 <option value="3">水污染防治监测报告</option>
+                                <option value="4">噪声监测报告</option>
+                                <option value="5">土壤污染防治监测报告</option>
                             </select>
                         </div>
                         <div class="form-group">
