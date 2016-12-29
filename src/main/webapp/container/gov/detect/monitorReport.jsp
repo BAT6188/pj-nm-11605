@@ -17,35 +17,27 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="">监测对象：</label> <input type="text" id="s_monitorName" name="monitorName" style="width: 207px;" class="form-control" />
-                            </div>
-                            <%--<div class="form-group">--%>
-                                <%--<label for="">所属网格：</label>--%>
-                                <%--<select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 266px;">--%>
-                                <%--</select>--%>
-                                <%-----%>
-                                <%--<select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 266px;">--%>
-                                <%--</select>--%>
-                            <%--</div>--%>
-                            <div class="form-group">
-                                <label for="">监测人员：</label> <input type="text" id="s_monitorPersonName" name="monitorPersonName" style="width: 207px;" class="form-control" />
-                            </div>
-                        </form>
-                    <p></p>
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="">监测项目：</label>
-                            <select id="s_type" name="type" class="form-control">
-                                <option value="">全部</option>
-                                <option value="1">水源地监测报告</option>
-                                <option value="2">大气污染防治监测报告</option>
-                                <option value="3">水污染防治监测报告</option>
-                                <option value="4">噪声监测报告</option>
-                                <option value="5">土壤污染防治监测报告</option>
-                            </select>
+                            <label for="">监测对象：</label> <input type="text" id="s_monitorName" name="monitorName" style="width: 207px;" class="form-control" />
                         </div>
+                        <div class="form-group">
+                            <label for="">报告编号：</label> <input type="text" id="s_reportNumber" name="reportNumber" style="width: 207px;" class="form-control" />
+                        </div>
+                        <%--<div class="form-group">--%>
+                        <%--<label for="">所属网格：</label>--%>
+                        <%--<select id="s_blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="width: 266px;">--%>
+                        <%--</select>--%>
+                        <%-----%>
+                        <%--<select id="s_blockId" name="blockId" class="form-control s_blockId" style="width: 266px;">--%>
+                        <%--</select>--%>
+                        <%--</div>--%>
+                        <div class="form-group">
+                            <label for="">监测人员：</label> <input type="text" id="s_monitorPersonName" name="monitorPersonName" style="width: 207px;" class="form-control" />
+                        </div>
+                    </form>
+                    <p></p>
+                    <form class="form-inline">
                         <div class="form-group">
                             <label for="">监测日期：</label>
                             <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
@@ -59,6 +51,25 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">监测类型：</label>
+                            <select id="s_monitoringType" name="monitoringType" class="form-control">
+                                <option value="">全部</option>
+                                <option value="1">监督性监测</option>
+                                <option value="2">企业委托监测</option>
+                                <option value="3">环境质量监测</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">监测内容：</label>
+                            <select id="s_type" name="type" class="form-control">
+                                <option value="">全部</option>
+                                <option value="1">水质监测</option>
+                                <option value="2">大气监测</option>
+                                <option value="3">噪声监测</option>
+                                <option value="4">土壤监测</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -104,38 +115,33 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-
-                        <label for="" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label">报告编号<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="monitorTime" name="monitorTime"  type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
+                            <input type="text" id="reportNumber" name="reportNumber" class="form-control"
+                                   data-message="报告编号不能为空"
+                                   data-easytip="position:top;class:easy-red;"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="type" class="col-sm-2 control-label">监测项目<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="type" name="type" class="form-control">
-                                <option value="1">水源地监测报告</option>
-                                <option value="2">大气污染防治监测报告</option>
-                                <option value="3">水污染防治监测报告</option>
-                                <option value="4">噪声监测报告</option>
-                                <option value="5">土壤污染防治监测报告</option>
-                            </select>
-                        </div>
-
                         <label for="monitoringType" class="col-sm-2 control-label">监测类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select id="monitoringType" name="monitoringType" class="form-control">
                                 <option value="1">监督性监测</option>
                                 <option value="2">企业委托监测</option>
-                                <option value="3">环境</option>
+                                <option value="3">环境质量监测</option>
+                            </select>
+                        </div>
+                        <label for="type" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select id="type" name="type" class="form-control">
+                                <option value="1">水质监测</option>
+                                <option value="2">大气监测</option>
+                                <option value="3">噪声监测</option>
+                                <option value="4">土壤监测</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -144,38 +150,46 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="monitorPhone" class="col-sm-2 control-label">联系方式：</label>
+                        <label for="" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorPhone" name="monitorPhone" class="form-control"
-                            />
+                            <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="monitorTime" name="monitorTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
                         </div>
+                        <%-- <label for="monitorPhone" class="col-sm-2 control-label">联系方式：</label>
+                         <div class="col-sm-4">
+                             <input type="text" id="monitorPhone" name="monitorPhone" class="form-control"
+                             />
+                         </div>--%>
                     </div>
                     <%--<div class="form-group">--%>
-                        <%--<label for="" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>--%>
-                        <%--<div class="col-sm-4">--%>
-                            <%--<select id="blockLevelId" name="blockLevelId" class="form-control">--%>
-                            <%--</select>--%>
-                        <%--</div>--%>
+                    <%--<label for="" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>--%>
+                    <%--<div class="col-sm-4">--%>
+                    <%--<select id="blockLevelId" name="blockLevelId" class="form-control">--%>
+                    <%--</select>--%>
+                    <%--</div>--%>
 
-                        <%--<label for="" class="col-sm-2 control-label"></label>--%>
-                        <%--<div class="col-sm-4">--%>
-                            <%--<select id="blockId" name="blockId" class="form-control">--%>
-                            <%--</select>--%>
-                        <%--</div>--%>
+                    <%--<label for="" class="col-sm-2 control-label"></label>--%>
+                    <%--<div class="col-sm-4">--%>
+                    <%--<select id="blockId" name="blockId" class="form-control">--%>
+                    <%--</select>--%>
+                    <%--</div>--%>
                     <%--</div>--%>
                     <%--<div class="form-group">--%>
-                        <%--<label for="" class="col-sm-2 control-label">网格负责人<span class="text-danger">*</span>：</label>--%>
-                        <%--<div class="col-sm-4">--%>
-                            <%--<input type="text" id="blockPersonName" name="blockPersonName" class="form-control"--%>
-                                   <%--data-message="不能为空"--%>
-                                   <%--data-easytip="position:top;class:easy-red;"--%>
-                            <%--/>--%>
-                        <%--</div>--%>
-                        <%--<label for="" class="col-sm-2 control-label">联系方式：</label>--%>
-                        <%--<div class="col-sm-4">--%>
-                            <%--<input type="text" id="blockPersonPhone" name="blockPersonPhone" class="form-control"--%>
-                            <%--/>--%>
-                        <%--</div>--%>
+                    <%--<label for="" class="col-sm-2 control-label">网格负责人<span class="text-danger">*</span>：</label>--%>
+                    <%--<div class="col-sm-4">--%>
+                    <%--<input type="text" id="blockPersonName" name="blockPersonName" class="form-control"--%>
+                    <%--data-message="不能为空"--%>
+                    <%--data-easytip="position:top;class:easy-red;"--%>
+                    <%--/>--%>
+                    <%--</div>--%>
+                    <%--<label for="" class="col-sm-2 control-label">联系方式：</label>--%>
+                    <%--<div class="col-sm-4">--%>
+                    <%--<input type="text" id="blockPersonPhone" name="blockPersonPhone" class="form-control"--%>
+                    <%--/>--%>
+                    <%--</div>--%>
                     <%--</div>--%>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">备注：</label>
