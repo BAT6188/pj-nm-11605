@@ -50,9 +50,11 @@ function initTable() {
                 radio: false,  //  true 单选， false多选
                 valign: 'middle',
                 formatter:function(value, row, index){
-                    $.each(row.pubInfo,function(i,j){
-                        row[i]=j;
-                    })
+                    if(row.pubInfo){
+                        $.each(row.pubInfo,function(i,j){
+                            row[i]=j;
+                        })
+                    }
                 }
             },
             {

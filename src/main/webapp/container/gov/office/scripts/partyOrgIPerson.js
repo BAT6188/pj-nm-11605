@@ -64,8 +64,8 @@ function initZtree(data) {
     //orgTreeObj.expandAll(true);
 }
 
-if (window.orgTreeObjData){
-    initZtree(window.orgTreeObjData);
+if (window.partOrgTreeObjData){
+    initZtree(window.partOrgTreeObjData);
 }else {
     $.ajax({
         url: rootPath + "/action/S_office_PartyOrg_getPartyOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
@@ -74,7 +74,7 @@ if (window.orgTreeObjData){
         dataType:"json",
         success:function (data) {
             initZtree(data);
-            window.orgTreeObjData=data;
+            window.partOrgTreeObjData=data;
         }
     });
 

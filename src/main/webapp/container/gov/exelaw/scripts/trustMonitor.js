@@ -1,7 +1,7 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#demoForm"),
+    form = $("#lookOverFeedbackDetailForm"),
     auditForm=$("#auditForm"),
     formTitle = "Demo",
     selections = [];
@@ -66,7 +66,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '监测项目',
+                title: '监测内容',
                 field: 'monitorContent',
                 sortable: false,
                 align: 'center',
@@ -113,7 +113,7 @@ function initTable() {
                 title: '被委托单位反馈状态',
                 field:'status',
                 align: 'center',
-                events: operateEvents,
+                //events: operateEvents,
                 formatter: operateFormatter
             },
             {
@@ -164,8 +164,7 @@ window.lookoverAuditFormEvents = {
             var selector="#"+p
             $(selector).val(entity[p])
         }
-        disabledForm(auditForm,true)
-        console.log(11)
+        disabledForm(auditForm,true);
     }
 };
 
@@ -173,7 +172,7 @@ window.lookoverAuditFormEvents = {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     if (value==7){
-        value='<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">已反馈</div>'
+        value='<div style="padding: 8px;color: #c3a61d;" class="view" >已反馈</div>';//cursor: pointer;data-toggle="modal" data-target="#lookOverFeedbackDetailForm"
     }else {
         value="未反馈"
     }
@@ -206,7 +205,7 @@ window.operateEvents = {
 };
 
 function seeOperateFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
 }
 window.seeOperateEvents = {
     'click .view': function (e, value, row, index) {
@@ -245,7 +244,7 @@ $("#add").bind('click',function () {
     resetForm();
 });
 $("#update").bind("click",function () {
-    setFormData(getSelections()[0]);
+    setFormData(getSelections()[0],$('#demoForm'));
 });
 /**
  * 列表工具栏 删除按钮
@@ -273,22 +272,12 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var s_enterpriseName = $("#s_enterpriseName").val();
-    var start_monitorTime = $("#start_monitorTime").val();
-    var end_monitorTime = $("#end_monitorTime").val();
-    if (s_enterpriseName){
-        queryParams["enterpriseName"] = s_enterpriseName;
-    }
-    if (start_monitorTime){
-        queryParams["start_monitorTime"] = start_monitorTime;
-    }
-    if (end_monitorTime){
-        queryParams["end_monitorTime"] = end_monitorTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -300,7 +289,8 @@ $('.form_datetime').datetimepicker({
     todayHighlight: 1,
     startView: 2,
     forceParse: 0,
-    showMeridian: 1
+    showMeridian: 1,
+    pickerPosition: "bottom-left"
 });
 
 /**============配置组织发送弹出框============**/
@@ -374,35 +364,35 @@ $("#saveAndSend").bind('click',function () {
  * @param entity
  * @returns {boolean}
  */
-function setFormData(entity) {
+function setFormData(entity,dialogForm) {
     resetForm();
     if (!entity) {return false}
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#enterpriseId").val(entity.enterpriseId);
-    $("#monitorContent").val(entity.monitorContent);
-    $("#applyOrg").val(entity.applyOrg);
-    $("#applicant").val(entity.applicant);
-    $("#applicantPhone").val(entity.applicantPhone);
-    $("#monitorTime").val(entity.monitorTime);
-    $("#trustOrgAddress").val(entity.trustOrgAddress);
-    $("#monitorAddress").val(entity.monitorAddress);
-    $("#monitorContentDetail").val(entity.monitorContentDetail);
-
-}
-function setFormView(entity) {
-    setFormData(entity);
-    disabledForm(form,true);
-    var fuOptions = getUploaderOptions(entity.id);
+    var inputs = dialogForm.find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        var value = entity[tagId];
+        $(v).val(value);
+    });
+    var fuOptions = getUploaderOptions(id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
-    form.find("#saveAndSend").hide();
-    form.find("#isSendSmsSpan").hide();
-    form.find(".btn-cancel").text("关闭");
+    uploader = new qq.FineUploader(fuOptions);
+    $(".qq-upload-button").hide();
+}
+function setFormView(entity) {
+    setFormData(entity,form);
+    disabledForm(form,true);
+    /*var fuOptions = getUploaderOptions(entity.id);
+    fuOptions.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+    };*/
+    //form.find("#saveAndSend").hide();
+    //form.find("#isSendSmsSpan").hide();
+    //form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(selector,disabled) {
     selector.find("input").attr("disabled",disabled);
@@ -419,7 +409,8 @@ function disabledForm(selector,disabled) {
             todayHighlight: 1,
             startView: 2,
             forceParse: 0,
-            showMeridian: 1
+            showMeridian: 1,
+            pickerPosition: "bottom-left"
         });
 
     }else{

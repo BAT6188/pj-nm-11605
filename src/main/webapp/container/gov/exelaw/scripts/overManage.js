@@ -1,6 +1,5 @@
 //@ sourceURL=lawManage.js
 var gridTable = $('#table'),
-    form = $("#demoForm"),
     selections = [];
 
 /**============grid 列表初始化相关代码============**/
@@ -106,56 +105,13 @@ function initTable() {
 }
 
 function lookOverFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#demoForm">查看</button>';
-}
-
-function disabledForm(selector,disabled) {
-    selector.find("input").attr("disabled",disabled);
-    selector.find("textarea").attr("disabled",disabled);
-    selector.find("select").attr("disabled",disabled);
-
-    if (!disabled) {
-        //初始化日期组件
-        $('.lookover').datetimepicker({
-            language:  'zh-CN',
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1
-        });
-
-    }else{
-        $('.lookover').datetimepicker('remove');
-    }
+    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#eventMsg">查看</button>';
 }
 
 window.lookOverEvents = {
     'click .lookOver': function (e, value, entity, index) {
-        $.ajax({
-            url: rootPath + "/action/S_dispatch_DispatchTask_queryOverManageByDispatchId.action",
-            type:"post",
-            data:entity,
-            success:function (data) {
-                data=JSON.parse(data);
-                var inputs = form.find('[name]');
-                $.each(inputs,function(k,v){
-                    var tagId = $(v).attr('name');
-                    $(v).val(data[tagId]);
-                });
-                disabledForm(form,true);
-                var fuOptions = getUploaderOptions(entity.dispatchId);
-                fuOptions.callbacks.onSessionRequestComplete = function () {
-                    $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-                    $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
-                };
-                uploader = new qq.FineUploader(fuOptions);
-                $(".qq-upload-button").hide();
-
-            }
-        });
+        window.open(rootPath+"/action/S_officetemp_OfficeTemp_showTemplate.action?" +
+            "id=OverManage&beanName=overManageService&bussinessId="+entity.id);
     }
 };
 

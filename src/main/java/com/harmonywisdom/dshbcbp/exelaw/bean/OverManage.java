@@ -1,10 +1,7 @@
-package com.harmonywisdom.dshbcbp.exelaw.bean;
-
-import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
+package com.harmonywisdom.dshbcbp.exportword.bean;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,11 +9,11 @@ import java.util.Map;
  */
 public class OverManage implements Serializable{
 
-	private String dispatchId;
 	private String year;
 	private String month;
 	private String day;
-	private String enterpriseName;
+	private String enterpriseNamea;
+	private String enterpriseNameb;
 	private String blockLevelName;
 	private String blockName;
 	private String pollutantType;
@@ -26,7 +23,6 @@ public class OverManage implements Serializable{
 	private String epPhone;
 	private String content;
 	private String caseName;
-	private String caseReason;
 	private String filingDate;
 	private String code;
 	private String decideCode;
@@ -39,7 +35,7 @@ public class OverManage implements Serializable{
 	private String attn;
 	private String closedDate;
 	private String punishContent;
-	private List<Feedback> feedbackList;
+	private String feedbackList;
 
 	public String getYear() {
 		return year;
@@ -65,6 +61,21 @@ public class OverManage implements Serializable{
 		this.day = day;
 	}
 
+	public String getEnterpriseNamea() {
+		return enterpriseNamea;
+	}
+
+	public void setEnterpriseNamea(String enterpriseNamea) {
+		this.enterpriseNamea = enterpriseNamea;
+	}
+
+	public String getEnterpriseNameb() {
+		return enterpriseNameb;
+	}
+
+	public void setEnterpriseNameb(String enterpriseNameb) {
+		this.enterpriseNameb = enterpriseNameb;
+	}
 
 	public String getBlockLevelName() {
 		return blockLevelName;
@@ -234,35 +245,11 @@ public class OverManage implements Serializable{
 		this.punishContent = punishContent;
 	}
 
-	public List<Feedback> getFeedbackList() {
+	public String getFeedbackList() {
 		return feedbackList;
 	}
 
-	public void setFeedbackList(List<Feedback> feedbackList) {
+	public void setFeedbackList(String feedbackList) {
 		this.feedbackList = feedbackList;
-	}
-
-	public String getDispatchId() {
-		return dispatchId;
-	}
-
-	public void setDispatchId(String dispatchId) {
-		this.dispatchId = dispatchId;
-	}
-
-	public String getEnterpriseName() {
-		return enterpriseName;
-	}
-
-	public void setEnterpriseName(String enterpriseName) {
-		this.enterpriseName = enterpriseName;
-	}
-
-	public String getCaseReason() {
-		return caseReason;
-	}
-
-	public void setCaseReason(String caseReason) {
-		this.caseReason = caseReason;
 	}
 }
