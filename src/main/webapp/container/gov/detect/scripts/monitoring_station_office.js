@@ -34,7 +34,8 @@ function initTable() {
                 visible:false
             },
             {
-                title: '企业名称',
+                // title: '企业名称',
+                title:'监测对象',
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
@@ -56,7 +57,8 @@ function initTable() {
                 editable: false
             },
             {
-                title: '监测时间',
+                // title: '监测时间',
+                title: '委托时间',
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
