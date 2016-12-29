@@ -7,7 +7,6 @@ import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.dispatch.action.DispatchTaskAction;
-import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.TrustMonitor;
@@ -20,6 +19,7 @@ import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
+
 
 import java.util.List;
 
@@ -291,7 +291,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
 
         params.andParam(new QueryParam("enterpriseSelf", QueryOperator.EQ,enterpriseSelf));
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
-            params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
+            params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,"%"+entity.getEnterpriseName()+"%"));
         }
 
         if (StringUtils.isNotBlank(start_monitorTime)) {
@@ -303,7 +303,18 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         }
 
         if (StringUtils.isNotBlank(entity.getApplyOrgId())) {
-            params.andParam(new QueryParam("applyOrgId", QueryOperator.EQ,entity.getApplyOrgId()));
+            params.andParam(new QueryParam("applyOrgId", QueryOperator.LIKE,"%"+entity.getApplyOrgId()+"%"));
+        }
+
+        if (StringUtils.isNotBlank(entity.getMonitorContent())) {
+            params.andParam(new QueryParam("monitorContent", QueryOperator.EQ,entity.getMonitorContent()));
+        }
+        if (StringUtils.isNotBlank(entity.getStatus())) {
+            if(entity.getStatus().equals("7")){
+                params.andParam(new QueryParam("status", QueryOperator.EQ,entity.getMonitorContent()));
+            }else{
+                params.andParam(new QueryParam("status", QueryOperator.NE,7));
+            }
         }
 
         if (StringUtils.isNotBlank(entity.getBlockLevelId())) {
@@ -354,6 +365,25 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         }
 
         write(entity.getId());
+    }
+
+    /**
+     * 更新保存受理信息
+     */
+    public void updateAcceptInformatio(){
+        String id = request.getParameter("id");
+        String officeShouLiPersonName = request.getParameter("officeShouLiPersonName");
+        String officeShouLiTime = request.getParameter("officeShouLiTime");
+        String officeShouLiYiJian = request.getParameter("officeShouLiYiJian");
+        if(id != null && !"".equals(id)){
+            TrustMonitor trustMonitor = trustMonitorService.findById(id);
+            trustMonitor.setOfficeShouLiPersonName(officeShouLiPersonName);
+            trustMonitor.setOfficeShouLiTime(DateUtil.strToDate(officeShouLiTime,"yyyy-MM-dd HH:mm"));
+            trustMonitor.setOfficeShouLiYiJian(officeShouLiYiJian);
+            trustMonitorService.update(trustMonitor);
+        }
+        write(true);
+
     }
 
 

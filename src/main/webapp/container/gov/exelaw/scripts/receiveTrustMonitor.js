@@ -1,6 +1,5 @@
 var gridTable = $('#table'),
     checkButton = $('#checkButton'),
-    shenPiButton = $('#shenPiButton'),
     form = $("#demoForm"),
     auditForm=$("#auditForm"),
     formTitle = "Demo",
@@ -44,19 +43,19 @@ function initTable() {
                 sortable: false,
                 visible:false
             },
-            {
+            /*{
                 title: '企业名称',
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                // events: approveAndSendEvents,
+                events: approveAndSendEvents,
                 formatter: function (value, row, index) {
                     var isNewDiv=""
                     if (row.selfReadStatusForJianchadadui!='1'){
                         isNewDiv='<div id="isNew">&nbsp;</div>'
                     }
-                    return '<div style="padding: 8px" class="approveAndSend">'+value+isNewDiv+'</div>';
+                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="approveAndSend" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -70,22 +69,15 @@ function initTable() {
                 }
             },
             {
-                title: '申请部门',
-                field: 'applyOrg',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '申请人',
-                field: 'applicant',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
                 title: '联系方式',
                 field: 'applicantPhone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },*/
+            {
+                title: '监测对象',
+                field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -98,7 +90,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '监测时间',
+                title: '委托时间',
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
@@ -106,6 +98,20 @@ function initTable() {
                 formatter:function (value, row, index) {
                     return pageUtils.sub16(value);
                 }
+            },
+            {
+                title: '委托人',
+                field: 'applicant',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '委托部门',
+                field: 'applyOrg',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 title: '发送至',
@@ -120,14 +126,14 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                // events: lookoverAuditFormEvents,
+                events: lookoverAuditFormEvents,
                 formatter:auditFormFormatter
             },
             {
                 field: 'status',
                 title: '反馈状态',
                 align: 'center',
-                // events: operateEvents,
+                events: operateEvents,
                 formatter: operateFormatter
             },
             {
@@ -155,7 +161,6 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-        shenPiButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -170,19 +175,19 @@ function initTable() {
 window.approveAndSendEvents = {
     'click .approveAndSend': function (e, value, row, index) {
         var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForJianchadadui.action";
-        pageUtils.updateSelfReadStatus(url,row.id,1)
-        setFormData(row);
+        pageUtils.updateSelfReadStatus(url,row.id,1);
+        setFormData(row,form);
     }
 };
 function auditFormFormatter(value, row, index) {
     if(value=='1'){
-        value='审核通过'
+        value='同意'
     }else if(value=='2'){
-        value='审批不通过'
+        value='不同意'
     }else {
-        value='待审批'
+        value='-'
     }
-    return '<div style="padding: 8px;color: #c3a61d;" class="view">'+value+'</div>';
+    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">'+value+'</div>';
 }
 window.lookoverAuditFormEvents = {
     'click .view': function (e, value, entity, index) {
@@ -199,7 +204,7 @@ window.lookoverAuditFormEvents = {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     if (value==7){
-        value='<div style="padding: 8px;color: #c3a61d;" class="view">已反馈</div>'
+        value='<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">已反馈</div>'
     }else {
         value="未反馈"
     }
@@ -258,36 +263,21 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 checkButton.prop('disabled', true);
-shenPiButton.prop('disabled', true);
 
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
     setEntity(entity);
 });
 
-$("#shenPiButton").bind("click",function () {
-    var row=getSelections()[0];
-    var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForJianchadadui.action";
-    pageUtils.updateSelfReadStatus(url,row.id,1)
-    setFormData(row);
-});
-
 function setEntity(entity){
     $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
     $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
-    $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
-    $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
-    $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
-    $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
-    $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
-    $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
-    $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
-    $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
-    $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
-
-    $("#monitor").val(entity.monitor);
-    $("#monitorPhone").val(entity.monitorPhone);
-    $("#feedbackContent").val(entity.feedbackContent);
+    var inputs = $("#lookOverFeedbackDetailForm").find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        var value = entity[tagId];
+        $(v).val(value);
+    });
 
     uploaderToggle(".bUploader")
     var fuOptions = getUploaderOptions(entity.id);
@@ -304,32 +294,12 @@ function setEntity(entity){
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
-    var applyOrgId = $("#s_applyOrgId").val();
-    var start_monitorTime = $("#start_monitorTime").val();
-    var end_monitorTime = $("#end_monitorTime").val();
-    var blockLevelId = $(".s_blockLevelId").val();
-    var blockId = $(".s_blockId").val();
-
-    queryParams["module"] = "receiveTrustMonitor";
-    if (blockLevelId){
-        queryParams["blockLevelId"] = blockLevelId;
-    }
-    if (blockId){
-        queryParams["blockId"] = blockId;
-    }
-    if (applyOrgId){
-        queryParams["applyOrgId"] = applyOrgId;
-    }
-    if (start_monitorTime){
-        queryParams["start_monitorTime"] = start_monitorTime;
-    }
-    if (end_monitorTime){
-        queryParams["end_monitorTime"] = end_monitorTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
+//重置搜索
+$("#searchFix").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
@@ -347,15 +317,14 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.jianCeZhanOffice.orgCode],//组织机构代码(必填，组织机构代码)
-        type:2 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
+        type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    console.log(data)
     var d=pageUtils.sendParamDataToString(data)
     d+="&auditor="+userName;
     console.log("发送："+d)
@@ -374,13 +343,13 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             })
             var msg = {
                 'msgType':10,
-                'title':'污染纠纷监测申请',
+                'title':'委托监测',
                 'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
 
-            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测申请',opContent:'发送数据',refTableId:''})
+            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -392,7 +361,6 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        entity.monitorContentDetail=$("#monitorContentDetail").val();
         console.log("同意并发送："+JSON.stringify(entity))
         saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
@@ -416,7 +384,7 @@ $("#saveAndAgreeAndSend").bind('click',function () {
  * @param entity
  * @returns {boolean}
  */
-function setFormData(entity) {
+function setFormData(entity,dialogForm) {
     resetForm();
     if (!entity) {return false}
 
@@ -424,34 +392,23 @@ function setFormData(entity) {
     $("#id").attr("disabled",false);
     $("#removeId").attr("disabled",false);
     $(".edit").attr("disabled",false);
-    $("#isSendSms").attr("disabled",false);
+    $("#auditorForSend").val(userName)
+    $("#auditTimeForSend").val((new Date()).format("yyyy-MM-dd hh:mm"));
 
     var id = entity.id;
-    $("#id").val(entity.id);
-    $("#removeId").val("");
-    $("#enterpriseName").val(entity.enterpriseName);
-    $("#enterpriseId").val(entity.enterpriseId);
-    $("#monitorContent").val(entity.monitorContent);
-    $("#applyOrgId").val(entity.applyOrgId);
-    $("#applicant").val(entity.applicant);
-    $("#applicantPhone").val(entity.applicantPhone);
-    $("#monitorTime").val(entity.monitorTime);
-    $("#trustOrgAddress").val(entity.trustOrgAddress);
-    $("#monitorAddress").val(entity.monitorAddress);
-    $("#monitorContentDetail").val(entity.monitorContentDetail);
-
-    $("#auditorForSend").val(userName)
-    $("#auditTimeForSend").val((new Date()).format("yyyy-MM-dd hh:mm"))
-    $("#auditPositionForSend").val(entity.auditPosition)
-    $("#auditorPhoneForSend").val(entity.auditorPhone)
-    $("#auditSuggestionForSend").val(entity.auditSuggestion)
+    var inputs = dialogForm.find('.form-control');
+    $.each(inputs,function(k,v){
+        var tagId = $(v).attr('name');
+        var value = entity[tagId];
+        $(v).val(value);
+    });
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));
     bindDownloadSelector();
 }
 function setFormView(entity) {
-    setFormData(entity);
+    setFormData(entity,form);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(form,true);
     var fuOptions = getUploaderOptions(entity.id);
@@ -596,14 +553,14 @@ function getAttachmentIds() {
     return "";
 }
 
-$(document).ready(function () {
+/*$(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
 
-    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId");
 
 
-})
+})*/
 
 
