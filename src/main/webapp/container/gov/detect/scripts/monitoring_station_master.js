@@ -165,6 +165,14 @@ window.operateEvents = {
         $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
         $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
 
+        $("#auditor_lookOverFeedbackDetailForm").val(entity.auditor);
+        $("#auditorPhone_lookOverFeedbackDetailForm").val(entity.auditorPhone);
+        $("#auditTime_lookOverFeedbackDetailForm").val(entity.auditTime);
+        $("#auditSuggestion_lookOverFeedbackDetailForm").val(entity.auditSuggestion);
+        $("#masterShouLiPersonName_lookOverFeedbackDetailForm").val(entity.masterShouLiPersonName);
+        $("#masterShouLiTime_lookOverFeedbackDetailForm").val(entity.masterShouLiTime);
+        $("#masterShouLiYiJian_lookOverFeedbackDetailForm").val(entity.masterShouLiYiJian);
+
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
