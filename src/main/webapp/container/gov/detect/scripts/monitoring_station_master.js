@@ -1,5 +1,5 @@
 var gridTable = $('#table'),
-    checkButton = $('#checkButton'),
+    diaoDuButton = $('#diaoDuButton'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#demoForm"),
@@ -42,13 +42,13 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: sendEvents,
+                // events: sendEvents,
                 formatter: function (value, row, index) {
                     var isNewDiv=""
                     if (row.selfReadStatusForMonitorMaster!='1'){
                         isNewDiv='<div id="isNew">&nbsp;</div>'
                     }
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
+                    return '<div style="padding: 8px;" class="send">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -130,8 +130,7 @@ function initTable() {
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
-        checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
-        console.log(gridTable.bootstrapTable('getSelections').length)//TODO 有个问题：两个tab标签引起的问题
+        diaoDuButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
 
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
@@ -183,13 +182,13 @@ window.operateEvents = {
 };
 
 // 列表操作事件
-window.sendEvents = {
+/*window.sendEvents = {
     'click .send': function (e, value, row, index) {
         var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorMaster.action";
         pageUtils.updateSelfReadStatus(url,row.id,1)
         setFormData(row);
     }
-};
+};*/
 
 
 /**
@@ -215,16 +214,15 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-checkButton.prop('disabled', true);
+diaoDuButton.prop('disabled', true);
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 
-$("#checkButton").bind("click",function () {
-    var entity=getSelections()[0];
-
-
-
-
+$("#diaoDuButton").bind("click",function () {
+    var row=getSelections()[0];
+    var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorMaster.action";
+    pageUtils.updateSelfReadStatus(url,row.id,1)
+    setFormData(row);
 });
 
 
@@ -257,7 +255,7 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
+        orgCode:[orgCodeConfig.org.jianCeZhanZhiNengBuMen.orgCode],//组织机构代码(必填，组织机构代码)
         type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
@@ -282,24 +280,32 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             })
             var msg = {
                 'msgType':12,
-                'title':'委托监测',
+                'title':'污染纠纷现场监测',
                 'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
 
-            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
+            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷现场监测',opContent:'发送数据',refTableId:''})
         }
     });
 });
 
+var ef_sendButton = form.easyform({
+    success:function (ef_sendButton) {
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.id=$("#demoForm").find("#id").val();
+        //TODO 委托监测短信内容
+        entity.monitorContentDetail=$("#monitorContentDetail").val();
+        entity.smsContent=entity.monitorContentDetail
+        entity.isSendSms=$("#isSendSms").is(':checked');
+        model.open(entity);
+    }
+});
+
 //表单 保存按钮
 $("#sendButton").bind('click',function () {
-    var entity={};
-    entity.id=$("#id").val();
-    entity.smsContent=entity.monitorContentDetail
-    entity.isSendSms=$("#isSendSms").is(':checked');
-    model.open(entity);
+    ef_sendButton.submit(false);
 });
 /**
  * 设置表单数据

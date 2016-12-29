@@ -70,16 +70,19 @@
                         <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                             <i class="btnIcon edit-icon"></i><span>查看</span>
                         </button>--%>
-                        <span id="b_span">
+                        <button id="diaoDuButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                            <i class="btnIcon edit-icon"></i><span>调度</span>
+                        </button>
+                    <span id="b_span">
                         <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#enterpriseSelfDialog">
                         <i class="btnIcon add-icon"></i><span>新建</span>
-                    </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#enterpriseSelfDialog">
-                        <i class="btnIcon edit-icon"></i><span>修改</span>
-                    </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
-                        <i class="btnIcon delf-icon"></i><span>删除</span>
-                    </button>
+                        </button>
+                        <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#enterpriseSelfDialog">
+                            <i class="btnIcon edit-icon"></i><span>修改</span>
+                        </button>
+                        <button id="remove" type="button" class="btn btn-sm btn-danger">
+                            <i class="btnIcon delf-icon"></i><span>删除</span>
+                        </button>
                     </span>
                     </p>
                 </div>

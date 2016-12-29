@@ -269,25 +269,32 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             })
             var msg = {
                 'msgType':11,
-                'title':'委托监测',
+                'title':'污染纠纷监测',
                 'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
 
-            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
+            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测',opContent:'发送数据',refTableId:''})
         }
     });
 });
 
+var ef_sendButton = form.easyform({
+    success:function (ef_sendButton) {
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.id=$("#demoForm").find("#id").val();
+        //TODO 委托监测短信内容
+        entity.monitorContentDetail=$("#monitorContentDetail").val();
+        entity.smsContent=entity.monitorContentDetail
+        entity.isSendSms=$("#isSendSms").is(':checked');
+        model.open(entity);
+    }
+});
+
 //表单 保存按钮
 $("#sendButton").bind('click',function () {
-    var entity={};
-    entity.id=$("#demoForm").find("#id").val();
-    //TODO 委托监测短信内容
-    entity.smsContent=entity.monitorContentDetail
-    entity.isSendSms=$("#isSendSms").is(':checked');
-    model.open(entity);
+    ef_sendButton.submit(false);
 });
 
 function disabledForm(selector,disabled) {
