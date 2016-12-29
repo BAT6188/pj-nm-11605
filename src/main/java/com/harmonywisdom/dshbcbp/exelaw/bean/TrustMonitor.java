@@ -630,4 +630,52 @@ public class TrustMonitor implements Serializable {
     public void setAuditSuggestionStatus(String auditSuggestionStatus) {
         this.auditSuggestionStatus = auditSuggestionStatus;
     }
+
+    public String getOfficeShouLiPersonName() {
+        return officeShouLiPersonName;
+    }
+
+    public void setOfficeShouLiPersonName(String officeShouLiPersonName) {
+        this.officeShouLiPersonName = officeShouLiPersonName;
+    }
+
+    public Date getOfficeShouLiTime() {
+        return officeShouLiTime;
+    }
+
+    public void setOfficeShouLiTime(Date officeShouLiTime) {
+        this.officeShouLiTime = officeShouLiTime;
+    }
+
+    public Date getOfficeShouLiYiJian() {
+        return officeShouLiYiJian;
+    }
+
+    public void setOfficeShouLiYiJian(Date officeShouLiYiJian) {
+        this.officeShouLiYiJian = officeShouLiYiJian;
+    }
+
+    public String getMasterShouLiPersonName() {
+        return masterShouLiPersonName;
+    }
+
+    public void setMasterShouLiPersonName(String masterShouLiPersonName) {
+        this.masterShouLiPersonName = masterShouLiPersonName;
+    }
+
+    public Date getMasterShouLiTime() {
+        return masterShouLiTime;
+    }
+
+    public void setMasterShouLiTime(Date masterShouLiTime) {
+        this.masterShouLiTime = masterShouLiTime;
+    }
+
+    public Date getMasterShouLiYiJian() {
+        return masterShouLiYiJian;
+    }
+
+    public void setMasterShouLiYiJian(Date masterShouLiYiJian) {
+        this.masterShouLiYiJian = masterShouLiYiJian;
+    }
 }
