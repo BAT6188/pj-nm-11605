@@ -83,10 +83,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">所属区域：</label>
-                            <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;">
+                            <label for="">所属网格：</label>
+                            <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;display:none">
                             </select>
-                            -
+                            <%-----%>
                             <select class="form-control s_blockId" name="blockId" style="width: 266px;">
                             </select>
                         </div>
@@ -100,14 +100,14 @@
                     <button id="dealWith" type="button" class="btn btn-sm btn-warning">
                         <i class="btnIcon edit-icon"></i><span>处置</span>
                     </button>
-                    <button id="" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
-                        <i class="btnIcon add-icon"></i><span>行政处罚</span>
-                    </button>
                     <button id="addSiteMonitoring" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#addSiteMonitoringDialog">
                         <i class="btnIcon add-icon"></i><span>现场监察</span>
                     </button>
                     <button id="feedback" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
                         <i class="btnIcon add-icon"></i><span>反馈</span>
+                    </button>
+                    <button id="addPunish" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#feedbackForm">
+                        <i class="btnIcon add-icon"></i><span>行政处罚</span>
                     </button>
                     <button id="overBtn" type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#overDialog">
                         <i class="btnIcon delf-icon"></i><span>办结</span>
@@ -156,7 +156,7 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="dispatchId" name="dispatchId">
+                            <input type="hidden" id="dispatchId_addSiteMonitoringDialog" name="dispatchId">
                             <input type="hidden" id="removeId" name="removeId">
                             <input type="hidden" name="enterpriseId" id="enterpriseId">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control"
@@ -167,7 +167,7 @@
 
                         <label for="blockId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="blockLevelId" name="blockLevelId" class="s_blockLevelId">
+                            <input type="hidden" id="blockLevelId" name="blockLevelId" class="form-control s_blockLevelId">
                             <select id="blockId" name="blockId" class="form-control s_blockId" data-message="所属网格不能为空"
                                     data-easytip="position:top;class:easy-red;">
                             </select>

@@ -43,7 +43,7 @@ function initTable() {
                 sortable: false,
                 visible:false
             },
-            /*{
+            {
                 title: '企业名称',
                 field: 'enterpriseName',
                 editable: false,
@@ -69,15 +69,22 @@ function initTable() {
                 }
             },
             {
-                title: '联系方式',
-                field: 'applicantPhone',
+                title: '申请部门',
+                field: 'applyOrg',
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },*/
+            },
             {
-                title: '监测对象',
-                field: 'enterpriseName',
+                title: '申请人',
+                field: 'applicant',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '联系方式',
+                field: 'applicantPhone',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -90,7 +97,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '委托时间',
+                title: '监测时间',
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
@@ -98,20 +105,6 @@ function initTable() {
                 formatter:function (value, row, index) {
                     return pageUtils.sub16(value);
                 }
-            },
-            {
-                title: '委托人',
-                field: 'applicant',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-            {
-                title: '委托部门',
-                field: 'applyOrg',
-                editable: false,
-                sortable: false,
-                align: 'center'
             },
             {
                 title: '发送至',
@@ -175,8 +168,8 @@ function initTable() {
 window.approveAndSendEvents = {
     'click .approveAndSend': function (e, value, row, index) {
         var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForJianchadadui.action";
-        pageUtils.updateSelfReadStatus(url,row.id,1);
-        setFormData(row,form);
+        pageUtils.updateSelfReadStatus(url,row.id,1)
+        setFormData(row);
     }
 };
 function auditFormFormatter(value, row, index) {
@@ -272,12 +265,19 @@ $("#checkButton").bind("click",function () {
 function setEntity(entity){
     $("#lookOverFeedbackDetailForm").find("input").attr("disabled",true);
     $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
-    var inputs = $("#lookOverFeedbackDetailForm").find('.form-control');
-    $.each(inputs,function(k,v){
-        var tagId = $(v).attr('name');
-        var value = entity[tagId];
-        $(v).val(value);
-    });
+    $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+    $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+    $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+    $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+    $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+    $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+    $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+    $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+    $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+    $("#monitor").val(entity.monitor);
+    $("#monitorPhone").val(entity.monitorPhone);
+    $("#feedbackContent").val(entity.feedbackContent);
 
     uploaderToggle(".bUploader")
     var fuOptions = getUploaderOptions(entity.id);
@@ -294,12 +294,32 @@ function setEntity(entity){
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
-});
-//重置搜索
-$("#searchFix").click(function () {
-    $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+    var queryParams = {};
+    var applyOrgId = $("#s_applyOrgId").val();
+    var start_monitorTime = $("#start_monitorTime").val();
+    var end_monitorTime = $("#end_monitorTime").val();
+    var blockLevelId = $(".s_blockLevelId").val();
+    var blockId = $(".s_blockId").val();
+
+    queryParams["module"] = "receiveTrustMonitor";
+    if (blockLevelId){
+        queryParams["blockLevelId"] = blockLevelId;
+    }
+    if (blockId){
+        queryParams["blockId"] = blockId;
+    }
+    if (applyOrgId){
+        queryParams["applyOrgId"] = applyOrgId;
+    }
+    if (start_monitorTime){
+        queryParams["start_monitorTime"] = start_monitorTime;
+    }
+    if (end_monitorTime){
+        queryParams["end_monitorTime"] = end_monitorTime;
+    }
+    gridTable.bootstrapTable('refresh',{
+        query:queryParams
+    });
 });
 
 //初始化日期组件
@@ -384,7 +404,7 @@ $("#saveAndAgreeAndSend").bind('click',function () {
  * @param entity
  * @returns {boolean}
  */
-function setFormData(entity,dialogForm) {
+function setFormData(entity) {
     resetForm();
     if (!entity) {return false}
 
@@ -392,23 +412,33 @@ function setFormData(entity,dialogForm) {
     $("#id").attr("disabled",false);
     $("#removeId").attr("disabled",false);
     $(".edit").attr("disabled",false);
-    $("#auditorForSend").val(userName)
-    $("#auditTimeForSend").val((new Date()).format("yyyy-MM-dd hh:mm"));
 
     var id = entity.id;
-    var inputs = dialogForm.find('.form-control');
-    $.each(inputs,function(k,v){
-        var tagId = $(v).attr('name');
-        var value = entity[tagId];
-        $(v).val(value);
-    });
+    $("#id").val(entity.id);
+    $("#removeId").val("");
+    $("#enterpriseName").val(entity.enterpriseName);
+    $("#enterpriseId").val(entity.enterpriseId);
+    $("#monitorContent").val(entity.monitorContent);
+    $("#applyOrgId").val(entity.applyOrgId);
+    $("#applicant").val(entity.applicant);
+    $("#applicantPhone").val(entity.applicantPhone);
+    $("#monitorTime").val(entity.monitorTime);
+    $("#trustOrgAddress").val(entity.trustOrgAddress);
+    $("#monitorAddress").val(entity.monitorAddress);
+    $("#monitorContentDetail").val(entity.monitorContentDetail);
+
+    $("#auditorForSend").val(userName)
+    $("#auditTimeForSend").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    $("#auditPositionForSend").val(entity.auditPosition)
+    $("#auditorPhoneForSend").val(entity.auditorPhone)
+    $("#auditSuggestionForSend").val(entity.auditSuggestion)
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));
     bindDownloadSelector();
 }
 function setFormView(entity) {
-    setFormData(entity,form);
+    setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(form,true);
     var fuOptions = getUploaderOptions(entity.id);
@@ -553,14 +583,14 @@ function getAttachmentIds() {
     return "";
 }
 
-/*$(document).ready(function () {
+$(document).ready(function () {
     var optionsSetting={code:"orgId",name:"orgName"}
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#s_applyOrgId",optionsSetting)
     ajaxLoadOption(rootPath+"/action/S_exelaw_TrustMonitor_getEnvironmentalProtectionStationList.action","#applyOrgId",optionsSetting)
 
-    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId");
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 
 
-})*/
+})
 
 

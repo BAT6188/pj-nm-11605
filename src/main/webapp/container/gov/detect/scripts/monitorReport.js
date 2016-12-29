@@ -60,32 +60,17 @@ function initTable() {
                 visible:false
             },
             {
-                title: '监测名称',
+                title: '监测对象',
                 field: 'monitorName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },{
-                // title: '类型',
-                title: '监测项目',
-                field: 'type',
+                title: '报告编号',
+                field: 'reportNumber',
                 editable: false,
                 sortable: false,
-                align: 'center',
-                formatter:function (value, row, index) {
-                    if (value==1){
-                        value="水源地监测报告"
-                    }else if (value==2){
-                        value="大气污染防治监测报告"
-                    }else if (value==3){
-                        value="水污染防治监测报告"
-                    }else if(value == 4){
-                        value="噪声监测报告"
-                    }else if(value == 5){
-                        value="土壤污染防治监测报告"
-                    }
-                    return value;
-                }
+                align: 'center'
             },
             {
                 title: '监测类型',
@@ -99,10 +84,37 @@ function initTable() {
                     }else if (value==2){
                         value="企业委托监测"
                     }else if (value==3){
-                        value="环境"
+                        value="环境质量监测"
                     }
                     return value;
                 }
+            },{
+                // title: '类型',
+                title: '监测内容',
+                field: 'type',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if (value==1){
+                        value="水质监测"
+                    }else if (value==2){
+                        value="大气监测"
+                    }else if (value==3){
+                        value="大气监测"
+                    }else if(value == 4){
+                        value="土壤监测"
+                    }/*else if(value == 5){
+                        value="土壤污染防治监测报告"
+                    }*/
+                    return value;
+                }
+            },{
+                title: '监测人员',
+                field: 'monitorPersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
             },
             {
                 title: '监测时间',
@@ -111,12 +123,6 @@ function initTable() {
                 align: 'center',
                 editable: false
 
-            },{
-                title: '监测人员',
-                field: 'monitorPersonName',
-                editable: false,
-                sortable: false,
-                align: 'center'
             },/*{
                 title: '联系方式',
                 field: 'monitorPhone',

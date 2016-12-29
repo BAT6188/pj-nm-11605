@@ -30,10 +30,11 @@
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" style="width: 180px;" class="form-control" />
+                            <label for="">监测对象：</label> <input type="text" id="s_enterpriseName" style="width: 180px;" class="form-control" />
+                            <label for="">监测内容：</label> <input type="text" id="s_monitorContent" style="width: 180px;" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="">监测时间：</label>
+                            <label for="">委托时间：</label>
                             <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                 <input class="form-control" size="16" id="start_monitorTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -56,6 +57,9 @@
                     <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                         <i class="btnIcon edit-icon"></i><span>查看</span>
                     </button>--%>
+                    <button id="shouLiButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                        <i class="btnIcon edit-icon"></i><span>受理</span>
+                    </button>
                 </p>
             </div>
             <div class="tableBox">
@@ -78,7 +82,7 @@
                     <input type="hidden" id="id" name="id">
                     <input type="hidden" id="removeId" name="removeId">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
@@ -109,7 +113,7 @@
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
-                        <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">委托时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="监测时间不能为空"
@@ -165,13 +169,13 @@
                             <textarea id="auditSuggestion" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <%--<div class="form-group">
                         <label for="attachment" class="col-sm-2 control-label">附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery" class="uploaderToggle aUploader"></div>
                         </div>
-                    </div>
+                    </div>--%>
                 </form>
             </div>
             <div class="modal-footer">
@@ -196,7 +200,7 @@
                 </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName_lookOverFeedbackDetailForm"  class="form-control" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
@@ -227,7 +231,7 @@
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
-                        <label for="enterpriseName" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">委托时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" size="16" type="text" value="" id="monitorTime_lookOverFeedbackDetailForm"  data-message="监测时间不能为空"

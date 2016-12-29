@@ -107,9 +107,21 @@ public class MonitorReport implements Serializable {
      */
     @Column(name = "remark")
     private String remark;
-
+    /**
+     * 报告编号
+     */
+    @Column(name = "reportNumber")
+    private String reportNumber;
     @Transient
     private String attachmentIds;
+
+    public String getReportNumber() {
+        return reportNumber;
+    }
+
+    public void setReportNumber(String reportNumber) {
+        this.reportNumber = reportNumber;
+    }
 
     public String getSendPersonId() {
         return sendPersonId;

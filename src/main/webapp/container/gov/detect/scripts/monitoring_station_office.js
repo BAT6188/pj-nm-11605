@@ -1,6 +1,7 @@
 //@ sourceURL=monitoring_station_office.js
 var gridTable = $('#table'),
     // checkButton = $('#checkButton'),
+    shouLiButton = $('#shouLiButton'),
     form = $("#demoForm"),
     formTitle = "委托监测",
     selections = [];
@@ -34,18 +35,19 @@ function initTable() {
                 visible:false
             },
             {
-                title: '企业名称',
+                // title: '企业名称',
+                title:'监测对象',
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: sendEvents,
+                // events: sendEvents,
                 formatter: function (value, row, index) {
                     var isNewDiv=""
                     if (row.selfReadStatusForMonitorOffice!='1'){
                         isNewDiv='<div id="isNew">&nbsp;</div>'
                     }
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
+                    return '<div style="padding: 8px;" class="send">'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -56,7 +58,8 @@ function initTable() {
                 editable: false
             },
             {
-                title: '监测时间',
+                // title: '监测时间',
+                title: '委托时间',
                 field: 'monitorTime',
                 editable: false,
                 sortable: false,
@@ -116,6 +119,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         // checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        shouLiButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -160,13 +164,13 @@ window.operateEvents = {
 };
 
 // 列表操作事件
-window.sendEvents = {
+/*window.sendEvents = {
     'click .send': function (e, value, row, index) {
         var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorOffice.action";
         pageUtils.updateSelfReadStatus(url,row.id,1)
         setFormData(row);
     }
-};
+};*/
 
 /**
  * 获取列表所有的选中数据id
@@ -191,15 +195,14 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-// checkButton.prop('disabled', true);
+shouLiButton.prop('disabled', true);
 
-/*$("#checkButton").bind("click",function () {
-    var entity=getSelections()[0];
-
-
-
-
-});*/
+$("#shouLiButton").bind("click",function () {
+    var row=getSelections()[0];
+    var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorOffice.action";
+    pageUtils.updateSelfReadStatus(url,row.id,1)
+    setFormData(row);
+});
 
 
 
@@ -266,25 +269,32 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             })
             var msg = {
                 'msgType':11,
-                'title':'委托监测',
+                'title':'污染纠纷监测',
                 'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
 
-            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
+            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测',opContent:'发送数据',refTableId:''})
         }
     });
 });
 
+var ef_sendButton = form.easyform({
+    success:function (ef_sendButton) {
+        var entity = $("#demoForm").find("form").formSerializeObject();
+        entity.id=$("#demoForm").find("#id").val();
+        //TODO 委托监测短信内容
+        entity.monitorContentDetail=$("#monitorContentDetail").val();
+        entity.smsContent=entity.monitorContentDetail
+        entity.isSendSms=$("#isSendSms").is(':checked');
+        model.open(entity);
+    }
+});
+
 //表单 保存按钮
 $("#sendButton").bind('click',function () {
-    var entity={};
-    entity.id=$("#demoForm").find("#id").val();
-    //TODO 委托监测短信内容
-    entity.smsContent=entity.monitorContentDetail
-    entity.isSendSms=$("#isSendSms").is(':checked');
-    model.open(entity);
+    ef_sendButton.submit(false);
 });
 
 function disabledForm(selector,disabled) {
@@ -315,7 +325,7 @@ function setFormData(entity) {
         $(selector).val(entity[p])
     }
 
-    uploaderToggle(".aUploader")
+    /*uploaderToggle(".aUploader")
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -323,7 +333,7 @@ function setFormData(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     bindDownloadSelector();
-    $(".qq-upload-button").hide();
+    $(".qq-upload-button").hide();*/
 }
 function setFormView(entity) {
     setFormData(entity);
