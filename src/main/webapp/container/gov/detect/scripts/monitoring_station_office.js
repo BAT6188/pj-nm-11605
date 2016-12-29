@@ -202,6 +202,9 @@ $("#shouLiButton").bind("click",function () {
     var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorOffice.action";
     pageUtils.updateSelfReadStatus(url,row.id,1)
     setFormData(row);
+     $("#officeShouLiPersonName").val(userName);
+     $("#officeShouLiTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
+
 });
 
 
@@ -231,6 +234,17 @@ $("#search").click(function () {
 
 //初始化日期组件
 $('.form_datetime').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+});
+
+$('#datetimepicker2').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
     todayBtn:  1,
@@ -289,6 +303,24 @@ var ef_sendButton = form.easyform({
         entity.smsContent=entity.monitorContentDetail
         entity.isSendSms=$("#isSendSms").is(':checked');
         model.open(entity);
+        var id = entity.id;
+
+        var officeShouLiPersonName = userName;
+        var officeShouLiTime = (new Date()).format("yyyy-MM-dd hh:mm");
+        var officeShouLiYiJian = $("#officeShouLiYiJian").val();
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_TrustMonitor_updateAcceptInformation.action",
+            type:"post",
+            dataType:'json',
+            data:{id:id,officeShouLiPersonName:officeShouLiPersonName,officeShouLiTime:officeShouLiTime,officeShouLiYiJian:officeShouLiYiJian},
+            success:function (data) {
+                form.modal('hide');
+                gridTable.bootstrapTable('refresh');
+            }
+        })
+
+
+
     }
 });
 
@@ -318,7 +350,7 @@ function disabledForm(selector,disabled) {
  * @returns {boolean}
  */
 function setFormData(entity) {
-    disabledForm(form,true)
+    disabledForm($(".demoForms"),true);
     $("#id").attr("disabled",false);
     for(p in entity){
         var selector="#"+p

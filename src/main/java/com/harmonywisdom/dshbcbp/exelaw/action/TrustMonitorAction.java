@@ -21,6 +21,7 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+
 import java.util.List;
 
 public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorService> {
@@ -354,6 +355,25 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         }
 
         write(entity.getId());
+    }
+
+    /**
+     * 更新保存受理信息
+     */
+    public void updateAcceptInformatio(){
+        String id = request.getParameter("id");
+        String officeShouLiPersonName = request.getParameter("officeShouLiPersonName");
+        String officeShouLiTime = request.getParameter("officeShouLiTime");
+        String officeShouLiYiJian = request.getParameter("officeShouLiYiJian");
+        if(id != null && !"".equals(id)){
+            TrustMonitor trustMonitor = trustMonitorService.findById(id);
+            trustMonitor.setOfficeShouLiPersonName(officeShouLiPersonName);
+            trustMonitor.setOfficeShouLiTime(DateUtil.strToDate(officeShouLiTime,"yyyy-MM-dd HH:mm"));
+            trustMonitor.setOfficeShouLiYiJian(officeShouLiYiJian);
+            trustMonitorService.update(trustMonitor);
+        }
+        write(true);
+
     }
 
 

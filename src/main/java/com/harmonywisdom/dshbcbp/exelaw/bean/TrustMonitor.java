@@ -46,8 +46,8 @@ public class TrustMonitor implements Serializable {
     /**
      * 受理意见
      */
-    @Column(name = "office_ShouLi_yiJian")
-    private Date officeShouLiYiJian;
+    @Column(name = "office_ShouLi_yiJian",length=512)
+    private String officeShouLiYiJian;
 
 
     //---------站领导-------------//
@@ -64,10 +64,8 @@ public class TrustMonitor implements Serializable {
     /**
      * 受理意见
      */
-    @Column(name = "master_ShouLi_yiJian")
-    private Date masterShouLiYiJian;
-
-
+    @Column(name = "master_ShouLi_yiJian",length = 512)
+    private String masterShouLiYiJian;
 
 
     /**
@@ -647,13 +645,6 @@ public class TrustMonitor implements Serializable {
         this.officeShouLiTime = officeShouLiTime;
     }
 
-    public Date getOfficeShouLiYiJian() {
-        return officeShouLiYiJian;
-    }
-
-    public void setOfficeShouLiYiJian(Date officeShouLiYiJian) {
-        this.officeShouLiYiJian = officeShouLiYiJian;
-    }
 
     public String getMasterShouLiPersonName() {
         return masterShouLiPersonName;
@@ -671,11 +662,19 @@ public class TrustMonitor implements Serializable {
         this.masterShouLiTime = masterShouLiTime;
     }
 
-    public Date getMasterShouLiYiJian() {
+    public String getOfficeShouLiYiJian() {
+        return officeShouLiYiJian;
+    }
+
+    public void setOfficeShouLiYiJian(String officeShouLiYiJian) {
+        this.officeShouLiYiJian = officeShouLiYiJian;
+    }
+
+    public String getMasterShouLiYiJian() {
         return masterShouLiYiJian;
     }
 
-    public void setMasterShouLiYiJian(Date masterShouLiYiJian) {
+    public void setMasterShouLiYiJian(String masterShouLiYiJian) {
         this.masterShouLiYiJian = masterShouLiYiJian;
     }
 }
