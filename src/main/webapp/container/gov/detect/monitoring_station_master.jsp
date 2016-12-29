@@ -70,16 +70,19 @@
                         <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
                             <i class="btnIcon edit-icon"></i><span>查看</span>
                         </button>--%>
-                        <span id="b_span">
+                        <button id="diaoDuButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                            <i class="btnIcon edit-icon"></i><span>调度</span>
+                        </button>
+                    <span id="b_span">
                         <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#enterpriseSelfDialog">
                         <i class="btnIcon add-icon"></i><span>新建</span>
-                    </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#enterpriseSelfDialog">
-                        <i class="btnIcon edit-icon"></i><span>修改</span>
-                    </button>
-                    <button id="remove" type="button" class="btn btn-sm btn-danger">
-                        <i class="btnIcon delf-icon"></i><span>删除</span>
-                    </button>
+                        </button>
+                        <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#enterpriseSelfDialog">
+                            <i class="btnIcon edit-icon"></i><span>修改</span>
+                        </button>
+                        <button id="remove" type="button" class="btn btn-sm btn-danger">
+                            <i class="btnIcon delf-icon"></i><span>删除</span>
+                        </button>
                     </span>
                     </p>
                 </div>
@@ -184,13 +187,30 @@
                             <input type="text" id="auditTime" name="auditTime" class="form-control" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
-
-
                     </div>
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
                             <textarea id="auditSuggestion" name="auditSuggestion" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">受理人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="masterShouLiPersonName" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">受理时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="" name="masterShouLiTime" class="form-control" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">批示意见<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="" name="masterShouLiYiJian" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -286,6 +306,66 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">审批信息</h4>
+                </div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group demoForms">
+                        <label for="enterpriseName" class="col-sm-2 control-label">审核人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="auditor_lookOverFeedbackDetailForm" name="" class="form-control demoForms" data-message="监测地点不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+
+                        <label for="enterpriseName" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="auditorPhone_lookOverFeedbackDetailForm" name="" class="form-control demoForms" data-message="监测地点不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                    </div>
+                    <div class="form-group demoForms">
+                        <label for="enterpriseName" class="col-sm-2 control-label">审批时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="auditTime_lookOverFeedbackDetailForm" name="" class="form-control demoForms" data-message="监测地点不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                    </div>
+                    <div class="form-group demoForms">
+                        <label for="enterpriseName" class="col-sm-2 control-label">审批意见<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="auditSuggestion_lookOverFeedbackDetailForm" name="" class="form-control demoForms" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-header">
+                    <h4 class="modal-title form-title">受理信息</h4>
+                </div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group ">
+                        <label for="" class="col-sm-2 control-label">受理人<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="masterShouLiPersonName_lookOverFeedbackDetailForm" name="" class="form-control" data-message="受理人不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">受理时间<span class="text-danger">*</span>：</label>
+                        <div id="" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="officeShouLiTime">
+                            <input class="form-control" size="16" id="masterShouLiTime_lookOverFeedbackDetailForm"  name="" type="text" value="" readonly >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">批示意见<span class="text-danger"></span>：</label>
+                        <div class="col-sm-10">
+                            <textarea id="masterShouLiYiJian_lookOverFeedbackDetailForm" name="" class="form-control" rows="4" cols="50" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </form>
+
                 <div class="modal-header">
                     <h4 class="modal-title form-title">监测站反馈</h4>
                 </div>

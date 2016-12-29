@@ -64,8 +64,8 @@ function initZtree(data) {
     //orgTreeObj.expandAll(true);
 }
 
-if (window.orgTreeObjData){
-    initZtree(window.orgTreeObjData);
+if (window.partOrgTreeObjData){
+    initZtree(window.partOrgTreeObjData);
 }else {
     $.ajax({
         url: rootPath + "/action/S_office_PartyOrg_getPartyOrgZtree.action",//"/container/gov/dispatch/selectPeople.json"
@@ -74,7 +74,7 @@ if (window.orgTreeObjData){
         dataType:"json",
         success:function (data) {
             initZtree(data);
-            window.orgTreeObjData=data;
+            window.partOrgTreeObjData=data;
         }
     });
 
@@ -252,7 +252,10 @@ removeBtn.click(function () {
         });
     });
 });
-var choseModel = $.fn.MsgSend.init(1,options,function(e,obj){ //短信发送第一个参数为2
+var choseModel = $.fn.MsgSend.init(1,{
+    title:'人员选择',
+    btnok:'保存'
+},function(e,obj){ //短信发送第一个参数为2
     var ipersons = obj.personObj;
     var saveIPersons = [];
     $.each(ipersons,function(k,v){

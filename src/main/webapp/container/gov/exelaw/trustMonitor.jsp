@@ -23,29 +23,55 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="s_enterpriseName">监测对象：</label> <input type="text" id="s_enterpriseName" style="width: 180px;" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="">委托时间：</label>
-                                <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="start_monitorTime"  type="text" value="" readonly>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                                -
-                                <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="end_monitorTime"  type="text" value="" readonly>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        <form  id="searchform">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="s_enterpriseName">监测对象：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" style="width: 237px;" class="form-control" />
+                                    <label for="applyOrgId">&nbsp;委托部门：</label> <input type="text" name="applyOrgId" style="width: 237px;" class="form-control" />
                                 </div>
                             </div>
+                            <p></p>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="s_enterpriseName">监测内容：</label>
+                                    <select name="monitorContent" class="form-control" style="width: 237px;">
+                                        <option value="">全部</option>
+                                        <option value="1">水源地监测报告</option>
+                                        <option value="2">大气污染防治监测报告</option>
+                                        <option value="3">水污染防治监测报告</option>
+                                        <option value="4">噪声监测报告</option>
+                                        <option value="5">土壤污染防治监测报告</option>
+                                    </select>
+                                    <label for="status">&nbsp;反馈状态：</label>
+                                    <select name="status" class="form-control" style="width: 237px;">
+                                        <option value="">全部</option>
+                                        <option value="1">未反馈</option>
+                                        <option value="7">已反馈</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p></p>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="">委托时间：</label>
+                                    <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                        <input class="form-control" name="start_monitorTime" size="16" id="start_monitorTime"  type="text" value="" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                    </div>
+                                    -
+                                    <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                        <input class="form-control" name="end_monitorTime" size="16" id="end_monitorTime"  type="text" value="" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p></p>
                         </form>
-
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button type="button" class="btn btn-default" id="searchFix"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
@@ -84,24 +110,27 @@
                                    data-easytip="position:top;class:easy-red;"/>
                             <input type="hidden" id="enterpriseId" name="enterpriseId"/>
                         </div>
-
-                        <label for="enterpriseName" class="col-sm-2 control-label">监测项目<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent" name="monitorContent" class="form-control" data-message="监测内容不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
+                            <select id="monitorContent" name="monitorContent" class="form-control">
+                                <option value="1">水源地监测报告</option>
+                                <option value="2">大气污染防治监测报告</option>
+                                <option value="3">水污染防治监测报告</option>
+                                <option value="4">噪声监测报告</option>
+                                <option value="5">土壤污染防治监测报告</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">委托部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <%--<select id="applyOrgId" name="applyOrgId" class="form-control"></select>--%>
-                                <input type="text" id="applyOrgId" name="applyOrgId" class="form-control" data-message="监测内容不能为空"
+                                <input type="text" id="applyOrgId" name="applyOrgId" class="form-control" data-message="委托部门不能为空"
                                        data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">委托人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applicant" name="applicant" class="form-control" data-message="申请人不能为空"
+                            <input type="text" id="applicant" name="applicant" class="form-control" data-message="委托人不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
@@ -115,7 +144,7 @@
                         <label for="enterpriseName" class="col-sm-2 control-label">委托时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
-                                <input class="form-control" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="监测时间不能为空"
+                                <input class="form-control" size="16" type="text" value="" id="monitorTime" name="monitorTime" data-message="委托时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -125,7 +154,7 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">被委托部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="trustOrgAddress" name="trustOrgAddress" class="form-control" data-message="委托单位地点不能为空"
+                            <input type="text" id="trustOrgAddress" name="trustOrgAddress" class="form-control" data-message="被委托部门不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
@@ -138,7 +167,7 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">委托原由<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="monitorContentDetail" name="monitorContentDetail" class="form-control" rows="4" cols="50" placeholder="" data-message="监测内容详情不能为空"
+                            <textarea id="monitorContentDetail" name="monitorContentDetail" class="form-control" rows="4" cols="50" placeholder="" data-message="委托原由不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
@@ -159,47 +188,52 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">委托监测</h4>
+                <h4 class="modal-title form-title">查看委托检测信息</h4>
             </div>
             <div class="modal-body">
-                <h4 class="modal-title form-title">委托监测</h4>
+                <div class="modal-header" style="border-bottom: none;"><h4 class="modal-title form-title">委托信息</h4></div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="enterpriseName_lookOverFeedbackDetailForm"  class="form-control" data-message="企业名称不能为空"
+                            <input type="text" id="enterpriseName_lookOverFeedbackDetailForm" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
-                        <label for="enterpriseName" class="col-sm-2 control-label">监测项目<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent_lookOverFeedbackDetailForm"  class="form-control" data-message="监测内容不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
+                            <select id="monitorContent_lookOverFeedbackDetailForm" name="monitorContent" class="form-control">
+                                <option value="1">水源地监测报告</option>
+                                <option value="2">大气污染防治监测报告</option>
+                                <option value="3">水污染防治监测报告</option>
+                                <option value="4">噪声监测报告</option>
+                                <option value="5">土壤污染防治监测报告</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">委托部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applyOrg_lookOverFeedbackDetailForm" class="form-control"/>
+                            <input type="text" id="applyOrg_lookOverFeedbackDetailForm" name="applyOrgId" class="form-control"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">委托人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applicant_lookOverFeedbackDetailForm"  class="form-control" data-message="申请人不能为空"
+                            <input type="text" id="applicant_lookOverFeedbackDetailForm" name="applicant" class="form-control" data-message="申请人不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="applicantPhone_lookOverFeedbackDetailForm"  class="form-control" data-message="联系方式不能为空"
+                            <input type="text" id="applicantPhone_lookOverFeedbackDetailForm" name="applicantPhone" class="form-control" data-message="联系方式不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">委托时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div  class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
-                                <input class="form-control" size="16" type="text" value="" id="monitorTime_lookOverFeedbackDetailForm"  data-message="监测时间不能为空"
+                                <input class="form-control" name="monitorTime" size="16" type="text" value="" id="monitorTime_lookOverFeedbackDetailForm"  data-message="委托时间不能为空"
                                        data-easytip="position:top;class:easy-red;" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -209,65 +243,68 @@
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">被委托部门<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="trustOrgAddress_lookOverFeedbackDetailForm" class="form-control" data-message="委托单位地点不能为空"
+                            <input type="text" id="trustOrgAddress_lookOverFeedbackDetailForm" name="trustOrgAddress" class="form-control" data-message="被委托部门不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测地点<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorAddress_lookOverFeedbackDetailForm"  class="form-control" data-message="监测地点不能为空"
+                            <input type="text" id="monitorAddress_lookOverFeedbackDetailForm" name="monitorAddress" class="form-control" data-message="监测地点不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">委托原由<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="monitorContentDetail_lookOverFeedbackDetailForm"  class="form-control" rows="4" cols="50" placeholder="" data-message="监测内容详情不能为空"
+                            <textarea id="monitorContentDetail_lookOverFeedbackDetailForm" name="monitorContentDetail" class="form-control" rows="4" cols="50" placeholder="" data-message="委托原由不能为空"
                                       data-easytip="position:top;class:easy-red;"></textarea>
                         </div>
                     </div>
                 </form>
 
-                <div class="modal-header">
-                    <h4 class="modal-title form-title">大队审核</h4>
-                </div>
+                <div class="modal-header"></div>
+                <div class="modal-header" style="border-bottom: none;"><h4 class="modal-title form-title">大队审批</h4></div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">审核人<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label">审批人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="auditor_lookOverFeedbackDetailForm"  class="form-control"/>
+                            <input type="text" id="auditor_lookOverFeedbackDetailForm" name="auditor" class="form-control"/>
                         </div>
-                        <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <label for="auditTime" class="col-sm-2 control-label">审批时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="auditorPhone_lookOverFeedbackDetailForm"  class="form-control"/>
+                            <div class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" name="auditTime"  type="text" data-message="审批时间不能为空"
+                                       data-easytip="position:top;class:easy-red;" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">审核意见：</label>
+                        <label for="" class="col-sm-2 control-label">审批意见：</label>
                         <div class="col-sm-10">
-                            <textarea id="auditSuggestion_lookOverFeedbackDetailForm"  class="form-control" rows="4" cols="30" ></textarea>
+                            <textarea id="auditSuggestion_lookOverFeedbackDetailForm" name="auditSuggestion" class="form-control" rows="4" cols="30" ></textarea>
                         </div>
                     </div>
                 </form>
 
-                <div class="modal-header">
-                    <h4 class="modal-title form-title">监测站反馈</h4>
-                </div>
+                <div class="modal-header"></div>
+                <div class="modal-header" style="border-bottom: none;"><h4 class="modal-title form-title">监测站反馈</h4></div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitor"  class="form-control"/>
+                            <input type="text" id="monitor" name="monitor" class="form-control"/>
                         </div>
                         <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorPhone"  class="form-control"/>
+                            <input type="text" id="monitorPhone" name="monitorPhone" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">反馈内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-10">
-                            <textarea id="feedbackContent"  class="form-control" rows="4" cols="50" ></textarea>
+                            <textarea id="feedbackContent" name="feedbackContent" class="form-control" rows="4" cols="50" ></textarea>
                         </div>
                     </div>
                     <div class="form-group">

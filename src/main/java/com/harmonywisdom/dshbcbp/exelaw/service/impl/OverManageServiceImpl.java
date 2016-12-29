@@ -1,5 +1,6 @@
-package com.harmonywisdom.dshbcbp.exelaw.service.impl;
+package com.harmonywisdom.dshbcbp.exportword.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.common.dict.util.DictUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
@@ -8,23 +9,26 @@ import com.harmonywisdom.dshbcbp.dispatch.dao.DispatchTaskDAO;
 import com.harmonywisdom.dshbcbp.dispatch.dao.FeedbackDAO;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
-import com.harmonywisdom.dshbcbp.exelaw.bean.OverManage;
 import com.harmonywisdom.dshbcbp.exelaw.bean.Punish;
 import com.harmonywisdom.dshbcbp.exelaw.dao.PunishDAO;
+import com.harmonywisdom.dshbcbp.exportword.bean.DutyItemCreate;
+import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
+import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
 /**
- *
+ * pageoffice 自定义Service示例
  */
 @Service("overManageService")
-public class OverManageServiceImpl extends BaseService<OverManage,String>{
+public class OverManageServiceImpl extends BaseService<OverManage,String> {
 	
 	@Autowired
     private DispatchTaskDAO dispatchTaskDAO;
@@ -62,8 +66,8 @@ public class OverManageServiceImpl extends BaseService<OverManage,String>{
 		overManage.setYear(year);
 		overManage.setMonth(month);
 		overManage.setDay(day);
-		overManage.setDispatchId(id);
-		overManage.setEnterpriseName(dispatchTask.getEnterpriseName());
+		overManage.setEnterpriseNamea(dispatchTask.getEnterpriseName());
+		overManage.setEnterpriseNameb(dispatchTask.getEnterpriseName());
 		overManage.setBlockLevelName(dispatchTask.getBlockLevelName());
 		overManage.setBlockName(dispatchTask.getBlockName());
 		String pollutantType = enterprise.getPollutantType();
@@ -105,7 +109,7 @@ public class OverManageServiceImpl extends BaseService<OverManage,String>{
 		overManage.setPunishContent(punish.getContent());
 		List<Feedback> feedbackList = feedbackDAO.find("dispatchId=?", id);
 		if (feedbackList.size()>0){
-			overManage.setFeedbackList(feedbackList);
+			overManage.setFeedbackList(JSONArray.toJSONString(feedbackList));
 		}
 		return overManage;
 	}

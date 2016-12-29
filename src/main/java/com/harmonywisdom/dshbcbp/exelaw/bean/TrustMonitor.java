@@ -31,6 +31,43 @@ public class TrustMonitor implements Serializable {
     @Column(length = 4)
     private String status;
 
+
+    //----------办公室-------------//
+    /**
+     *办公室受理人name
+     */
+    @Column(name = "office_ShouLi_PersonName", length = 100)
+    private String officeShouLiPersonName;
+    /**
+     * 受理时间
+     */
+    @Column(name = "office_ShouLi_time")
+    private Date officeShouLiTime;
+    /**
+     * 受理意见
+     */
+    @Column(name = "office_ShouLi_yiJian",length=512)
+    private String officeShouLiYiJian;
+
+
+    //---------站领导-------------//
+    /**
+     *站领导受理人name
+     */
+    @Column(name = "master_ShouLi_PersonName", length = 100)
+    private String masterShouLiPersonName;
+    /**
+     * 受理时间
+     */
+    @Column(name = "master_ShouLi_time")
+    private Date masterShouLiTime;
+    /**
+     * 受理意见
+     */
+    @Column(name = "master_ShouLi_yiJian",length = 512)
+    private String masterShouLiYiJian;
+
+
     /**
      * 审批意见状态：
      * 1同意
@@ -590,5 +627,54 @@ public class TrustMonitor implements Serializable {
 
     public void setAuditSuggestionStatus(String auditSuggestionStatus) {
         this.auditSuggestionStatus = auditSuggestionStatus;
+    }
+
+    public String getOfficeShouLiPersonName() {
+        return officeShouLiPersonName;
+    }
+
+    public void setOfficeShouLiPersonName(String officeShouLiPersonName) {
+        this.officeShouLiPersonName = officeShouLiPersonName;
+    }
+
+    public Date getOfficeShouLiTime() {
+        return officeShouLiTime;
+    }
+
+    public void setOfficeShouLiTime(Date officeShouLiTime) {
+        this.officeShouLiTime = officeShouLiTime;
+    }
+
+
+    public String getMasterShouLiPersonName() {
+        return masterShouLiPersonName;
+    }
+
+    public void setMasterShouLiPersonName(String masterShouLiPersonName) {
+        this.masterShouLiPersonName = masterShouLiPersonName;
+    }
+
+    public Date getMasterShouLiTime() {
+        return masterShouLiTime;
+    }
+
+    public void setMasterShouLiTime(Date masterShouLiTime) {
+        this.masterShouLiTime = masterShouLiTime;
+    }
+
+    public String getOfficeShouLiYiJian() {
+        return officeShouLiYiJian;
+    }
+
+    public void setOfficeShouLiYiJian(String officeShouLiYiJian) {
+        this.officeShouLiYiJian = officeShouLiYiJian;
+    }
+
+    public String getMasterShouLiYiJian() {
+        return masterShouLiYiJian;
+    }
+
+    public void setMasterShouLiYiJian(String masterShouLiYiJian) {
+        this.masterShouLiYiJian = masterShouLiYiJian;
     }
 }
