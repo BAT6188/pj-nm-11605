@@ -31,6 +31,45 @@ public class TrustMonitor implements Serializable {
     @Column(length = 4)
     private String status;
 
+
+    //----------办公室-------------//
+    /**
+     *办公室受理人name
+     */
+    @Column(name = "office_ShouLi_PersonName", length = 100)
+    private String officeShouLiPersonName;
+    /**
+     * 受理时间
+     */
+    @Column(name = "office_ShouLi_time")
+    private Date officeShouLiTime;
+    /**
+     * 受理意见
+     */
+    @Column(name = "office_ShouLi_yiJian")
+    private Date officeShouLiYiJian;
+
+
+    //---------站领导-------------//
+    /**
+     *站领导受理人name
+     */
+    @Column(name = "master_ShouLi_PersonName", length = 100)
+    private String masterShouLiPersonName;
+    /**
+     * 受理时间
+     */
+    @Column(name = "master_ShouLi_time")
+    private Date masterShouLiTime;
+    /**
+     * 受理意见
+     */
+    @Column(name = "master_ShouLi_yiJian")
+    private Date masterShouLiYiJian;
+
+
+
+
     /**
      * 审批意见状态：
      * 1同意
