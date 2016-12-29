@@ -146,7 +146,14 @@ window.operateEvents = {
         $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
         $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
         $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
-
+        $("#auditor_lookOverFeedbackDetailForm").val(entity.auditor);
+        $("#auditorPhone_lookOverFeedbackDetailForm").val(entity.auditorPhone);
+        $("#auditTime_lookOverFeedbackDetailForm").val(entity.auditTime);
+        $("#auditSuggestion_lookOverFeedbackDetailForm").val(entity.auditSuggestion);
+        $("#officeShouLiPersonName_lookOverFeedbackDetailForm").val(entity.officeShouLiPersonName);
+        $("#officeShouLiTime_lookOverFeedbackDetailForm").val(entity.officeShouLiTime);
+        $("#officeShouLiYiJian_lookOverFeedbackDetailForm").val(entity.officeShouLiYiJian);
+        
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
