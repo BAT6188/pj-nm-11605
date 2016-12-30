@@ -15,7 +15,13 @@ function saveAndAgreeAndSend(entity, callback) {
         success:callback
     });
 }
-
+var monitorContent = {
+    "1":"水源地监测报告",
+    "2":"大气污染防治监测报告",
+    "3":"水污染防治监测报告",
+    "4":"噪声监测报告",
+    "5":"土壤污染防治监测报告"
+}
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
@@ -87,7 +93,10 @@ function initTable() {
                 field: 'monitorContent',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function(value,row,index){
+                    return monitorContent[value];
+                }
             },
             {
                 title: '委托时间',
@@ -108,7 +117,7 @@ function initTable() {
             },
             {
                 title: '委托部门',
-                field: 'applyOrg',
+                field: 'applyOrgId',
                 editable: false,
                 sortable: false,
                 align: 'center'
