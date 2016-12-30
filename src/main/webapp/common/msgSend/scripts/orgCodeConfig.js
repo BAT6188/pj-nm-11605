@@ -22,10 +22,10 @@ var orgCodeConfig={
 var huanBaoZhanLingDaoConfig={
     lingDao:{
         tianqiong:{userId:'tianqiong',personId:'104',userName:'田琼'},
-        tianqiong:{userId:'yangfan',personId:'105',userName:'杨帆'},
-        tianqiong:{userId:'chaogetu',personId:'106',userName:'朝格图'},
-        tianqiong:{userId:'hanguang',personId:'107',userName:'韩光'},
-        tianqiong:{userId:'yangyandong',personId:'108',userName:'杨彦东'}
+        yangfan:{userId:'yangfan',personId:'105',userName:'杨帆'},
+        chaogetu:{userId:'chaogetu',personId:'106',userName:'朝格图'},
+        hanguang:{userId:'hanguang',personId:'107',userName:'韩光'},
+        yangyandong:{userId:'yangyandong',personId:'108',userName:'杨彦东'}
 
     }
 }
