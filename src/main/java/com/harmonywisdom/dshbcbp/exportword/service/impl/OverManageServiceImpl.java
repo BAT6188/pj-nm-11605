@@ -11,16 +11,13 @@ import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
 import com.harmonywisdom.dshbcbp.exelaw.bean.Punish;
 import com.harmonywisdom.dshbcbp.exelaw.dao.PunishDAO;
-import com.harmonywisdom.dshbcbp.exportword.bean.DutyItemCreate;
 import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
-import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 
