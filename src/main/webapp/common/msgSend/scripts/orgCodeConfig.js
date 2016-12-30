@@ -19,14 +19,13 @@ var orgCodeConfig={
  * 监测站领导配置
  * @type {{lingDao: {tianqiong: {userId: string, personId: string, userName: string}, tianqiong: {userId: string, personId: string, userName: string}, tianqiong: {userId: string, personId: string, userName: string}, tianqiong: {userId: string, personId: string, userName: string}, tianqiong: {userId: string, personId: string, userName: string}}}}
  */
-var huanBaoZhanLingDaoConfig={
-    lingDao:{
-        tianqiong:{userId:'tianqiong',personId:'104',userName:'田琼'},
-        yangfan:{userId:'yangfan',personId:'105',userName:'杨帆'},
-        chaogetu:{userId:'chaogetu',personId:'106',userName:'朝格图'},
-        hanguang:{userId:'hanguang',personId:'107',userName:'韩光'},
-        yangyandong:{userId:'yangyandong',personId:'108',userName:'杨彦东'}
-
-    }
+var jianCeZhanLingDaoConfig={
+    lingDao:[
+        /*{userId:'tianqiong',personId:'104',userName:'田琼'},*/
+        {userId:'yangfan',personId:'105',userName:'杨帆'},
+        {userId:'chaogetu',personId:'106',userName:'朝格图'},
+        {userId:'hanguang',personId:'107',userName:'韩光'},
+        {userId:'yangyandong',personId:'108',userName:'杨彦东'}
+    ]
 }
 

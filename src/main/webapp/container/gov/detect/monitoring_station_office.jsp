@@ -192,12 +192,12 @@
                         </div>
 
                     </div>
-                    <%--<div class="form-group">
-                        <label for="officeShouLiPersonName" class="col-sm-2 control-label">发送至<span class="text-danger">*</span>：</label>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">发送至<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="" name="" class="form-control"/>
+                            <select name="sendToSelect" class="form-control"></select>
                         </div>
-                    </div>--%>
+                    </div>
                     <div class="form-group">
                         <label for="officeShouLiYiJian" class="col-sm-2 control-label">批示意见<span class="text-danger"></span>：</label>
                         <div class="col-sm-10">
