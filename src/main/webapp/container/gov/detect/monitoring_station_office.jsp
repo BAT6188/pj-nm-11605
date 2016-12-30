@@ -193,14 +193,17 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">受理意见<span class="text-danger"></span>：</label>
+                        <label for="" class="col-sm-2 control-label">发送至<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select name="sendToSelect" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">批示意见<span class="text-danger"></span>：</label>
                         <div class="col-sm-10">
                             <textarea id="officeShouLiYiJian" name="officeShouLiYiJian" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
-
-
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -340,7 +343,7 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">受理意见<span class="text-danger"></span>：</label>
+                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">批示意见<span class="text-danger"></span>：</label>
                         <div class="col-sm-10">
                             <textarea id="officeShouLiYiJian_lookOverFeedbackDetailForm" name="officeShouLiYiJian" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
