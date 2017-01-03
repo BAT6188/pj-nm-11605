@@ -14,11 +14,11 @@ var pageUtils = {
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
 
-    updateSelfReadStatus:function (url,id,selfReadStatus) {
+    updateSelfReadStatus:function (url,id,selfReadStatus,reportNumber,personTime) {
         $.ajax({
             url:url,
             type:"post",
-            data:{id:id,selfReadStatus:selfReadStatus},
+            data:{id:id,selfReadStatus:selfReadStatus,reportNumber:reportNumber,personTime:personTime},
             success:function (msg) {
                 if (msg=='ok'){
                     console.log("保存成功")

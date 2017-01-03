@@ -96,8 +96,12 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     public void updateSelfReadStatusForMonitorPerson(){
         String id = request.getParameter("id");
         String selfReadStatus = request.getParameter("selfReadStatus");
+        String reportNumber=request.getParameter("reportNumber");
+        String personTime=request.getParameter("personTime");
         TrustMonitor t = trustMonitorService.findById(id);
+        t.setReportNumber(reportNumber);
         t.setSelfReadStatusForMonitorPerson(selfReadStatus);
+        t.setPersonTime(personTime);
         trustMonitorService.update(t);
         write("ok");
     }
@@ -309,7 +313,6 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
             params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,"%"+entity.getEnterpriseName()+"%"));
         }
-
         if (StringUtils.isNotBlank(start_monitorTime)) {
             params.andParam(new QueryParam("monitorTime", QueryOperator.GE, DateUtil.strToDate(start_monitorTime,"yyyy-MM-dd HH:mm")));
         }
@@ -323,7 +326,7 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         }
 
         if (StringUtils.isNotBlank(entity.getMonitorContent())) {
-            params.andParam(new QueryParam("monitorContent", QueryOperator.EQ,entity.getMonitorContent()));
+            params.andParam(new QueryParam("monitorContent",QueryOperator.LIKE,"%"+entity.getMonitorContent()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getStatus())) {
             if(entity.getStatus().equals("7")){

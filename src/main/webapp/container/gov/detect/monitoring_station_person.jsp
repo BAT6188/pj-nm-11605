@@ -44,7 +44,8 @@
                         <form class="form-inline">
                             <input type="hidden" id="s_enterpriseSelf" name="enterpriseSelf" class="form-control" />
                             <div class="form-group">
-                                <label for="">企业名称：</label> <input type="text" id="s_enterpriseName" style="width: 180px;" class="form-control" />
+                                <label for="">监测对象：</label> <input type="text" id="s_enterpriseName" style="width: 180px;" class="form-control" />
+                                <label for="">监测内容：</label> <input type="text" id="s_monitorContent" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">监测时间：</label>
@@ -67,9 +68,9 @@
                     <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
                     <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                     <p class="btnListP">
-                        <%--<button id="checkButton" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">
-                            <i class="btnIcon edit-icon"></i><span>查看</span>
-                        </button>--%>
+                        <button type="button" id="fanKuiButton" class="btn btn-md btn-warning feedback">
+                            <i class="btnIcon edit-icon"></i><span>反馈</span>
+                        </button>
                     </p>
                 </div>
                 <div class="tableBox">
@@ -93,9 +94,9 @@
                     <input type="hidden" id="id" name="id">
                     <input type="hidden" id="removeId" name="removeId">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="企业名称不能为空"
+                            <input type="text" id="enterpriseName" name="enterpriseName" class="form-control" data-message="监测对象不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
 
@@ -208,7 +209,7 @@
                     <input id="trustMonitorId" name="id" type="hidden" class="editable"/>
                     <input type="hidden" id="trustMonitorRemoveId">
                     <div class="form-group">
-                        <label for="enterpriseName" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName_lookOverFeedbackDetailForm"  class="form-control"/>
                         </div>
@@ -263,20 +264,43 @@
                     </div>
                 </form>
                 <div class="modal-header">
-                    <h4 class="modal-title form-title">监测站反馈</h4>
+                    <h4 class="modal-title form-title">监测站监测员反馈</h4>
                 </div>
                 <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="enterpriseName1_lookOverFeedbackDetailForm"  class="form-control"/>
+                        </div>
+                        <label for="" class="col-sm-2 control-label">报告编号<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="reportNumber" name="reportNumber" class="form-control editable" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="monitor"  class="form-control editable" data-message="不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
-                        <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="monitorPhone"  class="form-control editable" data-message="不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
+
+                        <label for="" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
+                        <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="personTime">
+                            <input class="form-control" size="16" id="personTime"  type="text" value="" readonly >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                         </div>
+
+
+
+
+                    <%--    <label for="" class="col-sm-2 control-label">监测时间<span class="text-danger">*</span>：</label>
+                        <div  class="input-group date form_datetime monDate" data-date="" data-date-format="yyyy-mm-dd hh:ii">
+                            <input class="form-control" size="16" type="text" value="" id="monitorDate" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>--%>
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">反馈内容<span class="text-danger">*</span>：</label>
