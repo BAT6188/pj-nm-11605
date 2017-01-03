@@ -42,6 +42,19 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
     }
 
     /**
+     * 更新监测站长批示意见字段
+     */
+    public void updateMasterPishi(){
+        String id = entity.getId();
+        TrustMonitor t = trustMonitorService.findById(id);
+        t.setMasterShouLiPersonName(entity.getMasterShouLiPersonName());
+        t.setMasterShouLiTime(entity.getMasterShouLiTime());
+        t.setMasterShouLiYiJian(entity.getMasterShouLiYiJian());
+        trustMonitorService.update(t);
+
+    }
+
+    /**
      * 监察大队
      */
     public void updateSelfReadStatusForJianchadadui(){
@@ -314,9 +327,9 @@ public class TrustMonitorAction extends BaseAction<TrustMonitor, TrustMonitorSer
         }
         if (StringUtils.isNotBlank(entity.getStatus())) {
             if(entity.getStatus().equals("7")){
-                params.andParam(new QueryParam("status", QueryOperator.EQ,entity.getMonitorContent()));
+                params.andParam(new QueryParam("status", QueryOperator.EQ,entity.getStatus()));
             }else{
-                params.andParam(new QueryParam("status", QueryOperator.NE,7));
+                params.andParam(new QueryParam("status", QueryOperator.NE,"7"));
             }
         }
 

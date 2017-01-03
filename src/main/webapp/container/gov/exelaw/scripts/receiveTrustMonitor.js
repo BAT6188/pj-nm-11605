@@ -1,5 +1,6 @@
 var gridTable = $('#table'),
     checkButton = $('#checkButton'),
+    shenPiButton = $('#shenPiButton'),
     form = $("#demoForm"),
     auditForm=$("#auditForm"),
     formTitle = "Demo",
@@ -15,7 +16,13 @@ function saveAndAgreeAndSend(entity, callback) {
         success:callback
     });
 }
-
+var monitorContent = {
+    "1":"水源地监测报告",
+    "2":"大气污染防治监测报告",
+    "3":"水污染防治监测报告",
+    "4":"噪声监测报告",
+    "5":"土壤污染防治监测报告"
+}
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
@@ -87,7 +94,10 @@ function initTable() {
                 field: 'monitorContent',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function(value,row,index){
+                    return monitorContent[value];
+                }
             },
             {
                 title: '委托时间',
@@ -108,7 +118,7 @@ function initTable() {
             },
             {
                 title: '委托部门',
-                field: 'applyOrg',
+                field: 'applyOrgId',
                 editable: false,
                 sortable: false,
                 align: 'center'
@@ -126,14 +136,14 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: lookoverAuditFormEvents,
+                // events: lookoverAuditFormEvents,
                 formatter:auditFormFormatter
             },
             {
                 field: 'status',
                 title: '反馈状态',
                 align: 'center',
-                events: operateEvents,
+                // events: operateEvents,
                 formatter: operateFormatter
             },
             {
@@ -161,6 +171,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
         checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        shenPiButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -181,13 +192,13 @@ window.approveAndSendEvents = {
 };
 function auditFormFormatter(value, row, index) {
     if(value=='1'){
-        value='同意'
+        value='审核通过'
     }else if(value=='2'){
-        value='不同意'
+        value='审批不通过'
     }else {
-        value='-'
+        value='待审批'
     }
-    return '<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#auditForm">'+value+'</div>';
+    return '<div style="padding: 8px;color: #c3a61d;" class="view">'+value+'</div>';
 }
 window.lookoverAuditFormEvents = {
     'click .view': function (e, value, entity, index) {
@@ -204,7 +215,7 @@ window.lookoverAuditFormEvents = {
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
     if (value==7){
-        value='<div style="cursor: pointer;padding: 8px;color: #c3a61d;" class="view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">已反馈</div>'
+        value='<div style="padding: 8px;color: #c3a61d;" class="view">已反馈</div>'
     }else {
         value="未反馈"
     }
@@ -263,10 +274,18 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 checkButton.prop('disabled', true);
+shenPiButton.prop('disabled', true);
 
 $("#checkButton").bind("click",function () {
     var entity=getSelections()[0];
     setEntity(entity);
+});
+
+$("#shenPiButton").bind("click",function () {
+    var row=getSelections()[0];
+    var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForJianchadadui.action";
+    pageUtils.updateSelfReadStatus(url,row.id,1)
+    setFormData(row,form);
 });
 
 function setEntity(entity){
@@ -317,8 +336,8 @@ $('.form_datetime').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
-        type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+        orgCode:[orgCodeConfig.org.jianCeZhanOffice.orgCode],//组织机构代码(必填，组织机构代码)
+        type:2 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
@@ -343,13 +362,13 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
             })
             var msg = {
                 'msgType':10,
-                'title':'委托监测',
+                'title':'污染纠纷监测申请',
                 'content':data.sourceId.monitorContentDetail,
                 'businessId':ret
             };
             pageUtils.sendMessage(msg, receivers);
 
-            pageUtils.saveOperationLog({opType:'4',opModule:'委托监测',opContent:'发送数据',refTableId:''})
+            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测申请',opContent:'发送数据',refTableId:''})
         }
     });
 });
@@ -361,6 +380,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.monitorContentDetail=$("#monitorContentDetail").val();
         console.log("同意并发送："+JSON.stringify(entity))
         saveAndAgreeAndSend(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
@@ -402,6 +422,12 @@ function setFormData(entity,dialogForm) {
         var value = entity[tagId];
         $(v).val(value);
     });
+
+    $("#auditorForSend").val(userName)
+    $("#auditTimeForSend").val((new Date()).format("yyyy-MM-dd hh:mm"))
+    $("#auditPositionForSend").val(entity.auditPosition)
+    $("#auditorPhoneForSend").val(entity.auditorPhone)
+    $("#auditSuggestionForSend").val(entity.auditSuggestion)
 
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions(id));

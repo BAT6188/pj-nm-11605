@@ -165,6 +165,14 @@ window.operateEvents = {
         $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
         $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
 
+        $("#auditor_lookOverFeedbackDetailForm").val(entity.auditor);
+        $("#auditorPhone_lookOverFeedbackDetailForm").val(entity.auditorPhone);
+        $("#auditTime_lookOverFeedbackDetailForm").val(entity.auditTime);
+        $("#auditSuggestion_lookOverFeedbackDetailForm").val(entity.auditSuggestion);
+        $("#masterShouLiPersonName_lookOverFeedbackDetailForm").val(entity.masterShouLiPersonName);
+        $("#masterShouLiTime_lookOverFeedbackDetailForm").val(entity.masterShouLiTime);
+        $("#masterShouLiYiJian_lookOverFeedbackDetailForm").val(entity.masterShouLiYiJian);
+
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
@@ -303,6 +311,19 @@ var ef_sendButton = form.easyform({
         entity.smsContent=entity.monitorContentDetail
         entity.isSendSms=$("#isSendSms").is(':checked');
         model.open(entity);
+
+        entity.masterShouLiPersonName=form.find("[name=masterShouLiPersonName]").val()
+        entity.masterShouLiTime=form.find("[name=masterShouLiTime]").val()
+        entity.masterShouLiYiJian=form.find("[name=masterShouLiYiJian]").val();
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_TrustMonitor_updateMasterPishi.action",
+            type:"post",
+            data:entity,
+            // dataType:"json",
+            success:function (msg) {
+                console.log(msg)
+            }
+        });
     }
 });
 
