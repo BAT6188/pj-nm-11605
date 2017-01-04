@@ -161,7 +161,6 @@ $("#fanKuiButton").click(function () {
 
         $("#monitor").val(userName);
         $("#monitorPhone").val(entity.monitorPhone);
-        debugger
         $("#reportNumber").val(entity.reportNumber);
         $("#personTime").val(new Date().format("yyyy-MM-dd hh:mm"));
         disabledForm($("#lookOverFeedbackDetailForm"),true)
@@ -248,7 +247,6 @@ var ef = lookOverFeedbackDetailForm.easyform({
         entity.trustMonitorRemoveId= $("#trustMonitorRemoveId").val();
         entity.monitorDate=$("#monitorDate_lookOverFeedbackDetailForm").val();
         entity.attachmentIds = getAttachmentIds();
-        debugger
         entity.reportNumber=$("#reportNumber").val();
         entity.personTime=$("#personTime").val();
         console.log(entity)
