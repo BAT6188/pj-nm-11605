@@ -595,7 +595,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 var ef_eventMsg_monitorCase_dialog = eventMsg_monitorCase_dialog.easyform({
     success:function (ef_eventMsg_monitorCase_dialog) {
         var entity={}
-        entity.id=$("#id").val();
+        entity.id=$("#eventMsg_monitorCase").find("#id").val();
         // entity.sendRemark=$("#sendRemark").val();
         entity.dispatchPersonName=$("#dispatchPersonName").val();
         entity.dispatchTime=$("#dispatchTime").val();
