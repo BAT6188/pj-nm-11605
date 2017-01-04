@@ -155,6 +155,7 @@ window.operateEvents = {
         $("#officeShouLiYiJian_lookOverFeedbackDetailForm").val(entity.officeShouLiYiJian);
         
         $("#monitor").val(entity.monitor);
+        $("#reportNumber").val(entity.reportNumber);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
 

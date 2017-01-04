@@ -221,6 +221,7 @@ window.operateEvents = {
         $("#feedbackContent").val(entity.feedbackContent);
         $("#reportNumber").val(entity.reportNumber);
         $("#enterpriseName1_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#personTime").val(entity.personTime);
 
         uploaderToggle(".bUploader")
         var fuOptions = getUploaderOptions(entity.id);
