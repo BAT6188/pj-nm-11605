@@ -193,14 +193,17 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">受理意见<span class="text-danger"></span>：</label>
+                        <label for="" class="col-sm-2 control-label">发送至<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <select name="sendToSelect" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">批示意见<span class="text-danger"></span>：</label>
                         <div class="col-sm-10">
                             <textarea id="officeShouLiYiJian" name="officeShouLiYiJian" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
                     </div>
-
-
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -223,7 +226,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title form-title">委托监测</h4>
                 </div>
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" style="margin-top: 5px;">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -291,7 +294,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title form-title">审批信息</h4>
                 </div>
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" style="margin-top: 5px;">
                     <div class="form-group demoForms">
                         <label for="enterpriseName" class="col-sm-2 control-label">审核人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -323,7 +326,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title form-title">受理信息</h4>
                 </div>
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" style="margin-top: 5px;">
                     <div class="form-group ">
                         <label for="officeShouLiPersonName" class="col-sm-2 control-label">受理人<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
@@ -340,7 +343,7 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">受理意见<span class="text-danger"></span>：</label>
+                        <label for="officeShouLiYiJian" class="col-sm-2 control-label">批示意见<span class="text-danger"></span>：</label>
                         <div class="col-sm-10">
                             <textarea id="officeShouLiYiJian_lookOverFeedbackDetailForm" name="officeShouLiYiJian" class="form-control" rows="4" cols="50" placeholder=""></textarea>
                         </div>
@@ -350,15 +353,20 @@
                 <div class="modal-header">
                     <h4 class="modal-title form-title">监测站反馈</h4>
                 </div>
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" style="margin-top: 5px;">
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">监测人员<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <input type="text" id="monitor"  class="form-control"/>
                         </div>
-                        <label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
+                        <%--<label for="" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<input type="text" id="monitorPhone"  class="form-control"/>--%>
+                        <%--</div>--%>
+                        <label for="" class="col-sm-2 control-label">报告编号<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorPhone"  class="form-control"/>
+                            <input type="text" id="reportNumber" name="reportNumber" class="form-control editable" data-message="不能为空"
+                                   data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
                     <div class="form-group">

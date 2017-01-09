@@ -1,14 +1,14 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
-    form = $("#lookOverFeedbackDetailForm"),
+    lookForm = $("#lookOverFeedbackDetailForm"),
+    demoForm = $("#demoForm");
     auditForm=$("#auditForm"),
     formTitle = "Demo",
     selections = [];
 
 //保存ajax请求
 function saveAjax(entity, callback) {
-    console.log("点击保存并且发送按钮："+JSON.stringify(entity))
     $.ajax({
         url: rootPath + "/action/S_exelaw_TrustMonitor_save.action",
         type:"post",
@@ -30,6 +30,13 @@ function deleteAjax(ids, callback) {
         dataType:"json",
         success:callback
     });
+}
+var monitorContent = {
+    "1":"水源地监测报告",
+    "2":"大气污染防治监测报告",
+    "3":"水污染防治监测报告",
+    "4":"噪声监测报告",
+    "5":"土壤污染防治监测报告"
 }
 /**============grid 列表初始化相关代码============**/
 function initTable() {
@@ -70,7 +77,10 @@ function initTable() {
                 field: 'monitorContent',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function(value,row,index){
+                    return monitorContent[value];
+                }
             },
             {
                 title: '委托时间',
@@ -106,7 +116,7 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center',
-                events: lookoverAuditFormEvents,
+                //events: lookoverAuditFormEvents,
                 formatter:auditFormFormatter
             },
             {
@@ -150,9 +160,9 @@ function initTable() {
 
 function auditFormFormatter(value, row, index) {
     if(value=='1'){
-        return '<div style="cursor: pointer;padding: 8px;color: green;" class="view" data-toggle="modal" data-target="#auditForm">同意</div>';
+        return '<div style="padding: 8px;color: green;" class="view" >同意</div>';//cursor: pointer;data-toggle="modal" data-target="#auditForm"
     }else if(value=='2'){
-        return '<div style="cursor: pointer;padding: 8px;color: red;" class="view" data-toggle="modal" data-target="#auditForm">不同意</div>';
+        return '<div style="padding: 8px;color: red;" class="view" >不同意</div>';
     }else {
         return '-'
     }
@@ -209,6 +219,7 @@ function seeOperateFormatter(value, row, index) {
 }
 window.seeOperateEvents = {
     'click .view': function (e, value, row, index) {
+        $('#modalTopBoday').scrollTop(0);
         setFormView(row);
     }
 };
@@ -244,7 +255,7 @@ $("#add").bind('click',function () {
     resetForm();
 });
 $("#update").bind("click",function () {
-    setFormData(getSelections()[0],$('#demoForm'));
+    setFormData(getSelections()[0],demoForm);
 });
 /**
  * 列表工具栏 删除按钮
@@ -304,8 +315,6 @@ var options = {
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    console.info("回调函数data参数："+JSON.stringify(data))
-
     var d=pageUtils.sendParamDataToString(data)
     console.log("发送："+d)
     $.ajax({
@@ -313,7 +322,7 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
         type:"post",
         data:d,
         success:function (ret) {
-            $("#demoForm").modal('hide');
+            demoForm.modal('hide');
             gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 
             var receivers = [];
@@ -337,9 +346,9 @@ var model = $.fn.MsgSend.init(1,options,function(e,data){
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
-var ef = form.easyform({
+var ef = demoForm.easyform({
     success:function (ef) {
-        var entity = $("#demoForm").find("form").formSerializeObject();
+        var entity = demoForm.find("form").formSerializeObject();
         entity.enterpriseSelf=0
         saveAjax(entity,function (msg) {
             gridTable.bootstrapTable('refresh');
@@ -383,8 +392,8 @@ function setFormData(entity,dialogForm) {
     $(".qq-upload-button").hide();
 }
 function setFormView(entity) {
-    setFormData(entity,form);
-    disabledForm(form,true);
+    setFormData(entity,lookForm);
+    disabledForm(lookForm,true);
     /*var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -439,18 +448,18 @@ function getNowFormatDate() {
  * 重置表单
  */
 function resetForm() {
-    $("#demoForm").find("input[type!='radio'][type!='checkbox']").val("");
-    $("#demoForm").find("#isSendSms").attr("checked",false);
-    $("#demoForm").find("textarea").val("");
-    $("#demoForm").find("#applicant").val(userName);
-    $("#demoForm").find("#applyOrgId").val(orgName);
-    $("#demoForm").find("#applicantPhone").val(mobile);
-    $("#demoForm").find("#trustOrgAddress").val("监测站");
-    $("#demoForm").find("#monitorTime").val(getNowFormatDate());
-    disabledForm($("#demoForm"),false);
-    $("#demoForm").find("#saveAndSend").show();
-    $("#demoForm").find("#isSendSmsSpan").show();
-    $("#demoForm").find(".btn-cancel").text("取消");
+    demoForm.find("input[type!='radio'][type!='checkbox']").val("");
+    demoForm.find("#isSendSms").attr("checked",false);
+    demoForm.find("textarea").val("");
+    demoForm.find("#applicant").val(userName);
+    demoForm.find("#applyOrgId").val(orgName);
+    demoForm.find("#applicantPhone").val(mobile);
+    demoForm.find("#trustOrgAddress").val("监测站");
+    demoForm.find("#monitorTime").val(getNowFormatDate());
+    disabledForm(demoForm,false);
+    demoForm.find("#saveAndSend").show();
+    demoForm.find("#isSendSmsSpan").show();
+    demoForm.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js

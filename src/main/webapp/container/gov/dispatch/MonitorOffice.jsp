@@ -183,7 +183,7 @@
                 <%--<input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label>--%>
                 <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
                 <button type="button" class="btn btn-primary" id="save">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

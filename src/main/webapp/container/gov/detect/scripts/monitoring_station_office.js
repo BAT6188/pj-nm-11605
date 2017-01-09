@@ -155,6 +155,7 @@ window.operateEvents = {
         $("#officeShouLiYiJian_lookOverFeedbackDetailForm").val(entity.officeShouLiYiJian);
         
         $("#monitor").val(entity.monitor);
+        $("#reportNumber").val(entity.reportNumber);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
 
@@ -212,6 +213,19 @@ $("#shouLiButton").bind("click",function () {
      $("#officeShouLiPersonName").val(userName);
      $("#officeShouLiTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
 
+    var sendToSelect=form.find("[name=sendToSelect]")
+    var jianCeZhanLingDao=jianCeZhanLingDaoConfig.lingDao
+    $.each(jianCeZhanLingDao,function (i,v) {
+        var option='<option userId='+v.userId+' personId='+v.personId+'>'+v.userName+'</option>'
+        sendToSelect.append(option)
+    })
+    $(sendToSelect).change(function(){
+        console.log(sendToSelect.find("option:selected").attr("userId"))
+        var h='同意现场监测，请'+sendToSelect.find("option:selected").text()+'站长安排监测人员进行现场监测。'
+        $("#officeShouLiYiJian").val(h)
+    });
+    var h='同意现场监测，请'+sendToSelect.find("option:selected").text()+'站长安排监测人员进行现场监测。'
+    $("#officeShouLiYiJian").val(h)
 });
 
 
@@ -265,40 +279,15 @@ $('#datetimepicker2').datetimepicker({
 /**============配置组织发送弹出框============**/
 var options = {
     params:{
-        orgCode:[orgCodeConfig.org.dongShengQuHuanBaoJu.orgCode],//组织机构代码(必填，组织机构代码)
-        type:3 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
+        orgCode:[orgCodeConfig.org.jianCeZhanMaster.orgCode],//组织机构代码(必填，组织机构代码)
+        type:2 //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
     },
     choseMore:false,
     title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
     width:"60%",        //宽度(可省略，默认值：850)
 }
 var model = $.fn.MsgSend.init(1,options,function(e,data){
-    var d=pageUtils.sendParamDataToString(data)
-    console.log("发送："+d)
-    $.ajax({
-        url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitoringStationMasterPersonList.action",
-        type:"post",
-        data:d,
-        success:function (ret) {
-            form.modal('hide');
-            gridTable.bootstrapTable("refresh")
 
-            var receivers = [];
-            $.each(data.personObj,function (i,v) {
-                var receiver1 = {receiverId:v.userId,receiverName:v.name};
-                receivers.push(receiver1);
-            })
-            var msg = {
-                'msgType':11,
-                'title':'污染纠纷监测',
-                'content':data.sourceId.monitorContentDetail,
-                'businessId':ret
-            };
-            pageUtils.sendMessage(msg, receivers);
-
-            pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测',opContent:'发送数据',refTableId:''})
-        }
-    });
 });
 
 var ef_sendButton = form.easyform({
@@ -308,10 +297,9 @@ var ef_sendButton = form.easyform({
         //TODO 委托监测短信内容
         entity.monitorContentDetail=$("#monitorContentDetail").val();
         entity.smsContent=entity.monitorContentDetail
-        entity.isSendSms=$("#isSendSms").is(':checked');
-        model.open(entity);
+        // entity.isSendSms=$("#isSendSms").is(':checked');
+        // model.open(entity);
         var id = entity.id;
-
         var officeShouLiPersonName = userName;
         var officeShouLiTime = (new Date()).format("yyyy-MM-dd hh:mm");
         var officeShouLiYiJian = $("#officeShouLiYiJian").val();
@@ -321,10 +309,38 @@ var ef_sendButton = form.easyform({
             dataType:'json',
             data:{id:id,officeShouLiPersonName:officeShouLiPersonName,officeShouLiTime:officeShouLiTime,officeShouLiYiJian:officeShouLiYiJian},
             success:function (data) {
-                form.modal('hide');
-                gridTable.bootstrapTable('refresh');
             }
         })
+
+        //修改
+        var sendToSelect=form.find("[name=sendToSelect]")
+        var d="&ids="+sendToSelect.find("option:selected").attr("personId")
+        +"&names="+sendToSelect.find("option:selected").text()
+        +"&ids=104&names=田琼"//站长
+        +"&sourceId="+id;
+        console.log("发送："+d)
+        $.ajax({
+            url: rootPath + "/action/S_exelaw_TrustMonitor_saveToMonitoringStationMasterPersonList.action",
+            type:"post",
+            data:d,
+            success:function (ret) {
+                form.modal('hide');
+                gridTable.bootstrapTable("refresh")
+
+                var receivers = [];
+                var receiver1 = {receiverId:sendToSelect.find("option:selected").attr("userId"),receiverName:sendToSelect.find("option:selected").text()};
+                receivers.push(receiver1);
+                var msg = {
+                    'msgType':11,
+                    'title':'污染纠纷监测',
+                    'content':entity.monitorContentDetail,
+                    'businessId':ret
+                };
+                pageUtils.sendMessage(msg, receivers);
+
+                pageUtils.saveOperationLog({opType:'4',opModule:'污染纠纷监测',opContent:'发送数据',refTableId:''})
+            }
+        });
 
 
 

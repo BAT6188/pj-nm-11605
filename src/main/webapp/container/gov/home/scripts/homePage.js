@@ -17,7 +17,32 @@ $(function(){
     var month2 = month - 2;
     month =(month<10 ? "0"+month:month);
     month2 =(month2<10 ? "0"+month2:month2);
-    var startTime = (year.toString()+"-"+month2.toString()+"-"+"01");
+    function get3MonthBefor(){
+        var resultDate,year,month,date,hms;
+        var currDate = new Date();
+        year = currDate.getFullYear();
+        month = currDate.getMonth()+1;
+        date = currDate.getDate();
+        hms = currDate.getHours() + ':' + currDate.getMinutes() + ':' + (currDate.getSeconds() < 10 ? '0'+currDate.getSeconds() : currDate.getSeconds());
+        switch(month)
+        {
+            case 1:
+            case 2:
+            case 3:
+                month += 10;
+                year--;
+                break;
+            default:
+                month -= 3;
+                break;
+        }
+        month = (month < 10) ? ('0' + month) : month;
+
+        resultDate = year + '-'+month;
+        return resultDate;
+    }
+    var dateTime =  get3MonthBefor();
+    var startTime = (dateTime+"-"+"01");
     var  endTime= (year.toString()+"-"+month.toString() + "-" + "31");
 
     getColumnHighChartData('','',startTime,endTime);

@@ -511,10 +511,15 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
     disabledForm(true);
+
+    $("#save").hide();
+    $("#cancel").text("关闭");
+
 }
 function disabledForm(disabled) {
     eventMsgForm.find(".form-control").attr("disabled",disabled);
@@ -555,6 +560,9 @@ function resetForm() {
     uploaderToggle(".aUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
     bindDownloadSelector();
+
+    $("#save").show();
+    $("#cancel").text("取消");
 }
 
 //表单附件相关js

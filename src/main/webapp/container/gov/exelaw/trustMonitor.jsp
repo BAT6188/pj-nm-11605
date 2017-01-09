@@ -101,8 +101,8 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" id="id" name="id">
-                    <input type="hidden" id="removeId" name="removeId">
+                    <input type="hidden" id="id" name="id" class="form-control">
+                    <input type="hidden" id="removeId" name="removeId" class="form-control">
                     <div class="form-group">
                         <label for="enterpriseName" class="col-sm-2 control-label">监测对象<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">

@@ -355,7 +355,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="">调度单</h4>
-                <input type="hidden" id="id">
+                <input type="hidden" id="id" name="id">
                 <input type="hidden" id="removeId">
             </div>
             <div class="modal-body">

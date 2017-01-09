@@ -1,5 +1,5 @@
 var gridTable = $('#table'),
-    // checkButton = $('#checkButton'),
+    fanKuiButton = $('#fanKuiButton'),
     form = $("#demoForm"),
     lookOverFeedbackDetailForm = $("#lookOverFeedbackDetailForm"),
     formTitle = "委托监测",
@@ -35,7 +35,7 @@ function initTable() {
                 visible:false
             },
             {
-                title: '企业名称',
+                title: '监测对象',
                 field: 'enterpriseName',
                 editable: false,
                 sortable: false,
@@ -109,7 +109,7 @@ function initTable() {
     gridTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
         //选中一条数据启用修改按钮
-        // checkButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+        fanKuiButton.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
 
     });
 
@@ -130,17 +130,22 @@ window.sendEvents = {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    var disabled="";
-    if (row.status==7){
-        disabled="disabled";
-    }
-    var ret='<button type="button" class="btn btn-md btn-warning feedback" '+disabled+' data-toggle="modal" data-target="#lookOverFeedbackDetailForm">反馈</button>&nbsp;';
-    ret+='<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
+    // var disabled="";
+    // if (row.status==7){
+    //     disabled="disabled";
+    // }
+    // var ret='<button type="button" class="btn btn-md btn-warning feedback" '+disabled+' data-toggle="modal" data-target="#lookOverFeedbackDetailForm">反馈</button>&nbsp;';
+    var ret='<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackDetailForm">查看</button>';
     return ret;
 }
-// 列表操作事件
-window.operateEvents = {
-    'click .feedback': function (e, value, entity, index) {
+
+$("#fanKuiButton").click(function () {
+    var entity=getSelections()[0];
+    if(entity.status==7){
+        Ewin.alert("已反馈");
+    }else{
+    if(entity){
+        $("#lookOverFeedbackDetailForm").modal('show');
         $("#trustMonitorId").val(entity.id);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
@@ -152,10 +157,12 @@ window.operateEvents = {
         $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
         $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
 
+        $("#enterpriseName1_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+
         $("#monitor").val(userName);
         $("#monitorPhone").val(entity.monitorPhone);
-        $("#feedbackContent").val(entity.feedbackContent);
-
+        $("#reportNumber").val(entity.reportNumber);
+        $("#personTime").val(new Date().format("yyyy-MM-dd hh:mm"));
         disabledForm($("#lookOverFeedbackDetailForm"),true)
         $(".editable").attr("disabled",false)
 
@@ -164,7 +171,39 @@ window.operateEvents = {
         bindDownloadSelector();
 
         $("#saveFeedback").show()
-    },
+    }
+    }
+})
+// 列表操作事件
+window.operateEvents = {
+    /*'click .feedback': function (e, value, entity, index) {
+        $("#trustMonitorId").val(entity.id);
+        $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
+        $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
+        $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
+        $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
+        $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+
+        $("#enterpriseName1_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#monitor").val(userName);
+        $("#monitorPhone").val(entity.monitorPhone);
+        $("#feedbackContent").val(entity.feedbackContent);
+        $("#reportNumber").val(entity.reportNumber);
+        $("#monitorDate_lookOverFeedbackDetailForm").val(entity.monitorTime);
+        disabledForm($("#lookOverFeedbackDetailForm"),true);
+        $(".editable").attr("disabled",false)
+
+        uploaderToggle(".bUploader")
+        uploader = new qq.FineUploader(getUploaderOptions(entity.id));
+        bindDownloadSelector();
+
+        $("#saveFeedback").show()
+    },*/
     'click .view': function (e, value, entity, index) {
         disabledForm($("#lookOverFeedbackDetailForm"),true)
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
@@ -180,6 +219,9 @@ window.operateEvents = {
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);
         $("#feedbackContent").val(entity.feedbackContent);
+        $("#reportNumber").val(entity.reportNumber);
+        $("#enterpriseName1_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+        $("#personTime").val(entity.personTime);
 
         uploaderToggle(".bUploader")
         var fuOptions = getUploaderOptions(entity.id);
@@ -204,7 +246,10 @@ var ef = lookOverFeedbackDetailForm.easyform({
         entity.monitorPhone=$("#monitorPhone").val();
         entity.feedbackContent= $("#feedbackContent").val();
         entity.trustMonitorRemoveId= $("#trustMonitorRemoveId").val();
+        entity.monitorDate=$("#monitorDate_lookOverFeedbackDetailForm").val();
         entity.attachmentIds = getAttachmentIds();
+        entity.reportNumber=$("#reportNumber").val();
+        entity.personTime=$("#personTime").val();
         console.log(entity)
         $.ajax({
             url: rootPath + "/action/S_exelaw_TrustMonitor_saveFeedback.action",
@@ -214,7 +259,7 @@ var ef = lookOverFeedbackDetailForm.easyform({
                 lookOverFeedbackDetailForm.modal('hide');
 
                 var url=rootPath + "/action/S_exelaw_TrustMonitor_updateSelfReadStatusForMonitorPerson.action";
-                pageUtils.updateSelfReadStatus(url,msg,1)
+                pageUtils.updateSelfReadStatus(url,msg,1,entity.reportNumber,entity.personTime);
 
 
                 gridTable.bootstrapTable('refresh');
@@ -251,9 +296,9 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-// checkButton.prop('disabled', true);
+fanKuiButton.prop('disabled', true);
 
-/*$("#checkButton").bind("click",function () {
+/*$("#fanKuiButton").bind("click",function () {
     var entity=getSelections()[0];
 
     disabledForm($("#lookOverFeedbackDetailForm"),true)
@@ -292,11 +337,16 @@ initTable();
 $("#search").click(function () {
     var queryParams = {};
     var enterpriseName = $("#s_enterpriseName").val();
+    var monitorContent = $("#s_monitorContent").val();
+    var enterpriseName = $("#s_enterpriseName").val();
     var start_monitorTime = $("#start_monitorTime").val();
     var end_monitorTime = $("#end_monitorTime").val();
 
     if (enterpriseName){
         queryParams["enterpriseName"] = enterpriseName;
+    }
+    if (monitorContent){
+        queryParams["monitorContent"] = monitorContent;
     }
     if (start_monitorTime){
         queryParams["start_monitorTime"] = start_monitorTime;
@@ -332,8 +382,14 @@ function disabledForm(dialogSelector,disabled) {
             autoclose: 1,
             minView: 2
         });
+        $('.monDate').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
     }else{
         $('.lookover').datetimepicker('remove');
+        $('.monDate').datetimepicker('remove');
     }
 }
 

@@ -50,6 +50,7 @@
 </div>
 <p class="copyrightP"><span>版权所有：鄂尔多斯市东胜区环境保护局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
 <%@include file="/common/msgSend/msgSend.jsp"%>
+<%--<%@include file="/common/paizhao/paizhao.jsp"%>--%>
 <%@include file="/container/gov/alert/message_dialog.jsp"%>
 <%@include file="/common/updatePassword/updatePassword.jsp"%>
 <!--样式js-->

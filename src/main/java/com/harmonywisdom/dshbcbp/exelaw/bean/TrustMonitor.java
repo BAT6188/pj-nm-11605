@@ -266,6 +266,17 @@ public class TrustMonitor implements Serializable {
     @Column(name = "result_desc")
     private String resultDesc;
     /**
+     * 报告编号
+     */
+    @Column(name = "report_number")
+    private String reportNumber;
+
+    /**
+     * 人员监测时间
+     */
+    @Column(name = "person_time")
+    private String personTime;
+    /**
      * 监测人
      */
     @Column(name = "monitor", length = 32)
@@ -276,6 +287,7 @@ public class TrustMonitor implements Serializable {
     @Column(name = "monitor_phone", length = 11)
     private String monitorPhone;
 
+
     @Transient
     private String attachmentIds;
 
@@ -285,6 +297,22 @@ public class TrustMonitor implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public String getReportNumber() {
+        return reportNumber;
+    }
+
+    public String getPersonTime() {
+        return personTime;
+    }
+
+    public void setPersonTime(String personTime) {
+        this.personTime = personTime;
+    }
+
+    public void setReportNumber(String reportNumber) {
+        this.reportNumber = reportNumber;
     }
 
     public String getId() {
