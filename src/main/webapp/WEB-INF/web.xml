@@ -59,6 +59,16 @@
         <url-pattern>/Upload</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ImageUploadServlet</servlet-name>
+        <servlet-class>com.harmonywisdom.dshbcbp.attachment.action.ImageUploadServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ImageUploadServlet</servlet-name>
+        <url-pattern>/imageUpload</url-pattern>
+    </servlet-mapping>
+
     <!--apportal filter-->
     <filter>
         <filter-name>AgentFilter</filter-name>
