@@ -57,6 +57,7 @@
 <%@include file="/container/gov/alert/message_dialog.jsp"%>
 <%@include file="/container/gov/alert/messagetrace.jsp"%>
 <%@include file="/common/msgSend/msgSend.jsp"%>
+<%--<%@include file="/common/paizhao/paizhao.jsp"%>--%>
 <%@include file="/common/updatePassword/updatePassword.jsp"%>
 <script src="common/scripts/main_css.js"></script>
 <script src="common/scripts/main.js"></script>
