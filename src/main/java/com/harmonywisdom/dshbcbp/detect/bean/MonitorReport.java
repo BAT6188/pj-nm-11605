@@ -99,6 +99,7 @@ public class MonitorReport implements Serializable {
     /**
      * 监测类型
      */
+    @Column(name="monitoringType")
     private String monitoringType;
 
 

@@ -1,3 +1,4 @@
+//@ sourceURL=contact.js
 var gridTable = $('#table'),
     choseTable = $('#choseTable'),
     addBtn = $("#add"),

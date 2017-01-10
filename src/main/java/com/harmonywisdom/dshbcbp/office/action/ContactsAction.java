@@ -4,10 +4,7 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.Contacts;
 import com.harmonywisdom.dshbcbp.office.service.ContactsService;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryOperator;
-import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
@@ -64,12 +61,18 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
 
     @Override
     public void list() {
-        try {
-            super.list();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        super.list();
+    }
 
+    public void listForMobile() {
+        QueryResult<Contacts> result = this.query();
+        List<Contacts> rows = result.getRows();
+        if (rows != null && rows.size() > 0) {
+            for (Contacts c : rows) {
+                c.setHeadImage(null);
+            }
+        }
+        write(result);
     }
 
     @Override
