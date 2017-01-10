@@ -11,6 +11,9 @@
         <div class="qq-upload-button-selector qq-upload-button">
             <div>选择文件</div>
         </div>
+        <div class="qq-upload-button" style="margin-left: 11px;cursor: pointer;">
+            <div class="paizhao">拍照</div>
+        </div>
         <span class="qq-drop-processing-selector qq-drop-processing">
                 <span>正在上传...</span>
                 <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
@@ -59,4 +62,27 @@
             </div>
         </dialog>
     </div>
+</script>
+
+<script>
+    $(document).on("click",'.paizhao',{msg: "You just clicked me!"},function(data){
+        console.log(data.data.msg)
+        $("#paizhaoDialog").modal('show');
+
+
+//        var url = rootPath+"/common/paizhao/paizhao.jsp";
+//        var params = data.data.msg;
+//        var dialogWidth = "1000px";
+//        var dialogHeight = "600px";
+//        if (window.showModelessDialog) {
+//            window.showModelessDialog(url, params, "dialogWidth=" + dialogWidth + ";dialogHeight=" + dialogHeight + ";");
+//        }else if (window.showModalDialog) {
+//            window.showModalDialog(url, params, "dialogWidth=" + dialogWidth + ";dialogHeight=" + dialogHeight + ";");
+//        }else{
+//            window.open(url,"拍照");
+//        }
+//        window.open(url,"拍照");
+
+    })
+
 </script>

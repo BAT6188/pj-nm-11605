@@ -21,6 +21,7 @@
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
                         </span>
+                    <%--<img id="imageabc12" alt="" src="/dshbcbp/common/images/user.jpg" style="width:100px;height: 88px;"/>--%>
                 </div>
                 <div class="queryBox marginLeft0">
                     <form class="form-inline">
@@ -292,6 +293,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%@include file="/common/paizhao/paizhao.jsp"%>
 <script>
     pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
 </script>
