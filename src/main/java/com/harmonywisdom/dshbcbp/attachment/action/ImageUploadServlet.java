@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.attachment.action;
 
+import Decoder.BASE64Decoder;
 import com.alibaba.fastjson.JSONObject;
 import com.harmonywisdom.dshbcbp.attachment.bean.Attachment;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
@@ -15,6 +16,7 @@ import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,63 +75,80 @@ public class ImageUploadServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String fn = request.getParameter("fn");
-        try{
-            if(ServletFileUpload.isMultipartContent(request))
+        String base64Str = request.getParameter("base64Str");
+        if (StringUtils.isNotEmpty(base64Str)){
+            byte[] b = new BASE64Decoder().decodeBuffer(base64Str);
+            for(int i=0;i<b.length;++i)
             {
-                ServletFileUpload sfu = new ServletFileUpload(factory);
-                sfu.setFileSizeMax(configManager.getMaxSize()); //单个上传文件最大值
-                FileItemIterator fii = sfu.getItemIterator(request);
-                if(fii.hasNext()){
-                    FileItemStream fis = fii.next();
-                    if(!fis.isFormField()){
+                if(b[i]<0)
+                {//调整异常数据
+                    b[i]+=256;
+                }
+            }
+            //生成jpeg图片
+            String imgFilePath = "d://222.jpg";//新生成的图片
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(b);
+            out.flush();
+            out.close();
+        }else {
+            String fn = request.getParameter("fn");
+            try{
+                if(ServletFileUpload.isMultipartContent(request))
+                {
+                    ServletFileUpload sfu = new ServletFileUpload(factory);
+                    sfu.setFileSizeMax(configManager.getMaxSize()); //单个上传文件最大值
+                    FileItemIterator fii = sfu.getItemIterator(request);
+                    if(fii.hasNext()){
+                        FileItemStream fis = fii.next();
+                        if(!fis.isFormField()){
 
-                        String fileName = fis.getName();  //获取上传的文件名
-                        System.out.println(fileName);
+                            String fileName = fis.getName();  //获取上传的文件名
+                            System.out.println(fileName);
 
 //                        Calendar calendar = Calendar.getInstance();
 //                        String savename = String.valueOf(calendar.getTimeInMillis());
 //                        String imgPath_s_suffix = fileName.substring(fileName.lastIndexOf(".") , fileName.length());  //获取后缀
 //                        savename=savename  + imgPath_s_suffix;
 
-                        BufferedInputStream in = new BufferedInputStream(fis.openStream());
-                        File cacheFile = new File(cacheDir, UUIDGenerator.generateUUID());
-                        BufferedOutputStream outs = new BufferedOutputStream(new FileOutputStream(cacheFile));
-                        Streams.copy(in, outs, true);
+                            BufferedInputStream in = new BufferedInputStream(fis.openStream());
+                            File cacheFile = new File(cacheDir, UUIDGenerator.generateUUID());
+                            BufferedOutputStream outs = new BufferedOutputStream(new FileOutputStream(cacheFile));
+                            Streams.copy(in, outs, true);
 
-                        Attachment attachment = new Attachment();
+                            Attachment attachment = new Attachment();
 
-                        attachment.setAttachmentType(request.getParameter(ATT_TYPE));
-                        attachment.setBusinessId(request.getParameter(BUSINESS_ID));
-                        attachment.setName(FilenameUtils.getName(fileName));
-                        attachment.setExt(FilenameUtils.getExtension(fileName));
-                        attachment.setPath(cacheFile.getAbsolutePath());
-                        attachment.setSize("86 KB");
+                            attachment.setAttachmentType(request.getParameter(ATT_TYPE));
+                            attachment.setBusinessId(request.getParameter(BUSINESS_ID));
+                            attachment.setName(FilenameUtils.getName(fileName));
+                            attachment.setExt(FilenameUtils.getExtension(fileName));
+                            attachment.setPath(cacheFile.getAbsolutePath());
+                            attachment.setSize("86 KB");
 
-                        AttachmentService service = SpringUtil.getBean("attachmentService");
-                        service.save(attachment);
-                        attachment.setUuid(attachment.getId());
+                            AttachmentService service = SpringUtil.getBean("attachmentService");
+                            service.save(attachment);
+                            attachment.setUuid(attachment.getId());
 
-                        Writer out = null;
-                        response.setCharacterEncoding("UTF-8");
+                            Writer out = null;
+                            response.setCharacterEncoding("UTF-8");
 //            response.setContentType("application/json;charset=utf-8");
-                        response.setContentType("text/plain;charset=utf-8");
-                        response.setHeader("Cache-Control", "no-cache");
-                        out = response.getWriter();
+                            response.setContentType("text/plain;charset=utf-8");
+                            response.setHeader("Cache-Control", "no-cache");
+                            out = response.getWriter();
 
-                        JSONObject jsobjcet = new JSONObject();
-                        jsobjcet.put("success", true);
-                        jsobjcet.put("id", attachment.getId());
-                        //jsobjcet.put("path",attachment.getPath());
-                        out.write(jsobjcet.toJSONString());
+                            JSONObject jsobjcet = new JSONObject();
+                            jsobjcet.put("success", true);
+                            jsobjcet.put("id", attachment.getId());
+                            //jsobjcet.put("path",attachment.getPath());
+                            out.write(jsobjcet.toJSONString());
+                        }
                     }
+
                 }
-
+            }catch(Exception e){
+                logger.error("",e);
             }
-        }catch(Exception e){
-           logger.error("",e);
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
