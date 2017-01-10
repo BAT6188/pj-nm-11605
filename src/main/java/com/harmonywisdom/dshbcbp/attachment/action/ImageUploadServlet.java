@@ -85,12 +85,34 @@ public class ImageUploadServlet extends HttpServlet {
                     b[i]+=256;
                 }
             }
-            //生成jpeg图片
-            String imgFilePath = "d://222.jpg";//新生成的图片
-            OutputStream out = new FileOutputStream(imgFilePath);
+            File cacheFile = new File(cacheDir, UUIDGenerator.generateUUID());
+            OutputStream out = new FileOutputStream(cacheFile);
             out.write(b);
             out.flush();
             out.close();
+
+            Attachment attachment = new Attachment();
+            attachment.setAttachmentType(request.getParameter(ATT_TYPE));
+            attachment.setBusinessId(request.getParameter(BUSINESS_ID));
+            attachment.setName(FilenameUtils.getName("xxx.jpg"));
+            attachment.setExt(FilenameUtils.getExtension("jpg"));
+            attachment.setPath(cacheFile.getAbsolutePath());
+            attachment.setSize("86 KB");
+
+            AttachmentService service = SpringUtil.getBean("attachmentService");
+            service.save(attachment);
+            attachment.setUuid(attachment.getId());
+
+            Writer writer = response.getWriter();;
+            response.setCharacterEncoding("UTF-8");
+//            response.setContentType("application/json;charset=utf-8");
+            response.setContentType("text/plain;charset=utf-8");
+            response.setHeader("Cache-Control", "no-cache");
+            JSONObject jsobjcet = new JSONObject();
+            jsobjcet.put("success", true);
+            jsobjcet.put("id", attachment.getId());
+            //jsobjcet.put("path",attachment.getPath());
+            writer.write(jsobjcet.toJSONString());
         }else {
             String fn = request.getParameter("fn");
             try{
@@ -104,7 +126,6 @@ public class ImageUploadServlet extends HttpServlet {
                         if(!fis.isFormField()){
 
                             String fileName = fis.getName();  //获取上传的文件名
-                            System.out.println(fileName);
 
 //                        Calendar calendar = Calendar.getInstance();
 //                        String savename = String.valueOf(calendar.getTimeInMillis());
