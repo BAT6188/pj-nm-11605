@@ -65,7 +65,7 @@
 </script>
 
 <script>
-    $(document).on("click",'.paizhao',{msg: "You just clicked me!"},function(data){
+    $(document).on("click",'.paizhao',{msg: "param"},function(data){
         console.log(data.data.msg)
         $("#paizhaoDialog").modal('show');
 
@@ -82,7 +82,6 @@
 //            window.open(url,"拍照");
 //        }
 //        window.open(url,"拍照");
-
     })
 
 </script>

@@ -94,7 +94,7 @@ public class ImageUploadServlet extends HttpServlet {
             Attachment attachment = new Attachment();
             attachment.setAttachmentType(request.getParameter(ATT_TYPE));
             attachment.setBusinessId(request.getParameter(BUSINESS_ID));
-            attachment.setName(FilenameUtils.getName("xxx.jpg"));
+            attachment.setName(FilenameUtils.getName("照片.jpg"));
             attachment.setExt(FilenameUtils.getExtension("jpg"));
             attachment.setPath(cacheFile.getAbsolutePath());
             attachment.setSize("86 KB");
