@@ -54,6 +54,13 @@ public class Feedback implements Serializable {
     @Column(name = "exe_desc")
     private String exeDesc;
 
+
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
     @Transient
     private String attachmentIds;
 
@@ -120,5 +127,13 @@ public class Feedback implements Serializable {
 
     public void setCaseReason(String caseReason) {
         this.caseReason = caseReason;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

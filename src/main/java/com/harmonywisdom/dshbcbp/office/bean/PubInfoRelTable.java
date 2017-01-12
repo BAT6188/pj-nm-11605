@@ -30,6 +30,14 @@ public class PubInfoRelTable implements Serializable {
 
     @Column(name = "STATUS",length = 1)
     private String status;
+
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
+
     @Transient
     private String startTime;
     @Transient
@@ -127,5 +135,13 @@ public class PubInfoRelTable implements Serializable {
 
     public void setPubInfo(PubInfo pubInfo) {
         this.pubInfo = pubInfo;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

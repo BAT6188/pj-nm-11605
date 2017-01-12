@@ -33,6 +33,8 @@ public class TransportEfficientAction extends BaseAction<TransportEfficient, Tra
         QueryParam param = new QueryParam();
         String startTime = request.getParameter("startYdate");
         String lastTime = request.getParameter("lastYdate");
+        String mobileOperType = request.getParameter("mobileOperType");
+
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
             param.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
         }
@@ -49,9 +51,25 @@ public class TransportEfficientAction extends BaseAction<TransportEfficient, Tra
             }
         }
 
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
+
         QueryCondition condition = new QueryCondition();
         condition.setPaging(getPaging());
         condition.setOrderBy("startTime", Direction.DESC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         if (param.getField() != null) {
             condition.setParam(param);
 

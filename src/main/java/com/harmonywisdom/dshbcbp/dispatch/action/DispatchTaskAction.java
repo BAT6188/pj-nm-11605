@@ -136,6 +136,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
 
+        String mobileOperType = request.getParameter("mobileOperType");
         /**
          * 两种角色：
          * 1. monitor_master  监察大队领导
@@ -203,12 +204,24 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (org.apache.commons.lang.StringUtils.isNotBlank(lastTime)) {
             params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
         }
+        if("1".equals(mobileOperType)){//下拉
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("updateTime", Direction.DESC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

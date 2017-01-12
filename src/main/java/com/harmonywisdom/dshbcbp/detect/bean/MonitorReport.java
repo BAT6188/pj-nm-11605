@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.detect.bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 监督性监测报告
@@ -113,6 +114,10 @@ public class MonitorReport implements Serializable {
      */
     @Column(name = "reportNumber")
     private String reportNumber;
+
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
     @Transient
     private String attachmentIds;
 
@@ -278,5 +283,13 @@ public class MonitorReport implements Serializable {
 
     public void setMonitoringType(String monitoringType) {
         this.monitoringType = monitoringType;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

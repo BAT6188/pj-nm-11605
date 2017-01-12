@@ -2,6 +2,7 @@ package com.harmonywisdom.dshbcbp.office.bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *人员管理
@@ -119,6 +120,13 @@ public class Contacts implements Serializable {
      */
     @Column(name="BLOCK_DUTY",length = 255)
     private String blockDuty;
+
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
 
     /**
      *附件
@@ -302,5 +310,13 @@ public class Contacts implements Serializable {
 
     public void setApportalPersonId(String apportalPersonId) {
         this.apportalPersonId = apportalPersonId;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

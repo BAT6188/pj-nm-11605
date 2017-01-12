@@ -94,6 +94,13 @@ public class DustPortHistory implements Serializable {
     @Column(name = "data_status",length = 1)
     private String dataStatus;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
+
     public String getDataStatus() {
         return dataStatus;
     }
@@ -196,5 +203,13 @@ public class DustPortHistory implements Serializable {
 
     public void setWindSpeed(Double windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

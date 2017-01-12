@@ -358,6 +358,13 @@ public class Enterprise implements Serializable {
     @Column(name="SEC_PASSWORD",length=100)
     private String secpassword;
 
+
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
     /**
      * 附件
      */
@@ -768,5 +775,13 @@ public class Enterprise implements Serializable {
 
     public void setIsOnlineMonitoring(String isOnlineMonitoring) {
         this.isOnlineMonitoring = isOnlineMonitoring;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

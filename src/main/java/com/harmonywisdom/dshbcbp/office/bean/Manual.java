@@ -81,6 +81,13 @@ public class Manual implements Serializable {
     private String pid;
 
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
+
     @Transient
     private List<Manual> children;
 
@@ -186,5 +193,13 @@ public class Manual implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

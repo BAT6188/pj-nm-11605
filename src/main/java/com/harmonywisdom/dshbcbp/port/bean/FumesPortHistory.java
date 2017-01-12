@@ -64,6 +64,12 @@ public class FumesPortHistory implements Serializable {
     @Column(name = "data_status",length = 1)
     private String dataStatus;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
     public String getDataStatus() {
         return dataStatus;
     }
@@ -126,5 +132,13 @@ public class FumesPortHistory implements Serializable {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }
