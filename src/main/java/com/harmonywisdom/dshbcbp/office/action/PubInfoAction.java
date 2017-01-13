@@ -35,6 +35,8 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
     protected QueryCondition getQueryCondition() {
         String StrGrade = request.getParameter("grades");
         String enterpriseReleaseStatus = request.getParameter("enterpriseStatus");
+        String mobileOperType = request.getParameter("mobileOperType");
+
 
         QueryParam param = new QueryParam();
         if(StrGrade != null && !"".equals(StrGrade)){
@@ -82,6 +84,18 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             param.andParam(otherparam);
         }
 
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
             condition.setParam(param);
@@ -89,6 +103,9 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         condition.setPaging(getPaging());
         condition.setOrderBy("pubTime", Direction.DESC);
         condition.setOrderBy("status", Direction.ASC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

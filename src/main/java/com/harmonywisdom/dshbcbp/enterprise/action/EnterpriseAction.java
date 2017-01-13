@@ -65,6 +65,9 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam param = new QueryParam();
+
+        String mobileOperType = request.getParameter("mobileOperType");
+
         if (StringUtils.isNotBlank(entity.getIsDel())) {
             param.andParam(new QueryParam("isDel", QueryOperator.EQ,entity.getIsDel()));
         }
@@ -119,12 +122,27 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
             e.printStackTrace();
         }
 
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("createTime", Direction.DESC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

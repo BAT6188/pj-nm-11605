@@ -307,6 +307,13 @@ public class DispatchTask implements Serializable {
     @Column(name = "handler_phone", length = 11)
     private String handlerPhone;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
+
     @Transient
     private String attachmentIds;
 
@@ -727,5 +734,13 @@ public class DispatchTask implements Serializable {
 
     public void setOverObj(Double overObj) {
         this.overObj = overObj;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

@@ -26,6 +26,9 @@ public class ManualAction extends BaseAction<Manual, ManualService> {
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
+
+        String mobileOperType = request.getParameter("mobileOperType");
+
         if (StringUtils.isNotBlank(entity.getFileName())) {
             params.andParam(new QueryParam("fileName", QueryOperator.LIKE,entity.getFileName()));
         }
@@ -39,12 +42,25 @@ public class ManualAction extends BaseAction<Manual, ManualService> {
             params.andParam(new QueryParam("fitRange",QueryOperator.LIKE,entity.getFitRange()));
         }
 
+        if("1".equals(mobileOperType)){//下拉
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("createTime", Direction.DESC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

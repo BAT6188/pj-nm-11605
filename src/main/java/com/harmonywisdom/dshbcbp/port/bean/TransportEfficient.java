@@ -90,6 +90,13 @@ public class TransportEfficient implements Serializable {
     private String remark;
 
     /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
+
+    /**
      * 附件
      */
     @Transient
@@ -205,5 +212,13 @@ public class TransportEfficient implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }
