@@ -50,8 +50,15 @@ $('#paizhaoDialog').on('hide.bs.modal', function () {
 
 var otherDialogs=$('.modal').not("#paizhaoDialog");
 otherDialogs.on('hide.bs.modal', function () {
-    // console.log("6")
     imageIds=[];
+})
+otherDialogs.on('shown.bs.modal', function () {
+    if (userAgentType()=='Chrome'){
+
+    }else {
+        $(".paizhao").css("display","");//引用了<%@include file="/common/paizhao/paizhao.jsp"%>并且不是ie浏览器 才显示拍照按钮
+    }
+
 })
 
 //抓图拍照
