@@ -58,7 +58,7 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
     }
 
     /**
-     * 获取用户未消息数量
+     * 获取用户未读消息数量
      */
     public void getNewMsgCountByUserId(){
         String userId = request.getParameter("userId");
