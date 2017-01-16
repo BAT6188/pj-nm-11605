@@ -82,6 +82,8 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 		overManage.setEnvPrincipal(enterprise.getEnvPrincipal());
 		overManage.setEpPhone(enterprise.getEpPhone());
 		overManage.setContent(dispatchTask.getContent());
+		overManage.setCaseReason(dispatchTask.getCaseReason());
+		overManage.setOverSuggestion(dispatchTask.getOverSuggestion());
 		overManage.setCaseName(punish.getCaseName());
 		overManage.setFilingDate(DateUtil.dateToStr(punish.getFilingDate(),"yyyy-MM-dd HH:mm"));
 		overManage.setCode(punish.getCode());
@@ -106,6 +108,7 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 		overManage.setPunishContent(punish.getContent());
 		List<Feedback> feedbackList = feedbackDAO.find("dispatchId=?", id);
 		if (feedbackList.size()>0){
+			overManage.setFeedbackListObject(feedbackList);
 			overManage.setFeedbackList(JSONArray.toJSONString(feedbackList));
 		}
 		return overManage;

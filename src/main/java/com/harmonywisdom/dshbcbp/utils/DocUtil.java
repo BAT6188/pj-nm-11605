@@ -77,7 +77,7 @@ public class DocUtil {
             table.add(rows1);
             table.add(rows2);
 
-            tablesData.add(table);
+//            tablesData.add(table);
         }
         ///////////////////////
         {
@@ -102,10 +102,10 @@ public class DocUtil {
             table.add(rows1);
             table.add(rows2);
 
-            tablesData.add(table);
+//            tablesData.add(table);
         }
 
-        WriteDocByPoi("D:\\1.docx","D:\\wwss",map,tablesData);
+        WriteDocByPoi("D:\\test\\overManageDownload.docx","D:\\test\\wwss.docx",map,tablesData);
     }
 
 
@@ -136,7 +136,9 @@ public class DocUtil {
                             String oneparaString = runs.get(i).getText(runs.get(i).getTextPosition());
                             if (oneparaString!=null){
                                 for (Map.Entry<String, String> entry : map.entrySet()) {
-                                    oneparaString = oneparaString.replace(entry.getKey(), entry.getValue());
+                                    if (entry.getValue()!=null){
+                                        oneparaString = oneparaString.replace(entry.getKey(), entry.getValue());
+                                    }
                                 }
                                 runs.get(i).setText(oneparaString, 0);
                             }
@@ -177,9 +179,11 @@ public class DocUtil {
 
                             for (LinkedList<String> rowData : rowsData) { //rowData代表一行数据
                                 XWPFTableRow xwpfRow = xwpfTable.createRow();
-
                                 for (int k = 0; k < rowData.size(); k++) {
-                                    xwpfRow.getCell(k).setText(rowData.get(k));//rowData.get(k)代表行中的某一个cell
+                                    if (xwpfRow.getCell(k)!=null){
+                                        xwpfRow.getCell(k).setText(rowData.get(k));//rowData.get(k)代表行中的某一个cell
+                                    }
+
                                 }
                             }
 

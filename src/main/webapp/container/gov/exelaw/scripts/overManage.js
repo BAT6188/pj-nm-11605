@@ -1,5 +1,6 @@
 //@ sourceURL=lawManage.js
 var gridTable = $('#table'),
+    dialog=$("#detailDialog"),
     selections = [];
 
 /**============grid 列表初始化相关代码============**/
@@ -105,13 +106,42 @@ function initTable() {
 }
 
 function lookOverFormatter(value, row, index) {
-    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#eventMsg">查看</button>';
+    return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#detailDialog">查看</button>';
 }
 
 window.lookOverEvents = {
     'click .lookOver': function (e, value, entity, index) {
-        window.open(rootPath+"/action/S_officetemp_OfficeTemp_showTemplate.action?" +
-            "id=OverManage&beanName=overManageService&bussinessId="+entity.id);
+        // window.open(rootPath+"/action/S_officetemp_OfficeTemp_showTemplate.action?" +
+        //     "id=OverManage&beanName=overManageService&bussinessId="+entity.id);
+
+        var inputs = dialog.find('[name]');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            $(v).val(entity[tagId]);
+        });
+
+        var value=entity.source;
+        if(1==value){
+            value="12369"
+        }else if (2==value){
+            value="区长热线"
+        }else if (3==value){
+            value="市长热线"
+        }else if (4==value){
+            value="现场监察"
+        }else if (0==value){
+            value="监控中心"
+        }
+        dialog.find('[name=source]').val(value);
+
+        dialog.find("input").attr("disabled",true);
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
     }
 };
 

@@ -5,22 +5,32 @@ import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.alert.bean.Message;
 import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
+import com.harmonywisdom.dshbcbp.attachment.bean.Attachment;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.attachment.service.impl.AttachmentConfigManager;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
 import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
+import com.harmonywisdom.dshbcbp.exportword.service.impl.OverManageServiceImpl;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.DocUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
+import com.harmonywisdom.framework.service.SpringUtil;
 import com.harmonywisdom.framework.service.annotation.AutoService;
+import com.harmonywisdom.framework.utils.UUIDGenerator;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.util.*;
 
 public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskService> {
@@ -28,8 +38,10 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public static final String monitor_master="monitor_master";
     public static final String env_pro_sta="env_pro_sta";
 
-//    @AutoService
-//    private OverManageServiceImpl overManageService;
+    @AutoService
+    private OverManageServiceImpl overManageService;
+
+    private AttachmentConfigManager configManager = AttachmentConfigManager.getInstance();
 
     @AutoService
     private MessageService messageService;
@@ -276,6 +288,81 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         monitorCase.setOverTime(dt.getOverTime());
         monitorCaseService.update(monitorCase);
 
+        saveOverDocument(entity.getId());
+    }
+
+    /**
+     * 生成办结文档
+     * @param id
+     */
+    private void saveOverDocument(String id){
+        OverManage overManage = overManageService.findById(id);
+        LinkedHashMap<String,String> map=new LinkedHashMap<String, String>();
+        map.put("year",overManage.getYear());
+        map.put("month",overManage.getMonth());
+        map.put("day",overManage.getDay());
+        map.put("enterpriseNamea",overManage.getEnterpriseNamea());
+        map.put("enterpriseNameb",overManage.getEnterpriseNameb());
+        map.put("blockName",overManage.getBlockName());
+        map.put("pollutantType",overManage.getPollutantType());
+        map.put("artificialPerson",overManage.getArtificialPerson());
+        map.put("apPhone",overManage.getApPhone());
+        map.put("envPrincipal",overManage.getEnvPrincipal());
+        map.put("content",overManage.getContent());
+        map.put("caseReason",overManage.getCaseReason());
+        map.put("overSuggestion",overManage.getOverSuggestion());
+        map.put("caseName",overManage.getCaseName());
+        map.put("filingDate",overManage.getFilingDate());
+        map.put("code",overManage.getCode());
+        map.put("decideCode",overManage.getDecideCode());
+        map.put("provision",overManage.getProvision());
+        map.put("exeDesc",overManage.getExeDesc());
+        map.put("type",overManage.getType());
+        map.put("money",overManage.getMoney()+"");
+        map.put("exeDate",overManage.getExeDate());
+        map.put("endDate",overManage.getEndDate());
+        map.put("attn",overManage.getAttn());
+        map.put("closedDate",overManage.getClosedDate());
+        map.put("punishContent",overManage.getPunishContent());
+//        map.put("blockName",);
+
+        List<Feedback> feedbackListObject = overManage.getFeedbackListObject();
+        LinkedList<LinkedList<LinkedList<LinkedList<String>>>> tablesData=new LinkedList<LinkedList<LinkedList<LinkedList<String>>>>();
+        //第1张表
+        LinkedList<LinkedList<LinkedList<String>>> table =new LinkedList<LinkedList<LinkedList<String>>>();
+        if(null!=feedbackListObject&&feedbackListObject.size()>0){
+            for (Feedback feedback : feedbackListObject) {
+                LinkedList<LinkedList<String>> rows1=new LinkedList<LinkedList<String>>();
+                LinkedList<String> cells1=new LinkedList<String>();
+                cells1.add(feedback.getLawerName());
+                cells1.add(feedback.getPhone());
+                cells1.add(feedback.getExeDesc());
+                rows1.add(cells1);
+                table.add(rows1);
+            }
+        }
+        tablesData.add(table);
+
+        String realPath = request.getSession().getServletContext().getRealPath("doc") + "/";
+        String docSourcePath=realPath+"overManageDownload.docx";
+        File saveDir = new File(configManager.getSavePath());
+        String docOutputPath=saveDir+"\\"+UUIDGenerator.generateUUID();
+        try {
+            DocUtil.WriteDocByPoi(docSourcePath,docOutputPath,map,tablesData);
+
+            Attachment attachment = new Attachment();
+            attachment.setBusinessId(id);
+            String fileName="执法归档.docx";
+            attachment.setName(FilenameUtils.getName(fileName));
+            attachment.setExt(FilenameUtils.getExtension(fileName));
+            attachment.setPath(docOutputPath);
+            attachment.setSize("86 KB");
+
+            AttachmentService service = SpringUtil.getBean("attachmentService");
+            service.save(attachment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
