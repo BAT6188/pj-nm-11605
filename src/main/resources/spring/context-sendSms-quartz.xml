@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+    <!--<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
         <property name="triggers">
             <list>
                 <ref bean="forceWorkCronTrigger"/>
@@ -20,5 +20,5 @@
     <bean id="forceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="airQualityManagerDetail"/>
         <property name="cronExpression" value="0 0/1 * * * ? "/>
-    </bean>
+    </bean>-->
 </beans>
