@@ -82,6 +82,12 @@ public class Message implements Serializable {
     @Column(name = "CREATE_TIME")
     private Date createTime;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
 
     public String getId() {
         return id;
@@ -161,5 +167,13 @@ public class Message implements Serializable {
 
     public void setAlertTime(Date alertTime) {
         this.alertTime = alertTime;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

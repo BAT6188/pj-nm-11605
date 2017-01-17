@@ -54,6 +54,12 @@ public class MessageTrace implements Serializable {
     @Transient
     private Message message;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
 
     public String getId() {
         return id;
@@ -109,5 +115,13 @@ public class MessageTrace implements Serializable {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }
