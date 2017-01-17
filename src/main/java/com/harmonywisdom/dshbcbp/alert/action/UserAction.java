@@ -41,6 +41,9 @@ public class UserAction extends BaseAction {
 
     }
 
+    /**
+     * 更改登录用户密码
+     */
     public void govUpdatePwd(){
         UserProfile userProfile = (UserProfile) request.getSession().getAttribute(IUserProfile.J2EE_USER_NAME);
         String newPwd = request.getParameter("newPassword");
