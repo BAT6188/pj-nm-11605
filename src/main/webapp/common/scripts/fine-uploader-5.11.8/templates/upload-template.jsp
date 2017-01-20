@@ -66,12 +66,8 @@
 
 <script>
     $(document).on("click",'.paizhao',{msg: "param"},function(data){
-        if (userAgentType()=='Chrome'){
-
-        }else {
-            console.log(data.data.msg)
-            $("#paizhaoDialog").modal('show');
-        }
+        console.log(data.data.msg)
+        $("#paizhaoDialog").modal('show');
 
 
 

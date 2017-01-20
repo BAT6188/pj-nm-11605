@@ -76,6 +76,7 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("monitoringTime", Direction.DESC);
         if (StringUtils.isNotEmpty(mobileOperType)){
             condition.setOrderBy("mobileTimestamp", Direction.DESC);
         }
