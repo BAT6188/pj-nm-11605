@@ -146,6 +146,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%@include file="/common/paizhao/paizhao.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/sharemeans.js"></script>
 </body>
 </html>

@@ -176,6 +176,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%@include file="/common/paizhao/paizhao.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/worksum.js"></script>
 </body>
 </html>

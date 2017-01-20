@@ -279,6 +279,7 @@
     pageUtils.appendOptionFromDictCode(".exeDesc",{code:"exeDesc"})
     pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
 </script>
+<%@include file="/common/paizhao/paizhao.jsp"%>
 <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/exelaw/scripts/punish.js"></script>
 </body>
