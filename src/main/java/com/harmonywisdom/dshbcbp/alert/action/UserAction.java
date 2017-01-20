@@ -6,6 +6,7 @@ import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.core.user.IUserProfile;
 import com.harmonywisdom.core.user.impl.UserProfile;
+import com.harmonywisdom.dshbcbp.alert.bean.User;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.IBaseService;
 
@@ -31,10 +32,20 @@ public class UserAction extends BaseAction {
         if (PersonServiceUtil.validateUserPassword(userId, pwd)){
             IPerson person = PersonServiceUtil.getPersonByUserId(userId);
             IOrg org = OrgServiceUtil.getOrgByPersonId(person.getPersonId());
-            Map<String, Object> ret = new HashMap<String, Object>();
-            ret.put("person", person);
-            ret.put("org", org);
-            write(ret);
+//            Map<String, Object> ret = new HashMap<String, Object>();
+//            ret.put("person", person);
+//            ret.put("org", org);
+            User user = new User();
+            user.setUserId(person.getUserId());
+            user.setUserName(person.getUserName());
+            user.setUserType(person.getUserType());
+            user.setUserStat(person.getUserStat());
+            user.setPersonBaseId(person.getPersonBaseId());
+            user.setPersonId(person.getPersonId());
+            user.setOrgId(org.getOrgId());
+            user.setOrgName(org.getOrgName());
+            user.setMobile(person.getMobile());
+            write(user);
         }else{
             write(false);
         }
