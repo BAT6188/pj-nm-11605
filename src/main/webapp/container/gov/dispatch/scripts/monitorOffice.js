@@ -161,8 +161,8 @@ function initTable() {
                     }
                 },
                 formatter: function (value, row, index) {
-                    console.log('行政处罚-----------');
-                    console.log(row.status);
+                    // console.log('行政处罚-----------');
+                    // console.log(row.status);
                     if(row.status>=4){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
@@ -633,21 +633,7 @@ function getUploaderOptions(bussinessId) {
         debug: true
     };
 }
-/**
- * 获取附件列表ids
- * @returns {*}
- */
-function getAttachmentIds() {
-    var attachments = uploader.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
-        }
-        return ids.join(",");
-    }
-    return "";
-}
+
 
 //初始化日期组件
 /*$('.form_datetime').datetimepicker({

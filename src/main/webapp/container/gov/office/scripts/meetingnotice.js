@@ -110,10 +110,12 @@ function initTable() {
                 events: operateEvents,
                 formatter: function (value, row, index) {
                     var msgHasUnReceived = MessageTraceModal.msgHasUnReceived(row.id);
-                    if (msgHasUnReceived) {
-                        return '<button type="button" class="btn btn-md btn-warning message-trace" data-toggle="modal">未接收</button>';
-                    }else{
-                        return '<button type="button" class="btn btn-md btn-success message-trace" data-toggle="modal">已接收</button>';
+                    if(row.personId==personId) {
+                        if (msgHasUnReceived) {
+                            return '<button type="button" class="btn btn-md btn-warning message-trace" data-toggle="modal">未接收</button>';
+                        } else {
+                            return '<button type="button" class="btn btn-md btn-success message-trace" data-toggle="modal">已接收</button>';
+                        }
                     }
                 }
             },
@@ -188,6 +190,8 @@ function getSelections() {
         }else{
             updateBtn.prop('disabled', true);
             removeBtn.prop('disabled', true);
+            $(".message-trace").css("display","none");
+
             Ewin.alert({message: "没有操作权限！"}).on(function (e) {
                 if (!e) {
                     return;

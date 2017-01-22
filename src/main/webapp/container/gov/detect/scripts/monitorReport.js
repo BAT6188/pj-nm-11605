@@ -473,21 +473,7 @@ function getUploaderOptions(bussinessId) {
         debug: true
     };
 }
-/**
- * 获取附件列表ids
- * @returns {*}
- */
-function getAttachmentIds() {
-    var attachments = uploader.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
-        }
-        return ids.join(",");
-    }
-    return "";
-}
+
 
 /**
  * 绑定下载按钮事件

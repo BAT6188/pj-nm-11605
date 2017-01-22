@@ -216,6 +216,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/manual.js"></script>
 </body>
 </html>

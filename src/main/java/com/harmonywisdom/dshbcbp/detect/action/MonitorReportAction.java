@@ -12,6 +12,7 @@ import com.harmonywisdom.dshbcbp.detect.service.MonitorReportService;
 import com.harmonywisdom.dshbcbp.dispatch.action.DispatchTaskAction;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -40,6 +41,8 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
     @Override
     protected QueryCondition getQueryCondition() {
         QueryParam params = new QueryParam();
+
+        String mobileOperType = request.getParameter("mobileOperType");
         String start_monitorTime = request.getParameter("start_monitorTime");
         String end_monitorTime = request.getParameter("end_monitorTime");
         if (StringUtils.isNotBlank(entity.getMonitorName())) {
@@ -74,12 +77,27 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
             params.andParam(new QueryParam("sendPersonId", QueryOperator.EQ,"[\""+iPerson.getPersonId()+"\"]"));
         }
 
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
 //        condition.setOrderBy("age", Direction.DESC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

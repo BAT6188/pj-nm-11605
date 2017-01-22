@@ -1,6 +1,6 @@
 //@ sourceURL=one_image.js
 var OneImagePage = function () {
-    var MINE_IMAGE_URL = "gongkuanglu.jsp";
+    var MINE_IMAGE_URL = rootPath+"/container/gov/composite/gongkuanglu.jsp";
 
     var Constant = {
         //数据类型标识
@@ -1179,7 +1179,8 @@ var OneImagePage = function () {
             });
             //绑定企业台账按钮事件
             $(infoDOM).find("#mineImage").bind("click", function () {
-                window.open(MINE_IMAGE_URL);
+                var enterpriseId = $(infoDOM).find("#mineImage").attr("data-id");
+                window.open(MINE_IMAGE_URL+"?enterpriseId="+enterpriseId);
             });
             //绑定企业台账按钮事件
             $(infoDOM).find("#mainInfo").bind("click", function () {

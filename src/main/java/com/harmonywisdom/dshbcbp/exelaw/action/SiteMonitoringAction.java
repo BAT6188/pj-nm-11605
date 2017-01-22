@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.exelaw.action;
 
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
@@ -10,6 +11,7 @@ import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -41,6 +43,7 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
 
     @Override
     protected QueryCondition getQueryCondition() {
+        String mobileOperType = request.getParameter("mobileOperType");
         QueryParam params = new QueryParam();
         if(StringUtils.isNotBlank(entity.getDispatchId())){
             params.andParam(new QueryParam("dispatchId", QueryOperator.EQ,entity.getDispatchId()));
@@ -55,12 +58,28 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             params.andParam(new QueryParam("checkPeople",QueryOperator.LIKE,entity.getCheckPeople()));
         }
 
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
+        condition.setOrderBy("monitoringTime", Direction.DESC);
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

@@ -1,7 +1,10 @@
 package com.harmonywisdom.dshbcbp.exportword.bean;
 
+import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
+
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +25,8 @@ public class OverManage implements Serializable{
 	private String envPrincipal;
 	private String epPhone;
 	private String content;
+	private String caseReason;
+	private String overSuggestion;
 	private String caseName;
 	private String filingDate;
 	private String code;
@@ -36,6 +41,15 @@ public class OverManage implements Serializable{
 	private String closedDate;
 	private String punishContent;
 	private String feedbackList;
+	private List<Feedback> feedbackListObject;
+
+	public List<Feedback> getFeedbackListObject() {
+		return feedbackListObject;
+	}
+
+	public void setFeedbackListObject(List<Feedback> feedbackListObject) {
+		this.feedbackListObject = feedbackListObject;
+	}
 
 	public String getYear() {
 		return year;
@@ -251,5 +265,21 @@ public class OverManage implements Serializable{
 
 	public void setFeedbackList(String feedbackList) {
 		this.feedbackList = feedbackList;
+	}
+
+	public String getCaseReason() {
+		return caseReason;
+	}
+
+	public void setCaseReason(String caseReason) {
+		this.caseReason = caseReason;
+	}
+
+	public String getOverSuggestion() {
+		return overSuggestion;
+	}
+
+	public void setOverSuggestion(String overSuggestion) {
+		this.overSuggestion = overSuggestion;
 	}
 }

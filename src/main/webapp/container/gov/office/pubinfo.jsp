@@ -152,6 +152,7 @@
         </div>
     </div>
 </div>
+<%@include file="/common/paizhao/paizhao.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/pubinfo.js"></script>
 </body>
 </html>

@@ -214,6 +214,7 @@
     </div>
 </div>
 <%@include file="/common/gis/map_mark.jsp"%>
+<%@include file="/common/paizhao/paizhao.jsp"%>
 <script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/monitorReport.js"></script>
 </body>

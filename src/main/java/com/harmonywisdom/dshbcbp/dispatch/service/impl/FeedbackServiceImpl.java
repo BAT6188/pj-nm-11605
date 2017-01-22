@@ -45,9 +45,12 @@ public class FeedbackServiceImpl extends BaseService<Feedback, String> implement
         List<Feedback> rows = feedbackQueryResult.getRows();
         if (rows.size()>0){
             DispatchTask dispatchTask = dispatchTaskDAO.findById(rows.get(0).getDispatchId());
-            for (Feedback row : rows) {
-                row.setCaseReason(dispatchTask.getCaseReason());
+            if (null!=dispatchTask){
+                for (Feedback row : rows) {
+                    row.setCaseReason(dispatchTask.getCaseReason());
+                }
             }
+
         }
 
         return feedbackQueryResult;

@@ -77,6 +77,59 @@
     </div>
 </div>
 
+<div class="modal fade" id="detailDialog" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">查看</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="removeId" name="removeId">
+                            <input type="text" name="eventTime" class="form-control"
+                            />
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">企业名称<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="enterpriseName" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">信息来源<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="source" class="form-control"
+                            />
+                        </div>
+
+                        <label for="" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="blockName" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <div class="col-sm-10">
+                            <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
+                            <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="demoForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 951px">
         <div class="modal-content">
