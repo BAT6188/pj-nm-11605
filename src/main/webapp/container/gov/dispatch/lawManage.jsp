@@ -504,102 +504,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="">查看反馈</h4>
+                <h4 class="modal-title" id="">执法记录-现场回传</h4>
             </div>
             <div class="modal-body">
-                <h4 class="modal-title" id="">执法详情</h4>
                 <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">事件时间<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input class="form-control" size="16" type="text" id="lookOverFeedbackForm_eventTime">
-                        </div>
-
-                        <label for="answer" class="col-sm-2 control-label">接电人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_answer" name="answer" class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="enterpriseId" class="col-sm-2 control-label">事件对象<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_enterpriseName" class="form-control"
-                            />
-                        </div>
-
-                        <label for="source" class="col-sm-2 control-label">事件来源<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="lookOverFeedbackForm_source" class="form-control caseSource">
-                                <option value="0">监控中心</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="blockLevelId" class="col-sm-2 control-label">所属网格<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <select id="lookOverFeedbackForm_blockLevelId" class="form-control">
-                            </select>
-                        </div>
-
-                        <label for="blockId" class="col-sm-2 control-label"></label>
-                        <div class="col-sm-4">
-                            <select id="lookOverFeedbackForm_blockId" class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="supervisor" class="col-sm-2 control-label">监管人员<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_supervisor" class="form-control"/>
-                        </div>
-
-                        <label for="supervisorPhone" class="col-sm-2 control-label">联系方式<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_supervisorPhone" class="form-control"
-                            />
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="senderName" class="col-sm-2 control-label">发送人<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_senderName" class="form-control" disabled
-                            />
-                        </div>
-
-                        <label for="sendTime" class="col-sm-2 control-label">发送时间<span class="text-danger">*</span>：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_sendTime" class="form-control" disabled/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="overValue" class="col-sm-2 control-label">超标值：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_overValue" class="form-control"
-                            />
-                        </div>
-
-                        <label for="thrValue" class="col-sm-2 control-label">超标阀值：</label>
-                        <div class="col-sm-4">
-                            <input type="text" id="lookOverFeedbackForm_thrValue" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="content" class="col-sm-2 control-label">事件内容：</label>
-                        <div class="col-sm-10">
-                            <textarea id="lookOverFeedbackForm_content" class="form-control" rows="4" cols="50" placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
-                        <div class="col-sm-10">
-                            <textarea id="lookOverFeedbackForm_sendRemark" class="form-control" rows="4" cols="50" placeholder=""></textarea>
-                        </div>
-                    </div>
-                    <hr/>
-                    <h4 class="modal-title" id="">执法记录-现场回传</h4>
                     <div class="tableBox">
                         <table id="feedbackRecordTable" class="table table-striped table-responsive">
                         </table>

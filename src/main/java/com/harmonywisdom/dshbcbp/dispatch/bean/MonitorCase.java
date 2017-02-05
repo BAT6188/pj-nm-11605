@@ -13,6 +13,12 @@ public class MonitorCase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 现场监察报告是否填写状态：0未报送，1已报送
+     */
+    @Column(name = "monitor_report_status", length = 2)
+    private String monitorReportStatus;
+
+    /**
      * 未调度
      */
     public static final String status_0="0";
@@ -562,5 +568,13 @@ public class MonitorCase implements Serializable {
 
     public void setOverSuggestion(String overSuggestion) {
         this.overSuggestion = overSuggestion;
+    }
+
+    public String getMonitorReportStatus() {
+        return monitorReportStatus;
+    }
+
+    public void setMonitorReportStatus(String monitorReportStatus) {
+        this.monitorReportStatus = monitorReportStatus;
     }
 }

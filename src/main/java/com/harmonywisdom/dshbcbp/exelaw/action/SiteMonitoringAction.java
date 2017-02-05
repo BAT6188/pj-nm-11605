@@ -7,7 +7,9 @@ import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
 import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
+import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
+import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -18,12 +20,17 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitoringService> {
     @AutoService
     private SiteMonitoringService siteMonitoringService;
 
     @AutoService
     private DispatchTaskService dispatchTaskService;
+
+    @AutoService
+    private MonitorCaseService monitorCaseService;
 
 
     @AutoService
@@ -92,6 +99,15 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             DispatchTask dispatchTask = dispatchTaskService.findById(dispatchId);
             dispatchTask.setMonitorReportStatus("1");
             dispatchTaskService.update(dispatchTask);
+
+            MonitorCase m=new MonitorCase();
+            m.setDispatchId(dispatchId);
+            List<MonitorCase> bySample = monitorCaseService.findBySample(m);
+            if (bySample.size()>0){
+                MonitorCase monitorCase = bySample.get(0);
+                monitorCase.setMonitorReportStatus("1");
+                monitorCaseService.update(monitorCase);
+            }
         }
 
         String attachmentIdsRemoveId = request.getParameter("removeId");
