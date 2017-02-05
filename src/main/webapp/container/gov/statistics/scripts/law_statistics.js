@@ -420,7 +420,7 @@ $(function(){
                         click: function(e) {
                             console.log(e.point.name);
                             $("#lawListForm").modal('show');
-                            var pointTime = e.point.category;
+                            var pointTime = e.point.name;
                             var firstTime = pointTime + "-"+"01";
                             var lastTime = pointTime + "-"+"31";
                             initlawTable(firstTime,lastTime);
