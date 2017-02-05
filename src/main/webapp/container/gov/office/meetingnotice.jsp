@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,11 +93,14 @@
                         <label for="type" class="col-sm-2 control-label">会议类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <select style="width: 100%" class="form-control"  id="type" name="type">
-                                <option value="1">视频会议</option>
+                                <option value="0">全体干部职工大会</option>
+				                <option value="1">视频会议</option>
                                 <option value="2">局务会</option>
                                 <option value="3">党员学习会</option>
                                 <option value="4">大队例会</option>
                                 <option value="5">监测站例会</option>
+				                <option value="6">局机关全体会议</option>
+
                             </select>
                         </div>
                         <label for="pubOrgName" class="col-sm-2 control-label">发布部门<span class="text-danger">*</span>：</label>

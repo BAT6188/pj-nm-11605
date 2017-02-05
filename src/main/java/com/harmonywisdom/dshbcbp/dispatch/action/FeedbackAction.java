@@ -38,6 +38,11 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
         QueryParam param=new QueryParam();
         String mobileOperType = request.getParameter("mobileOperType");
 
+        String dispatchId = entity.getDispatchId();
+        if (StringUtils.isNotEmpty(dispatchId)){
+            param.andParam(new QueryParam("dispatchId", QueryOperator.EQ,entity.getDispatchId()));
+        }
+
         if("1".equals(mobileOperType)){//下拉
 //            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
             if (null!=entity.getMobileTimestamp()){

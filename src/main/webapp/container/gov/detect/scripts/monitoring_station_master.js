@@ -157,7 +157,7 @@ window.operateEvents = {
         $("#lookOverFeedbackDetailForm").find("textarea").attr("disabled",true);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
-        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrgId);
         $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
         $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
         $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
@@ -172,6 +172,18 @@ window.operateEvents = {
         $("#masterShouLiPersonName_lookOverFeedbackDetailForm").val(entity.masterShouLiPersonName);
         $("#masterShouLiTime_lookOverFeedbackDetailForm").val(entity.masterShouLiTime);
         $("#masterShouLiYiJian_lookOverFeedbackDetailForm").val(entity.masterShouLiYiJian);
+
+        if(entity.monitorContent==1){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("水源地监测报告")
+        }else if(entity.monitorContent==2){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("大气污染防治监测报告")
+        }else if(entity.monitorContent==3){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("水污染防治监测报告")
+        }else if(entity.monitorContent==4){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("噪声监测报告")
+        }else if(entity.monitorContent==5){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("土壤污染防治监测报告")
+        }
 
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);
@@ -344,6 +356,18 @@ function setFormData(entity) {
     for(p in entity){
         var selector="#"+p
         $(selector).val(entity[p])
+    }
+
+    if(entity.monitorContent==1){
+        form.find("[name=monitorContent]").val("水源地监测报告")
+    }else if(entity.monitorContent==2){
+        form.find("[name=monitorContent]").val("大气污染防治监测报告")
+    }else if(entity.monitorContent==3){
+        form.find("[name=monitorContent]").val("水污染防治监测报告")
+    }else if(entity.monitorContent==4){
+        form.find("[name=monitorContent]").val("噪声监测报告")
+    }else if(entity.monitorContent==5){
+        form.find("[name=monitorContent]").val("土壤污染防治监测报告")
     }
 
     uploaderToggle(".aUploader")

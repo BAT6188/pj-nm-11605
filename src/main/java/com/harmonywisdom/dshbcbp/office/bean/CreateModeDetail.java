@@ -37,13 +37,13 @@ public class CreateModeDetail implements Serializable {
     /**
      * 任务名称
      */
-    @Column(name = "create_mode_name")
+    @Column(name = "create_mode_name",columnDefinition = "longtext")
     private String createModeName;
 
     /**
      * 指标/工程类型 输入框
      */
-    @Column(name = "type_text")
+    @Column(name = "type_text",columnDefinition = "longtext")
     private String typeText;
 
 
@@ -72,7 +72,7 @@ public class CreateModeDetail implements Serializable {
     /**
      * 指标内容
      */
-    @Column(name = "content")
+    @Column(name = "content",columnDefinition = "longtext")
     private String content;
 
     @Transient

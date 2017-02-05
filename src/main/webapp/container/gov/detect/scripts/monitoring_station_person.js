@@ -46,7 +46,7 @@ function initTable() {
                     if (row.selfReadStatusForMonitorPerson!='1'){
                         isNewDiv='<div id="isNew">&nbsp;</div>'
                     }
-                    return '<div style="cursor: pointer;padding: 8px;color: #109e16;" class="send" data-toggle="modal" data-target="#demoForm">'+value+isNewDiv+'</div>';
+                    return '<div style="padding: 8px;" class="send" >'+value+isNewDiv+'</div>';
                 }
             },
             {
@@ -149,7 +149,7 @@ $("#fanKuiButton").click(function () {
         $("#trustMonitorId").val(entity.id);
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
-        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrgId);
         $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
         $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
         $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
@@ -158,6 +158,18 @@ $("#fanKuiButton").click(function () {
         $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
 
         $("#enterpriseName1_lookOverFeedbackDetailForm").val(entity.enterpriseName);
+
+        if(entity.monitorContent==1){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("水源地监测报告")
+        }else if(entity.monitorContent==2){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("大气污染防治监测报告")
+        }else if(entity.monitorContent==3){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("水污染防治监测报告")
+        }else if(entity.monitorContent==4){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("噪声监测报告")
+        }else if(entity.monitorContent==5){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("土壤污染防治监测报告")
+        }
 
         $("#monitor").val(userName);
         $("#monitorPhone").val(entity.monitorPhone);
@@ -208,13 +220,25 @@ window.operateEvents = {
         disabledForm($("#lookOverFeedbackDetailForm"),true)
         $("#enterpriseName_lookOverFeedbackDetailForm").val(entity.enterpriseName);
         $("#monitorContent_lookOverFeedbackDetailForm").val(entity.monitorContent);
-        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrg);
+        $("#applyOrg_lookOverFeedbackDetailForm").val(entity.applyOrgId);
         $("#applicant_lookOverFeedbackDetailForm").val(entity.applicant);
         $("#applicantPhone_lookOverFeedbackDetailForm").val(entity.applicantPhone);
         $("#monitorTime_lookOverFeedbackDetailForm").val(entity.monitorTime);
         $("#trustOrgAddress_lookOverFeedbackDetailForm").val(entity.trustOrgAddress);
         $("#monitorAddress_lookOverFeedbackDetailForm").val(entity.monitorAddress);
         $("#monitorContentDetail_lookOverFeedbackDetailForm").val(entity.monitorContentDetail);
+
+        if(entity.monitorContent==1){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("水源地监测报告")
+        }else if(entity.monitorContent==2){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("大气污染防治监测报告")
+        }else if(entity.monitorContent==3){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("水污染防治监测报告")
+        }else if(entity.monitorContent==4){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("噪声监测报告")
+        }else if(entity.monitorContent==5){
+            $("#lookOverFeedbackDetailForm").find("[name=monitorContent]").val("土壤污染防治监测报告")
+        }
 
         $("#monitor").val(entity.monitor);
         $("#monitorPhone").val(entity.monitorPhone);

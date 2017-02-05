@@ -423,6 +423,18 @@ function setFormData(entity,dialogForm) {
         $(v).val(value);
     });
 
+    if(entity.monitorContent==1){
+        dialogForm.find("[name=monitorContent]").val("水源地监测报告")
+    }else if(entity.monitorContent==2){
+        dialogForm.find("[name=monitorContent]").val("大气污染防治监测报告")
+    }else if(entity.monitorContent==3){
+        dialogForm.find("[name=monitorContent]").val("水污染防治监测报告")
+    }else if(entity.monitorContent==4){
+        dialogForm.find("[name=monitorContent]").val("噪声监测报告")
+    }else if(entity.monitorContent==5){
+        dialogForm.find("[name=monitorContent]").val("土壤污染防治监测报告")
+    }
+
     $("#auditorForSend").val(userName)
     $("#auditTimeForSend").val((new Date()).format("yyyy-MM-dd hh:mm"))
     $("#auditPositionForSend").val(entity.auditPosition)
