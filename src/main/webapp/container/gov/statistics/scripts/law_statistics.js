@@ -516,8 +516,8 @@ $(function(){
 
     /********************  查询执法管理列表  ********************/
     var lawTable = $('#lawTable');
-    var eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice"),
-        eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase");
+    var eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice");
+    var  eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase");
     function initlawTable(firstTime,lastTime) {
         lawTable.bootstrapTable('destroy');
         lawTable.bootstrapTable({
@@ -572,22 +572,16 @@ $(function(){
                 },
 
                 {
-                    title: '信息来源',
+                    title: '事件来源',
                     field: 'source',
                     editable: false,
                     sortable: false,
                     align: 'center',
                     formatter:function (value, row, index) {
-                        if(1==value){
-                            value="12369"
-                        }else if (2==value){
-                            value="区长热线"
-                        }else if (3==value){
-                            value="市长热线"
-                        }else if (4==value){
-                            value="现场监察"
-                        }else if (0==value){
+                        if (value==0){
                             value="监控中心"
+                        }else {
+                            value=dict.get("caseSource",value)
                         }
                         return value;
                     }
@@ -690,9 +684,9 @@ $(function(){
             if (entity) {
                 var id = entity.id;
                 if(entity.source==0){
-                    eventMsg_monitorCase_dialog.modal('show')
+                    eventMsg_monitorCase_dialog.modal('show');
                     resetDialog(eventMsg_monitorCase_dialog);
-                    disabledForm(eventMsg_monitorCase_dialog,true)
+                    disabledForm(eventMsg_monitorCase_dialog,true);
 
                     var inputs = eventMsg_monitorCase_dialog.find('[name]');
                     $.each(inputs,function(k,v){
@@ -706,9 +700,9 @@ $(function(){
                     $("#cancel").text("关闭")
 
                 }else {
-                    eventMsg_monitorOffice_dialog.modal('show')
+                    eventMsg_monitorOffice_dialog.modal('show');
                     resetDialog(eventMsg_monitorOffice_dialog);
-                    disabledForm(eventMsg_monitorOffice_dialog,true)
+                    disabledForm(eventMsg_monitorOffice_dialog,true);
 
                     var inputs = eventMsg_monitorOffice_dialog.find('[name]');
                     $.each(inputs,function(k,v){
@@ -738,7 +732,7 @@ $(function(){
 
     /**
      * 重置表单
-     */
+    //  */
     function resetDialog(dialog) {
         dialog.find('form')[0].reset();
         dialog.find("#isSendSms").attr("checked",false);
@@ -764,6 +758,91 @@ $(function(){
         }
     }
 
+
+    //表单附件相关js
+    var uploader;//附件上传组件对象
+    /**
+     * 获取上传组件options
+     * @param bussinessId
+     * @returns options
+     */
+    function getUploaderOptions(bussinessId) {
+        return {
+            element: document.getElementById("fine-uploader-gallery"),
+            template: 'qq-template',
+            chunking: {
+                enabled: false,
+                concurrent: {
+                    enabled: true
+                }
+            },
+            resume: {
+                enabled: false
+            },
+            retry: {
+                enableAuto: false,
+                showButton: false
+            },
+            failedUploadTextDisplay: {
+                mode: 'custom'
+            },
+            callbacks: {
+                onComplete:function (id,fileName,msg,request) {
+                    uploader.setUuid(id, msg.id);
+                },
+                onDeleteComplete:function (id) {
+                    var file = uploader.getUploads({id:id});
+                    var removeIds = $("#removeId").val();
+                    if (removeIds) {
+                        removeIds+= ("," + file.uuid)
+                    }else{
+                        removeIds = file.uuid;
+                    }
+                    $("#removeId").val(removeIds);
+                },
+                onAllComplete: function (succeed) {
+                    var self = this;
+                    $.each(succeed, function (k, v) {
+                        $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                    });
+                }
+            },
+            request: {
+                endpoint: rootPath + '/Upload',
+                params: {
+                    businessId:bussinessId
+                }
+            },
+            session:{
+                endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+                params: {
+                    businessId:bussinessId
+                }
+            },
+            deleteFile: {
+                enabled: true,
+                endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+                method:"POST"
+            },
+            debug: true
+        };
+    }
+
+    /**
+     * 获取附件列表ids
+     * @returns {*}
+     */
+    function getAttachmentIds() {
+        var attachments = uploader.getUploads();
+        if (attachments && attachments.length) {
+            var ids = [];
+            for (var i = 0 ; i < attachments.length; i++){
+                ids.push(attachments[i].uuid);
+            }
+            return ids.join(",");
+        }
+        return "";
+    }
 
 
 });
