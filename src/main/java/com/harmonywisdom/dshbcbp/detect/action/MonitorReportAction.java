@@ -72,10 +72,10 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
         if (StringUtils.isNotBlank(end_monitorTime)) {
             params.andParam(new QueryParam("monitorTime", QueryOperator.LE,end_monitorTime));
         }
-        if(StringUtils.isNotBlank(entity.getSendPersonId())){
-            IPerson iPerson = ApportalUtil.getPerson(request);
-            params.andParam(new QueryParam("sendPersonId", QueryOperator.EQ,"[\""+iPerson.getPersonId()+"\"]"));
-        }
+//        if(StringUtils.isNotBlank(entity.getSendPersonId())){
+//            IPerson iPerson = ApportalUtil.getPerson(request);
+//            params.andParam(new QueryParam("sendPersonId", QueryOperator.EQ,"[\""+iPerson.getPersonId()+"\"]"));
+//        }
 
         if("1".equals(mobileOperType)){//下拉
 //            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));

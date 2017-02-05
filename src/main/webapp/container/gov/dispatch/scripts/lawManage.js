@@ -468,7 +468,7 @@ $("#feedback").bind("click",function () {
         $("#dispatchId").val(getSelections()[0].id)
         $("#caseReason").val(getSelections()[0].caseReason)
     }
-    $("#lawerName").val(userId)
+    $("#lawerName").val(userName)
     $("#phone").val(mobile)
 
     uploaderToggle(".bUploader")

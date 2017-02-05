@@ -1,5 +1,6 @@
 var gridTable = $('#table'),
     feedbackRecordTable=$("#feedbackRecordTable"),
+    table_siteMonitoringReportDialog = $('#table_siteMonitoringReportDialog'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     eventMsgForm = $("#eventMsg"),
@@ -138,14 +139,15 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                //events: monitorReportEvents,
+                events: siteMonitoringReportEvents,
                 formatter: function (value, row, index) {
-                    switch(value){
-                        case '1':
-                            return '<button type="button" class="btn btn-md btn-warning overStatusView" data-toggle="modal" data-target="#overDialog">已报送</button>';
-                        default:
-                            return '未报送';
+                    if(value=='1'){
+                        value="已报送";
+                        value="<a class='btn btn-md btn-warning siteMonitoringReport' data-toggle='modal' data-target='#siteMonitoringReportDialog'>"+value+"</a>";
+                    }else {
+                        value="未报送"
                     }
+                    return value;
                 }
             },
             {
@@ -219,6 +221,14 @@ function initTable() {
         });
     });
 }
+
+window.siteMonitoringReportEvents = {
+    'click .siteMonitoringReport': function (e, value, entity, index) {
+        table_siteMonitoringReportDialog.bootstrapTable('refresh',{
+            query:{dispatchId:entity.dispatchId}
+        });
+    }
+};
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
@@ -807,6 +817,85 @@ function initfeedbackRecordTable() {
 
 }
 initfeedbackRecordTable()
+
+//------------------------现场监察报告列表---------------------------//
+function initTable_siteMonitoringReportDialog() {
+    table_siteMonitoringReportDialog.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_exelaw_SiteMonitoring_list.action",
+        // height: pageUtils.getTableHeight(),
+        method:'post',
+        pagination:true,
+        pageSize:5,
+        pageList:[5],
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'blockName',
+                title: '所属网格',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'checkPeople',
+                title: '监察人员',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'monitoringTime',
+                title: '监察时间',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+
+            {
+                field: 'isNotProblem',
+                title: '是否存在问题',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="是"
+                    }else if(2==value){
+                        value="否"
+                    }
+                    return value;
+                }
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        table_siteMonitoringReportDialog.bootstrapTable('resetView');
+    }, 200);
+
+}
+initTable_siteMonitoringReportDialog();
 
 
 

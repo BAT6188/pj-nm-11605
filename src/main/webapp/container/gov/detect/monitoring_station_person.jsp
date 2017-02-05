@@ -216,7 +216,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent_lookOverFeedbackDetailForm"  class="form-control"/>
+                            <input type="text" id="monitorContent_lookOverFeedbackDetailForm" name="monitorContent" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -272,10 +272,9 @@
                         <div class="col-sm-4">
                             <input type="text" id="enterpriseName1_lookOverFeedbackDetailForm"  class="form-control"/>
                         </div>
-                        <label for="" class="col-sm-2 control-label">报告编号<span class="text-danger">*</span>：</label>
+                        <label for="" class="col-sm-2 control-label">报告编号：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="reportNumber" name="reportNumber" class="form-control editable" data-message="不能为空"
-                                   data-easytip="position:top;class:easy-red;"/>
+                            <input type="text" id="reportNumber" name="reportNumber" class="form-control editable"/>
                         </div>
                     </div>
                     <div class="form-group">

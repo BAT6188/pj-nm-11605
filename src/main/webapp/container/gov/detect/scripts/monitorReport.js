@@ -157,7 +157,7 @@ function initTable() {
             // },
             {
                 field: 'status',
-                title: '监督性监测报告',
+                title: '操作',
                 align: 'center',
                 events: operateEvents,
                 formatter: operateFormatter
@@ -189,17 +189,23 @@ function initTable() {
 
 // 生成列表操作方法
 function operateFormatter(value, row, index) {
-    if (value==1){
-        return "已发送"
-    }else {
-        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">未发送</button>';
-    }
+    return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">查看</button>';
 
 }
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
         setFormData(row);
+        disabledForm(true)
+        var fuOptions = getUploaderOptions(row.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+        $("#save").hide()
+        $("#cancel").text("关闭")
     }
 };
 /**
@@ -315,17 +321,18 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
-        if (entity.status==1){
-            Ewin.alert('已发送状态不允许再次发送！');
-            return;
-        }
+        // if (entity.status==1){
+        //     Ewin.alert('已发送状态不允许再次发送！');
+        //     return;
+        // }
 
         saveAjax(entity,function (msg) {
+            $("#demoForm").modal('hide')
             gridTable.bootstrapTable('refresh');
-            entity.id=msg.id;
-            entity.smsContent=entity.content
-            entity.isSendSms=$("#isSendSms").is(':checked');
-            model.open(entity);
+            // entity.id=msg.id;
+            // entity.smsContent=entity.content
+            // entity.isSendSms=$("#isSendSms").is(':checked');
+            // model.open(entity);
 
         });
     }

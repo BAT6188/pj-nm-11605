@@ -77,7 +77,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                field: 'reason',
+                field: 'caseReason',
                 title: '原因',
                 sortable: false,
                 align: 'center',

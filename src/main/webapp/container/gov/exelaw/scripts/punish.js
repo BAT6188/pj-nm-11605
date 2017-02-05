@@ -1,5 +1,6 @@
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
+    updateBtn = $('#update'),
     form = $("#demoForm"),
     formTitle = "行政处罚信息",
     selections = [];
@@ -145,6 +146,7 @@ function initTable() {
         'check-all.bs.table uncheck-all.bs.table', function () {
         //有选中数据，启用删除按钮
         removeBtn.prop('disabled', !gridTable.bootstrapTable('getSelections').length);
+        updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
     });
 
     $(window).resize(function () {
@@ -189,6 +191,7 @@ initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
 removeBtn.prop('disabled', true);
+updateBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
@@ -261,6 +264,10 @@ $("#save").bind('click',function () {
     //验证表单，验证成功后触发ef.success方法保存数据
     ef.submit(false);
 });
+
+$("#update").bind("click",function () {
+    setFormData(getSelections()[0]);
+});
 /**
  * 设置表单数据
  * @param entity
@@ -276,22 +283,6 @@ function setFormData(entity) {
         var selector="#"+p
         $(selector).val(entity[p])
     }
-
-    // $("#caseName").val(entity.caseName);
-    // $("#filingDate").val(entity.filingDate);
-    // $("#code").val(entity.code);
-    // $("#decideCode").val(entity.decideCode);
-    // $("#caseSource").val(entity.caseSource);
-    // $("#caseReason").val(entity.caseReason);
-    // $("#provision").val(entity.provision);
-    // $("#exeDesc").val(entity.exeDesc);
-    // $("#type").val(entity.type);
-    // $("#money").val(entity.money);
-    // $("#exeDate").val(entity.exeDate);
-    // $("#endDate").val(entity.endDate);
-    // $("#attn").val(entity.attn);
-    // $("#closedDate").val(entity.closedDate);
-    // $("#content").val(entity.content);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
