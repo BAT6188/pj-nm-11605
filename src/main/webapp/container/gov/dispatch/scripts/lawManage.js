@@ -37,6 +37,9 @@ $("#addSiteMonitoring").click(function () {
     uploader = new qq.FineUploader(getUploaderOptions());
     bindDownloadSelector();
 
+    $("#addSiteMonitoringDialog").find("#save").show();
+    $("#addSiteMonitoringDialog").find(".btn-cancel").text("取消");
+
 })
 
 //保存ajax请求
@@ -1059,6 +1062,29 @@ $("#save").bind('click',function () {
 });
 
 //------------------------现场监察报告列表---------------------------//
+window.initTable_siteMonitoringReportDialog_operateEvents = {
+    'click .initTable_siteMonitoringReportDialog_view': function (e, value, entity, index) {
+        var inputs = $("#addSiteMonitoringDialog").find('[name]');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            $(v).val(entity[tagId]);
+        });
+
+        disabledForm($("#addSiteMonitoringDialog"),true);
+        uploaderToggle(".dUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+        $("#addSiteMonitoringDialog").find("#save").hide();
+        $("#addSiteMonitoringDialog").find(".btn-cancel").text("关闭");
+    }
+};
+
 function initTable_siteMonitoringReportDialog() {
     table_siteMonitoringReportDialog.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1125,6 +1151,15 @@ function initTable_siteMonitoringReportDialog() {
                     }
                     return value;
                 }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: initTable_siteMonitoringReportDialog_operateEvents,
+                formatter: function (value, row, index) {
+                    return '<button type="button" class="btn btn-md btn-warning initTable_siteMonitoringReportDialog_view" data-toggle="modal" data-target="#addSiteMonitoringDialog">查看</button>';
+                }
             }
 
         ]
@@ -1136,5 +1171,7 @@ function initTable_siteMonitoringReportDialog() {
 
 }
 initTable_siteMonitoringReportDialog();
+
+
 
 

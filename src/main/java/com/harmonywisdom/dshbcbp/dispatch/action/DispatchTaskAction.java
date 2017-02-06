@@ -283,11 +283,12 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         dispatchTaskService.update(dt);
 
         MonitorCase monitorCase = monitorCaseService.findById(dt.getMonitorCaseId());
-        monitorCase.setOverStatus("1");
-        monitorCase.setOverSuggestion(entity.getOverSuggestion());
-        monitorCase.setOverTime(dt.getOverTime());
-        monitorCaseService.update(monitorCase);
-
+        if (monitorCase!=null){
+            monitorCase.setOverStatus("1");
+            monitorCase.setOverSuggestion(entity.getOverSuggestion());
+            monitorCase.setOverTime(dt.getOverTime());
+            monitorCaseService.update(monitorCase);
+        }
         saveOverDocument(entity.getId());
     }
 

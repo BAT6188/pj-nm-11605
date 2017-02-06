@@ -49,7 +49,10 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 		OverManage overManage=new OverManage();
 		DispatchTask dispatchTask = dispatchTaskDAO.findById(id);
 		String enterpriseId = dispatchTask.getEnterpriseId();
-		Enterprise enterprise = enterpriseDAO.findById(enterpriseId);
+		Enterprise enterprise =new Enterprise();
+		if (enterpriseId!=null){
+			enterprise = enterpriseDAO.findById(enterpriseId);
+		}
 		List<Punish> punishList = punishDAO.find("dispatchTaskId=?", id);
 		Punish punish=new Punish();
 		if (punishList.size()>0){
@@ -68,6 +71,9 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 		overManage.setBlockLevelName(dispatchTask.getBlockLevelName());
 		overManage.setBlockName(dispatchTask.getBlockName());
 		String pollutantType = enterprise.getPollutantType();
+		if (pollutantType==null){
+			pollutantType="";
+		}
 		String pollutantTypeString="";
 		String[] split = pollutantType.split(",");
 		for (String s : split) {
