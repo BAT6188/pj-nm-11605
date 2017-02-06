@@ -522,10 +522,10 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "31";
+                            var lastTime = year + "-" + month + "-" + "32";
                             var year2 = year - 1;
                             var lastStartTime = year2 + "-" + month + "-" + "01";
-                            var lastEndTime = year2 + "-" + month + "-" + "31";
+                            var lastEndTime = year2 + "-" + month + "-" + "32";
 
                             initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
                         }
@@ -605,7 +605,7 @@ $(function(){
                            
                             var year2 = year - 1;
                             var firstTime = year2 + "-" + month + "-" + "01";
-                            var lastTime = year2 + "-" + month + "-" + "31";
+                            var lastTime = year2 + "-" + month + "-" + "32";
 
                             initlawTable2(firstTime,lastTime);
                         }
@@ -672,7 +672,7 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "31";
+                            var lastTime = year + "-" + month + "-" + "32";
 
                             initlawTable2(firstTime,lastTime);
                         }
@@ -750,10 +750,10 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "31";
+                            var lastTime = year + "-" + month + "-" + "32";
                             var year2 = year - 1;
                             var lastStartTime = year2 + "-" + month + "-" + "01";
-                            var lastEndTime = year2 + "-" + month + "-" + "31";
+                            var lastEndTime = year2 + "-" + month + "-" + "32";
 
                             initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
                         }
