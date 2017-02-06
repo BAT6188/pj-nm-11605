@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * 执法管理列表
+ * 注：处罚加了单独的字段：punishStatus
  */
 @Entity
 @Table(name = "HW_DISPATCH_TASK")
@@ -49,6 +50,16 @@ public class DispatchTask implements Serializable {
      */
     @Column(name = "status", length = 2)
     private String status;
+
+    /**
+     * 处罚状态：
+     * 1 已处罚
+     * 0 未处罚
+     */
+    @Column(name = "punish_status", length = 2)
+    private String punishStatus;
+
+
 
     /**
      * 办结时间
@@ -197,30 +208,30 @@ public class DispatchTask implements Serializable {
      * 排口名称
      */
     @Column(name = "port_name")
-    private Double portName;
+    private String portName;
     /**
      * 污染源类型
      */
     @Column(name = "pollutant_type")
-    private Double pollutantType;
+    private String pollutantType;
 
     /**
      * 超标项
      */
     @Column(name = "over_obj")
-    private Double overObj;
+    private String overObj;
 
 
     /**
      * 超标值
      */
     @Column(name = "over_value")
-    private Double overValue;
+    private String overValue;
     /**
      * 超标阈值
      */
     @Column(name = "thr_value")
-    private Double thrValue;
+    private String thrValue;
 
     /**
      * 事件内容
@@ -430,19 +441,19 @@ public class DispatchTask implements Serializable {
         this.reason = reason;
     }
 
-    public Double getOverValue() {
+    public String getOverValue() {
         return overValue;
     }
 
-    public void setOverValue(Double overValue) {
+    public void setOverValue(String overValue) {
         this.overValue = overValue;
     }
 
-    public Double getThrValue() {
+    public String getThrValue() {
         return thrValue;
     }
 
-    public void setThrValue(Double thrValue) {
+    public void setThrValue(String thrValue) {
         this.thrValue = thrValue;
     }
 
@@ -712,27 +723,27 @@ public class DispatchTask implements Serializable {
         this.informerPhone = informerPhone;
     }
 
-    public Double getPortName() {
+    public String getPortName() {
         return portName;
     }
 
-    public void setPortName(Double portName) {
+    public void setPortName(String portName) {
         this.portName = portName;
     }
 
-    public Double getPollutantType() {
+    public String getPollutantType() {
         return pollutantType;
     }
 
-    public void setPollutantType(Double pollutantType) {
+    public void setPollutantType(String pollutantType) {
         this.pollutantType = pollutantType;
     }
 
-    public Double getOverObj() {
+    public String getOverObj() {
         return overObj;
     }
 
-    public void setOverObj(Double overObj) {
+    public void setOverObj(String overObj) {
         this.overObj = overObj;
     }
 
@@ -742,5 +753,13 @@ public class DispatchTask implements Serializable {
 
     public void setMobileTimestamp(Date mobileTimestamp) {
         this.mobileTimestamp = mobileTimestamp;
+    }
+
+    public String getPunishStatus() {
+        return punishStatus;
+    }
+
+    public void setPunishStatus(String punishStatus) {
+        this.punishStatus = punishStatus;
     }
 }

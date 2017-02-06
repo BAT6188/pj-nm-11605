@@ -1,6 +1,8 @@
 //@ sourceURL=lawManage.js
 var gridTable = $('#table'),
     dialog=$("#detailDialog"),
+    feedbackRecordTable=$("#feedbackRecordTable"),
+    table_siteMonitoringReportDialog = $('#table_siteMonitoringReportDialog'),
     selections = [];
 
 /**============grid 列表初始化相关代码============**/
@@ -31,6 +33,13 @@ function initTable() {
                 visible:false
             },
             {
+                title: '事件对象',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '事件时间',
                 field: 'eventTime',
                 sortable: false,
@@ -41,30 +50,16 @@ function initTable() {
                 }
             },
             {
-                title: '企业名称',
-                field: 'enterpriseName',
-                editable: false,
-                sortable: false,
-                align: 'center'
-            },
-
-            {
-                title: '信息来源',
+                title: '事件来源',
                 field: 'source',
                 editable: false,
                 sortable: false,
                 align: 'center',
                 formatter:function (value, row, index) {
-                    if(1==value){
-                        value="12369"
-                    }else if (2==value){
-                        value="区长热线"
-                    }else if (3==value){
-                        value="市长热线"
-                    }else if (4==value){
-                        value="现场监察"
-                    }else if (0==value){
+                    if (value==0){
                         value="监控中心"
+                    }else {
+                        value=dict.get("caseSource",value)
                     }
                     return value;
                 }
@@ -77,11 +72,103 @@ function initTable() {
                 align: 'center'
             },
             {
-                field: 'caseReason',
-                title: '原因',
+                title: '调度状态',
+                field: 'status',
+                editable: false,
                 sortable: false,
                 align: 'center',
-                editable: false
+                // events: operateEvents,
+                formatter: function (value, row, index) {
+
+                    /**
+                     * 1:未调度
+                     * 2:已调度
+                     * 3:已反馈
+                     * 4:已处罚
+                     * 5:已办结
+                     * 状态
+                     */
+                    if (value==1){
+                        value="未调度"
+                    }else{
+                        value="已调度"
+                    }
+
+                    return value
+                }
+            },
+            {
+                field: 'sendToPerson',
+                title: '发送至',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter: function (value, row, index) {
+                    if(row.monitorMasterPersonNameList!=undefined){
+                        value=row.monitorMasterPersonNameList
+                    }
+                    if(row.envProStaPersonNameList!=undefined){
+                        value=" "+row.envProStaPersonNameList
+                    }
+                    return pageUtils.sub30(value);
+                }
+            },
+            {
+                title: '发送人',
+                field: 'dispatchPersonName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'monitorReportStatus',
+                title: '现场监察报告',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                events: siteMonitoringReportEvents,
+                formatter: function (value, row, index) {
+                    if(value=='1'){
+                        value="已报送";
+                        value="<a class='btn btn-md btn-warning siteMonitoringReport' data-toggle='modal' data-target='#siteMonitoringReportDialog'>"+value+"</a>";
+                    }else {
+                        value="未报送"
+                    }
+                    return value;
+                }
+            },
+            {
+                field: 'col2',
+                title: '行政处罚',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                events: punishEvents,
+                formatter: function (value, row, index) {
+                    /**
+                     * 1:未调度
+                     * 2:已发送
+                     * 3:已反馈
+                     * 4:已处罚
+                     * 5:已办结
+                     * 状态
+                     */
+                    if(row.punishStatus==1){
+                        value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
+                    }else{
+                        value="--"//未处罚
+                    }
+                    return value
+                }
+            },
+            {
+                title: '反馈状态',
+                field: 'feedbackStatus',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: operateEvents,
+                formatter: feedbackStatusoperateFormatter
             },
             {
                 field: 'operate',
@@ -103,6 +190,175 @@ function initTable() {
             height: pageUtils.getTableHeight()
         });
     });
+}
+
+window.punishEvents = {
+    'click .punish': function (e, value, row, index) {
+        var url = rootPath + "/container/gov/exelaw/punish.jsp?id=" + row.id;
+        pageUtils.toUrl(url);
+
+    }
+};
+
+function disabledForm(dialogSelector,disabled) {
+    dialogSelector.find("input").attr("disabled",disabled);
+    dialogSelector.find("textarea").attr("disabled",disabled);
+    dialogSelector.find("select").attr("disabled",disabled);
+
+    if (!disabled) {
+        //初始化日期组件
+        $('.lookover').datetimepicker({
+            language:   'zh-CN',
+            autoclose: 1,
+            minView: 2
+        });
+
+    }else{
+        $('.lookover').datetimepicker('remove');
+    }
+}
+
+window.siteMonitoringReportEvents = {
+    'click .siteMonitoringReport': function (e, value, entity, index) {
+        table_siteMonitoringReportDialog.bootstrapTable('refresh',{
+            query:{dispatchId:entity.id}
+        });
+    }
+};
+
+// 列表操作事件
+window.operateEvents = {
+    'click .view': function (e, value, row, index) {
+        console.log(JSON.stringify(row));
+
+        $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
+        $("#lookOverFeedbackForm_answer").val(row.answer);
+        $("#lookOverFeedbackForm_enterpriseName").val(row.enterpriseName);
+        $("#lookOverFeedbackForm_source").val(row.source);
+        $("#lookOverFeedbackForm_blockLevelId").val(row.blockLevelId);
+        $("#lookOverFeedbackForm_blockId").val(row.blockId);
+        $("#lookOverFeedbackForm_supervisor").val(row.supervisor);
+        $("#lookOverFeedbackForm_supervisorPhone").val(row.supervisorPhone);
+        $("#lookOverFeedbackForm_senderName").val(row.senderName);
+        $("#lookOverFeedbackForm_sendTime").val(row.sendTime);
+        $("#lookOverFeedbackForm_content").val(row.sendRemark);
+        $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
+        disabledForm($("#lookOverFeedbackForm"),true)
+
+        feedbackRecordTable.bootstrapTable('refresh',{query:{dispatchId:row.id}})
+
+    }
+};
+
+/**
+ * 查看反馈表单事件
+ * @type {{[click .see]: Window.seeEvent.'click .see'}}
+ */
+window.seeEvent = {
+    'click .see': function (e, value, row, index) {
+        console.log(JSON.stringify(row))
+
+        $("#lawerName").val(row.lawerName)
+        $("#phone").val(row.phone)
+        $("#exeTime").val(row.exeTime)
+        $("#exeDesc").val(row.exeDesc)
+        $("#caseReason").val(row.caseReason)
+        disabledForm($("#feedbackForm"),true)
+
+        uploaderToggle(".bUploader")
+        var fuOptions = getUploaderOptions(row.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+
+        $("#feedbackTo").hide();
+    }
+};
+
+/***************** 执法记录-现场回传 ***************************/
+function initfeedbackRecordTable() {
+    feedbackRecordTable.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_dispatch_Feedback_list.action",
+        method:'post',
+        pagination:true,
+        pageSize:5,
+        pageList:[5],
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '现场执法人',
+                field: 'lawerName',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                title: '联系方式',
+                field: 'phone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '执法时间',
+                field: 'exeTime',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '执法详情',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                visible:false
+            },
+            {
+                title: '查看',
+                field: 'exeDesc',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                events: seeEvent,
+                formatter: function (value, row, index) {
+                    html='<a class="btn btn-md btn-warning see" data-toggle="modal" data-target="#feedbackForm">详情</a>'
+                    return html
+                }
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        feedbackRecordTable.bootstrapTable('resetView');
+    }, 200);
+
+}
+initfeedbackRecordTable()
+
+
+
+function feedbackStatusoperateFormatter(value, row, index) {
+    if (row.status>='3'){
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">已反馈</button>';
+    }else {
+        return '未反馈'
+    }
 }
 
 function lookOverFormatter(value, row, index) {
@@ -135,6 +391,7 @@ window.lookOverEvents = {
         dialog.find('[name=source]').val(value);
 
         dialog.find("input").attr("disabled",true);
+        uploaderToggle(".aUploader")
         var fuOptions = getUploaderOptions(entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
             $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -311,6 +568,115 @@ $('.form_datetime').datetimepicker({
     forceParse: 0,
     showMeridian: 1
 });
+
+//------------------------现场监察报告列表---------------------------//
+window.initTable_siteMonitoringReportDialog_operateEvents = {
+    'click .initTable_siteMonitoringReportDialog_view': function (e, value, entity, index) {
+        var inputs = $("#addSiteMonitoringDialog").find('[name]');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            $(v).val(entity[tagId]);
+        });
+
+        disabledForm($("#addSiteMonitoringDialog"),true);
+        uploaderToggle(".dUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+        $("#addSiteMonitoringDialog").find("#save").hide();
+        $("#addSiteMonitoringDialog").find(".btn-cancel").text("关闭");
+    }
+};
+function initTable_siteMonitoringReportDialog() {
+    table_siteMonitoringReportDialog.bootstrapTable({
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_exelaw_SiteMonitoring_list.action",
+        // height: pageUtils.getTableHeight(),
+        method:'post',
+        pagination:true,
+        pageSize:5,
+        pageList:[5],
+        queryParams:pageUtils.localParams,
+        columns: [
+            {
+                title: 'ID',
+                field: 'id',
+                align: 'center',
+                valign: 'middle',
+                sortable: false,
+                visible:false
+            },
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                field: 'blockName',
+                title: '所属网格',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'checkPeople',
+                title: '监察人员',
+                sortable: false,
+                align: 'center',
+                editable: false
+            },
+            {
+                field: 'monitoringTime',
+                title: '监察时间',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    return pageUtils.sub10(value);
+                }
+            },
+            {
+                field: 'isNotProblem',
+                title: '是否存在问题',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    if(1==value){
+                        value="是"
+                    }else if(2==value){
+                        value="否"
+                    }
+                    return value;
+                }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: initTable_siteMonitoringReportDialog_operateEvents,
+                formatter: function (value, row, index) {
+                    return '<button type="button" class="btn btn-md btn-warning initTable_siteMonitoringReportDialog_view" data-toggle="modal" data-target="#addSiteMonitoringDialog">查看</button>';
+                }
+            }
+
+        ]
+    });
+    // sometimes footer render error.
+    setTimeout(function () {
+        table_siteMonitoringReportDialog.bootstrapTable('resetView');
+    }, 200);
+
+}
+initTable_siteMonitoringReportDialog();
 
 $(document).ready(function () {
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")

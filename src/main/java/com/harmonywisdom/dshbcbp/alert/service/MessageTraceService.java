@@ -21,7 +21,7 @@ public interface MessageTraceService extends IBaseService<MessageTrace, String> 
      * @param userId
      * @return
      */
-    List<MessageTrace> getNewMessagesByUserId(String userId);
+    List<MessageTrace> getNewMessagesByUserId(String userId,String isMobile);
 
     /**
      * 获取用户历史消息
@@ -37,6 +37,13 @@ public interface MessageTraceService extends IBaseService<MessageTrace, String> 
      * @return
      */
     int setStatusReceived(String... ids);
+
+    /**
+     * 设置消息跟踪状态为已读
+     * @param ids
+     * @return
+     */
+    int setMobileStatusReceived(String... ids);
 
     /**
      * 根据业务id查看发送的消息是否有人未接收

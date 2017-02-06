@@ -57,8 +57,18 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter:function (value, row, index) {
-                    value=dict.get("monitorContent",value);
+                formatter: function (value, entity, index) {
+                    if(entity.monitorContent==1){
+                        value="水源地监测报告";
+                    }else if(entity.monitorContent==2){
+                        value="大气污染防治监测报告";
+                    }else if(entity.monitorContent==3){
+                        value="水污染防治监测报告";
+                    }else if(entity.monitorContent==4){
+                        value="噪声监测报告";
+                    }else if(entity.monitorContent==5){
+                        value="土壤污染防治监测报告";
+                    }
                     return value;
                 }
             },

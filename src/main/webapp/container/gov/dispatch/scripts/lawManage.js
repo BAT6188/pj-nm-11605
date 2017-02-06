@@ -37,6 +37,9 @@ $("#addSiteMonitoring").click(function () {
     uploader = new qq.FineUploader(getUploaderOptions());
     bindDownloadSelector();
 
+    $("#addSiteMonitoringDialog").find("#save").show();
+    $("#addSiteMonitoringDialog").find(".btn-cancel").text("取消");
+
 })
 
 //保存ajax请求
@@ -107,17 +110,6 @@ function initTable() {
                 }
             },
             {
-                title: '接电人',
-                field: 'answer',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                visible:false
-            },
-
-
-
-            {
                 title: '事件来源',
                 field: 'source',
                 editable: false,
@@ -139,16 +131,6 @@ function initTable() {
                 sortable: false,
                 align: 'center'
             },
-            // {
-            //     field: 'reason',
-            //     title: '原因',
-            //     sortable: false,
-            //     align: 'center',
-            //     editable: false,
-            //     formatter: function (value, row, index) {
-            //         return dict.get("caseReason",value)
-            //     }
-            // },
             {
                 title: '调度状态',
                 field: 'status',
@@ -231,44 +213,13 @@ function initTable() {
                      * 5:已办结
                      * 状态
                      */
-                    if(row.status>=4){
+                    if(row.punishStatus==1){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
                         value="--"//未处罚
                     }
                     return value
                 }
-            },
-            {
-                field: 'monitorCaseId',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
-            },
-            {
-                field: 'overValue',
-                title: '超标值',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
-            },
-            {
-                field: 'thrValue',
-                title: '超标阀值',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
-            },
-            {
-                field: 'sendRemark',
-                title: '备注',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
             },
             {
                 title: '反馈状态',
@@ -1111,6 +1062,29 @@ $("#save").bind('click',function () {
 });
 
 //------------------------现场监察报告列表---------------------------//
+window.initTable_siteMonitoringReportDialog_operateEvents = {
+    'click .initTable_siteMonitoringReportDialog_view': function (e, value, entity, index) {
+        var inputs = $("#addSiteMonitoringDialog").find('[name]');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            $(v).val(entity[tagId]);
+        });
+
+        disabledForm($("#addSiteMonitoringDialog"),true);
+        uploaderToggle(".dUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+        $("#addSiteMonitoringDialog").find("#save").hide();
+        $("#addSiteMonitoringDialog").find(".btn-cancel").text("关闭");
+    }
+};
+
 function initTable_siteMonitoringReportDialog() {
     table_siteMonitoringReportDialog.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1177,6 +1151,15 @@ function initTable_siteMonitoringReportDialog() {
                     }
                     return value;
                 }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: initTable_siteMonitoringReportDialog_operateEvents,
+                formatter: function (value, row, index) {
+                    return '<button type="button" class="btn btn-md btn-warning initTable_siteMonitoringReportDialog_view" data-toggle="modal" data-target="#addSiteMonitoringDialog">查看</button>';
+                }
             }
 
         ]
@@ -1188,5 +1171,7 @@ function initTable_siteMonitoringReportDialog() {
 
 }
 initTable_siteMonitoringReportDialog();
+
+
 
 
