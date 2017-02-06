@@ -1,7 +1,7 @@
 //@ sourceURL=blockPerson.js
 var gridTable = $('#table'),
     choseTable = $('#choseTable'),
-    addBtn = $("#add"),
+    addBlockBtn = $("#add"),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     addPersonBtn = $('#addPerson'),
@@ -55,13 +55,13 @@ var treeName;
 function blockTreeOnClick(event, treeId, treeNode) {
     $('.hidden').val("");
     if(treeNode.parentId!="-1"){
-        addBtn.prop('disabled', false);
+        addBlockBtn.prop('disabled', false);
         $('#s_blockName').val(treeNode.name);
         $('#s_blockId').val(treeNode.id);
         $('#s_blockLevelId').val(treeNode.parentId);
         searchForm();
     }else{
-        addBtn.prop('disabled', true);
+        addBlockBtn.prop('disabled', true);
         $('#s_blockLevelId').val(treeNode.id);
         searchForm();
     }
@@ -305,7 +305,7 @@ function getSelections() {
 initTable();
 /**============列表工具栏处理============**/
 //初始化按钮状态
-addBtn.prop('disabled', true);
+addBlockBtn.prop('disabled', true);
 removeBtn.prop('disabled', true);
 updateBtn.prop('disabled', true);
 addPersonBtn.prop('disabled', true);
@@ -314,7 +314,7 @@ removePersonBtn.prop('disabled', true);
 /**
  * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
  */
-addBtn.bind('click',function () {
+addBlockBtn.bind('click',function () {
     resetForm();
     form.find('#type').val(1);
     form.find('#blockName').val($('#s_blockName').val());
@@ -544,6 +544,7 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find('form')[0].reset();
+    form.find('#id').val("");
     // $('#blockLevelId').find('option[value=""]').attr("selected",true);
     // $('#blockId').empty();
     //form.find("input[type!='radio'][type!='checkbox']").val("");

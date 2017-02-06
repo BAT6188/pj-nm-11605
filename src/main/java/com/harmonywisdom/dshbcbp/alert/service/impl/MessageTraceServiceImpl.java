@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -43,12 +44,21 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
     }
 
     @Override
-    public List<MessageTrace> getNewMessagesByUserId(String userId) {
+    public List<MessageTrace> getNewMessagesByUserId(String userId,String isMobile) {
         if (StringUtils.isNotBlank(userId)) {
-            List<MessageTrace> traces = getDAO().queryNativeSQL("select t.* from HW_MESSAGE_TRACE t left join HW_MESSAGE m " +
-                            "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and t.RECEIVE_STATUS=?2 and m.ALERT_TIME < ?3 order by m.ALERT_TIME desc",
-                    MessageTrace.class,
-                    userId, MessageTrace.RECEIVE_STATUS_UNRECEIVE,new Date());
+            List<MessageTrace> traces =new ArrayList<>();
+            if ("1".equals(isMobile)){
+                traces = getDAO().queryNativeSQL("select t.* from HW_MESSAGE_TRACE t left join HW_MESSAGE m " +
+                                "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and t.MOBILE_RECEIVE_STATUS=?2 and m.ALERT_TIME < ?3 order by m.ALERT_TIME desc",
+                        MessageTrace.class,
+                        userId, MessageTrace.RECEIVE_STATUS_UNRECEIVE,new Date());
+            }else {
+                traces = getDAO().queryNativeSQL("select t.* from HW_MESSAGE_TRACE t left join HW_MESSAGE m " +
+                                "on t.MSG_ID=m.id where t.RECEIVER_ID=?1 and t.RECEIVE_STATUS=?2 and m.ALERT_TIME < ?3 order by m.ALERT_TIME desc",
+                        MessageTrace.class,
+                        userId, MessageTrace.RECEIVE_STATUS_UNRECEIVE,new Date());
+            }
+
             //查询消息
             for (MessageTrace trace : traces) {
                 Message message = messageService.getMessageByTraceId(trace.getId());
@@ -86,9 +96,18 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
         }else {
             return 0;
         }
-
-
     }
+
+    @Override
+    public int setMobileStatusReceived(String... ids) {
+        if (ids != null && ids.length > 0) {
+            return getDAO().executeJPQL("update MessageTrace set mobileReceiveStatus=?1,receiveTime=?2 where id in ?3", MessageTrace.RECEIVE_STATUS_RECEIVED,new Date(), Arrays.asList(ids));
+        }else {
+            return 0;
+        }
+    }
+
+
 
     @Override
     public boolean msgHasUnReceivedByBusinessId(String businessId) {

@@ -97,6 +97,14 @@ public class MonitorCase implements Serializable {
     private String status;
 
     /**
+     * 处罚状态：
+     * 1 已处罚
+     * 0 未处罚
+     */
+    @Column(name = "punish_status", length = 2)
+    private String punishStatus;
+
+    /**
      * 事件来源，信息来源
      * 监察大队办公司： 1：12369   2：区长热线   3：市长热线   4：现场监察
      * 监控中心：0
@@ -161,29 +169,29 @@ public class MonitorCase implements Serializable {
      * 排口名称
      */
     @Column(name = "port_name")
-    private Double portName;
+    private String portName;
     /**
      * 污染源类型
      */
     @Column(name = "pollutant_type")
-    private Double pollutantType;
+    private String pollutantType;
 
     /**
      * 监测指标
      */
     @Column(name = "over_obj")
-    private Double overObj;
+    private String overObj;
 
     /**
      * 检测值
      */
     @Column(name = "over_value")
-    private Double overValue;
+    private String overValue;
     /**
      * 标准值
      */
     @Column(name = "thr_value")
-    private Double thrValue;
+    private String thrValue;
     /**
      * 事件内容,来电详情
      */
@@ -386,19 +394,43 @@ public class MonitorCase implements Serializable {
         this.blockId = blockId;
     }
 
-    public Double getOverValue() {
+    public String getPortName() {
+        return portName;
+    }
+
+    public void setPortName(String portName) {
+        this.portName = portName;
+    }
+
+    public String getPollutantType() {
+        return pollutantType;
+    }
+
+    public void setPollutantType(String pollutantType) {
+        this.pollutantType = pollutantType;
+    }
+
+    public String getOverObj() {
+        return overObj;
+    }
+
+    public void setOverObj(String overObj) {
+        this.overObj = overObj;
+    }
+
+    public String getOverValue() {
         return overValue;
     }
 
-    public void setOverValue(Double overValue) {
+    public void setOverValue(String overValue) {
         this.overValue = overValue;
     }
 
-    public Double getThrValue() {
+    public String getThrValue() {
         return thrValue;
     }
 
-    public void setThrValue(Double thrValue) {
+    public void setThrValue(String thrValue) {
         this.thrValue = thrValue;
     }
 
@@ -530,29 +562,7 @@ public class MonitorCase implements Serializable {
         this.overStatus = overStatus;
     }
 
-    public Double getPortName() {
-        return portName;
-    }
 
-    public void setPortName(Double portName) {
-        this.portName = portName;
-    }
-
-    public Double getPollutantType() {
-        return pollutantType;
-    }
-
-    public void setPollutantType(Double pollutantType) {
-        this.pollutantType = pollutantType;
-    }
-
-    public Double getOverObj() {
-        return overObj;
-    }
-
-    public void setOverObj(Double overObj) {
-        this.overObj = overObj;
-    }
 
     public Date getOverTime() {
         return overTime;
@@ -576,5 +586,13 @@ public class MonitorCase implements Serializable {
 
     public void setMonitorReportStatus(String monitorReportStatus) {
         this.monitorReportStatus = monitorReportStatus;
+    }
+
+    public String getPunishStatus() {
+        return punishStatus;
+    }
+
+    public void setPunishStatus(String punishStatus) {
+        this.punishStatus = punishStatus;
     }
 }

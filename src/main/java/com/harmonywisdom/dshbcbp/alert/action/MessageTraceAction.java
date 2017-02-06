@@ -89,12 +89,13 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
     }
 
     /**
-     * 获取用户消息列表
+     * 获取用户未读消息列表
      */
     public void getUserMsgList(){
         String userId = request.getParameter("userId");
+        String isMobile = request.getParameter("isMobile");//1 客户端    0或null web端
         if(StringUtils.isNotBlank(userId)){//查询最新消息
-            List<MessageTrace> messageTraces = getService().getNewMessagesByUserId(userId);
+            List<MessageTrace> messageTraces = getService().getNewMessagesByUserId(userId,isMobile);
             write(messageTraces);
         }else{
             write(false);
@@ -118,9 +119,22 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
     }
 
     /**
-     * 设置消息为已读
+     * 设置web端消息为已读
      */
     public void setStatusReceived(){
+        String[] ids = request.getParameterValues("ids");
+        if (ids != null && ids.length > 0) {
+            int count = getService().setStatusReceived(ids);
+            write(count);
+        }else{
+            write(false);
+        }
+    }
+
+    /**
+     * 设置手机端端消息为已读
+     */
+    public void setMobileStatusReceived(){
         String[] ids = request.getParameterValues("ids");
         if (ids != null && ids.length > 0) {
             int count = getService().setStatusReceived(ids);

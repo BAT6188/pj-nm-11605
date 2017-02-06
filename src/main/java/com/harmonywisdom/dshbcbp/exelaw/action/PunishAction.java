@@ -67,11 +67,13 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
         if (StringUtils.isNotEmpty(dispatchTaskId)){
             DispatchTask dispatchTask = dispatchTaskService.findById(dispatchTaskId);
             if (dispatchTask!=null){
-                dispatchTask.setStatus("4");
+//                dispatchTask.setStatus("4");
+                dispatchTask.setPunishStatus("1");
                 dispatchTaskService.update(dispatchTask);
                 MonitorCase monitorCase = new MonitorCase();
                 monitorCase.setId(dispatchTask.getMonitorCaseId());
-                monitorCase.setStatus("4");
+//                monitorCase.setStatus("4");
+                monitorCase.setPunishStatus("1");
                 monitorCaseService.updateMonitorCase(monitorCase);
                 entity.setEnterpriseId(dispatchTask.getEnterpriseId());
             }

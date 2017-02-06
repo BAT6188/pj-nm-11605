@@ -56,6 +56,17 @@ function initTable() {
                 valign: 'middle'
             },
             {
+                title: '',
+                field: '',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter:function (value, row, index) {
+                     value = rootPath + "/common/images/green_light.gif";
+                    return "<img src='" + value + "' />";
+                }
+            },
+            {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
@@ -163,9 +174,7 @@ function initTable() {
                     }
                 },
                 formatter: function (value, row, index) {
-                    // console.log('行政处罚-----------');
-                    // console.log(row.status);
-                    if(row.status>=4){
+                    if(row.punishStatus==1){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
                         value="——"
@@ -719,7 +728,7 @@ $( function() {
 
 
 $(document).ready(function () {
-    loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
+    loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 })
 
 /***************** 执法反馈列表 ***************************/
@@ -819,6 +828,28 @@ function initfeedbackRecordTable() {
 initfeedbackRecordTable()
 
 //------------------------现场监察报告列表---------------------------//
+window.initTable_siteMonitoringReportDialog_operateEvents = {
+    'click .initTable_siteMonitoringReportDialog_view': function (e, value, entity, index) {
+        var inputs = $("#addSiteMonitoringDialog").find('[name]');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            $(v).val(entity[tagId]);
+        });
+
+        disabledForm(true);
+        uploaderToggle(".dUploader")
+        var fuOptions = getUploaderOptions(entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        bindDownloadSelector();
+        $(".qq-upload-button").hide();
+        $("#addSiteMonitoringDialog").find("#save").hide();
+        $("#addSiteMonitoringDialog").find(".btn-cancel").text("关闭");
+    }
+};
 function initTable_siteMonitoringReportDialog() {
     table_siteMonitoringReportDialog.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -870,7 +901,6 @@ function initTable_siteMonitoringReportDialog() {
                     return pageUtils.sub10(value);
                 }
             },
-
             {
                 field: 'isNotProblem',
                 title: '是否存在问题',
@@ -884,6 +914,15 @@ function initTable_siteMonitoringReportDialog() {
                         value="否"
                     }
                     return value;
+                }
+            },
+            {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                events: initTable_siteMonitoringReportDialog_operateEvents,
+                formatter: function (value, row, index) {
+                    return '<button type="button" class="btn btn-md btn-warning initTable_siteMonitoringReportDialog_view" data-toggle="modal" data-target="#addSiteMonitoringDialog">查看</button>';
                 }
             }
 
