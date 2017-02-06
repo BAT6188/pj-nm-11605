@@ -163,9 +163,7 @@ function initTable() {
                     }
                 },
                 formatter: function (value, row, index) {
-                    // console.log('行政处罚-----------');
-                    // console.log(row.status);
-                    if(row.status>=4){
+                    if(row.punishStatus==1){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
                         value="——"

@@ -107,17 +107,6 @@ function initTable() {
                 }
             },
             {
-                title: '接电人',
-                field: 'answer',
-                editable: false,
-                sortable: false,
-                align: 'center',
-                visible:false
-            },
-
-
-
-            {
                 title: '事件来源',
                 field: 'source',
                 editable: false,
@@ -139,16 +128,6 @@ function initTable() {
                 sortable: false,
                 align: 'center'
             },
-            // {
-            //     field: 'reason',
-            //     title: '原因',
-            //     sortable: false,
-            //     align: 'center',
-            //     editable: false,
-            //     formatter: function (value, row, index) {
-            //         return dict.get("caseReason",value)
-            //     }
-            // },
             {
                 title: '调度状态',
                 field: 'status',
@@ -231,44 +210,13 @@ function initTable() {
                      * 5:已办结
                      * 状态
                      */
-                    if(row.status>=4){
+                    if(row.punishStatus==1){
                         value="<a class='btn btn-md btn-warning punish'>已处罚</a>"
                     }else{
                         value="--"//未处罚
                     }
                     return value
                 }
-            },
-            {
-                field: 'monitorCaseId',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
-            },
-            {
-                field: 'overValue',
-                title: '超标值',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
-            },
-            {
-                field: 'thrValue',
-                title: '超标阀值',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
-            },
-            {
-                field: 'sendRemark',
-                title: '备注',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                visible:false
             },
             {
                 title: '反馈状态',
