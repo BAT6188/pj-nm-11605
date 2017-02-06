@@ -20,6 +20,7 @@
     </style>
     <script>
         $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+        pageUtils.appendOptionFromDictCode(".monitorContent",{code:"monitorContent"});
     </script>
 </head>
 <body>
@@ -115,7 +116,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent" name="monitorContent" class="form-control" data-message="监测内容不能为空"
+                            <input type="text" id="monitorContent" name="monitorContent" class="form-control monitorContent" data-message="监测内容不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
@@ -428,7 +429,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent_enterpriseSelfDialog" name="monitorContent" class="form-control" data-message="监测内容不能为空"
+                            <input type="text" id="monitorContent_enterpriseSelfDialog" name="monitorContent" class="monitorContent form-control" data-message="监测内容不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
@@ -497,6 +498,7 @@
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     }
 </script>
+<script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/monitoring_station_master.js"></script>
 </body>

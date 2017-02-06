@@ -55,7 +55,11 @@ function initTable() {
                 field: 'monitorContent',
                 sortable: false,
                 align: 'center',
-                editable: false
+                editable: false,
+                formatter:function (value, row, index) {
+                    value=dict.get("monitorContent",value);
+                    return value;
+                }
             },
             {
                 // title: '监测时间',

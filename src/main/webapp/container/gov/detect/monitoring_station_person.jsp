@@ -216,7 +216,7 @@
 
                         <label for="enterpriseName" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="monitorContent_lookOverFeedbackDetailForm" name="monitorContent" class="form-control"/>
+                            <input type="text" id="monitorContent_lookOverFeedbackDetailForm" name="monitorContent" class="monitorContent form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -328,6 +328,8 @@
     </div>
 </div>
 <script>
+
+    pageUtils.appendOptionFromDictCode(".monitorContent",{code:"monitorContent"});
     $(function () {
         $('#myTab a:first').tab('show')
     });
@@ -348,6 +350,7 @@
         gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     }
 </script>
+<script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
 <script src="<%=request.getContextPath()%>/common/scripts/uploaderUtil.js"></script>
 <script src="<%=request.getContextPath()%>/container/gov/detect/scripts/monitoring_station_person.js"></script>
 </body>
