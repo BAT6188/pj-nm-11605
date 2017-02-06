@@ -106,11 +106,11 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
         }
 
         if (StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))) {
-            whereSql.append("') and ( t.pay_date > '").append(params.get("firstTime")).append("' and t.pay_date < '").append(params.get("lastTime")+"')");
+            whereSql.append("') and ( t.pay_date >= '").append(params.get("firstTime")).append("' and t.pay_date <= '").append(params.get("lastTime")+"')");
         }
 
         String countSql = "select count(*) from hw_pollutant_payment t"  +whereSql.toString();
-        String querySql = "select t.* from hw_pollutant_payment t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
+        String querySql = "select t.* from hw_pollutant_payment t " +whereSql.toString()+"order by t.pay_date desc "+"limit " + startIndex+","+endIndex;
 
         long total = pollutantPaymentDAO.getCount(countSql);
         List<Object[]> list = pollutantPaymentDAO.queryNativeSQL(querySql);

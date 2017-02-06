@@ -56,6 +56,17 @@ function initTable() {
                 valign: 'middle'
             },
             {
+                title: '',
+                field: '',
+                editable: false,
+                sortable: false,
+                align: 'center',
+                formatter:function (value, row, index) {
+                     value = rootPath + "/common/images/green_light.gif";
+                    return "<img src='" + value + "' />";
+                }
+            },
+            {
                 title: 'ID',
                 field: 'id',
                 align: 'center',
