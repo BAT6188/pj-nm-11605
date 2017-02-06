@@ -35,12 +35,20 @@ public class MessageTrace implements Serializable {
     @Column(name = "RECEIVER_NAME", length = 20)
     private String receiverName;
     /**
-     * 接收状态
+     * web端接收状态
      * 1:未接收（默认）
      * 2:已接收
      **/
     @Column(name = "RECEIVE_STATUS", length = 1)
     private String receiveStatus;
+
+    /**
+     * 手机端接收状态
+     * 1:未接收（默认）
+     * 2:已接收
+     **/
+    @Column(name = "MOBILE_RECEIVE_STATUS", length = 1)
+    private String mobileReceiveStatus;
 
     /**
      * 接收时间
@@ -123,5 +131,13 @@ public class MessageTrace implements Serializable {
 
     public void setMobileTimestamp(Date mobileTimestamp) {
         this.mobileTimestamp = mobileTimestamp;
+    }
+
+    public String getMobileReceiveStatus() {
+        return mobileReceiveStatus;
+    }
+
+    public void setMobileReceiveStatus(String mobileReceiveStatus) {
+        this.mobileReceiveStatus = mobileReceiveStatus;
     }
 }
