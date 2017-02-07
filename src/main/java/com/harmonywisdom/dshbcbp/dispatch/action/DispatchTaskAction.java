@@ -329,7 +329,12 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
         List<Feedback> feedbackListObject = overManage.getFeedbackListObject();
         LinkedList<LinkedList<LinkedList<LinkedList<String>>>> tablesData=new LinkedList<LinkedList<LinkedList<LinkedList<String>>>>();
+
         //第1张表
+        LinkedList<LinkedList<LinkedList<String>>> table1 =new LinkedList<LinkedList<LinkedList<String>>>();
+        tablesData.add(table1);
+
+        //第2张表
         LinkedList<LinkedList<LinkedList<String>>> table =new LinkedList<LinkedList<LinkedList<String>>>();
         if(null!=feedbackListObject&&feedbackListObject.size()>0){
             for (Feedback feedback : feedbackListObject) {

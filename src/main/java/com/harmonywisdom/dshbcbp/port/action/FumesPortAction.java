@@ -68,7 +68,7 @@ public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
         if(entity.getCreateTime()==null){
             entity.setCreateTime(new Date());
         }
-        if(StringUtils.isNotBlank(entity.getId())){
+        if(StringUtils.isNotBlank(entity.getEnterpriseId())){
             Enterprise e = new Enterprise();
             e.setId(entity.getEnterpriseId());
             e.setHaveFumesPort("1");
