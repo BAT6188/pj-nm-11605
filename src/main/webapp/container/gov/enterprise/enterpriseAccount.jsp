@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>企业管理列表</title>
+    <title>企业台账信息</title>
     <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <style>
         .menuDiv h3{

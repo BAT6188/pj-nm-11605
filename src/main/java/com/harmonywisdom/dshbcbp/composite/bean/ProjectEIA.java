@@ -81,6 +81,11 @@ public class ProjectEIA implements Serializable {
 
     @Transient
     private BuildProject buildProject;
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentIds;
 
     public BuildProject getBuildProject() {
         return buildProject;
@@ -194,5 +199,13 @@ public class ProjectEIA implements Serializable {
 
     public void setReplyEIAOpinion(String replyEIAOpinion) {
         this.replyEIAOpinion = replyEIAOpinion;
+    }
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 }
