@@ -3,8 +3,10 @@ var gridTable = $('#table'),
     dialog=$("#detailDialog"),
     feedbackRecordTable=$("#feedbackRecordTable"),
     table_siteMonitoringReportDialog = $('#table_siteMonitoringReportDialog'),
+    eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice"),
+    eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase"),
     selections = [];
-
+pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
 /**============grid 列表初始化相关代码============**/
 function initTable() {
     gridTable.bootstrapTable({
@@ -360,8 +362,64 @@ function feedbackStatusoperateFormatter(value, row, index) {
         return '未反馈'
     }
 }
-
+function resetDialog(dialog) {
+    dialog.find('form')[0].reset();
+    dialog.find("#isSendSms").attr("checked",false);
+    uploader = new qq.FineUploader(getUploaderOptions());
+    disabledForm(dialog,false);
+}
 function lookOverFormatter(value, row, index) {
+    return '<button type="button" class="btn btn-md btn-warning lookOver">查看</button>';
+}
+
+window.lookOverEvents = {
+    'click .lookOver': function (e, value, entity, index) {
+        if (entity) {
+            var id = entity.id;
+            if(entity.source==0){
+                eventMsg_monitorCase_dialog.modal('show')
+                resetDialog(eventMsg_monitorCase_dialog);
+                disabledForm(eventMsg_monitorCase_dialog,true)
+
+                var inputs = eventMsg_monitorCase_dialog.find('[name]');
+                $.each(inputs,function(k,v){
+                    var tagId = $(v).attr('name');
+                    $(v).val(entity[tagId]);
+                });
+
+                $("#dispatch").hide();
+                $("#isSendSmsSpan").hide();
+                $("#cancel").text("关闭")
+
+            }else {
+                eventMsg_monitorOffice_dialog.modal('show')
+                resetDialog(eventMsg_monitorOffice_dialog);
+                disabledForm(eventMsg_monitorOffice_dialog,true)
+
+                var inputs = eventMsg_monitorOffice_dialog.find('[name]');
+                $.each(inputs,function(k,v){
+                    var tagId = $(v).attr('name');
+                    $(v).val(entity[tagId]);
+                });
+
+
+                uploaderToggle(".zUploader")
+                var fuOptions = getUploaderOptions(entity.id);
+                fuOptions.callbacks.onSessionRequestComplete = function () {
+                    $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+                    $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+                };
+                uploader = new qq.FineUploader(fuOptions);
+                bindDownloadSelector();
+                $(".qq-upload-button").hide();
+
+            }
+
+        }
+    }
+};
+
+/*function lookOverFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning lookOver" data-toggle="modal" data-target="#detailDialog">查看</button>';
 }
 
@@ -400,7 +458,7 @@ window.lookOverEvents = {
         uploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
     }
-};
+};*/
 
 /**
  * 获取列表所有的选中数据id

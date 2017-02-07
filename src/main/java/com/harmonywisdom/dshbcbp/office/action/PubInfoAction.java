@@ -168,7 +168,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         List<IPerson> authorizationIPerson = new ArrayList<>();
         List list = Arrays.asList(grade);
         for (int i = 0; i < list.size(); i++) {
-            IOrg iOrgs = OrgServiceUtil.getOrgByOrgCode((String) list.get(i));
+            IOrg iOrgs = OrgServiceUtil.getOrgByOrgId((String) list.get(i));
             List<IOrg> orgs =  OrgServiceUtil.getOrgsByParentOrgId(iOrgs.getOrgId());
             if (orgs.size() > 0) {
                 for (IOrg iOrgChild : orgs) {

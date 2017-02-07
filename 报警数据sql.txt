@@ -1,0 +1,21 @@
+报警数据sql：
+
+INSERT INTO HW_MONITOR_CASE(id,block_id,block_level_id,block_level_name,block_name,content,enterprise_id,enterprise_name,event_time,over_value,source,status,supervisor,supervisor_phone,thr_value,port_name,over_obj)
+VALUES('11113','7879a214012d4c7396b1a0a6f49384e5','3','二级网格','民族街道 (高磊)','超标','dc57191570e04a24b245db823dde9846','内蒙古东源水务科技发展有限公司东胜北郊水质净化厂','2017-02-03 09:00:00','8.24','0','0','关维镇'
+,'15701998857','0-5毫升/克','排口','氨氮');
+
+INSERT INTO HW_MONITOR_CASE(id,block_id,block_level_id,block_level_name,block_name,content,enterprise_id,enterprise_name,event_time,over_value,source,status,supervisor,supervisor_phone,thr_value,port_name,over_obj)
+VALUES('1114','14b2ab0c117b41b786476c7ec155a6b9','3','二级网格','兴胜街道 (刘茂鑫)','超标','2284c29d93cb4492a201bb9dd1e4f53b','鄂尔多斯市东胜区城市排水事业局南郊水质净化厂','2017-02-01 09:00:00','77','0','0','薛飞'
+,'13310306558','0-50毫克/升','废水排口','化学需氧量（COD）');
+
+INSERT INTO HW_MONITOR_CASE(id,block_id,block_level_id,block_level_name,block_name,content,enterprise_id,enterprise_name,event_time,over_value,source,status,supervisor,supervisor_phone,thr_value,port_name,over_obj)
+VALUES('1115','14b2ab0c117b41b786476c7ec155a6b9','3','二级网格','兴胜街道 (刘茂鑫)','超标','2284c29d93cb4492a201bb9dd1e4f53b','鄂尔多斯市东胜区城市排水事业局南郊水质净化厂','2017-02-01 12:00:00','88','0','0','薛飞'
+,'13310306558','0-50毫克/升','废水排口','化学需氧量（COD）');
+
+INSERT INTO HW_MONITOR_CASE(id,block_id,block_level_id,block_level_name,block_name,content,enterprise_id,enterprise_name,event_time,over_value,source,status,supervisor,supervisor_phone,thr_value,port_name,over_obj)
+VALUES('1116','14b2ab0c117b41b786476c7ec155a6b9','3','二级网格','兴胜街道 (刘茂鑫)','超标','2284c29d93cb4492a201bb9dd1e4f53b','鄂尔多斯市东胜区城市排水事业局南郊水质净化厂','2017-02-03 13:00:00','99','0','0','薛飞'
+,'13310306558','0-50毫克/升','废水排口','化学需氧量（COD）');
+
+INSERT INTO HW_MONITOR_CASE(id,block_id,block_level_id,block_level_name,block_name,content,enterprise_id,enterprise_name,event_time,over_value,source,status,supervisor,supervisor_phone,thr_value,port_name,over_obj)
+VALUES('1117','14b2ab0c117b41b786476c7ec155a6b9','3','二级网格','兴胜街道 (刘茂鑫)','超标','2284c29d93cb4492a201bb9dd1e4f53b','鄂尔多斯市东胜区城市排水事业局南郊水质净化厂','2017-02-01 07:00:00','78','0','0','薛飞'
+,'13310306558','0-50毫克/升','废水排口','化学需氧量（COD）');

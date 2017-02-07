@@ -123,9 +123,9 @@
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">所属网格：</label>
                         <div class="col-sm-4">
-                            <select id="blockLevelId" name="blockLevelId" class="form-control" style="display: none">
+                            <select id="blockLevelId" name="blockLevelId" class="form-control s_blockLevelId" style="display: none">
                             </select>
-                            <select id="blockId" name="blockId" class="form-control">
+                            <select id="blockId" name="blockId" class="form-control s_blockId">
                             </select>
                         </div>
 

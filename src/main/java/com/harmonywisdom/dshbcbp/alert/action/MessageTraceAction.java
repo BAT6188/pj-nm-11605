@@ -137,7 +137,7 @@ public class MessageTraceAction extends BaseAction<MessageTrace, MessageTraceSer
     public void setMobileStatusReceived(){
         String[] ids = request.getParameterValues("ids");
         if (ids != null && ids.length > 0) {
-            int count = getService().setStatusReceived(ids);
+            int count = getService().setMobileStatusReceived(ids);
             write(count);
         }else{
             write(false);
