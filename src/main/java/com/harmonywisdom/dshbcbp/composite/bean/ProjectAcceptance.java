@@ -72,6 +72,12 @@ public class ProjectAcceptance implements Serializable {
     @Transient
     public BuildProject buildProject;
 
+    /**
+     * 附件
+     */
+    @Transient
+    private String attachmentIds;
+
 
     public String getId() {
         return id;
@@ -167,5 +173,13 @@ public class ProjectAcceptance implements Serializable {
 
     public void setReplyTimeEIA(String replyTimeEIA) {
         this.replyTimeEIA = replyTimeEIA;
+    }
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
     }
 }

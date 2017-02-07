@@ -204,9 +204,9 @@ window.lookoverAuditFormEvents = {
     'click .view': function (e, value, entity, index) {
         for(p in entity){
             var selector="#"+p
-            $(selector).val(entity[p])
+            $(selector).val(entity[p]);
         }
-        disabledForm(auditForm,true)
+        disabledForm(auditForm,true);
         $("#save").hide()
         $("#cancel").text("关闭")
     }
@@ -217,7 +217,7 @@ function operateFormatter(value, row, index) {
     if (value==7){
         value='<div style="padding: 8px;color: #c3a61d;" class="view">已反馈</div>'
     }else {
-        value="未反馈"
+        value="未反馈";
     }
     return value;
 }

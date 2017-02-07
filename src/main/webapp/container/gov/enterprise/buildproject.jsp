@@ -52,7 +52,7 @@
     <script type="text/javascript">
         var enterpriseId='<%=enterpriseId%>';
         $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
-        $('.media-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+        //$('.media-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
     </script>
 </head>
 <body>
@@ -69,10 +69,10 @@
                 <div class="queryBox marginLeft0" >
                     <form class="form-inline" role="form" id="searchform">
                         <div class="form-group">
-                            <label for="">项目名称：</label> <input type="text" id="name" name="name" class="form-control" />
+                            <label for="name">项目名称：</label> <input type="text" id="name" name="name" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="">建设性质：</label>
+                            <label for="buildNature">建设性质：</label>
                             <select id="buildNature" name="buildNature" class="form-control" style="width: 301px;">
                                 <option value="">请选择</option>
                                 <option value="1">新建</option>
@@ -82,7 +82,7 @@
                         </div>
                      <p></p>
                         <div class="form-group">
-                            <label for="area">行政区：</label>
+                            <label for="area">&nbsp;行政区：</label>
                             <input type="text" id="area" name="area" class="form-control" />
                         </div>
                         <div class="form-group">
