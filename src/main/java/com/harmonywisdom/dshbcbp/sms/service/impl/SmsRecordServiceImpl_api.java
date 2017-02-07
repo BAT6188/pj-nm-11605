@@ -19,7 +19,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-@Service("smsRecordService")
+//@Service("smsRecordService")
 public class SmsRecordServiceImpl_api extends BaseService<SmsRecord, String> implements SmsRecordService {
 
     /**
