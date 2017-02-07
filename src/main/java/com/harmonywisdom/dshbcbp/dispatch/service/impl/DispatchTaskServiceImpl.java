@@ -115,14 +115,14 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
 
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if (StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))) {
-            whereSql.append("and ( t.event_time > '").append(params.get("firstTime")).append("' and t.event_time < '").append(params.get("lastTime")+"')");
+            whereSql.append("and ( t.event_time >= '").append(params.get("firstTime")).append("' and t.event_time <= '").append(params.get("lastTime")+"')");
         }
         if(StringUtils.isNotBlank(params.get("lastStartTime")) || StringUtils.isNotBlank(params.get("lastEndTime"))){
-            whereSql.append("OR (t.event_time > '").append(params.get("lastStartTime")).append("' and t.event_time < '").append(params.get("lastEndTime")+"')");
+            whereSql.append("OR (t.event_time >= '").append(params.get("lastStartTime")).append("' and t.event_time <= '").append(params.get("lastEndTime")+"')");
         }
 
         String countSql = "select count(*) from HW_DISPATCH_TASK t" +whereSql.toString();
-        String querySql = "select t.* from HW_DISPATCH_TASK t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
+        String querySql = "select t.id,t.event_time,t.enterprise_name,t.source,t.block_name,t.case_reason,t.sender_name from HW_DISPATCH_TASK t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
 
         long total = dispathTaskDAO.getCount(countSql);
         List<Object[]> list = dispathTaskDAO.queryNativeSQL(querySql);
@@ -137,22 +137,22 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
                 try {
-                    date = sdf.parse(String.valueOf(lawValue[11]));
+                    date = sdf.parse(String.valueOf(lawValue[1]));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 data.setEventTime(date);
                 //企业名称
-                data.setEnterpriseName(lawValue[9]==null ? "" : String.valueOf(lawValue[9]));
+                data.setEnterpriseName(lawValue[2]==null ? "" : String.valueOf(lawValue[2]));
                 //信息来源
-                data.setSource(lawValue[24]==null ? "" : String.valueOf(lawValue[24]));
+                data.setSource(lawValue[3]==null ? "" : String.valueOf(lawValue[3]));
                 //所属网格
 
-                data.setBlockName(lawValue[6]==null ? "" : String.valueOf(lawValue[6]));
+                data.setBlockName(lawValue[4]==null ? "" : String.valueOf(lawValue[4]));
                 //原因
-                data.setReason(lawValue[18]==null ? "" : String.valueOf(lawValue[18]));
+                data.setReason(lawValue[5]==null ? "" : String.valueOf(lawValue[5]));
                 //发送人
-                data.setSenderName(lawValue[23]==null ? "" : String.valueOf(lawValue[23]));
+                data.setSenderName(lawValue[6]==null ? "" : String.valueOf(lawValue[6]));
                 rows.add(data);
             }
         }
