@@ -6,22 +6,21 @@ import com.harmonywisdom.dshbcbp.sms.dao.SmsRecordDAO;
 import com.harmonywisdom.dshbcbp.sms.service.SmsRecordService;
 import com.harmonywisdom.dshbcbp.sms.service.SmsSendStatusService;
 import com.harmonywisdom.dshbcbp.utils.SmsSender;
-import com.harmonywisdom.framework.dao.BaseDAO;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.BaseService;
 import com.harmonywisdom.framework.service.SpringUtil;
+import com.mascloud.sdkclient.Client;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service("smsRecordService")
-public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> implements SmsRecordService {
+public class SmsRecordServiceImpl_api extends BaseService<SmsRecord, String> implements SmsRecordService {
 
     /**
      * 短信发送表
@@ -81,20 +80,77 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
         }*/
 
         //方式二：先调用短信发送接口，然后再保存短信记录到本地数据库
-        sendSmsByAPI(smsRsecord,receivers);//批量发送短信
         if (smsRsecord.getSendTime()==null){
+            sendSmsByAPI(smsRsecord,receivers);//发送 发送时间为空（立即发送）的短信
             smsRsecord.setSendTime(new Date());//更新短信记录表中需要立即发送短信 的发送时间
+
+            getDAO().save(smsRsecord);//保存短信记录
+            Set<SmsSendStatus> statuses = new HashSet<>();
+            for (SmsSendStatus status : receivers) {
+                status.setSmsRecordId(smsRsecord.getId());
+                status.setStatus(SmsSendStatus.SEND_STATUS_SENT);
+                statuses.add(status);
+            }
+            smsSendStatusService.saveBatch(statuses);//保存发送联系人
+        }else {
+            log.info("定时发送短信，发送时间："+smsRsecord.getSendTime());
+
+            getDAO().save(smsRsecord);//保存短信记录
+            Set<SmsSendStatus> statuses = new HashSet<>();
+            for (SmsSendStatus status : receivers) {
+                status.setSmsRecordId(smsRsecord.getId());
+                status.setStatus(SmsSendStatus.SEND_STATUS_NO_SENT);
+                statuses.add(status);
+            }
+            smsSendStatusService.saveBatch(statuses);//保存发送联系人
         }
-        getDAO().save(smsRsecord);//保存短信记录
-        Set<SmsSendStatus> statuses = new HashSet<>();
-        for (SmsSendStatus status : receivers) {
-            status.setSmsRecordId(smsRsecord.getId());
-            status.setStatus(SmsSendStatus.SEND_STATUS_SENT);
-            statuses.add(status);
-        }
-        smsSendStatusService.saveBatch(statuses);//保存发送联系人
 
         return receivers;
+    }
+
+    /**
+     * 定时发送短信
+     */
+    public void quartzSendSms(){
+        QueryParam param = new QueryParam();
+        param.andParam(new QueryParam("status", QueryOperator.EQ, SmsSendStatus.SEND_STATUS_NO_SENT));
+        QueryCondition condition = new QueryCondition();
+        if (param.getField() != null) {
+            condition.setParam(param);
+        }
+
+        QueryResult<SmsSendStatus> smsSendStatusQueryResult = smsSendStatusService.find(condition);
+        if (smsSendStatusQueryResult!=null){
+            List<SmsSendStatus> rows = smsSendStatusQueryResult.getRows();
+            for (SmsSendStatus row : rows) {
+                QueryParam param1 = new QueryParam();
+                param1.andParam(new QueryParam("id", QueryOperator.EQ, row.getId()));
+                param1.andParam(new QueryParam("SEND_TIME", QueryOperator.LE, new Date()));
+                QueryCondition condition1 = new QueryCondition();
+                if (param1.getField() != null) {
+                    condition1.setParam(param1);
+                }
+                QueryResult<SmsRecord> smsRecordQueryResult = find(condition1);
+                if (smsRecordQueryResult!=null){
+                    List<SmsRecord> record1 = smsRecordQueryResult.getRows();
+                    if(record1!=null&&record1.size()>0){
+                        SmsRecord record = record1.get(0);
+                        List<SmsSendStatus> receivers=new ArrayList<>();
+                        receivers.add(row);
+                        try {
+                            sendSmsByAPI(record,receivers);
+
+                            row.setStatus(SmsSendStatus.SEND_STATUS_SENT);
+                            smsSendStatusService.save(row);
+                            log.info("定时发送短信成功，需要定时发送的短信时间为："+record.getSendTime());
+                        } catch (Exception e) {
+                            log.error("定时发送短信失败");
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -104,6 +160,23 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
      * @throws Exception
      */
     public void sendSmsByAPI(SmsRecord smsRsecord, List<SmsSendStatus> receivers)throws Exception{
+        //更换成 中国移动集团政企云MAS平台SDK接口文档-V1.2.4-JAVA 接口
+        final Client client =  Client.getInstance();
+        // 正式环境IP，登录验证URL，用户名，密码，集团客户名称
+        client.login("http://112.33.1.13/app/sdk/login", "test010501", "test12345","云MAS体验01");
+        for (SmsSendStatus receiver : receivers) {
+            String receiverPhone = receiver.getReceiverPhone();
+            if (StringUtils.isNotEmpty(receiverPhone)){
+                String[] mobiles={receiverPhone};
+                int sendResult = client. sendDSMS (mobiles,
+                        smsRsecord.getContent(), "",  1,"Qe4dXDTb", UUID.randomUUID().toString(),true);
+                log.info("调用短信发送接口成功，返回结果："+sendResult);
+            }else {
+                log.error(receiver.getReceiverName()+"的手机号为空");
+            }
+        }
+
+        /*//原接口
         SmsSender smssender= null;
         try {
             smssender = new SmsSender();
@@ -121,7 +194,8 @@ public class SmsRecordServiceImpl extends BaseService<SmsRecord, String> impleme
             if(smssender != null){
                 smssender.release();
             }
-        }
+        }*/
+
 
         /*String sql="INSERT INTO "+api_mt_sms+" (SM_ID,SRC_ID,MOBILES,CONTENT,IS_WAP,URL,SEND_TIME" +
                 ",SM_TYPE,MSG_FMT,TP_PID,TP_UDHI,FEE_TERMINAL_ID,FEE_TYPE,FEE_CODE" +
