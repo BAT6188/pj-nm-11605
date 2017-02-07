@@ -7,7 +7,7 @@ var gridTable = $('#table'),
     formTitle = "事件信息",
     selections = [];
 
-loadBlockLevelAndBlockOption();
+// loadBlockLevelAndBlockOption();
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -433,8 +433,13 @@ var ef = eventMsgForm.easyform({
                         console.log(o)
                         var d=""
                         $.each(o.rows,function (i,v) {
-                            d+="&ids="+v.apportalPersonId
-                            d+="&names="+v.apportalUserName
+                            if(v.apportalPersonId!=undefined||v.apportalUserName!=undefined){
+                                d+="&ids="+v.apportalPersonId
+                                d+="&names="+v.apportalUserName
+                            }else {
+                                console.info(v.name+"未关联系统用户")
+                            }
+
                         })
                         d+="&sourceId="+msg.id
                         console.log("保存的信息："+d);

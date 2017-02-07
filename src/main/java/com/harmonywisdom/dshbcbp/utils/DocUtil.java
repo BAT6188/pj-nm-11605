@@ -138,6 +138,8 @@ public class DocUtil {
                                 for (Map.Entry<String, String> entry : map.entrySet()) {
                                     if (entry.getValue()!=null){
                                         oneparaString = oneparaString.replace(entry.getKey(), entry.getValue());
+                                    }else {
+                                        oneparaString = oneparaString.replace(entry.getKey(), "");
                                     }
                                 }
                                 runs.get(i).setText(oneparaString, 0);
@@ -157,9 +159,9 @@ public class DocUtil {
                                 String cellTextString = cell.getText();
                                 for (Map.Entry<String, String> e : map.entrySet()) {
                                     if (cellTextString.contains(e.getKey()))
-                                        cellTextString = cellTextString
-                                                .replace(e.getKey(),
-                                                        e.getValue());
+                                        if (e.getValue()!=null){
+                                            cellTextString = cellTextString.replace(e.getKey(),e.getValue());
+                                        }
                                 }
                                 cell.removeParagraph(0);
                                 cell.setText(cellTextString);
