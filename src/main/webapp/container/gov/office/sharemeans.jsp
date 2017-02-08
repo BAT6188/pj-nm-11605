@@ -27,7 +27,10 @@
                                 <label for="s_title">标题：</label> <input type="text"  name="title" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="">资料类型：</label> <input type="text"  name="type"  style="width: 180px;" class="form-control" />
+                                <label>资料类型：</label> <input type="text"  name="type"  style="width: 180px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>发布部门：</label> <input type="text"  name="pubOrgName"  style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">发布时间：</label>
