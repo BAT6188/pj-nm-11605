@@ -73,7 +73,7 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '类型',
+                title: '信息类型',
                 field: 'type',
                 sortable: false,
                 align: 'center',
