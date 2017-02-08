@@ -326,6 +326,7 @@ function setFormData(entity) {
             $(v).val(value);
         }
     });
+    form.find("#publishBtn").show();
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 function setFormView(entity) {
@@ -346,6 +347,7 @@ function setFormView(entity) {
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
     form.find(".needHide").hide();
+    form.find("#publishBtn").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
@@ -375,6 +377,7 @@ function resetForm() {
     $('#typeName').val(workType[currentType]);
     $('#pubOrgId').val(orgId);
     $('#pubOrgName').val(orgName);
+    form.find("#publishBtn").show();
     form.find("#saveWorkSum").show();
     form.find(".btn-cancel").text("取消");
 }
