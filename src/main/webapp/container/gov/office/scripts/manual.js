@@ -176,7 +176,7 @@ removeBtn.click(function () {
 
 /**============列表搜索相关处理============**/
 //搜索按钮处理
-$("#search").click(function () {
+/*$("#search").click(function () {
     var queryParams = {};
     var name = $("#s_fileName").val();
     var fitRange = $("#s_fitRange").val();
@@ -190,8 +190,15 @@ $("#search").click(function () {
     gridTable.bootstrapTable('refresh', {
         query: queryParams
     });
+});*/
+$("#search").click(function () {
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
-
+//重置搜索
+$("#searchFix").click(function () {
+    $('#searchform')[0].reset();
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+});
 /**============表单初始化相关代码============**/
 
 //初始化表单验证
