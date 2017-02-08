@@ -152,8 +152,8 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(deleteId)) {
             attachmentService.removeByBusinessIds(deleteId);
         }
-        super.delete();
         pubInfoRelTableService.executeJPQL("delete from PubInfoRelTable where pubInfoId=?",deleteId);
+        super.delete();
     }
 
     //公告发布
