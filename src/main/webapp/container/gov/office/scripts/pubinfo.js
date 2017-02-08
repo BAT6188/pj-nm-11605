@@ -264,8 +264,8 @@ var ef2 = form.easyform({
                 }
                 saveAjax(entity, function (pub) {
                     form.modal('hide');
-                    pubInfo(pub.id);
                     gridTable.bootstrapTable('refresh');
+                    pubInfo(pub.id);
                 });
             }
         })

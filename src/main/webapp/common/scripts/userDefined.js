@@ -11,6 +11,7 @@ var pageUtils = {
     MSG_TYPE_receiveTrustMonitor:"10",//接收委托监测发送给监测站办公室
     MSG_TYPE_monitoring_station_office:"11",//监测站办公室发送给监测站站长
     MSG_TYPE_monitoring_station_master:"12",//监测站站长发送给监测人员
+    MSG_TYPE_feedback:13,//反馈给环保站人员
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
 

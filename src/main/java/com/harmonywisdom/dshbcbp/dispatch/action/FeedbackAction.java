@@ -1,5 +1,7 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
+import com.harmonywisdom.dshbcbp.alert.bean.Message;
+import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
@@ -27,6 +29,9 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
 
     @AutoService
     private AttachmentService attachmentService;
+
+    @AutoService
+    private MessageService messageService;
 
     @Override
     protected FeedbackService getService() {
@@ -81,6 +86,16 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
         monitorCaseService.update(monitorCase);
 
         super.save();
+
+        //发送系统消息
+//        Message message=new Message();
+//        message.setMsgType("13");//反馈给环保站人员
+//        message.setTitle("反馈信息");
+//        message.setContent(entity.getExeDesc());
+//        message.setBusinessId(entity.getId());
+//        message.setSenderId(request.getParameter("userId"));
+//        message.setSenderName(entity.getLawerName());
+
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }
