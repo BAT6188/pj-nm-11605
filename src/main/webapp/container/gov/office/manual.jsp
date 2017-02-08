@@ -36,10 +36,10 @@
                 </div>
 
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchform">
                             <div class="form-group">
                                 <label for="s_fileName">文件名称：</label>
-                                <input type="text" id="s_fileName" style="width: 180px;" class="form-control" />
+                                <input type="text" id="s_fileName" name="fileName" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <%--<label for="s_type">公文类型：</label>--%>
@@ -51,12 +51,12 @@
                                     <%--<option value="4">知识案例</option>&ndash;%&gt;--%>
                                     <%--</select>--%>
                                     <label for="s_fitRange">适用范围：</label>
-                                    <input type="text" id="s_fitRange" style="width: 180px;" class="form-control" />
+                                    <input type="text" id="s_fitRange" name="fitRange" style="width: 180px;" class="form-control" />
                             </div>
                         </form>
                 </div>
                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" id="resetSearch" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <button type="button" id="searchFix" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <p/>
                 <br>
                 <p class="btnListP">
