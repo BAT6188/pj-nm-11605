@@ -295,6 +295,7 @@ function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     //form.find("input[type!='radio'][type!='checkbox']").val("");
     form.find('form')[0].reset();
+    form.find("#id").val('');
     uploader = new qq.FineUploader(getUploaderOptions());
     disabledForm(false);
 }
