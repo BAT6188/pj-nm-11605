@@ -70,6 +70,11 @@
                                     <option value="03">市控</option>
                                     <option value="04">其他</option>
                                 </select>
+                                <label for="" style="margin-left: 62px;">所属网格：</label>
+                                <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;display:none">
+                                </select>
+                                <select class="form-control s_blockId" name="blockId" style="width: 300px;">
+                                </select>
                             </div>
                             <div class="form-group" style = "float: right;right: 5px;">
                                 <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
@@ -141,9 +146,11 @@
         </div>
     </div>
 </div>
+<script src="<%=request.getContextPath()%>/container/gov/dispatch/scripts/loadBlockLevelAndBlockOption.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/enterprise/scripts/enterpriseListOfRun.js"></script>
 <script>
     $(function(){
+        loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
         //pageUtils.loadPageOfContent('.modal-body',rootPath+'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=add')
     })
 </script>
