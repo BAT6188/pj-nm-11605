@@ -33,6 +33,9 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }
+        if (StringUtils.isNotBlank(entity.getPubOrgName())) {
+            param.andParam(new QueryParam("pubOrgName", QueryOperator.LIKE, entity.getPubOrgName()));
+        }
 //        String orgCode=request.getParameter("orgCode");
        /* QueryParam statusParam=new QueryParam();
         if (orgCode != null) {

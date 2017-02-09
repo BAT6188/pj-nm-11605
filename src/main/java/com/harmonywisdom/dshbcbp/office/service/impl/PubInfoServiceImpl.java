@@ -64,6 +64,10 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
             paramValues.put("title","%"+entity.getTitle()+"%");
             sb.append("AND entity.title LIKE :title ");
         }
+        if (StringUtils.isNotBlank(entity.getPubOrgName())) {
+            paramValues.put("pubOrgName","%"+entity.getPubOrgName()+"%");
+            sb.append("AND entity.pubOrgName LIKE :pubOrgName ");
+        }
         if (StringUtils.isNotBlank(entity.getType())) {
             paramValues.put("type",entity.getType());
             sb.append("AND entity.type = :type ");
@@ -96,7 +100,7 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
     public void savePubInfoRelTable(PubInfo pubInfo) {
         pubInfoRelTableDAO.executeJPQL("delete from PubInfoRelTable where pubInfoId=?",pubInfo.getId());
 
-        PubInfoRelTable pirt = new PubInfoRelTable(pubInfo.getPubOrgId(),pubInfo.getId(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
+        PubInfoRelTable pirt = new PubInfoRelTable(pubInfo.getPubOrgId(),pubInfo.getPubOrgName(),pubInfo.getId(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
         pubInfoRelTableDAO.save(pirt);
 
         if(StringUtils.isNotBlank(pubInfo.getStatus()) && pubInfo.getStatus().equals("1")){
@@ -111,13 +115,13 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
     }
 
     public void saveRealTableByOrgCode(String parentOrgId,PubInfo pubInfo){
-        PubInfoRelTable ppirt = new PubInfoRelTable(parentOrgId,pubInfo.getId(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
+        PubInfoRelTable ppirt = new PubInfoRelTable(parentOrgId,pubInfo.getPubOrgName(),pubInfo.getId(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
         pubInfoRelTableDAO.save(ppirt);
         List<IOrg> iOrgs = ApportalUtil.getAllChidrenOrgByOrgId(parentOrgId);
         if(iOrgs!=null){
             for(IOrg iOrg:iOrgs){
                 if(iOrg.getOrgId().equals(pubInfo.getPubOrgId()))continue;
-                PubInfoRelTable pirt = new PubInfoRelTable(iOrg.getOrgId(),pubInfo.getId(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
+                PubInfoRelTable pirt = new PubInfoRelTable(iOrg.getOrgId(),pubInfo.getId(),pubInfo.getPubOrgName(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
                 pubInfoRelTableDAO.save(pirt);
             }
         }
