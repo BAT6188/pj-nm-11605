@@ -94,7 +94,6 @@ public class WorkSumAction extends BaseAction<WorkSum, WorkSumService> {
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
         entity.setPubTime(new Date());
-        entity.setCreateTime(entity.getCreateTime());
         super.save();
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
