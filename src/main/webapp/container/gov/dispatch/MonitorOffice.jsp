@@ -317,8 +317,8 @@
                     <div class="form-group">
                         <label for="isNotProblem" class="col-sm-3 control-label">是否存在问题<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4 radio">
-                            <label><input type="radio" value="1" name="isNotProblem">是</label>
-                            <label><input type="radio" value="2" name="isNotProblem" checked>否</label>
+                            <label><input id="isNotProblem1" type="radio" value="1" name="isNotProblem" class="isRadio">是</label>
+                            <label><input id="isNotProblem2" type="radio" value="2" name="isNotProblem" class="isRadio" checked>否</label>
                         </div>
                     </div>
                     <div class="form-group">
