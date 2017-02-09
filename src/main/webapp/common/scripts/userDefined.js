@@ -68,6 +68,7 @@ var pageUtils = {
             typeMapUrl[that.MSG_TYPE_receiveTrustMonitor] = 'container/gov/detect/monitoring_station_office.jsp';
             typeMapUrl[that.MSG_TYPE_monitoring_station_office] = 'container/gov/detect/monitoring_station_master.jsp';
             typeMapUrl[that.MSG_TYPE_monitoring_station_master] = 'container/gov/detect/monitoring_station_person.jsp';
+            typeMapUrl[that.MSG_TYPE_feedback] = 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta';
             msg.senderId = userId;
             msg.senderName = userName;
             msg.detailsUrl = typeMapUrl[msg.msgType];

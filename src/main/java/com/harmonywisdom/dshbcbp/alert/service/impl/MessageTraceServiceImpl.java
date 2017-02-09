@@ -101,7 +101,7 @@ public class MessageTraceServiceImpl extends BaseService<MessageTrace, String> i
     @Override
     public int setMobileStatusReceived(String... ids) {
         if (ids != null && ids.length > 0) {
-            return getDAO().executeJPQL("update MessageTrace set mobileReceiveStatus=?1,receiveStatus=?2,receiveTime=?3 where id in ?3", MessageTrace.RECEIVE_STATUS_RECEIVED,MessageTrace.RECEIVE_STATUS_RECEIVED,new Date(), Arrays.asList(ids));
+            return getDAO().executeJPQL("update MessageTrace set mobileReceiveStatus=?1,receiveStatus=?2,receiveTime=?3 where id in ?4", MessageTrace.RECEIVE_STATUS_RECEIVED,MessageTrace.RECEIVE_STATUS_RECEIVED,new Date(), Arrays.asList(ids));
         }else {
             return 0;
         }

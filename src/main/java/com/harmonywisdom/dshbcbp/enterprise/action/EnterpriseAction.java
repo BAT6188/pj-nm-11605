@@ -68,6 +68,10 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
 
         String mobileOperType = request.getParameter("mobileOperType");
 
+        if (StringUtils.isNotBlank(entity.getBlockId())) {
+            param.andParam(new QueryParam("blockId", QueryOperator.EQ,entity.getBlockId()));
+        }
+
         if (StringUtils.isNotBlank(entity.getIsDel())) {
             param.andParam(new QueryParam("isDel", QueryOperator.EQ,entity.getIsDel()));
         }

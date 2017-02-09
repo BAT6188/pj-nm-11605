@@ -1,6 +1,9 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
+import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.domain.Person;
 import com.harmonywisdom.dshbcbp.alert.bean.Message;
+import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
@@ -16,6 +19,9 @@ import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
     @AutoService
@@ -88,13 +94,34 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
         super.save();
 
         //发送系统消息
-//        Message message=new Message();
-//        message.setMsgType("13");//反馈给环保站人员
-//        message.setTitle("反馈信息");
-//        message.setContent(entity.getExeDesc());
-//        message.setBusinessId(entity.getId());
-//        message.setSenderId(request.getParameter("userId"));
-//        message.setSenderName(entity.getLawerName());
+        Message message=new Message();
+        message.setMsgType("13");//反馈给环保站人员
+        message.setTitle("反馈信息");
+        message.setContent(entity.getExeDesc());
+        message.setBusinessId(dispathId);
+        message.setSenderId(request.getParameter("userId"));
+        message.setSenderName(entity.getLawerName());
+        message.setDetailsUrl("container/gov/dispatch/lawManage.jsp?role=env_pro_sta");
+        String envProStaPersonList = dispatchTask.getEnvProStaPersonList();
+        if (StringUtils.isNotEmpty(envProStaPersonList)){
+            String[] split = envProStaPersonList.split("，");
+            List<String> personids=new ArrayList<>();
+            for (String s1 : split) {
+                String replace = s1.replace("\"", "");
+                if(!"undefined".equals(replace)){
+                    personids.add(replace);
+                }
+            }
+            List<Person> allPersonByPersonIds = PersonServiceUtil.getAllPersonByPersonIds(personids);
+            List<MessageTrace> receivers=new ArrayList<>();
+            for (Person persons : allPersonByPersonIds) {
+                MessageTrace re=new MessageTrace();
+                re.setReceiverId(persons.getUserId());
+                re.setReceiverName(persons.getUserName());
+                receivers.add(re);
+            }
+            messageService.sendMessage(message,receivers);
+        }
 
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
