@@ -36,7 +36,11 @@ public class PubInfoRelTable implements Serializable {
      */
     @Column(name = "mobile_timestamp")
     private Date mobileTimestamp;
-
+    /**
+     * 发布部门
+     */
+    @Column(name = "PUB_ORG_NAME",length = 100)
+    private String pubOrgName;
 
     @Transient
     private String startTime;
@@ -117,11 +121,20 @@ public class PubInfoRelTable implements Serializable {
         this.endTime = endTime;
     }
 
+    public String getPubOrgName() {
+        return pubOrgName;
+    }
+
+    public void setPubOrgName(String pubOrgName) {
+        this.pubOrgName = pubOrgName;
+    }
+
     public PubInfoRelTable() {
     }
 
-    public PubInfoRelTable(String orgId, String pubInfoId, Date pubTime, String type, String title, String status) {
+    public PubInfoRelTable(String orgId,String pubOrgName, String pubInfoId, Date pubTime, String type, String title, String status) {
         this.orgId = orgId;
+        this.pubOrgName=pubOrgName;
         this.pubInfoId = pubInfoId;
         this.pubTime = pubTime;
         this.type = type;

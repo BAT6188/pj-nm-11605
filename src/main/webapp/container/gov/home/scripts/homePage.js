@@ -248,7 +248,7 @@ $(function(){
                     if( i >5){
                         trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
                         var $tr = $(trHtml);
-                        $("#gasTable").append($tr);
+                        $("#waterTable").append($tr);
                         break;
                     }
                     trHtml = "<tr>"
@@ -284,7 +284,7 @@ $(function(){
                     if( i >5){
                         trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
                         var $tr = $(trHtml);
-                        $("#gasTable").append($tr);
+                        $("#noiseTable").append($tr);
                         break;
                     }
                     trHtml = "<tr>"
@@ -319,7 +319,7 @@ $(function(){
                     if( i >5){
                         trHtml = "<tr><td colspan='8' class='moreInformation' style='text-align: right'><a style='color:black;cursor:pointer;'><span>...</span></a></td></tr>";
                         var $tr = $(trHtml);
-                        $("#gasTable").append($tr);
+                        $("#fumesTable").append($tr);
                         break;
                     }
                     trHtml = "<tr>"

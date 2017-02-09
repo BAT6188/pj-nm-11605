@@ -1064,11 +1064,15 @@ $("#save").bind('click',function () {
 //------------------------现场监察报告列表---------------------------//
 window.initTable_siteMonitoringReportDialog_operateEvents = {
     'click .initTable_siteMonitoringReportDialog_view': function (e, value, entity, index) {
-        var inputs = $("#addSiteMonitoringDialog").find('[name]');
+        $("#isNotProblem"+entity.isNotProblem).get(0).checked=true;
+
+        var inputs = $("#addSiteMonitoringDialog").find('input[type!="radio"],textarea');
         $.each(inputs,function(k,v){
             var tagId = $(v).attr('name');
             $(v).val(entity[tagId]);
         });
+
+        $("#addSiteMonitoringDialog").find('[name="isNotProblem"]').val()
 
         disabledForm($("#addSiteMonitoringDialog"),true);
         uploaderToggle(".dUploader")

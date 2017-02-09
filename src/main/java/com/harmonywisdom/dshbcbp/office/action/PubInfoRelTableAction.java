@@ -36,6 +36,9 @@ public class PubInfoRelTableAction extends BaseAction<PubInfoRelTable, PubInfoRe
         if (StringUtils.isNotBlank(entity.getTitle())) {
             param.andParam(new QueryParam("title", QueryOperator.LIKE, entity.getTitle()));
         }
+        if (StringUtils.isNotBlank(entity.getPubOrgName())) {
+            param.andParam(new QueryParam("pubOrgName", QueryOperator.LIKE, entity.getPubOrgName()));
+        }
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }

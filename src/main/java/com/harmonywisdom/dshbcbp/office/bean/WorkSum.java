@@ -26,7 +26,7 @@ public class WorkSum implements Serializable {
     @Column(name = "PUB_TIME")
     private Date pubTime;
     /**
-     *发布时间
+     *系统创建时间
      */
     @Column(name = "CREATE_TIME")
     private Date createTime;

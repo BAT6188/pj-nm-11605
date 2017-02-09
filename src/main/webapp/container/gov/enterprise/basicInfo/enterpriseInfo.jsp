@@ -320,7 +320,7 @@
                                             <input type="radio" name="isOnlineMonitoring" id="isOnlineMonitoring1" value="1" class="needCheck" data-easyform="radio" title="是否特殊监管对象" data-message="请选择是否特殊监管对象">是
                                         </label>
                                         <label class="checkbox-inline">
-                                            <input type="radio" name="isOnlineMonitoring" id="isOnlineMonitoring2" value="0">否
+                                            <input type="radio" name="isOnlineMonitoring" id="isOnlineMonitoring0" value="0">否
                                         </label></fieldset>
                                 </div>
                             </td>

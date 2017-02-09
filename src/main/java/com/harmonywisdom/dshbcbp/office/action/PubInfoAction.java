@@ -51,6 +51,9 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(entity.getType())) {
             param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
         }
+        if (StringUtils.isNotBlank(entity.getPubOrgName())) {
+            param.andParam(new QueryParam("pubOrgName", QueryOperator.LIKE, entity.getPubOrgName()));
+        }
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         if(StringUtils.isNotBlank(startTime)){
@@ -152,8 +155,8 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(deleteId)) {
             attachmentService.removeByBusinessIds(deleteId);
         }
-        super.delete();
         pubInfoRelTableService.executeJPQL("delete from PubInfoRelTable where pubInfoId=?",deleteId);
+        super.delete();
     }
 
     //公告发布
