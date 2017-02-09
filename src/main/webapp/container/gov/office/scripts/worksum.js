@@ -331,7 +331,6 @@ function setFormView(entity) {
     }
     $('#typeName').val(workType[entity.type]);
     form.find(".form-title").text("查看" + formTitle);
-    disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -339,18 +338,20 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    disabledForm(true);
     form.find(".needHide").hide();
     form.find("#publishBtn").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
-    form.find(".needEdit").attr("disabled", disabled);
+    // form.find(".needEdit").attr("disabled", disabled);
     form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#pubTimeContent').datetimepicker({
             language:   'zh-CN',
             autoclose: 1,
+            startView:2,//月视图
             minView: 2
         });
     }else{
