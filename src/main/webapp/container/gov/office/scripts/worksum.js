@@ -1,3 +1,4 @@
+//@ sourceURL=worksum.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
@@ -74,7 +75,7 @@ function initTable() {
                 isDown: true
             }, {
                 title: '提交时间',
-                field: 'pubTime',
+                field: 'createTime',
                 sortable: false,
                 align: 'center',
                 editable: false,
@@ -182,7 +183,7 @@ updateBtn.prop('disabled', true);
 $("#add").bind('click', function () {
     $('#publishBtn').attr('disabled', false);
     resetForm();
-    $("#pubTime").val((new Date()).format("yyyy-MM-dd"))
+    $("#createTime").val((new Date()).format("yyyy-MM-dd"))
 });
 $("#update").bind("click", function () {
     var entity = getSelections()[0];
@@ -271,18 +272,10 @@ $('#publishBtn').bind('click', function () {
     ef.submit(false);
 });
 //初始化日期组件
-$('#pubTimeContent').datetimepicker({
-    language: 'zh-CN',
+$('.form_datetime').datetimepicker({
+    language:   'zh-CN',
     autoclose: 1,
-    minView: 2,
-    pickerPosition: "bottom-left"
-});
-//-------------datetimepicker配置--------------------//
-$('.form_date').datetimepicker({
-    language: 'zh-CN',
-    autoclose: 1,
-    minView: 2,
-    pickerPosition: "bottom-left"
+    minView: 2
 });
 
 function deleteWorkSum(ids, callback) {
@@ -338,7 +331,6 @@ function setFormView(entity) {
     }
     $('#typeName').val(workType[entity.type]);
     form.find(".form-title").text("查看" + formTitle);
-    disabledForm(true);
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -346,22 +338,26 @@ function setFormView(entity) {
     };
     uploader = new qq.FineUploader(fuOptions);
     $(".qq-upload-button").hide();
+    disabledForm(true);
     form.find(".needHide").hide();
     form.find("#publishBtn").hide();
     form.find(".btn-cancel").text("关闭");
 }
 function disabledForm(disabled) {
-    form.find(".needEdit").attr("disabled", disabled);
+    // form.find(".needEdit").attr("disabled", disabled);
+    form.find("input").attr("disabled",disabled);
     if (!disabled) {
         //初始化日期组件
         $('#pubTimeContent').datetimepicker({
-            language: 'zh-CN',
+            language:   'zh-CN',
             autoclose: 1,
+            startView:2,//月视图
             minView: 2
         });
-    } else {
+    }else{
         $('#pubTimeContent').datetimepicker('remove');
     }
+
 
 }
 
@@ -372,11 +368,11 @@ function resetForm() {
     form.find(".form-title").text("新增" + formTitle);
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
-    disabledForm(false);
     $('#type').val(currentType);
     $('#typeName').val(workType[currentType]);
     $('#pubOrgId').val(orgId);
     $('#pubOrgName').val(orgName);
+    disabledForm(false);
     form.find("#publishBtn").show();
     form.find("#saveWorkSum").show();
     form.find(".btn-cancel").text("取消");

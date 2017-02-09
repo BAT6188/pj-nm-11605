@@ -60,13 +60,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="s_pubTime" class="labelMarginLeft">发布时间：</label>
-                                    <div id="datetimepicker1" class="input-group date form_date" data-date=""  data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                    <div id="datetimepicker1" class="input-group date form_datetime" data-date=""  data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                         <input class="form-control" size="16" type="text" id="startTime" name="startTime" value="" readonly placeholder="开始时间">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                     —
-                                    <div id="datetimepicker2" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
+                                    <div id="datetimepicker2" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd" data-link-field="registTime" data-link-format="yyyy-mm-dd">
                                         <input class="form-control" size="16" type="text" id="endTime" name="endTime" value="" readonly placeholder="结束时间">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -121,17 +121,43 @@
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="pubTime" class="col-sm-2 control-label">提交时间：</label>
+                        <%--<label for="pubTime" class="col-sm-2 control-label">提交时间：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--&lt;%&ndash;<input class="form-control" id="pubTime" name="pubTime" placeholder="系统自动添加" size="16" type="text" value="" readonly>&ndash;%&gt;--%>
+                            <%--<div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="createTime" data-date-format="yyyy-mm-dd" >--%>
+                                <%--<input class="form-control" id="createTime" name="createTime" size="16" type="text"  readonly--%>
+                                       <%--data-message="发布时间不能为空"--%>
+                                       <%--data-easytip="position:top;class:easy-red;">--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+
+                        <%--<label for="createTime" class="col-sm-2 control-label">提交时间：<span class="text-danger">*</span>：</label>--%>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="createTime"  data-link-format="yyyy-mm-dd">--%>
+                                <%--<input class="form-control needEdit" id="createTime" name="createTime" size="16" type="text" value="" readonly--%>
+                                       <%--data-message="发布时间不能为空"--%>
+                                       <%--data-easytip="position:top;class:easy-red;">--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--%>
+                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+
+
+
+                        <label for="createTime" class="col-sm-2 control-label">提交时间：<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <%--<input class="form-control" id="pubTime" name="pubTime" placeholder="系统自动添加" size="16" type="text" value="" readonly>--%>
-                            <div id="pubTimeContent" class="input-group date form_date" data-date="" data-link-field="pubTime" data-date-format="yyyy-mm-dd" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" id="pubTime" name="pubTime" size="16" type="text" value="" readonly
-                                       data-message="发布时间不能为空"
-                                       data-easytip="position:top;class:easy-red;">
+                            <div id="pubTimeContent" class="input-group date form_datetime col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" id="createTime" name="createTime" size="16" type="text" value="" readonly
+                                       data-message="时间不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <label for="pubOrgName" class="col-sm-2 control-label">发布单位：</label>
