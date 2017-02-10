@@ -37,6 +37,9 @@ public class PunishAction extends BaseAction<Punish, PunishService> {
         QueryParam params = new QueryParam();
         String start_filingDate = request.getParameter("start_filingDate");
         String end_filingDate = request.getParameter("end_filingDate");
+        if (StringUtils.isNotEmpty(entity.getEnterpriseId())) {
+            params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ, entity.getEnterpriseId()));
+        }
         if (StringUtils.isNotEmpty(entity.getDispatchTaskId())) {
             params.andParam(new QueryParam("dispatchTaskId", QueryOperator.EQ, entity.getDispatchTaskId()));
         }

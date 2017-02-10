@@ -129,18 +129,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="environmentalLeader" class="col-sm-2 control-label">环保负责人<span
+                        <label for="principal" class="col-sm-2 control-label">环保负责人<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="environmentalLeader" name="environmentalLeader" class="form-control"
+                            <input type="text" id="principal" name="principal" class="form-control"
                                    data-message="环保负责人不能为空"
                                    data-easytip="position:top;class:easy-red;"
                             />
                         </div>
-                        <label for="environmentalPhone" class="col-sm-2 control-label">联系电话<span
+                        <label for="principalPhone" class="col-sm-2 control-label">联系电话<span
                                 class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="environmentalPhone" name="environmentalPhone" class="form-control"
+                            <input type="text" id="principalPhone" name="principalPhone" class="form-control"
                                    data-easyform="regex:^1(3|4|5|7|8)\d{9}$;"
                                    data-message="联系电话格式不正确"
                                    data-easytip="position:top;class:easy-red;"

@@ -692,9 +692,17 @@ $( function() {
                             var ui={};
                             ui.id=data.rows[i].id
                             ui.value=data.rows[i].name
-                            ui.envPrincipal=data.rows[i].envPrincipal
-                            ui.epPhone=data.rows[i].epPhone
                             ui.blockLevelId=data.rows[i].blockLevelId
+                            $.ajax({
+                                url: rootPath + "/action/S_composite_Block_findBlockId.action",
+                                type:"post",
+                                async:false,
+                                data:{blockId:data.rows[i].blockId},
+                                success:function (d) {
+                                    var d = JSON.parse(d);
+                                    ui.envPrincipal=d[0].principal;
+                                }
+                            });
                             ui.blockId=data.rows[i].blockId
                             result.push(ui);
                         }
@@ -707,7 +715,6 @@ $( function() {
             console.info(ui.item.id)
             $("#enterpriseId").val(ui.item.id)
             $("#supervisor").val(ui.item.envPrincipal)
-            $("#supervisorPhone").val(ui.item.epPhone)
             $("#blockLevelId").val(ui.item.blockLevelId)
             $("#blockId").val(ui.item.blockId)
         },

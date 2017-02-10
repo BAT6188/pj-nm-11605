@@ -112,14 +112,14 @@ function initTable() {
             },
             {
                 title: '环保负责人',
-                field: 'environmentalLeader',
+                field: 'principal',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '联系方式',
-                field: 'environmentalPhone',
+                field: 'principalPhone',
                 sortable: false,
                 align: 'center',
                 editable: false
@@ -308,8 +308,8 @@ function setFormData(entity) {
     $("#position").val(entity.position);
     $("#areaPoints").val(entity.areaPoints);
     $("#childBlockId").val(entity.childBlockId);
-    $("#environmentalLeader").val(entity.environmentalLeader);
-    $("#environmentalPhone").val(entity.environmentalPhone);
+    $("#principal").val(entity.principal);
+    $("#principalPhone").val(entity.principalPhone);
     $("#blockDuty").val(entity.blockDuty);
 
     uploader = new qq.FineUploader(getUploaderOptions(id));

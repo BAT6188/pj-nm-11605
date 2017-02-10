@@ -96,16 +96,7 @@ public class Block implements Serializable {
     @Column(name = "block_Leader_Tel")
     private String  blockLeaderTel;
 
-    /**
-     *环保负责人
-     */
-    @Column(name="ENVIRONMENTAL_LEADER")
-    private String environmentalLeader;
-    /**
-     * 联系电话
-     */
-    @Column(name = "ENVIRONMENTAL_PHONE")
-    private String environmentalPhone;
+
     /**
      * 网格职责
      */
@@ -155,22 +146,6 @@ public class Block implements Serializable {
 
     public void setBlockDuty(String blockDuty) {
         this.blockDuty = blockDuty;
-    }
-
-    public String getEnvironmentalLeader() {
-        return environmentalLeader;
-    }
-
-    public void setEnvironmentalLeader(String environmentalLeader) {
-        this.environmentalLeader = environmentalLeader;
-    }
-
-    public String getEnvironmentalPhone() {
-        return environmentalPhone;
-    }
-
-    public void setEnvironmentalPhone(String environmentalPhone) {
-        this.environmentalPhone = environmentalPhone;
     }
 
     public String getChildBlockId() {
