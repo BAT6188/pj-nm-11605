@@ -93,6 +93,8 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
 
         super.save();
 
+
+
         //发送系统消息
         Message message=new Message();
         message.setMsgType("13");//反馈给环保站人员
@@ -101,8 +103,8 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
         message.setBusinessId(dispathId);
         message.setSenderId(request.getParameter("userId"));
         message.setSenderName(entity.getLawerName());
-        message.setDetailsUrl("container/gov/dispatch/lawManage.jsp?role=env_pro_sta");
-        String envProStaPersonList = dispatchTask.getEnvProStaPersonList();
+
+        /*String envProStaPersonList = dispatchTask.getEnvProStaPersonList();
         if (StringUtils.isNotEmpty(envProStaPersonList)){
             String[] split = envProStaPersonList.split("，");
             List<String> personids=new ArrayList<>();
@@ -121,7 +123,26 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
                 receivers.add(re);
             }
             messageService.sendMessage(message,receivers);
+        }*/
+
+        List<Person> personByOrgId =null;
+        if ("0".equals(dispatchTask.getSource())){
+            personByOrgId =PersonServiceUtil.getPersonByOrgId("402883b358849ce10158f682740704e0");//数字检测室
+            message.setDetailsUrl("container/gov/dispatch/MonitorCase.jsp");
+        }else {
+            personByOrgId =PersonServiceUtil.getPersonByOrgId("402883b358849ce10158f6ae2a2f04e2");//大队领导
+            List<Person>  personByOrgId2= PersonServiceUtil.getPersonByOrgId("402883b358849ce10158f7c3bcad0512");//大队办公室
+            personByOrgId.addAll(personByOrgId2);
+            message.setDetailsUrl("container/gov/dispatch/lawManage.jsp?role=monitor_master");
         }
+        List<MessageTrace> receivers=new ArrayList<>();
+        for (Person persons : personByOrgId) {
+            MessageTrace re=new MessageTrace();
+            re.setReceiverId(persons.getUserId());
+            re.setReceiverName(persons.getUserName());
+            receivers.add(re);
+        }
+        messageService.sendMessage(message,receivers);
 
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));

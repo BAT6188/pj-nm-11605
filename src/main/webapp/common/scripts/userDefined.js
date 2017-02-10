@@ -11,7 +11,7 @@ var pageUtils = {
     MSG_TYPE_receiveTrustMonitor:"10",//接收委托监测发送给监测站办公室
     MSG_TYPE_monitoring_station_office:"11",//监测站办公室发送给监测站站长
     MSG_TYPE_monitoring_station_master:"12",//监测站站长发送给监测人员
-    MSG_TYPE_feedback:13,//反馈给环保站人员
+    MSG_TYPE_feedback:13,//反馈给监察大队
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
 
@@ -68,7 +68,7 @@ var pageUtils = {
             typeMapUrl[that.MSG_TYPE_receiveTrustMonitor] = 'container/gov/detect/monitoring_station_office.jsp';
             typeMapUrl[that.MSG_TYPE_monitoring_station_office] = 'container/gov/detect/monitoring_station_master.jsp';
             typeMapUrl[that.MSG_TYPE_monitoring_station_master] = 'container/gov/detect/monitoring_station_person.jsp';
-            typeMapUrl[that.MSG_TYPE_feedback] = 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta';
+            typeMapUrl[that.MSG_TYPE_feedback] = 'container/gov/dispatch/lawManage.jsp?role=monitor_master';
             msg.senderId = userId;
             msg.senderName = userName;
             msg.detailsUrl = typeMapUrl[msg.msgType];
