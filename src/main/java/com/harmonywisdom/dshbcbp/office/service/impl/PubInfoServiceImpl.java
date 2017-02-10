@@ -121,7 +121,7 @@ public class PubInfoServiceImpl extends BaseService<PubInfo, String> implements 
         if(iOrgs!=null){
             for(IOrg iOrg:iOrgs){
                 if(iOrg.getOrgId().equals(pubInfo.getPubOrgId()))continue;
-                PubInfoRelTable pirt = new PubInfoRelTable(iOrg.getOrgId(),pubInfo.getId(),pubInfo.getPubOrgName(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
+                PubInfoRelTable pirt = new PubInfoRelTable(iOrg.getOrgId(),pubInfo.getPubOrgName(),pubInfo.getId(),pubInfo.getPubTime(),pubInfo.getType(),pubInfo.getTitle(),pubInfo.getStatus());
                 pubInfoRelTableDAO.save(pirt);
             }
         }
