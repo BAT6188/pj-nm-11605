@@ -1089,7 +1089,7 @@ var OneImagePage = function () {
                 "<tr><td style='text-align: left;width: 100px;'>网格级别:</td><td style='text-align: left;'>"+(block.blockLevelName == null?"":block.blockLevelName)+"</td></tr>"+
                 "<tr><td style='text-align: left;'>单位名称:</td><td style='text-align: left;'>"+(block.orgName==null?"":block.orgName)+"</td></tr>"+
                 "<tr><td style='text-align: left;'>单位地址:</td><td style='text-align: left;'>"+(block.orgAddress==null?"":block.orgAddress)+"</td></tr>"+
-                "<tr><td style='text-align: left;'>网格负责人:</td><td style='text-align: left;'>"+(block.principal==null?"":block.principal)+"</td></tr>"+
+                "<tr><td style='text-align: left;'>网格负责人:</td><td style='text-align: left;'>"+(block.blockLeader==null?"":block.blockLeader)+"</td></tr>"+
                 "<tr><td style='text-align: left;'>联系电话:</td><td style='text-align: left;'>"+(block.principalPhone==null?"":block.principalPhone)+"</td></tr>"+
                 "</table>";
             infoHtml+="</div>";
