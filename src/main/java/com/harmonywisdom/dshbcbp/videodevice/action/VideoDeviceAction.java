@@ -8,8 +8,13 @@ import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 public class VideoDeviceAction extends BaseAction<VideoDevice, VideoDeviceService> {
     @AutoService
@@ -18,6 +23,52 @@ public class VideoDeviceAction extends BaseAction<VideoDevice, VideoDeviceServic
     @Override
     protected VideoDeviceService getService() {
         return videoDeviceService;
+    }
+
+    public void loadData() throws Exception{
+        /*int i=0;
+        SAXReader saxReader = new SAXReader();
+        Document document = saxReader.read(new File("C:\\zuzhishu.xml"));
+        Element root = document.getRootElement();//Organization
+
+        List<Element> Department1=root.elements();
+        for (Element element1 : Department1) {
+//            System.out.println("element1: "+element1.getName());
+            List<Element> Department2 = element1.elements();
+            for (Element element2 : Department2) {
+//                System.out.println("element2: "+element2.getName());
+                String element2Name=element2.attributeValue("name");
+                List<Element> Department3 = element2.elements();
+                for (Element element3 : Department3) {
+                    String element3Name=element3.attributeValue("name");
+//                    System.out.println("element3: "+element3.getName()+", name: "+element3.attributeValue("name"));
+                    List<Element> Channel = element3.elements();
+                    for (Element c : Channel) {
+//                        System.out.println("c: "+c.getName());
+                        if (c.getName().equals("Channel")){
+                            String channelId = c.attributeValue("id");
+
+                            VideoDevice v=new VideoDevice();
+                            String uuid = UUID.randomUUID().toString().replaceAll("-", "").toLowerCase();
+                            v.setId(uuid);
+                            v.setChannalId(channelId);
+                            String channelName = c.attributeValue("name");
+                            if (StringUtils.isNotEmpty(channelName)){
+                                v.setAddr(channelName);
+                            }else {
+                                v.setAddr(element3Name);
+                            }
+                            v.setType("1");
+                            v.setUnit(element2Name);
+                            videoDeviceService.save(v);
+
+                        }
+
+                    }
+                }
+            }
+        }
+        System.out.println("=================ok");*/
     }
 
     public void findByIds(){
