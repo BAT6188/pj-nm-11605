@@ -26,9 +26,9 @@
     <div class="wrap">
         <div class="mainBox">
             <ul id="myTab" class="nav nav-tabs">
-                <li class="active" onclick="changeTab(1)"><a href="#plan" data-toggle="tab">计划</a></li>
-                <li onclick="changeTab(2)"><a href="#schedule" data-toggle="tab">进度</a></li>
-                <li onclick="changeTab(3)"><a href="#sumEnd" data-toggle="tab" >总结</a></li>
+                <li class="active" onclick="changeTab(1)"><a href="#plan" data-toggle="tab">新建任务计划</a></li>
+                <li onclick="changeTab(2)"><a href="#schedule" data-toggle="tab">新建任务进度</a></li>
+                <li onclick="changeTab(3)"><a href="#sumEnd" data-toggle="tab" >新建任务总结</a></li>
             </ul>
             <div class="dealBox" style="border-top: hidden">
                 <div class="sideTitle left">
