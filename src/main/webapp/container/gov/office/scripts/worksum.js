@@ -3,7 +3,7 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#workSumForm"),
-    formTitle = "工作总结",
+    formTitle = "任务管理",
     selections = [];
 var workType = {
     1: "工作计划",
