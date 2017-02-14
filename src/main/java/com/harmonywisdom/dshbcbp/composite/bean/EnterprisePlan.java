@@ -12,6 +12,12 @@ import java.util.Date;
 public class EnterprisePlan implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
     @Id
     @Column(length = 32)
     private String id;
@@ -134,4 +140,11 @@ public class EnterprisePlan implements Serializable {
         this.recordDate = recordDate;
     }
 
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
+    }
 }
