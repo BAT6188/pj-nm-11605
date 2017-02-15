@@ -28,7 +28,7 @@ public class VideoDeviceServiceImpl extends BaseService<VideoDevice, String> imp
 
     @Override
     public List<ZNodeDTO> searchNode(String searchText) {
-        List<VideoDevice> villages = getDAO().find("unit like ?1 ", searchText);
+        List<VideoDevice> villages = getDAO().find("unit like ?1 and latitude is not null", searchText);
         if (villages != null && villages.size() > 0) {
             List<ZNodeDTO> nodes = new ArrayList<>();
             for (VideoDevice videoDevice : villages) {
@@ -43,7 +43,7 @@ public class VideoDeviceServiceImpl extends BaseService<VideoDevice, String> imp
 
     @Override
     public List<VideoDevice> findByIds(String ...ids) {
-        List<VideoDevice> list = getDAO().find("id in ?1", Arrays.asList(ids));
+        List<VideoDevice> list = getDAO().find("id in ?1 and latitude is not null", Arrays.asList(ids));
         return list;
     }
 
