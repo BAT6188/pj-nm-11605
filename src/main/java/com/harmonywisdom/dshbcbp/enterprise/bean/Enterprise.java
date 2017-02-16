@@ -110,22 +110,64 @@ public class Enterprise implements Serializable {
     private String apPhone;
 
     /**
-     * 环保负责人
+     * 企业环保负责人
      */
     @Column(name = "env_principal")
     private String envPrincipal;
 
     /**
-     *环保负责人职务
+     *企业环保负责人职务
      */
     @Column(name = "ep_position")
     private String epPosition;
 
     /**
-     *环保负责人电话
+     *企业环保负责人电话
      */
     @Column(name = "ep_phone")
     private String epPhone;
+
+    /**
+     * 行业主管部门
+     */
+    @Column(name = "industry_department")
+    private String industryDepartment;
+
+    /**
+     * 主管部门负责人
+     */
+    @Column(name = "industry_department_person")
+    private String industryDepartmentPerson;
+
+    /**
+     * 主管部门负责人联系电话
+     */
+    @Column(name = "industry_department_person_phone")
+    private String industryDepartmentPersonPhone;
+
+    /**
+     * 网格环保负责人
+     */
+    @Column(name = "block_person")
+    private String blockPerson;
+
+    /**
+     * 网格环保负责人联系电话
+     */
+    @Column(name = "block_person_phone")
+    private String blockPersonPhone;
+
+    /**
+     * 网格公安负责人
+     */
+    @Column(name = "block_police_person")
+    private String blockPolicePerson;
+
+    /**
+     * 网格公安负责人联系电话
+     */
+    @Column(name = "block_police_person_phone")
+    private String blockPolicePersonPhone;
 
     /**
      * 污染源类型（多选）
@@ -783,5 +825,61 @@ public class Enterprise implements Serializable {
 
     public void setMobileTimestamp(Date mobileTimestamp) {
         this.mobileTimestamp = mobileTimestamp;
+    }
+
+    public String getIndustryDepartment() {
+        return industryDepartment;
+    }
+
+    public void setIndustryDepartment(String industryDepartment) {
+        this.industryDepartment = industryDepartment;
+    }
+
+    public String getIndustryDepartmentPerson() {
+        return industryDepartmentPerson;
+    }
+
+    public void setIndustryDepartmentPerson(String industryDepartmentPerson) {
+        this.industryDepartmentPerson = industryDepartmentPerson;
+    }
+
+    public String getIndustryDepartmentPersonPhone() {
+        return industryDepartmentPersonPhone;
+    }
+
+    public void setIndustryDepartmentPersonPhone(String industryDepartmentPersonPhone) {
+        this.industryDepartmentPersonPhone = industryDepartmentPersonPhone;
+    }
+
+    public String getBlockPerson() {
+        return blockPerson;
+    }
+
+    public void setBlockPerson(String blockPerson) {
+        this.blockPerson = blockPerson;
+    }
+
+    public String getBlockPersonPhone() {
+        return blockPersonPhone;
+    }
+
+    public void setBlockPersonPhone(String blockPersonPhone) {
+        this.blockPersonPhone = blockPersonPhone;
+    }
+
+    public String getBlockPolicePerson() {
+        return blockPolicePerson;
+    }
+
+    public void setBlockPolicePerson(String blockPolicePerson) {
+        this.blockPolicePerson = blockPolicePerson;
+    }
+
+    public String getBlockPolicePersonPhone() {
+        return blockPolicePersonPhone;
+    }
+
+    public void setBlockPolicePersonPhone(String blockPolicePersonPhone) {
+        this.blockPolicePersonPhone = blockPolicePersonPhone;
     }
 }
