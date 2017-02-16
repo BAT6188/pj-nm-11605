@@ -1066,7 +1066,7 @@ window.initTable_siteMonitoringReportDialog_operateEvents = {
     'click .initTable_siteMonitoringReportDialog_view': function (e, value, entity, index) {
         $("#isNotProblem"+entity.isNotProblem).get(0).checked=true;
 
-        var inputs = $("#addSiteMonitoringDialog").find('input[type!="radio"],textarea');
+        var inputs = $("#addSiteMonitoringDialog").find('input[type!="radio"],textarea,select');
         $.each(inputs,function(k,v){
             var tagId = $(v).attr('name');
             $(v).val(entity[tagId]);
