@@ -1153,14 +1153,22 @@ var OneImagePage = function () {
             var that = this;
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
-                "<tr><td style='text-align: center;width: 80px;'>企业名称:</td><td style='text-align: left;width: 120px;'>"+(enterprise.name == null?"":enterprise.name)+"</td></tr>"+
-                "<tr><td style='text-align: center;'>企业法人:</td><td style='text-align: left;'>"+(enterprise.artificialPerson == null?"":enterprise.artificialPerson)+"</td></tr>"+
-                "<tr><td style='text-align: center;'>环保负责人:</td><td style='text-align: left;'>"+(enterprise.envPrincipal == null?"":enterprise.envPrincipal)+"</td></tr>"+
-                "<tr><td style='text-align: center;'>联系电话:</td><td style='text-align: left;'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
-                "<tr><td style='text-align: center;'>单位地址:</td><td style='text-align: left;'>"+(enterprise.address == null?"":enterprise.address)+"</td></tr>"+
-                "<tr><td style='text-align: center;'>所属网格:</td><td style='text-align: left;'>"+(enterprise.blockName == null?"":enterprise.blockName)+"</td></tr>"+
+                "<tr><td >企业名称:</td><td  colspan='3'>"+(enterprise.name == null?"":enterprise.name)+"</td></tr>"+
+                "<tr><td >企业法人:</td><td  colspan='3'>"+(enterprise.artificialPerson == null?"":enterprise.artificialPerson)+"</td></tr>"+
+                "<tr><td >企业环保负责人:</td><td >"+(enterprise.envPrincipal == null?"":enterprise.envPrincipal)+"</td>" +
+                "<td >联系电话:</td><td >"+(enterprise.epPhone == null?"":enterprise.epPhone)+"</td></tr>"+
+
+                "<tr><td >单位地址:</td><td colspan='3'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
+                "<tr><td >所属网格:</td><td colspan='3'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
+                "<tr><td >行业主管部门:</td><td colspan='3'>"+(enterprise.industryDepartment == null?"":enterprise.industryDepartment)+"</td></tr>"+
+                "<tr><td >主管部门负责人:</td><td >"+(enterprise.industryDepartmentPerson == null?"":enterprise.industryDepartmentPerson)+"</td>" +
+                "<td >联系电话:</td><td >"+(enterprise.industryDepartmentPersonPhone == null?"":enterprise.industryDepartmentPersonPhone)+"</td></tr>"+
+                "<tr><td >网格环保负责人:</td><td >"+(enterprise.blockPerson == null?"":enterprise.blockPerson)+"</td>" +
+                "<td >联系电话:</td><td >"+(enterprise.blockPersonPhone == null?"":enterprise.blockPersonPhone)+"</td></tr>"+
+                "<tr><td >网格公安负责人:</td><td >"+(enterprise.blockPolicePerson == null?"":enterprise.blockPolicePerson)+"</td>" +
+                "<td >联系电话:</td><td >"+(enterprise.blockPolicePersonPhone == null?"":enterprise.blockPolicePersonPhone)+"</td></tr>"+
                 "</table>"+
-                "<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>" +
+                "<div class='btn-group btn-group-sm' style='margin-left: 36px;'>" +
                 "<button id='mainInfo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业台账</button>" +
                 "<button id='enterprisePlan' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业平面图</button>" +
                 "<button id='mineImage' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>工矿图</button>" +
@@ -1172,8 +1180,8 @@ var OneImagePage = function () {
             var infoDOM = this.hwmap.showInfoWindow({
                 x:enterprise.longitude,
                 y:enterprise.latitude,
-                width:370,
-                height:320,
+                width:530,
+                height:410,
                 html:infoHtml,
                 title:"企业信息"
             });

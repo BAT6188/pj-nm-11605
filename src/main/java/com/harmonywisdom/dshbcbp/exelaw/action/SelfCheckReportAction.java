@@ -62,12 +62,29 @@ public class SelfCheckReportAction extends BaseAction<SelfCheckReport, SelfCheck
             params.andParam(new QueryParam("findDate", QueryOperator.LE, DateUtil.strToDate(end_findDate,"yyyy-MM-dd HH:mm")));
         }
 
+        String mobileOperType = request.getParameter("mobileOperType");
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                params.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
             condition.setParam(params);
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("findDate", Direction.DESC);
+
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 

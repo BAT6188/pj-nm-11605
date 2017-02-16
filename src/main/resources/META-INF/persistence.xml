@@ -3,6 +3,7 @@
     <persistence-unit name="dshbcbp">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
+        <class>com.harmonywisdom.dshbcbp.sequ.bean.Sequ</class>
         <!--日常办公系统 -->
         <class>com.harmonywisdom.dshbcbp.office.bean.Contacts</class>
         <class>com.harmonywisdom.dshbcbp.office.bean.CreateMode</class>

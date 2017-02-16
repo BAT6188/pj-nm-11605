@@ -12,6 +12,12 @@ import java.util.Date;
 public class BuildProject implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Column(name = "mobile_timestamp")
+    private Date mobileTimestamp;
+
     @Id
     @Column(length = 32)
     private String id;
@@ -398,5 +404,13 @@ public class BuildProject implements Serializable {
 
     public void setProjectAcceptance(ProjectAcceptance projectAcceptance) {
         this.projectAcceptance = projectAcceptance;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

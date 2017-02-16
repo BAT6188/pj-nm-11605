@@ -337,6 +337,9 @@ function setFormData(entity) {
     $("#realAbility").val(entity.realAbility);
     $("#enterpriseId").val(entity.enterpriseId);
     $("#sendRemark").val(entity.sendRemark);
+    if(entity.dispatchId){
+        $("#dispatchId").val(entity.dispatchId);
+    }
     uploader = new qq.FineUploader(getUploaderOptions(id));
 }
 
@@ -458,7 +461,7 @@ function getUploaderOptions(bussinessId) {
         validation: {
             // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
             // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 3
+            itemLimit: 10
         },
         debug: true
     };

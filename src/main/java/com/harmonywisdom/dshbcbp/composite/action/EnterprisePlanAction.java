@@ -5,6 +5,7 @@ import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.EnterprisePlan;
 import com.harmonywisdom.dshbcbp.composite.service.EnterprisePlanService;
 import com.harmonywisdom.framework.action.BaseAction;
+import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
 import com.harmonywisdom.framework.dao.QueryOperator;
 import com.harmonywisdom.framework.dao.QueryParam;
@@ -39,11 +40,28 @@ public class EnterprisePlanAction extends BaseAction<EnterprisePlan, EnterpriseP
         if (StringUtils.isNotBlank(endDate)) {
             param.andParam(new QueryParam("recordDate", QueryOperator.LE, DateUtil.strToDate(endDate,"yyyy-MM-dd")));
         }
+
+        String mobileOperType = request.getParameter("mobileOperType");
+        if("1".equals(mobileOperType)){//下拉
+//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
+            }
+        }else if("2".equals(mobileOperType)){//上拉
+//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
+            if (null!=entity.getMobileTimestamp()){
+                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
+            }
+        }
+
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
+        if (StringUtils.isNotEmpty(mobileOperType)){
+            condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }
         return condition;
     }
 
