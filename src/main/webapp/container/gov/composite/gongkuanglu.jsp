@@ -66,7 +66,7 @@
         }
 
         if ('dc57191570e04a24b245db823dde9846'==enterpriseId){
-            var a="http://10.1.1.66:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSBJSC_01.zxml"
+            var a="http://10.15.208.154:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSBJSC_01.zxml"
             $("#gktIframe").attr("src",a);
         }
     })
