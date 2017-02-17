@@ -1158,8 +1158,8 @@ var OneImagePage = function () {
                 "<tr><td >企业环保负责人:</td><td >"+(enterprise.envPrincipal == null?"":enterprise.envPrincipal)+"</td>" +
                 "<td >联系电话:</td><td >"+(enterprise.epPhone == null?"":enterprise.epPhone)+"</td></tr>"+
 
-                "<tr><td >单位地址:</td><td colspan='3'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
-                "<tr><td >所属网格:</td><td colspan='3'>"+(enterprise.apPhone == null?"":enterprise.apPhone)+"</td></tr>"+
+                "<tr><td >单位地址:</td><td colspan='3'>"+(enterprise.address == null?"":enterprise.address)+"</td></tr>"+
+                "<tr><td >所属网格:</td><td colspan='3'>"+(enterprise.blockName == null?"":enterprise.blockName)+"</td></tr>"+
                 "<tr><td >行业主管部门:</td><td colspan='3'>"+(enterprise.industryDepartment == null?"":enterprise.industryDepartment)+"</td></tr>"+
                 "<tr><td >主管部门负责人:</td><td >"+(enterprise.industryDepartmentPerson == null?"":enterprise.industryDepartmentPerson)+"</td>" +
                 "<td >联系电话:</td><td >"+(enterprise.industryDepartmentPersonPhone == null?"":enterprise.industryDepartmentPersonPhone)+"</td></tr>"+
