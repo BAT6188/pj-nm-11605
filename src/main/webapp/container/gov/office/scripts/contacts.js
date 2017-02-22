@@ -394,7 +394,7 @@ function searchForm(){
 }
 //重置按钮处理
 $("#reset").click(function () {
-    $('#searchform')[0].reset();
+    $(".queryBox").find("input[type!='radio'][type!='checkbox']").val("");
     gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 $("#chosePersonFormReset").click(function () {

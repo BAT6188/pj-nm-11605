@@ -252,7 +252,6 @@ $("#search").click(function () {
 });
 //重置按钮处理
 $("#reset").click(function () {
-    debugger;
     $('#searchform')[0].reset();
     gridTable.bootstrapTable('refresh');
 });
