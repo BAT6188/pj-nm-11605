@@ -159,7 +159,7 @@
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
                                                     <input type="hidden" id="id" name="id" class="basedata">
                                                     <input type="hidden" id="replyTime" name="replyTime" class="basedata">
-                                                    <input type="hidden" class="basedata"  name="removeId" value="">
+                                                    <input type="hidden" class="basedata" id="removeId" name="removeId" value="">
                                                     <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
                                                            data-easytip="position:top;class:easy-red;"
@@ -363,7 +363,7 @@
                                                     <input type="hidden" class="basedata" id="type" name="type" value="">
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
                                                     <input type="hidden" id="hp_projectId" name="hp_projectId" class="basedata">
-                                                    <input type="hidden" class="basedata"  name="removeId" value="">
+                                                    <input type="hidden" class="basedata" id="hpremoveId" name="removeId" value="">
                                                     <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
                                                            data-easytip="position:top;class:easy-red;"
@@ -679,7 +679,7 @@
                                                 <div class="col-sm-9">
                                                     <input type="hidden" id="ys_projectId" name="ys_projectId" class="basedata">
                                                     <input type="hidden"  name="type" class="basedata">
-                                                    <input type="hidden"  name="removeId" class="basedata">
+                                                    <input type="hidden" id="ysremoveId"  name="removeId" class="basedata">
                                                     <input type="text"  name="name" class="form-control basedata  "/>
                                                 </div>
                                             </div>
