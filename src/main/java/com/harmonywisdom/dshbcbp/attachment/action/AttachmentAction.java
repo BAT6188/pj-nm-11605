@@ -41,6 +41,7 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
                     try {
                         response.addHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode(attachment.getName(), "UTF-8"));
                         is = new FileInputStream( new File(attachment.getPath()));
+                        response.setContentLength(is.available());
                         OutputStream os = response.getOutputStream();
                         byte[] buffer = new byte[1024];
                         int readCount = 0;
