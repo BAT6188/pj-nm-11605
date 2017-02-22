@@ -3,7 +3,9 @@ var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#workSumForm"),
-    formTitle = "工作总结",
+    formTitlePlan = "任务计划",
+    formTitleSchedule = "任务进度",
+    formTitleSumup = "任务总结",
     selections = [];
 var workType = {
     1: "工作计划",
@@ -307,7 +309,13 @@ function setFormData(entity) {
     if (!entity) {
         return false
     }
-    form.find(".form-title").text("修改" + formTitle);
+    if(entity.type == 1){
+        form.find(".form-title").text("修改" + formTitlePlan);
+    }else if(entity.type == 2){
+        form.find(".form-title").text("修改" + formTitleSchedule);
+    }else if(entity.type == 3){
+        form.find(".form-title").text("修改" + formTitleSumup);
+    }
     var id = entity.id;
     var inputs = form.find('.form-control');
     $.each(inputs, function (k, v) {
@@ -330,7 +338,13 @@ function setFormView(entity) {
         $('#publishBtn').attr('disabled', false);
     }
     $('#typeName').val(workType[entity.type]);
-    form.find(".form-title").text("查看" + formTitle);
+    if(entity.type == 1){
+        form.find(".form-title").text("查看" + formTitlePlan);
+    }else if(entity.type == 2){
+        form.find(".form-title").text("查看" + formTitleSchedule);
+    }else if(entity.type == 3){
+        form.find(".form-title").text("查看" + formTitleSumup);
+    }
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
@@ -365,7 +379,13 @@ function disabledForm(disabled) {
  * 重置表单
  */
 function resetForm() {
-    form.find(".form-title").text("新增" + formTitle);
+    if(currentType == 1){
+        form.find(".form-title").text("新增" + formTitlePlan);
+    }else if(currentType == 2){
+        form.find(".form-title").text("新增" + formTitleSchedule);
+    }else if(currentType == 3){
+        form.find(".form-title").text("新增" + formTitleSumup);
+    }
     form.find("input[type!='radio'][type!='checkbox'],textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
     $('#type').val(currentType);

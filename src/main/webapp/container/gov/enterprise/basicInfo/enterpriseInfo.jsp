@@ -233,13 +233,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="success"><span class="text-danger">(*)</span>环保负责人</td>
+                            <td class="success"><span class="text-danger">(*)</span>企业环保负责人</td>
                             <td>
                                 <div class="col-sm-12">
                                     <input type="text" id="envPrincipal" name="envPrincipal" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title="环保负责人"/>
                                 </div>
                             </td>
-                            <td  class="success"><span class="text-danger">(*)</span>环保负责人职务</td>
+                            <td  class="success"><span class="text-danger">(*)</span>企业环保负责人职务</td>
                             <td>
                                 <div class="col-sm-12">
                                     <input type="text" id="epPosition" name="epPosition" class="form-control needshow"/>
@@ -247,10 +247,60 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="success">环保负责人电话</td>
+                            <td class="success">企业环保负责人电话</td>
                             <td>
                                 <div class="col-sm-12">
                                     <input type="text" id="epPhone" name="epPhone" class="form-control needshow needCheck" data-message="" data-easyform="number" title="环保负责人电话"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>行业主管部门</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="industryDepartment" name="industryDepartment" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title=""/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>主管部门负责人</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="industryDepartmentPerson" name="industryDepartmentPerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title=""/>
+                                </div>
+                            </td>
+                            <td  class="success">联系电话</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="industryDepartmentPersonPhone" name="industryDepartmentPersonPhone" class="form-control needshow"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>网格环保负责人</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="blockPerson" name="blockPerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title=""/>
+                                </div>
+                            </td>
+                            <td  class="success">联系电话</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="blockPersonPhone" name="blockPersonPhone" class="form-control needshow"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="success"><span class="text-danger">(*)</span>网格公安负责人</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="blockPolicePerson" name="blockPolicePerson" class="form-control needshow needCheck" data-message="" data-easyform="notnull" title=""/>
+                                </div>
+                            </td>
+                            <td  class="success">联系电话</td>
+                            <td>
+                                <div class="col-sm-12">
+                                    <input type="text" id="blockPolicePersonPhone" name="blockPolicePersonPhone" class="form-control needshow"/>
                                 </div>
                             </td>
                         </tr>

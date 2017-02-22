@@ -33,7 +33,7 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
             param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }
         if (StringUtils.isNotBlank(entity.getPosition())) {
-            param.andParam(new QueryParam("position", QueryOperator.LIKE,entity.getPosition()));
+            param.andParam(new QueryParam("position", QueryOperator.EQ,entity.getPosition()));
         }
         if (StringUtils.isNotBlank(entity.getDepartment())) {
             param.andParam(new QueryParam("department", QueryOperator.LIKE,entity.getDepartment()));

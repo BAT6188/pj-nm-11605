@@ -36,8 +36,8 @@
         // 4b1ee0438e194060875b9b0e467de8eb   北郊热电
         // dc57191570e04a24b245db823dde9846   北郊水质净化厂
         if ('12be9832e811477abaa8eea11289b000'==enterpriseId){
-            var a="http://10.1.1.66:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSRD_01.zxml"
-            var b="http://10.1.1.66:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSRD_02.zxml"
+            var a="http://10.15.208.154:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSRD_01.zxml"
+            var b="http://10.15.208.154:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSRD_02.zxml"
 //            var a="http://news.qq.com/a/20170113/000461.htm?pgv_ref=aio2015&ptlang=2052#p=1"
 //            var b="http://qiye.163.com/login/?from=ym"
             $("#gktIframe").attr("src",a);
@@ -66,7 +66,7 @@
         }
 
         if ('dc57191570e04a24b245db823dde9846'==enterpriseId){
-            var a="http://10.1.1.66:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSBJSC_01.zxml"
+            var a="http://10.15.208.154:8088/rsa/diagram/openplant/gview/diagram.html?fileName=EE_DSBJSC_01.zxml"
             $("#gktIframe").attr("src",a);
         }
     })

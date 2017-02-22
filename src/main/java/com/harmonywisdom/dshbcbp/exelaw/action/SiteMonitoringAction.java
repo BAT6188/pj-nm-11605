@@ -10,6 +10,8 @@ import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
+import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -42,6 +44,9 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
     @AutoService
     private BlockService blockService;
 
+    @AutoService
+    private EnterpriseService enterpriseService;
+
 
     @Override
     protected SiteMonitoringService getService() {
@@ -56,6 +61,9 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             params.andParam(new QueryParam("dispatchId", QueryOperator.EQ,entity.getDispatchId()));
         }
         if(StringUtils.isNotBlank(entity.getEnterpriseId())){
+            params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
+        }
+        if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
             params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
         if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
@@ -94,6 +102,15 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
 
     @Override
     public void save() {
+        String enterpriseId = entity.getEnterpriseId();
+        if (StringUtils.isNotEmpty(enterpriseId)){
+            Enterprise e = enterpriseService.findById(enterpriseId);
+            entity.setEnterpriseName(e.getName());
+            entity.setBlockLevelId(e.getBlockLevelId());
+            entity.setBlockId(e.getBlockId());
+        }
+
+
         String dispatchId = entity.getDispatchId();
         if (StringUtils.isNotEmpty(dispatchId)){
             DispatchTask dispatchTask = dispatchTaskService.findById(dispatchId);

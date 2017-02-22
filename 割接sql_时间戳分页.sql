@@ -17,6 +17,11 @@ alter table HW_SITE_MONITORING add `mobile_timestamp` timestamp not null default
 alter table HW_MESSAGE add `mobile_timestamp` timestamp not null default current_timestamp;
 alter table HW_MESSAGE_TRACE add `mobile_timestamp` timestamp not null default current_timestamp;
 
+-- 新增2017-02-14
+alter table HW_BUILD_PROJECT add `mobile_timestamp` timestamp not null default current_timestamp;
+alter table HW_ENTERPRISE_PLAN add `mobile_timestamp` timestamp not null default current_timestamp;
+alter table HW_SELF_CHECK_REPORT add `mobile_timestamp` timestamp not null default current_timestamp;
+
 
 -- 建表seq
 CREATE TABLE `seq` (
@@ -91,6 +96,19 @@ delete from seq;
 
 insert into seq(link_id) select id from HW_MESSAGE_TRACE;
 update HW_MESSAGE_TRACE t set t.mobile_timestamp=date_add('2016-12-01 00:00:01',interval (select s.id from seq s where s.link_id=t.`id`) second);
+delete from seq;
+
+-- 新增2017-02-14
+insert into seq(link_id) select id from HW_BUILD_PROJECT;
+update HW_BUILD_PROJECT t set t.mobile_timestamp=date_add('2016-12-01 00:00:01',interval (select s.id from seq s where s.link_id=t.`id`) second);
+delete from seq;
+
+insert into seq(link_id) select id from HW_ENTERPRISE_PLAN;
+update HW_ENTERPRISE_PLAN t set t.mobile_timestamp=date_add('2016-12-01 00:00:01',interval (select s.id from seq s where s.link_id=t.`id`) second);
+delete from seq;
+
+insert into seq(link_id) select id from HW_SELF_CHECK_REPORT;
+update HW_SELF_CHECK_REPORT t set t.mobile_timestamp=date_add('2016-12-01 00:00:01',interval (select s.id from seq s where s.link_id=t.`id`) second);
 delete from seq;
 
 

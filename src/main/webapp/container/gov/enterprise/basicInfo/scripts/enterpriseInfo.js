@@ -636,3 +636,23 @@ $("#backList").bind('click',function(){
     $(".modal-backdrop").hide();
 
 });
+
+$("#blockId").change(function (v) {
+    $.ajax({
+        url: rootPath + "/action/S_office_Contacts_list.action",
+        type:"post",
+        data:{blockId:$("#blockId").val(),position:5},
+        success:function (v) {
+            var v = JSON.parse(v);
+            var rows = v.rows;
+            if (rows[0]){
+                var row = rows[0];
+                $("#blockPerson").val(row.name);
+                $("#blockPersonPhone").val(row.phone);
+            }else {
+                $("#blockPerson").val("");
+                $("#blockPersonPhone").val("");
+            }
+        }
+    });
+});
