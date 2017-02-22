@@ -281,7 +281,7 @@ window.lookOverEvents = {
     'click .lookOver': function (e, value, entity, index) {
         if (entity) {
             var id = entity.id;
-            if(entity.source==0){
+            if(entity.source==0){//监控中心案件
                 eventMsg_monitorCase_dialog.modal('show')
                 resetDialog(eventMsg_monitorCase_dialog);
                 disabledForm(eventMsg_monitorCase_dialog,true)
@@ -296,7 +296,7 @@ window.lookOverEvents = {
                 $("#isSendSmsSpan").hide();
                 $("#cancel").text("关闭")
 
-            }else {
+            }else {//信访案件
                 eventMsg_monitorOffice_dialog.modal('show')
                 resetDialog(eventMsg_monitorOffice_dialog);
                 disabledForm(eventMsg_monitorOffice_dialog,true)
@@ -320,6 +320,7 @@ window.lookOverEvents = {
 
                 var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
                 pageUtils.updateSelfReadStatus(url,id,1)
+                gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
             }
 
         }
