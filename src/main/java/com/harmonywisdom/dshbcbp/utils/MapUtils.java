@@ -275,6 +275,7 @@ public class MapUtils {
         double[] hOffsetCoord = metersToLonLat(meterXY[0]+meterDistance,meterXY[1]);
         // 计算纵坐标便宜点坐标
         double[] vOffsetCoord = metersToLonLat(meterXY[0],meterXY[1]+meterDistance);
+
         return (calDistanceByTowPoint(point,hOffsetCoord)+calDistanceByTowPoint(point,vOffsetCoord))/2;
     }
 

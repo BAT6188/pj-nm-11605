@@ -216,17 +216,7 @@ initTable();
  */
 function getSelections() {
     return $.map(gridTable.bootstrapTable('getSelections'), function (row) {
-        if (row.userId == userId) {
-            console.log(row.userId);
-            updateBtn.prop('disabled', false);
-        } else {
-            updateBtn.prop('disabled', true);
-            Ewin.alert({message: "没有操作权限！"}).on(function (e) {
-                if (!e) {
-                    return;
-                }
-            });
-        }
+        updateBtn.prop('disabled', false);
         return row;
     });
 }
@@ -289,9 +279,9 @@ $("#searchFix").click(function () {
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
+        entity.enterpriseId = enterpriseId;
         entity.attachmentIds = getAttachmentIds();
         entity.userId=userId;
-        console.log(entity);
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');

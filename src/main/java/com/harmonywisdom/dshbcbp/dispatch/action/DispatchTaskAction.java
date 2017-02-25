@@ -488,6 +488,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         entity.setEnterpriseId(mc.getEnterpriseId());
         entity.setEnterpriseName(mc.getEnterpriseName());
         entity.setSource(source);
+        entity.setDispatchPersonName(ApportalUtil.getPerson(request).getUserName());
         entity.setEventTime(mc.getEventTime());
         entity.setBlockLevelId(mc.getBlockLevelId());
         entity.setBlockLevelName(mc.getBlockLevelName());

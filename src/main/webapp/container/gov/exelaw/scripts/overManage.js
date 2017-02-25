@@ -231,7 +231,6 @@ window.siteMonitoringReportEvents = {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        console.log(JSON.stringify(row));
 
         $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
         $("#lookOverFeedbackForm_answer").val(row.answer);
