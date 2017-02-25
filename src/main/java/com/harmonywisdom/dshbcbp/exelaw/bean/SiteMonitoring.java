@@ -26,6 +26,27 @@ public class SiteMonitoring implements Serializable {
     @Column(name = "dispatch_id",length=32)
     private String dispatchId;
 
+    /**
+     * 初报(备注)
+     */
+    @Column(name="SEND_REMARK",length=1000)
+    private String sendRemark;
+
+    /**
+     * 续报
+     */
+    @Column(name = "xubao")
+    private String xuBao;
+
+    /**
+     * 已续报（完结）状态
+     * 1. 已续报
+     * 0. 未续报
+     */
+    @Column(name = "isOver",length=2)
+    private String is_over;
+
+
 
     /**
      * 企业id
@@ -74,11 +95,7 @@ public class SiteMonitoring implements Serializable {
     @Column(name="IS_NOT_PROBLEM")
     private String isNotProblem;
 
-    /**
-     * 备注
-     */
-    @Column(name="SEND_REMARK",length=1000)
-    private String sendRemark;
+
 
     /**
      * 登录用户id
@@ -208,5 +225,21 @@ public class SiteMonitoring implements Serializable {
 
     public void setMobileTimestamp(Date mobileTimestamp) {
         this.mobileTimestamp = mobileTimestamp;
+    }
+
+    public String getXuBao() {
+        return xuBao;
+    }
+
+    public void setXuBao(String xuBao) {
+        this.xuBao = xuBao;
+    }
+
+    public String getIs_over() {
+        return is_over;
+    }
+
+    public void setIs_over(String is_over) {
+        this.is_over = is_over;
     }
 }

@@ -1,5 +1,12 @@
 package com.harmonywisdom.dshbcbp.exelaw.action;
 
+import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.IPerson;
+import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.domain.Person;
+import com.harmonywisdom.dshbcbp.alert.bean.Message;
+import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
+import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
@@ -14,6 +21,7 @@ import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
+import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -22,6 +30,7 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitoringService> {
@@ -33,6 +42,9 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
 
     @AutoService
     private MonitorCaseService monitorCaseService;
+
+    @AutoService
+    private MessageService messageService;
 
 
     @AutoService
@@ -85,6 +97,14 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             }
         }
 
+        // TODO 筛选数据
+//        IPerson p = PersonServiceUtil.getPersonByUserId(entity.getUserId());
+//        String orgId = p.getOrgId();
+//        List<Person>  ps = PersonServiceUtil.getPersonByOrgId(orgId);
+//        List<Person>  persons =PersonServiceUtil.getPersonByOrgId("402883b358849ce10158f6ae2a2f04e2");//大队领导
+//        ps.addAll(persons);
+
+
 
         QueryCondition condition = new QueryCondition();
         if (params.getField() != null) {
@@ -127,6 +147,12 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             }
         }
 
+        if (StringUtils.isNotEmpty(entity.getXuBao())){
+            entity.setIs_over("1");
+        }else {
+            entity.setIs_over("0");
+        }
+
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
@@ -145,11 +171,42 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             entity.setBlockName(b.getOrgName());
         }
 
+
+
         super.save();
         if(StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
 
         }
+
+        //发送系统消息
+        Message message=new Message();
+        message.setMsgType("14");//反馈给环保站人员
+        message.setTitle("现场监察信息");
+        message.setContent(entity.getSendRemark());
+        message.setBusinessId(entity.getId());
+        String userId = entity.getUserId();
+        if(StringUtils.isEmpty(userId)){
+            IPerson person = ApportalUtil.getPerson(request);
+            userId=person.getUserId();
+        }
+        message.setSenderId(userId);
+        message.setSenderName(userId);
+
+        IPerson p = PersonServiceUtil.getPersonByUserId(userId);
+        String orgId = p.getOrgId();
+        List<Person>  ps = PersonServiceUtil.getPersonByOrgId(orgId);
+        List<Person>  persons =PersonServiceUtil.getPersonByOrgId("402883b358849ce10158f6ae2a2f04e2");//大队领导
+        ps.addAll(persons);
+        message.setDetailsUrl("container/gov/exelaw/siteMonitoring.jsp");
+        List<MessageTrace> receivers=new ArrayList<>();
+        for (Person pe : ps) {
+            MessageTrace re=new MessageTrace();
+            re.setReceiverId(pe.getUserId());
+            re.setReceiverName(pe.getUserName());
+            receivers.add(re);
+        }
+        messageService.sendMessage(message,receivers);
     }
 
     /**

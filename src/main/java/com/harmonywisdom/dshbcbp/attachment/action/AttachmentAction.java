@@ -32,9 +32,13 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
         Attachment attachment = attachmentService.findById(entity.getId());
         if (attachment != null) {
             boolean needCacheFile = false;
-            File file = new File(attachment.getPath());
 
-            if (manager.isSaveToDisk()) {
+            File file = null;
+            if(StringUtils.isNotEmpty(attachment.getPath())){
+                file = new File(attachment.getPath());
+            }
+
+            if (file!=null) {// 如果是以前保存的附件，则还是通过以前的方式文件进行下载
                 if (file.exists()) {
                     response.setContentType("application/octet-stream");
                     InputStream is = null;
