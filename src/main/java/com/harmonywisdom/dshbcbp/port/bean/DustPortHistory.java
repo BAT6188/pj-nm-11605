@@ -95,7 +95,7 @@ public class DustPortHistory implements Serializable {
      * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
      */
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "mobile_timestamp",nullable = false,columnDefinition = "CURRENT_TIMESTAMP")
+    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
     private Date mobileTimestamp;
 
 
