@@ -1,7 +1,6 @@
 package com.harmonywisdom.dshbcbp.detect.action;
 
 import com.alibaba.fastjson.JSON;
-import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
@@ -10,7 +9,6 @@ import com.harmonywisdom.dshbcbp.composite.service.BlockService;
 import com.harmonywisdom.dshbcbp.detect.bean.MonitorReport;
 import com.harmonywisdom.dshbcbp.detect.service.MonitorReportService;
 import com.harmonywisdom.dshbcbp.dispatch.action.DispatchTaskAction;
-import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -97,6 +95,8 @@ public class MonitorReportAction extends BaseAction<MonitorReport, MonitorReport
 //        condition.setOrderBy("age", Direction.DESC);
         if (StringUtils.isNotEmpty(mobileOperType)){
             condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }else{
+            condition.setOrderBy("monitorTime", Direction.DESC);
         }
         return condition;
     }

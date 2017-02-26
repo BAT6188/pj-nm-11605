@@ -251,12 +251,14 @@ removeBtn.click(function () {
         if (!e) {
             return;
         }
-        deleteAjax(ids,function (msg) {
-            gridTable.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            });
-            removeBtn.prop('disabled', true);
+        deleteAjax(ids,function (data) {
+            if(data.success){
+                Ewin.alert(data.msg);
+                gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+                removeBtn.prop('disabled', true);
+            }else{
+                Ewin.alert('网络连接异常！删除失败');
+            }
         });
     });
 
@@ -268,11 +270,7 @@ removeBtn.click(function () {
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = $(".queryBox").find("form").formSerializeObject()
-    console.log(queryParams)
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 //初始化日期组件
