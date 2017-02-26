@@ -115,7 +115,8 @@ public class MonitorReport implements Serializable {
     @Column(name = "reportNumber")
     private String reportNumber;
 
-    @Column(name = "mobile_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "mobile_timestamp",nullable = false,columnDefinition = "CURRENT_TIMESTAMP")
     private Date mobileTimestamp;
 
     @Transient
