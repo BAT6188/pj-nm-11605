@@ -70,20 +70,18 @@ public class AttachmentServiceImpl extends BaseService<Attachment, String> imple
                 }
             }
         }
-
         attachmentDAO.executeJPQL("delete from Attachment entity where entity.businessId in ?1", Arrays.asList(businessIds));
     }
     
     @Override
     public void removeByIds(String... ids) {
         for (String id : ids) {
-        	Attachment attachment = attachmentDAO.findById(id);
-        	if(attachment != null){
+        	Attachment attachment = getById(id);
+        	if(attachment != null && StringUtils.isNotBlank(attachment.getPath())){
                 File f = new File(attachment.getPath());    // 输入要删除的文件位置
                 if (f.exists()) {
                     f.delete();        //如果存在删除
                 }
-                
         	}
         }
 
@@ -116,4 +114,19 @@ public class AttachmentServiceImpl extends BaseService<Attachment, String> imple
 			e.printStackTrace();
 		}
 	}
+
+    /**
+     * 根据ID获取不带data字段的文件对象
+     * @param Id
+     * @return
+     * @throws ServiceException
+     */
+    public Attachment getById(String Id) throws ServiceException {
+        List<Attachment> attachments = attachmentDAO.queryNativeSQL("select ID,ATT_TYPE,BUSINESS_ID,FILE_NAME,FILE_EXT,FILE_PATH,FILE_PATH as DATA,FILE_SIZE from HW_ATTACHMENT where ID = ?1 ",Attachment.class,Id);
+        if(attachments.size()>0){
+            return attachments.get(0);
+        }else{
+            return null;
+        }
+    }
 }

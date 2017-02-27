@@ -6,8 +6,18 @@ var gridTable = $('#table'),
     formTitle = "监督性监测报告",
     selections = [];
 
-
-
+initDictSelect();
+function initDictSelect(){
+    /*数据字典*/
+    var dictData = dict.getDctionnary({code:['monitoringContent','monitoringType']});
+    $.each(dictData,function(k,v){
+        var optionsHtml = '';
+        $.each(v,function(i,obj){
+            optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
+        })
+        $('.'+k).append(optionsHtml);
+    });
+}
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -79,14 +89,17 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 formatter:function (value, row, index) {
-                    if (value==1){
+                    if(value){
+                        return dict.get('monitoringType',value);
+                    }
+                    /*if (value==1){
                         value="监督性监测"
                     }else if (value==2){
                         value="企业委托监测"
                     }else if (value==3){
                         value="环境质量监测"
                     }
-                    return value;
+                    return value;*/
                 }
             },{
                 // title: '类型',
@@ -96,18 +109,21 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 formatter:function (value, row, index) {
-                    if (value==1){
+                    if(value){
+                        return dict.get('monitoringContent',value);
+                    }
+                    /*if (value==1){
                         value="水质监测"
                     }else if (value==2){
                         value="大气监测"
                     }else if (value==3){
-                        value="大气监测"
+                        value="噪声监测"
                     }else if(value == 4){
                         value="土壤监测"
-                    }/*else if(value == 5){
+                    }/!*else if(value == 5){
                         value="土壤污染防治监测报告"
-                    }*/
-                    return value;
+                    }*!/
+                    return value;*/
                 }
             },{
                 title: '监测人员',

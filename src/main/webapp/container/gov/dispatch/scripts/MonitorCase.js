@@ -14,7 +14,7 @@ var gridTable = $('#table'),
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_dispatch_MonitorCase_list.action?source=0",
-        // height: getTableHeight,
+        height: pageUtils.getTableHeight()-40,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -241,7 +241,7 @@ var gridTable = $('#table'),
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()-40
         });
     });
 }
