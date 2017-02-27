@@ -17,7 +17,7 @@ public class WaterPort implements Serializable {
     private String id;
 
     /**
-     * 排口编号
+     * 排口编号,排口code：pointCode
      */
     @Column(name = "number",length = 100)
     private String number;
@@ -180,6 +180,12 @@ public class WaterPort implements Serializable {
      */
     @Column(name = "enterprise_id",length = 32)
     private String enterpriseId;
+
+    /**
+     * 企业code
+     */
+    @Column(name = "enterprise_code",length = 32)
+    private String enterpriseCode;
 
     /**
      * 平面图标绘
@@ -431,5 +437,13 @@ public class WaterPort implements Serializable {
 
     public void setPh(Double ph) {
         this.ph = ph;
+    }
+
+    public String getEnterpriseCode() {
+        return enterpriseCode;
+    }
+
+    public void setEnterpriseCode(String enterpriseCode) {
+        this.enterpriseCode = enterpriseCode;
     }
 }

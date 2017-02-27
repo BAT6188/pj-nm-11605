@@ -44,28 +44,28 @@ function initTable() {
             },
             {
                 title: '流量（升/秒）',
-                field: 'flow',
+                field: 'flowPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '化学需氧量（毫克/升）',
-                field: 'oxygen',
+                field: 'oxygenPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '氨氮（毫克/升）',
-                field: 'nitrogen',
+                field: 'nitrogenPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: 'ph值',
-                field: 'ph',
+                field: 'ph_PAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'

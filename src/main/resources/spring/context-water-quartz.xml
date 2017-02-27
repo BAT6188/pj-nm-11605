@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+        <property name="triggers">
+            <list>
+                <ref bean="forceWorkCronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="waterPortHistoryManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="waterPortHistoryService"/>
+        <property name="targetMethod" value="saveWaterPortHistoryData"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="forceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="waterPortHistoryManagerDetail"/>
+        <!--<property name="cronExpression" value="0 0 0 1/1 * ? "/>-->
+        <property name="cronExpression" value="0 10 1/1 * * ?"/>
+    </bean>
+</beans>

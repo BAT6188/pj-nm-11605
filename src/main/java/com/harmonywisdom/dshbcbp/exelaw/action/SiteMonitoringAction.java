@@ -191,7 +191,7 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             userId=person.getUserId();
         }
         message.setSenderId(userId);
-        message.setSenderName(userId);
+        message.setSenderName(entity.getCheckPeople());
 
         IPerson p = PersonServiceUtil.getPersonByUserId(userId);
         String orgId = p.getOrgId();

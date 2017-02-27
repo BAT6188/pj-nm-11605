@@ -44,35 +44,35 @@ function initTable() {
             },
             {
                 title: '氮氧化物（毫克/立方米）',
-                field: 'nitrogen',
+                field: 'nitrogenPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '二氧化硫（毫克/立方米）',
-                field: 'sulfur',
+                field: 'sulfurPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '废气流量（立方米/小时）',
-                field: 'gasFlow',
+                field: 'gasFlowPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '烟尘（毫克/立方米）',
-                field: 'dust',
+                field: 'dustPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '氧含量（%）',
-                field: 'oxygen',
+                field: 'oxygenPAvgValue',
                 editable: false,
                 sortable: false,
                 align: 'center'

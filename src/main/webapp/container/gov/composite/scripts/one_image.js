@@ -498,6 +498,12 @@ var OneImagePage = function () {
                     if (enterpriseAlertStatus && enterpriseAlertStatus.length > 0) {
                         for (var i = 0; i < enterpriseAlertStatus.length; i++) {
                             var eas = enterpriseAlertStatus[i];
+                            //eas.status==1时报警
+                            if (eas.status==1){
+                                var s='<audio id="baojing" src="'+rootPath+'/container/gov/composite/baojing.wav" autoplay="autoplay" loop="loop"/>';
+                                $('body').append(s);
+                                setTimeout("$('#baojing').remove()",10000);
+                            }
                             var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG,eas.status);
                             that.updateMarker(eas.id, image);
                         }
@@ -583,7 +589,7 @@ var OneImagePage = function () {
                     };
                     this[Constant.ENTERPRISE_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/enterprise_n.png',
-                        '1': rootPath+'/common/gis/images/markers/enterprise_w.gif'
+                        '1': rootPath+'/common/gis/images/markers/enterprise_red_light.gif'
                     };
                     this[Constant.VIDEO_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/camera.png'

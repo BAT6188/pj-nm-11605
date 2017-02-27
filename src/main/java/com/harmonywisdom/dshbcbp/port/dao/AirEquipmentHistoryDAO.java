@@ -16,11 +16,11 @@ import java.util.Map;
 @Repository
 public class AirEquipmentHistoryDAO extends DefaultDAO<AirEquipmentHistory, String> {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate airQualityJdbcTemplate;
 
     public boolean loadOuterData(){
-        String sql="";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        String sql="select * from AQIDataPublishLive";
+        List<Map<String, Object>> list = airQualityJdbcTemplate.queryForList(sql);
         List<AirEquipmentHistory> airEquipmentHistoryList=new ArrayList<>();
         for (Map<String, Object> map : list) {
             AirEquipmentHistory a=new AirEquipmentHistory();

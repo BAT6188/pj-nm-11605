@@ -81,6 +81,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">企业编号：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="enterpriseCode" name="enterpriseCode" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="position" class="col-sm-2 control-label">排口位置：</label>
                         <div class="col-sm-4">
                             <input type="text" id="position" name="position" class="form-control">

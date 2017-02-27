@@ -65,47 +65,47 @@ function initTable() {
             },
             {
                 title: '排口编号',
-                field: 'number',
+                field: 'portNumber',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '排口名称',
-                field: 'name',
+                field: 'portName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '超标时间',
-                field: 'model',
+                field: 'time',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '监测指标',
-                field: 'quantity',
+                field: 'pollutantName',
                 editable: false,
                 sortable: false,
                 align: 'center'
             },
             {
                 title: '状态',
-                field: 'status',
+                field: 'portStatus',
                 editable: false,
                 sortable: false,
                 align: 'center',
                 formatter: statusFormatter
-            },
-            {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
             }
+            // {
+            //     field: 'operate',
+            //     title: '操作',
+            //     align: 'center',
+            //     events: operateEvents,
+            //     formatter: operateFormatter
+            // }
 
         ]
     });
@@ -136,8 +136,8 @@ function operateFormatter(value, row, index) {
     return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#otherProductForm">查看</button>';
 }
 var statusType = {
-    '1':'在用',
-    '0':'停用'
+    '1':'超标',
+    '2':'异常'
 }
 function statusFormatter(value, row, index){
     return statusType[value];

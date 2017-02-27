@@ -121,6 +121,10 @@
                             <select id="monitorType" name="monitorType" class="form-control">
                             </select>
                         </div>
+                        <label for="" class="col-sm-2 control-label">企业编号：</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="enterpriseCode" name="enterpriseCode" class="form-control">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="isNitrogen" class="col-sm-2 control-label">监测氮氧<span class="text-danger">(*)</span>：</label>

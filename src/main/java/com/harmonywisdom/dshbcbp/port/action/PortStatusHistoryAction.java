@@ -80,7 +80,7 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("startTime", Direction.DESC);
+        condition.setOrderBy("time", Direction.DESC);
         return condition;
     }
 

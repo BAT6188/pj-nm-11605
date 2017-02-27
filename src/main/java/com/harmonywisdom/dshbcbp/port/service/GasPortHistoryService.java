@@ -4,4 +4,6 @@ import com.harmonywisdom.dshbcbp.port.bean.GasPortHistory;
 import com.harmonywisdom.framework.service.IBaseService;
 
 public interface GasPortHistoryService extends IBaseService<GasPortHistory, String> {
+    public void saveGasPortHistoryData();
+    public void saveTestGasPortHistoryData(String startTime,String endTime);
 }

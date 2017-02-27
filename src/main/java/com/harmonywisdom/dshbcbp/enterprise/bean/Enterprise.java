@@ -17,6 +17,13 @@ public class Enterprise implements Serializable {
     private String id;
 
     /**
+     * 水、汽排口表关联的企业id
+     */
+    @Column(name = "code")
+    private String code;
+
+
+    /**
      * 单位名称
      */
     @Column(name = "name")
@@ -404,7 +411,8 @@ public class Enterprise implements Serializable {
     /**
      * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
      */
-    @Column(name = "mobile_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
     private Date mobileTimestamp;
 
     /**
@@ -881,5 +889,13 @@ public class Enterprise implements Serializable {
 
     public void setBlockPolicePersonPhone(String blockPolicePersonPhone) {
         this.blockPolicePersonPhone = blockPolicePersonPhone;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

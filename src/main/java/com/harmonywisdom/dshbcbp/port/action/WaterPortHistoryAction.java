@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
 import com.harmonywisdom.dshbcbp.port.bean.WaterPortHistory;
+import com.harmonywisdom.dshbcbp.port.service.GasPortHistoryService;
 import com.harmonywisdom.dshbcbp.port.service.WaterPortHistoryService;
 import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -11,14 +12,26 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 public class WaterPortHistoryAction extends BaseAction<WaterPortHistory, WaterPortHistoryService> {
     @AutoService
     private WaterPortHistoryService waterPortHistoryService;
+
+    @AutoService
+    private GasPortHistoryService gasPortHistoryService;
 
     @Override
     protected WaterPortHistoryService getService() {
         return waterPortHistoryService;
     }
+
+    public void test(){
+        waterPortHistoryService.saveTestWaterPortHistoryData(request.getParameter("s"),request.getParameter("e"));
+        gasPortHistoryService.saveTestGasPortHistoryData(request.getParameter("s"),request.getParameter("e"));
+
+    }
+
 
     @Override
     protected QueryCondition getQueryCondition() {

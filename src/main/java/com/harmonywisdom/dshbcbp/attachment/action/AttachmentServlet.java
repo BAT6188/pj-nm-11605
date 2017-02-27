@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +75,7 @@ public class AttachmentServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String isMobile = request.getParameter("isMobile");
         Writer out = null;
         ServletFileUpload upload = new ServletFileUpload(factory);
 
@@ -81,10 +83,9 @@ public class AttachmentServlet extends HttpServlet {
         upload.setHeaderEncoding(ENCODING);
 
         try {
-            Attachment attachment = new Attachment();
-
-            attachment.setAttachmentType(request.getParameter(ATT_TYPE));
-            attachment.setBusinessId(request.getParameter(BUSINESS_ID));
+            AttachmentService service = SpringUtil.getBean("attachmentService");
+            List<Attachment> list=new ArrayList<>();
+            Attachment attachment =null;
 
             List<FileItem> fileItemList = upload.parseRequest(request);
             for (FileItem fileItem : fileItemList) {
@@ -95,7 +96,10 @@ public class AttachmentServlet extends HttpServlet {
                     if (fileItem.getSize() == 0) {
                         continue;
                     }
+                    attachment = new Attachment();
 
+                    attachment.setAttachmentType(request.getParameter(ATT_TYPE));
+                    attachment.setBusinessId(request.getParameter(BUSINESS_ID));
                     attachment.setName(FilenameUtils.getName(name));
                     attachment.setExt(FilenameUtils.getExtension(name));
                     attachment.setSize(FileUtils.byteCountToDisplaySize(fileItem.getSize()));
@@ -116,24 +120,29 @@ public class AttachmentServlet extends HttpServlet {
                         attachment.setData(fileItem.get());
 //                        }
                     }
+
+                    // 保存到数据库
+                    service.save(attachment);
+                    attachment.setData(null);
+                    list.add(attachment);
                 }
             }
-
-            // 保存到数据库
-            AttachmentService service = SpringUtil.getBean("attachmentService");
-            service.save(attachment);
-            attachment.setUuid(attachment.getId());
 
             response.setCharacterEncoding("UTF-8");
 //            response.setContentType("application/json;charset=utf-8");
             response.setContentType("text/plain;charset=utf-8");
             response.setHeader("Cache-Control", "no-cache");
             out = response.getWriter();
-
             JSONObject jsobjcet = new JSONObject();
             jsobjcet.put("success", true);
-            jsobjcet.put("id", attachment.getId());
-            //jsobjcet.put("path",attachment.getPath());
+
+
+            if("1".equals(isMobile)){
+                jsobjcet.put("attachments",list);
+            }else {
+                jsobjcet.put("id", attachment.getId());
+                //jsobjcet.put("path",attachment.getPath());
+            }
             out.write(jsobjcet.toJSONString());
         } catch (FileUploadException e) {
             logger.error(e.getMessage(), e);

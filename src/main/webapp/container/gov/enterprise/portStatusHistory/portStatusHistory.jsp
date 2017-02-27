@@ -74,13 +74,13 @@
                         <div class="col-sm-4">
                             <input type="hidden" id="id" name="id" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
-                            <input type="text" id="name" name="name" class="form-control"
+                            <input type="text" id="portName" name="portName" class="form-control"
                                    data-message="设备名称不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                         <label for="code" class="col-sm-2 control-label">设备编码<span class="text-danger">(*)</span>：</label>
                         <div class="col-sm-4">
-                            <input type="text" id="code" name="code" class="form-control"
+                            <input type="text" id="portNumber" name="portNumber" class="form-control"
                                    data-message="设备编码不能为空"
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
