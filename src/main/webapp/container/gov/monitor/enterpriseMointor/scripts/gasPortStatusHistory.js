@@ -44,38 +44,74 @@ function initTable() {
             },
             {
                 title: '氮氧化物（毫克/立方米）',
-                field: 'nitrogenPAvgValue',
+                field: 'nitrogenLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.nitrogenStatus!=0){
+                        value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                    }
+                    value=value+"("+row.nitrogenStandardValue+")"
+                    return value;
+                }
             },
             {
                 title: '二氧化硫（毫克/立方米）',
-                field: 'sulfurPAvgValue',
+                field: 'sulfurLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.sulfurStatus!=0){
+                        value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                    }
+                    value=value+"("+row.sulfurStandardValue+")"
+                    return value;
+                }
             },
             {
                 title: '废气流量（立方米/小时）',
-                field: 'gasFlowPAvgValue',
+                field: 'gasFlowLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.gasFlowStatus!=0){
+                        value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                    }
+                    return value;
+                }
             },
             {
                 title: '烟尘（毫克/立方米）',
-                field: 'dustPAvgValue',
+                field: 'dustLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.dustStatus!=0){
+                        value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                    }
+                    value=value+"("+row.dustStandardValue+")"
+                    return value;
+                }
             },
             {
                 title: '氧含量（%）',
-                field: 'oxygenPAvgValue',
+                field: 'oxygenLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.oxygenStatus!=0){
+                        value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                    }
+                    if(row.oxygenStandardValue!=0){
+                        value=value+"("+row.oxygenStandardValue+")"
+                    }
+                    return value;
+                }
             }
         ]
     });

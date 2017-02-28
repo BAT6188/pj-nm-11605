@@ -5,6 +5,7 @@ import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.dao.MonitorCaseDAO;
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.dao.EnterpriseDAO;
+import com.harmonywisdom.dshbcbp.port.bean.GasPortHistory;
 import com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory;
 import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
 import com.harmonywisdom.dshbcbp.port.bean.WaterPortHistory;
@@ -15,9 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
@@ -38,11 +37,146 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
     private MonitorCaseDAO monitorCaseDAO;
 
     /**
+     * 通过时间查询最新的废水排口历史数据列表
+     * @param enterpriseCode
+     * @param enterpriseId
+     * @param pointCode
+     * @param portId
+     * @param startTime
+     * @return
+     */
+    public List<WaterPortHistory> getWaterPortHistoryDataListByDateTime(String enterpriseCode, String enterpriseId
+            , String pointCode, String portId, String startTime){
+        String sql="SELECT  \n" +
+                "  w.PSCode,  \n" +
+                "  w.PointCode,  \n" +
+                "  w.Datatime,  \n" +
+                "  w.Code_Pollute,  \n" +
+                "  w.standardValue,  \n" +
+                "  w.pZtdAvg,  \n" +
+                "  w.standardMinValue,  \n" +
+                "  w.exceptionMaxValue,  \n" +
+                "  w.exceptionMinValue,  \n" +
+                "  w.StandardMaxValue,  \n" +
+                "  w.pCountValue,  \n" +
+                "  w.PAvgValue  \n" +
+                "FROM  \n" +
+                "  T_AutoMoni_HourData_Water w  \n" +
+                "WHERE  \n" +
+                "  w.Code_Pollute IN (  \n" +
+                "    'W01001',  \n" +
+                "    'W99082',  \n" +
+                "    'W01018',  \n" +
+                "    'W21003'  \n" +
+                "  )  \n" +
+                "AND w.PSCode = '"+enterpriseCode+"'  \n" +
+                "AND w.PointCode = '"+pointCode+"'  \n" +
+                "AND w.Datatime > '"+startTime+"'";
+
+        log.info("废水实时数据sql: \n"+sql);
+        List<Map<String, Object>> list = portJdbcTemplate.queryForList(sql);
+        List<WaterPortHistory> historyList=new ArrayList<>();
+        for (Map<String, Object> map : list) {
+            WaterPortHistory waterPortHistory = getWaterPortHistory((Date) map.get("Datatime"),historyList);
+            if(waterPortHistory == null){
+                waterPortHistory = new WaterPortHistory();
+                waterPortHistory.setEnterpriseId(enterpriseId);
+                waterPortHistory.setEnterpriseCode(enterpriseCode);
+                waterPortHistory.setPortCode(pointCode);
+                waterPortHistory.setPortId(portId);
+                waterPortHistory.setMonitorTime((Date)map.get("Datatime"));
+                waterPortHistory.setDataStatus("0");
+                waterPortHistory.setNitrogenStatus("0");
+                waterPortHistory.setOxygenStatus("0");
+                waterPortHistory.setFlowStatus("0");
+                waterPortHistory.setPhStatus("0");
+                waterPortHistory.setOxygenStatus("0");
+                historyList.add(waterPortHistory);
+            }
+
+            String code_pollute = map.get("Code_Pollute").toString();
+            Double LiveValue =0D;
+            Double standardValue =0D;
+            if (map.get("pZtdAvg")!=null){
+                LiveValue = Double.valueOf(map.get("pZtdAvg").toString());
+            }else {
+                if (map.get("PAvgValue")!=null){
+                    LiveValue = Double.valueOf(map.get("PAvgValue").toString());
+                }
+            }
+            if (map.get("StandardValue")!=null){
+                standardValue = Double.valueOf(map.get("StandardValue").toString());
+            }
+
+            if ("W01001".equals(code_pollute)){
+                //pH值
+                waterPortHistory.setPhLiveValue(LiveValue);
+                waterPortHistory.setPhStandardValue(standardValue);
+                if (LiveValue!=0D && standardValue!=0D){
+                    if (LiveValue>standardValue){//折算值或平均值大于标准值为超标
+                        waterPortHistory.setPhStatus("1");//超标
+                    }
+                }
+            }else if ("W01018".equals(code_pollute)){
+                //化学需氧量
+                waterPortHistory.setOxygenLiveValue(LiveValue);
+                waterPortHistory.setOxygenStandardValue(standardValue);
+                if (LiveValue!=0D && standardValue!=0D){
+                    if (LiveValue>standardValue){//折算值或平均值大于标准值为超标
+                        waterPortHistory.setOxygenStatus("1");//超标
+                    }
+                }
+            }else if ("W99082".equals(code_pollute)){
+                //污水流量
+                //污水流量不用判断超标
+                if (map.get("pCountValue")!=null){
+                    LiveValue = Double.valueOf(map.get("pCountValue").toString());
+                }
+                waterPortHistory.setFlowLiveValue(LiveValue);
+                waterPortHistory.setFlowStandardValue(standardValue);
+                waterPortHistory.setFlowStatus("0");
+            }else if ("W21003".equals(code_pollute)){
+                //氨氮
+                waterPortHistory.setNitrogenLiveValue(LiveValue);
+                waterPortHistory.setNitrogenStandardValue(standardValue);
+                if (LiveValue!=0D && standardValue!=0D){
+                    if (LiveValue>standardValue){//折算值或平均值大于标准值为超标
+                        waterPortHistory.setNitrogenStatus("1");//超标
+                    }
+                }
+            }
+
+            if (!"W99082".equals(code_pollute)){//废气流量不用判断超标
+                if (LiveValue!=0D && standardValue!=0D){
+                    if (LiveValue>standardValue){//折算值或平均值大于标准值为超标
+                        waterPortHistory.setDataStatus("1");//超标
+                    }
+                }
+                //异常规则先注掉
+//                if (!(exceptionMaxValue>LiveValue && LiveValue>exceptionMinValue)){
+//                    waterPortHistory.setDataStatus("2");//异常
+//                }
+            }
+        }
+        return historyList;
+    }
+
+    private WaterPortHistory getWaterPortHistory(Date dateTime,List<WaterPortHistory>  historyList){
+        for(WaterPortHistory obj : historyList){
+            if(dateTime.equals(obj.getMonitorTime()) ){
+                return obj;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 得到当前时间段（如 15:00:00 - 15:59:59）的废水监测指标数据
      * @param enterpriseCode
      * @param pointCode
      * @return
      */
+    @Deprecated
     public WaterPortHistory getWaterPortHistoryData(String enterpriseCode,String enterpriseId,String pointCode,String portId,String startTime,String endTime)throws Exception{
         String sql="SELECT  \n" +
                 "  w.PSCode,  \n" +
@@ -85,19 +219,19 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
                 水：平均值（PAvgValue）  标准值（StandardValue）
                 汽：平均折算值（pZtdAvg）  标准值（StandardValue）*/
                 String code_pollute = map.get("Code_Pollute")+"";
-                Double pAvgValue =0D;
+                Double liveValue =0D;
                 Double standardValue =0D;
                 Double standardMaxValue =0D;
                 Double standardMinValue =0D;
                 Double exceptionMaxValue =0D;
                 Double exceptionMinValue =0D;
                 if (map.get("pZtdAvg")!=null){
-                    pAvgValue = Double.valueOf(map.get("pZtdAvg").toString());
+                    liveValue = Double.valueOf(map.get("pZtdAvg").toString());
                 }else {
                     if (map.get("PAvgValue")!=null){
-                        pAvgValue = Double.valueOf(map.get("PAvgValue").toString());
+                        liveValue = Double.valueOf(map.get("PAvgValue").toString());
                     }else {
-                        pAvgValue = Double.valueOf(map.get("pCountValue").toString());
+                        liveValue = Double.valueOf(map.get("pCountValue").toString());
                     }
                 }
 
@@ -117,65 +251,65 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
                     exceptionMinValue = Double.valueOf(map.get("ExceptionMinValue").toString());
                 }
 
-                //if (!(standardMaxValue>pAvgValue && pAvgValue>standardMinValue)){
-                if (pAvgValue!=0D && standardValue!=0D){
-                    if (pAvgValue>standardValue){//折算值或平均值大于标准值为超标
-                        wph.setDataStatus("1");//超标
-                    }
-                }
-
-                //异常规则先注掉
-//                if (!(exceptionMaxValue>pAvgValue && pAvgValue>exceptionMinValue)){
-//                    wph.setDataStatus("2");//异常
-//                }
-
                 PortStatusHistory p=new PortStatusHistory();
-
-                Double monitorCasePAvgValue=0D;
+                Double monitorCaseLiveValue=0D;
                 if ("W01001".equals(code_pollute)){
                     //pH值
-                    wph.setPhPAvgValue(pAvgValue);
-                    wph.setPhStandardMaxValue(standardMaxValue);
-                    wph.setPhStandardMinValue(standardMinValue);
+                    wph.setPhLiveValue(liveValue);
+                    wph.setPhStandardValue(standardMaxValue);
+//                    wph.setPhStandardMinValue(standardMinValue);
                     wph.setPhExceptionMaxValue(exceptionMaxValue);
                     wph.setPhExceptionMinValue(exceptionMinValue);
 
                     p.setPollutantName("pH值");
 
-                    monitorCasePAvgValue=pAvgValue;
+                    monitorCaseLiveValue=liveValue;
                 }else if ("W99082".equals(code_pollute)){
                     //污水流量
-                    wph.setFlowPAvgValue(pAvgValue);
-                    wph.setFlowStandardMaxValue(standardMaxValue);
-                    wph.setFlowStandardMinValue(standardMinValue);
+                    wph.setFlowLiveValue(liveValue);
+                    wph.setFlowStandardValue(standardMaxValue);
+//                    wph.setFlowStandardMinValue(standardMinValue);
                     wph.setFlowExceptionMaxValue(exceptionMaxValue);
                     wph.setFlowExceptionMinValue(exceptionMinValue);
 
                     p.setPollutantName("污水流量");
 
-                    monitorCasePAvgValue=pAvgValue;
+                    monitorCaseLiveValue=liveValue;
                 }else if ("W01018".equals(code_pollute)){
                     //化学需氧量
-                    wph.setOxygenPAvgValue(pAvgValue);
-                    wph.setOxygenStandardMaxValue(standardMaxValue);
-                    wph.setOxygenStandardMinValue(standardMinValue);
+                    wph.setOxygenLiveValue(liveValue);
+                    wph.setOxygenStandardValue(standardMaxValue);
+//                    wph.setOxygenStandardMinValue(standardMinValue);
                     wph.setOxygenExceptionMaxValue(exceptionMaxValue);
                     wph.setOxygenExceptionMinValue(exceptionMinValue);
 
                     p.setPollutantName("化学需氧量");
 
-                    monitorCasePAvgValue=pAvgValue;
+                    monitorCaseLiveValue=liveValue;
                 }else if ("W21003".equals(code_pollute)){
                     //氨氮
-                    wph.setNitrogenPAvgValue(pAvgValue);
-                    wph.setNitrogenStandardMaxValue(standardMaxValue);
-                    wph.setNitrogenStandardMinValue(standardMinValue);
+                    wph.setNitrogenLiveValue(liveValue);
+                    wph.setNitrogenStandardValue(standardMaxValue);
+//                    wph.setNitrogenStandardMinValue(standardMinValue);
                     wph.setNitrogenExceptionMaxValue(exceptionMaxValue);
                     wph.setNitrogenExceptionMinValue(exceptionMinValue);
 
                     p.setPollutantName("氨氮");
 
-                    monitorCasePAvgValue=pAvgValue;
+                    monitorCaseLiveValue=liveValue;
+                }
+
+                if (!"W99082".equals(code_pollute)) {//废水流量不用判断超标
+                    if (liveValue!=0D && standardValue!=0D){
+                        if (liveValue>standardValue){//折算值或平均值大于标准值为超标
+                            wph.setDataStatus("1");//超标
+                        }
+                    }
+
+                    //异常规则先注掉
+//                if (!(exceptionMaxValue>liveValue && liveValue>exceptionMinValue)){
+//                    wph.setDataStatus("2");//异常
+//                }
                 }
 
 
@@ -220,7 +354,7 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
                     mc.setPortName(p.getPortName());
                     mc.setPollutantType("废水");
                     mc.setOverObj(p.getPollutantName());
-                    mc.setOverValue(monitorCasePAvgValue.toString());
+                    mc.setOverValue(monitorCaseLiveValue.toString());
                     mc.setThrValue(standardValue.toString());
                     //插入超标预警记录表（监控中心表）
                     monitorCaseDAO.save(mc);

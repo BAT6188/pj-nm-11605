@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,7 +17,15 @@ public class GasPortHistory implements Serializable {
     private String id;
 
     /**
-     * 排口ID
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
+    private Date mobileTimestamp;
+
+
+    /**
+     * 本地排口ID
      */
     @Column(name = "port_id",length = 32)
     private String portId;
@@ -60,22 +65,25 @@ public class GasPortHistory implements Serializable {
     //--------------------------------------------------------------------------------------------//
 
     /**
-     * 氮氧化物（毫克/立方米）
+     * 氮氧化物（毫克/立方米） 实时值
      */
-    @Column(name = "nitrogen_PAvgValue")
-    private Double nitrogenPAvgValue;
+    @Column(name = "nitrogen_LiveValue")
+    private Double nitrogenLiveValue;
+
+    /**
+     * 指标状态
+     * 0:正常
+     * 1:超标
+     * 2:异常
+     */
+    @Column(name = "nitrogen_StandardValue")
+    private Double nitrogenStandardValue;
 
     /**
      * 氮氧化物（毫克/立方米）
      */
-    @Column(name = "nitrogen_StandardMaxValue")
-    private Double nitrogenStandardMaxValue;
-
-    /**
-     * 氮氧化物（毫克/立方米）
-     */
-    @Column(name = "nitrogen_StandardMinValue")
-    private Double nitrogenStandardMinValue;
+    @Column(name = "nitrogen_Status",length = 2)
+    private String nitrogenStatus;
 
     /**
      * 氮氧化物（毫克/立方米）
@@ -100,20 +108,20 @@ public class GasPortHistory implements Serializable {
     /**
      * 二氧化硫（毫克/立方米）
      */
-    @Column(name = "sulfur_PAvgValue")
-    private Double sulfurPAvgValue;
+    @Column(name = "sulfur_LiveValue")
+    private Double sulfurLiveValue;
 
     /**
      * 二氧化硫（毫克/立方米）
      */
-    @Column(name = "sulfur_StandardMaxValue")
-    private Double sulfurStandardMaxValue;
+    @Column(name = "sulfur_StandardValue")
+    private Double sulfurStandardValue;
 
     /**
      * 二氧化硫（毫克/立方米）
      */
-    @Column(name = "sulfur_StandardMinValue")
-    private Double sulfurStandardMinValue;
+    @Column(name = "sulfur_Status",length = 2)
+    private String sulfurStatus;
 
     /**
      * 二氧化硫（毫克/立方米）
@@ -139,20 +147,20 @@ public class GasPortHistory implements Serializable {
     /**
      * 废气流量（立方米/小时）
      */
-    @Column(name = "gas_flow_PAvgValue")
-    private Double gasFlowPAvgValue;
+    @Column(name = "gas_flow_LiveValue")
+    private Double gasFlowLiveValue;
 
     /**
      * 废气流量（立方米/小时）
      */
-    @Column(name = "gas_flow_StandardMaxValue")
-    private Double gasFlowStandardMaxValue;
+    @Column(name = "gas_flow_StandardValue")
+    private Double gasFlowStandardValue;
 
     /**
      * 废气流量（立方米/小时）
      */
-    @Column(name = "gas_flow_StandardMinValue")
-    private Double gasFlowStandardMinValue;
+    @Column(name = "gas_flow_Status",length = 2)
+    private String gasFlowStatus;
 
     /**
      * 废气流量（立方米/小时）
@@ -177,20 +185,20 @@ public class GasPortHistory implements Serializable {
     /**
      * 烟尘（毫克/立方米）
      */
-    @Column(name = "dust_PAvgValue")
-    private Double dustPAvgValue;
+    @Column(name = "dust_LiveValue")
+    private Double dustLiveValue;
 
     /**
      * 烟尘（毫克/立方米）
      */
-    @Column(name = "dust_StandardMaxValue")
-    private Double dustStandardMaxValue;
+    @Column(name = "dust_StandardValue")
+    private Double dustStandardValue;
 
     /**
      * 烟尘（毫克/立方米）
      */
-    @Column(name = "dust_StandardMinValue")
-    private Double dustStandardMinValue;
+    @Column(name = "dust_Status",length = 2)
+    private String dustStatus;
 
     /**
      * 烟尘（毫克/立方米）
@@ -215,20 +223,20 @@ public class GasPortHistory implements Serializable {
     /**
      * 氧含量（%）
      */
-    @Column(name = "oxygen_PAvgValue")
-    private Double oxygenPAvgValue;
+    @Column(name = "oxygen_LiveValue")
+    private Double oxygenLiveValue;
 
     /**
      * 氧含量（%）
      */
-    @Column(name = "oxygen_StandardMaxValue")
-    private Double oxygenStandardMaxValue;
+    @Column(name = "oxygen_StandardValue")
+    private Double oxygenStandardValue;
 
     /**
      * 氧含量（%）
      */
-    @Column(name = "oxygen_StandardMinValue")
-    private Double oxygenStandardMinValue;
+    @Column(name = "oxygen_Status",length = 2)
+    private String oxygenStatus;
 
     /**
      * 氧含量（%）
@@ -256,7 +264,7 @@ public class GasPortHistory implements Serializable {
      * 1:超标
      * 2:异常
      */
-    @Column(name = "data_status",length = 1)
+    @Column(name = "data_status",length = 2)
     private String dataStatus;
 
     public String getDataStatus() {
@@ -320,29 +328,22 @@ public class GasPortHistory implements Serializable {
         return serialVersionUID;
     }
 
-    public Double getNitrogenPAvgValue() {
-        return nitrogenPAvgValue;
+    public Double getNitrogenLiveValue() {
+        return nitrogenLiveValue;
     }
 
-    public void setNitrogenPAvgValue(Double nitrogenPAvgValue) {
-        this.nitrogenPAvgValue = nitrogenPAvgValue;
+    public void setNitrogenLiveValue(Double nitrogenLiveValue) {
+        this.nitrogenLiveValue = nitrogenLiveValue;
     }
 
-    public Double getNitrogenStandardMaxValue() {
-        return nitrogenStandardMaxValue;
+    public Double getNitrogenStandardValue() {
+        return nitrogenStandardValue;
     }
 
-    public void setNitrogenStandardMaxValue(Double nitrogenStandardMaxValue) {
-        this.nitrogenStandardMaxValue = nitrogenStandardMaxValue;
+    public void setNitrogenStandardValue(Double nitrogenStandardValue) {
+        this.nitrogenStandardValue = nitrogenStandardValue;
     }
 
-    public Double getNitrogenStandardMinValue() {
-        return nitrogenStandardMinValue;
-    }
-
-    public void setNitrogenStandardMinValue(Double nitrogenStandardMinValue) {
-        this.nitrogenStandardMinValue = nitrogenStandardMinValue;
-    }
 
     public Double getNitrogenExceptionMaxValue() {
         return nitrogenExceptionMaxValue;
@@ -368,29 +369,22 @@ public class GasPortHistory implements Serializable {
         this.isNitrogen = isNitrogen;
     }
 
-    public Double getSulfurPAvgValue() {
-        return sulfurPAvgValue;
+    public Double getSulfurLiveValue() {
+        return sulfurLiveValue;
     }
 
-    public void setSulfurPAvgValue(Double sulfurPAvgValue) {
-        this.sulfurPAvgValue = sulfurPAvgValue;
+    public void setSulfurLiveValue(Double sulfurLiveValue) {
+        this.sulfurLiveValue = sulfurLiveValue;
     }
 
-    public Double getSulfurStandardMaxValue() {
-        return sulfurStandardMaxValue;
+    public Double getSulfurStandardValue() {
+        return sulfurStandardValue;
     }
 
-    public void setSulfurStandardMaxValue(Double sulfurStandardMaxValue) {
-        this.sulfurStandardMaxValue = sulfurStandardMaxValue;
+    public void setSulfurStandardValue(Double sulfurStandardValue) {
+        this.sulfurStandardValue = sulfurStandardValue;
     }
 
-    public Double getSulfurStandardMinValue() {
-        return sulfurStandardMinValue;
-    }
-
-    public void setSulfurStandardMinValue(Double sulfurStandardMinValue) {
-        this.sulfurStandardMinValue = sulfurStandardMinValue;
-    }
 
     public Double getSulfurExceptionMaxValue() {
         return sulfurExceptionMaxValue;
@@ -416,29 +410,22 @@ public class GasPortHistory implements Serializable {
         this.isSulfur = isSulfur;
     }
 
-    public Double getGasFlowPAvgValue() {
-        return gasFlowPAvgValue;
+    public Double getGasFlowLiveValue() {
+        return gasFlowLiveValue;
     }
 
-    public void setGasFlowPAvgValue(Double gasFlowPAvgValue) {
-        this.gasFlowPAvgValue = gasFlowPAvgValue;
+    public void setGasFlowLiveValue(Double gasFlowLiveValue) {
+        this.gasFlowLiveValue = gasFlowLiveValue;
     }
 
-    public Double getGasFlowStandardMaxValue() {
-        return gasFlowStandardMaxValue;
+    public Double getGasFlowStandardValue() {
+        return gasFlowStandardValue;
     }
 
-    public void setGasFlowStandardMaxValue(Double gasFlowStandardMaxValue) {
-        this.gasFlowStandardMaxValue = gasFlowStandardMaxValue;
+    public void setGasFlowStandardValue(Double gasFlowStandardValue) {
+        this.gasFlowStandardValue = gasFlowStandardValue;
     }
 
-    public Double getGasFlowStandardMinValue() {
-        return gasFlowStandardMinValue;
-    }
-
-    public void setGasFlowStandardMinValue(Double gasFlowStandardMinValue) {
-        this.gasFlowStandardMinValue = gasFlowStandardMinValue;
-    }
 
     public Double getGasFlowExceptionMaxValue() {
         return gasFlowExceptionMaxValue;
@@ -464,29 +451,22 @@ public class GasPortHistory implements Serializable {
         this.isGasFlow = isGasFlow;
     }
 
-    public Double getDustPAvgValue() {
-        return dustPAvgValue;
+    public Double getDustLiveValue() {
+        return dustLiveValue;
     }
 
-    public void setDustPAvgValue(Double dustPAvgValue) {
-        this.dustPAvgValue = dustPAvgValue;
+    public void setDustLiveValue(Double dustLiveValue) {
+        this.dustLiveValue = dustLiveValue;
     }
 
-    public Double getDustStandardMaxValue() {
-        return dustStandardMaxValue;
+    public Double getDustStandardValue() {
+        return dustStandardValue;
     }
 
-    public void setDustStandardMaxValue(Double dustStandardMaxValue) {
-        this.dustStandardMaxValue = dustStandardMaxValue;
+    public void setDustStandardValue(Double dustStandardValue) {
+        this.dustStandardValue = dustStandardValue;
     }
 
-    public Double getDustStandardMinValue() {
-        return dustStandardMinValue;
-    }
-
-    public void setDustStandardMinValue(Double dustStandardMinValue) {
-        this.dustStandardMinValue = dustStandardMinValue;
-    }
 
     public Double getDustExceptionMaxValue() {
         return dustExceptionMaxValue;
@@ -512,29 +492,22 @@ public class GasPortHistory implements Serializable {
         this.isDust = isDust;
     }
 
-    public Double getOxygenPAvgValue() {
-        return oxygenPAvgValue;
+    public Double getOxygenLiveValue() {
+        return oxygenLiveValue;
     }
 
-    public void setOxygenPAvgValue(Double oxygenPAvgValue) {
-        this.oxygenPAvgValue = oxygenPAvgValue;
+    public void setOxygenLiveValue(Double oxygenLiveValue) {
+        this.oxygenLiveValue = oxygenLiveValue;
     }
 
-    public Double getOxygenStandardMaxValue() {
-        return oxygenStandardMaxValue;
+    public Double getOxygenStandardValue() {
+        return oxygenStandardValue;
     }
 
-    public void setOxygenStandardMaxValue(Double oxygenStandardMaxValue) {
-        this.oxygenStandardMaxValue = oxygenStandardMaxValue;
+    public void setOxygenStandardValue(Double oxygenStandardValue) {
+        this.oxygenStandardValue = oxygenStandardValue;
     }
 
-    public Double getOxygenStandardMinValue() {
-        return oxygenStandardMinValue;
-    }
-
-    public void setOxygenStandardMinValue(Double oxygenStandardMinValue) {
-        this.oxygenStandardMinValue = oxygenStandardMinValue;
-    }
 
     public Double getOxygenExceptionMaxValue() {
         return oxygenExceptionMaxValue;
@@ -566,5 +539,53 @@ public class GasPortHistory implements Serializable {
 
     public void setPortCode(String portCode) {
         this.portCode = portCode;
+    }
+
+    public String getNitrogenStatus() {
+        return nitrogenStatus;
+    }
+
+    public void setNitrogenStatus(String nitrogenStatus) {
+        this.nitrogenStatus = nitrogenStatus;
+    }
+
+    public String getSulfurStatus() {
+        return sulfurStatus;
+    }
+
+    public void setSulfurStatus(String sulfurStatus) {
+        this.sulfurStatus = sulfurStatus;
+    }
+
+    public String getGasFlowStatus() {
+        return gasFlowStatus;
+    }
+
+    public void setGasFlowStatus(String gasFlowStatus) {
+        this.gasFlowStatus = gasFlowStatus;
+    }
+
+    public String getDustStatus() {
+        return dustStatus;
+    }
+
+    public void setDustStatus(String dustStatus) {
+        this.dustStatus = dustStatus;
+    }
+
+    public String getOxygenStatus() {
+        return oxygenStatus;
+    }
+
+    public void setOxygenStatus(String oxygenStatus) {
+        this.oxygenStatus = oxygenStatus;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

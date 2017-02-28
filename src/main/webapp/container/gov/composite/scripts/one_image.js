@@ -14,7 +14,7 @@ var OneImagePage = function () {
         VIDEO_FLAG: "Video",
         VIDEO_DEVICE_FLAG: "VideoDevice",
         AIR_EQUIPMENT_FLAG:"AirEquipment",
-        CLOCK_DELAY:30000
+        CLOCK_DELAY:15000
     };
     var page = {
         zTree:undefined,

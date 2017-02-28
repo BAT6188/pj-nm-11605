@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +15,14 @@ public class WaterPortHistory implements Serializable {
     @Id
     @Column(length = 32)
     private String id;
+
+    /**
+     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
+    private Date mobileTimestamp;
+
 
     /**
      * 排口ID
@@ -54,20 +59,20 @@ public class WaterPortHistory implements Serializable {
     /**
      * 流量平均值
      */
-    @Column(name = "flow_PAvgValue")
-    private Double flowPAvgValue;
+    @Column(name = "flow_LiveValue")
+    private Double flowLiveValue;
 
     /**
      * 流量标准值上限: 用来判断数据超标
      */
-    @Column(name = "flow_StandardMaxValue")
-    private Double flowStandardMaxValue;
+    @Column(name = "flow_StandardValue")
+    private Double flowStandardValue;
 
     /**
      * 流量标准值下限: 用来判断数据超标
      */
-    @Column(name = "flow_StandardMinValue")
-    private Double flowStandardMinValue;
+    @Column(name = "flow_Status")
+    private String flowStatus;
 
     /**
      * 流量异常值上限: 用来判断数据异常
@@ -87,20 +92,20 @@ public class WaterPortHistory implements Serializable {
     /**
      * 化学需氧量
      */
-    @Column(name = "oxygen_PAvgValue")
-    private Double oxygenPAvgValue;
+    @Column(name = "oxygen_LiveValue")
+    private Double oxygenLiveValue;
 
     /**
      * 化学需氧量
      */
-    @Column(name = "oxygen_StandardMaxValue")
-    private Double oxygenStandardMaxValue;
+    @Column(name = "oxygen_StandardValue")
+    private Double oxygenStandardValue;
 
     /**
      * 化学需氧量
      */
-    @Column(name = "oxygen_StandardMinValue")
-    private Double oxygenStandardMinValue;
+    @Column(name = "oxygen_Status")
+    private String oxygenStatus;
 
     /**
      * 化学需氧量
@@ -119,20 +124,20 @@ public class WaterPortHistory implements Serializable {
     /**
      * 氨氮
      */
-    @Column(name = "nitrogen_PAvgValue")
-    private Double nitrogenPAvgValue;
+    @Column(name = "nitrogen_LiveValue")
+    private Double nitrogenLiveValue;
 
     /**
      * 氨氮
      */
-    @Column(name = "nitrogen_StandardMaxValue")
-    private Double nitrogenStandardMaxValue;
+    @Column(name = "nitrogen_StandardValue")
+    private Double nitrogenStandardValue;
 
     /**
      * 氨氮
      */
-    @Column(name = "nitrogen_StandardMinValue")
-    private Double nitrogenStandardMinValue;
+    @Column(name = "nitrogen_Status")
+    private String nitrogenStatus;
 
     /**
      * 氨氮
@@ -151,20 +156,20 @@ public class WaterPortHistory implements Serializable {
     /**
      * ph值
      */
-    @Column(name = "ph_PAvgValue")
-    private Double phPAvgValue;
+    @Column(name = "ph_LiveValue")
+    private Double phLiveValue;
 
     /**
      * ph值
      */
-    @Column(name = "ph_StandardMaxValue")
-    private Double phStandardMaxValue;
+    @Column(name = "ph_StandardValue")
+    private Double phStandardValue;
 
     /**
      * ph值
      */
-    @Column(name = "ph_StandardMinValue")
-    private Double phStandardMinValue;
+    @Column(name = "ph_Status")
+    private String phStatus;
 
     /**
      * ph值
@@ -241,28 +246,28 @@ public class WaterPortHistory implements Serializable {
         return serialVersionUID;
     }
 
-    public Double getFlowPAvgValue() {
-        return flowPAvgValue;
+    public Double getFlowLiveValue() {
+        return flowLiveValue;
     }
 
-    public void setFlowPAvgValue(Double flowPAvgValue) {
-        this.flowPAvgValue = flowPAvgValue;
+    public void setFlowLiveValue(Double flowLiveValue) {
+        this.flowLiveValue = flowLiveValue;
     }
 
-    public Double getFlowStandardMaxValue() {
-        return flowStandardMaxValue;
+    public Double getFlowStandardValue() {
+        return flowStandardValue;
     }
 
-    public void setFlowStandardMaxValue(Double flowStandardMaxValue) {
-        this.flowStandardMaxValue = flowStandardMaxValue;
+    public void setFlowStandardValue(Double flowStandardValue) {
+        this.flowStandardValue = flowStandardValue;
     }
 
-    public Double getFlowStandardMinValue() {
-        return flowStandardMinValue;
+    public String getFlowStatus() {
+        return flowStatus;
     }
 
-    public void setFlowStandardMinValue(Double flowStandardMinValue) {
-        this.flowStandardMinValue = flowStandardMinValue;
+    public void setFlowStatus(String flowStatus) {
+        this.flowStatus = flowStatus;
     }
 
     public Double getFlowExceptionMaxValue() {
@@ -281,29 +286,22 @@ public class WaterPortHistory implements Serializable {
         this.flowExceptionMinValue = flowExceptionMinValue;
     }
 
-    public Double getOxygenPAvgValue() {
-        return oxygenPAvgValue;
+    public Double getOxygenLiveValue() {
+        return oxygenLiveValue;
     }
 
-    public void setOxygenPAvgValue(Double oxygenPAvgValue) {
-        this.oxygenPAvgValue = oxygenPAvgValue;
+    public void setOxygenLiveValue(Double oxygenLiveValue) {
+        this.oxygenLiveValue = oxygenLiveValue;
     }
 
-    public Double getOxygenStandardMaxValue() {
-        return oxygenStandardMaxValue;
+    public Double getOxygenStandardValue() {
+        return oxygenStandardValue;
     }
 
-    public void setOxygenStandardMaxValue(Double oxygenStandardMaxValue) {
-        this.oxygenStandardMaxValue = oxygenStandardMaxValue;
+    public void setOxygenStandardValue(Double oxygenStandardValue) {
+        this.oxygenStandardValue = oxygenStandardValue;
     }
 
-    public Double getOxygenStandardMinValue() {
-        return oxygenStandardMinValue;
-    }
-
-    public void setOxygenStandardMinValue(Double oxygenStandardMinValue) {
-        this.oxygenStandardMinValue = oxygenStandardMinValue;
-    }
 
     public Double getOxygenExceptionMaxValue() {
         return oxygenExceptionMaxValue;
@@ -321,29 +319,22 @@ public class WaterPortHistory implements Serializable {
         this.oxygenExceptionMinValue = oxygenExceptionMinValue;
     }
 
-    public Double getNitrogenPAvgValue() {
-        return nitrogenPAvgValue;
+    public Double getNitrogenLiveValue() {
+        return nitrogenLiveValue;
     }
 
-    public void setNitrogenPAvgValue(Double nitrogenPAvgValue) {
-        this.nitrogenPAvgValue = nitrogenPAvgValue;
+    public void setNitrogenLiveValue(Double nitrogenLiveValue) {
+        this.nitrogenLiveValue = nitrogenLiveValue;
     }
 
-    public Double getNitrogenStandardMaxValue() {
-        return nitrogenStandardMaxValue;
+    public Double getNitrogenStandardValue() {
+        return nitrogenStandardValue;
     }
 
-    public void setNitrogenStandardMaxValue(Double nitrogenStandardMaxValue) {
-        this.nitrogenStandardMaxValue = nitrogenStandardMaxValue;
+    public void setNitrogenStandardValue(Double nitrogenStandardValue) {
+        this.nitrogenStandardValue = nitrogenStandardValue;
     }
 
-    public Double getNitrogenStandardMinValue() {
-        return nitrogenStandardMinValue;
-    }
-
-    public void setNitrogenStandardMinValue(Double nitrogenStandardMinValue) {
-        this.nitrogenStandardMinValue = nitrogenStandardMinValue;
-    }
 
     public Double getNitrogenExceptionMaxValue() {
         return nitrogenExceptionMaxValue;
@@ -361,28 +352,44 @@ public class WaterPortHistory implements Serializable {
         this.nitrogenExceptionMinValue = nitrogenExceptionMinValue;
     }
 
-    public Double getPhPAvgValue() {
-        return phPAvgValue;
+    public Double getPhLiveValue() {
+        return phLiveValue;
     }
 
-    public void setPhPAvgValue(Double phPAvgValue) {
-        this.phPAvgValue = phPAvgValue;
+    public void setPhLiveValue(Double phLiveValue) {
+        this.phLiveValue = phLiveValue;
     }
 
-    public Double getPhStandardMaxValue() {
-        return phStandardMaxValue;
+    public Double getPhStandardValue() {
+        return phStandardValue;
     }
 
-    public void setPhStandardMaxValue(Double phStandardMaxValue) {
-        this.phStandardMaxValue = phStandardMaxValue;
+    public void setPhStandardValue(Double phStandardValue) {
+        this.phStandardValue = phStandardValue;
     }
 
-    public Double getPhStandardMinValue() {
-        return phStandardMinValue;
+    public String getOxygenStatus() {
+        return oxygenStatus;
     }
 
-    public void setPhStandardMinValue(Double phStandardMinValue) {
-        this.phStandardMinValue = phStandardMinValue;
+    public void setOxygenStatus(String oxygenStatus) {
+        this.oxygenStatus = oxygenStatus;
+    }
+
+    public String getNitrogenStatus() {
+        return nitrogenStatus;
+    }
+
+    public void setNitrogenStatus(String nitrogenStatus) {
+        this.nitrogenStatus = nitrogenStatus;
+    }
+
+    public String getPhStatus() {
+        return phStatus;
+    }
+
+    public void setPhStatus(String phStatus) {
+        this.phStatus = phStatus;
     }
 
     public Double getPhExceptionMaxValue() {
@@ -407,5 +414,13 @@ public class WaterPortHistory implements Serializable {
 
     public void setPortCode(String portCode) {
         this.portCode = portCode;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
     }
 }

@@ -44,31 +44,68 @@ function initTable() {
             },
             {
                 title: '流量（升/秒）',
-                field: 'flowPAvgValue',
+                field: 'flowLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.flowStatus){
+                        if(row.flowStatus!=0){
+                            value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                        }
+                    }
+                    return value;
+                }
             },
             {
                 title: '化学需氧量（毫克/升）',
-                field: 'oxygenPAvgValue',
+                field: 'oxygenLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.oxygenStatus){
+                        if(row.oxygenStatus!=0){
+                            value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                        }
+                    }
+                    value=value+"("+row.oxygenStandardValue+")"
+                    return value;
+                }
             },
             {
                 title: '氨氮（毫克/升）',
-                field: 'nitrogenPAvgValue',
+                field: 'nitrogenLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if(row.nitrogenStatus){
+                        if(row.nitrogenStatus!=0){
+                            value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                        }
+                    }
+                    value=value+"("+row.nitrogenStandardValue+")"
+                    return value;
+                }
             },
             {
                 title: 'ph值',
-                field: 'ph_PAvgValue',
+                field: 'phLiveValue',
                 editable: false,
                 sortable: false,
-                align: 'center'
+                align: 'center',
+                formatter:function (value, row, index) {
+                    if (value){
+                        if(row.phStatus){
+                            if(row.phStatus!=0){
+                                value='<span style="color:red;font-weight: bolder;">'+value+'</span>'
+                            }
+                        }
+                        value=value+"("+row.phStandardValue+")"
+                    }
+                    return value;
+                }
             }
         ]
     });

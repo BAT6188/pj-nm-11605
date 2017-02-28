@@ -1,3 +1,5 @@
+-- noinspection SqlDialectInspectionForFile
+-- noinspection SqlNoDataSourceInspectionForFile
 -- 废水废气数据库监测指标实时数据:
 
 -- 废气
