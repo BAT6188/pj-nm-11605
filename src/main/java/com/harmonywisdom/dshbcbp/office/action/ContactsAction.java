@@ -8,6 +8,7 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ContactsAction extends BaseAction<Contacts, ContactsService> {
@@ -70,8 +71,10 @@ public class ContactsAction extends BaseAction<Contacts, ContactsService> {
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("sort", Direction.DESC);
+        LinkedHashMap<String, Direction> orders = new LinkedHashMap<>();
         if (StringUtils.isNotEmpty(mobileOperType)){
             condition.setOrderBy("mobileTimestamp", Direction.DESC);
+            //orders.put("mobileTimestamp",Direction.DESC);
         }
         return condition;
     }

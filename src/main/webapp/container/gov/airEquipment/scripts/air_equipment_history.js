@@ -39,6 +39,7 @@ function initTable() {
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
+        pageSize:20,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function(param){
             var temp = pageUtils.getBaseParams(param);
@@ -70,7 +71,7 @@ function initTable() {
             },
             {
                 title: '空气质量监测点',
-                field: 'airMonitoringName',
+                field: 'monitoringPosition',
                 editable: false,
                 sortable: false,
                 align: 'center'
