@@ -1179,6 +1179,7 @@ var OneImagePage = function () {
                 "<button id='enterprisePlan' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业平面图</button>" +
                 "<button id='mineImage' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>工矿图</button>" +
                 "<button id='surroundingVideo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>周边视频</button>" +
+                "<button id='liveWaterGas' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>在线监控</button>" +
                 "</div>";
             infoHtml+="</div>";
 
@@ -1204,7 +1205,15 @@ var OneImagePage = function () {
             $(infoDOM).find("#surroundingVideo").bind("click",function(){
                 $("#videoBtn").show();
             });
-
+            $(infoDOM).find("#liveWaterGas").bind("click",function(){
+                var enterpriseId = $(infoDOM).find("#liveWaterGas").attr("data-id");
+                var h=$(window).height()-120;
+                $("#setW").css('width',$(window).width());
+                $('.modal-body').attr('style','max-height: '+h+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+                $("#liveWaterGasModal").modal('show');
+                var url='/container/gov/monitor/enterpriseMointor/lookMonitor.jsp?id='+enterpriseId;
+                $('#contentliveWaterGas').load(rootPath+url);
+            });
             //查询按钮
             var videoLength = 5;
             $("#searBtn").bind('click',function(){

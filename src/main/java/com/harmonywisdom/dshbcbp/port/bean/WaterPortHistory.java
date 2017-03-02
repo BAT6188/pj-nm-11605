@@ -23,6 +23,12 @@ public class WaterPortHistory implements Serializable {
     @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
     private Date mobileTimestamp;
 
+    /**
+     * 排口名称
+     */
+    @Column(name = "name",length = 100)
+    private String name;
+
 
     /**
      * 排口ID
@@ -422,5 +428,13 @@ public class WaterPortHistory implements Serializable {
 
     public void setMobileTimestamp(Date mobileTimestamp) {
         this.mobileTimestamp = mobileTimestamp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

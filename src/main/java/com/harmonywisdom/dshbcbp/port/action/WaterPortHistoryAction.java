@@ -1,14 +1,16 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
+import com.harmonywisdom.dshbcbp.port.bean.GasPort;
+import com.harmonywisdom.dshbcbp.port.bean.GasPortHistory;
+import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
 import com.harmonywisdom.dshbcbp.port.bean.WaterPortHistory;
 import com.harmonywisdom.dshbcbp.port.service.GasPortHistoryService;
+import com.harmonywisdom.dshbcbp.port.service.GasPortService;
 import com.harmonywisdom.dshbcbp.port.service.WaterPortHistoryService;
+import com.harmonywisdom.dshbcbp.port.service.WaterPortService;
 import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryOperator;
-import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
@@ -20,6 +22,9 @@ public class WaterPortHistoryAction extends BaseAction<WaterPortHistory, WaterPo
 
     @AutoService
     private GasPortHistoryService gasPortHistoryService;
+
+    @AutoService
+    private WaterPortService waterPortService;
 
     @Override
     protected WaterPortHistoryService getService() {
@@ -77,5 +82,19 @@ public class WaterPortHistoryAction extends BaseAction<WaterPortHistory, WaterPo
             condition.setOrderBy("mobileTimestamp", Direction.DESC);
         }
         return condition;
+    }
+
+    public void listForMobile(){
+        List<WaterPort> portList = waterPortService.find(" enterpriseId = ? ", entity.getEnterpriseId());
+        QueryResult<WaterPortHistory> waterPortHistoryQueryResult = waterPortHistoryService.find(getQueryCondition());
+        for (WaterPortHistory waterPortHistory : waterPortHistoryQueryResult.getRows()) {
+            for (WaterPort waterPort : portList) {
+                if(waterPort.getId().equals(waterPortHistory.getPortId())){
+                    waterPortHistory.setName(waterPort.getName());
+                    break;
+                }
+            }
+        }
+        write(waterPortHistoryQueryResult);
     }
 }
