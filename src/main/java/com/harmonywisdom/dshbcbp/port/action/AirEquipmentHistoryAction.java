@@ -35,6 +35,9 @@ public class AirEquipmentHistoryAction extends BaseAction<AirEquipmentHistory, A
         if (StringUtils.isNotBlank(entity.getAirMonitoringName())) {
             param.andParam(new QueryParam("airMonitoringName", QueryOperator.LIKE,"%"+entity.getAirMonitoringName()+"%"));
         }
+        if(StringUtils.isNotBlank(entity.getMonitoringNumber())){
+            param.andParam(new QueryParam("monitoringNumber", QueryOperator.EQ,entity.getMonitoringNumber()));
+        }
 
         if("1".equals(mobileOperType)){//下拉
 //            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));

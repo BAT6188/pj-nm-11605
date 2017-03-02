@@ -24,9 +24,8 @@
                         </div>
                         <label for="monitoringNumber" class="col-sm-2 control-label">监测点编号：</label>
                         <div class="col-sm-4">
-                            <input type="hidden" id="id" name="id" class="form-control">
                             <input type="hidden" id="createTime" name="createTime" class="form-control">
-                            <input type="text" id="monitoringNumber" name="monitoringNumber" class="form-control"/>
+                            <input type="text" id="id" name="id" class="form-control"/>
                         </div>
                     </div>
 
@@ -79,6 +78,25 @@
             </div>
         </div>
     </div>
+</div>
+
+<%--空气质量历史数据--%>
+<div class="modal fade" data-backdrop="static" id="airEquipmentForm" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">空气质量历史数据—"<span id="airName"></span>"</h4>
+            </div>
+            <div class="modal-body">
+                <table id="airEquipmentTable" class="table table-striped table-responsive">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 </body>
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/composite/scripts/air_form_view.js"></script>

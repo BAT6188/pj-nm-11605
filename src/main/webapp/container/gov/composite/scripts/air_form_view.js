@@ -31,11 +31,7 @@ var AirFormViewDialog = function(){
         $.each(inputs,function(k,v){
             var tagId = $(v).attr('name');
             var value = entity[tagId];
-            if($(v)[0].tagName=='select'){
-                $(v).find("option[value='"+value+"']").attr("selected",true);
-            }else{
-                $(v).val(value);
-            }
+            $(v).val(value);
         });
         var radios = modalBody.find('.isRadio');
         $.each(radios,function(k,v){
@@ -117,6 +113,121 @@ var AirFormViewDialog = function(){
     };
     init();
 
+    return dialog;
+}();
+var AirHistoryDataFormViewDialog = function(){
+    var modal=$("#airEquipmentForm"),
+        modalBody=$("#airEquipmentForm").find(".modal-body"),
+        width=1000,
+        height=450;
+    function init() {
+        //初始化dialog大小
+        modal.find(".modal-dialog").width(width);
+        modalBody.height(pageUtils.getFormHeight(height));
+    }
+    var airEquipmentHistoryTable = $('#airEquipmentTable'),
+        isLoadAirEquipmentHistoryTable = false;
+    function loadAirEquipmentHistoryTable(airStationCode,airName){
+        modal.find("#airName").html(airName);
+        airEquipmentHistoryTable.monitoringNumber = airStationCode;
+        if(isLoadAirEquipmentHistoryTable){
+            airEquipmentHistoryTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:8});
+        }else{
+            isLoadAirEquipmentHistoryTable = true;
+            airEquipmentHistoryTable.bootstrapTable({
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                sidePagination:"server",
+                url: rootPath+"/action/S_port_AirEquipmentHistory_list.action",
+                method:'post',
+                pagination:true,
+                pageSize:8,
+                clickToSelect:true,//单击行时checkbox选中
+                queryParams:function(params){
+                    var localParams = {};
+                    //分页参数
+                    localParams.take = params.limit;
+                    localParams.skip = params.offset;
+                    if(params.offset){
+                        localParams.page = params.offset / params.limit + 1;
+                    }else{
+                        localParams.page = 1;
+                    }
+                    localParams.pageSize = params.limit;
+                    localParams.monitoringNumber = airEquipmentHistoryTable.monitoringNumber;
+                    return localParams;
+                },
+                columns: [
+                    {
+                        title: 'ID',
+                        field: 'id',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible:false
+                    },
+                    {
+                        title: '空气质量监测点',
+                        field: 'monitoringPosition',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        title: '监测时间',
+                        field: 'monitoringTime',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        field: 'airIndex',
+                        title: 'AQI指数',
+                        sortable: false,
+                        align: 'center',
+                        editable: false
+                    },
+                    {
+                        field: 'airQualityGrade',
+                        title: '空气质量等级',
+                        sortable: false,
+                        align: 'center',
+                        editable: false
+                    },
+
+                    {
+                        field: 'primaryPollutant',
+                        title: '首要污染物',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                    }
+                ]
+            });
+        }
+    }
+
+    var dialog = {
+        modal:function () {
+            if (arguments.length == 1) {
+                if (typeof arguments[0] == "string") {
+                    modal.modal(arguments[0]);
+                }
+                if (typeof arguments[0] == "object") {
+                    var options = arguments[0];
+                    var id = options['id'],name=options['name'];
+                    if (id) {
+                        loadAirEquipmentHistoryTable(id,name);
+                    }
+                }
+
+            }else if (arguments.length == 2) {
+                modal.on(arguments[0],arguments[1]);
+            }else{
+                modal.modal("toggle");
+            }
+        }
+    };
+    //init();
     return dialog;
 }();
 
