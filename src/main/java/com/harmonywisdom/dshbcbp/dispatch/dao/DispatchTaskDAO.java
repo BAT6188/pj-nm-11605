@@ -2,12 +2,9 @@ package com.harmonywisdom.dshbcbp.dispatch.dao;
 
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.framework.dao.DefaultDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class DispatchTaskDAO extends DefaultDAO<DispatchTask, String> {

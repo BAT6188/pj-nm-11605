@@ -8,6 +8,7 @@ import com.harmonywisdom.dshbcbp.attachment.bean.Attachment;
 import com.harmonywisdom.dshbcbp.attachment.dao.AttachmentDAO;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +41,14 @@ public class AttachmentServiceImpl extends BaseService<Attachment, String> imple
 
     @Override
     public List<Attachment> getByBusinessId(String bussinessId) throws ServiceException {
-        return attachmentDAO.find("entity.businessId = ?1", bussinessId);
+        List<Attachment> attachments = attachmentDAO.queryNativeSQL("select ID,ATT_TYPE,BUSINESS_ID,FILE_NAME,FILE_EXT,FILE_PATH,FILE_PATH as DATA,FILE_SIZE from HW_ATTACHMENT where BUSINESS_ID = ?1",Attachment.class,bussinessId);
+        return attachments;// attachmentDAO.find("entity.businessId = ?1", bussinessId);
     }
 
     @Override
     public List<Attachment> getByBusinessIdAndType(String bussinessId, String attachmentType) throws ServiceException {
-        return attachmentDAO.find("entity.businessId = ?1 and entity.attachmentType = ?2", bussinessId, attachmentType);
+        List<Attachment> attachments = attachmentDAO.queryNativeSQL("select ID,ATT_TYPE,BUSINESS_ID,FILE_NAME,FILE_EXT,FILE_PATH,FILE_PATH as DATA,FILE_SIZE from HW_ATTACHMENT where BUSINESS_ID = ?1 and ATT_TYPE = ?2",Attachment.class,bussinessId, attachmentType);
+        return attachments;//attachmentDAO.find("entity.businessId = ?1 and entity.attachmentType = ?2", bussinessId, attachmentType);
     }
     
     @Override
@@ -59,26 +62,26 @@ public class AttachmentServiceImpl extends BaseService<Attachment, String> imple
             List<Attachment> attachments = getByBusinessId(businessId);
 
             for (Attachment attachment : attachments) {
-                File f = new File(attachment.getPath());    // 输入要删除的文件位置
-                if (f.exists()) {
-                    f.delete();        //如果存在删除
+                if(StringUtils.isNotBlank(attachment.getPath())){
+                    File f = new File(attachment.getPath());    // 输入要删除的文件位置
+                    if (f.exists()) {
+                        f.delete();        //如果存在删除
+                    }
                 }
             }
         }
-
         attachmentDAO.executeJPQL("delete from Attachment entity where entity.businessId in ?1", Arrays.asList(businessIds));
     }
     
     @Override
     public void removeByIds(String... ids) {
         for (String id : ids) {
-        	Attachment attachment = attachmentDAO.findById(id);
-        	if(attachment != null){
+        	Attachment attachment = getById(id);
+        	if(attachment != null && StringUtils.isNotBlank(attachment.getPath())){
                 File f = new File(attachment.getPath());    // 输入要删除的文件位置
                 if (f.exists()) {
                     f.delete();        //如果存在删除
                 }
-                
         	}
         }
 
@@ -111,4 +114,19 @@ public class AttachmentServiceImpl extends BaseService<Attachment, String> imple
 			e.printStackTrace();
 		}
 	}
+
+    /**
+     * 根据ID获取不带data字段的文件对象
+     * @param Id
+     * @return
+     * @throws ServiceException
+     */
+    public Attachment getById(String Id) throws ServiceException {
+        List<Attachment> attachments = attachmentDAO.queryNativeSQL("select ID,ATT_TYPE,BUSINESS_ID,FILE_NAME,FILE_EXT,FILE_PATH,FILE_PATH as DATA,FILE_SIZE from HW_ATTACHMENT where ID = ?1 ",Attachment.class,Id);
+        if(attachments.size()>0){
+            return attachments.get(0);
+        }else{
+            return null;
+        }
+    }
 }

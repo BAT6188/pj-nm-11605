@@ -35,10 +35,11 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_AirEquipment_list.action",
+        url: rootPath+"/action/S_port_AirEquipmentHistory_list.action",
         height: pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
+        pageSize:20,
         clickToSelect:true,//单击行时checkbox选中
         queryParams:function(param){
             var temp = pageUtils.getBaseParams(param);
@@ -62,7 +63,14 @@ function initTable() {
             },
             {
                 title: '空气质量监测点',
-                field: 'airMonitoringName',
+                field: 'monitoringPosition',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '检测时间',
+                field: 'monitoringTime',
                 editable: false,
                 sortable: false,
                 align: 'center'

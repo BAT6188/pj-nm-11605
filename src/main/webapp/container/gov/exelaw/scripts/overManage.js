@@ -231,7 +231,6 @@ window.siteMonitoringReportEvents = {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        console.log(JSON.stringify(row));
 
         $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
         $("#lookOverFeedbackForm_answer").val(row.answer);
@@ -485,7 +484,7 @@ initTable();
 /**============列表搜索相关处理============**/
 //搜索按钮处理
 $("#search").click(function () {
-    var queryParams = {};
+    /*var queryParams = {};
     var s_enterpriseName = $("#s_enterpriseName").val();
     var s_source = $("#s_source").val();
     var start_eventTime=$("#start_eventTime").val()
@@ -510,10 +509,8 @@ $("#search").click(function () {
     }
     if (end_eventTime){
         queryParams["endEventTime"] = end_eventTime;
-    }
-    gridTable.bootstrapTable('refresh',{
-        query:queryParams
-    });
+    }*/
+    gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
 });
 
 

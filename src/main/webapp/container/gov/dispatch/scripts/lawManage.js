@@ -269,7 +269,7 @@ function feedbackStatusoperateFormatter(value, row, index) {
     if (row.status>='3'){
         return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">已反馈</button>';
     }else {
-        return '未反馈'
+        return '未反馈';
     }
 }
 
@@ -346,7 +346,6 @@ window.punishEvents = {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        console.log(JSON.stringify(row));
 
         $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
         $("#lookOverFeedbackForm_answer").val(row.answer);
@@ -593,11 +592,12 @@ function setEventMsgFormData(entity) {
         $(v).val(entity[tagId]);
     });
 
-    if(entity.dispatchPersonName){
+    /*if(entity.dispatchPersonName){
         $("#dispatchPersonName").val(entity.dispatchPersonName);
     }else {
         $("#dispatchPersonName").val(userName);
-    }
+    }*/
+    $("#dispatchPersonName").val(userName);
 
     if(entity.dispatchTime){
         $("#dispatchTime").val(entity.dispatchTime);

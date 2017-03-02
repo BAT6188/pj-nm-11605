@@ -496,6 +496,12 @@ $('#smsSend').bind('click',function () {
 });
 
 //初始化日期组件
+$('.form_datetime').datetimepicker({
+    language:   'zh-CN',
+    autoclose: 1,
+    minView: 2,
+    pickerPosition: "bottom-left"
+});
 $('#createTimeContent').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,

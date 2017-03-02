@@ -6,5 +6,5 @@ import com.harmonywisdom.framework.service.IBaseService;
 
 public interface AirEquipmentHistoryService extends IBaseService<AirEquipmentHistory, String> {
 
-
+    void saveAirEquipmentHistoryFromOuter();
 }

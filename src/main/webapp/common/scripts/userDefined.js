@@ -207,7 +207,11 @@ var pageUtils = {
         //分页参数
         localParams.take = params.limit;
         localParams.skip = params.offset;
-        localParams.page = params.offset / params.limit + 1;
+        if(params.offset){
+            localParams.page = params.offset / params.limit + 1;
+        }else{
+            localParams.page = 1;
+        }
         localParams.pageSize = params.limit;
         var jsonData = $('.queryBox').find('form').formSerializeObject();
         if(!$.isEmptyObject(jsonData)){

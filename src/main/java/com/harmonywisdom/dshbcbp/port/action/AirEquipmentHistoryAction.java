@@ -1,7 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
 
-import com.harmonywisdom.dshbcbp.port.bean.AirEquipment;
 import com.harmonywisdom.dshbcbp.port.bean.AirEquipmentHistory;
 import com.harmonywisdom.dshbcbp.port.service.AirEquipmentHistoryService;
 import com.harmonywisdom.dshbcbp.port.service.AirEquipmentService;
@@ -55,7 +54,7 @@ public class AirEquipmentHistoryAction extends BaseAction<AirEquipmentHistory, A
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("airMonitoringName", Direction.DESC);
+        condition.setOrderBy("monitoringTime", Direction.DESC);
         if (StringUtils.isNotEmpty(mobileOperType)){
             condition.setOrderBy("mobileTimestamp", Direction.DESC);
         }

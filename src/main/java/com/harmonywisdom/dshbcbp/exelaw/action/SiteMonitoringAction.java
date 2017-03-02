@@ -1,5 +1,11 @@
 package com.harmonywisdom.dshbcbp.exelaw.action;
 
+import com.harmonywisdom.apportal.sdk.person.IPerson;
+import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.person.domain.Person;
+import com.harmonywisdom.dshbcbp.alert.bean.Message;
+import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
+import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
@@ -8,7 +14,6 @@ import com.harmonywisdom.dshbcbp.alert.bean.Message;
 import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
-import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
 import com.harmonywisdom.dshbcbp.composite.service.BlockLevelService;
@@ -30,7 +35,6 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitoringService> {
@@ -78,11 +82,14 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
         if (StringUtils.isNotBlank(entity.getEnterpriseId())) {
             params.andParam(new QueryParam("enterpriseId", QueryOperator.EQ,entity.getEnterpriseId()));
         }
-        if (StringUtils.isNotBlank(entity.getEnterpriseName())) {
-            params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,entity.getEnterpriseName()));
+        if (StringUtils.isNotBlank(entity.getEnterpriseName()) && !entity.getEnterpriseName().equals("null")) {
+            params.andParam(new QueryParam("enterpriseName", QueryOperator.LIKE,"%"+entity.getEnterpriseName()+"%"));
         }
         if(StringUtils.isNotBlank(entity.getCheckPeople())){
-            params.andParam(new QueryParam("checkPeople",QueryOperator.LIKE,entity.getCheckPeople()));
+            params.andParam(new QueryParam("checkPeople",QueryOperator.LIKE,"%"+entity.getCheckPeople()+"%"));
+        }
+        if(StringUtils.isNotBlank(entity.getIs_over())){
+            params.andParam(new QueryParam("is_over",QueryOperator.EQ,entity.getIs_over()));
         }
 
         if("1".equals(mobileOperType)){//下拉
@@ -170,8 +177,6 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             Block b = blockService.findById(blockId);
             entity.setBlockName(b.getOrgName());
         }
-
-
 
         super.save();
         if(StringUtils.isNotBlank(entity.getAttachmentIds())){

@@ -442,7 +442,7 @@ function orgOption() {
         dataType: "json",
         success: function (org) {
             $('#grade').empty();
-            for (var i = 0; i < org.length; i++) {
+            for (var i = 0; i < org.length-1; i++) {
                 // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
                 $('#grade').append("<label><input type='checkbox' data-message='请选择查看权限' data-easytip='position:top;class:easy-red;'  name='grade' value='" + org[i].orgId + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;");
             }

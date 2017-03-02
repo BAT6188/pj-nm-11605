@@ -232,7 +232,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
                 List<IOrg> childParent = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
                 if(childParent.size()>0) {
                     for (IOrg childOrg:childParent) {
-                        List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(childOrg.getOrgId());
+                        List<IOrg> childOrgs = OrgServiceUtil.getOrgsByParentOrgId(childOrg.getOrgId());
                         authorizationOrgs.addAll(childOrgs);
                     }
                 }

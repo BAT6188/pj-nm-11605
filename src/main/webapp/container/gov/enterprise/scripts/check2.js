@@ -204,6 +204,7 @@ var DemoPage = function () {
     var ef = form.easyform({
         success:function (ef) {
             var entity = $("#demoForm").find("form").formSerializeObject();
+            entity.enterpriseId = enterpriseId;
             entity.attachmentIds = getAttachmentIds();
             saveAjax(entity,function (msg) {
                 form.modal('hide');

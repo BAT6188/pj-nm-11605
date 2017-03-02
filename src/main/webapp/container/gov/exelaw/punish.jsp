@@ -87,6 +87,7 @@
                         <div class="col-sm-3">
                             <input type="hidden" id="id" name="id">
                             <input type="hidden" id="removeId" name="removeId">
+                            <input type="hidden" id="enterpriseId" name="enterpriseId">
                             <input type="hidden" id="dispatchTaskId" name="dispatchTaskId">
                             <input type="text" id="caseName" name="caseName" class="form-control"
                                    data-message="案件名称不能为空"

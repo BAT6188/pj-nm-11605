@@ -2,10 +2,12 @@ package com.harmonywisdom.dshbcbp.common.dict.bean;
 
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/11/1.
  */
-public class ZtreeObj {
+public class ZtreeObj implements Serializable{
 
     private String id;
 
@@ -186,4 +188,6 @@ public class ZtreeObj {
         this.iconClose = iconClose;
         this.pinyinCodes = pinyinCodes;
     }
+
+
 }
