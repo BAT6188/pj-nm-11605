@@ -13,13 +13,13 @@
 
 
     <bean id="airQualityManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="airQualityService"/>
-        <property name="targetMethod" value="save15DayAQI"/>
+        <property name="targetObject" ref="airEquipmentHistoryService"/>
+        <property name="targetMethod" value="saveAirEquipmentHistoryFromOuter"/>
         <property name="concurrent" value="false"/>
     </bean>
     <bean id="forceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="airQualityManagerDetail"/>
-        <property name="cronExpression" value="0 0 0 1/1 * ? "/>
+        <property name="cronExpression" value="0/5 * * * * ? "/>
         <!--<property name="cronExpression" value="0/5 * * * * ?"/>-->
     </bean>
 </beans>
