@@ -6,13 +6,6 @@ import com.harmonywisdom.apportal.sdk.person.domain.Person;
 import com.harmonywisdom.dshbcbp.alert.bean.Message;
 import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
-import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
-import com.harmonywisdom.apportal.sdk.person.IPerson;
-import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
-import com.harmonywisdom.apportal.sdk.person.domain.Person;
-import com.harmonywisdom.dshbcbp.alert.bean.Message;
-import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
-import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.composite.bean.Block;
 import com.harmonywisdom.dshbcbp.composite.bean.BlockLevel;
@@ -35,6 +28,7 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitoringService> {
