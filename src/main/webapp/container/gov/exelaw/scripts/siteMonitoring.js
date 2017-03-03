@@ -405,7 +405,7 @@ function resetForm() {
 
 //表单附件相关js
 var uploader;//附件上传组件对象
-var uploader3;
+var uploader2;
 /**
  * 获取上传组件options
  * @param bussinessId

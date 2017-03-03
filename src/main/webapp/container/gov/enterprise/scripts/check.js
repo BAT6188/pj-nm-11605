@@ -280,7 +280,7 @@ var ef = form.easyform({
     success:function (ef) {
         var entity = $("#scfForm").find("form").formSerializeObject();
         entity.enterpriseId = enterpriseId;
-        entity.attachmentIds = getAttachmentIds();
+        entity.attachmentIds = getAttachmentIds([uploader,uploader2]);
         entity.userId=userId;
         saveAjax(entity,function (msg) {
             form.modal('hide');
@@ -332,6 +332,7 @@ function setFormData(entity) {
         $("#dispatchId").val(entity.dispatchId);
     }
     uploader = new qq.FineUploader(getUploaderOptions(id));
+    uploader2 = new qq.FineUploader(getUploaderOptions2(id));
 }
 
 function setFormView(entity) {
@@ -341,9 +342,16 @@ function setFormView(entity) {
     var fuOptions = getUploaderOptions(entity.id);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无附件信息");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     };
     uploader = new qq.FineUploader(fuOptions);
+
+    var fuOptions2 = getUploaderOptions2(entity.id);
+    fuOptions2.callbacks.onSessionRequestComplete = function () {
+        $("#fine-uploader-gallery2").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+    };
+    uploader2 = new qq.FineUploader(fuOptions2);
     $(".qq-upload-button").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
@@ -378,6 +386,7 @@ function resetForm() {
     form.find(".form-control").val("");
     form.find("textarea").val("");
     uploader = new qq.FineUploader(getUploaderOptions());
+    uploader2 = new qq.FineUploader(getUploaderOptions2());
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
@@ -386,6 +395,7 @@ function resetForm() {
 
 //表单附件相关js
 var uploader;//附件上传组件对象
+var uploader2;
 /**
  * 获取上传组件options
  * @param bussinessId
@@ -433,7 +443,7 @@ function getUploaderOptions(bussinessId) {
             }
         },
         request: {
-            endpoint: rootPath + '/Upload',
+            endpoint: rootPath + '/Upload?type=1',
             params: {
                 businessId:bussinessId
             }
@@ -441,7 +451,8 @@ function getUploaderOptions(bussinessId) {
         session:{
             endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
             params: {
-                businessId:bussinessId
+                businessId:bussinessId,
+                attachmentType:1
             }
         },
         deleteFile: {
@@ -450,14 +461,96 @@ function getUploaderOptions(bussinessId) {
             method:"POST"
         },
         validation: {
-            // acceptFiles: ['.jpeg', '.jpg', '.gif', '.png'],
-            // allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-            itemLimit: 10
+            itemLimit: 5
         },
         debug: true
     };
 }
 
+function getUploaderOptions2(bussinessId) {
+    return {
+        element: document.getElementById("fine-uploader-gallery2"),
+        template: 'qq-template',
+        chunking: {
+            enabled: false,
+            concurrent: {
+                enabled: true
+            }
+        },
+        resume: {
+            enabled: false
+        },
+        retry: {
+            enableAuto: false,
+            showButton: false
+        },
+        failedUploadTextDisplay: {
+            mode: 'custom'
+        },
+        callbacks: {
+            onComplete:function (id,fileName,msg,request) {
+                uploader2.setUuid(id, msg.id);
+            },
+            onDeleteComplete:function (id) {
+                var file = uploader2.getUploads({id:id});
+                var removeIds = $("#removeId").val();
+                if (removeIds) {
+                    removeIds+= ("," + file.uuid)
+                }else{
+                    removeIds = file.uuid;
+                }
+                $("#removeId").val(removeIds);
+            },
+            onAllComplete: function (succeed) {
+                var self = this;
+                $.each(succeed, function (k, v) {
+                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                });
+            }
+        },
+        request: {
+            endpoint: rootPath + '/Upload?type=2',
+            params: {
+                businessId:bussinessId
+            }
+        },
+        session:{
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+            params: {
+                businessId:bussinessId,
+                attachmentType:2
+            }
+        },
+        deleteFile: {
+            enabled: true,
+            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+            method:"POST"
+        },
+        validation: {
+            itemLimit: 5
+        },
+        debug: true
+    };
+}
+
+function getAttachmentIds(_uploader) {
+    var ids = [];
+    $.each(_uploader,function (i,v) {
+        if(v!=undefined){
+            var attachments = v.getUploads();
+            if (attachments && attachments.length) {
+                for (var i = 0 ; i < attachments.length; i++){
+                    ids.push(attachments[i].uuid);
+                }
+            }
+        }
+    })
+    if (ids.length>0){
+        return ids=ids.join(",");
+    }else {
+        return ''
+    }
+}
 
 /**
  * 绑定下载按钮事件
@@ -466,4 +559,11 @@ $("#fine-uploader-gallery").on('click', '.qq-upload-download-selector', function
     var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
     window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
 });
+
+
+$("#fine-uploader-gallery2").on('click', '.qq-upload-download-selector', function () {
+    var uuid = uploader2.getUuid($(this.closest('li')).attr('qq-file-id'));
+    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+});
+
 

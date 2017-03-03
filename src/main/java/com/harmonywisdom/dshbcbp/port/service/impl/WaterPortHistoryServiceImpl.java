@@ -59,6 +59,9 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
             p.setIsNoTickling("2");
 
             MonitorCase mc=new MonitorCase();
+            mc.setPortId(waterPortHistory.getPortId());
+            mc.setPortHistoryId(waterPortHistory.getId());
+            mc.setPortType("w");
             mc.setStatus("0");
             mc.setSelfReadStatus("0");
             mc.setPunishStatus("0");
@@ -180,7 +183,7 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
         }
     }
 
-    @Deprecated
+    /*@Deprecated
     public void saveTestWaterPortHistoryData(String startTime,String endTime){
         try {
             List<WaterPort> waterPortList = waterPortDAO.findAll();
@@ -194,12 +197,12 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
         } catch (Exception e) {
             log.error("加载废水实时数据失败",e);
         }
-    }
+    }*/
 
     /**
      * 保存当前时间段（如 15:00:00 - 15:59:59）的废水监测指标数据
      */
-    @Deprecated
+    /*@Deprecated
     public void saveWaterPortHistoryData(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
@@ -222,7 +225,7 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
         } catch (Exception e) {
             log.error("加载废水实时数据失败",e);
         }
-    }
+    }*/
 
     @Override
     protected BaseDAO<WaterPortHistory, String> getDAO() {

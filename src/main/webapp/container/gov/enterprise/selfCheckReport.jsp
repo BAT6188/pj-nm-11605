@@ -192,7 +192,14 @@
                     <div class="form-group">
                         <label for="findDate" class="col-sm-2 control-label">反馈时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="feedbackTime_feedbackForm"  name="feedbackTime_feedbackForm" type="text" disabled/>
+                            <div id="datetimepicker" class="input-group date form_date col-md-12 lookover" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" id="feedbackTime_feedbackForm" name="feedbackTime_feedbackForm" size="16" type="text" value=""
+                                       data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
 
                     </div>

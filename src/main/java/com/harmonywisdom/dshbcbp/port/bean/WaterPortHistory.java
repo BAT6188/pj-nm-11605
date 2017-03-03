@@ -13,15 +13,8 @@ public class WaterPortHistory implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(length = 32)
+    @Column(length = 64)
     private String id;
-
-    /**
-     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
-    private Date mobileTimestamp;
 
     /**
      * 排口名称
@@ -420,14 +413,6 @@ public class WaterPortHistory implements Serializable {
 
     public void setPortCode(String portCode) {
         this.portCode = portCode;
-    }
-
-    public Date getMobileTimestamp() {
-        return mobileTimestamp;
-    }
-
-    public void setMobileTimestamp(Date mobileTimestamp) {
-        this.mobileTimestamp = mobileTimestamp;
     }
 
     public String getName() {

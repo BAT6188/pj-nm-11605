@@ -25,7 +25,6 @@ public class GasPortHistoryAction extends BaseAction<GasPortHistory, GasPortHist
 
     @Override
     protected QueryCondition getQueryCondition() {
-        String mobileOperType = request.getParameter("mobileOperType");
         QueryParam param = new QueryParam();
         if (StringUtils.isNotBlank(entity.getPortId())) {
             param.andParam(new QueryParam("portId", QueryOperator.EQ,entity.getPortId()));
@@ -42,27 +41,12 @@ public class GasPortHistoryAction extends BaseAction<GasPortHistory, GasPortHist
             param.andParam(new QueryParam("monitorTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
         }
 
-        if("1".equals(mobileOperType)){//下拉
-//            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
-            if (null!=entity.getMobileTimestamp()){
-                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.GT, entity.getMobileTimestamp()));
-            }
-        }else if("2".equals(mobileOperType)){//上拉
-//            log.debug("上拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
-            if (null!=entity.getMobileTimestamp()){
-                param.andParam(new QueryParam("mobileTimestamp",QueryOperator.LT, entity.getMobileTimestamp()));
-            }
-        }
-
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
         condition.setOrderBy("monitorTime", Direction.DESC);
-        if (StringUtils.isNotEmpty(mobileOperType)){
-            condition.setOrderBy("mobileTimestamp", Direction.DESC);
-        }
         return condition;
     }
 

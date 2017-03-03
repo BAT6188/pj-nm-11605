@@ -61,6 +61,9 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
             p.setIsNoTickling("2");
 
             MonitorCase mc=new MonitorCase();
+            mc.setPortId(gasPortHistory.getPortId());
+            mc.setPortHistoryId(gasPortHistory.getId());
+            mc.setPortType("w");
             mc.setStatus("0");
             mc.setSelfReadStatus("0");
             mc.setPunishStatus("0");
@@ -206,7 +209,7 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
         return gasPortHistoryDAO;
     }
 
-    @Deprecated
+    /*@Deprecated
     public void saveTestGasPortHistoryData(String startTime,String endTime) {
         List<GasPort> gasPortList = gasPortDAO.findAll();
         for (GasPort gasPort : gasPortList) {
@@ -216,12 +219,12 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
                 save(gasPortHistoryData);
             }
         }
-    }
+    }*/
 
     /**
      * 保存当前时间段（如 15:00:00 - 15:59:59）的废气监测指标数据
      */
-    @Deprecated
+    /*@Deprecated
     public void saveGasPortHistoryData() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
@@ -239,5 +242,5 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
                 save(gasPortHistoryData);
             }
         }
-    }
+    }*/
 }

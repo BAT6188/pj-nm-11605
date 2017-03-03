@@ -20,6 +20,10 @@ import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
 import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.dshbcbp.exportword.service.impl.OverManageServiceImpl;
+import com.harmonywisdom.dshbcbp.port.bean.GasPort;
+import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
+import com.harmonywisdom.dshbcbp.port.service.GasPortService;
+import com.harmonywisdom.dshbcbp.port.service.WaterPortService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.dshbcbp.utils.DocUtil;
 import com.harmonywisdom.framework.action.BaseAction;
@@ -60,6 +64,11 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
     @AutoService
     private AttachmentService attachmentService;
+
+    @AutoService
+    private WaterPortService waterPortService;
+    @AutoService
+    private GasPortService gasPortService;
 
     @Override
     protected DispatchTaskService getService() {
@@ -482,6 +491,17 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (!"0".equals(source)){
             entity.setEnvProStaPersonList(arrayToString(ids,true));
             entity.setEnvProStaPersonNameList(arrayToString(names,false));
+
+            if("w".equals(mc.getPortType())){
+                WaterPort wp = waterPortService.findById(mc.getPortId());
+                wp.setPortStatus("0");
+                waterPortService.save(wp);
+            }else if("g".equals(mc.getPortType())){
+                GasPort gp = gasPortService.findById(mc.getPortId());
+                gp.setPortStatus("0");
+                gasPortService.save(gp);
+            }
+
         }
 
         entity.setMonitorCaseId(monitorCaseId);

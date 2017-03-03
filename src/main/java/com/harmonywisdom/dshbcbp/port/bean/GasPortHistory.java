@@ -16,16 +16,9 @@ public class GasPortHistory implements Serializable {
     @Column(length = 32)
     private String id;
 
-    /**
-     * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
-    private Date mobileTimestamp;
-
 
     /**
-     * 本地排口ID
+     * 本地排口表ID
      */
     @Column(name = "port_id",length = 32)
     private String portId;
@@ -581,11 +574,4 @@ public class GasPortHistory implements Serializable {
         this.oxygenStatus = oxygenStatus;
     }
 
-    public Date getMobileTimestamp() {
-        return mobileTimestamp;
-    }
-
-    public void setMobileTimestamp(Date mobileTimestamp) {
-        this.mobileTimestamp = mobileTimestamp;
-    }
 }
