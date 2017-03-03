@@ -7,22 +7,14 @@ import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.core.user.IUserProfile;
 import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.alert.bean.User;
-import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.service.IBaseService;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.harmonywisdom.framework.action.ActionHelper;
+import com.opensymphony.xwork2.Preparable;
+import org.apache.struts2.ServletActionContext;
 
 /**
  * Created by Administrator on 2016/12/16.
  */
-public class UserAction extends BaseAction {
-    @Override
-    protected IBaseService getService() {
-        return null;
-    }
-
+public class UserAction extends ActionHelper implements Preparable {
     /**
      * 手机端发布信息之前验证登陆信息
      */
@@ -45,6 +37,7 @@ public class UserAction extends BaseAction {
             user.setOrgId(org.getOrgId());
             user.setOrgName(org.getOrgName());
             user.setMobile(person.getMobile());
+
             write(user);
         }else{
             write(false);
@@ -66,5 +59,11 @@ public class UserAction extends BaseAction {
         }else{
             write(0);
         }
+    }
+
+    @Override
+    public void prepare() throws Exception {
+        request = ServletActionContext.getRequest();
+        response = ServletActionContext.getResponse();
     }
 }
