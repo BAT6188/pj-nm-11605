@@ -46,18 +46,20 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
         String currentMaxTimeString = "2016-01-01 00:00:00";
         Date currentMaxTime;
         if(airEquipmentHistories.size()>0){
-            currentMaxTime = airEquipmentHistories.get(0).getMobileTimestamp();
+            currentMaxTime = airEquipmentHistories.get(0).getMonitoringTime();
             currentMaxTimeString = DateUtil.dateToStr(currentMaxTime,"yyyy-MM-dd HH:mm:ss");
         }
 
         List<AirEquipment> airEquipments = airEquipmentDAO.findAll();
+        int airEquipmentNum = 0;
         for (AirEquipment airEquipment:airEquipments){
-            String currentSql="select * from AQIDataPublishLive WHERE TimePoint > \'"+currentMaxTimeString+"\' AND StationCode = '"+airEquipment.getId()+"\' ORDER BY TimePoint DESC";
-            String oldSql="select * from AQIDataPublishHistory WHERE TimePoint > \'"+currentMaxTimeString+"\' AND StationCode = '"+airEquipment.getId()+"\' ORDER BY TimePoint DESC";
+            String currentSql="select * from AQIDataPublishLive WHERE TimePoint > \'"+currentMaxTimeString+"\' AND StationCode = '"+airEquipment.getMonitoringNumber()+"\' ORDER BY TimePoint DESC";
+            String oldSql="select * from AQIDataPublishHistory WHERE TimePoint > \'"+currentMaxTimeString+"\' AND StationCode = '"+airEquipment.getMonitoringNumber()+"\' ORDER BY TimePoint DESC";
             List<Map<String, Object>> list = airQualityJdbcTemplate.queryForList(oldSql);
             if(list.size()>0){
                 saveAirEquipmentData(list.get(0));
-                saveAirEquipmentHistoryData(list);
+                saveAirEquipmentHistoryData(list,airEquipmentNum);
+                airEquipmentNum +=1;
             }else{
                 list = airQualityJdbcTemplate.queryForList(currentSql);
                 if(list.size()>0){
@@ -103,8 +105,10 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
         }
     }
 
-    public void saveAirEquipmentHistoryData(List<Map<String, Object>> list){
+    public void saveAirEquipmentHistoryData(List<Map<String, Object>> list,int airEquipmentNum){
+        int num=1;
         for (Map<String, Object> map : list) {
+            String Id = map.get("Id").toString();
             String PositionName = map.get("PositionName").toString();
             String StationCode = map.get("StationCode").toString();
             Date TimePoint = DateUtil.strToDate(map.get("TimePoint").toString(),"yyyy-MM-dd HH:mm:ss");
@@ -118,6 +122,7 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
             String PrimaryPollutant = map.get("PrimaryPollutant").toString();
 
             AirEquipmentHistory airEquipmentHistory=new AirEquipmentHistory();
+            airEquipmentHistory.setId(Id);
             airEquipmentHistory.setAirMonitoringName(PositionName);
             airEquipmentHistory.setMonitoringNumber(StationCode);
             airEquipmentHistory.setMonitoringTime(TimePoint);
@@ -127,11 +132,13 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
             airEquipmentHistory.setPrimaryPollutant(PrimaryPollutant);
             //airEquipmentHistory.setLatitude(Double.parseDouble(map.get("Latitude").toString()));
             //airEquipmentHistory.setLongitude(Double.parseDouble(map.get("Longitude").toString()));
-            airEquipmentHistory.setMobileTimestamp(TimePoint);
+            airEquipmentHistory.setMobileTimestamp(new Date(TimePoint.getTime()- airEquipmentNum*1000 - num*1000));
+            num +=1;
             airEquipmentHistoryDAO.saveOrUpdate(airEquipmentHistory);
             //airEquipmentHistoryList.add(airEquipmentHistory);
 
             AirQuality airQuality = new AirQuality();
+            airQuality.setId(Id);
             airQuality.setRec_Time(TimePoint);
             airQuality.setAirValue(aqiValue);
 
