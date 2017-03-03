@@ -176,7 +176,7 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
      * @param pointCode
      * @return
      */
-    @Deprecated
+    /*@Deprecated
     public WaterPortHistory getWaterPortHistoryData(String enterpriseCode,String enterpriseId,String pointCode,String portId,String startTime,String endTime)throws Exception{
         String sql="SELECT  \n" +
                 "  w.PSCode,  \n" +
@@ -215,9 +215,9 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
             wph.setMonitorTime(DateUtil.strToDate(startTime,"yyyy-MM-dd HH:mm:ss"));
             wph.setDataStatus("0");
             for (Map<String, Object> map : list) {
-                /*（如果折算值为空，则取标准值）
+                *//*（如果折算值为空，则取标准值）
                 水：平均值（PAvgValue）  标准值（StandardValue）
-                汽：平均折算值（pZtdAvg）  标准值（StandardValue）*/
+                汽：平均折算值（pZtdAvg）  标准值（StandardValue）*//*
                 String code_pollute = map.get("Code_Pollute")+"";
                 Double liveValue =0D;
                 Double standardValue =0D;
@@ -366,6 +366,6 @@ public class WaterPortHistoryDAO extends DefaultDAO<WaterPortHistory, String> {
         }else {
             return null;
         }
-    }
+    }*/
 
 }

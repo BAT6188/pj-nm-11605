@@ -13,6 +13,26 @@ public class MonitorCase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 排口表id
+     */
+    @Column(name = "port_id")
+    private String portId;
+
+    /**
+     * 排口数据表id
+     */
+    @Column(name = "port_History_Id")
+    private String portHistoryId;
+
+    /**
+     * 排口类型:
+     * w 废水
+     * g 废气
+     */
+    @Column(name = "port_Type")
+    private String portType;
+
+    /**
      * 现场监察报告是否填写状态：0未报送，1已报送
      */
     @Column(name = "monitor_report_status", length = 2)
@@ -594,5 +614,29 @@ public class MonitorCase implements Serializable {
 
     public void setPunishStatus(String punishStatus) {
         this.punishStatus = punishStatus;
+    }
+
+    public String getPortId() {
+        return portId;
+    }
+
+    public void setPortId(String portId) {
+        this.portId = portId;
+    }
+
+    public String getPortHistoryId() {
+        return portHistoryId;
+    }
+
+    public void setPortHistoryId(String portHistoryId) {
+        this.portHistoryId = portHistoryId;
+    }
+
+    public String getPortType() {
+        return portType;
+    }
+
+    public void setPortType(String portType) {
+        this.portType = portType;
     }
 }

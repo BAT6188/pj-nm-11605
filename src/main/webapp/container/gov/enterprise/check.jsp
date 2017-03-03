@@ -11,6 +11,7 @@
 %>
 <script>
     var enterpriseId='<%=enterpriseId%>'
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
 </script>
 <!DOCTYPE html>
 <html>
@@ -109,17 +110,30 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
+                        <label for="sendRemark" class="col-sm-2 control-label">初报：</label>
                         <div class="col-sm-10">
                             <textarea  id="sendRemark" name="sendRemark" class="form-control" rows="5"
                             ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachmentIds" class="col-sm-2 control-label">附件：</label>
+                        <label for="xuBao" class="col-sm-2 control-label">续报：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="xuBao" name="xuBao" class="form-control" rows="5"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentIds" class="col-sm-2 control-label">初报附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">续报附件：</label>
+                        <div class="col-sm-10">
+                            <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
                 </form>

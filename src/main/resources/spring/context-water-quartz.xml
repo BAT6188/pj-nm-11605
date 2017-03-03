@@ -3,10 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+    <bean name="waterPortHistoryquartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
         <property name="triggers">
             <list>
-                <ref bean="forceWorkCronTrigger"/>
+                <ref bean="waterPortHistoryforceWorkCronTrigger"/>
             </list>
         </property>
     </bean>
@@ -17,9 +17,9 @@
         <property name="targetMethod" value="saveWaterPortHistoryDataList"/>
         <property name="concurrent" value="false"/>
     </bean>
-    <bean id="forceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <bean id="waterPortHistoryforceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="waterPortHistoryManagerDetail"/>
         <!--<property name="cronExpression" value="0 0 0 1/1 * ? "/>-->
-        <property name="cronExpression" value="0 15 * * * ?"/>
+        <property name="cronExpression" value="0 0/10 * * * ?"/>
     </bean>
 </beans>
