@@ -76,6 +76,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/container/company/homePage/scripts/gasPortStatusHistory.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/container/company/homePage/scripts/waterPortStatusHistory.js"></script>
 </body>
 </html>

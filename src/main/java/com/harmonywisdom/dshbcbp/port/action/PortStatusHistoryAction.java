@@ -249,7 +249,8 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
      * 企业超标异常信息
      */
     public void excessiveInformation(){
-        List<PortStatusHistory> pubInfoList = portStatusHistoryService.companyByExcessive();
+        String enterpriseId = request.getParameter("enterpriseId");
+        List<PortStatusHistory> pubInfoList = portStatusHistoryService.companyByExcessive(enterpriseId);
         write(pubInfoList);
     }
 

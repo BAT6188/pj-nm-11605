@@ -111,12 +111,11 @@
                                     <tbody>
                                     <tr>
                                         <td><i class="panelList-icon error-icon"></i></td>
-                                        <td><span>标题</span></td>
-                                        <td><span>时间</span></td>
-                                        <td><span >超标数据</span></td>
-                                        <td><span >位置</span></td>
-                                        <td><span >上限值</span></td>
-                                        <td><span >操作</span></td>
+                                        <td><span>排口编号</span></td>
+                                        <td><span>排口名称</span></td>
+                                        <td><span >超标时间</span></td>
+                                        <td><span >监测指标</span></td>
+                                        <td><span >状态</span></td>
                                     </tr>
                                     </tbody>
                                 </table>

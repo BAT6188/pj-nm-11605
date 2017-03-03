@@ -105,8 +105,8 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
      * @return
      */
     @Override
-    public List<PortStatusHistory> companyByExcessive() {
-        List<PortStatusHistory> portStatusHistories = getDAO().queryJPQL("from PortStatusHistory where isNoTickling='2' order by startTime DESC,id DESC");
+    public List<PortStatusHistory> companyByExcessive(String enterpriseId) {
+        List<PortStatusHistory> portStatusHistories = getDAO().queryJPQL("from PortStatusHistory where enterpriseId=?1 order by time DESC,id DESC",enterpriseId);
         return portStatusHistories;
     }
 
