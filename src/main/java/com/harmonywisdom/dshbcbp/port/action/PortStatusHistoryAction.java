@@ -55,10 +55,10 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         String endTime = request.getParameter("endTime");
         String strStatus = request.getParameter("strStatus");
         if(StringUtils.isNotBlank(startTime)){
-            param.andParam(new QueryParam("startTime", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
+            param.andParam(new QueryParam("time", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
         }
         if(StringUtils.isNotBlank(endTime)){
-            param.andParam(new QueryParam("startTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
+            param.andParam(new QueryParam("time", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
         }
         if(strStatus != null && !"".equals(strStatus)){
             param.andParam(new QueryParam("portStatus",QueryOperator.EQ,strStatus));
@@ -66,14 +66,14 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         if(StringUtils.isNotBlank(entity.getRes_title())){
             param.andParam(new QueryParam("res_title",QueryOperator.LIKE,entity.getRes_title()));
         }
-        String starCreateTime = request.getParameter("start_createTime");
-        String endCreateTime = request.getParameter("end_createTime");
-        if(StringUtils.isNotBlank(starCreateTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd HH:mm")));
-        }
-        if(StringUtils.isNotBlank(endCreateTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd HH:mm")));
-        }
+//        String starCreateTime = request.getParameter("start_createTime");
+//        String endCreateTime = request.getParameter("end_createTime");
+//        if(StringUtils.isNotBlank(starCreateTime)){
+//            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd HH:mm")));
+//        }
+//        if(StringUtils.isNotBlank(endCreateTime)){
+//            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd HH:mm")));
+//        }
 
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {

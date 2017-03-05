@@ -142,6 +142,23 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
     }
 
     @Override
+    public List<Map<String, String>> queryAlertEnterpriseList(List<Enterprise> enterprises) {
+        List<Map<String, String>> result = new ArrayList<>();
+        for (Enterprise enterprise : enterprises) {
+            Map<String, String> enterpriseAlertStatus = new HashMap<>();
+            String id = enterprise.getId();
+            String status = queryEnterpriseAlertStatus(id);
+            if (PortStatusHistory.STATUS_OVER.equals(status)){
+                enterpriseAlertStatus.put("id", id);
+                enterpriseAlertStatus.put("name",enterprise.getName());
+                enterpriseAlertStatus.put("status", status);
+                result.add(enterpriseAlertStatus);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String updateEnterprise(Enterprise enterprise) {
         Map<String,Object> map = EntityUtil.getUpdateMap(enterprise);
         return String.valueOf(enterpriseDAO.executeJPQL(String.valueOf(map.get("upStr")),(Map<String, Object>)map.get("valMap")));

@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.service.impl;
 
+import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.port.bean.PortStatusHistory;
 import com.harmonywisdom.dshbcbp.port.dao.PortStatusHistoryDAO;
 import com.harmonywisdom.dshbcbp.port.service.PortStatusHistoryService;
@@ -39,9 +40,9 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }
         whereSql += " GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(start_time,'%Y-%m')AS MONTH,\n" +
-                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.port_status='1' AND DATE_FORMAT(t0.start_time,'%Y-%m') = DATE_FORMAT(t.start_time,'%Y-%m')) AS yjf\n" +
-                "FROM `hw_dshbcbp_port_status_history` t WHERE DATE_FORMAT(start_time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(start_time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(time,'%Y-%m')AS MONTH,\n" +
+                "(SELECT COUNT(*) FROM `hw_dshbcbp_port_status_history` t0 WHERE t0.port_status='1' AND DATE_FORMAT(t0.time,'%Y-%m') = DATE_FORMAT(t.time,'%Y-%m')) AS yjf\n" +
+                "FROM `hw_dshbcbp_port_status_history` t WHERE DATE_FORMAT(time,'%Y-%m-%d')> '"+firstTime+"' AND DATE_FORMAT(time,'%Y-%m-%d')<= '"+lastTime+"'" + whereSql);
         return list;
     }
 
@@ -63,20 +64,20 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
         if(name != null && !"".equals(name)){
             whereSql += "AND enterprise_name LIKE '%" + name + "%'";
         }
-        whereSql += " GROUP BY DATE_FORMAT(t.`start_time`,'%m')";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(t.`start_time`,'%m')AS MONTH,\n" +
+        whereSql += " GROUP BY DATE_FORMAT(t.`time`,'%m')";
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(t.`time`,'%m')AS MONTH,\n" +
                 "IFNULL((SELECT COUNT(*) AS b\n" +
                 "FROM HW_DSHBCBP_PORT_STATUS_HISTORY t2 \n" +
-                "WHERE DATE_FORMAT(t2.start_time,'%Y') = '"+lastYear+"' \n" +
-                "AND DATE_FORMAT(t2.start_time,'%m') = DATE_FORMAT(t.`start_time`,'%m') \n" +
-                "GROUP BY DATE_FORMAT(t.`start_time`,'%Y-%m')),0) AS '2015',\n" +
+                "WHERE DATE_FORMAT(t2.time,'%Y') = '"+lastYear+"' \n" +
+                "AND DATE_FORMAT(t2.time,'%m') = DATE_FORMAT(t.`time`,'%m') \n" +
+                "GROUP BY DATE_FORMAT(t.`time`,'%Y-%m')),0) AS '2015',\n" +
                 "IFNULL((SELECT COUNT(*) AS b\n" +
                 "FROM HW_DSHBCBP_PORT_STATUS_HISTORY t2 \n" +
-                "WHERE DATE_FORMAT(t2.start_time,'%Y') = '"+currentYear+"'  \n" +
-                "AND DATE_FORMAT(t2.start_time,'%m') = DATE_FORMAT(t.`start_time`,'%m') \n" +
-                "GROUP BY DATE_FORMAT(t.`start_time`,'%Y-%m')),0) AS '2016'\n" +
+                "WHERE DATE_FORMAT(t2.time,'%Y') = '"+currentYear+"'  \n" +
+                "AND DATE_FORMAT(t2.time,'%m') = DATE_FORMAT(t.`time`,'%m') \n" +
+                "GROUP BY DATE_FORMAT(t.`time`,'%Y-%m')),0) AS '2016'\n" +
                 "FROM HW_DSHBCBP_PORT_STATUS_HISTORY t\n" +
-                " WHERE DATE_FORMAT(t.`start_time`,'%m')>= '" + strsStart + "' AND DATE_FORMAT(t.`start_time`,'%m')<= '" + strEnd + "'" + whereSql);
+                " WHERE DATE_FORMAT(t.`time`,'%m')>= '" + strsStart + "' AND DATE_FORMAT(t.`time`,'%m')<= '" + strEnd + "'" + whereSql);
         return list;
     }
 
@@ -132,10 +133,10 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
             whereSql.append("and port_status = '").append(params.get("strStatus"));
         }
         if (StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))) {
-            whereSql.append("' and ( t.start_time > '").append(params.get("firstTime")).append("' and t.start_time < '").append(params.get("lastTime")+"')");
+            whereSql.append("' and ( t.time > '").append(params.get("firstTime")).append("' and t.time < '").append(params.get("lastTime")+"')");
         }
         if(StringUtils.isNotBlank(params.get("lastStartTime")) || StringUtils.isNotBlank(params.get("lastEndTime"))){
-            whereSql.append("OR port_status = '").append(params.get("strStatus")).append("' and (t.start_time > '").append(params.get("lastStartTime")).append("' and t.start_time < '").append(params.get("lastEndTime")+"')");
+            whereSql.append("OR port_status = '").append(params.get("strStatus")).append("' and (t.time > '").append(params.get("lastStartTime")).append("' and t.time < '").append(params.get("lastEndTime")+"')");
         }
 
         String countSql = "select count(*) from HW_DSHBCBP_PORT_STATUS_HISTORY t" +whereSql.toString();
@@ -152,22 +153,23 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
                 portStatus.setId(String.valueOf(strExcessive[0]));
                 //企业名称enterpriseName
                 portStatus.setEnterpriseName(strExcessive[10]==null ? "" :String.valueOf(strExcessive[10]));
+                portStatus.setPortNumber(strExcessive[13]==null ? "" :String.valueOf(strExcessive[13]));
+                portStatus.setPortName(strExcessive[12]==null ? "" :String.valueOf(strExcessive[12]));
+                portStatus.setPollutantName(strExcessive[28]==null ? "" :String.valueOf(strExcessive[28]));
                 //标题res_title
-                portStatus.setRes_title(strExcessive[22]==null ? "" :String.valueOf(strExcessive[22]));
                 //状态开始时间startTime
                 Date date = null;
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
                 try {
-                    date = sdf.parse(strExcessive[7]==null ? "" :String.valueOf(strExcessive[7]));
+                    date = sdf.parse(strExcessive[29]==null ? "" :String.valueOf(strExcessive[29]));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                portStatus.setStartTime(date);
+                portStatus.setTime(date);
                 //状态portStatus
-                portStatus.setPortStatus(strExcessive[9]==null ? "" :String.valueOf(strExcessive[14]));
+                portStatus.setPortStatus(strExcessive[14]==null ? "" :String.valueOf(strExcessive[14]));
                 //解决方案solution
-                portStatus.setSolution(strExcessive[6]==null ? "" :String.valueOf(strExcessive[6]));
                 rows.add(portStatus);
             }
 

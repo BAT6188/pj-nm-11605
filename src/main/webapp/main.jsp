@@ -59,6 +59,7 @@
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <%--<%@include file="/common/paizhao/paizhao.jsp"%>--%>
 <%@include file="/common/updatePassword/updatePassword.jsp"%>
+<%@include file="/common/portAlert/portAlert.jsp"%>
 <script src="common/scripts/main_css.js"></script>
 <script src="common/scripts/main.js"></script>
 <script>

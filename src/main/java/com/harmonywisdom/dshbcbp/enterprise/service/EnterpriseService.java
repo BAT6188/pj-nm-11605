@@ -44,6 +44,7 @@ public interface EnterpriseService extends IBaseService<Enterprise, String> {
      * @return {enterpriseId,status}
      */
     List<Map<String,String>> queryEnterpriseAlertStatus(String... ids);
+    List<Map<String,String>> queryAlertEnterpriseList(List<Enterprise> enterprises);
 
     String updateEnterprise(Enterprise enterprise);
 

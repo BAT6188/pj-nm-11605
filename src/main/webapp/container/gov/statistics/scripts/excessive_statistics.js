@@ -527,21 +527,6 @@ $(function(){
             queryParams:pageUtils.localParams,
             columns: [
                 {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:true,  //  true 单选， false多选
-                    valign: 'middle'
-                },
-                {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible:false
-                },
-                {
                     title: '企业名称',
                     field: 'enterpriseName',
                     editable: false,
@@ -549,21 +534,32 @@ $(function(){
                     align: 'center'
                 },
                 {
-                    title: '标题',
-                    field: 'res_title',
+                    title: '排口编号',
+                    field: 'portNumber',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '状态开始时间',
-                    field: 'startTime',
+                    title: '排口名称',
+                    field: 'portName',
                     editable: false,
                     sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        return pageUtils.sub16(value);
-                    }
+                    align: 'center'
+                },
+                {
+                    title: '超标时间',
+                    field: 'time',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '监测指标',
+                    field: 'pollutantName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
                 },
                 {
                     title: '状态',
@@ -571,24 +567,15 @@ $(function(){
                     editable: false,
                     sortable: false,
                     align: 'center',
-                    formatter:function (value, row, index) {
-                        if(0==value){
-                            value="正常"
-                        }else if (1==value){
-                            value="超标"
-                        }else if (2==value){
-                            value="异常"
-                        }
-                        return value;
-                    }
-                },
-                {
-                    field: 'solution',
-                    title: '解决方案',
-                    sortable: false,
-                    align: 'center',
-                    editable: false
+                    formatter: statusFormatter
                 }
+                // {
+                //     field: 'operate',
+                //     title: '操作',
+                //     align: 'center',
+                //     events: operateEvents,
+                //     formatter: operateFormatter
+                // }
 
             ]
         });
@@ -603,6 +590,14 @@ $(function(){
                 height: pageUtils.getTableHeight()
             });
         });
+    }
+
+    var statusType = {
+        '1':'超标',
+        '2':'异常'
+    }
+    function statusFormatter(value, row, index){
+        return statusType[value];
     }
 
 

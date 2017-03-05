@@ -21,9 +21,7 @@ import org.springframework.util.Assert;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> {
     @AutoService
@@ -265,6 +263,19 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (ids != null && ids.length > 0) {
             List<Map<String,String>> list = getService().queryEnterpriseAlertStatus(ids);
             write(list);
+        }
+    }
+
+    public void queryAlertEnterpriseList(){
+        List<Enterprise> enterpirseList = (List<Enterprise>) request.getSession().getAttribute("enterpirseList");
+        if (null==enterpirseList){
+            enterpirseList = enterpriseService.findAll();
+            request.getSession().setAttribute("enterpirseList",enterpirseList);
+        }else {
+            if (enterpirseList.size()>0){
+                List<Map<String,String>> list = getService().queryAlertEnterpriseList(enterpirseList);
+                write(list);
+            }
         }
     }
 
