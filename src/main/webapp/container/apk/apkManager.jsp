@@ -11,10 +11,10 @@
         <div class="mainBox">
             <div class="dealBox">
                 <div class="sideTitle left">
-                        <span class="blueMsg">
+                        <%--<span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
-                        </span>
+                        </span>--%>
                 </div>
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
