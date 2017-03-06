@@ -105,6 +105,7 @@
 		<class>com.harmonywisdom.dshbcbp.office.bean.PubInfoRelTable</class>
 		<class>com.harmonywisdom.dshbcbp.office.bean.PartyOrg</class>
 		<class>com.harmonywisdom.dshbcbp.office.bean.PartyOrgIperson</class>
+		<class>com.harmonywisdom.dshbcbp.appclient.bean.AppClient</class>
 
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

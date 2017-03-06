@@ -4,12 +4,17 @@ import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.org.OrgServiceUtil;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
+import com.harmonywisdom.apportal.sdk.right.RightServiceUtil;
+import com.harmonywisdom.apportal.sdk.right.domain.Right;
 import com.harmonywisdom.core.user.IUserProfile;
 import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.alert.bean.User;
 import com.harmonywisdom.framework.action.ActionHelper;
 import com.opensymphony.xwork2.Preparable;
 import org.apache.struts2.ServletActionContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/16.
@@ -37,12 +42,24 @@ public class UserAction extends ActionHelper implements Preparable {
             user.setOrgId(org.getOrgId());
             user.setOrgName(org.getOrgName());
             user.setMobile(person.getMobile());
-
+            //user.setMenuData(getUserMenu(person.getPersonId()));
             write(user);
         }else{
             write(false);
         }
+    }
 
+    public List<Right> getUserMenu(String personId){
+        List<Right> list = RightServiceUtil.getNormalRightByPersonId(personId);
+        List<Right> appMenus = new ArrayList<>();
+        if(list.size()>0){
+            for (Right r:list){
+                if(r.getResCode().startsWith("AppMenu")){
+                    appMenus.add(r);
+                };
+            }
+        }
+        return appMenus;
     }
 
     /**
