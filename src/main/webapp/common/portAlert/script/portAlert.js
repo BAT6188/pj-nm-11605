@@ -1,6 +1,9 @@
 $(function () {
     var portAlertDialog=$("#portAlertDialog");
-    setTimeout(alert,600000);//十分钟一次
+    if ('Y'==isJkzx){
+        setTimeout(alert,600000);//十分钟一次
+        // setTimeout(alert,5000);//5秒钟一次
+    }
     function alert() {
         var alertEnterpris = queryAlertEnterpriseList();
         if (alertEnterpris.length>0){
