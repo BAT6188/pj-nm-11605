@@ -271,11 +271,11 @@ public class EnterpriseAction extends BaseAction<Enterprise, EnterpriseService> 
         if (null==enterpirseList){
             enterpirseList = enterpriseService.findAll();
             request.getSession().setAttribute("enterpirseList",enterpirseList);
-        }else {
-            if (enterpirseList.size()>0){
-                List<Map<String,String>> list = getService().queryAlertEnterpriseList(enterpirseList);
-                write(list);
-            }
+        }
+
+        if (enterpirseList.size()>0){
+            List<Map<String,String>> list = getService().queryAlertEnterpriseList(enterpirseList);
+            write(list);
         }
     }
 

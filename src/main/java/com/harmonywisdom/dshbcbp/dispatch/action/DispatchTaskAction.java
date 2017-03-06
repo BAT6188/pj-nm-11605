@@ -491,7 +491,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (!"0".equals(source)){
             entity.setEnvProStaPersonList(arrayToString(ids,true));
             entity.setEnvProStaPersonNameList(arrayToString(names,false));
-
+        }else if ("0".equals(source)){
             if("w".equals(mc.getPortType())){
                 WaterPort wp = waterPortService.findById(mc.getPortId());
                 wp.setPortStatus("0");
@@ -501,7 +501,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
                 gp.setPortStatus("0");
                 gasPortService.save(gp);
             }
-
         }
 
         entity.setMonitorCaseId(monitorCaseId);

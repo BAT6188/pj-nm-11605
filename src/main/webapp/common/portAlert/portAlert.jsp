@@ -21,7 +21,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" id="alertEnterpriseLook">查看</button>
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" id="alertEnterpriseLook">关闭</button>
             </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
 $(function () {
     var portAlertDialog=$("#portAlertDialog");
-    alert();
-    // setInterval(alert,30000);
+    setTimeout(alert,600000);//十分钟一次
     function alert() {
         var alertEnterpris = queryAlertEnterpriseList();
         if (alertEnterpris.length>0){
@@ -9,23 +8,26 @@ $(function () {
             $('body').append(s);
             setTimeout("$('#baojing').remove()",10000);
             var li="";
+            var input='';
             $.each(alertEnterpris,function (i,v) {
                 li+='<li><label class="col-sm-12">'+v.name+'</label></li>';
+                // input+='<input type="hidden" name="enterpriseId" value="'+v.id+'"/>';
             })
-            var ul='<ul>'+li+'</ul>';
-            $('#alertEnterpriseList').html(ul);
+            var html='<ul>'+li+'</ul>'+input;
+            $('#alertEnterpriseList').html(html);
             portAlertDialog.modal("show")
 
         }
     }
 
     $("#alertEnterpriseLook").click(function () {
-
-        jumpToMap('2284c29d93cb4492a201bb9dd1e4f53b');
+        setTimeout(alert,600000);
+        // var entity = portAlertDialog.find("form").formSerializeObject();
+        // jumpToMap(entity[0]);
     })
 
     function jumpToMap(enterpriseId){
-        pageUtils.toUrl(rootPath + "/container/gov/composite/lookEnterpriseInMap.jsp",{enterpriseId:enterpriseId})
+        pageUtils.toUrl(rootPath + "/container/gov/composite/one_image.jsp",{enterpriseId:enterpriseId})
     }
 
     function queryAlertEnterpriseList() {

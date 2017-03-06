@@ -280,7 +280,6 @@ function detailFormatter(index, row) {
 function operateFormatter(value, row, index) {
     return [
         '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#systemSendForm" >系统调度</button>'+
-        '&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'+
         '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-status="false" data-toggle="modal" data-target="#systemSendForm">查看</button>'
     ].join('');
 }
@@ -332,11 +331,9 @@ window.operateEvents = {
 function queryFeedbackFormatter(value, row, index) {
     if (row.status=='2'){
         return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>'+
-            '&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'+
                 '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }else {
         return '未反馈'
-            +'&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'
             + '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }
 }
@@ -369,13 +366,13 @@ function refreshDemoForm(demo) {
     $("#supervisorPhone").val(demo.supervisorPhone);
     $("#overValue").val(demo.overValue);
     $("#thrValue").val(demo.thrValue);
-    $("#content").val(demo.content);
     $("#senderName").val(userName);
     $("#sendTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#sendRemark").val(demo.sendRemark);
     $("#portName").val(demo.portName);
     $("#overObj").val(demo.overObj);
-
+    var content=demo.enterpriseName+demo.portName+'排口'+demo.overObj+'监测指标于'+demo.eventTime+'时间超标，超标值为'+demo.overValue+'，标准值为'+demo.thrValue+'，请抓紧时间处置。';
+    $("#content").val(content);
 }
 
 

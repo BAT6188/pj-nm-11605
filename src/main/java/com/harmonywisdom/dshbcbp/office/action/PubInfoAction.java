@@ -104,11 +104,8 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("pubTime", Direction.DESC);
+        condition.setOrderBy("mobileTimestamp", Direction.DESC);
         condition.setOrderBy("status", Direction.ASC);
-        if (StringUtils.isNotEmpty(mobileOperType)){
-            condition.setOrderBy("mobileTimestamp", Direction.DESC);
-        }
         return condition;
     }
 

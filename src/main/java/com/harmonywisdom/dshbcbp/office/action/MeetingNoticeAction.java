@@ -71,10 +71,7 @@ public class MeetingNoticeAction extends BaseAction<MeetingNotice, MeetingNotice
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("time", Direction.DESC);
-        if (StringUtils.isNotEmpty(mobileOperType)){
-            condition.setOrderBy("mobileTimestamp", Direction.DESC);
-        }
+        condition.setOrderBy("mobileTimestamp", Direction.DESC);
         return condition;
     }
     @Override
