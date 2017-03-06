@@ -238,13 +238,13 @@ function setFormData(entity) {
         $(selector).val(entity[p])
     }
 
-    uploader = new qq.FineUploader(getUploaderOptions(id));
+    uploader = new qq.FineUploader(getUploaderOptions(entity.apkVersionNum));
 }
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
-    var fuOptions = getUploaderOptions(entity.id);
+    var fuOptions = getUploaderOptions(entity.apkVersionNum);
     fuOptions.callbacks.onSessionRequestComplete = function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
