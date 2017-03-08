@@ -279,7 +279,7 @@ function setFormData(entity) {
                 $('#blockId').empty();
                 $('#blockId').append($("<option>").val("").text("---请选择---"));
                 $.each(childData, function (k, v) {
-                    $('#blockId').append($("<option>").val(v.id).text(v.principal));
+                    $('#blockId').append($("<option>").val(v.id).text(v.orgName));
                 });
             }
             $(v).find("option[value='" + value + "']").attr("selected", true);
@@ -360,7 +360,7 @@ function setBlock(pSelector, cSelector) {
             cBlock.empty();
             cBlock.append($("<option>").val("").text("---请选择---"));
             $.each(childData, function (k, v) {
-                cBlock.append($("<option>").val(v.id).text(v.principal));
+                cBlock.append($("<option>").val(v.id).text(v.orgName));
             });
         });
     }

@@ -10,6 +10,7 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,10 +56,12 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         String endTime = request.getParameter("endTime");
         String strStatus = request.getParameter("strStatus");
         if(StringUtils.isNotBlank(startTime)){
-            param.andParam(new QueryParam("time", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
+            Date startTimeDate = MyDateUtils.getFullDate(startTime, true);
+            param.andParam(new QueryParam("time", QueryOperator.GE,startTimeDate ));
         }
         if(StringUtils.isNotBlank(endTime)){
-            param.andParam(new QueryParam("time", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
+            Date endTimeDate = MyDateUtils.getFullDate(endTime, false);
+            param.andParam(new QueryParam("time", QueryOperator.LE, endTimeDate));
         }
         if(strStatus != null && !"".equals(strStatus)){
             param.andParam(new QueryParam("portStatus",QueryOperator.EQ,strStatus));

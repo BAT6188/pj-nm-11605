@@ -102,7 +102,7 @@
                         </div>
                         <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input" data-link-format="yyyy-mm-dd hh:ii">
                             <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value=""
                                    data-message="监察时间不能为空"
                                    data-easytip="position:top;class:easy-red;"

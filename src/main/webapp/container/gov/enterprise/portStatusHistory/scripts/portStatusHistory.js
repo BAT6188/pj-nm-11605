@@ -92,6 +92,20 @@ function initTable() {
                 align: 'center'
             },
             {
+                title: '超标值',
+                field: 'liveValue',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '标准值',
+                field: 'standardValue',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 title: '状态',
                 field: 'portStatus',
                 editable: false,

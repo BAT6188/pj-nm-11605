@@ -144,31 +144,28 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
 
         long total = portStatusHistoryDAO.getCount(countSql);
 
-        List<Object[]> list = portStatusHistoryDAO.queryNativeSQL(querySql);
+        List<PortStatusHistory> list = portStatusHistoryDAO.queryNativeSQL(querySql,PortStatusHistory.class,null);
 
         if(list != null && list.size()>0){
             PortStatusHistory portStatus = null;
-            for(Object[] strExcessive : list){
+            for(PortStatusHistory strExcessive : list){
                 portStatus = new PortStatusHistory();
-                portStatus.setId(String.valueOf(strExcessive[0]));
+                portStatus.setId(String.valueOf(strExcessive.getId()));
                 //企业名称enterpriseName
-                portStatus.setEnterpriseName(strExcessive[10]==null ? "" :String.valueOf(strExcessive[10]));
-                portStatus.setPortNumber(strExcessive[13]==null ? "" :String.valueOf(strExcessive[13]));
-                portStatus.setPortName(strExcessive[12]==null ? "" :String.valueOf(strExcessive[12]));
-                portStatus.setPollutantName(strExcessive[28]==null ? "" :String.valueOf(strExcessive[28]));
+                portStatus.setEnterpriseName(strExcessive.getEnterpriseName());
+                portStatus.setPortNumber(strExcessive.getPortNumber());
+                portStatus.setPortName(strExcessive.getPortName());
+                portStatus.setPollutantName(strExcessive.getPollutantName());
+                portStatus.setLiveValue(strExcessive.getLiveValue());
+                portStatus.setStandardValue(strExcessive.getStandardValue());
                 //标题res_title
                 //状态开始时间startTime
                 Date date = null;
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-                try {
-                    date = sdf.parse(strExcessive[29]==null ? "" :String.valueOf(strExcessive[29]));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                portStatus.setTime(date);
+                portStatus.setTime(strExcessive.getTime());
                 //状态portStatus
-                portStatus.setPortStatus(strExcessive[14]==null ? "" :String.valueOf(strExcessive[14]));
+                portStatus.setPortStatus(strExcessive.getPortStatus());
                 //解决方案solution
                 rows.add(portStatus);
             }

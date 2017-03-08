@@ -19,6 +19,8 @@ import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
 import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exelaw.bean.SiteMonitoring;
 import com.harmonywisdom.dshbcbp.exelaw.service.SiteMonitoringService;
+import com.harmonywisdom.dshbcbp.office.bean.Contacts;
+import com.harmonywisdom.dshbcbp.office.service.ContactsService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
@@ -57,6 +59,9 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
     @AutoService
     private EnterpriseService enterpriseService;
 
+    @AutoService
+    private ContactsService contactsService;
+
 
     @Override
     protected SiteMonitoringService getService() {
@@ -65,8 +70,26 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
 
     @Override
     protected QueryCondition getQueryCondition() {
+        String userId = request.getParameter("userId");
+        String blockId="";
+        if (StringUtils.isEmpty(userId)){
+            IPerson person = ApportalUtil.getPerson(request);
+            userId = person.getUserId();
+        }
+
+        Contacts c=new Contacts();
+        c.setApportalUserId(userId);
+        c.setType("1");
+        List<Contacts> li = contactsService.findBySample(c);
+        if (li.size()>0){
+            blockId=li.get(0).getBlockId();
+        }
+
         String mobileOperType = request.getParameter("mobileOperType");
         QueryParam params = new QueryParam();
+        if(StringUtils.isNotBlank(blockId)){
+            params.andParam(new QueryParam("blockId", QueryOperator.EQ,blockId));
+        }
         if(StringUtils.isNotBlank(entity.getDispatchId())){
             params.andParam(new QueryParam("dispatchId", QueryOperator.EQ,entity.getDispatchId()));
         }

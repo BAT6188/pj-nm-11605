@@ -31,7 +31,7 @@ $("#addSiteMonitoring").click(function () {
 
     $("#dispatchId_addSiteMonitoringDialog").val(row.id)
     $("#checkPeople").val(userName)
-    $("#monitoringTime").val((new Date()).format("yyyy-MM-dd"))
+    $("#monitoringTime").val((new Date()).format("yyyy-MM-dd hh:mm"))
 
     uploaderToggle(".dUploader")
     uploader = new qq.FineUploader(getUploaderOptions());

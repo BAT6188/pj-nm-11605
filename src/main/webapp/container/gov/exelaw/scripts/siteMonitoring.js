@@ -243,7 +243,7 @@ updateBtn.prop('disabled', true);
 $("#add").bind('click',function () {
     resetForm();
     $('#checkPeople').val(userName)
-    $('#monitoringTime').val((new Date()).format("yyyy-MM-dd"))
+    $('#monitoringTime').val((new Date()).format("yyyy-MM-dd hh:mm"))
 
 });
 $("#update").bind("click",function () {
@@ -305,16 +305,24 @@ $("#save").bind('click',function () {
 });
 //初始化日期组件
 $('#datetimepicker').datetimepicker({
-    language:   'zh-CN',
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
     autoclose: 1,
-    startView: 2,//月视图
-    minView: 2
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 $('#datetimepicker2').datetimepicker({
-    language:   'zh-CN',
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
     autoclose: 1,
-    startView: 2,//月视图
-    minView: 2
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
 });
 
 /**
