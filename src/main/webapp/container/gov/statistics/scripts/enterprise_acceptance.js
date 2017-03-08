@@ -501,7 +501,10 @@ $(function(){
                             $("#projectListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var isAcceptance = 1;
                             var isEIA = 1;
                             initTable(firstTime,lastTime,isAcceptance,isEIA);
@@ -695,7 +698,10 @@ $(function(){
                             $("#projectListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var isAcceptance = 1;
                             var isEIA = 1;
                             initTable(firstTime,lastTime,isAcceptance,isEIA);

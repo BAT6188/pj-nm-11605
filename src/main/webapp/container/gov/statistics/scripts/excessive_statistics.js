@@ -367,7 +367,10 @@ $(function(){
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             initlawTable(firstTime,lastTime);
                         }
                     }
@@ -418,7 +421,10 @@ $(function(){
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.name;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             initlawTable(firstTime,lastTime);
                         }
                     }
@@ -486,7 +492,10 @@ $(function(){
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             initlawTable(firstTime,lastTime);
                         }
                     }
@@ -557,6 +566,20 @@ $(function(){
                 {
                     title: '监测指标',
                     field: 'pollutantName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '超标值',
+                    field: 'liveValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标准值',
+                    field: 'standardValue',
                     editable: false,
                     sortable: false,
                     align: 'center'

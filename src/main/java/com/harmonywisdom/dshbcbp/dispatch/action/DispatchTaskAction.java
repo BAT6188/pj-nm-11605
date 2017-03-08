@@ -18,6 +18,8 @@ import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
+import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.dshbcbp.exportword.service.impl.OverManageServiceImpl;
 import com.harmonywisdom.dshbcbp.port.bean.GasPort;
@@ -31,6 +33,7 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.SpringUtil;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.harmonywisdom.framework.utils.UUIDGenerator;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -70,6 +73,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     @AutoService
     private GasPortService gasPortService;
 
+    @AutoService
+    private EnterpriseService enterpriseService;
+
     @Override
     protected DispatchTaskService getService() {
         return dispatchTaskService;
@@ -79,6 +85,35 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 //        OverManage overManage = overManageService.findById(entity.getId());
 //        write(overManage);
 //    }
+
+    public void getAllAttachmentIdList(){
+        Map<String,List> map=new HashedMap();
+        String id = entity.getId();
+        String site_monitoring_sql="select a.* from hw_dispatch_task d,hw_site_monitoring s ,hw_attachment a \n" +
+                "where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String punish_sql="select a.* from hw_dispatch_task d,HW_PUNISH s ,hw_attachment a \n" +
+                "where s.dispatch_task_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String feedbackg_sql="select a.* from hw_dispatch_task d,T_FEEDBACK s ,hw_attachment a \n" +
+                "where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        List<Attachment> site_monitoring = dispatchTaskService.queryNativeSQL(site_monitoring_sql, Attachment.class, id);
+        for (Attachment attachment : site_monitoring) {
+            attachment.setData(null);
+        }
+        List<Attachment> punish = dispatchTaskService.queryNativeSQL(punish_sql, Attachment.class, id);
+        for (Attachment attachment : punish) {
+            attachment.setData(null);
+        }
+        List<Attachment> feedbackg = dispatchTaskService.queryNativeSQL(feedbackg_sql, Attachment.class, id);
+        for (Attachment attachment : feedbackg) {
+            attachment.setData(null);
+        }
+        map.put("site_monitoring",site_monitoring);
+        map.put("punish",punish);
+        map.put("feedbackg",feedbackg);
+
+        write(map);
+    }
+
 
     /**
      * 保存 现场监察监测报告
@@ -492,14 +527,18 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             entity.setEnvProStaPersonList(arrayToString(ids,true));
             entity.setEnvProStaPersonNameList(arrayToString(names,false));
         }else if ("0".equals(source)){
+            Enterprise e = enterpriseService.findById(mc.getEnterpriseId());
+            e.setPollutantStatus("0");
+            enterpriseService.update(e);
+
             if("w".equals(mc.getPortType())){
                 WaterPort wp = waterPortService.findById(mc.getPortId());
                 wp.setPortStatus("0");
-                waterPortService.save(wp);
+                waterPortService.update(wp);
             }else if("g".equals(mc.getPortType())){
                 GasPort gp = gasPortService.findById(mc.getPortId());
                 gp.setPortStatus("0");
-                gasPortService.save(gp);
+                gasPortService.update(gp);
             }
         }
 

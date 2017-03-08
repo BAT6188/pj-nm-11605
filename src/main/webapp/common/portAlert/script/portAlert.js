@@ -1,8 +1,19 @@
 $(function () {
     var portAlertDialog=$("#portAlertDialog");
-    if ('Y'==isJkzx){
-        setTimeout(alert,600000);//十分钟一次
-        // setTimeout(alert,5000);//5秒钟一次
+    if ('gaolei'==userId){
+        setInterval(alert,8000);//30秒钟一次
+    }
+
+    function setPortAlertStatus(id,portAlertStatus) {
+        $.ajax({
+            url:rootPath + "/action/S_dispatch_MonitorCase_setPortAlertStatus.action",
+            type:"post",
+            data:{id:id,portAlertStatus:portAlertStatus},
+            dataType:"json",
+            success:function (msg) {
+               console.log(msg)
+            }
+        });
     }
     function alert() {
         var alertEnterpris = queryAlertEnterpriseList();
@@ -11,22 +22,28 @@ $(function () {
             $('body').append(s);
             setTimeout("$('#baojing').remove()",10000);
             var li="";
-            var input='';
+            var enterpriseId='';
+            var arr=[];
             $.each(alertEnterpris,function (i,v) {
-                li+='<li><label class="col-sm-12">'+v.name+'</label></li>';
-                // input+='<input type="hidden" name="enterpriseId" value="'+v.id+'"/>';
+                setPortAlertStatus(v.id,1);
+                if (arr.indexOf(v.enterpriseId)==-1){
+                    arr.push(v.enterpriseId);
+                    li+='<li><label class="col-sm-12">'+v.enterpriseName+'</label></li>';
+                    enterpriseId+='<input type="hidden" name="enterpriseId" value="'+v.enterpriseId+'"/>';
+                }
             })
-            var html='<ul>'+li+'</ul>'+input;
+
+            var html='<ul>'+li+'</ul>'+enterpriseId;
             $('#alertEnterpriseList').html(html);
             portAlertDialog.modal("show")
-
         }
     }
 
     $("#alertEnterpriseLook").click(function () {
-        setTimeout(alert,600000);
+        $('#baojing').remove();
+        jumpToMap('');
         // var entity = portAlertDialog.find("form").formSerializeObject();
-        // jumpToMap(entity[0]);
+        // setTimeout(alert,30000);//30秒钟一次
     })
 
     function jumpToMap(enterpriseId){
@@ -36,12 +53,11 @@ $(function () {
     function queryAlertEnterpriseList() {
         var value;
         $.ajax({
-            url:rootPath + "/action/S_enterprise_Enterprise_queryAlertEnterpriseList.action",
+            url:rootPath + "/action/S_dispatch_MonitorCase_queryAlertEnterpriseList.action",
             type:"post",
             async:false,
-            dataType:"json",
             success:function (alertEnterpriseList) {
-                value = alertEnterpriseList;
+                value = JSON.parse(alertEnterpriseList);
             }
         });
         return value;

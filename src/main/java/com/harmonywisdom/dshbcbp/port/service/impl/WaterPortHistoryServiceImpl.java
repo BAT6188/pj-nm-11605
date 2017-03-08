@@ -44,12 +44,16 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
      */
     public void saveChaoBiao(WaterPortHistory waterPortHistory){
         if(!"0".equals(waterPortHistory.getDataStatus())){
-            PortStatusHistory p=new PortStatusHistory();
             WaterPort wp = waterPortDAO.findById(waterPortHistory.getPortId());
+            Enterprise e = enterpriseDAO.findById(wp.getEnterpriseId());
+            e.setPollutantStatus("1");
+            enterpriseDAO.update(e);
+
+            PortStatusHistory p=new PortStatusHistory();
             p.setPortId(wp.getId());
             p.setPortNumber(wp.getNumber());
             p.setPortName(wp.getName());
-            Enterprise e = enterpriseDAO.findById(wp.getEnterpriseId());
+
             p.setEnterpriseId(e.getId());
             p.setEnterpriseName(e.getName());
             p.setEnterpriseType(e.getRegistType());
@@ -66,6 +70,7 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
             mc.setSelfReadStatus("0");
             mc.setPunishStatus("0");
             mc.setSource("0");
+            mc.setPortAlertStatus("0");
             mc.setEnterpriseId(e.getId());
             mc.setEnterpriseName(e.getName());
             mc.setBlockId(e.getBlockId());
@@ -80,6 +85,8 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
 
             if(!"0".equals(waterPortHistory.getPhStatus())){
                 //pH值
+                p.setLiveValue(waterPortHistory.getPhLiveValue().toString());//检测值
+                p.setStandardValue(waterPortHistory.getPhStandardValue().toString());//标准值
                 p.setPortStatus(waterPortHistory.getPhStatus());
                 p.setPollutantName("pH值");
                 p.setPollutantCode("W01001");
@@ -100,6 +107,8 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
 
             if(!"0".equals(waterPortHistory.getOxygenStatus())){
                 //化学需氧量
+                p.setLiveValue(waterPortHistory.getOxygenLiveValue().toString());//检测值
+                p.setStandardValue(waterPortHistory.getOxygenStandardValue().toString());//标准值
                 p.setPortStatus(waterPortHistory.getOxygenStatus());
                 p.setPollutantName("化学需氧量");
                 p.setPollutantCode("W01018");
@@ -120,6 +129,8 @@ public class WaterPortHistoryServiceImpl extends BaseService<WaterPortHistory, S
 
             if(!"0".equals(waterPortHistory.getNitrogenStatus())){
                 //氨氮
+                p.setLiveValue(waterPortHistory.getNitrogenLiveValue().toString());//检测值
+                p.setStandardValue(waterPortHistory.getNitrogenStandardValue().toString());//标准值
                 p.setPortStatus(waterPortHistory.getNitrogenStatus());
                 p.setPollutantName("氨氮");
                 p.setPollutantCode("W21003");

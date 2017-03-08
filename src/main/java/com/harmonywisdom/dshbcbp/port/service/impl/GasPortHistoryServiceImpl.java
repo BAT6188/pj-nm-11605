@@ -46,12 +46,16 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
      */
     public void saveChaoBiao(GasPortHistory gasPortHistory){
         if(!"0".equals(gasPortHistory.getDataStatus())){
-            PortStatusHistory p=new PortStatusHistory();
             GasPort gp = gasPortDAO.findById(gasPortHistory.getPortId());
+            Enterprise e = enterpriseDAO.findById(gp.getEnterpriseId());
+            e.setPollutantStatus("1");
+            enterpriseDAO.update(e);
+
+            PortStatusHistory p=new PortStatusHistory();
             p.setPortId(gp.getId());
             p.setPortNumber(gp.getNumber());
             p.setPortName(gp.getName());
-            Enterprise e = enterpriseDAO.findById(gp.getEnterpriseId());
+
             p.setEnterpriseId(e.getId());
             p.setEnterpriseName(e.getName());
             p.setEnterpriseType(e.getRegistType());
@@ -68,6 +72,7 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
             mc.setSelfReadStatus("0");
             mc.setPunishStatus("0");
             mc.setSource("0");
+            mc.setPortAlertStatus("0");
             mc.setEnterpriseId(e.getId());
             mc.setEnterpriseName(e.getName());
             mc.setBlockId(e.getBlockId());
@@ -82,6 +87,8 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
 
             if(!"0".equals(gasPortHistory.getNitrogenStatus())){
                 //氮氧化物
+                p.setLiveValue(gasPortHistory.getNitrogenLiveValue().toString());//检测值
+                p.setStandardValue(gasPortHistory.getNitrogenStandardValue().toString());//标准值
                 p.setPortStatus(gasPortHistory.getNitrogenStatus());
                 p.setPollutantName("氮氧化物");
                 p.setPollutantCode("A21002");
@@ -102,6 +109,8 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
 
             if(!"0".equals(gasPortHistory.getSulfurStatus())){
                 //二氧化硫
+                p.setLiveValue(gasPortHistory.getSulfurLiveValue().toString());//检测值
+                p.setStandardValue(gasPortHistory.getSulfurStandardValue().toString());//标准值
                 p.setPortStatus(gasPortHistory.getSulfurStatus());
                 p.setPollutantName("二氧化硫");
                 p.setPollutantCode("A21026");
@@ -122,6 +131,8 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
 
             if(!"0".equals(gasPortHistory.getDustStatus())){
                 //烟尘
+                p.setLiveValue(gasPortHistory.getDustLiveValue().toString());//检测值
+                p.setStandardValue(gasPortHistory.getDustStandardValue().toString());//标准值
                 p.setPortStatus(gasPortHistory.getDustStatus());
                 p.setPollutantName("烟尘");
                 p.setPollutantCode("A21026");
@@ -142,6 +153,8 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
 
             if(!"0".equals(gasPortHistory.getOxygenStatus())){
                 //氧含量
+                p.setLiveValue(gasPortHistory.getOxygenLiveValue().toString());//检测值
+                p.setStandardValue(gasPortHistory.getOxygenStandardValue().toString());//标准值
                 p.setPortStatus(gasPortHistory.getOxygenStatus());
                 p.setPollutantName("氧含量");
                 p.setPollutantCode("A21026");

@@ -14,6 +14,7 @@ import com.harmonywisdom.dshbcbp.exelaw.dao.PunishDAO;
 import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
+import com.harmonywisdom.framework.util.string.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,13 +64,13 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 		String year = yyyyMMdd.substring(0, 4);
 		String month = yyyyMMdd.substring(4, 6);
 		String day = yyyyMMdd.substring(6);
-		overManage.setYear(year);
-		overManage.setMonth(month);
-		overManage.setDay(day);
-		overManage.setEnterpriseNamea(dispatchTask.getEnterpriseName());
-		overManage.setEnterpriseNameb(dispatchTask.getEnterpriseName());
-		overManage.setBlockLevelName(dispatchTask.getBlockLevelName());
-		overManage.setBlockName(dispatchTask.getBlockName());
+		overManage.setYear(StringUtils.defaultString(year));
+		overManage.setMonth(StringUtils.defaultString(month));
+		overManage.setDay(StringUtils.defaultString(day));
+		overManage.setEnterpriseNamea(StringUtils.defaultString(dispatchTask.getEnterpriseName()));
+		overManage.setEnterpriseNameb(StringUtils.defaultString(dispatchTask.getEnterpriseName()));
+		overManage.setBlockLevelName(StringUtils.defaultString(dispatchTask.getBlockLevelName()));
+		overManage.setBlockName(StringUtils.defaultString(dispatchTask.getBlockName()));
 		String pollutantType = enterprise.getPollutantType();
 		if (pollutantType==null){
 			pollutantType="";
@@ -82,20 +83,20 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 				pollutantTypeString+=" "+dictName;
 			}
 		}
-		overManage.setPollutantType(pollutantTypeString);
-		overManage.setArtificialPerson(enterprise.getArtificialPerson());
-		overManage.setApPhone(enterprise.getApPhone());
-		overManage.setEnvPrincipal(enterprise.getEnvPrincipal());
-		overManage.setEpPhone(enterprise.getEpPhone());
-		overManage.setContent(dispatchTask.getContent());
-		overManage.setCaseReason(dispatchTask.getCaseReason());
-		overManage.setOverSuggestion(dispatchTask.getOverSuggestion());
-		overManage.setCaseName(punish.getCaseName());
-		overManage.setFilingDate(DateUtil.dateToStr(punish.getFilingDate(),"yyyy-MM-dd HH:mm"));
-		overManage.setCode(punish.getCode());
-		overManage.setDecideCode(punish.getDecideCode());
-		overManage.setProvision(punish.getProvision());
-		overManage.setExeDate(DateUtil.dateToStr(punish.getExeDate(),"yyyy-MM-dd HH:mm"));
+		overManage.setPollutantType(StringUtils.defaultString(pollutantTypeString));
+		overManage.setArtificialPerson(StringUtils.defaultString(enterprise.getArtificialPerson()));
+		overManage.setApPhone(StringUtils.defaultString(enterprise.getApPhone()));
+		overManage.setEnvPrincipal(StringUtils.defaultString(enterprise.getEnvPrincipal()));
+		overManage.setEpPhone(StringUtils.defaultString(enterprise.getEpPhone()));
+		overManage.setContent(StringUtils.defaultString(dispatchTask.getContent()));
+		overManage.setCaseReason(StringUtils.defaultString(dispatchTask.getCaseReason()));
+		overManage.setOverSuggestion(StringUtils.defaultString(dispatchTask.getOverSuggestion()));
+		overManage.setCaseName(StringUtils.defaultString(punish.getCaseName()));
+		overManage.setFilingDate(StringUtils.defaultString(DateUtil.dateToStr(punish.getFilingDate(),"yyyy-MM-dd HH:mm")));
+		overManage.setCode(StringUtils.defaultString(punish.getCode()));
+		overManage.setDecideCode(StringUtils.defaultString(punish.getDecideCode()));
+		overManage.setProvision(StringUtils.defaultString(punish.getProvision()));
+		overManage.setExeDate(StringUtils.defaultString(DateUtil.dateToStr(punish.getExeDate(),"yyyy-MM-dd HH:mm")));
 		String type = punish.getType();
 		if ("1".equals(type)){
 			overManage.setType("罚款");
@@ -105,13 +106,19 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 			overManage.setType("责令停产整顿");
 		}else if ("4".equals(type)){
 			overManage.setType("责令停产、停业、关闭");
+		}else {
+			overManage.setType("");
 		}
-		overManage.setMoney(punish.getMoney());
-		overManage.setExeDate(DateUtil.dateToStr(punish.getExeDate(),"yyyy-MM-dd HH:mm"));
-		overManage.setEndDate(DateUtil.dateToStr(punish.getEndDate(),"yyyy-MM-dd HH:mm"));
-		overManage.setAttn(punish.getAttn());
-		overManage.setClosedDate(DateUtil.dateToStr(punish.getClosedDate(),"yyyy-MM-dd HH:mm"));
-		overManage.setPunishContent(punish.getContent());
+		if(punish.getMoney()==null){
+			overManage.setMoney(0D);
+		}else {
+			overManage.setMoney(punish.getMoney());
+		}
+		overManage.setExeDate(StringUtils.defaultString(DateUtil.dateToStr(punish.getExeDate(),"yyyy-MM-dd HH:mm")));
+		overManage.setEndDate(StringUtils.defaultString(DateUtil.dateToStr(punish.getEndDate(),"yyyy-MM-dd HH:mm")));
+		overManage.setAttn(StringUtils.defaultString(punish.getAttn()));
+		overManage.setClosedDate(StringUtils.defaultString(DateUtil.dateToStr(punish.getClosedDate(),"yyyy-MM-dd HH:mm")));
+		overManage.setPunishContent(StringUtils.defaultString(punish.getContent()));
 		List<Feedback> feedbackList = feedbackDAO.find("dispatchId=?", id);
 		if (feedbackList.size()>0){
 			overManage.setFeedbackListObject(feedbackList);

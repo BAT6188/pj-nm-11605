@@ -405,7 +405,10 @@ $(function(){
                             $("#sewageListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var paymentStatus = 1;
                             var unpaidStatus = 0;
                             initTable2(firstTime,lastTime,paymentStatus,unpaidStatus);
@@ -457,7 +460,10 @@ $(function(){
                             $("#sewageListForm").modal('show');
                             var pointTime = e.point.name;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var StrStatus = 1;
                             initTable(firstTime,lastTime,StrStatus);
                         }
@@ -526,7 +532,10 @@ $(function(){
                             $("#sewageListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var paymentStatus = 1;
                             var unpaidStatus = 0;
                             initTable2(firstTime,lastTime,paymentStatus,unpaidStatus);

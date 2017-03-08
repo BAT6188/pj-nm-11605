@@ -14,7 +14,7 @@ var OneImagePage = function () {
         VIDEO_FLAG: "Video",
         VIDEO_DEVICE_FLAG: "VideoDevice",
         AIR_EQUIPMENT_FLAG:"AirEquipment",
-        CLOCK_DELAY:15000
+        CLOCK_DELAY:10000
     };
     var page = {
         zTree:undefined,
@@ -113,6 +113,7 @@ var OneImagePage = function () {
             //var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
+            that.refreshPortStatusToMap();
             var alertTimer = setInterval(function () {
                 that.refreshPortStatusToMap();
             }, Constant.CLOCK_DELAY);
@@ -914,7 +915,7 @@ var OneImagePage = function () {
                 "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+(airEquipment.longitude==null?"":airEquipment.longitude)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+(airEquipment.latitude==null?"":airEquipment.latitude)+"</td></tr>";
                 //+"<tr><td style='text-align: right;'>空气质量等级:</td><td style='text-align: left;'>"+airEquipment.airQualityGrade+"</td></tr>";
-            
+
             infoHtml += "</table>";
             //添加按钮
             infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";

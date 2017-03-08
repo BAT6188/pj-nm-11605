@@ -638,10 +638,12 @@ $(function(){
                                 month;
                             }
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "31";
+                            var d=new Date(year,month,0);
+                            var lastTime =  year + "-" + month + "-"+d.getDate();
                             var year2 = year - 1;
                             var lastStartTime = year2 + "-" + month + "-" + "01";
-                            var lastEndTime = year2 + "-" + month + "-" + "31";
+                            var d=new Date(year,month,0);
+                            var lastEndTime = year2 + "-" + month + "-"+d.getDate();
 
                             initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
                         }
@@ -696,8 +698,8 @@ $(function(){
                             
                             var year2 = year - 1;
                             var firstTime = year2 + "-" + month + "-" + "01";
-                            var lastTime = year2 + "-" + month + "-" + "31";
-
+                            var d=new Date(year,month,0);
+                            var lastTime =  year2 + "-" + month + "-"+d.getDate();
                             initlawTable2(firstTime,lastTime);
                         }
                     }
@@ -764,7 +766,8 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "31";
+                            var d=new Date(year,month,0);
+                            var lastTime = year + "-" + month + "-"+d.getDate();
 
                             initlawTable2(firstTime,lastTime);
                         }
@@ -837,10 +840,12 @@ $(function(){
                                 month;
                             }
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "31";
+                            var d=new Date(year,month,0);
+                            var lastTime =  year + "-" + month + "-"+d.getDate();
                             var year2 = year - 1;
                             var lastStartTime = year2 + "-" + month + "-" + "01";
-                            var lastEndTime = year2 + "-" + month + "-" + "31";
+                            var d=new Date(year,month,0);
+                            var lastEndTime = year2 + "-" + month + "-"+d.getDate();
 
                             initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
                         }
@@ -926,6 +931,20 @@ $(function(){
                     align: 'center'
                 },
                 {
+                    title: '超标值',
+                    field: 'liveValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标准值',
+                    field: 'standardValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
                     title: '状态',
                     field: 'portStatus',
                     editable: false,
@@ -1002,6 +1021,20 @@ $(function(){
                 {
                     title: '监测指标',
                     field: 'pollutantName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '超标值',
+                    field: 'liveValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标准值',
+                    field: 'standardValue',
                     editable: false,
                     sortable: false,
                     align: 'center'

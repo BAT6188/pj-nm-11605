@@ -21,6 +21,19 @@ public class PortStatusHistory implements Serializable {
     private String id;
 
     /**
+     * 超标值
+     */
+    @Column(name = "live_Value")
+    private String liveValue;
+
+    /**
+     * 标准值
+     */
+    @Column(name = "standard_Value")
+    private String standardValue;
+
+
+    /**
      * 关联设备ID
      */
     @Column(name = "port_id")
@@ -397,5 +410,21 @@ public class PortStatusHistory implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getLiveValue() {
+        return liveValue;
+    }
+
+    public void setLiveValue(String liveValue) {
+        this.liveValue = liveValue;
+    }
+
+    public String getStandardValue() {
+        return standardValue;
+    }
+
+    public void setStandardValue(String standardValue) {
+        this.standardValue = standardValue;
     }
 }

@@ -33,9 +33,16 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <form class="form-inline" id="searchform">
-                            <div class="form-group">
+                        <div class="form-group">
                             <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                             <label for="s_checkPeople">监察人员：</label> <input type="text" id="s_checkPeople" name="checkPeople" class="form-control" />
+
+                            <label for="">所属网格：</label>
+                            <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;display:none">
+                            </select>
+                            <%-----%>
+                            <select class="form-control s_blockId" name="blockId" style="width: 266px;">
+                            </select>
                         </div>
                     </form >
                 </div>
@@ -102,7 +109,7 @@
                         </div>
                         <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input" data-link-format="yyyy-mm-dd hh:ii">
                             <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value=""
                                    data-message="监察时间不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -162,6 +169,7 @@
 <script>
     $(document).ready(function () {
         loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
+        loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 
         $("#enterpriseName").autocomplete({
             source: function( request, response ) {

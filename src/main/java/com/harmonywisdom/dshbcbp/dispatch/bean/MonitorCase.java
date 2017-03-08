@@ -13,6 +13,15 @@ public class MonitorCase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * gaolei用户 排口提醒状态，要和source==1以前使用
+     * 0: 未读
+     * 1：已读
+     */
+    @Column(name = "port_Alert_Status")
+    private String portAlertStatus;
+
+
+    /**
      * 排口表id
      */
     @Column(name = "port_id")
@@ -638,5 +647,13 @@ public class MonitorCase implements Serializable {
 
     public void setPortType(String portType) {
         this.portType = portType;
+    }
+
+    public String getPortAlertStatus() {
+        return portAlertStatus;
+    }
+
+    public void setPortAlertStatus(String portAlertStatus) {
+        this.portAlertStatus = portAlertStatus;
     }
 }
