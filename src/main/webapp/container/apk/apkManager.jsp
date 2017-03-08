@@ -11,14 +11,14 @@
         <div class="mainBox">
             <div class="dealBox">
                 <div class="sideTitle left">
-                        <span class="blueMsg">
+                        <%--<span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
                             <span class="text">查询</span>
-                        </span>
+                        </span>--%>
                 </div>
                 <div class="queryBox marginLeft0">
                         <form class="form-inline">
-                            <div class="form-group">
+                            <%--<div class="form-group">
                                 <label for="">提醒名称：</label> <input type="text" id="s_title" style="width: 180px;" class="form-control" />
                             </div>
                             <div class="form-group">
@@ -34,19 +34,19 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
-                            </div>
+                            </div>--%>
                         </form>
                     <p></p>
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                <%--<button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>--%>
                 <p class="btnListP">
                     <button id="add" type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon add-icon"></i><span>新建</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
+                    <%--<button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#demoForm">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
-                    </button>
+                    </button>--%>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
