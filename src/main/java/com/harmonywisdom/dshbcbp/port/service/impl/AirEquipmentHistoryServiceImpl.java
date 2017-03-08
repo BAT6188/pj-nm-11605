@@ -280,6 +280,7 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
                     cdap.setMobileTimestamp(startDate);
                     cityAqiPublishDAO.saveOrUpdate(cdap);
                 }
+
                 Calendar ca=Calendar.getInstance();
                 ca.setTime(startDate);
                 ca.add(Calendar.HOUR_OF_DAY,1);

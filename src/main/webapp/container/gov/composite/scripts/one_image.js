@@ -1175,8 +1175,8 @@ var OneImagePage = function () {
         showEnterpriseInfoWin:function(enterprise){
             var that = this;
             var WaterGasPortStatus = that.checkIsHavePort(enterprise.id);
-            var FumesPortStatus = false;
-            if(enterprise.haveFumesPort==1){FumesPortStatus = true;}
+            var FumesPortStatus = 'none';
+            if(enterprise.haveFumesPort==1){FumesPortStatus = 'block';}
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
                 "<tr><td >企业名称:</td><td  colspan='3'>"+(enterprise.name == null?"":enterprise.name)+"</td></tr>"+
@@ -1228,13 +1228,12 @@ var OneImagePage = function () {
             });
             /*在线监控*/
             $(infoDOM).find("#liveWaterGas").bind("click",function(){
-                var enterpriseId = $(infoDOM).find("#liveWaterGas").attr("data-id");
-                var h=$(window).height()-120;
-                $("#setW").css('width',$(window).width());
-                $('.modal-body').attr('style','max-height: '+h+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
-                $("#liveWaterGasModal").modal('show');
-                var url='/container/gov/monitor/enterpriseMointor/lookMonitor.jsp?id='+enterpriseId;
-                $('#contentliveWaterGas').load(rootPath+url);
+                var eId = $(this).data("id");
+                //打开噪音详情表单
+                WaterGasHistoryDataFormViewDialog.modal({
+                    id:eId
+                });
+                WaterGasHistoryDataFormViewDialog.modal("show");
             });
             /*油烟监控*/
             $(infoDOM).find("#liveFumes").bind("click",function(){
