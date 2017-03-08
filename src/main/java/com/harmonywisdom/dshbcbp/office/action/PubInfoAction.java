@@ -136,6 +136,9 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
+        if(StringUtils.isNotBlank(entity.getStatus()) && "1".equals(entity.getStatus())){
+            entity.setPubTime(new Date());
+        }
         super.save();
         pubInfoService.savePubInfoRelTable(entity);
         if (StringUtils.isNotBlank(entity.getAttachmentIds())) {

@@ -78,8 +78,14 @@ $(function(){
 
     //查询按钮
     $("#search").bind('click',function(){
-        var startSdate = $("#start_createTime").val() + "-" + "01";
-        var lastSdate = $("#end_createTime").val() + "-" + "31";
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startSdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            lastSdate = end_createTime+"-"+"31";
+        }
         var dateStr = startSdate;
         var arr = dateStr.split("-");
         var lastDate = new Date(parseInt(arr[0])-1, parseInt(arr[1])-1);
@@ -657,7 +663,7 @@ $(function(){
         airRatioTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
-            url: rootPath+"/action/S_port_AirQuality_airRatiolist.action?startXdate="+startXdate+"&lastXdate="+lastXdate+"&startSdate="+startSdate+"&lastSdate="+lastSdate+"&minValue="+minValue+"&maxValue="+maxValue,
+            url: rootPath+"/action/S_port_CityDayAqiPublish_airRatiolist.action?startXdate="+startXdate+"&lastXdate="+lastXdate+"&startSdate="+startSdate+"&lastSdate="+lastSdate+"&minValue="+minValue+"&maxValue="+maxValue,
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
@@ -679,14 +685,21 @@ $(function(){
                 },
                 {
                     title: '更新时间',
-                    field: 'rec_Time',
+                    field: 'timePoint',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
                     title: '空气AQI值',
-                    field: 'airValue',
+                    field: 'aQI',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '首要污染物',
+                    field: 'primaryPollutant',
                     editable: false,
                     sortable: false,
                     align: 'center'
@@ -714,7 +727,7 @@ $(function(){
         airRatioTable2.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
-            url: rootPath+"/action/S_port_AirQuality_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
+            url: rootPath+"/action/S_port_CityDayAqiPublish_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
@@ -736,14 +749,21 @@ $(function(){
                 },
                 {
                     title: '更新时间',
-                    field: 'rec_Time',
+                    field: 'timePoint',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
                     title: '空气AQI值',
-                    field: 'airValue',
+                    field: 'aQI',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '首要污染物',
+                    field: 'primaryPollutant',
                     editable: false,
                     sortable: false,
                     align: 'center'

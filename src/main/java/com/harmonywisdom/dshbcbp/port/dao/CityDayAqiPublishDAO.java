@@ -1,14 +1,13 @@
 package com.harmonywisdom.dshbcbp.port.dao;
 
-
-import com.harmonywisdom.dshbcbp.port.bean.AirQuality;
+import com.harmonywisdom.dshbcbp.port.bean.CityDayAqiPublish;
 import com.harmonywisdom.framework.dao.DefaultDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class AirQualityDAO extends DefaultDAO<AirQuality, String> {
+public class CityDayAqiPublishDAO extends DefaultDAO<CityDayAqiPublish, String> {
 
     /**
      * 获取总数

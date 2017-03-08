@@ -19,6 +19,7 @@ $(function(){
     var year = new Date().getFullYear();
     var startYdate = year +　'-'+'01' + '-'+'01';
     var lastYdate = year + '-'+ '06' + '-'+ '30';
+    var airType = '';
     
     
     //初始化页面
@@ -26,14 +27,20 @@ $(function(){
 
     function initPage(){
         $('#columnBtn').css('background','#0099FF');
-        search(valueChart,startYdate,lastYdate,'');
+        search(valueChart,startYdate,lastYdate,airType);
 
     }
 
     $("#search").bind('click',function(){
-        var startYdate = $("#start_createTime").val()+"-"+"01";
-        var lastYdate = $("#end_createTime").val()+"-"+"31";
-        var airType = $("#airType").val();
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startYdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            lastYdate = end_createTime+"-"+"31";
+        }
+        airType = $("#airType").val();
         search(valueChart,startYdate,lastYdate,airType);
     });
 
@@ -54,7 +61,7 @@ $(function(){
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#fff');
 
-        search(valueChart,startYdate,lastYdate,'');
+        search(valueChart,startYdate,lastYdate,airType);
 
     });
 
@@ -64,7 +71,7 @@ $(function(){
         $("#pieBtn").css('background','#0099FF');
         $('#columnBtn').css('background','#fff');
         $("#lineBtn").css('background','#fff');
-        search(valueChart,startYdate,lastYdate,'');
+        search(valueChart,startYdate,lastYdate,airType);
     });
 
     //线状图按钮
@@ -73,7 +80,7 @@ $(function(){
         $('#columnBtn').css('background','#fff');
         $("#pieBtn").css('background','#fff');
         $("#lineBtn").css('background','#0099FF');
-        search(valueChart,startYdate,lastYdate,'');
+        search(valueChart,startYdate,lastYdate,airType);
     });
     
     //柱状图获取后台数据
@@ -197,7 +204,7 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log(e.point.category);
+
                             $("#airListForm").modal('show');
                             var strValue = e.point.category;
                             if(strValue == '优'){
@@ -286,7 +293,6 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log(e.point.name);
                             $("#airListForm").modal('show');
                             var strValue = e.point.name;
                             if(strValue == '优'){
@@ -434,7 +440,7 @@ $(function(){
         airTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
-            url: rootPath+"/action/S_port_AirQuality_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
+            url: rootPath+"/action/S_port_CityDayAqiPublish_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
@@ -456,19 +462,25 @@ $(function(){
                 },
                 {
                     title: '更新时间',
-                    field: 'rec_Time',
+                    field: 'timePoint',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
                     title: '空气AQI值',
-                    field: 'airValue',
+                    field: 'aQI',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '首要污染物',
+                    field: 'primaryPollutant',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 }
-
             ]
         });
         // sometimes footer render error.

@@ -47,7 +47,8 @@ function initTable() {
                 align: 'center',
                 editable: false,
                 isDown:true
-            }, {
+            },
+            {
                 title: '发布部门',
                 field: 'pubOrgName',
                 sortable: false,
@@ -60,9 +61,9 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter:function (value, row, index) {
+                /*formatter:function (value, row, index) {
                     return pageUtils.sub10(value);
-                },
+                },*/
                 isDown:true
             },
             {
@@ -222,7 +223,9 @@ updateBtn.prop('disabled', true);
  */
 $("#add").bind('click',function () {
     resetForm();
-    $("#pubOrgName").attr("disabled",true)
+    $("#pubOrgName").attr("disabled",true);
+    $('#status').val("0");
+    $("#pubTime").val((new Date()).format("yyyy-MM-dd"));
 });
 $("#update").bind("click",function () {
     setFormData(getSelections()[0]);
@@ -237,6 +240,7 @@ var ef2 = form.easyform({
                 return;
             }else{
                 var sharemeans = form.find("form").formSerializeObject();
+                sharemeans.status = 1;
                 sharemeans.attachmentIds = getAttachmentIds();
                 sharemeans.pubOrgName=$("#pubOrgName").val();
                 saveShareMeans(sharemeans,function (msg) {
@@ -258,7 +262,6 @@ $("#pub").bind("click",function () {
 
 
 function pubSharemean(id){
-    console.log(id);
     $.ajax({
         url: rootPath + "/action/S_office_ShareMeans_pubsave.action",
         type:"post",

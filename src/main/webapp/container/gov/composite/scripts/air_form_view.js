@@ -142,6 +142,9 @@ var AirHistoryDataFormViewDialog = function(){
                 pagination:true,
                 pageSize:8,
                 clickToSelect:true,//单击行时checkbox选中
+                rowStyle:function(row,index) {
+                    return { classes:getInfoStyle(row.airIndex)};
+                },
                 queryParams:function(params){
                     var localParams = {};
                     //分页参数
@@ -205,7 +208,17 @@ var AirHistoryDataFormViewDialog = function(){
             });
         }
     }
-
+    function getInfoStyle(value){
+        var style = 'default';
+        if(value > 200){
+            style = 'danger alert-danger';
+        }else if(value > 100){
+            style = 'warning alert-warning';
+        }else if(value > 0){
+            style = 'success alert-success';
+        }
+        return style;
+    }
     var dialog = {
         modal:function () {
             if (arguments.length == 1) {

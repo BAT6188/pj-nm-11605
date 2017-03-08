@@ -44,8 +44,8 @@ public class ShareMeansServiceImpl extends BaseService<ShareMeans, String> imple
             bf.append("AND entity.pubOrgName LIKE :pubOrgName ");
         }
         if (StringUtils.isNotBlank(entity.getType())) {
-            paramValues.put("type",entity.getType());
-            bf.append("AND entity.type = :type ");
+            paramValues.put("type","%"+entity.getType()+"%");
+            bf.append("AND entity.type LIKE :type ");
         }
         if (StringUtils.isNotBlank(entity.getStatus())) {
             paramValues.put("pubOrgId",entity.getPubOrgId());

@@ -146,13 +146,12 @@
 
 
 
-                        <label for="createTime" class="col-sm-2 control-label">提交时间：<span class="text-danger">*</span>：</label>
+                        <label for="createTime" class="col-sm-2 control-label">创建时间：<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="pubTimeContent" class="input-group date form_datetime col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="createTime" name="createTime" size="16" type="text" value="" readonly
                                        data-message="时间不能为空"
-                                       data-easytip="position:top;class:easy-red;"
-                                />
+                                       data-easytip="position:top;class:easy-red;">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>

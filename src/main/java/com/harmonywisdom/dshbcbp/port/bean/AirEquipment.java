@@ -62,19 +62,6 @@ public class AirEquipment implements Serializable {
     private Integer airIndex;
 
     /**
-     * 企业ID
-     */
-    @Column(name = "enterprise_id",length = 32)
-    private String enterpriseId;
-
-    /**
-     * 企业名称
-     * @return
-     */
-    @Column(name="ENTERPRISE_NAME",length = 100)
-    private String enterpriseName;
-
-    /**
      * 空气质量等级
      * @return
      */
@@ -151,22 +138,6 @@ public class AirEquipment implements Serializable {
 
     public void setAirIndex(Integer airIndex) {
         this.airIndex = airIndex;
-    }
-
-    public String getEnterpriseId() {
-        return enterpriseId;
-    }
-
-    public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
-    }
-
-    public String getEnterpriseName() {
-        return enterpriseName;
-    }
-
-    public void setEnterpriseName(String enterpriseName) {
-        this.enterpriseName = enterpriseName;
     }
 
     public String getAirQualityGrade() {

@@ -73,13 +73,13 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
     @Override
     public List<Object[]> findByAirData(String startYdate,String lastYdate,String airType) {
         List<Object[]> list = getDAO().queryNativeSQL("SELECT" +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastYdate+"')" +
-                "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >0 AND t0.AQI <= 50 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >50 AND t0.AQI <= 100 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >100 AND t0.AQI <= 150 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >150 AND t0.AQI <= 200 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >200 AND t0.AQI <= 300 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastYdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >300 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startYdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastYdate+"')" +
+                "FROM HW_CITY_DAY_AQI_PUBLISH t GROUP BY DATE_FORMAT(t.`TimePoint`,'%Y');");
 
         String[] title = new String[]{"优", "良", "轻微污染","轻度污染", "中度污染", "重度污染"};
 
@@ -140,22 +140,22 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
     @Override
     public List<Object[]> findByAirRadioData(String startXdate, String lastXdate, String startSdate, String lastSdate, String airType) {
         List<Object[]> list = getDAO().queryNativeSQL("SELECT" +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m%-d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastXdate+"')" +
-                "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >0 AND t0.AQI <= 50 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >50 AND t0.AQI <= 100 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >100 AND t0.AQI <= 150 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >150 AND t0.AQI <= 200 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m%-d')>='"+startXdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >200 AND t0.AQI <= 300 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastXdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >300 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startXdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastXdate+"')" +
+                "FROM HW_CITY_DAY_AQI_PUBLISH t GROUP BY DATE_FORMAT(t.`TimePoint`,'%Y');");
 
         List<Object[]> list2 = getDAO().queryNativeSQL("SELECT" +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >0 AND t0.air_value <= 50 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >50 AND t0.air_value <= 100 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >100 AND t0.air_value <= 150 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >150 AND t0.air_value <= 200 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >200 AND t0.air_value <= 300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')," +
-                "(SELECT COUNT(*) FROM hw_dshbcbp_air_quality t0 WHERE t0.air_value >300 AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`rec_time`,'%Y-%m-%d') <= '"+lastSdate+"')" +
-                "FROM hw_dshbcbp_air_quality t GROUP BY DATE_FORMAT(t.`rec_time`,'%Y');");
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >0 AND t0.AQI <= 50 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >50 AND t0.AQI <= 100 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >100 AND t0.AQI <= 150 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >150 AND t0.AQI <= 200 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >200 AND t0.AQI <= 300 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastSdate+"')," +
+                "(SELECT COUNT(*) FROM HW_CITY_DAY_AQI_PUBLISH t0 WHERE t0.AQI >300 AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d')>='"+startSdate+"' AND DATE_FORMAT(t0.`TimePoint`,'%Y-%m-%d') <= '"+lastSdate+"')" +
+                "FROM HW_CITY_DAY_AQI_PUBLISH t GROUP BY DATE_FORMAT(t.`TimePoint`,'%Y');");
 
         String[] strAir =new String[]{"优", "良", "轻微污染","轻度污染", "中度污染", "重度污染"};
 
@@ -226,22 +226,22 @@ public class AirQualityServiceImpl extends BaseService<AirQuality, String> imple
 
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if(StringUtils.isNotBlank(params.get("minValue"))){
-            whereSql.append("and t.air_value > ").append(params.get("minValue"));
+            whereSql.append("and t.AQI > ").append(params.get("minValue"));
         }
         if(StringUtils.isNotBlank(params.get("maxValue"))){
-            whereSql.append(" and t.air_value <= ").append(params.get("maxValue"));
+            whereSql.append(" and t.AQI <= ").append(params.get("maxValue"));
         }
         if (StringUtils.isNotBlank(params.get("startXdate")) || StringUtils.isNotBlank(params.get("lastXdate"))) {
-            whereSql.append(" and ( t.rec_time > '").append(params.get("startXdate")).append("' and t.rec_time < '").append(params.get("lastXdate"));
+            whereSql.append(" and ( t.TimePoint > '").append(params.get("startXdate")).append("' and t.TimePoint < '").append(params.get("lastXdate"));
         }
         if(StringUtils.isNotBlank(params.get("startSdate")) || StringUtils.isNotBlank(params.get("lastSdate"))){
-            whereSql.append("' OR t.rec_time > '").append(params.get("startSdate")).append("' and t.rec_time <= '").append(params.get("lastSdate")+"')");
+            whereSql.append("' OR t.TimePoint > '").append(params.get("startSdate")).append("' and t.TimePoint <= '").append(params.get("lastSdate")+"')");
         }
-        whereSql.append(" order by t.rec_time desc ");
+        whereSql.append(" order by t.TimePoint desc ");
 
 
-        String countSql = "select count(*) from hw_dshbcbp_air_quality t" +whereSql.toString();
-        String querySql = "select t.* from hw_dshbcbp_air_quality t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
+        String countSql = "select count(*) from HW_CITY_DAY_AQI_PUBLISH t" +whereSql.toString();
+        String querySql = "select t.* from HW_CITY_DAY_AQI_PUBLISH t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
 
         long total = airQualityDAO.getCount(countSql);
         List<Object[]> list = airQualityDAO.queryNativeSQL(querySql);

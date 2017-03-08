@@ -31,7 +31,7 @@
 
                     <div class="form-group">
 
-                        <label for="monitoringTime" class="col-sm-2 control-label">监测时间：<span class="text-danger">*</span>：</label>
+                        <label for="monitoringTime" class="col-sm-2 control-label">最新监测时间：<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
                             <div id="createTimeContent" class="input-group date form_date col-md-12" data-date="" data-link-field="monitoringTime" data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd">
                                 <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value="" readonly

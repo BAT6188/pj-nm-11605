@@ -12,6 +12,7 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedHashMap;
 
 
 public class AirEquipmentHistoryAction extends BaseAction<AirEquipmentHistory, AirEquipmentHistoryService> {
@@ -38,6 +39,9 @@ public class AirEquipmentHistoryAction extends BaseAction<AirEquipmentHistory, A
         if(StringUtils.isNotBlank(entity.getMonitoringNumber())){
             param.andParam(new QueryParam("monitoringNumber", QueryOperator.EQ,entity.getMonitoringNumber()));
         }
+        if(entity.getMonitoringTime()!=null){
+            param.andParam(new QueryParam("monitoringTime", QueryOperator.EQ,entity.getMonitoringTime()));
+        }
 
         if("1".equals(mobileOperType)){//下拉
 //            log.debug("下拉："+DateUtil.dateToStr(entity.getMobileTimestamp(),"yyyy-MM-dd HH:mm:ss"));
@@ -56,12 +60,19 @@ public class AirEquipmentHistoryAction extends BaseAction<AirEquipmentHistory, A
         if (param.getField() != null) {
             condition.setParam(param);
         }
+        LinkedHashMap<String, Direction> orders = new LinkedHashMap<>();
         condition.setPaging(getPaging());
-        condition.setOrderBy("monitoringTime", Direction.DESC);
         if (StringUtils.isNotEmpty(mobileOperType)){
             condition.setOrderBy("mobileTimestamp", Direction.DESC);
+        }else{
+            orders.put("monitoringTime",Direction.DESC);
+            //orders.put("",Direction.DESC);
+            condition.setOrderBys(orders);
         }
         return condition;
     }
 
+    public void findBySimple(){
+        write(airEquipmentHistoryService.findBySample(entity));
+    }
 }

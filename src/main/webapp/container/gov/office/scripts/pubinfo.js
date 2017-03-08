@@ -92,9 +92,9 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter: function (value, row, index) {
+                /*formatter: function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                }*/
             },
             {
                 field: 'status',
@@ -200,7 +200,7 @@ $("#add").bind('click', function () {
     resetForm();
     $('#pub').attr('disabled', false);
     $("#pubOrgName").attr("disabled", true)
-
+    $('#pubTime').val((new Date()).format("yyyy-MM-dd"));
 });
 $("#update").bind("click", function () {
     var entity = getSelections()[0];

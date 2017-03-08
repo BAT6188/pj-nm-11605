@@ -42,7 +42,7 @@ public class UserAction extends ActionHelper implements Preparable {
             user.setOrgId(org.getOrgId());
             user.setOrgName(org.getOrgName());
             user.setMobile(person.getMobile());
-            //user.setMenuData(getUserMenu(person.getPersonId()));
+            user.setMenuData(getUserMenu(person.getPersonId()));
             write(user);
         }else{
             write(false);
