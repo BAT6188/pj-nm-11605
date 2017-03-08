@@ -33,9 +33,16 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <form class="form-inline" id="searchform">
-                            <div class="form-group">
+                        <div class="form-group">
                             <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                             <label for="s_checkPeople">监察人员：</label> <input type="text" id="s_checkPeople" name="checkPeople" class="form-control" />
+
+                            <label for="">所属网格：</label>
+                            <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;display:none">
+                            </select>
+                            <%-----%>
+                            <select class="form-control s_blockId" name="blockId" style="width: 266px;">
+                            </select>
                         </div>
                     </form >
                 </div>
@@ -162,6 +169,7 @@
 <script>
     $(document).ready(function () {
         loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
+        loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 
         $("#enterpriseName").autocomplete({
             source: function( request, response ) {

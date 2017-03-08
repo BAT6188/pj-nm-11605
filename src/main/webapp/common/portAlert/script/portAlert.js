@@ -41,10 +41,9 @@ $(function () {
 
     $("#alertEnterpriseLook").click(function () {
         $('#baojing').remove();
+        jumpToMap('');
         // var entity = portAlertDialog.find("form").formSerializeObject();
         // setTimeout(alert,30000);//30秒钟一次
-
-        // jumpToMap(entity[0]);
     })
 
     function jumpToMap(enterpriseId){
