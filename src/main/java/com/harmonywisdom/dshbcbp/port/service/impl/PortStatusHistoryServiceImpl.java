@@ -125,19 +125,21 @@ public class PortStatusHistoryServiceImpl extends BaseService<PortStatusHistory,
 
         //分页条件
         int startIndex = paging.getStartIndex();
-        int endIndex = paging.getStartIndex() + paging.getPageSize();
+        int endIndex =  paging.getPageSize();
 
 
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if(StringUtils.isNotBlank(params.get("strStatus"))){
             whereSql.append("and port_status = '").append(params.get("strStatus"));
         }
-        if (StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))) {
-            whereSql.append("' and ( t.time > '").append(params.get("firstTime")).append("' and t.time < '").append(params.get("lastTime")+"')");
+        String firstTime = params.get("firstTime");
+        firstTime=firstTime.substring(0,7);
+        if (StringUtils.isNotBlank(firstTime)) {
+            whereSql.append("' and DATE_FORMAT(t.time, '%Y-%m') = '").append(firstTime).append("'");
         }
-        if(StringUtils.isNotBlank(params.get("lastStartTime")) || StringUtils.isNotBlank(params.get("lastEndTime"))){
-            whereSql.append("OR port_status = '").append(params.get("strStatus")).append("' and (t.time > '").append(params.get("lastStartTime")).append("' and t.time < '").append(params.get("lastEndTime")+"')");
-        }
+//        if(StringUtils.isNotBlank(params.get("lastStartTime")) || StringUtils.isNotBlank(params.get("lastEndTime"))){
+//            whereSql.append("OR port_status = '").append(params.get("strStatus")).append("' and (t.time > '").append(params.get("lastStartTime")).append("' and t.time < '").append(params.get("lastEndTime")+"')");
+//        }
 
         String countSql = "select count(*) from HW_DSHBCBP_PORT_STATUS_HISTORY t" +whereSql.toString();
         String querySql = "select t.* from HW_DSHBCBP_PORT_STATUS_HISTORY t " +whereSql.toString()+"limit " + startIndex+","+endIndex;

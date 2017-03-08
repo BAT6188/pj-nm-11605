@@ -54,14 +54,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="s_status">反馈状态：</label>
+                            <label for="s_status">状态：</label>
                             <select id="s_status" name="status" class="form-control" style="width: 266px;">
                                 <option value="">全部</option>
                                 <option value="1">未调度</option>
-                                <option value="2">已发送</option>
+                                <option value="2">已调度</option>
                                 <option value="3">已反馈</option>
-                                <option value="4">已处罚</option>
-                                <option value="5">已办结</option>
                             </select>
                         </div>
                     </form>

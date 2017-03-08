@@ -91,58 +91,28 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
     public QueryResult<PollutantPayment> findSewagelist(Map<String, String> params, Paging paging) {
 
         QueryResult<PollutantPayment> result = new QueryResult<>();
-        List<PollutantPayment> rows = new ArrayList<>();
 
         //分页条件
         int startIndex = paging.getStartIndex();
-        int endIndex = paging.getStartIndex() + paging.getPageSize();
+        int endIndex = paging.getPageSize();
 
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
-        if(StringUtils.isNotBlank(params.get("paymentStatus"))){
-            whereSql.append("and (t.PAYMENT_STATUS ='").append(params.get("paymentStatus"));
-        }
-        if(StringUtils.isNotBlank(params.get("unpaidStatus"))){
-            whereSql.append("' OR t.PAYMENT_STATUS = '").append(params.get("unpaidStatus"));
-        }
-
-        if (StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))) {
-            whereSql.append("') and ( t.pay_date >= '").append(params.get("firstTime")).append("' and t.pay_date <= '").append(params.get("lastTime")+"')");
+//        if(StringUtils.isNotBlank(params.get("paymentStatus"))){
+//            whereSql.append("and t.PAYMENT_STATUS ='").append(params.get("paymentStatus"));
+//        }
+        String firstTime = params.get("firstTime");
+        firstTime=firstTime.substring(0,7);
+        if (StringUtils.isNotBlank(firstTime)) {
+            whereSql.append(" and DATE_FORMAT(t.pay_date, '%Y-%m') = '").append(firstTime).append("'");
         }
 
         String countSql = "select count(*) from hw_pollutant_payment t"  +whereSql.toString();
         String querySql = "select t.* from hw_pollutant_payment t " +whereSql.toString()+"order by t.pay_date desc "+"limit " + startIndex+","+endIndex;
 
         long total = pollutantPaymentDAO.getCount(countSql);
-        List<Object[]> list = pollutantPaymentDAO.queryNativeSQL(querySql);
+        List<PollutantPayment> list = pollutantPaymentDAO.queryNativeSQL(querySql,PollutantPayment.class,null);
 
-        if(list != null && list.size()>0){
-            PollutantPayment pol = null;
-            for(Object[] obj : list){
-                pol = new PollutantPayment();
-                pol.setId(String.valueOf(obj[0]));
-                pol.setEnterpriseName(obj[5]==null ? "" : String.valueOf(obj[5]));
-                pol.setEnterpriseAP(obj[3]==null ? "" : String.valueOf(obj[3]));
-                pol.setApPhone(String.valueOf(obj[2]));
-                pol.setPayMoney(Double.parseDouble(obj[7]==null ? "" : String.valueOf(obj[7])));
-                //registDate
-                Date registDate = null;
-                Date payDate = null;
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                try {
-                    registDate = sdf.parse(obj[8]==null ? "" : String.valueOf(obj[8]));
-                    payDate = sdf.parse(obj[6]==null ? "" : String.valueOf(obj[6]));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                pol.setRegistDate(registDate);
-                pol.setPayDate(payDate);
-                pol.setPaymentStatus(obj[11]==null ? "" : String.valueOf(obj[11]));
-                rows.add(pol);
-
-            }
-        }
-        result.setRows(rows);
+        result.setRows(list);
         result.setTotal(total);
         return result;
     }

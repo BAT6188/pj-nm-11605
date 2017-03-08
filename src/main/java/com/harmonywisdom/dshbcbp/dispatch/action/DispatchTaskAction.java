@@ -237,6 +237,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         if ("TRUE".equals(notOver)){
             params.andParam(new QueryParam("status", QueryOperator.NE, "5"));
+            if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
+                params.andParam(new QueryParam("status", QueryOperator.EQ, status));
+            }
         }else {
             if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
                 params.andParam(new QueryParam("status", QueryOperator.EQ, status));

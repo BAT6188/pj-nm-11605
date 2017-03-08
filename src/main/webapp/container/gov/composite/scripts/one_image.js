@@ -113,7 +113,7 @@ var OneImagePage = function () {
             //var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
-            that.refreshPortStatusToMap();
+            // that.refreshPortStatusToMap();
             var alertTimer = setInterval(function () {
                 that.refreshPortStatusToMap();
             }, Constant.CLOCK_DELAY);
