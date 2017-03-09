@@ -115,6 +115,8 @@
                                         <td><span>排口名称</span></td>
                                         <td><span >超标时间</span></td>
                                         <td><span >监测指标</span></td>
+                                        <td><span >超标值</span></td>
+                                        <td><span >标准值</span></td>
                                         <td><span >状态</span></td>
                                     </tr>
                                     </tbody>

@@ -98,6 +98,8 @@ $(function(){
                         + "<td ><span>" + (result[i].portName == null ? "" : result[i].portName) + "</span></td>"
                         + "<td ><span>" + (result[i].time == null ? "" : result[i].time)+"</span></td>"
                         + "<td ><span>" + (result[i].pollutantName == null ? "" : result[i].pollutantName) + "</span></td>"
+                        + "<td ><span>" + (result[i].liveValue == null ? "" : result[i].liveValue) + "</span></td>"
+                        + "<td ><span>" + (result[i].standardValue == null ? "" : result[i].standardValue) + "</span></td>"
                         + "<td ><span>" + statusFormatter(result[i].portStatus == null ? "" : result[i].portStatus) + "</span></td>"
                         + "</tr>";
                     var $tr = $(trHtml);

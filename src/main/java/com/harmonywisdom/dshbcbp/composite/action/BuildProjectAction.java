@@ -126,6 +126,8 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
      */
     public void builsProlist(){
         Map<String,String> params = new HashMap<>();
+        String index = request.getParameter("index");
+        params.put("index",index);
 
         String firstTime = request.getParameter("firstTime");
         if(StringUtils.isNotBlank(firstTime)){

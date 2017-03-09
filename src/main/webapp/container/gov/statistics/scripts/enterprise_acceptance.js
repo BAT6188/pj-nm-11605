@@ -497,7 +497,7 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log(e.point.category);
+                            console.log('X轴的值：'+e.point.category+' 指标的名称:'+this.name+",index:"+this.index);
                             $("#projectListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
@@ -507,7 +507,9 @@ $(function(){
                             var lastTime = pointTime + "-"+d.getDate();
                             var isAcceptance = 1;
                             var isEIA = 1;
-                            initTable(firstTime,lastTime,isAcceptance,isEIA);
+                            var index=this.index;
+                            projectTable.bootstrapTable('destroy');
+                            initTable(firstTime,lastTime,isAcceptance,isEIA,index);
                         }
                     }
                 }
@@ -694,7 +696,7 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log(e.point.category);
+                            console.log('X轴的值：'+e.point.category+' 指标的名称:'+this.name+",index:"+this.index);
                             $("#projectListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
@@ -704,7 +706,9 @@ $(function(){
                             var lastTime = pointTime + "-"+d.getDate();
                             var isAcceptance = 1;
                             var isEIA = 1;
-                            initTable(firstTime,lastTime,isAcceptance,isEIA);
+                            var index=this.index;
+                            // projectTable.bootstrapTable('destroy');
+                            // initTable(firstTime,lastTime,isAcceptance,isEIA,index);
                         }
                     }
                 }
@@ -739,11 +743,11 @@ $(function(){
     /**============grid 列表初始化相关代码(建设项目环评及验收信息)============**/
     var projectTable = $('#projectTable');
     projectTable.bootstrapTable('destroy');
-    function initTable(firstTime,lastTime,isAcceptance,isEIA) {
+    function initTable(firstTime,lastTime,isAcceptance,isEIA,index) {
         projectTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination: "server",
-            url: rootPath + "/action/S_composite_BuildProject_builsProlist.action?firstTime="+firstTime+"&lastTime="+lastTime+"&isAcceptance="+isAcceptance+"&isEIA="+isEIA,
+            url: rootPath + "/action/S_composite_BuildProject_builsProlist.action?firstTime="+firstTime+"&lastTime="+lastTime+"&isAcceptance="+isAcceptance+"&isEIA="+isEIA+"&index="+index,
             method: 'post',
             pagination: true,
             clickToSelect: true,//单击行时checkbox选中

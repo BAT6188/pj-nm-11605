@@ -67,7 +67,7 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
             MonitorCase mc=new MonitorCase();
             mc.setPortId(gasPortHistory.getPortId());
             mc.setPortHistoryId(gasPortHistory.getId());
-            mc.setPortType("w");
+            mc.setPortType("g");
             mc.setStatus("0");
             mc.setSelfReadStatus("0");
             mc.setPunishStatus("0");
@@ -82,7 +82,7 @@ public class GasPortHistoryServiceImpl extends BaseService<GasPortHistory, Strin
             mc.setSupervisor(e.getEnvPrincipal());
             mc.setSupervisorPhone(e.getEpPhone());
             mc.setPortName(gp.getName());
-            mc.setPollutantType("废水");
+            mc.setPollutantType("废气");
             mc.setEventTime(gasPortHistory.getMonitorTime());
 
             if(!"0".equals(gasPortHistory.getNitrogenStatus())){

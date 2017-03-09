@@ -45,7 +45,7 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
         }else if(enterpriseId != null && "".equals("enterpriseId")){
             whereSql += "AND a1.ENTERPRISE_ID = '"+enterpriseId+"'";
         }
-//        whereSql += "AND  t1.IS_EIA_LICENSE = '1'";
+        whereSql += "AND  t1.IS_EIA_LICENSE = '1'";
         whereSql +="GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m')AS MONTH,COUNT(*) FROM HW_PROJECT_EIA t1 " +
                 "LEFT JOIN HW_BUILD_PROJECT a1 ON t1.project_id=a1.id" + whereSql);

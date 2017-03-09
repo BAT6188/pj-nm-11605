@@ -63,7 +63,7 @@ public class BuildProjectServiceImpl extends BaseService<BuildProject, String> i
      */
     @Override
     public QueryResult<BuildProject> findBulidProList(Map<String, String> params, Paging paging) {
-
+        String index = params.get("index");
         QueryResult<BuildProject> result = new QueryResult<>();
         List<BuildProject> rows = new ArrayList<>();
 
@@ -75,24 +75,29 @@ public class BuildProjectServiceImpl extends BaseService<BuildProject, String> i
 
         String firstTime = params.get("firstTime");
         firstTime=firstTime.substring(0,7);
-        if (StringUtils.isNotBlank(firstTime)) {
-            whereSql.append(" and DATE_FORMAT(t.REPLY_ACC_TIME, '%Y-%m') = '").append(firstTime).append("'");
+
+        if ("1".equals(index)){
+            if (StringUtils.isNotBlank(firstTime)) {
+                whereSql.append(" and DATE_FORMAT(t.REPLY_ACC_TIME, '%Y-%m') = '").append(firstTime).append("'");
+            }
+            if(StringUtils.isNotBlank(params.get("isAcceptance"))){
+                whereSql.append(" and IS_ACCEPTANCE = '").append(params.get("isAcceptance")+"'");
+            }
         }
 
-        if(StringUtils.isNotBlank(params.get("isAcceptance"))){
-            whereSql.append(" and IS_ACCEPTANCE = '").append(params.get("isAcceptance")+"'");
-        }
 //        if(StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))){
 //            whereSql.append(" OR ( t.REPLY_EIA_TIME > '").append(params.get("firstTime")).append("' and t.REPLY_EIA_TIME < '").append(params.get("lastTime")+"'");
 //        }
-        if (StringUtils.isNotBlank(firstTime)) {
-            whereSql.append(" OR( DATE_FORMAT(t.REPLY_EIA_TIME, '%Y-%m') = '").append(firstTime).append("'");
+        if ("0".equals(index)){
+            if (StringUtils.isNotBlank(firstTime)) {
+                whereSql.append(" and DATE_FORMAT(t.REPLY_EIA_TIME, '%Y-%m') = '").append(firstTime).append("'");
+            }
+            if(StringUtils.isNotBlank(params.get("isEIA"))){
+                whereSql.append(" and IS_EIA = '").append(params.get("isEIA")+"'");
+
+            }
         }
 
-        if(StringUtils.isNotBlank(params.get("isEIA"))){
-            whereSql.append(" and IS_EIA = '").append(params.get("isEIA")+"')");
-
-        }
         String countSql = "select count(*) from HW_BUILD_PROJECT t" +whereSql.toString();
         String querySql = "select t.* from HW_BUILD_PROJECT t " +whereSql.toString()+"limit " + startIndex+","+endIndex;
 

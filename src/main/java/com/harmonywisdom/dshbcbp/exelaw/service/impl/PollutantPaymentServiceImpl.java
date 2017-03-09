@@ -49,8 +49,8 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
         }
         whereSql += " GROUP BY MONTH";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(pay_date,'%Y-%m')AS MONTH," +
-                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1' AND DATE_FORMAT(t0.pay_date,'%m') = DATE_FORMAT(t.pay_date,'%m'))," +
-                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='0' AND DATE_FORMAT(t0.pay_date,'%m') = DATE_FORMAT(t.pay_date,'%m'))" +
+                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1' AND DATE_FORMAT(t0.pay_date,'%Y-%m-%d') = DATE_FORMAT(t.pay_date,'%Y-%m-%d'))," +
+                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='0' AND DATE_FORMAT(t0.pay_date,'%Y-%m-%d') = DATE_FORMAT(t.pay_date,'%Y-%m-%d'))" +
                 "FROM hw_pollutant_payment t" + whereSql);
        return list;
     }
@@ -76,7 +76,7 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
         }
         whereSql += " GROUP BY MONTH ";
         List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(pay_date,'%Y-%m')AS MONTH," +
-                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1' AND DATE_FORMAT(t0.pay_date,'%m') = DATE_FORMAT(t.pay_date,'%m'))" +
+                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1' AND DATE_FORMAT(t0.pay_date,'%Y-%m-%d') = DATE_FORMAT(t.pay_date,'%Y-%m-%d'))" +
                 "FROM `hw_pollutant_payment` t" + whereSql);
         return list;
     }
