@@ -54,7 +54,7 @@ public class UserAction extends ActionHelper implements Preparable {
         List<Right> appMenus = new ArrayList<>();
         if(list.size()>0){
             for (Right r:list){
-                if(r.getResCode().startsWith("AppMenu")){
+                if(r.getResCode().startsWith("AM")){
                     appMenus.add(r);
                 };
             }
