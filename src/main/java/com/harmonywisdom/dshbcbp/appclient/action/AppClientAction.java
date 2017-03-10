@@ -33,7 +33,7 @@ public class AppClientAction extends BaseAction<AppClient, AppClientService> {
         }
         entity.setUpTime(new Date());
         entity.setUploadStatus("0");
-
+        super.save();
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             Attachment attachment = attachmentService.findById(entity.getAttachmentIds());
             if(attachment!=null){
@@ -44,14 +44,14 @@ public class AppClientAction extends BaseAction<AppClient, AppClientService> {
                 entity.setApkUrl("/action/S_attachment_Attachment_download.action?id="+entity.getAttachmentIds());
                 entity.setFilePath(attachment.getPath());
             }
-            attachmentService.updateBusinessId(String.valueOf(entity.getApkVersionNum()),entity.getAttachmentIds().split(","));
+            attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
         }else{
-            List<Attachment> attachmentList = attachmentService.getByBusinessId(String.valueOf(entity.getApkVersionNum()));
+            List<Attachment> attachmentList = attachmentService.getByBusinessId(entity.getId());
             if(attachmentList.size()>0){
                 entity.setUploadStatus("1");
             }
         }
-        super.save();
+        super.update();
     }
 
     /**

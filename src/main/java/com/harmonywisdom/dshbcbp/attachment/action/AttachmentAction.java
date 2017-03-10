@@ -35,6 +35,9 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
             AppClient apk = appClientService.findNewestApk();
             if(apk!=null){
                 entity.setId(apk.getAttachmentId());
+            }else{
+                response.setStatus(500);
+                write("未找到相关文件");
             }
         }
         AttachmentConfigManager manager = AttachmentConfigManager.getInstance();
