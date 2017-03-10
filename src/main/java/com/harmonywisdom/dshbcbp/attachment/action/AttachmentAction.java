@@ -1,5 +1,7 @@
 package com.harmonywisdom.dshbcbp.attachment.action;
 
+import com.harmonywisdom.dshbcbp.appclient.bean.AppClient;
+import com.harmonywisdom.dshbcbp.appclient.service.AppClientService;
 import com.harmonywisdom.framework.action.DownloadableAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.harmonywisdom.dshbcbp.attachment.bean.Attachment;
@@ -16,7 +18,8 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
 	
     @AutoService
     private AttachmentService attachmentService;
-
+    @AutoService
+    private AppClientService appClientService;
     @Override
     protected AttachmentService getService() {
         return attachmentService;
@@ -28,6 +31,12 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
     }
 
     public void download() {
+        if(StringUtils.isNotBlank(entity.getAttachmentType()) && "apkDownload".equals(entity.getAttachmentType())){
+            AppClient apk = appClientService.findNewestApk();
+            if(apk!=null){
+                entity.setId(apk.getAttachmentId());
+            }
+        }
         AttachmentConfigManager manager = AttachmentConfigManager.getInstance();
         Attachment attachment = attachmentService.findById(entity.getId());
         if (attachment != null) {
