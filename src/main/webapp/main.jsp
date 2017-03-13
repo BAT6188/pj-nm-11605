@@ -19,6 +19,7 @@
         </div>
         <div class="opDiv right">
             <ul>
+                <li><a href="javascript:void(0);" id="apkDownBtn" title="扫一扫二维码下载"  data-toggle="modal" data-target="#apkModal"><img width="25" height="25" src="<%=request.getContextPath()%>/container/apk/images/appDownload.png"/><span class="text">扫码下载</span></a></li>
                 <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
                 <li class="user"><a href="javascript:;" id="updatePasswordBtn"><img src="<%=request.getContextPath()%>/common/images/user.jpg" alt=""/><span class="text"><%=userName%></span></a></li>
@@ -50,6 +51,22 @@
                 <li><a href="compre-statistics.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-statistics-icon.png" alt=""/></dt><dd>综合统计</dd></dl></a></li>
                 <li><a href="foreign-mission.html"><dl><dt><img src="<%=request.getContextPath()%>/common/images/side-dsyjt-icon.png" alt=""/></dt><dd>对外宣教</dd></dl></a></li>--%>
             </ul>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="apkModal" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 315px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">扫一扫下载安卓客户端</h4>
+            </div>
+            <div class="modal-body" style="display: table-cell; vertical-align:middle; text-align:center; display: block;">
+                <img style="vertical-align:middle;" src="<%=request.getContextPath()%>/container/apk/images/appDownload.png" alt="扫一扫二维码下载"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
         </div>
     </div>
 </div>
