@@ -28,7 +28,7 @@ public class VideoDeviceAction extends BaseAction<VideoDevice, VideoDeviceServic
     public void loadData() throws Exception{
         /*int i=0;
         SAXReader saxReader = new SAXReader();
-        Document document = saxReader.read(new File("C:\\zuzhishu.xml"));
+        Document document = saxReader.read(new File("C:\\zuzhishu2.xml"));
         Element root = document.getRootElement();//Organization
 
         List<Element> Department1=root.elements();
