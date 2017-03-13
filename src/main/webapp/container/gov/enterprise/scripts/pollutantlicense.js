@@ -5,7 +5,9 @@ var gridTable = $('#table'),
     formTitle = "排污许可证信息",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {

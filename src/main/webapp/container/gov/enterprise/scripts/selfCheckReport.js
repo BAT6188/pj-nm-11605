@@ -6,7 +6,9 @@ var gridTable = $('#table'),
     formTitle = "企业自查自报",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {
