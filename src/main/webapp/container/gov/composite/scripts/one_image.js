@@ -14,7 +14,7 @@ var OneImagePage = function () {
         VIDEO_FLAG: "Video",
         VIDEO_DEVICE_FLAG: "VideoDevice",
         AIR_EQUIPMENT_FLAG:"AirEquipment",
-        CLOCK_DELAY:10000
+        CLOCK_DELAY:15000
     };
     var page = {
         zTree:undefined,
@@ -113,7 +113,6 @@ var OneImagePage = function () {
             //var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
-            // that.refreshPortStatusToMap();
             var alertTimer = setInterval(function () {
                 that.refreshPortStatusToMap();
             }, Constant.CLOCK_DELAY);
@@ -1145,6 +1144,7 @@ var OneImagePage = function () {
                             var enterprise = result[i];
                             that.addEnterpriseMark(enterprise);
                         }
+                        that.refreshEnterprisePortStatusToMap();
                     }
                 }
             });
