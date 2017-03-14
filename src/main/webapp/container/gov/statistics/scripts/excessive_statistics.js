@@ -141,8 +141,6 @@ $(function(){
                         preValue.push(0);
                     }
                 }
-                console.log(preMonth);
-                console.log(preValue);
                 var month = categories;//后台取出的2组数据
                 var value = ylist;
                 if(month && month.length>0){
@@ -155,8 +153,6 @@ $(function(){
                         }
                     }
                 }
-                console.log(preMonth);
-                console.log(preValue);
 
                 var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);

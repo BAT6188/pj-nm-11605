@@ -75,24 +75,6 @@
                 <div style="width:50%; height:100%;float:right;">
                     <div id="container2" style="min-width:100%;min-height:100%;text-align: center;width:100%;display:none;"></div>
                 </div>
-
-                <%--<div class="chart-content">--%>
-                    <%--<div class="chartBox chartBox1">--%>
-                        <%--<div class="chart">--%>
-                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="chartBox chartBox2">--%>
-                        <%--<div class="chart">--%>
-                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="chartBox chartBox3">--%>
-                        <%--<div class="chart">--%>
-                            <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
             </div>
         </div>
     </div>
@@ -102,16 +84,28 @@
 
 <%--建设项目环评及验收信息(柱状图)(线状图)--%>
 <div class="modal fade" id="projectListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 1017px">
+    <div class="modal-dialog" style="width: 90%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">建设项目环评及验收信息</h4>
             </div>
             <div class="modal-body">
-                <div class="tableBox">
-                    <table id="projectTable" class="table table-striped table-responsive">
-                    </table>
+                <div class="row clearfix">
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="EIATableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0"></a>
+                            <table id="EIATable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="acceptanceTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">2016</a>
+                            <table id="acceptanceTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -128,7 +122,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">建设项目环评及验收信息</h4>
+                <h4 class="modal-title form-title">建设项目环评信息</h4>
             </div>
             <div class="modal-body">
                 <div class="tableBox">
@@ -150,7 +144,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">建设项目环评及验收信息</h4>
+                <h4 class="modal-title form-title">建设项目验收信息</h4>
             </div>
             <div class="modal-body">
                 <div class="tableBox">

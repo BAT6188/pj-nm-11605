@@ -1,6 +1,5 @@
 package com.harmonywisdom.dshbcbp.dispatch.service.impl;
 
-import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.dao.DispatchTaskDAO;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
@@ -87,7 +86,8 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
                 "GROUP BY DATE_FORMAT(t.`event_time`,'%Y-%m')),0) AS c\n" +
                 "FROM hw_dispatch_task t\n" +
                 " WHERE DATE_FORMAT(t.`event_time`,'%m')>= '"+strsStart+"' AND DATE_FORMAT(t.`event_time`,'%m')<= '"+strEnd+"'" + whereSql);
-
+        //List<Object[]> lastYearList = getDAO().queryNativeSQL("");
+        //List<Object[]> currentYearList = getDAO().queryNativeSQL("");
         return list;
     }
 

@@ -39,11 +39,13 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
      */
     @Override
     public Map<Object,String[]> findByRatio(String startdate, String lastdate, String enterpriseId) {
+        startdate = startdate.length()==10?startdate+" 00:00:00":startdate;
+        lastdate = lastdate.length()==10?lastdate+" 23:59:59":lastdate;
         String whereSql = " where 1=1 ";
         if(startdate != null && !"".equals(startdate)){
-            whereSql += "AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d') <= '"+lastdate+"'";
+            whereSql += "AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d %h:%i:%s') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d %h:%i:%s') <= '"+lastdate+"'";
         }else if(lastdate !=null && !"".equals(lastdate)){
-            whereSql += "AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d') <= '"+lastdate+"'";
+            whereSql += "AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d %h:%i:%s') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_EIA_TIME,'%Y-%m-%d %h:%i:%s') <= '"+lastdate+"'";
         }else if(enterpriseId != null && "".equals("enterpriseId")){
             whereSql += "AND a1.ENTERPRISE_ID = '"+enterpriseId+"'";
         }
@@ -55,9 +57,9 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
         String whereSql2 = " where 1=1 ";
         whereSql2 += "AND  t1.IS_ACC_LICENSE = '1'";
         if(startdate != null && !"".equals(startdate)){
-            whereSql2 += "AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d') <= '"+lastdate+"'";
+            whereSql2 += "AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d %h:%i:%s') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d %h:%i:%s') <= '"+lastdate+"'";
         }else if(lastdate !=null && !"".equals(lastdate)){
-            whereSql2 += "AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d') <= '"+lastdate+"'";
+            whereSql2 += "AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d %h:%i:%s') >='"+startdate+"' AND DATE_FORMAT(t1.REPLY_ACC_TIME,'%Y-%m-%d %h:%i:%s') <= '"+lastdate+"'";
         }else if(enterpriseId != null && "".equals("enterpriseId")){
             whereSql2 += "AND a1.ENTERPRISE_ID = '"+enterpriseId+"'";
         }
@@ -67,7 +69,7 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
                 "LEFT JOIN HW_BUILD_PROJECT a1 ON t1.project_id=a1.id" + whereSql2);
 
         List<Object[]> temp = new ArrayList<>();
-        int mNumber = MyDateUtils.getMonthNumber(startdate+" 00:00:00",lastdate+" 23:59:59");
+        int mNumber = MyDateUtils.getMonthNumber(startdate,lastdate);
         String sDateStr = startdate;
         Map<Object,String[]> returnMap = new HashMap<>();
         String[] x = new String[mNumber],y1= new String[mNumber],y2 = new String[mNumber];
