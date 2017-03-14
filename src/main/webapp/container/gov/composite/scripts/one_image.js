@@ -113,7 +113,6 @@ var OneImagePage = function () {
             //var that = this;
             dict.init('noiseType','noiseDischargeStandard','noiseFnType');
             //定时加载排口，企业报警
-            // that.refreshPortStatusToMap();
             var alertTimer = setInterval(function () {
                 that.refreshPortStatusToMap();
             }, Constant.CLOCK_DELAY);
@@ -1145,6 +1144,7 @@ var OneImagePage = function () {
                             var enterprise = result[i];
                             that.addEnterpriseMark(enterprise);
                         }
+                        that.refreshEnterprisePortStatusToMap();
                     }
                 }
             });
