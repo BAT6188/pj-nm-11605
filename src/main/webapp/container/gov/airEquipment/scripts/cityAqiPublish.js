@@ -236,12 +236,12 @@ updateBtn.prop('disabled', true);
 //搜索按钮处理
 //搜索按钮处理
 $("#search").click(function () {
-    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: pageUtils.PAGE_SIZE});
+    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: 15});
 });
 //重置搜索
 $("#searchFix").click(function () {
     $('#searchform')[0].reset();
-    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: pageUtils.PAGE_SIZE});
+    gridTable.bootstrapTable('refreshOptions', {pageNumber: 1, pageSize: 15});
 });
 
 

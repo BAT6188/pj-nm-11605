@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.composite.service.impl;
 
+import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.composite.bean.BuildProject;
 import com.harmonywisdom.dshbcbp.composite.bean.ProjectAcceptance;
 import com.harmonywisdom.dshbcbp.composite.dao.ProjectAcceptanceDAO;
@@ -7,6 +8,7 @@ import com.harmonywisdom.dshbcbp.composite.service.BuildProjectService;
 import com.harmonywisdom.dshbcbp.composite.service.ProjectAcceptanceService;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
+import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class ProjectAcceptanceServiceImpl extends BaseService<ProjectAcceptance,
     private ProjectAcceptanceDAO projectAcceptanceDAO;
     @Autowired
     private BuildProjectService buildProjectService;
+    @AutoService
+    private AttachmentService attachmentService;
     @Override
     protected BaseDAO<ProjectAcceptance, String> getDAO() {
         return projectAcceptanceDAO;
@@ -38,12 +42,20 @@ public class ProjectAcceptanceServiceImpl extends BaseService<ProjectAcceptance,
 
     @Override
     public void deleteAcceptanceBuildProjectId(String projectId) {
+        ProjectAcceptance projectAcceptance = new ProjectAcceptance();
+        projectAcceptance.setProjectId(projectId);
+        List<ProjectAcceptance> list = projectAcceptanceDAO.findBySample(projectAcceptance);
+        if (list.size()>0){
+            for (ProjectAcceptance p:list){
+                attachmentService.removeByBusinessIds(p.getId());
+                projectAcceptanceDAO.remove(p.getId());
+            }
+        }
         projectAcceptanceDAO.executeJPQL("delete from ProjectAcceptance entity where entity.projectId in ?1",projectId);
-
     }
 
     @Override
     public void updateBuildProject(Date acceptTime, String acceptOrg,Date replyAccTime,Date replyTime,String projectId) {
-        buildProjectService.executeJPQL("update BuildProject set acceptTime=?,acceptOrg=?,isAcceptance=1,replyAccTime=?,replyTime=? where id=?",acceptTime,acceptOrg,replyAccTime,replyTime,projectId);
+        buildProjectService.executeJPQL("update BuildProject set isAcceptance=1,acceptTime=?,acceptOrg=?,replyAccTime=?,replyTime=? where id=?",acceptTime,acceptOrg,replyAccTime,replyTime,projectId);
     }
 }

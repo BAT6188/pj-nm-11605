@@ -4,7 +4,7 @@ import com.harmonywisdom.dshbcbp.composite.bean.ProjectEIA;
 import com.harmonywisdom.framework.service.IBaseService;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
 
@@ -16,7 +16,7 @@ public interface ProjectEIAService extends IBaseService<ProjectEIA, String> {
      * @param enterpriseId
      * @return
      */
-    List<Object[]> findByRatio(String startdate, String lastdate, String enterpriseId);
+    Map<Object,String[]> findByRatio(String startdate, String lastdate, String enterpriseId);
 
     ProjectEIA findByBuildProjectId(String buildProjectId);
 

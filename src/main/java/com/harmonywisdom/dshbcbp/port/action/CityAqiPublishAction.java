@@ -36,7 +36,7 @@ public class CityAqiPublishAction extends BaseAction<CityAqiPublish, CityAqiPubl
             param.andParam(new QueryParam("TimePoint", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
         }
         if(StringUtils.isNotBlank(entity.getQuality())){
-            param.andParam(new QueryParam("quality", QueryOperator.EQ,entity.getQuality()));
+            param.andParam(new QueryParam("QualityLevel", QueryOperator.EQ,entity.getQuality()));
         }
 
         QueryCondition condition = new QueryCondition();

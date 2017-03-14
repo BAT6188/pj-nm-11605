@@ -28,12 +28,12 @@
                             <label for="quality" class="labelMarginLeft">空气质量等级：</label>
                             <select class="form-control" id="quality" name="quality" style="width: 238px;">
                                 <option value="">全部</option>
-                                <option value="优">优</option>
-                                <option value="良">良</option>
-                                <option value="轻度污染">轻度污染</option>
-                                <option value="中度污染">中度污染</option>
-                                <option value="重度污染">重度污染</option>
-                                <option value="严重污染">严重污染</option>
+                                <option value="1">优</option>
+                                <option value="2">良</option>
+                                <option value="3">轻度污染</option>
+                                <option value="4">中度污染</option>
+                                <option value="5">重度污染</option>
+                                <option value="6">严重污染</option>
                             </select>
                             <label for="startTime" class="labelMarginLeft">监测时间段：</label>
                             <div id="datetimepicker1" class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="registTime" data-link-format="yyyy-mm-dd">

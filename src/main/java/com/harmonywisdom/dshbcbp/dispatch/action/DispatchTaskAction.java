@@ -28,6 +28,7 @@ import com.harmonywisdom.dshbcbp.port.service.GasPortService;
 import com.harmonywisdom.dshbcbp.port.service.WaterPortService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.dshbcbp.utils.DocUtil;
+import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.SpringUtil;
@@ -258,10 +259,10 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String firstTime = request.getParameter("firstTime");
         String lastTime = request.getParameter("lastTime");
         if (org.apache.commons.lang.StringUtils.isNotBlank(firstTime)) {
-            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, MyDateUtils.getFullDate(firstTime,true)));
         }
         if (org.apache.commons.lang.StringUtils.isNotBlank(lastTime)) {
-            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, MyDateUtils.getFullDate(lastTime,false)));
         }
         if("1".equals(mobileOperType)){//下拉
             if (null!=entity.getMobileTimestamp()){

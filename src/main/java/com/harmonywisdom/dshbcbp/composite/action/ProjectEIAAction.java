@@ -8,8 +8,6 @@ import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> {
@@ -30,7 +28,8 @@ public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> 
         String startdate = request.getParameter("startdate");
         String lastdate = request.getParameter("lastdate");
         String enterpriseId = request.getParameter("enterpriseId");
-        Map<String,Object> result = new HashMap<>();
+        Map<Object, String[]> result = projectEIAService.findByRatio(startdate,lastdate,enterpriseId);
+        /*Map<String,Object> result = new HashMap<>();
         List<Object[]> list = projectEIAService.findByRatio(startdate,lastdate,enterpriseId);
 
         if (list != null && list.size() > 0) {
@@ -47,7 +46,7 @@ public class ProjectEIAAction extends BaseAction<ProjectEIA, ProjectEIAService> 
             result.put("x", xlist);
             result.put("y1", y1list);
             result.put("y2", y21list);
-        }
+        }*/
         write(result);
     }
     public void findByBuildProjectId(){

@@ -31,8 +31,17 @@ $(function(){
     //查询按钮
     $("#search").bind('click',function(){
         var sName = $("#s_name").val();
-        var startYdate = $("#start_createTime").val();
-        var lastYdate = $("#end_createTime").val();
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startYdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            var edStr = end_createTime.split("-");
+            var day = new Date(parseInt(edStr[0]),parseInt(edStr[1]),0);
+            var dayCount = day.getDate();
+            lastYdate = end_createTime+"-"+dayCount;
+        }
         search(valueChart,sName,startYdate,lastYdate);
     });
 
@@ -132,8 +141,6 @@ $(function(){
                         preValue.push(0);
                     }
                 }
-                console.log(preMonth);
-                console.log(preValue);
                 var month = categories;//后台取出的2组数据
                 var value = ylist;
                 if(month && month.length>0){
@@ -146,8 +153,6 @@ $(function(){
                         }
                     }
                 }
-                console.log(preMonth);
-                console.log(preValue);
 
                 var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);

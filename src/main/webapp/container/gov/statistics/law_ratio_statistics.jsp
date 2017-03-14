@@ -102,41 +102,24 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="tableBox">
-        <div class="chart-box">
-            <div class="chart-list">
-                <ul class="clearfix">
-                    <li id="columnBtn"  data-checked="1"><a href="javascript:;">柱状图</a></li>
-                    <li id="pieBtn"  data-checked="2"><a href="javascript:;">饼状图</a></li>
-                    <li id="lineBtn"  data-checked="3"><a href="javascript:;">折线图</a></li>
-                </ul>
+            <div class="tableBox">
+                <div class="chart-box">
+                    <div class="chart-list">
+                        <ul class="clearfix">
+                            <li id="columnBtn"  data-checked="1"><a href="javascript:;">柱状图</a></li>
+                            <li id="pieBtn"  data-checked="2"><a href="javascript:;">饼状图</a></li>
+                            <li id="lineBtn"  data-checked="3"><a href="javascript:;">折线图</a></li>
+                        </ul>
+                    </div>
+                    <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
+                    <div style="width:50%; height:100%;float:left;">
+                        <div id="container1" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
+                    </div>
+                    <div style="width:50%; height:100%;float:right;">
+                        <div id="container2" style="min-width:100%;min-height:100%;text-align: center;width:100%;display:none;"></div>
+                    </div>
+                </div>
             </div>
-            <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
-            <div style="width:50%; height:100%;float:left;">
-                <div id="container1" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
-            </div>
-            <div style="width:50%; height:100%;float:right;">
-                <div id="container2" style="min-width:100%;min-height:100%;text-align: center;width:100%;display:none;"></div>
-            </div>
-            <%--<div class="chart-content">--%>
-                <%--<div class="chartBox chartBox1">--%>
-                    <%--<div class="chart">--%>
-                        <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart1.png" alt=""/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="chartBox chartBox2">--%>
-                    <%--<div class="chart">--%>
-                        <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="chartBox chartBox3">--%>
-                    <%--<div class="chart">--%>
-                        <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -145,16 +128,28 @@
 
 <%--执法管理同期对比列表--%>
 <div class="modal fade" id="lawRatioListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 1017px">
+    <div class="modal-dialog" style="width: 90%">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">执法管理同期对比列表</h4>
             </div>
             <div class="modal-body">
-                <div class="tableBox">
-                    <table id="lawRatioTable" class="table table-striped table-responsive">
-                    </table>
+                <div class="row clearfix">
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="lastYearTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">2016</a>
+                            <table id="lastYearLawRatioTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="currentYearTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">2017</a>
+                            <table id="currentYearLawRatioTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -214,7 +209,6 @@
             select: function( event, ui ) {
                 console.info(ui.item.id);
                 $("#enterpriseId").val(ui.item.id)
-
             },
         } );
     } );
