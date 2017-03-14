@@ -330,6 +330,7 @@ function setFormData(entity) {
     $("#realAbility").val(entity.realAbility);
     $("#enterpriseId").val(entity.enterpriseId);
     $("#sendRemark").val(entity.sendRemark);
+    $("#xuBao").val(entity.xuBao);
     if(entity.dispatchId){
         $("#dispatchId").val(entity.dispatchId);
     }
