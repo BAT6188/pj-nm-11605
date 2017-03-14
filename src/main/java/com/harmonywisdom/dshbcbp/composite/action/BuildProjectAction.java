@@ -71,19 +71,32 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         if (StringUtils.isNotBlank(entity.getArea())) {
             param.andParam(new QueryParam("area", QueryOperator.EQ,entity.getArea()));
         }
+
         String firstTime = request.getParameter("firstTime");
         String lastTime = request.getParameter("lastTime");
         String isEIA = request.getParameter("isEIA");
         String isAcceptance = request.getParameter("isAcceptance");
-        if(StringUtils.isNotBlank(firstTime)){
-            param.andParam(new QueryParam("replyEIATime",QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
-        }
-        if(StringUtils.isNotBlank(lastTime)){
-            param.andParam(new QueryParam("replyEIATime",QueryOperator.LE,DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
-        }
+
         if(StringUtils.isNotBlank(isEIA)){
             param.andParam(new QueryParam("isEIA",QueryOperator.EQ,isEIA));
+            if(StringUtils.isNotBlank(firstTime)){
+                param.andParam(new QueryParam("replyEIATime",QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+            }
+            if(StringUtils.isNotBlank(lastTime)){
+                param.andParam(new QueryParam("replyEIATime",QueryOperator.LE,DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+            }
         }
+
+        if(StringUtils.isNotBlank(isAcceptance)){
+            param.andParam(new QueryParam("isAcceptance",QueryOperator.EQ,isAcceptance));
+            if(StringUtils.isNotBlank(firstTime)){
+                param.andParam(new QueryParam("replyAccTime",QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+            }
+            if(StringUtils.isNotBlank(lastTime)){
+                param.andParam(new QueryParam("replyAccTime",QueryOperator.LE,DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+            }
+        }
+
         String startTimes = request.getParameter("startTime");
         String endTimes = request.getParameter("endTime");
         if(StringUtils.isNotBlank(startTimes)){
@@ -91,9 +104,6 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         }
         if(StringUtils.isNotBlank(endTimes)){
             param.andParam(new QueryParam("replyAccTime",QueryOperator.LE,DateUtil.strToDate(endTimes,"yyyy-MM-dd")));
-        }
-        if(StringUtils.isNotBlank(isAcceptance)){
-            param.andParam(new QueryParam("isAcceptance",QueryOperator.EQ,isAcceptance));
         }
 
         String mobileOperType = request.getParameter("mobileOperType");
@@ -195,11 +205,7 @@ public class BuildProjectAction extends BaseAction<BuildProject, BuildProjectSer
         String deleteId = request.getParameter("deletedId");
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
-        }
-        if(StringUtils.isNotBlank(deleteId)){
             projectAcceptanceService.deleteAcceptanceBuildProjectId(deleteId);
-        }
-        if(StringUtils.isNotBlank(deleteId)){
             projectEIAService.deleteProjectEIABuildProjectId(deleteId);
         }
         super.delete();

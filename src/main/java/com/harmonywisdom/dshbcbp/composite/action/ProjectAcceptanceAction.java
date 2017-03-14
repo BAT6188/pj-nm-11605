@@ -31,6 +31,7 @@ public class ProjectAcceptanceAction extends BaseAction<ProjectAcceptance, Proje
         String acceptOrg = request.getParameter("acceptOrg");
         String projectId=request.getParameter("projectId");
         if(replyAccTime!=null &&acceptTimeStr!=null&&acceptOrg!=null){
+            StringUtils.isNotBlank(entity.getIsAccLicense());
             projectAcceptanceService.updateBuildProject(DateUtil.strToDate(acceptTimeStr,"yyyy-MM-dd"),acceptOrg,DateUtil.strToDate(replyAccTime,"yyyy-MM-dd"),DateUtil.strToDate(replyAccTime,"yyyy-MM-dd"),projectId);
         }
 

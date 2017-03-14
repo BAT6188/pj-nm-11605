@@ -35,10 +35,18 @@ $(function(){
     
     //查询按钮
     $("#search").bind('click',function(){
-        var startdate = $("#start_createTime").val();
-        var lastdate = $("#end_createTime").val();
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            var edStr = end_createTime.split("-");
+            var day = new Date(parseInt(edStr[0]),parseInt(edStr[1]),0);
+            var dayCount = day.getDate();
+            lastdate = end_createTime+"-"+dayCount;
+        }
         var enterpriseId = $("#enterpriseId").val();
-        console.log(enterpriseId);
         search(valueChart,startdate,lastdate,enterpriseId);
         
     });
@@ -190,10 +198,11 @@ $(function(){
                     }
                 }
 
-                var series1 = {name: "已环评", color: 'rgb(124, 181, 236)', data: preValue1};
-                var series2 = {name: "已验收", color: '#FF8800', data: preValue2};
+                var series1 = {name: "已环评",isAcceptance:true, color: 'rgb(124, 181, 236)', data: preValue1};
+                var series2 = {name: "已验收",isEIA:true, color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
+                console.log(series);
                 loadColumnChart(preMonth, series,startdate,lastdate);
         
             }
@@ -448,10 +457,11 @@ $(function(){
                     }
                 }
 
-                var series1 = {name: "已环评", color: 'rgb(124, 181, 236)', data: preValue1};
-                var series2 = {name: "已验收", color: '#FF8800', data: preValue2};
+                var series1 = {name: "已环评",isAcceptance:true, color: 'rgb(124, 181, 236)', data: preValue1};
+                var series2 = {name: "已验收",isEIA:true, color: '#FF8800', data: preValue2};
                 series.push(series1);
                 series.push(series2);
+                console.log(series);
                 loadLineChart(preMonth, series,startdate,lastdate);
 
             }
@@ -497,7 +507,8 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log('X轴的值：'+e.point.category+' 指标的名称:'+this.name+",index:"+this.index);
+                            var that = this;
+                            console.log('X轴的值：'+e.point.category+' 指标的名称:'+that.name+",index:"+that.index);
                             $("#projectListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
@@ -505,8 +516,13 @@ $(function(){
                             var month=pointTime.substring(5);
                             var d=new Date(year,month,0);
                             var lastTime = pointTime + "-"+d.getDate();
-                            var isAcceptance = 1;
-                            var isEIA = 1;
+                            var isAcceptance='',isEIA='';
+                            if(that.index=='1'){
+                                isAcceptance = 1;
+                            }
+                            if(that.index=='0'){
+                                isEIA = 1;
+                            }
                             var index=this.index;
                             projectTable.bootstrapTable('destroy');
                             initTable(firstTime,lastTime,isAcceptance,isEIA,index);
@@ -747,7 +763,7 @@ $(function(){
         projectTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination: "server",
-            url: rootPath + "/action/S_composite_BuildProject_builsProlist.action?firstTime="+firstTime+"&lastTime="+lastTime+"&isAcceptance="+isAcceptance+"&isEIA="+isEIA+"&index="+index,
+            url: rootPath + "/action/S_composite_BuildProject_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&isAcceptance="+isAcceptance+"&isEIA="+isEIA+"&index="+index,
             method: 'post',
             pagination: true,
             clickToSelect: true,//单击行时checkbox选中
