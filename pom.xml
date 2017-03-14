@@ -194,6 +194,8 @@
                 <db.username>root</db.username>
                 <db.password>database.MySQ1.root</db.password>
                 <db.show.sql>true</db.show.sql>
+                <log.level>debug</log.level>
+                <log.appender>FILE</log.appender>
             </properties>
         </profile>
         <profile>
