@@ -74,7 +74,7 @@
     <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">添加突发环境事件应急预案</h4>
             </div>
             <div class="modal-body">
@@ -146,7 +146,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="save">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose">取消</button>
             </div>
         </div>
     </div>

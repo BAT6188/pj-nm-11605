@@ -2,6 +2,9 @@
 var MapMarkDialog = function () {
     var $dialog = $("#markDialog"),points, hwmap, currentMode = "point",mapCallback;
     var currentOverlayId;
+    $(".modalClose").click(function () {
+        $dialog.modal('hide');
+    })
     function dragPoint() {//标点
         showBtn();
         hwmap.dragPoint({

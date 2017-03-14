@@ -4,7 +4,9 @@ var gridTable = $('#table'),
     form = $("#scfForm"),
     formTitle = "现场监察",
     selections = [];
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -328,6 +330,7 @@ function setFormData(entity) {
     $("#realAbility").val(entity.realAbility);
     $("#enterpriseId").val(entity.enterpriseId);
     $("#sendRemark").val(entity.sendRemark);
+    $("#xuBao").val(entity.xuBao);
     if(entity.dispatchId){
         $("#dispatchId").val(entity.dispatchId);
     }

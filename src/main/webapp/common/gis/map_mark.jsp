@@ -12,7 +12,7 @@
     <div class="modal-dialog" style="width: 1000px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">地图标绘</h4>
             </div>
             <div class="modal-body" style="padding: 0;">
@@ -20,7 +20,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="markDialogOK">确定</button>
-                <button type="button" class="btn btn-default" id="markDialogCancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default modalClose" id="markDialogCancel">取消</button>
             </div>
         </div>
     </div>

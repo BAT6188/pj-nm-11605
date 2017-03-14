@@ -59,7 +59,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">扫一扫下载安卓客户端</h4>
+                <h4 class="modal-title form-title">扫一扫下载客户端</h4>
             </div>
             <div class="modal-body" style="display: table-cell; vertical-align:middle; text-align:center; display: block;">
                 <img style="vertical-align:middle;" src="<%=request.getContextPath()%>/container/apk/images/appDownload.png" alt="扫一扫二维码下载"/>

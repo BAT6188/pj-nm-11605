@@ -5,7 +5,9 @@ var gridTable = $('#table'),
     formTitle = "主要产品及规模",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -211,7 +213,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.modal('hide');
             Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });

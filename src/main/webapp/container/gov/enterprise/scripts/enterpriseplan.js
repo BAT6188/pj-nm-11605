@@ -5,7 +5,9 @@ var gridTable = $('#table'),
     formTitle = "突发环境事件应急预案",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {

@@ -4,7 +4,9 @@ var gridTable = $('#table'),
     form = $("#demoForm"),
     formTitle = "Demo",
     selections = [];
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 
 //保存表单ajax请求

@@ -139,7 +139,7 @@
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="ModalLabel">建设项目</h4>
             </div>
             <div class="media-body">
@@ -334,7 +334,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveButton" id="buildSave">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -344,7 +344,7 @@
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="hpModalLabel">建设项目环评及其他许可情况</h4>
             </div>
             <div class="media-body">
@@ -651,7 +651,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveButton" id="hpsave">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -661,7 +661,7 @@
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="ysModalLabel">新增建设项目竣工环境保护验收审批信息</h4>
             </div>
             <div class="media-body">
@@ -953,7 +953,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveButton" id="ysSave">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -965,7 +965,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button type="button" class="close modalClose"  aria-hidden="true">
                     &times;
                 </button>
                 <h5 class="modal-title" id="myModalLabel">
@@ -980,7 +980,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="industryTypeModalClose" type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="industryTypeModalClose" type="button" class="btn btn-default modalClose" >关闭</button>
                 <button id="industryTypeModalSure" type="button" class="btn btn-primary">确定</button>
             </div>
         </div><!-- /.modal-content -->

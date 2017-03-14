@@ -7,7 +7,9 @@ var gridTable = $('#videoTable'),
     formTitle = "摄像头",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -227,7 +229,7 @@ var ef = form.easyform({
         entity.videoType = 1;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.modal('hide');
             Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });

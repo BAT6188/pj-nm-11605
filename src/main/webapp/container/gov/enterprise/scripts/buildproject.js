@@ -11,6 +11,12 @@ var gridTable = $('#table'),
 
 selections = [];
 
+$(".modalClose").click(function () {
+    buildForm.modal('hide');
+    hpform.modal('hide');
+    ysform.modal('hide');
+})
+
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
