@@ -4,13 +4,12 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.exelaw.bean.PollutantPayment;
 import com.harmonywisdom.dshbcbp.exelaw.service.PollutantPaymentService;
+import com.harmonywisdom.dshbcbp.utils.EntityUtil;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PollutantPaymentAction extends BaseAction<PollutantPayment, PollutantPaymentService> {
@@ -29,7 +28,6 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
     @Override
     protected QueryCondition getQueryCondition() {
         String startYdate = request.getParameter("startYdate");
-
         String lastYdate = request.getParameter("lastYdate");
         String StrStatus = request.getParameter("StrStatus");
 
@@ -163,27 +161,8 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
         String startYdate = request.getParameter("startYdate");
         String lastYdate = request.getParameter("lastYdate");
 
-        Map<String, Object> result = new HashMap<String, Object>();
-
-
-        List<Object[]> list = pollutantPaymentService.findByColumnChart(name,startYdate,lastYdate);
-        if (list != null && list.size() > 0) {
-            Object[] xlist = new Object[list.size()];
-            Object[] y1list = new Object[list.size()];
-            Object[] y21list = new Object[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                Object[] oo = list.get(i);
-                xlist[i] = String.valueOf(oo[0]);
-                y1list[i] = String.valueOf(oo[1]);
-                y21list[i] = String.valueOf(oo[2]);
-
-            }
-            result.put("x", xlist);
-            result.put("y1", y1list);
-            result.put("y2", y21list);
-        }
+        Map<String, Object[]> result = pollutantPaymentService.findByColumnChart(name,startYdate,lastYdate);
         write(result);
-
     }
 
     /**
@@ -198,18 +177,7 @@ public class PollutantPaymentAction extends BaseAction<PollutantPayment, Polluta
         Map<String,Object> result = new HashMap<String,Object>();
 
         List<Object[]> list = pollutantPaymentService.findByPieChart(name,startYdate,lastYdate);
-        if(list !=null && list.size()>0){
-            Object[] xlist = new Object[list.size()];
-            Object[] ylist = new Object[list.size()];
-            for(int i=0;i<list.size();i++){
-                Object[] oo = list.get(i);
-                xlist[i] = String.valueOf(oo[0]);
-                ylist[i] = String.valueOf(oo[1]);
-            }
-            result.put("x",xlist);
-            result.put("y",ylist);
-        }
-        write(result);
+        write(EntityUtil.transHightchartsMapObj(list,false));
 
     }
 

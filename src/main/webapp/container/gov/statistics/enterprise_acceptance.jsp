@@ -175,7 +175,6 @@
                     },
                     success: function( data ) {
                         for(var i = 0;i<data.rows.length;i++){
-                            console.log(data.rows[i].name);
                             var result = [];
                             for(var i = 0; i <  data.rows.length; i++) {
                                 var ui={};
@@ -189,10 +188,8 @@
                 } );
             },
             select: function( event, ui ) {
-                console.info(ui.item.id);
                 $("#enterpriseId").val(ui.item.id)
-
-            },
+            }
         } );
     } );
 

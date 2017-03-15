@@ -5,7 +5,6 @@ import com.harmonywisdom.framework.dao.Paging;
 import com.harmonywisdom.framework.dao.QueryResult;
 import com.harmonywisdom.framework.service.IBaseService;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public interface PollutantPaymentService extends IBaseService<PollutantPayment, 
      * @param lastTime
      * @return
      */
-    List<Object[]>  findByColumnChart(String name,String firstTime, String lastTime);
+    Map<String, Object[]>  findByColumnChart(String name,String firstTime, String lastTime);
 
     /**
      * 排污统计highchart

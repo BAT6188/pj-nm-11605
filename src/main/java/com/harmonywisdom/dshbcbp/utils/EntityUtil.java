@@ -1,7 +1,6 @@
 package com.harmonywisdom.dshbcbp.utils;
 
 import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
-import freemarker.template.utility.DateUtil;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -232,5 +232,39 @@ public class EntityUtil {
             return new Boolean(value);
         }
         return value;
+    }
+
+    /**
+     * 转换hightcharts对象
+     * @param list
+     * @return
+     */
+    public static Map<String,Object[]> transHightchartsMapObj(List<Object[]> list,Boolean isColumn){
+        Map<String,Object[]> result = new HashMap<>();
+        if(list != null && list.size()>0){
+            Object[] xlist = new Object[list.size()];
+            Object[] y1list = new Object[list.size()];
+            Object[] y21list = new Object[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                Object[] oo = list.get(i);
+                if(isColumn){
+                    xlist[i] = oo[0];
+                    y1list[i] = oo[1];
+                    y21list[i] = oo[2];
+                }else{
+                    xlist[i] = oo[0];
+                    y1list[i] = oo[1];
+                }
+            }
+            if(isColumn){
+                result.put("x", xlist);
+                result.put("y1", y1list);
+                result.put("y2", y21list);
+            }else{
+                result.put("x", xlist);
+                result.put("y", y1list);
+            }
+        }
+        return result;
     }
 }

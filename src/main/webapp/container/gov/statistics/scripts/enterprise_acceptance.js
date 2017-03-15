@@ -936,7 +936,7 @@ $(function(){
                 localParams.lastTime = acceptanceTable.lastTime;
                 localParams.isAcceptance = 1;
                 return localParams;
-            },
+            };
             acceptanceTable.bootstrapTable(aBootstrapTable);
             // sometimes footer render error.
             setTimeout(function () {

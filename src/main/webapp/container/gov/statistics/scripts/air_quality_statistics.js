@@ -138,7 +138,6 @@ $(function(){
                     series[0].data.push({name:categories[i],y: parseInt(series1[i])});
                 }
                 pieMchart(series,startYdate,lastYdate);
-
             }
         });
     }
