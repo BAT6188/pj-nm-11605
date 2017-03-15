@@ -22,7 +22,7 @@
         <log.file.name>dshbcbp.log</log.file.name>
         <log.bak.file.template>${log.file.name}.%i</log.bak.file.template>
         <!-- 不要带最后的/ -->
-        <log.file.path>/tmp/logs</log.file.path>
+        <log.file.path>/projectLogs</log.file.path>
     </properties>
 
     <dependencies>
