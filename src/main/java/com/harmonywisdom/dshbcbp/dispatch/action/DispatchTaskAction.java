@@ -586,14 +586,16 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
         monitorCaseService.update(mc);
 
-        String sql="select count(1) from hw_monitor_case m where m.source='0' and m.status='0' and m.enterprise_id=?";
-        int count = monitorCaseService.executeNativeSQL(sql, enterpriseId);
-        if (count<=0){
+        MonitorCase sql=new MonitorCase();
+        sql.setSource("0");
+        sql.setStatus("0");
+        sql.setEnterpriseId(enterpriseId);
+        List<MonitorCase> mcCount = monitorCaseService.findBySample(sql);
+        if (mcCount.size()==0){
             Enterprise e = enterpriseService.findById(enterpriseId);
             e.setPollutantStatus("0");
             enterpriseService.update(e);
         }
-
     }
 
     /**
