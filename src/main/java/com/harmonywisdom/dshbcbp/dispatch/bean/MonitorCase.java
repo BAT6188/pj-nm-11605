@@ -13,7 +13,7 @@ public class MonitorCase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * gaolei用户 排口提醒状态，要和source==1以前使用
+     * gaolei用户 排口弹窗提醒状态，要和source==0一起使用
      * 0: 未读
      * 1：已读
      */

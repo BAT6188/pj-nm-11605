@@ -520,6 +520,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public void save() {
         String monitorCaseId = request.getParameter("sourceId");
         MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
+        String enterpriseId = mc.getEnterpriseId();
 
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
@@ -531,10 +532,6 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             entity.setEnvProStaPersonList(arrayToString(ids,true));
             entity.setEnvProStaPersonNameList(arrayToString(names,false));
         }else if ("0".equals(source)){
-            Enterprise e = enterpriseService.findById(mc.getEnterpriseId());
-            e.setPollutantStatus("0");
-            enterpriseService.update(e);
-
             if("w".equals(mc.getPortType())){
                 WaterPort wp = waterPortService.findById(mc.getPortId());
                 wp.setPortStatus("0");
@@ -547,7 +544,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
 
         entity.setMonitorCaseId(monitorCaseId);
-        entity.setEnterpriseId(mc.getEnterpriseId());
+        entity.setEnterpriseId(enterpriseId);
         entity.setEnterpriseName(mc.getEnterpriseName());
         entity.setSource(source);
         entity.setDispatchPersonName(ApportalUtil.getPerson(request).getUserName());
@@ -588,6 +585,15 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 //        log.debug("发送系统消息成功");
 
         monitorCaseService.update(mc);
+
+        String sql="select count(1) from hw_monitor_case m where m.source='0' and m.status='0' and m.enterprise_id=?";
+        int count = monitorCaseService.executeNativeSQL(sql, enterpriseId);
+        if (count<=0){
+            Enterprise e = enterpriseService.findById(enterpriseId);
+            e.setPollutantStatus("0");
+            enterpriseService.update(e);
+        }
+
     }
 
     /**
