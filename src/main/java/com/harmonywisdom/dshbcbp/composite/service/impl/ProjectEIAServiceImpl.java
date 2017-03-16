@@ -83,38 +83,6 @@ public class ProjectEIAServiceImpl extends BaseService<ProjectEIA, String> imple
         returnMap.put("x",x);
         returnMap.put("y1",y1);
         returnMap.put("y2",y2);
-        /*do {
-            if (list2.size() < list.size()) {
-                temp = list2;
-                list2 = list;
-                list = temp;
-            }
-            for (int i = 0; i < list2.size(); i++) {
-                Object[] a = list2.get(i);
-                String month = a[0].toString();
-                boolean flag = false;
-                for (int j = 0; j < list.size(); j++) {
-                    Object[] b = list.get(j);
-                    String month2 = b[0].toString();
-                    if (month.equals(month2)) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (!flag) {
-                    list.add(i,new Object[]{month,"0"});
-                }
-            }
-        } while (list.size() != list2.size());
-
-        List<Object[]> sList = new ArrayList<>();
-        for (int i =0; i < list.size(); i++) {
-            Object Obj[] = list.get(i);
-            Object Obj2[] = list2.get(i);
-            Object [] cc = {Obj[0],Obj[1],Obj2[1]};
-            sList.add(cc);
-        }*/
-
         return returnMap;
     }
 

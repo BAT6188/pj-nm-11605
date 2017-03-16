@@ -81,41 +81,42 @@
                         </ul>
                     </div>
                     <div id="container" style="min-width:100%;min-height:100%;text-align: center;width:90%;"></div>
-                    <%--<div class="chart-content">--%>
-                        <%--<div class="chartBox chartBox1">--%>
-                            <%--<div class="chart">--%>
-
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="chartBox chartBox2">--%>
-                            <%--<div class="chart">--%>
-                                <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart2.png" alt=""/>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="chartBox chartBox3">--%>
-                            <%--<div class="chart">--%>
-                                <%--<img src="<%=request.getContextPath()%>/common/images/tree/chart3.png" alt=""/>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
+                    <div style="width:50%; height:100%;float:left;">
+                        <div id="container1" style="min-width:100%;min-height:100%;text-align: center;width:100%;"></div>
+                    </div>
+                    <div style="width:50%; height:100%;float:right;">
+                        <div id="container2" style="min-width:100%;min-height:100%;text-align: center;width:100%;display:none;"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<%--排污申报列表（饼状图）--%>
+<%--排污申报列表（线状图）(柱状图)--%>
 <div class="modal fade" id="sewageListForm" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 1017px">
+    <div class="modal-dialog" style="width: 90%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">排污申报列表</h4>
             </div>
             <div class="modal-body">
-                <div class="tableBox">
-                    <table id="sewageTable" class="table table-striped table-responsive">
-                    </table>
+                <div class="row clearfix">
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="leftSewageTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">已缴费</a>
+                            <table id="leftSewageTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="rightSewageTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">未缴费</a>
+                            <table id="rightSewageTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -125,7 +126,7 @@
     </div>
 </div>
 
-<%--排污申报列表（线状图）(柱状图)--%>
+<%--排污申报列表（饼状图）--%>
 <div class="modal fade" id="sewageListForm2" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 1017px">
         <div class="modal-content">
@@ -135,7 +136,7 @@
             </div>
             <div class="modal-body">
                 <div class="tableBox">
-                    <table id="sewageTable2" class="table table-striped table-responsive">
+                    <table id="sewageTable" class="table table-striped table-responsive">
                     </table>
                 </div>
             </div>

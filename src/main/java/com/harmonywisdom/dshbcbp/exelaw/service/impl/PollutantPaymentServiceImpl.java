@@ -3,6 +3,7 @@ package com.harmonywisdom.dshbcbp.exelaw.service.impl;
 import com.harmonywisdom.dshbcbp.exelaw.bean.PollutantPayment;
 import com.harmonywisdom.dshbcbp.exelaw.dao.PollutantPaymentDAO;
 import com.harmonywisdom.dshbcbp.exelaw.service.PollutantPaymentService;
+import com.harmonywisdom.dshbcbp.utils.EntityUtil;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.dao.Paging;
 import com.harmonywisdom.framework.dao.QueryResult;
@@ -11,10 +12,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,21 +35,27 @@ public class PollutantPaymentServiceImpl extends BaseService<PollutantPayment, S
      * @return
      */
     @Override
-    public List<Object[]> findByColumnChart(String name,String firstTime, String lastTime) {
-        String whereSql = " where 1=1 ";
-        if (name != null && !"".equals(name)) {
-            whereSql += "AND enterprise_name LIKE '%" + name + "%'";
-        }else if( firstTime !=null && !"".equals(firstTime)){
-            whereSql += "AND DATE_FORMAT(pay_date,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'";
-        } else if(lastTime != null && !"".equals(lastTime)) {
-            whereSql += "AND DATE_FORMAT(pay_date,'%Y-%m-%d') >= '" + firstTime + "'AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'";
+    public Map<String, Object[]> findByColumnChart(String name,String firstTime, String lastTime) {
+        StringBuffer whereSql = new StringBuffer();
+        if(StringUtils.isNotBlank(name)){
+            whereSql.append(" AND enterprise_name LIKE '%" + name + "%'");
         }
-        whereSql += " GROUP BY MONTH";
-        List<Object[]> list = getDAO().queryNativeSQL("SELECT DATE_FORMAT(pay_date,'%Y-%m')AS MONTH," +
-                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='1' AND DATE_FORMAT(t0.pay_date,'%Y-%m-%d') = DATE_FORMAT(t.pay_date,'%Y-%m-%d'))," +
-                "(SELECT COUNT(*) FROM `hw_pollutant_payment` t0 WHERE t0.PAYMENT_STATUS='0' AND DATE_FORMAT(t0.pay_date,'%Y-%m-%d') = DATE_FORMAT(t.pay_date,'%Y-%m-%d'))" +
-                "FROM hw_pollutant_payment t" + whereSql);
-       return list;
+        if(StringUtils.isNotBlank(firstTime)){
+            whereSql.append(" AND DATE_FORMAT(pay_date,'%Y-%m-%d') >='" + firstTime + "' AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'");
+        }
+        if (StringUtils.isNotBlank(lastTime)){
+            whereSql.append(" AND DATE_FORMAT(pay_date,'%Y-%m-%d') >= '" + firstTime + "'AND DATE_FORMAT(pay_date,'%Y-%m-%d') <= '" + lastTime + "'");
+        }
+        whereSql.append(" GROUP BY MONTH ");
+        List<Object[]> list = getDAO().queryNativeSQL("SELECT MONTH,SUM(payed),SUM(nopay) FROM ( " +
+                "SELECT DATE_FORMAT(pay_date,'%Y-%m')AS MONTH,COUNT(*) AS payed,0 AS nopay FROM `hw_pollutant_payment` t0 " +
+                "WHERE t0.PAYMENT_STATUS='1' "+whereSql.toString() +
+                "union ALL " +
+                "SELECT DATE_FORMAT(pay_date,'%Y-%m')AS MONTH,0 AS payed,COUNT(*) AS nopay FROM `hw_pollutant_payment` t0 " +
+                "WHERE t0.PAYMENT_STATUS='0' " +whereSql.toString() +
+                ")a GROUP BY MONTH");
+        Map<String, Object[]> result = EntityUtil.transHightchartsMapObj(list,true);
+       return result;
     }
 
 
