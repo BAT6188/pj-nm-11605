@@ -568,7 +568,7 @@ function getUploaderOptions(bussinessId) {
             }
         },
         request: {
-            endpoint: rootPath + '/Upload?type=1',
+            endpoint: rootPath + '/Upload',
             params: {
                 businessId:bussinessId
             }
@@ -576,8 +576,7 @@ function getUploaderOptions(bussinessId) {
         session:{
             endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
             params: {
-                businessId:bussinessId,
-                attachmentType:1
+                businessId:bussinessId
             }
         },
         deleteFile: {
