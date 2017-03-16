@@ -34,8 +34,18 @@ $(function(){
     $("#search").bind('click',function(){
         name = $("#s_name").val();
         var lawType = $("#lawType").val();
-        var startYdate = $("#start_createTime").val();
-        var lastYdate = $("#end_createTime").val();
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startYdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            var edatastr = end_createTime.split("-");
+            var day = new Date(parseInt(edatastr[0]),parseInt(edatastr[1]),0);
+            var dayCount = day.getDate();
+            lastYdate = end_createTime+"-"+dayCount;
+        }
+
         search(valueChart,name,lawType,startYdate,lastYdate);
     });
     

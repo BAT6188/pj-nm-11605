@@ -88,8 +88,14 @@ $(function(){
     //查询按钮
     $("#search").bind('click',function(){
         var name = $("#s_name").val();
-        var startSdate = $("#start_createTime").val();
-        var lastSdate = $("#end_createTime").val();
+        var startTime = $("#start_createTime").val();
+        var endTime = $("#end_createTime").val();
+        if(startTime!=""){
+            startSdate = startTime;
+        }
+        if(endTime!=""){
+            lastSdate = endTime;
+        }
         var dateStr = startSdate;
         var arr = dateStr.split("-");
         var lastDate = new Date(parseInt(arr[0])-1, parseInt(arr[1])-1);
