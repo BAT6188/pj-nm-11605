@@ -75,18 +75,22 @@ public class SiteMonitoringAction extends BaseAction<SiteMonitoring, SiteMonitor
             IPerson person = ApportalUtil.getPerson(request);
             userId = person.getUserId();
         }
-        Contacts c=new Contacts();
-        c.setApportalUserId(userId);
-        c.setType("1");
-        List<Contacts> li = contactsService.findBySample(c);
 
         String blockId="";
-        if (li.size()>0){
-            blockId=li.get(0).getBlockId();
+        if (!"gaolei".equals(userId)){
+            Contacts c=new Contacts();
+            c.setApportalUserId(userId);
+            c.setType("1");
+            List<Contacts> li = contactsService.findBySample(c);
+
+            if (li.size()>0){
+                blockId=li.get(0).getBlockId();
+            }
+            if(StringUtils.isEmpty(blockId)){
+                blockId=request.getParameter("blockId");
+            }
         }
-        if(StringUtils.isEmpty(blockId)){
-            blockId=request.getParameter("blockId");
-        }
+
 
         String mobileOperType = request.getParameter("mobileOperType");
         QueryParam params = new QueryParam();
