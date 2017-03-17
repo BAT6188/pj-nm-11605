@@ -10,6 +10,7 @@ initDictSelect();
 function initDictSelect(){
     /*数据字典*/
     var dictData = dict.getDctionnary({code:['monitoringContent','monitoringType']});
+    console.log(dictData);
     $.each(dictData,function(k,v){
         var optionsHtml = '';
         $.each(v,function(i,obj){
@@ -92,14 +93,6 @@ function initTable() {
                     if(value){
                         return dict.get('monitoringType',value);
                     }
-                    /*if (value==1){
-                        value="监督性监测"
-                    }else if (value==2){
-                        value="企业委托监测"
-                    }else if (value==3){
-                        value="环境质量监测"
-                    }
-                    return value;*/
                 }
             },{
                 // title: '类型',
@@ -112,18 +105,6 @@ function initTable() {
                     if(value){
                         return dict.get('monitoringContent',value);
                     }
-                    /*if (value==1){
-                        value="水质监测"
-                    }else if (value==2){
-                        value="大气监测"
-                    }else if (value==3){
-                        value="噪声监测"
-                    }else if(value == 4){
-                        value="土壤监测"
-                    }/!*else if(value == 5){
-                        value="土壤污染防治监测报告"
-                    }*!/
-                    return value;*/
                 }
             },{
                 title: '监测人员',
