@@ -417,7 +417,15 @@ function bindDownload(_uploader,_fineUploaderId) {
         window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
     });
 }
-/**
- * 绑定下载按钮事件
- */
 
+
+(function($){
+    $.fn.testqq = function(p){
+        var o = {a:this,b:p,c:3};
+        console.log(this)
+        console.log(this[0])
+        return o;
+    };
+})(jQuery);
+
+var qq=$("#remark").testqq(22);
