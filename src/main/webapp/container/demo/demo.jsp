@@ -156,10 +156,22 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <label for="attachment" class="col-sm-2 control-label">附件0：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件1：</label>
+                        <div class="col-sm-10">
+                            <div id="a1"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件1：</label>
+                        <div class="col-sm-10">
+                            <div id="a2"></div>
                         </div>
                     </div>
                 </form>
