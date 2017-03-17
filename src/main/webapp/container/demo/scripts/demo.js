@@ -218,7 +218,7 @@ $('.form_datetime').datetimepicker({
 var ef = form.easyform({
     success:function (ef) {
         var entity = $("#demoForm").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
+        entity.attachmentIds = getAttachmentIds([uploader0,uploader1,uploader2]);
         saveAjax(entity,function (msg) {
             form.modal('hide');
             gridTable.bootstrapTable('refresh');
@@ -264,18 +264,36 @@ function setFormData(entity) {
         var tagId = $(v).attr('name');
         $(v).val(entity[tagId]);
     });
-    uploader = new qq.FineUploader(getUploaderOptions(id));
+    uploader0=$("#fine-uploader-gallery").initFineUploader(0,entity.id,function () {
+        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    });
+    uploader1=$("#a1").initFineUploader(1,entity.id,function () {
+        $("#a1").find(".qq-upload-delete").hide();
+        $("#a1").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    });
+    uploader2=$("#a2").initFineUploader(2,entity.id,function () {
+        $("#a2").find(".qq-upload-delete").hide();
+        $("#a2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    });
+
 }
 function setFormView(entity) {
     setFormData(entity);
     form.find(".form-title").text("查看"+formTitle);
     disabledForm(true);
-    var fuOptions = getUploaderOptions(entity.id);
-    fuOptions.callbacks.onSessionRequestComplete = function () {
+    uploader0=$("#fine-uploader-gallery").initFineUploader(0,entity.id,function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
-    };
-    uploader = new qq.FineUploader(fuOptions);
+    });
+    uploader1=$("#a1").initFineUploader(1,entity.id,function () {
+        $("#a1").find(".qq-upload-delete").hide();
+        $("#a1").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    });
+    uploader2=$("#a2").initFineUploader(2,entity.id,function () {
+        $("#a2").find(".qq-upload-delete").hide();
+        $("#a2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+    });
     $(".qq-upload-button").hide();
     form.find("#save").hide();
     form.find(".btn-cancel").text("关闭");
@@ -306,126 +324,134 @@ function disabledForm(disabled) {
 function resetForm() {
     form.find(".form-title").text("新增"+formTitle);
     form.find("input[type!='radio'][type!='checkbox']").val("");
-    uploader = new qq.FineUploader(getUploaderOptions("#fine-uploader-gallery"));
-    uploader1 = new qq.FineUploader(getUploaderOptions("#a1"));
-    uploader2 = new qq.FineUploader(getUploaderOptions("#a2"));
-    bindDownload(uploader,"#fine-uploader-gallery")
-    bindDownload(uploader1,"#a1")
-    bindDownload(uploader2,"#a2")
+    uploader0=$("#fine-uploader-gallery").initFineUploader(0);
+    uploader1=$("#a1").initFineUploader(1);
+    uploader2=$("#a2").initFineUploader(2);
     disabledForm(false);
     form.find("#save").show();
     form.find(".btn-cancel").text("取消");
 }
 
 //表单附件相关js
-var uploader;//附件上传组件对象
+var uploader0;//附件上传组件对象
 var uploader1;//附件上传组件对象
 var uploader2;//附件上传组件对象
-/**
- * 获取上传组件options
- * @param bussinessId
- * @returns options
- */
-function getUploaderOptions(_fineUploaderId,bussinessId) {
-    return {
-        element: $(_fineUploaderId)[0],
-        template: 'qq-template',
-        chunking: {
-            enabled: false,
-            concurrent: {
-                enabled: true
+
+(function($){
+    $.fn.initFineUploader = function(type,bussinessId,onSessionRequestComplete){
+        var that=this;
+        var o = {
+            getUploaderOptions:function (_that,_type,_bussinessId) {
+                return {
+                    element: _that[0],
+                    template: 'qq-template',
+                    chunking: {
+                        enabled: false,
+                        concurrent: {
+                            enabled: true
+                        }
+                    },
+                    resume: {
+                        enabled: false
+                    },
+                    retry: {
+                        enableAuto: false,
+                        showButton: false
+                    },
+                    failedUploadTextDisplay: {
+                        mode: 'custom'
+                    },
+                    callbacks: {
+                        onComplete:function (id,fileName,msg,request) {
+                            if(this instanceof qq.FineUploader){
+                                console.log("true")
+                            }
+                            console.log(this)
+                            this.setUuid(id, msg.id);
+                        },
+                        onDeleteComplete:function (id) {
+                            var file = this.getUploads({id:id});
+                            var removeIds = $("#removeId").val();
+                            if (removeIds) {
+                                removeIds+= ("," + file.uuid)
+                            }else{
+                                removeIds = file.uuid;
+                            }
+                            $("#removeId").val(removeIds);
+                        },
+                        onAllComplete: function (succeed) {
+                            var self = this;
+                            $.each(succeed, function (k, v) {
+                                $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                            });
+                        }
+                    },
+                    request: {
+                        endpoint: rootPath + '/Upload?type='+_type,
+                        params: {
+                            businessId:_bussinessId
+                        }
+                    },
+                    session:{
+                        endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+                        params: {
+                            businessId:_bussinessId,
+                            attachmentType:_type
+                        }
+                    },
+                    deleteFile: {
+                        enabled: true,
+                        endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+                        method:"POST"
+                    },
+                    validation: {
+                        itemLimit: 5
+                    },
+                    debug: true
+                };
             }
-        },
-        resume: {
-            enabled: false
-        },
-        retry: {
-            enableAuto: false,
-            showButton: false
-        },
-        failedUploadTextDisplay: {
-            mode: 'custom'
-        },
-        callbacks: {
-            onComplete:function (id,fileName,msg,request) {
-                debugger
-                if(this instanceof qq.FineUploader){
-                    console.log("true")
-                }
-                console.log(this)
-                this.setUuid(id, msg.id);
-            },
-            onDeleteComplete:function (id) {
-                var file = this.getUploads({id:id});
-                var removeIds = $("#removeId").val();
-                if (removeIds) {
-                    removeIds+= ("," + file.uuid)
-                }else{
-                    removeIds = file.uuid;
-                }
-                $("#removeId").val(removeIds);
-            },
-            onAllComplete: function (succeed) {
-                var self = this;
-                $.each(succeed, function (k, v) {
-                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
-                });
-            }
-        },
-        request: {
-            endpoint: rootPath + '/Upload',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        session:{
-            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
-            params: {
-                businessId:bussinessId
-            }
-        },
-        deleteFile: {
-            enabled: true,
-            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
-            method:"POST"
-        },
-        validation: {
-            itemLimit: 5
-        },
-        debug: true
+
+        };
+        var uploaderOptions = o.getUploaderOptions(that,type,bussinessId);
+        if (onSessionRequestComplete){
+            uploaderOptions.callbacks.onSessionRequestComplete=onSessionRequestComplete;
+        }
+
+        var _uploader = new qq.FineUploader(uploaderOptions);
+        this.on('click', '.qq-upload-download-selector', function () {
+            var uuid = _uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
+            window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+        });
+        console.log(this)
+        console.log(this[0])
+        return _uploader;
     };
-}
+})(jQuery);
+
 /**
  * 获取附件列表ids
  * @returns {*}
  */
-function getAttachmentIds(_uploader) {
-    var attachments = _uploader.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
+function getAttachmentIds(_uploaderArray) {
+    var ids = [];
+    $.each(_uploaderArray,function (i,v) {
+        if(v!=undefined){
+            var attachments = v.getUploads();
+            if (attachments && attachments.length) {
+                for (var i = 0 ; i < attachments.length; i++){
+                    ids.push(attachments[i].uuid);
+                }
+            }
         }
-        return ids.join(",");
+    })
+    if (ids.length>0){
+        return ids=ids.join(",");
+    }else {
+        return ''
     }
-    return "";
-}
-
-function bindDownload(_uploader,_fineUploaderId) {
-    $(_fineUploaderId).on('click', '.qq-upload-download-selector', function () {
-        var uuid = _uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
-        window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-    });
 }
 
 
-(function($){
-    $.fn.testqq = function(p){
-        var o = {a:this,b:p,c:3};
-        console.log(this)
-        console.log(this[0])
-        return o;
-    };
-})(jQuery);
 
-var qq=$("#remark").testqq(22);
+
+

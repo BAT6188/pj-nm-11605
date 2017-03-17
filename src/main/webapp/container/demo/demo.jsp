@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件1：</label>
+                        <label for="attachment" class="col-sm-2 control-label">附件2：</label>
                         <div class="col-sm-10">
                             <div id="a2"></div>
                         </div>
