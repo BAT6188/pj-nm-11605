@@ -32,8 +32,14 @@ $(function(){
     //查询按钮
     $("#search").bind('click',function(){
         name = $("#s_name").val();
-        var startYdate = $("#start_createTime").val();
-        var lastYdate = $("#end_createTime").val();
+        var startTime = $("#start_createTime").val();
+        var endTime = $("#end_createTime").val();
+        if(startTime!=""){
+            startYdate = startTime;
+        }
+        if(endTime!=""){
+            lastYdate = endTime;
+        }
         search(valueChart,name,startYdate,lastYdate);
     });
 

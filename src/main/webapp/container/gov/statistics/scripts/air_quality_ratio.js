@@ -91,13 +91,13 @@ $(function(){
         }
         var dateStr = startSdate;
         var arr = dateStr.split("-");
-        var startXdate = parseInt(arr[0])-1 + "-" + arr[1] +"-"+ "01";
+        startXdate = parseInt(arr[0])-1 + "-" + arr[1] +"-"+ "01";
 
         var dateLtr2 = lastSdate;
         var arr2 = dateLtr2.split("-");
         var day = new Date(parseInt(arr2[0])-1,parseInt(arr2[1]),0);
         var dayCount = day.getDate();
-        var lastXdate = parseInt(arr2[0])-1 + "-" + arr2[1] +"-"+dayCount;
+        lastXdate = parseInt(arr2[0])-1 + "-" + arr2[1] +"-"+dayCount;
 
         var airType = $("#airType").val();
         search(valueChart,startXdate,lastXdate,startSdate,lastSdate,airType);

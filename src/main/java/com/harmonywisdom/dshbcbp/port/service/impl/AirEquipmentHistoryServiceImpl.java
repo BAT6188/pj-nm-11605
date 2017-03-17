@@ -167,7 +167,7 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
     }
 
     /**
-     * 保存地区时均值
+     * 保存地区时均值(读取数据库)
      */
     public void saveCityAqiPublish(){
         List<CityAqiPublish> airEquipmentHistories = cityAqiPublishDAO.queryJPQL("from CityAqiPublish ORDER BY TimePoint DESC");
@@ -207,7 +207,7 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
     }
 
     /**
-     * 保存地区日均值
+     * 保存地区日均值(读取数据库)
      */
     public void saveCityDayAqiPublish(){
         List<CityDayAqiPublish> airEquipmentHistories = cityDayAqiPublishDAO.queryJPQL("from CityDayAqiPublish ORDER BY TimePoint DESC");
@@ -265,20 +265,27 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
                 List<AirEquipmentHistory> thisHourHisList = airEquipmentHistoryDAO.queryJPQL("from AirEquipmentHistory where monitoringTime=? ",
                         startDate);
                 int aqiValue = 0;
+                int maxAqi = 0;
+                String PrimaryPollutant = "";
                 for(AirEquipmentHistory aeh:thisHourHisList){
+                    if(aeh.getAirIndex()>maxAqi){
+                        PrimaryPollutant = aeh.getPrimaryPollutant();
+                        maxAqi = aeh.getAirIndex();
+                    }
                     aqiValue +=aeh.getAirIndex();
                 }
                 if(aqiValue>0){
                     int avgValue = aqiValue/thisHourHisList.size();
                     Map<String,String> pubMap = getAirEquiment(avgValue);
-                    CityAqiPublish cdap = new CityAqiPublish();
-                    cdap.setId(String.valueOf(startDate.getTime()));
-                    cdap.setTimePoint(startDate);
-                    cdap.setAQI(avgValue);
-                    cdap.setQualityLevel(pubMap.get("aqi"));
-                    cdap.setQuality(pubMap.get("aqiMsg"));
-                    cdap.setMobileTimestamp(startDate);
-                    cityAqiPublishDAO.saveOrUpdate(cdap);
+                    CityAqiPublish cap = new CityAqiPublish();
+                    cap.setId(String.valueOf(startDate.getTime()));
+                    cap.setTimePoint(startDate);
+                    cap.setAQI(avgValue);
+                    cap.setQualityLevel(pubMap.get("aqi"));
+                    cap.setQuality(pubMap.get("aqiMsg"));
+                    cap.setPrimaryPollutant(PrimaryPollutant);
+                    cap.setMobileTimestamp(startDate);
+                    cityAqiPublishDAO.saveOrUpdate(cap);
                 }
 
                 Calendar ca=Calendar.getInstance();
@@ -310,8 +317,15 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
             List<AirEquipmentHistory> thisDayHisList = airEquipmentHistoryDAO.queryJPQL("from AirEquipmentHistory where monitoringTime>=? and  monitoringTime<=? ORDER BY mobileTimestamp DESC",
                     sDate,eDate);
             int aqiValue = 0;
+            int maxAqi = 0;
+            String PrimaryPollutant = "";
             for(AirEquipmentHistory aeh:thisDayHisList){
-                aqiValue +=aeh.getAirIndex();
+                int aqi = aeh.getAirIndex();
+                if(aqi>maxAqi){
+                    PrimaryPollutant = aeh.getPrimaryPollutant();
+                    maxAqi = aqi;
+                }
+                aqiValue +=aqi;
             }
             if(aqiValue>0){
                 int avgValue = aqiValue/thisDayHisList.size();
@@ -322,6 +336,7 @@ public class AirEquipmentHistoryServiceImpl extends BaseService<AirEquipmentHist
                 cdap.setAQI(avgValue);
                 cdap.setQualityLevel(pubMap.get("aqi"));
                 cdap.setQuality(pubMap.get("aqiMsg"));
+                cdap.setPrimaryPollutant(PrimaryPollutant);
                 cdap.setMobileTimestamp(startDate);
                 cityDayAqiPublishDAO.saveOrUpdate(cdap);
             }

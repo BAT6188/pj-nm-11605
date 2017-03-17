@@ -79,8 +79,14 @@ $(function(){
     $("#search").bind('click',function(){
         name = $("#s_name").val();
         var lawType = $("#lawType").val();
-        var startSdate = $("#start_createTime").val();
-        var lastSdate = $("#end_createTime").val();
+        var startTime = $("#start_createTime").val();
+        var endTime = $("#end_createTime").val();
+        if(startTime!=""){
+            startSdate = startTime;
+        }
+        if(endTime!=""){
+            lastSdate = endTime;
+        }
         var dateStr = startSdate;
         var arr = dateStr.split("-");
         var lastDate = new Date(parseInt(arr[0])-1, parseInt(arr[1])-1);
@@ -88,7 +94,7 @@ $(function(){
         if (lastMonth < 10) {
             lastMonth = "0" + lastMonth;
         }
-        var startXdate = lastDate.getFullYear() + "-" + lastMonth;
+        startXdate = lastDate.getFullYear() + "-" + lastMonth;
 
         var dateLtr2 = lastSdate;
         var arr2 = dateLtr2.split("-");
@@ -97,7 +103,7 @@ $(function(){
         if (lastMonth2 < 10) {
             lastMonth2 = "0" + lastMonth2;
         }
-        var lastXdate = lastDate2.getFullYear() + "-" + lastMonth2;
+        lastXdate = lastDate2.getFullYear() + "-" + lastMonth2;
         search(valueChart,name,lawType,startXdate,lastXdate,startSdate,lastSdate);
        
         

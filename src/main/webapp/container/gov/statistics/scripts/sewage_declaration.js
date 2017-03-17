@@ -32,8 +32,14 @@ $(function(){
     //查询按钮
     $("#search").bind('click',function(){
         name = $("#s_name").val();
-        startYdate = $("#start_createTime").val();
-        lastYdate = $("#end_createTime").val();
+        var startTime = $("#start_createTime").val();
+        var endTime = $("#end_createTime").val();
+        if(startTime!=""){
+            startYdate = startTime;
+        }
+        if(endTime!=""){
+            lastYdate = endTime;
+        }
         search(valueChart,name,startYdate,lastYdate);
     });
 
@@ -98,11 +104,14 @@ $(function(){
                 var series = [];
                 var list = data.y1;
                 var list2 = data.y2;
-                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:getMySeriesData(categories,list)};
-                var series2 = {name: "未缴费",color:'#FF8800', data:getMySeriesData(categories,list2)};
+
+                var seriesData1 = getMySeriesData(categories,list);
+                var seriesData2 = getMySeriesData(categories,list2);
+                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:seriesData1.data};
+                var series2 = {name: "未缴费",color:'#FF8800', data:seriesData2.data};
                 series.push(series1);
                 series.push(series2);
-                colMchart(categories,series,startYdate,lastYdate);
+                colMchart(seriesData1.preMonth,series,startYdate,lastYdate);
             }
         });
     }
@@ -119,13 +128,15 @@ $(function(){
                 var categories = data['x'];
                 var dataY1 = data['y1'];
                 var dataY2 = data['y2'];
+                var seriesData1 = getMySeriesData(categories,dataY1);
+                var seriesData2 = getMySeriesData(categories,dataY2);
                 var series1 = [{
                     name:"已缴费企业:(家)",
-                    data:getMySeriesData(categories,dataY1)
+                    data:seriesData1.data
                 }];
                 var series2 = [{
                     name:"未缴费企业:(家)",
-                    data:getMySeriesData(categories,dataY2)
+                    data:seriesData2.data
                 }];
                 pieMchart(series1,startYdate,lastYdate);
                 pieMchart2(series2,startYdate,lastYdate);
@@ -146,15 +157,18 @@ $(function(){
                 var series = [];
                 var list = data.y1;
                 var list2 = data.y2;
-                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:getMySeriesData(categories,list)};
-                var series2 = {name: "未缴费",color:'#FF8800', data:getMySeriesData(categories,list2)};
+                var seriesData1 = getMySeriesData(categories,list);
+                var seriesData2 = getMySeriesData(categories,list2);
+                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:seriesData1.data};
+                var series2 = {name: "未缴费",color:'#FF8800', data:seriesData2.data};
                 series.push(series1);
                 series.push(series2);
-                lineMchart(categories,series,startYdate,lastYdate);
+                lineMchart(seriesData1.preMonth,series,startYdate,lastYdate);
             }
         });
     }
     function getMySeriesData(categories,seriesData){
+        var returnData = {};
         var data = [];
         var preMonth = [];//定义查询月份的数组
         var preValue = [];//定义对应月份为0的一组数据
@@ -206,7 +220,9 @@ $(function(){
         for (var i = 0; i < preValue.length; i++) {
             data.push({name:preMonth[i],y: parseInt(preValue[i])});
         }
-        return data;
+        returnData.data = data;
+        returnData.preMonth = preMonth;
+        return returnData;
     }
     
     
@@ -228,7 +244,7 @@ $(function(){
             xAxis: {
                 categories: preMonth,
                 title:{
-                    text:'月份'
+                    text:'<span style="float: right;">月份</span>'
                 }
             },
             yAxis: {

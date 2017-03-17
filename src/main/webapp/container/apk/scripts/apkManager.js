@@ -73,8 +73,8 @@ function initTable() {
                 align: 'center'
             },
             {
-                title: '备注',
-                field: 'apkDesc',
+                title: '更新信息',
+                field: 'updateInfo',
                 editable: false,
                 sortable: false,
                 align: 'center'
