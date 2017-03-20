@@ -506,7 +506,6 @@ $(function(){
                     events : {
                         click: function(e) {
                             var that = this;
-                            console.log('X轴的值：'+e.point.category+' 指标的名称:'+that.name+",index:"+that.index);
                             $("#projectListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
