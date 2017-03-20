@@ -266,15 +266,15 @@ function setFormData(entity) {
     });
     uploader0=$("#fine-uploader-gallery").initFineUploader(0,entity.id,function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     });
     uploader1=$("#a1").initFineUploader(1,entity.id,function () {
         $("#a1").find(".qq-upload-delete").hide();
-        $("#a1").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#a1").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     });
     uploader2=$("#a2").initFineUploader(2,entity.id,function () {
         $("#a2").find(".qq-upload-delete").hide();
-        $("#a2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
+        $("#a2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
     });
 
 }
