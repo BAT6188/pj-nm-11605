@@ -4,6 +4,9 @@
 <head>
     <%@include file="/common/common_include.jsp"%>
     <title>Demo</title>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">

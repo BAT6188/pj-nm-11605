@@ -264,6 +264,15 @@ function setFormData(entity) {
         var tagId = $(v).attr('name');
         $(v).val(entity[tagId]);
     });
+    uploader0=$("#fine-uploader-gallery").initFineUploader(0,entity.id);
+    uploader1=$("#a1").initFineUploader(1,entity.id);
+    uploader2=$("#a2").initFineUploader(2,entity.id);
+
+}
+function setFormView(entity) {
+    setFormData(entity);
+    form.find(".form-title").text("查看"+formTitle);
+    disabledForm(true);
     uploader0=$("#fine-uploader-gallery").initFineUploader(0,entity.id,function () {
         $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
         $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
@@ -275,24 +284,6 @@ function setFormData(entity) {
     uploader2=$("#a2").initFineUploader(2,entity.id,function () {
         $("#a2").find(".qq-upload-delete").hide();
         $("#a2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
-    });
-
-}
-function setFormView(entity) {
-    setFormData(entity);
-    form.find(".form-title").text("查看"+formTitle);
-    disabledForm(true);
-    uploader0=$("#fine-uploader-gallery").initFineUploader(0,entity.id,function () {
-        $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
-        $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
-    });
-    uploader1=$("#a1").initFineUploader(1,entity.id,function () {
-        $("#a1").find(".qq-upload-delete").hide();
-        $("#a1").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
-    });
-    uploader2=$("#a2").initFineUploader(2,entity.id,function () {
-        $("#a2").find(".qq-upload-delete").hide();
-        $("#a2").find("[qq-drop-area-text]").attr('qq-drop-area-text',"");
     });
     $(".qq-upload-button").hide();
     form.find("#save").hide();
@@ -410,6 +401,8 @@ var uploader2;//附件上传组件对象
 
     $.fn.initFineUploader = function(type,bussinessId,onSessionRequestComplete){
         var that=this;
+        console.log(this)
+        console.log(this[0])
         var uploaderOptions = getUploaderOptions(that,type,bussinessId);
         if (onSessionRequestComplete){
             uploaderOptions.callbacks.onSessionRequestComplete=onSessionRequestComplete;
@@ -417,11 +410,11 @@ var uploader2;//附件上传组件对象
 
         var _uploader = new qq.FineUploader(uploaderOptions);
         this.on('click', '.qq-upload-download-selector', function () {
+            console.log(this)
             var uuid = _uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
+            console.log(uuid)
             window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
         });
-        console.log(this)
-        console.log(this[0])
         return _uploader;
     };
 })(jQuery);
