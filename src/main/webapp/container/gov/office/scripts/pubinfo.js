@@ -92,9 +92,9 @@ function initTable() {
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter: function (value, row, index) {
+                /*formatter: function (value, row, index) {
                     return pageUtils.sub10(value);
-                }
+                }*/
             },
             {
                 field: 'status',
@@ -200,7 +200,7 @@ $("#add").bind('click', function () {
     resetForm();
     $('#pub').attr('disabled', false);
     $("#pubOrgName").attr("disabled", true)
-
+    $('#pubTime').val((new Date()).format("yyyy-MM-dd"));
 });
 $("#update").bind("click", function () {
     var entity = getSelections()[0];
@@ -442,7 +442,7 @@ function orgOption() {
         dataType: "json",
         success: function (org) {
             $('#grade').empty();
-            for (var i = 0; i < org.length; i++) {
+            for (var i = 0; i < org.length-1; i++) {
                 // $('#grade').append("<option value='" + msg[i].orgCode + "'>" + msg[i].orgName + "</option>")
                 $('#grade').append("<label><input type='checkbox' data-message='请选择查看权限' data-easytip='position:top;class:easy-red;'  name='grade' value='" + org[i].orgId + "' >" + org[i].orgName + "</label>&nbsp;&nbsp;");
             }

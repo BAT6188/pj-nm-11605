@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script>
+    $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,9 +33,16 @@
                 </div>
                 <div class="queryBox marginLeft0">
                     <form class="form-inline" id="searchform">
-                            <div class="form-group">
+                        <div class="form-group">
                             <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                             <label for="s_checkPeople">监察人员：</label> <input type="text" id="s_checkPeople" name="checkPeople" class="form-control" />
+
+                            <label for="">所属网格：</label>
+                            <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;display:none">
+                            </select>
+                            <%-----%>
+                            <select class="form-control s_blockId" name="blockId" style="width: 266px;">
+                            </select>
                         </div>
                     </form >
                 </div>
@@ -99,7 +109,7 @@
                         </div>
                         <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                        <div id="datetimepicker" class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input" data-link-format="yyyy-mm-dd hh:ii">
                             <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value=""
                                    data-message="监察时间不能为空"
                                    data-easytip="position:top;class:easy-red;"
@@ -118,17 +128,30 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sendRemark" class="col-sm-2 control-label">备注：</label>
+                        <label for="sendRemark" class="col-sm-2 control-label">初报：</label>
                         <div class="col-sm-10">
                             <textarea  id="sendRemark" name="sendRemark" class="form-control" rows="5"
                             ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachmentIds" class="col-sm-2 control-label">附件：</label>
+                        <label for="xuBao" class="col-sm-2 control-label">续报：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="xuBao" name="xuBao" class="form-control" rows="5"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentIds" class="col-sm-2 control-label">初报附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">续报附件：</label>
+                        <div class="col-sm-10">
+                            <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
                 </form>
@@ -146,6 +169,7 @@
 <script>
     $(document).ready(function () {
         loadBlockLevelAndBlockOption("#blockLevelId","#blockId")
+        loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
 
         $("#enterpriseName").autocomplete({
             source: function( request, response ) {

@@ -106,6 +106,10 @@
 		<class>com.harmonywisdom.dshbcbp.office.bean.PartyOrg</class>
 		<class>com.harmonywisdom.dshbcbp.office.bean.PartyOrgIperson</class>
 
+		<class>com.harmonywisdom.dshbcbp.appclient.bean.AppClient</class>
+		<class>com.harmonywisdom.dshbcbp.port.bean.CityAqiPublish</class>
+		<class>com.harmonywisdom.dshbcbp.port.bean.CityDayAqiPublish</class>
+
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>

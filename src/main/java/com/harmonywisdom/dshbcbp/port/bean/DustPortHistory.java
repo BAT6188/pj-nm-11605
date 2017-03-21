@@ -1,9 +1,6 @@
 package com.harmonywisdom.dshbcbp.port.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -97,7 +94,8 @@ public class DustPortHistory implements Serializable {
     /**
      * `mobile_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
      */
-    @Column(name = "mobile_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
     private Date mobileTimestamp;
 
 

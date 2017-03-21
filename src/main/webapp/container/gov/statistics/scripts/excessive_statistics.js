@@ -31,8 +31,17 @@ $(function(){
     //查询按钮
     $("#search").bind('click',function(){
         var sName = $("#s_name").val();
-        var startYdate = $("#start_createTime").val();
-        var lastYdate = $("#end_createTime").val();
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startYdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            var edStr = end_createTime.split("-");
+            var day = new Date(parseInt(edStr[0]),parseInt(edStr[1]),0);
+            var dayCount = day.getDate();
+            lastYdate = end_createTime+"-"+dayCount;
+        }
         search(valueChart,sName,startYdate,lastYdate);
     });
 
@@ -132,8 +141,6 @@ $(function(){
                         preValue.push(0);
                     }
                 }
-                console.log(preMonth);
-                console.log(preValue);
                 var month = categories;//后台取出的2组数据
                 var value = ylist;
                 if(month && month.length>0){
@@ -146,8 +153,6 @@ $(function(){
                         }
                     }
                 }
-                console.log(preMonth);
-                console.log(preValue);
 
                 var series1 = {name: "超标次数", data:preValue};
                 series.push(series1);
@@ -367,7 +372,10 @@ $(function(){
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             initlawTable(firstTime,lastTime);
                         }
                     }
@@ -418,7 +426,10 @@ $(function(){
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.name;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             initlawTable(firstTime,lastTime);
                         }
                     }
@@ -486,7 +497,10 @@ $(function(){
                             $("#excessiveListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             initlawTable(firstTime,lastTime);
                         }
                     }
@@ -527,21 +541,6 @@ $(function(){
             queryParams:pageUtils.localParams,
             columns: [
                 {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:true,  //  true 单选， false多选
-                    valign: 'middle'
-                },
-                {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible:false
-                },
-                {
                     title: '企业名称',
                     field: 'enterpriseName',
                     editable: false,
@@ -549,21 +548,46 @@ $(function(){
                     align: 'center'
                 },
                 {
-                    title: '标题',
-                    field: 'res_title',
+                    title: '排口编号',
+                    field: 'portNumber',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '状态开始时间',
-                    field: 'startTime',
+                    title: '排口名称',
+                    field: 'portName',
                     editable: false,
                     sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        return pageUtils.sub16(value);
-                    }
+                    align: 'center'
+                },
+                {
+                    title: '超标时间',
+                    field: 'time',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '监测指标',
+                    field: 'pollutantName',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '超标值',
+                    field: 'liveValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
+                },
+                {
+                    title: '标准值',
+                    field: 'standardValue',
+                    editable: false,
+                    sortable: false,
+                    align: 'center'
                 },
                 {
                     title: '状态',
@@ -571,24 +595,15 @@ $(function(){
                     editable: false,
                     sortable: false,
                     align: 'center',
-                    formatter:function (value, row, index) {
-                        if(0==value){
-                            value="正常"
-                        }else if (1==value){
-                            value="超标"
-                        }else if (2==value){
-                            value="异常"
-                        }
-                        return value;
-                    }
-                },
-                {
-                    field: 'solution',
-                    title: '解决方案',
-                    sortable: false,
-                    align: 'center',
-                    editable: false
+                    formatter: statusFormatter
                 }
+                // {
+                //     field: 'operate',
+                //     title: '操作',
+                //     align: 'center',
+                //     events: operateEvents,
+                //     formatter: operateFormatter
+                // }
 
             ]
         });
@@ -603,6 +618,14 @@ $(function(){
                 height: pageUtils.getTableHeight()
             });
         });
+    }
+
+    var statusType = {
+        '1':'超标',
+        '2':'异常'
+    }
+    function statusFormatter(value, row, index){
+        return statusType[value];
     }
 
 

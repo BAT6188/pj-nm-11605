@@ -22,11 +22,22 @@
         <log.file.name>dshbcbp.log</log.file.name>
         <log.bak.file.template>${log.file.name}.%i</log.bak.file.template>
         <!-- 不要带最后的/ -->
-        <log.file.path>/tmp/logs</log.file.path>
+        <log.file.path>/projectLogs</log.file.path>
     </properties>
 
     <dependencies>
         <!-- 项目所需要依赖的jar包 -->
+        <dependency>
+            <groupId>com.harmonywisdom</groupId>
+            <artifactId>framework-base</artifactId>
+            <version>2.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>com.harmonywisdom.apps</groupId>
             <artifactId>apportal-client</artifactId>
@@ -79,28 +90,7 @@
             <artifactId>jaxen</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.harmonywisdom</groupId>
-            <artifactId>pushlet</artifactId>
-            <version>2.0</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>4.1.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>c3p0</artifactId>
-                    <groupId>c3p0</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -111,7 +101,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>4.1.4.RELEASE</version>
+            <version>4.0.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -154,6 +144,18 @@
             <version>6.1.0.jre7</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-all -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.7</version>
+        </dependency>
 
     </dependencies>
 
@@ -195,6 +197,8 @@
                 <db.username>root</db.username>
                 <db.password>root</db.password>
                 <db.show.sql>true</db.show.sql>
+                <log.level>debug</log.level>
+                <log.appender>FILE</log.appender>
             </properties>
         </profile>
         <profile>

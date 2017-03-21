@@ -76,16 +76,27 @@ function initTable() {
                 editable: false,
                 isDown: true
             }, {
-                title: '提交时间',
+                title: '创建时间',
                 field: 'createTime',
                 sortable: false,
                 align: 'center',
                 editable: false,
-                formatter: function (value, row, index) {
+                /*formatter: function (value, row, index) {
                     return pageUtils.sub10(value);
-                },
+                },*/
                 isDown: true
-            }, {
+            },
+            {
+                title: '发布时间',
+                field: 'pubTime',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                /*formatter: function (value, row, index) {
+                    return pageUtils.sub16(value);
+                },*/
+                isDown: true
+            },{
                 title: '发布状态',
                 field: 'publishStatus',
                 sortable: false,
@@ -366,6 +377,8 @@ function disabledForm(disabled) {
             language:   'zh-CN',
             autoclose: 1,
             startView:2,//月视图
+            todayBtn:true,
+            todayHighlight:true,
             minView: 2
         });
     }else{

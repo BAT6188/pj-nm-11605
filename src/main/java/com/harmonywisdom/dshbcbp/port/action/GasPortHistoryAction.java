@@ -1,19 +1,22 @@
 package com.harmonywisdom.dshbcbp.port.action;
 
+import com.harmonywisdom.dshbcbp.port.bean.GasPort;
 import com.harmonywisdom.dshbcbp.port.bean.GasPortHistory;
 import com.harmonywisdom.dshbcbp.port.service.GasPortHistoryService;
+import com.harmonywisdom.dshbcbp.port.service.GasPortService;
 import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
-import com.harmonywisdom.framework.dao.Direction;
-import com.harmonywisdom.framework.dao.QueryCondition;
-import com.harmonywisdom.framework.dao.QueryOperator;
-import com.harmonywisdom.framework.dao.QueryParam;
+import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 public class GasPortHistoryAction extends BaseAction<GasPortHistory, GasPortHistoryService> {
     @AutoService
     private GasPortHistoryService gasPortHistoryService;
+    @AutoService
+    private GasPortService gasPortService;
 
     @Override
     protected GasPortHistoryService getService() {
@@ -45,5 +48,19 @@ public class GasPortHistoryAction extends BaseAction<GasPortHistory, GasPortHist
         condition.setPaging(getPaging());
         condition.setOrderBy("monitorTime", Direction.DESC);
         return condition;
+    }
+
+    public void listForMobile(){
+        List<GasPort> portList = gasPortService.find(" enterpriseId = ? ", entity.getEnterpriseId());
+        QueryResult<GasPortHistory> gasPortHistoryQueryResult = gasPortHistoryService.find(getQueryCondition());
+        for (GasPortHistory gasPortHistory : gasPortHistoryQueryResult.getRows()) {
+            for (GasPort gasPort : portList) {
+                if(gasPort.getId().equals(gasPortHistory.getPortId())){
+                    gasPortHistory.setName(gasPort.getName());
+                    break;
+                }
+            }
+        }
+        write(gasPortHistoryQueryResult);
     }
 }

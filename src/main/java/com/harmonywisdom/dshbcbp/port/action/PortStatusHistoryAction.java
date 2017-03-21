@@ -10,6 +10,7 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,10 +56,12 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         String endTime = request.getParameter("endTime");
         String strStatus = request.getParameter("strStatus");
         if(StringUtils.isNotBlank(startTime)){
-            param.andParam(new QueryParam("startTime", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
+            Date startTimeDate = MyDateUtils.getFullDate(startTime, true);
+            param.andParam(new QueryParam("time", QueryOperator.GE,startTimeDate ));
         }
         if(StringUtils.isNotBlank(endTime)){
-            param.andParam(new QueryParam("startTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
+            Date endTimeDate = MyDateUtils.getFullDate(endTime, false);
+            param.andParam(new QueryParam("time", QueryOperator.LE, endTimeDate));
         }
         if(strStatus != null && !"".equals(strStatus)){
             param.andParam(new QueryParam("portStatus",QueryOperator.EQ,strStatus));
@@ -66,21 +69,21 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
         if(StringUtils.isNotBlank(entity.getRes_title())){
             param.andParam(new QueryParam("res_title",QueryOperator.LIKE,entity.getRes_title()));
         }
-        String starCreateTime = request.getParameter("start_createTime");
-        String endCreateTime = request.getParameter("end_createTime");
-        if(StringUtils.isNotBlank(starCreateTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd HH:mm")));
-        }
-        if(StringUtils.isNotBlank(endCreateTime)){
-            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd HH:mm")));
-        }
+//        String starCreateTime = request.getParameter("start_createTime");
+//        String endCreateTime = request.getParameter("end_createTime");
+//        if(StringUtils.isNotBlank(starCreateTime)){
+//            param.andParam(new QueryParam("release_time",QueryOperator.GE,DateUtil.strToDate(starCreateTime,"yyyy-MM-dd HH:mm")));
+//        }
+//        if(StringUtils.isNotBlank(endCreateTime)){
+//            param.andParam(new QueryParam("release_time",QueryOperator.LE,DateUtil.strToDate(endCreateTime,"yyyy-MM-dd HH:mm")));
+//        }
 
         QueryCondition condition = new QueryCondition();
         if (param.getField() != null) {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("startTime", Direction.DESC);
+        condition.setOrderBy("time", Direction.DESC);
         return condition;
     }
 
@@ -249,7 +252,8 @@ public class PortStatusHistoryAction extends BaseAction<PortStatusHistory, PortS
      * 企业超标异常信息
      */
     public void excessiveInformation(){
-        List<PortStatusHistory> pubInfoList = portStatusHistoryService.companyByExcessive();
+        String enterpriseId = request.getParameter("enterpriseId");
+        List<PortStatusHistory> pubInfoList = portStatusHistoryService.companyByExcessive(enterpriseId);
         write(pubInfoList);
     }
 

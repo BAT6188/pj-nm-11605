@@ -7,6 +7,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  * Created by Administrator on 2016/11/3.
  */
@@ -95,5 +98,14 @@ public class PinyinUtil {
         System.out.println(getPingYin("东胜区环保局"));
         System.out.println(getPinYinHeadChar("綦江县"));
         System.out.println(getCnASCII("綦江县"));
+        Date startDate = new Date();
+        System.out.println(startDate);
+        GregorianCalendar gc=new GregorianCalendar();
+        gc.setTime(startDate);
+        gc.add(5,1);
+        System.out.println(gc.getTime());
+
+        Date d = MyDateUtils.parseDateFormat("2016-01-01","yyyy-MM-dd");
+        System.out.println(d);
     }
 }

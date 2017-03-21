@@ -6,7 +6,9 @@ var gridTable = $('#table'),
     formTitle = "废气排口",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -255,7 +257,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.modal('hide');
             //$('.mainBox').BootstrapAlertMsg('success',updateSuccessMsg,2000);
             Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');

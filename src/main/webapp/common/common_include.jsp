@@ -3,6 +3,9 @@
 <%@ page import="com.harmonywisdom.dshbcbp.utils.ApportalUtil" %>
 <%@ page import="com.harmonywisdom.apportal.sdk.org.IOrg" %>
 <%@ page import="com.harmonywisdom.apportal.sdk.org.OrgServiceUtil" %>
+<%@ page import="com.harmonywisdom.apportal.sdk.role.domain.Role" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.harmonywisdom.apportal.sdk.role.RoleServiceUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +27,7 @@
         personId = person.getPersonId();
         orgId=person.getOrgId();
 
+
         IOrg org = OrgServiceUtil.getOrgByOrgId(orgId);
         orgCode = org.getOrgCode();
         orgName = org.getOrgName();
@@ -39,7 +43,13 @@
     Object msgIsAlert = request.getSession().getAttribute("msgIsAlert");
     String msgIsAlertStr = msgIsAlert == null?"true":msgIsAlert.toString();
 
-
+    String isJkzx="N";
+    List<Role> roles = RoleServiceUtil.getRoleByUserId(userID);
+    for (Role role : roles) {
+        if ("jkzx".equals(role.getRoleCode())){
+            isJkzx="Y";
+        }
+    }
 %>
 <script type="text/javascript" >
     var rootPath = '<%=request.getContextPath()%>';
@@ -55,6 +65,7 @@
     var orgName='<%=orgName%>';
     var msgIsAlert = '<%=msgIsAlertStr%>';
 
+    var isJkzx='<%=isJkzx%>';
 </script>
 
 <!--[if lt IE 9]>

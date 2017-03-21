@@ -18,15 +18,23 @@ import com.harmonywisdom.dshbcbp.dispatch.bean.Feedback;
 import com.harmonywisdom.dshbcbp.dispatch.bean.MonitorCase;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
 import com.harmonywisdom.dshbcbp.dispatch.service.MonitorCaseService;
+import com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise;
+import com.harmonywisdom.dshbcbp.enterprise.service.EnterpriseService;
 import com.harmonywisdom.dshbcbp.exportword.bean.OverManage;
 import com.harmonywisdom.dshbcbp.exportword.service.impl.OverManageServiceImpl;
+import com.harmonywisdom.dshbcbp.port.bean.GasPort;
+import com.harmonywisdom.dshbcbp.port.bean.WaterPort;
+import com.harmonywisdom.dshbcbp.port.service.GasPortService;
+import com.harmonywisdom.dshbcbp.port.service.WaterPortService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.dshbcbp.utils.DocUtil;
+import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.SpringUtil;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.harmonywisdom.framework.utils.UUIDGenerator;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -61,6 +69,14 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     @AutoService
     private AttachmentService attachmentService;
 
+    @AutoService
+    private WaterPortService waterPortService;
+    @AutoService
+    private GasPortService gasPortService;
+
+    @AutoService
+    private EnterpriseService enterpriseService;
+
     @Override
     protected DispatchTaskService getService() {
         return dispatchTaskService;
@@ -70,6 +86,35 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 //        OverManage overManage = overManageService.findById(entity.getId());
 //        write(overManage);
 //    }
+
+    public void getAllAttachmentIdList(){
+        Map<String,List> map=new HashedMap();
+        String id = entity.getId();
+        String site_monitoring_sql="select a.* from hw_dispatch_task d,hw_site_monitoring s ,hw_attachment a \n" +
+                "where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String punish_sql="select a.* from hw_dispatch_task d,HW_PUNISH s ,hw_attachment a \n" +
+                "where s.dispatch_task_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String feedbackg_sql="select a.* from hw_dispatch_task d,T_FEEDBACK s ,hw_attachment a \n" +
+                "where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        List<Attachment> site_monitoring = dispatchTaskService.queryNativeSQL(site_monitoring_sql, Attachment.class, id);
+        for (Attachment attachment : site_monitoring) {
+            attachment.setData(null);
+        }
+        List<Attachment> punish = dispatchTaskService.queryNativeSQL(punish_sql, Attachment.class, id);
+        for (Attachment attachment : punish) {
+            attachment.setData(null);
+        }
+        List<Attachment> feedbackg = dispatchTaskService.queryNativeSQL(feedbackg_sql, Attachment.class, id);
+        for (Attachment attachment : feedbackg) {
+            attachment.setData(null);
+        }
+        map.put("site_monitoring",site_monitoring);
+        map.put("punish",punish);
+        map.put("feedbackg",feedbackg);
+
+        write(map);
+    }
+
 
     /**
      * 保存 现场监察监测报告
@@ -193,6 +238,9 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         }
         if ("TRUE".equals(notOver)){
             params.andParam(new QueryParam("status", QueryOperator.NE, "5"));
+            if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
+                params.andParam(new QueryParam("status", QueryOperator.EQ, status));
+            }
         }else {
             if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
                 params.andParam(new QueryParam("status", QueryOperator.EQ, status));
@@ -211,10 +259,10 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         String firstTime = request.getParameter("firstTime");
         String lastTime = request.getParameter("lastTime");
         if (org.apache.commons.lang.StringUtils.isNotBlank(firstTime)) {
-            params.andParam(new QueryParam("eventTime", QueryOperator.GE, DateUtil.strToDate(firstTime,"yyyy-MM-dd")));
+            params.andParam(new QueryParam("eventTime", QueryOperator.GE, MyDateUtils.getFullDate(firstTime,true)));
         }
         if (org.apache.commons.lang.StringUtils.isNotBlank(lastTime)) {
-            params.andParam(new QueryParam("eventTime", QueryOperator.LE, DateUtil.strToDate(lastTime,"yyyy-MM-dd")));
+            params.andParam(new QueryParam("eventTime", QueryOperator.LE, MyDateUtils.getFullDate(lastTime,false)));
         }
         if("1".equals(mobileOperType)){//下拉
             if (null!=entity.getMobileTimestamp()){
@@ -472,6 +520,7 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public void save() {
         String monitorCaseId = request.getParameter("sourceId");
         MonitorCase mc = monitorCaseService.findByObjectId(monitorCaseId);
+        String enterpriseId = mc.getEnterpriseId();
 
         String[] ids = this.getParamValues("ids");
         String jsonIds = JSON.toJSONString(ids);
@@ -482,12 +531,23 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
         if (!"0".equals(source)){
             entity.setEnvProStaPersonList(arrayToString(ids,true));
             entity.setEnvProStaPersonNameList(arrayToString(names,false));
+        }else if ("0".equals(source)){
+            if("w".equals(mc.getPortType())){
+                WaterPort wp = waterPortService.findById(mc.getPortId());
+                wp.setPortStatus("0");
+                waterPortService.update(wp);
+            }else if("g".equals(mc.getPortType())){
+                GasPort gp = gasPortService.findById(mc.getPortId());
+                gp.setPortStatus("0");
+                gasPortService.update(gp);
+            }
         }
 
         entity.setMonitorCaseId(monitorCaseId);
-        entity.setEnterpriseId(mc.getEnterpriseId());
+        entity.setEnterpriseId(enterpriseId);
         entity.setEnterpriseName(mc.getEnterpriseName());
         entity.setSource(source);
+        entity.setDispatchPersonName(ApportalUtil.getPerson(request).getUserName());
         entity.setEventTime(mc.getEventTime());
         entity.setBlockLevelId(mc.getBlockLevelId());
         entity.setBlockLevelName(mc.getBlockLevelName());
@@ -525,6 +585,17 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 //        log.debug("发送系统消息成功");
 
         monitorCaseService.update(mc);
+
+        MonitorCase sql=new MonitorCase();
+        sql.setSource("0");
+        sql.setStatus("0");
+        sql.setEnterpriseId(enterpriseId);
+        List<MonitorCase> mcCount = monitorCaseService.findBySample(sql);
+        if (mcCount.size()==0){
+            Enterprise e = enterpriseService.findById(enterpriseId);
+            e.setPollutantStatus("0");
+            enterpriseService.update(e);
+        }
     }
 
     /**

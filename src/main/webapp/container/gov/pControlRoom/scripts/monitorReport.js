@@ -98,7 +98,7 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },{
+            },/*{
                 title: '联系方式',
                 field: 'monitorPhone',
                 editable: false,
@@ -122,7 +122,7 @@ function initTable() {
                 editable: false,
                 sortable: false,
                 align: 'center'
-            },
+            },*/
             {
                 field: 'operate',
                 title: '监督性监测报告',

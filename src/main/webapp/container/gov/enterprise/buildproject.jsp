@@ -139,7 +139,7 @@
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="ModalLabel">建设项目</h4>
             </div>
             <div class="media-body">
@@ -159,7 +159,7 @@
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
                                                     <input type="hidden" id="id" name="id" class="basedata">
                                                     <input type="hidden" id="replyTime" name="replyTime" class="basedata">
-                                                    <input type="hidden" class="basedata"  name="removeId" value="">
+                                                    <input type="hidden" class="basedata" id="removeId" name="removeId" value="">
                                                     <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
                                                            data-easytip="position:top;class:easy-red;"
@@ -334,7 +334,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveButton" id="buildSave">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -344,7 +344,7 @@
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="hpModalLabel">建设项目环评及其他许可情况</h4>
             </div>
             <div class="media-body">
@@ -363,7 +363,7 @@
                                                     <input type="hidden" class="basedata" id="type" name="type" value="">
                                                     <%--<input type="hidden" class="basedata" id="id" name="id" value="">--%>
                                                     <input type="hidden" id="hp_projectId" name="hp_projectId" class="basedata">
-                                                    <input type="hidden" class="basedata"  name="removeId" value="">
+                                                    <input type="hidden" class="basedata" id="hpremoveId" name="removeId" value="">
                                                     <input class="form-control basedata"  type="text" id="name" name="name"
                                                            data-message="项目名称不能为空"
                                                            data-easytip="position:top;class:easy-red;"
@@ -651,7 +651,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveButton" id="hpsave">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -661,7 +661,7 @@
     <div class="modal-dialog" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="ysModalLabel">新增建设项目竣工环境保护验收审批信息</h4>
             </div>
             <div class="media-body">
@@ -679,7 +679,7 @@
                                                 <div class="col-sm-9">
                                                     <input type="hidden" id="ys_projectId" name="ys_projectId" class="basedata">
                                                     <input type="hidden"  name="type" class="basedata">
-                                                    <input type="hidden"  name="removeId" class="basedata">
+                                                    <input type="hidden" id="ysremoveId"  name="removeId" class="basedata">
                                                     <input type="text"  name="name" class="form-control basedata  "/>
                                                 </div>
                                             </div>
@@ -953,7 +953,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary saveButton" id="ysSave">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -965,7 +965,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <button type="button" class="close modalClose"  aria-hidden="true">
                     &times;
                 </button>
                 <h5 class="modal-title" id="myModalLabel">
@@ -980,7 +980,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="industryTypeModalClose" type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="industryTypeModalClose" type="button" class="btn btn-default modalClose" >关闭</button>
                 <button id="industryTypeModalSure" type="button" class="btn btn-primary">确定</button>
             </div>
         </div><!-- /.modal-content -->

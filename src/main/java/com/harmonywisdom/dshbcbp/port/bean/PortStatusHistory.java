@@ -21,13 +21,26 @@ public class PortStatusHistory implements Serializable {
     private String id;
 
     /**
+     * 超标值
+     */
+    @Column(name = "live_Value")
+    private String liveValue;
+
+    /**
+     * 标准值
+     */
+    @Column(name = "standard_Value")
+    private String standardValue;
+
+
+    /**
      * 关联设备ID
      */
     @Column(name = "port_id")
     private String portId;
 
     /**
-     * 关联设备number
+     * 关联设备number portCode
      */
     @Column(name = "port_number")
     private String portNumber;
@@ -69,10 +82,12 @@ public class PortStatusHistory implements Serializable {
     private String blockId;
 
     /**
-     * 污染物编码
+     * 污染物名称
      */
     @Column(name = "pollutant_code")
     private String pollutantCode;
+    @Column(name = "pollutant_name")
+    private String pollutantName;
 
     /**
      * 状态
@@ -94,6 +109,13 @@ public class PortStatusHistory implements Serializable {
      */
     @Column(name = "max_value")
     private Double maxValue;
+
+    /**
+     * 监测时间
+     */
+    @Column(name = "time")
+    private Date time;
+
 
     /**
      * 状态开始时间
@@ -372,5 +394,37 @@ public class PortStatusHistory implements Serializable {
 
     public void setEquipmentPosition(String equipmentPosition) {
         this.equipmentPosition = equipmentPosition;
+    }
+
+    public String getPollutantName() {
+        return pollutantName;
+    }
+
+    public void setPollutantName(String pollutantName) {
+        this.pollutantName = pollutantName;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getLiveValue() {
+        return liveValue;
+    }
+
+    public void setLiveValue(String liveValue) {
+        this.liveValue = liveValue;
+    }
+
+    public String getStandardValue() {
+        return standardValue;
+    }
+
+    public void setStandardValue(String standardValue) {
+        this.standardValue = standardValue;
     }
 }

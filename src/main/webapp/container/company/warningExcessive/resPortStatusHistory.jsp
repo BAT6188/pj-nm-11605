@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.harmonywisdom.dshbcbp.enterprise.bean.Enterprise" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2016/11/9
@@ -6,14 +6,20 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Enterprise enterprise = (Enterprise) request.getSession().getAttribute("session");
+%>
 <!DOCTYPE html>
 <html>
 <head>
     <%--<%@include file="/common/common_include.jsp"%>--%>
     <title>预警及排污超标处理情况报送</title>
-    <script type="text/javascript">
-
-    </script>
+        <script type="text/javascript">
+            var enterpriseId = "<%=enterprise != null ? enterprise.getId():""%>";
+            var enterpriseName = "<%=enterprise != null ? enterprise.getName():""%>";
+            console.log(enterpriseName);
+            console.log(enterpriseId);
+        </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -58,7 +64,7 @@
                     <%--<button id="disposal" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#eventMsg">--%>
                         <%--<i class="btnIcon edit-icon"></i><span>处置</span>--%>
                     <%--</button>--%>
-                    <button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
+                    <%--<button id="update" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#scfForm">
                         <i class="btnIcon edit-icon"></i><span>处置</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger">
@@ -66,7 +72,7 @@
                     </button>
                     <button id="export" type="button" class="btn btn-sm btn-success" >
                         <span class="glyphicon glyphicon-export"></span>导出
-                    </button>
+                    </button>--%>
                 </p>
             </div>
             <div class="tableBox">

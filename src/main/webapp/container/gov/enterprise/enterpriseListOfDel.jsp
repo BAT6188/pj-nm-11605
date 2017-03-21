@@ -6,6 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>删除排污单位列表</title>
+        <script>
+            $(function(){
+                $('#searchform').submit(function(e){
+                    e.preventDefault();
+                });
+                $('#searchform').bind('keypress',function(event){
+                    if(event.keyCode == "13") $('#search').click();
+                });
+            })
+        </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -49,12 +59,12 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
+                                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button id="searchFix" type="button" class="btn btn-default queryBtn" ><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
                 <div class="dealBox">
                     <p class="btnListP">
                         <%--<button id="add" type="button" class="btn btn-sm btn-success">

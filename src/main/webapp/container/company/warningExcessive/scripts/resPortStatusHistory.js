@@ -39,7 +39,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_PortStatusHistory_list.action",
+        url: rootPath+"/action/S_port_PortStatusHistory_list.action?enterpriseId="+enterpriseId,
         height:pageUtils.getTableHeight(),
         method:'post',
         pagination:true,
@@ -56,114 +56,58 @@ function initTable() {
                 align: 'center',
                 radio:false,  //  true 单选， false多选
                 valign: 'middle'
-            }, {
-                title: 'ID',
-                field: 'id',
-                align: 'center',
-                valign: 'middle',
-                sortable: false,
-                visible:false
             },
             {
-                field: 'res_title',
-                title: '标题',
+                title: '排口编号',
+                field: 'portNumber',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '排口名称',
+                field: 'portName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '超标时间',
+                field: 'time',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '监测指标',
+                field: 'pollutantName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '超标值',
+                field: 'liveValue',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '标准值',
+                field: 'standardValue',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '状态',
+                field: 'portStatus',
                 editable: false,
                 sortable: false,
                 align: 'center',
-                isDown:true
-            },
-            {
-                field: 'publishingUnit',
-                title: '发布单位',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                isDown:true
-            },
-            {
-                field: 'release_time',
-                title: '发布时间',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter:function (value, row, index) {
-                    return pageUtils.sub10(value);
-                },
-                isDown:true
-            },
-
-            {
-                field: 'release_person',
-                title: '发布人',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                isDown:true
-            },
-            {
-                field: 'contact',
-                title: '联系方式',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                isDown:true
-            },
-            {
-                field: 'isNoTickling',
-                title: '是否反馈',
-                sortable: false,
-                align: 'center',
-                editable: false,
-                formatter : function(value, row, index){
-                    /**
-                     * 1:已反馈
-                     * 2：未反馈
-                     */
-                    if(value == 1){
-                        value = "已反馈"
-                    }else if(value == 2){
-                        value = "未反馈"
-                    }else if(value ==""){
-                        value = "未反馈"
-                    }
-                    return value;
-
-                },
-                isDown:true
-            },
-            {
-                field: 'attachmentId',
-                title: '附件ID',
-                sortable: false,
-                align: 'center',
-                editable: true,
-                visible:false
-            },
-            {
-                field: 'solution',
-                title: '解决方案',
-                sortable: false,
-                align: 'center',
-                editable: true,
-                visible:false,
-                isDown:true
-            },
-            {
-                field: 'enterpriseId',
-                title: '企业Id',
-                sortable: false,
-                align: 'center',
-                editable: true,
-                visible:false
-            },
-            {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                events: operateEvents,
-                formatter: operateFormatter
+                formatter: statusFormatter
             }
-        ]
+    ]
     });
     // sometimes footer render error.
     setTimeout(function () {
@@ -191,6 +135,14 @@ function initTable() {
         fileName:'预警及排污超标处理情况报送' //自定义文件名
     });
 
+}
+
+var statusType = {
+    '1':'超标',
+    '2':'异常'
+}
+function statusFormatter(value, row, index){
+    return statusType[value];
 }
 
 // 生成列表操作方法

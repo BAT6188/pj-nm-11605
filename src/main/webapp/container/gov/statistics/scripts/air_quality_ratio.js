@@ -78,25 +78,27 @@ $(function(){
 
     //查询按钮
     $("#search").bind('click',function(){
-        var startSdate = $("#start_createTime").val() + "-" + "01";
-        var lastSdate = $("#end_createTime").val() + "-" + "31";
+        var start_createTime = $("#start_createTime").val();
+        var end_createTime = $("#end_createTime").val();
+        if(start_createTime && start_createTime!=""){
+            startSdate = start_createTime+"-"+"01";
+        }
+        if(end_createTime && end_createTime!=""){
+            var edatastr = end_createTime.split("-");
+            var day = new Date(parseInt(edatastr[0]),parseInt(edatastr[1]),0);
+            var dayCount = day.getDate();
+            lastSdate = end_createTime+"-"+dayCount;
+        }
         var dateStr = startSdate;
         var arr = dateStr.split("-");
-        var lastDate = new Date(parseInt(arr[0])-1, parseInt(arr[1])-1);
-        var lastMonth = lastDate.getMonth()+1;
-        if (lastMonth < 10) {
-            lastMonth = "0" + lastMonth;
-        }
-        var startXdate = lastDate.getFullYear() + "-" + lastMonth +"-"+ "01";
+        startXdate = parseInt(arr[0])-1 + "-" + arr[1] +"-"+ "01";
 
         var dateLtr2 = lastSdate;
         var arr2 = dateLtr2.split("-");
-        var lastDate2 = new Date(parseInt(arr2[0])-1, parseInt(arr2[1])-1);
-        var lastMonth2 = lastDate2.getMonth()+1;
-        if (lastMonth2 < 10) {
-            lastMonth2 = "0" + lastMonth2;
-        }
-        var lastXdate = lastDate2.getFullYear() + "-" + lastMonth2+"-"+31;
+        var day = new Date(parseInt(arr2[0])-1,parseInt(arr2[1]),0);
+        var dayCount = day.getDate();
+        lastXdate = parseInt(arr2[0])-1 + "-" + arr2[1] +"-"+dayCount;
+
         var airType = $("#airType").val();
         search(valueChart,startXdate,lastXdate,startSdate,lastSdate,airType);
 
@@ -343,7 +345,6 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log(e.point.category);
                             $("#airRatioListForm").modal('show');
                             var strValue = e.point.category;
                             if(strValue == '优'){
@@ -369,8 +370,10 @@ $(function(){
                                 minValue = 300;
                                 maxValue = 1000
                             }
-
-                            initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue);
+                            $('#titleSpan').html(strValue);
+                            //initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue);
+                            initLastYearTable(startXdate,lastXdate,minValue,maxValue);
+                            initCurrentYearTable(startSdate,lastSdate,minValue,maxValue);
                         }
                     }
                 }
@@ -591,7 +594,6 @@ $(function(){
                     cursor: 'pointer',
                     events : {
                         click: function(e) {
-                            console.log(e.point.category);
                             $("#airRatioListForm").modal('show');
                             var strValue = e.point.category;
                             if(strValue == '优'){
@@ -617,7 +619,7 @@ $(function(){
                                 minValue = 300;
                                 maxValue = 1000
                             }
-
+                            $('#titleSpan').html(strValue);
                             initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue);
                         }
                     }
@@ -651,60 +653,152 @@ $(function(){
 
 
     /********************  查询空气质量同期对比列表 (线状图)(柱状图) ********************/
-    var airRatioTable = $('#airRatioTable');
+    var lastYearTable = $('#lastYearTable'),isLoadLastYearTable = false;
+    var currentYearTable = $('#currentYearTable'),isLoadCurrentYearTable=false;
     function initTable(startXdate,lastXdate,startSdate,lastSdate,minValue,maxValue) {
-        airRatioTable.bootstrapTable('destroy');
-        airRatioTable.bootstrapTable({
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            sidePagination:"server",
-            url: rootPath+"/action/S_port_AirQuality_airRatiolist.action?startXdate="+startXdate+"&lastXdate="+lastXdate+"&startSdate="+startSdate+"&lastSdate="+lastSdate+"&minValue="+minValue+"&maxValue="+maxValue,
-            method:'post',
-            pagination:true,
-            clickToSelect:true,//单击行时checkbox选中
-            queryParams:pageUtils.localParams,
-            columns: [
-                {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:false,  //  true 单选， false多选
-                    valign: 'middle'
-                }, {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible: false
+        initLastYearTable(startXdate,lastXdate,minValue,maxValue);
+        initCurrentYearTable(startSdate,lastSdate,minValue,maxValue);
+    }
+    function initLastYearTable(firstTime,lastTime,minValue,maxValue){
+        $('#lastYearTableTitle').html(firstTime+"至"+lastTime);
+        lastYearTable.firstTime = firstTime;
+        lastYearTable.lastTime = lastTime;
+        lastYearTable.minValue = minValue;
+        lastYearTable.maxValue = maxValue;
+        if(isLoadLastYearTable){
+            lastYearTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
+        }else{
+            isLoadLastYearTable = true;
+            lastYearTable.bootstrapTable({
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                sidePagination:"server",
+                url: rootPath+"/action/S_port_CityDayAqiPublish_list.action",
+                method:'post',
+                pagination:true,
+                clickToSelect:true,//单击行时checkbox选中
+                queryParams:function(params){
+                    var localParams = {};
+                    //分页参数
+                    localParams.take = params.limit;
+                    localParams.skip = params.offset;
+                    if(params.offset){
+                        localParams.page = params.offset / params.limit + 1;
+                    }else{
+                        localParams.page = 1;
+                    }
+                    localParams.pageSize = params.limit;
+                    localParams.firstTime = lastYearTable.firstTime;
+                    localParams.lastTime = lastYearTable.lastTime;
+                    localParams.minValue = lastYearTable.minValue;
+                    localParams.maxValue = lastYearTable.maxValue;
+                    return localParams;
                 },
-                {
-                    title: '更新时间',
-                    field: 'rec_Time',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '空气AQI值',
-                    field: 'airValue',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                }
+                columns: [
+                    {
+                        title: '更新时间',
+                        field: 'timePoint',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        formatter:function(value, row, index) {
+                            return pageUtils.sub10(value);
+                        }
+                    },
+                    {
+                        title: '空气AQI值',
+                        field: 'aQI',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        title: '首要污染物',
+                        field: 'primaryPollutant',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    }
 
-            ]
-        });
-        // sometimes footer render error.
-        setTimeout(function () {
-            airRatioTable.bootstrapTable('resetView');
-        }, 200);
-
-        $(window).resize(function () {
-            // 重新设置表的高度
-            airRatioTable.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
+                ]
             });
-        });
+            setTimeout(function () {
+                lastYearTable.bootstrapTable('resetView');
+            }, 200);
+
+            /*$(window).resize(function () {
+             // 重新设置表的高度
+             lastYearTable.bootstrapTable('resetView', {
+             height: pageUtils.getTableHeight()
+             });
+             });*/
+        }
+    }
+    function initCurrentYearTable(firstTime,lastTime,minValue,maxValue){
+        $('#currentYearTableTitle').html(startSdate+"至"+lastSdate);
+        currentYearTable.firstTime = firstTime;
+        currentYearTable.lastTime = lastTime;
+        currentYearTable.minValue = minValue;
+        currentYearTable.maxValue = maxValue;
+        if(isLoadCurrentYearTable){
+            currentYearTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
+        }else{
+            isLoadCurrentYearTable = true;
+            currentYearTable.bootstrapTable({
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                sidePagination:"server",
+                url: rootPath+"/action/S_port_CityDayAqiPublish_list.action",
+                method:'post',
+                pagination:true,
+                clickToSelect:true,//单击行时checkbox选中
+                queryParams:function(params){
+                    var localParams = {};
+                    //分页参数
+                    localParams.take = params.limit;
+                    localParams.skip = params.offset;
+                    if(params.offset){
+                        localParams.page = params.offset / params.limit + 1;
+                    }else{
+                        localParams.page = 1;
+                    }
+                    localParams.pageSize = params.limit;
+                    localParams.firstTime = currentYearTable.firstTime;
+                    localParams.lastTime = currentYearTable.lastTime;
+                    localParams.minValue = currentYearTable.minValue;
+                    localParams.maxValue = currentYearTable.maxValue;
+                    return localParams;
+                },
+                columns: [
+                    {
+                        title: '更新时间',
+                        field: 'timePoint',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        formatter:function(value, row, index) {
+                            return pageUtils.sub10(value);
+                        }
+                    },
+                    {
+                        title: '空气AQI值',
+                        field: 'aQI',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        title: '首要污染物',
+                        field: 'primaryPollutant',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    }
+
+                ]
+            });
+            setTimeout(function () {
+                currentYearTable.bootstrapTable('resetView');
+            }, 200);
+        }
     }
 
     /********************  查询空气质量同期对比列表(饼状图)  ********************/
@@ -714,7 +808,7 @@ $(function(){
         airRatioTable2.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
-            url: rootPath+"/action/S_port_AirQuality_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
+            url: rootPath+"/action/S_port_CityDayAqiPublish_list.action?firstTime="+firstTime+"&lastTime="+lastTime+"&minValue="+minValue+"&maxValue="+maxValue,
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
@@ -736,14 +830,24 @@ $(function(){
                 },
                 {
                     title: '更新时间',
-                    field: 'rec_Time',
+                    field: 'timePoint',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function(value, row, index) {
+                        return pageUtils.sub10(value);
+                    }
+                },
+                {
+                    title: '空气AQI值',
+                    field: 'aQI',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '空气AQI值',
-                    field: 'airValue',
+                    title: '首要污染物',
+                    field: 'primaryPollutant',
                     editable: false,
                     sortable: false,
                     align: 'center'

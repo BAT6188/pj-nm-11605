@@ -11,6 +11,12 @@ var gridTable = $('#table'),
 
 selections = [];
 
+$(".modalClose").click(function () {
+    buildForm.modal('hide');
+    hpform.modal('hide');
+    ysform.modal('hide');
+})
+
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({
@@ -490,6 +496,7 @@ var ef = buildForm.easyform({
     success: function (ef) {
         var entity = buildForm.find("form").formSerializeObject();
         entity.attachmentIds = getAttachmentIds();
+        entity.removeId = $("#removeId").val();
         entity.enterpriseId = enterpriseId;
         entity.isEIA = 0;
         entity.isAcceptance = 0;
@@ -541,6 +548,7 @@ var hp = hpform.easyform({
     success: function (ef) {
         var entity = hpform.find("form").formSerializeObject();
         entity.projectId = $("#hp_projectId").val();
+        entity.removeId = $("#hpremoveId").val();
         entity.attachmentIds = gethpAttachmentIds();
         entity.id = $("#idEIA").val();
         saveHp(entity, function (msg) {
@@ -554,6 +562,7 @@ var ys = ysform.easyform({
     success: function (ef) {
         var entity = ysform.find("form").formSerializeObject();
         entity.projectId = $("#ys_projectId").val();
+        entity.removeId = $("#ysremoveId").val();
         entity.attachmentIds = getysAttachmentIds();
         entity.id = $("#idAcceptance").val();
         saveYs(entity, function (msg) {
@@ -811,13 +820,13 @@ function getYSUploaderOptions(bussinessId) {
             },
             onDeleteComplete: function (id) {
                 var file = ysUploader.getUploads({id: id});
-                var removeIds = $("#removeId").val();
+                var removeIds = $("#ysremoveId").val();
                 if (removeIds) {
                     removeIds += ("," + file.uuid)
                 } else {
                     removeIds = file.uuid;
                 }
-                $("#removeId").val(removeIds);
+                $("#ysremoveId").val(removeIds);
             },
             onAllComplete: function (succeed) {
                 var self = this;
@@ -876,13 +885,13 @@ function getHPUploaderOptions(bussinessId) {
             },
             onDeleteComplete: function (id) {
                 var file = hpUploader.getUploads({id: id});
-                var removeIds = $("#removeId").val();
+                var removeIds = $("#hpremoveId").val();
                 if (removeIds) {
                     removeIds += ("," + file.uuid)
                 } else {
                     removeIds = file.uuid;
                 }
-                $("#removeId").val(removeIds);
+                $("#hpremoveId").val(removeIds);
             },
             onAllComplete: function (succeed) {
                 var self = this;

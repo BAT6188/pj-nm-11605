@@ -88,8 +88,10 @@ public class FeedbackAction extends BaseAction<Feedback, FeedbackService> {
         dispatchTaskService.update(dispatchTask);
 
         MonitorCase monitorCase = monitorCaseService.findById(dispatchTask.getMonitorCaseId());
-        monitorCase.setStatus(MonitorCase.status_2);
-        monitorCaseService.update(monitorCase);
+        if (null!=monitorCase){
+            monitorCase.setStatus(MonitorCase.status_2);
+            monitorCaseService.update(monitorCase);
+        }
 
         super.save();
 

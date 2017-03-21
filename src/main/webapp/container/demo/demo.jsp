@@ -4,6 +4,9 @@
 <head>
     <%@include file="/common/common_include.jsp"%>
     <title>Demo</title>
+    <script>
+        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">
@@ -17,28 +20,28 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="s_name">姓名：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="s_name">姓名：</label> <input type="text" id="s_name" style="width: 180px;" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="s_age">年龄：</label> <input type="text" id="s_age"  style="width: 180px;" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">创建时间：</label>
+                            <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <div class="form-group">
-                                <label for="s_age">年龄：</label> <input type="text" id="s_age"  style="width: 180px;" class="form-control" />
+                            -
+                            <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
+                                <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-                            <div class="form-group">
-                                <label for="">创建时间：</label>
-                                <div id="datetimepicker1" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="start_createTime"  type="text" value="" readonly>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                                -
-                                <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                    <input class="form-control" size="16" id="end_createTime"  type="text" value="" readonly>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                    </form>
                     <p></p>
                     <form class="form-inline">
                         <div class="form-group">
@@ -156,10 +159,22 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachment" class="col-sm-2 control-label">附件：</label>
+                        <label for="attachment" class="col-sm-2 control-label">附件0：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件1：</label>
+                        <div class="col-sm-10">
+                            <div id="a1"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">附件2：</label>
+                        <div class="col-sm-10">
+                            <div id="a2"></div>
                         </div>
                     </div>
                 </form>

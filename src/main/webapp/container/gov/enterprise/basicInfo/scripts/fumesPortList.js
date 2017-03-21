@@ -6,7 +6,9 @@ var gridTable = $('#table'),
     formTitle = "油烟排口",
     selections = [];
 
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 //保存ajax请求
 function saveAjax(entity, callback) {
@@ -195,10 +197,26 @@ removeBtn.click(function () {
                 values: ids
             });
             removeBtn.prop('disabled', true);
+            checkFumesPort();
         });
     });
 });
 
+function checkFumesPort(){
+    $.ajax({
+        url: rootPath + "/action/S_port_FumesPort_checkIsHaveFumesPortOfEnterprise.action",
+        type:"post",
+        data:$.param({enterpriseId:enterpriseId},true),//阻止深度序列化，向后台传递数组
+        dataType:"json",
+        success:function(data){
+            if(data){
+                console.log("企业有油烟排口");
+            }else{
+                console.log("企业无油烟排口");
+            }
+        }
+    });
+}
 
 
 /**============列表搜索相关处理============**/
@@ -220,7 +238,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.modal('hide');
             Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });

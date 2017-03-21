@@ -54,14 +54,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="s_status">反馈状态：</label>
+                            <label for="s_status">状态：</label>
                             <select id="s_status" name="status" class="form-control" style="width: 266px;">
                                 <option value="">全部</option>
                                 <option value="1">未调度</option>
-                                <option value="2">已发送</option>
+                                <option value="2">已调度</option>
                                 <option value="3">已反馈</option>
-                                <option value="4">已处罚</option>
-                                <option value="5">已办结</option>
                             </select>
                         </div>
                     </form>
@@ -183,7 +181,7 @@
                         </div>
                         <label for="monitoringTime" class="col-sm-2 control-label">监察时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd">
+                            <div id="datetimepicker1" class="input-group date form_datetime lookover" data-date="" data-date-format="yyyy-mm-dd hh:ii">
                                 <input class="form-control" id="monitoringTime" name="monitoringTime" size="16" type="text" value=""
                                        data-message="监察时间不能为空"
                                        data-easytip="position:top;class:easy-red;"
@@ -202,19 +200,30 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <label for="sendRemark" class="col-sm-2 control-label">初报：</label>
                         <div class="col-sm-10">
-                            <textarea  id="" name="sendRemark" class="form-control" rows="5"
-                                       data-message="不能为空"
-                                       data-easytip="position:top;class:easy-red;"
+                            <textarea  id="sendRemark" name="sendRemark" class="form-control" rows="5"
                             ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachmentIds" class="col-sm-2 control-label">附件：</label>
+                        <label for="xuBao" class="col-sm-2 control-label">续报：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="xuBao" name="xuBao" class="form-control" rows="5"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentIds" class="col-sm-2 control-label">初报附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery" class="uploaderToggle dUploader"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">续报附件：</label>
+                        <div class="col-sm-10">
+                            <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
                 </form>

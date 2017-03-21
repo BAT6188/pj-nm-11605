@@ -14,7 +14,7 @@ var OneImagePage = function () {
         VIDEO_FLAG: "Video",
         VIDEO_DEVICE_FLAG: "VideoDevice",
         AIR_EQUIPMENT_FLAG:"AirEquipment",
-        CLOCK_DELAY:30000
+        CLOCK_DELAY:15000
     };
     var page = {
         zTree:undefined,
@@ -422,10 +422,10 @@ var OneImagePage = function () {
                 that.zTree.checkNode(dnode[0],true,true,true);
             }
             // //企业
-            // var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
-            // if(enode[0]){
-            //     that.zTree.checkNode(enode[0],true,true,true);
-            // }
+            var enode = that.zTree.getNodesByParam("type",Constant.ENTERPRISE_FLAG);
+            if(enode[0]){
+                 that.zTree.checkNode(enode[0],true,true,true);
+            }
         },
         selectEnterpriseById:function (eid){
             var that = this;
@@ -498,6 +498,12 @@ var OneImagePage = function () {
                     if (enterpriseAlertStatus && enterpriseAlertStatus.length > 0) {
                         for (var i = 0; i < enterpriseAlertStatus.length; i++) {
                             var eas = enterpriseAlertStatus[i];
+                            //eas.status==1时报警
+                            if (eas.status==1){
+                                var s='<audio id="baojing" src="'+rootPath+'/container/gov/composite/baojing.wav" autoplay="autoplay" loop="loop"/>';
+                                $('body').append(s);
+                                setTimeout("$('#baojing').remove()",10000);
+                            }
                             var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG,eas.status);
                             that.updateMarker(eas.id, image);
                         }
@@ -583,13 +589,15 @@ var OneImagePage = function () {
                     };
                     this[Constant.ENTERPRISE_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/enterprise_n.png',
-                        '1': rootPath+'/common/gis/images/markers/enterprise_w.gif'
+                        '1': rootPath+'/common/gis/images/markers/enterprise_red_light.gif'
                     };
                     this[Constant.VIDEO_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/camera.png'
                     };
                     this[Constant.AIR_EQUIPMENT_FLAG] = {
-                        '0': rootPath+'/common/gis/images/markers/gas_n.png'
+                        '0': rootPath+'/common/gis/images/markers/gas_n.png',
+                        '1': rootPath+'/common/gis/images/markers/gas_w.gif',
+                        '2': rootPath+'/common/gis/images/markers/gas_e.png'
                     }
                 },
                 getIcon:function (type,status) {
@@ -778,14 +786,12 @@ var OneImagePage = function () {
         },
 
         showDustPortInfoWin:function(dustPort){
-
-
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed'>" +
                 "<tr><td style='text-align: right;width: 100px;'>噪声监测点:</td><td style='text-align: left;'>"+(dustPort.name==null?"":dustPort.name)+"</td></tr>"+
                 "<tr><td style='text-align: right;'>噪声源编号:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.number)+"</td></tr>"+
-                "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+dict.get("noiseType",dustPort.longitude)+"</td></tr>"+
-                "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+dict.get("noiseFnType",dustPort.latitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+dustPort.longitude+"</td></tr>"+
+                "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+dustPort.latitude+"</td></tr>"+
                 "<tr><td style='text-align: right;'>监测点位置:</td><td style='text-align: left;'>"+pageUtils.filterUndefine(dustPort.position)+"</td></tr>";
 
             infoHtml += "</table>";
@@ -873,6 +879,9 @@ var OneImagePage = function () {
         },
 
         addAirEquipmentMark:function (airEquipment) {
+            if(airEquipment.airIndex>100){
+                airEquipment.status = '1';
+            }
             var x = airEquipment.longitude;
             var y = airEquipment.latitude;
             if (!x || !y) {
@@ -880,6 +889,7 @@ var OneImagePage = function () {
             }
             var that = this;
             var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.AIR_EQUIPMENT_FLAG,airEquipment.status);
+            console.log(image);
             this.hwmap.addMarker({
                 id:airEquipment.id,
                 data:airEquipment,
@@ -899,15 +909,17 @@ var OneImagePage = function () {
         showAirEquipmentInfoWin:function(airEquipment){
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed'>" +
-                "<tr><td style='text-align: left;width: 150px;'>空气质量监测点:</td><td style='text-align: left;'>"+(airEquipment.airMonitoringName==null?"":airEquipment.airMonitoringName)+"</td></tr>"+
-                "<tr><td style='text-align: left;'>监测点编号:</td><td style='text-align: left;'>"+(airEquipment.monitoringNumber==null?"":airEquipment.monitoringNumber)+"</td></tr>"+
-                "<tr><td style='text-align: left;'>经度:</td><td style='text-align: left;'>"+(airEquipment.longitude==null?"":airEquipment.longitude)+"</td></tr>"+
-                "<tr><td style='text-align: left;'>纬度:</td><td style='text-align: left;'>"+(airEquipment.latitude==null?"":airEquipment.latitude)+"</td></tr>";
-            
+                "<tr><td style='text-align: right;width: 110px;'>空气质量监测点:</td><td style='text-align: left;'>"+(airEquipment.airMonitoringName==null?"":airEquipment.airMonitoringName)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>监测点编号:</td><td style='text-align: left;'>"+airEquipment.id+"</td></tr>"+
+                "<tr><td style='text-align: right;'>经度:</td><td style='text-align: left;'>"+(airEquipment.longitude==null?"":airEquipment.longitude)+"</td></tr>"+
+                "<tr><td style='text-align: right;'>纬度:</td><td style='text-align: left;'>"+(airEquipment.latitude==null?"":airEquipment.latitude)+"</td></tr>";
+                //+"<tr><td style='text-align: right;'>空气质量等级:</td><td style='text-align: left;'>"+airEquipment.airQualityGrade+"</td></tr>";
+
             infoHtml += "</table>";
             //添加按钮
             infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
             infoHtml+="<button data-air-id='"+airEquipment.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
+            infoHtml+="<button data-air-id='"+airEquipment.id+"' data-air-name='"+airEquipment.airMonitoringName+"' class='btn btn-primary show-dataList-btn' href='javascript:void(0);'>监测数据</button>";
             //超标按钮
             // var statusBtnText = "";
             // var statusBtnHtml = "<button data-air-id='" + airEquipment.id + "' class='btn btn-primary show-status-btn' href='javascript:void(0);'>"+statusBtnText+"</button>";
@@ -935,6 +947,16 @@ var OneImagePage = function () {
                     id:airId
                 });
                 AirFormViewDialog.modal("show");
+            });
+            $(infoWindowAir).find(".show-dataList-btn").bind("click",function () {
+                var airId = $(this).data("air-id");
+                var airName = $(this).data("air-name");
+                //打开噪音详情表单
+                AirHistoryDataFormViewDialog.modal({
+                    id:airId,
+                    name:airName
+                });
+                AirHistoryDataFormViewDialog.modal("show");
             });
             // $(infoWindowAir).find(".show-status-btn").bind("click",function () {
             //     var id = $(this).data("air-id");
@@ -1122,6 +1144,7 @@ var OneImagePage = function () {
                             var enterprise = result[i];
                             that.addEnterpriseMark(enterprise);
                         }
+                        that.refreshEnterprisePortStatusToMap();
                     }
                 }
             });
@@ -1151,6 +1174,9 @@ var OneImagePage = function () {
         },
         showEnterpriseInfoWin:function(enterprise){
             var that = this;
+            var WaterGasPortStatus = that.checkIsHavePort(enterprise.id);
+            var FumesPortStatus = 'none';
+            if(enterprise.haveFumesPort==1){FumesPortStatus = 'block';}
             var infoHtml = "<div>";
             infoHtml +="<table class='table table-condensed' style='margin-bottom: 10px;'>" +
                 "<tr><td >企业名称:</td><td  colspan='3'>"+(enterprise.name == null?"":enterprise.name)+"</td></tr>"+
@@ -1173,6 +1199,8 @@ var OneImagePage = function () {
                 "<button id='enterprisePlan' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>企业平面图</button>" +
                 "<button id='mineImage' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>工矿图</button>" +
                 "<button id='surroundingVideo' data-id='"+enterprise.id+"' class='btn btn-primary' href='javascript:void(0);'>周边视频</button>" +
+                "<button id='liveWaterGas' data-id='"+enterprise.id+"' style='display: "+WaterGasPortStatus+";' class='btn btn-primary' href='javascript:void(0);'>在线监控</button>" +
+                "<button id='liveFumes' data-id='"+enterprise.id+"' data-name='"+enterprise.name+"' style='display: "+FumesPortStatus+";' class='btn btn-primary' href='javascript:void(0);'>油烟监控</button>" +
                 "</div>";
             infoHtml+="</div>";
 
@@ -1198,7 +1226,26 @@ var OneImagePage = function () {
             $(infoDOM).find("#surroundingVideo").bind("click",function(){
                 $("#videoBtn").show();
             });
-
+            /*在线监控*/
+            $(infoDOM).find("#liveWaterGas").bind("click",function(){
+                var eId = $(this).data("id");
+                //打开噪音详情表单
+                WaterGasHistoryDataFormViewDialog.modal({
+                    id:eId
+                });
+                WaterGasHistoryDataFormViewDialog.modal("show");
+            });
+            /*油烟监控*/
+            $(infoDOM).find("#liveFumes").bind("click",function(){
+                var eId = $(this).data("id");
+                var eName = $(this).data("name");
+                //打开噪音详情表单
+                FumesHistoryDataFormViewDialog.modal({
+                    id:eId,
+                    name:eName
+                });
+                FumesHistoryDataFormViewDialog.modal("show");
+            });
             //查询按钮
             var videoLength = 5;
             $("#searBtn").bind('click',function(){
@@ -1214,7 +1261,6 @@ var OneImagePage = function () {
                     dataType:'json',
                     data:{videoLength:videoLength,longitude:longitude,latitude:latitude},
                     success:function (result) {
-                        console.log(result);
                         if(result && result.length > 0){
                             for(var i=0;i < result.length; i++){
                                 that.addVideoDevice(result[i])
@@ -1261,7 +1307,22 @@ var OneImagePage = function () {
                 }
             });
         },
-
+        checkIsHavePort:function(enterpriseId){
+            var flag = 'none';
+            $.ajax({
+                url: rootPath + "/action/S_enterprise_Enterprise_getEnterprisePortZtree.action",
+                type:"post",
+                async:false,
+                data:{code:enterpriseId},
+                dataType:"json",
+                success:function(data){
+                    if(data.length>1){
+                        flag = 'block';
+                    }
+                }
+            });
+            return flag;
+        },
         /**
          * 获取企业平面图标绘makers
          * @param eid

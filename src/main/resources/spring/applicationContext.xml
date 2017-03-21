@@ -59,7 +59,7 @@
         -->
     </bean>
 
-    <!--短信接口数据库配置-->
+    <!--空气质量数据库配置-->
     <bean id="airQualityDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" lazy-init="false" destroy-method="close">
         <property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
         <property name="jdbcUrl" value="jdbc:sqlserver://110.19.109.60:1433; DatabaseName=CityPublishV4" />
@@ -96,8 +96,49 @@
         -->
     </bean>
 
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <bean id="airQualityJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name = "dataSource" ref="airQualityDataSource"/>
+    </bean>
+
+    <!--废水废气排口数据库配置-->
+    <bean id="portDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" lazy-init="false" destroy-method="close">
+        <property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+        <property name="jdbcUrl" value="jdbc:sqlserver://172.17.253.23; DatabaseName=DataCenter_New_Simple" />
+        <property name="user" value="sa" />
+        <property name="password" value="huanbao" />
+
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}" />
+
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+        <property name="maxConnectionAge" value="${jdbc.maxConnectionAge}" />
+
+        <property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}" />
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}" />
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}" />
+        <!-- 驱动不支持isValid方法时使用下面的配置 -->
+        <!--<property name="preferredTestQuery" value="${jdbc.preferredTestQuery}" />-->
+
+        <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}" />
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}" />
+        <property name="breakAfterAcquireFailure" value="false" />
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}" />
+
+        <property name="maxStatements" value="${jdbc.maxStatements}" />
+        <property name="maxStatementsPerConnection" value="0" />
+        <property name="numHelperThreads" value="10" />
+
+        <!-- 检查连接泄露时使用 -->
+        <!--
+        <property name="debugUnreturnedConnectionStackTraces" value="true" />
+        <property name="unreturnedConnectionTimeout" value="30" />
+        -->
+    </bean>
+
+    <bean id="portJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name = "dataSource" ref="portDataSource"/>
     </bean>
 
     <!--短信接口数据库配置-->

@@ -1,6 +1,9 @@
 package com.harmonywisdom.dshbcbp.alert.bean;
 
+import com.harmonywisdom.apportal.sdk.right.domain.Right;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Desc：基本用户信息
@@ -45,6 +48,8 @@ public class User implements Serializable {
      * 用户电话
      */
     private String mobile;
+
+    private List<Right> menuData;
 
     public String getUserId() {
         return userId;
@@ -118,4 +123,11 @@ public class User implements Serializable {
         this.mobile = mobile;
     }
 
+    public List<Right> getMenuData() {
+        return menuData;
+    }
+
+    public void setMenuData(List<Right> menuData) {
+        this.menuData = menuData;
+    }
 }

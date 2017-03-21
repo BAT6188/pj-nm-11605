@@ -5,7 +5,7 @@ HwmapCommon = {
     options: {
         mapContainerId: "mapContainer",
         showNavigateBar: true,
-        showOverview: true,
+        showOverview: false,
         showScale: true,
         center: {x:110,y:39.8},
         zoomLevel: 4,

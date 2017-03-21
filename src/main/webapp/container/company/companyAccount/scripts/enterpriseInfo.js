@@ -433,7 +433,7 @@ function setLookBtn(){
     })
 }
 function reloadThisPage(){
-    var thisUrl = rootPath +'/container/gov/enterprise/basicInfo/enterpriseInfo.jsp?handleType=look';
+    var thisUrl = rootPath +'/container/company/companyAccount/enterpriseInfo.jsp?handleType=look';
     //$(".main-right").load(url);
     $('.main-right').html(pageUtils.loading()); // 设置页面加载时的loading图片
     $('.main-right').load(thisUrl); // ajax加载页面

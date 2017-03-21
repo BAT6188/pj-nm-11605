@@ -20,31 +20,32 @@
                         </span>
                 </div>
                 <div class="queryBox marginLeft0">
-                    <form class="form-inline">
+                    <form role="form" id="searchform">
+                    <div class="form-inline">
                         <div class="form-group">
-                            <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="s_enterpriseName" class="form-control" />
+                            <label for="s_enterpriseName">企业名称：</label> <input type="text" id="s_enterpriseName" name="enterpriseName" class="form-control" />
                         </div>
 
                         <div class="form-group">
                             <label for="">事件时间：</label>
                             <div id="" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="">
-                                <input class="form-control" size="16" id="start_eventTime"  type="text" value="" readonly>
+                                <input class="form-control" size="16" id="start_eventTime" name="startEventTime" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                             -
                             <div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                <input class="form-control" size="16" id="end_eventTime"  type="text" value="" readonly>
+                                <input class="form-control" size="16" id="end_eventTime" name="endEventTime"  type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </div>
-                    </form>
+                    </div>
                     <p></p>
-                    <form class="form-inline">
+                    <div class="form-inline">
                         <div class="form-group">
                             <label for="s_source">信息来源：</label>
-                            <select id="s_source" name="s_source" class="form-control" style="width: 299px;">
+                            <select id="s_source" name="source" class="form-control" style="width: 299px;">
                                 <option value="">全部</option>
                                 <option value="1">12369</option>
                                 <option value="2">区长热线</option>
@@ -56,18 +57,19 @@
 
                         <div class="form-group">
                             <label for="">所属网格：</label>
-                            <select class="form-control s_blockLevelId" style="width: 266px;display: none">
+                            <select class="form-control s_blockLevelId" name="blockLevelId" style="width: 266px;display: none">
                             </select>
                             <%-----%>
-                            <select class="form-control s_blockId" style="width: 266px;">
+                            <select class="form-control s_blockId" name="blockId" style="width: 266px;">
                             </select>
+                            <div style = "float: right;">
+                                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
+                                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
+                            </div>
                         </div>
-
+                    </div>
                     </form>
-
                 </div>
-                <button type="button" id="search" class="btn btn-md btn-success queryBtn"><i class="btnIcon query-icon"></i><span>查询</span></button>
-                <button type="button" class="btn btn-default" onclick="resetQuery()"><i class="glyphicon glyphicon-repeat"></i><span>重置</span></button>
             </div>
             <div class="tableBox">
                 <table id="table" class="table table-striped table-responsive">
@@ -371,19 +373,30 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">备注<span class="text-danger">*</span>：</label>
+                        <label for="sendRemark" class="col-sm-2 control-label">初报：</label>
                         <div class="col-sm-10">
-                            <textarea  id="" name="sendRemark" class="form-control" rows="5"
-                                       data-message="不能为空"
-                                       data-easytip="position:top;class:easy-red;"
+                            <textarea  id="sendRemark" name="sendRemark" class="form-control" rows="5"
                             ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="attachmentIds" class="col-sm-2 control-label">附件：</label>
+                        <label for="xuBao" class="col-sm-2 control-label">续报：</label>
+                        <div class="col-sm-10">
+                            <textarea  id="xuBao" name="xuBao" class="form-control" rows="5"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentIds" class="col-sm-2 control-label">初报附件：</label>
                         <div class="col-sm-10">
                             <jsp:include page="/common/scripts/fine-uploader-5.11.8/templates/upload-template.jsp" flush="false" ></jsp:include>
                             <div id="fine-uploader-gallery" class="uploaderToggle dUploader"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment" class="col-sm-2 control-label">续报附件：</label>
+                        <div class="col-sm-10">
+                            <div id="fine-uploader-gallery2"></div>
                         </div>
                     </div>
                 </form>

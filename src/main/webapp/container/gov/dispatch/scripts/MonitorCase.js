@@ -14,7 +14,7 @@ var gridTable = $('#table'),
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
         url: rootPath+"/action/S_dispatch_MonitorCase_list.action?source=0",
-        // height: getTableHeight,
+        height: pageUtils.getTableHeight()-40,
         method:'post',
         pagination:true,
         clickToSelect:true,//单击行时checkbox选中
@@ -241,7 +241,7 @@ var gridTable = $('#table'),
     $(window).resize(function () {
         // 重新设置表的高度
         gridTable.bootstrapTable('resetView', {
-            height: getHeight()
+            height: pageUtils.getTableHeight()-40
         });
     });
 }
@@ -280,7 +280,6 @@ function detailFormatter(index, row) {
 function operateFormatter(value, row, index) {
     return [
         '<button  type="button" class="btn btn-primary like" data-toggle="modal" data-target="#systemSendForm" >系统调度</button>'+
-        '&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'+
         '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-status="false" data-toggle="modal" data-target="#systemSendForm">查看</button>'
     ].join('');
 }
@@ -332,11 +331,9 @@ window.operateEvents = {
 function queryFeedbackFormatter(value, row, index) {
     if (row.status=='2'){
         return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#feedbackListDialog">已反馈</button>'+
-            '&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'+
                 '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }else {
         return '未反馈'
-            +'&nbsp<button  type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#realTimeTrackingForm" >实时跟踪</button>'
             + '&nbsp<button type="button" class="btn btn-md btn-warning looks" data-toggle="modal" data-target="#systemSendForm">查看</button>';
     }
 }
@@ -369,13 +366,13 @@ function refreshDemoForm(demo) {
     $("#supervisorPhone").val(demo.supervisorPhone);
     $("#overValue").val(demo.overValue);
     $("#thrValue").val(demo.thrValue);
-    $("#content").val(demo.content);
     $("#senderName").val(userName);
     $("#sendTime").val((new Date()).format("yyyy-MM-dd hh:mm"));
     $("#sendRemark").val(demo.sendRemark);
     $("#portName").val(demo.portName);
     $("#overObj").val(demo.overObj);
-
+    var content=demo.enterpriseName+demo.portName+'排口'+demo.overObj+'监测指标于'+demo.eventTime+'时间超标，超标值为'+demo.overValue+'，标准值为'+demo.thrValue+'，请抓紧时间处置。';
+    $("#content").val(content);
 }
 
 
@@ -723,5 +720,99 @@ function initrealTimeTrackingTable() {
 }
 
 initrealTimeTrackingTable();
+
+//表单附件相关js
+var uploader;//附件上传组件对象
+/**
+ * 获取上传组件options
+ * @param bussinessId
+ * @returns options
+ */
+function getUploaderOptions(bussinessId) {
+    return {
+        element: document.getElementById("fine-uploader-gallery"),
+        template: 'qq-template',
+        chunking: {
+            enabled: false,
+            concurrent: {
+                enabled: true
+            }
+        },
+        resume: {
+            enabled: false
+        },
+        retry: {
+            enableAuto: false,
+            showButton: false
+        },
+        failedUploadTextDisplay: {
+            mode: 'custom'
+        },
+        callbacks: {
+            onComplete:function (id,fileName,msg,request) {
+                uploader.setUuid(id, msg.id);
+            },
+            onDeleteComplete:function (id) {
+                var file = uploader.getUploads({id:id});
+                var removeIds = $("#removeId").val();
+                if (removeIds) {
+                    removeIds+= ("," + file.uuid)
+                }else{
+                    removeIds = file.uuid;
+                }
+                $("#removeId").val(removeIds);
+            },
+            onAllComplete: function (succeed) {
+                var self = this;
+                $.each(succeed, function (k, v) {
+                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                });
+            }
+        },
+        request: {
+            endpoint: rootPath + '/Upload',
+            params: {
+                businessId:bussinessId
+            }
+        },
+        session:{
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+            params: {
+                businessId:bussinessId
+            }
+        },
+        deleteFile: {
+            enabled: true,
+            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+            method:"POST"
+        },
+        validation: {
+            itemLimit: 5
+        },
+        debug: true
+    };
+}
+
+function getAttachmentIds(_uploader) {
+    var ids = [];
+    if( _uploader ==undefined){
+        _uploader=[uploader];
+    }
+    $.each(_uploader,function (i,v) {
+        if(v!=undefined){
+            var attachments = v.getUploads();
+            if (attachments && attachments.length) {
+                for (var i = 0 ; i < attachments.length; i++){
+                    ids.push(attachments[i].uuid);
+                }
+            }
+        }
+    })
+    if (ids.length>0){
+        return ids=ids.join(",");
+    }else {
+        return ''
+    }
+}
 
 

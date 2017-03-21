@@ -124,12 +124,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title form-title">空气质量同期对比统计表</h4>
+                <h4 class="modal-title form-title">空气质量为“<span id="titleSpan"></span>”同期对比统计表</h4>
             </div>
             <div class="modal-body">
-                <div class="tableBox">
-                    <table id="airRatioTable" class="table table-striped table-responsive">
-                    </table>
+                <div class="row clearfix">
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="lastYearTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">2016</a>
+                            <table id="lastYearTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 column">
+                        <div class="tableBox">
+                            <a id="currentYearTableTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;z-index: 0">2017</a>
+                            <table id="currentYearTable" class="table table-striped table-responsive">
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

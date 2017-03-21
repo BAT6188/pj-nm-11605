@@ -4,6 +4,9 @@ var gridTable = $('#table'),
     formTitle = "行政处罚信息",
     selections = [];
 
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 
 
 //保存ajax请求

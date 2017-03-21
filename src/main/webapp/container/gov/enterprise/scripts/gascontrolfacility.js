@@ -5,6 +5,10 @@ var gridTable = $('#table'),
     formTitle = "大气污染治理设施",
     selections = [];
 
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
+
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({

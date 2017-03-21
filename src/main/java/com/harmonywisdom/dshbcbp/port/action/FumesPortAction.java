@@ -127,4 +127,16 @@ public class FumesPortAction extends BaseAction<FumesPort, FumesPortService> {
         List<FumesPort> list = fumesPortService.findAll();
         write(list);
     }
+
+    public void checkIsHaveFumesPortOfEnterprise(){
+        List<FumesPort> fumesPorts = fumesPortService.findBySample(entity);
+        if(fumesPorts.size()>0){
+            write(true);
+        }else{
+            Enterprise e = enterpriseService.findById(entity.getEnterpriseId());
+            e.setHaveFumesPort("0");
+            enterpriseService.update(e);
+            write(false);
+        }
+    }
 }

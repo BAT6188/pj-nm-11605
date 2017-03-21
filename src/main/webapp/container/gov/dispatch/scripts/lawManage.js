@@ -31,10 +31,11 @@ $("#addSiteMonitoring").click(function () {
 
     $("#dispatchId_addSiteMonitoringDialog").val(row.id)
     $("#checkPeople").val(userName)
-    $("#monitoringTime").val((new Date()).format("yyyy-MM-dd"))
+    $("#monitoringTime").val((new Date()).format("yyyy-MM-dd hh:mm"))
 
     uploaderToggle(".dUploader")
     uploader = new qq.FineUploader(getUploaderOptions());
+    uploader2 = new qq.FineUploader(getUploaderOptions2());
     bindDownloadSelector();
 
     $("#addSiteMonitoringDialog").find("#save").show();
@@ -269,7 +270,7 @@ function feedbackStatusoperateFormatter(value, row, index) {
     if (row.status>='3'){
         return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#lookOverFeedbackForm">已反馈</button>';
     }else {
-        return '未反馈'
+        return '未反馈';
     }
 }
 
@@ -281,7 +282,7 @@ window.lookOverEvents = {
     'click .lookOver': function (e, value, entity, index) {
         if (entity) {
             var id = entity.id;
-            if(entity.source==0){
+            if(entity.source==0){//监控中心案件
                 eventMsg_monitorCase_dialog.modal('show')
                 resetDialog(eventMsg_monitorCase_dialog);
                 disabledForm(eventMsg_monitorCase_dialog,true)
@@ -296,7 +297,7 @@ window.lookOverEvents = {
                 $("#isSendSmsSpan").hide();
                 $("#cancel").text("关闭")
 
-            }else {
+            }else {//信访案件
                 eventMsg_monitorOffice_dialog.modal('show')
                 resetDialog(eventMsg_monitorOffice_dialog);
                 disabledForm(eventMsg_monitorOffice_dialog,true)
@@ -320,6 +321,7 @@ window.lookOverEvents = {
 
                 var url=rootPath + "/action/S_dispatch_DispatchTask_updateMonitorMasterSelfReadStatus.action";
                 pageUtils.updateSelfReadStatus(url,id,1)
+                gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
             }
 
         }
@@ -345,7 +347,6 @@ window.punishEvents = {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        console.log(JSON.stringify(row));
 
         $("#lookOverFeedbackForm_eventTime").val(row.eventTime);
         $("#lookOverFeedbackForm_answer").val(row.answer);
@@ -592,11 +593,12 @@ function setEventMsgFormData(entity) {
         $(v).val(entity[tagId]);
     });
 
-    if(entity.dispatchPersonName){
+    /*if(entity.dispatchPersonName){
         $("#dispatchPersonName").val(entity.dispatchPersonName);
     }else {
         $("#dispatchPersonName").val(userName);
-    }
+    }*/
+    $("#dispatchPersonName").val(userName);
 
     if(entity.dispatchTime){
         $("#dispatchTime").val(entity.dispatchTime);
@@ -674,6 +676,7 @@ $("#feedbackTo").bind('click',function () {
 
 //表单附件相关js
 var uploader;//附件上传组件对象
+var uploader2;
 /**
  * 获取上传组件options
  * @param bussinessId
@@ -737,25 +740,105 @@ function getUploaderOptions(bussinessId) {
             endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
             method:"POST"
         },
+        validation: {
+            itemLimit: 5
+        },
         debug: true
     };
 }
 
-/**
- * 获取附件列表ids
- * @returns {*}
- */
-function getAttachmentIds() {
-    var attachments = uploader.getUploads();
-    if (attachments && attachments.length) {
-        var ids = [];
-        for (var i = 0 ; i < attachments.length; i++){
-            ids.push(attachments[i].uuid);
-        }
-        return ids.join(",");
-    }
-    return "";
+function getUploaderOptions2(bussinessId) {
+    return {
+        element: document.getElementById("fine-uploader-gallery2"),
+        template: 'qq-template',
+        chunking: {
+            enabled: false,
+            concurrent: {
+                enabled: true
+            }
+        },
+        resume: {
+            enabled: false
+        },
+        retry: {
+            enableAuto: false,
+            showButton: false
+        },
+        failedUploadTextDisplay: {
+            mode: 'custom'
+        },
+        callbacks: {
+            onComplete:function (id,fileName,msg,request) {
+                uploader2.setUuid(id, msg.id);
+            },
+            onDeleteComplete:function (id) {
+                var file = uploader2.getUploads({id:id});
+                var removeIds = $("#removeId").val();
+                if (removeIds) {
+                    removeIds+= ("," + file.uuid)
+                }else{
+                    removeIds = file.uuid;
+                }
+                $("#removeId").val(removeIds);
+            },
+            onAllComplete: function (succeed) {
+                var self = this;
+                $.each(succeed, function (k, v) {
+                    $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                });
+            }
+        },
+        request: {
+            endpoint: rootPath + '/Upload?type=2',
+            params: {
+                businessId:bussinessId
+            }
+        },
+        session:{
+            endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+            params: {
+                businessId:bussinessId,
+                attachmentType:2
+            }
+        },
+        deleteFile: {
+            enabled: true,
+            endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+            method:"POST"
+        },
+        validation: {
+            itemLimit: 5
+        },
+        debug: true
+    };
 }
+
+function getAttachmentIds(_uploader) {
+    var ids = [];
+    if( _uploader ==undefined){
+        _uploader=[uploader];
+    }
+    $.each(_uploader,function (i,v) {
+        if(v!=undefined){
+            var attachments = v.getUploads();
+            if (attachments && attachments.length) {
+                for (var i = 0 ; i < attachments.length; i++){
+                    ids.push(attachments[i].uuid);
+                }
+            }
+        }
+    })
+    if (ids.length>0){
+        return ids=ids.join(",");
+    }else {
+        return ''
+    }
+}
+
+$("#fine-uploader-gallery2").on('click', '.qq-upload-download-selector', function () {
+    var uuid = uploader2.getUuid($(this.closest('li')).attr('qq-file-id'));
+    window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+});
 
 //初始化日期组件
 $('.form_datetime').datetimepicker({
@@ -901,81 +984,6 @@ $("#overSure").click(function () {
     })
 })
 
-/************  新增（现场监察）表单 ******************/
-/*var newXianChangJianChaForm=$("#newXianChangJianChaForm");
-$("#insert").click(function () {
-    disabledForm(newXianChangJianChaForm,false)
-
-    $("#eventTime_newXianChangJianChaForm").val((new Date()).format("yyyy-MM-dd hh:mm"))
-    newXianChangJianChaForm.find("input[type!='radio'][type!='checkbox']").val("");
-    $("textarea").val("");
-})
-
-function saveXianChangJianChaAjax(entity, callback) {
-    $.ajax({
-        url: rootPath + "/action/S_dispatch_DispatchTask_saveXianChangJianChaAjax.action",
-        type:"post",
-        data:entity,
-        success:callback
-    });
-}*/
-
-//------------ 现场监察发送，保存发送人员和 ------------------//
-/*var options_newXianChangJianChaForm = {
-    params:{
-        orgCode:[orgCodeConfig.org.jianChaDaDui.orgCode],//组织机构代码(必填，组织机构代码)
-        type:2  //1默认加载所有，2只加载当前机构下人员，3只加载当前机构下的组织机构及人员
-    },
-    choseMore:false,
-    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
-    width:"60%",        //宽度(可省略，默认值：850)
-}
-
-var model_newXianChangJianChaForm = $.fn.MsgSend.init(1,options_newXianChangJianChaForm,function(e,data){
-    console.info("回调函数data参数："+JSON.stringify(data))
-
-    var d=pageUtils.sendParamDataToString(data)
-    console.log("发送："+d)
-    $.ajax({
-        url: rootPath + "/action/S_dispatch_DispatchTask_saveToMonitorMasterPersonNameList.action",
-        type:"post",
-        data:d,
-        success:function (msg) {
-            newXianChangJianChaForm.modal('hide');
-            gridTable.bootstrapTable('refresh');
-        }
-    });
-});
-
-//初始化表单验证
-var ef_newXianChangJianChaForm = newXianChangJianChaForm.easyform({
-    success:function (ef_newXianChangJianChaForm) {
-        var entity = newXianChangJianChaForm.find("form").formSerializeObject();
-        console.log("保存 现场监察："+JSON.stringify(entity))
-
-        saveXianChangJianChaAjax(entity,function (msg) {
-            msg=JSON.parse(msg)
-            console.log(msg)
-            entity.id=msg.id;
-            entity.smsContent=entity.content
-            // entity.isSendSms=$("#isSendSms").is(':checked');
-            model_newXianChangJianChaForm.open(entity);
-            gridTable.bootstrapTable('refresh');
-        });
-    },
-    error:function () {
-        console.log("error")
-    }
-});
-
-//表单 保存按钮
-$("#saveXianChangJianChaBtn").bind('click',function () {
-    //验证表单，验证成功后触发ef.success方法保存数据
-    ef_newXianChangJianChaForm.submit(false);
-});*/
-
-
-
 
 $(document).ready(function () {
     loadBlockLevelAndBlockOption(".s_blockLevelId",".s_blockId")
@@ -1045,7 +1053,7 @@ function saveAjax_addSiteMonitoringDialog(entity, callback) {
 var ef_addSiteMonitoringDialog = addSiteMonitoringDialog.easyform({
     success:function (ef_addSiteMonitoringDialog) {
         var entity = $("#addSiteMonitoringDialog").find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
+        entity.attachmentIds =  getAttachmentIds([uploader,uploader2]);
         entity.userId=userId;
         console.log(entity);
         saveAjax_addSiteMonitoringDialog(entity,function (msg) {
@@ -1082,6 +1090,13 @@ window.initTable_siteMonitoringReportDialog_operateEvents = {
             $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
         };
         uploader = new qq.FineUploader(fuOptions);
+
+        var fuOptions2 = getUploaderOptions2(entity.id);
+        fuOptions2.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#fine-uploader-gallery").find("[qq-drop-area-text]").attr('qq-drop-area-text',"暂无上传的附件");
+        };
+        uploader2 = new qq.FineUploader(fuOptions2);
         bindDownloadSelector();
         $(".qq-upload-button").hide();
         $("#addSiteMonitoringDialog").find("#save").hide();

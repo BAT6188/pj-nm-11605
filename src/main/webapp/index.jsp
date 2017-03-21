@@ -21,6 +21,7 @@
         </div>
         <div class="opDiv right">
             <ul>
+                <li><a type="button" href="javascript:void(0);" id="apkDownBtn" title="扫一扫二维码下载"  data-toggle="modal" data-target="#apkModal"><img width="30" height="30" src="<%=request.getContextPath()%>/container/apk/images/appDownload.png" alt="扫一扫二维码下载"/><span class="text">扫码下载</span></a></li>
                 <li><a href="javascript:void(0);" id="mainSmsSendBtn"><img src="<%=request.getContextPath()%>/common/images/mail-icon.png" alt=""/><span class="text">发送短信</span></a></li>
                 <li class="divider"><i class="short-divider"></i></li>
                 <li class="user" id="userinfo"><a href="javascript:void(0);" id="updatePasswordBtn"><img src="<%=request.getContextPath()%>/common/images/user.png" alt=""/><span class="text"><%=userName%></span></a></li>
@@ -48,11 +49,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="apkModal" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 315px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">扫一扫下载客户端</h4>
+            </div>
+            <div class="modal-body" style="display: table-cell; vertical-align:middle; text-align:center; display: block;border: 1px solid #eee; ">
+                <img style="vertical-align:middle;" src="<%=request.getContextPath()%>/container/apk/images/appDownload.png" alt="扫一扫二维码下载"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <p class="copyrightP"><span>版权所有：鄂尔多斯市东胜区环境保护局</span><span>技术支持：航天正通汇智科技股份有限公司</span></p>
 <%@include file="/common/msgSend/msgSend.jsp"%>
 <%--<%@include file="/common/paizhao/paizhao.jsp"%>--%>
 <%@include file="/container/gov/alert/message_dialog.jsp"%>
 <%@include file="/common/updatePassword/updatePassword.jsp"%>
+<%@include file="/common/portAlert/portAlert.jsp"%>
 <!--样式js-->
 <script>
     function loadHeight(){

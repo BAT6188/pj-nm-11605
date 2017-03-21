@@ -76,7 +76,7 @@
     <div class="modal-dialog" style="width: 916px">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">添加</h4>
             </div>
             <div class="modal-body">
@@ -172,7 +172,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="save">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div>
     </div>
@@ -183,7 +183,7 @@
     <div class="modal-dialog" style="width: 916px">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close modalClose"  aria-hidden="true">&times;</button>
                 <h4 class="modal-title form-title">反馈</h4>
             </div>
             <div class="modal-body">
@@ -192,7 +192,14 @@
                     <div class="form-group">
                         <label for="findDate" class="col-sm-2 control-label">反馈时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="feedbackTime_feedbackForm"  name="feedbackTime_feedbackForm" type="text" disabled/>
+                            <div id="datetimepicker" class="input-group date form_datetime col-md-12 lookover" data-date="" data-date-format="yyyy-mm-dd  hh:ii" data-link-field="dtp_input" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" id="feedbackTime_feedbackForm" name="feedbackTime_feedbackForm" size="16" type="text" value=""
+                                       data-message="不能为空"
+                                       data-easytip="position:top;class:easy-red;"
+                                />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
 
                     </div>
@@ -207,7 +214,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="saveFeedback">保存</button>
-                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default btn-cancel modalClose" >取消</button>
             </div>
         </div>
     </div>

@@ -4,6 +4,8 @@
 //@ sourceURL=sewage_declaration.js
 $(function(){
     var highchart = $("#container");
+    var highchart1 = $("#container1");
+    var highchart2 = $("#container2");
 
     var year = new Date().getFullYear();
     var startYdate = year +　'-'+'01' + '-'+'01';
@@ -30,17 +32,32 @@ $(function(){
     //查询按钮
     $("#search").bind('click',function(){
         name = $("#s_name").val();
-        var startYdate = $("#start_createTime").val();
-        var lastYdate = $("#end_createTime").val();
+        var startTime = $("#start_createTime").val();
+        var endTime = $("#end_createTime").val();
+        if(startTime!=""){
+            startYdate = startTime;
+        }
+        if(endTime!=""){
+            lastYdate = endTime;
+        }
         search(valueChart,name,startYdate,lastYdate);
     });
 
     function search(valueChart,name,startYdate,lastYdate){
         if(valueChart == '2'){
+            highchart.hide();
+            highchart1.show();
+            highchart2.show();
             sewagePieChart(name,startYdate,lastYdate);
         }else if(valueChart == '3'){
+            highchart1.hide();
+            highchart2.hide();
+            highchart.show();
             sewageLineCahrt(name,startYdate,lastYdate);
         }else{
+            highchart1.hide();
+            highchart2.hide();
+            highchart.show();
             sewageColumnCahrt(name,startYdate,lastYdate);
         }
 
@@ -86,173 +103,47 @@ $(function(){
                 var categories = data.x;
                 var series = [];
                 var list = data.y1;
-                var ylist = [];
                 var list2 = data.y2;
-                var ylist2 = [];
-                if(list && list.length>0){
-                    for (var i=0; i<list.length; i++) {
-                        ylist.push(parseInt(list[i]));
-                    }
-                }
-                if(list2 && list.length>0){
-                    for (var i=0; i<list2.length; i++) {
-                        ylist2.push(parseInt(list2[i]));
-                    }
-                }
-                var preMonth = [];//定义查询月份的数组
-                var preValue1 = [];//定义对应月份为0的一组数据
-                var preValue2 = [];//定义对应月份为0的一组数据
-                
-                var startMonth= startYdate.substring(0,7);
-                var strStartMonth = startMonth.replace('-','');
 
-                var endMonth= lastYdate.substring(0,7);
-                var strEndMonth= endMonth.replace('-','');
-
-                var startYear = startYdate.substring(0,4);
-                var endYear = lastYdate.substring(0,4);
-                if(startYear == endYear){
-                    for(var i = strStartMonth; i <= strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                }else{
-                    var startTime = startYear + '12';
-                    var firstTime = endYear +'01';
-                    for(var i=strStartMonth;i<=startTime;i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                    for(var i=firstTime; i<=strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                }
-                
-                var month = categories;//后台取出的2组数据
-                var value = ylist;
-                var arr_value = ylist2;
-                if(month && month.length>0){
-                    for(var i = 0; i < month.length;i++){
-                        var m = month[i];
-                        for (var j = 0; j < preMonth.length; j++){
-                            if (m == preMonth[j]) {
-                                preValue1[j] = value[i];
-                            }
-                        }
-                        for (var k = 0; k < preMonth.length; k++){
-                            if (m == preMonth[k]) {
-                                preValue2[k] = arr_value[i];
-                            }
-                        }
-
-                    }
-                }
-                
-
-                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:preValue1};
-                var series2 = {name: "未缴费",color:'#FF8800', data:preValue2};
+                var seriesData1 = getMySeriesData(categories,list);
+                var seriesData2 = getMySeriesData(categories,list2);
+                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:seriesData1.data};
+                var series2 = {name: "未缴费",color:'#FF8800', data:seriesData2.data};
                 series.push(series1);
                 series.push(series2);
-                colMchart(preMonth,series,startYdate,lastYdate);
+                colMchart(seriesData1.preMonth,series,startYdate,lastYdate);
             }
         });
-        // var categories = ['1月', '2月', '3月', '4月', '5月','6月'];
-        // var series = [];
-        //
-        // var yijiaofei = {name: '已缴费企业', color: 'rgb(124, 181, 236)', data: [40, 36, 20, 40, 30,43]};
-        // var weijiaofei = {name: '未缴费企业', color:'#FF8800', data: [3, 7, 14, 3, 13,2]};
-        // series.push(yijiaofei);
-        // series.push(weijiaofei);
-        // colMchart(categories,series);
-
     }
     
     
     //饼状图获取后台数据
     function sewagePieChart(name,startYdate,lastYdate){
         $.ajax({
-            url: rootPath + "/action/S_exelaw_PollutantPayment_getSewagePie.action",
+            url: rootPath + "/action/S_exelaw_PollutantPayment_getSewageColumn.action",
             type:'post',
             dataType:'json',
             data:{name:name,startYdate:startYdate,lastYdate:lastYdate},
             success:function(data){
                 var categories = data['x'];
-                var series1 = data['y'];
-                var series = [{
+                var dataY1 = data['y1'];
+                var dataY2 = data['y2'];
+                var seriesData1 = getMySeriesData(categories,dataY1);
+                var seriesData2 = getMySeriesData(categories,dataY2);
+                var series1 = [{
                     name:"已缴费企业:(家)",
-                    data:[]
+                    data:seriesData1.data
                 }];
-                var preMonth = [];//定义查询月份的数组
-                var preValue = [];//定义对应月份为0的一组数据
-                
-                var startMonth= startYdate.substring(0,7);
-                var strStartMonth = startMonth.replace('-','');
-
-                var endMonth= lastYdate.substring(0,7);
-                var strEndMonth= endMonth.replace('-','');
-
-                var startYear = startYdate.substring(0,4);
-                var endYear = lastYdate.substring(0,4);
-                if(startYear == endYear){
-                    for(var i = strStartMonth; i <= strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue.push(0);
-                    }
-                }else{
-                    var startTime = startYear + '12';
-                    var firstTime = endYear +'01';
-                    for(var i=strStartMonth;i<=startTime;i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue.push(0);
-                    }
-                    for(var i=firstTime; i<=strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue.push(0);
-                    }
-                }
-                console.log(preMonth);
-                console.log(preValue);
-                var month = categories;//后台取出的2组数据
-                var value = series1;
-                if(month && month.length>0){
-                    for(var i = 0; i < month.length;i++){
-                        var m = month[i];
-                        for (var j = 0; j < preMonth.length; j++){
-                            if (m == preMonth[j]) {
-                                preValue[j] = value[i];
-                            }
-                        }
-                    }
-                }
-                console.log(preMonth);
-                console.log(preValue);
-
-                for (var i = 0; i < preValue.length; i++) {
-                    series[0].data.push({name:preMonth[i],y: parseInt(preValue[i])});
-                }
-                pieMchart(series,startYdate,lastYdate)
+                var series2 = [{
+                    name:"未缴费企业:(家)",
+                    data:seriesData2.data
+                }];
+                pieMchart(series1,startYdate,lastYdate);
+                pieMchart2(series2,startYdate,lastYdate);
             }
         });
     }
 
-    
-    
     
     //线状图获取后台数据
     function sewageLineCahrt(name,startYdate,lastYdate){
@@ -265,90 +156,74 @@ $(function(){
                 var categories = data.x;
                 var series = [];
                 var list = data.y1;
-                var ylist = [];
                 var list2 = data.y2;
-                var ylist2 = [];
-                if(list && list.length>0){
-                    for (var i=0; i<list.length; i++) {
-                        ylist.push(parseInt(list[i]));
-                    }
-                }
-                if(list2 && list.length>0){
-                    for (var i=0; i<list2.length; i++) {
-                        ylist2.push(parseInt(list2[i]));
-                    }
-                }
-                var preMonth = [];//定义查询月份的数组
-                var preValue1 = [];//定义对应月份为0的一组数据
-                var preValue2 = [];//定义对应月份为0的一组数据
-                var startMonth= startYdate.substring(0,7);
-                var strStartMonth = startMonth.replace('-','');
-
-                var endMonth= lastYdate.substring(0,7);
-                var strEndMonth= endMonth.replace('-','');
-
-                var startYear = startYdate.substring(0,4);
-                var endYear = lastYdate.substring(0,4);
-                if(startYear == endYear){
-                    for(var i = strStartMonth; i <= strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                }else{
-                    var startTime = startYear + '12';
-                    var firstTime = endYear +'01';
-                    for(var i=strStartMonth;i<=startTime;i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                    for(var i=firstTime; i<=strEndMonth; i++){
-                        i = i + "";
-                        var k = i.substr(0, 4)+"-"+i.substr(4,2);
-                        preMonth.push(k);
-                        preValue1.push(0);
-                        preValue2.push(0);
-                    }
-                }
-                var month = categories;//后台取出的2组数据
-                var value = ylist;
-                var arr_value = ylist2;
-                if(month && month.length>0){
-                    for(var i = 0; i < month.length;i++){
-                        var m = month[i];
-                        for (var j = 0; j < preMonth.length; j++){
-                            if (m == preMonth[j]) {
-                                preValue1[j] = value[i];
-                            }
-                        }
-                        for (var k = 0; k < preMonth.length; k++){
-                            if (m == preMonth[k]) {
-                                preValue2[k] = arr_value[i];
-                            }
-                        }
-
-                    }
-                }
-
-
-                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:preValue1};
-                var series2 = {name: "未缴费",color:'#FF8800', data:preValue2};
+                var seriesData1 = getMySeriesData(categories,list);
+                var seriesData2 = getMySeriesData(categories,list2);
+                var series1 = {name: "已缴费",color: 'rgb(124, 181, 236)', data:seriesData1.data};
+                var series2 = {name: "未缴费",color:'#FF8800', data:seriesData2.data};
                 series.push(series1);
                 series.push(series2);
-                lineMchart(preMonth,series,startYdate,lastYdate);
-
-
+                lineMchart(seriesData1.preMonth,series,startYdate,lastYdate);
             }
         });
-
-
     }
-    
+    function getMySeriesData(categories,seriesData){
+        var returnData = {};
+        var data = [];
+        var preMonth = [];//定义查询月份的数组
+        var preValue = [];//定义对应月份为0的一组数据
+
+        var startMonth= startYdate.substring(0,7);
+        var strStartMonth = startMonth.replace('-','');
+
+        var endMonth= lastYdate.substring(0,7);
+        var strEndMonth= endMonth.replace('-','');
+
+        var startYear = startYdate.substring(0,4);
+        var endYear = lastYdate.substring(0,4);
+        if(startYear == endYear){
+            for(var i = strStartMonth; i <= strEndMonth; i++){
+                i = i + "";
+                var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                preMonth.push(k);
+                preValue.push(0);
+            }
+        }else{
+            var startTime = startYear + '12';
+            var firstTime = endYear +'01';
+            for(var i=strStartMonth;i<=startTime;i++){
+                i = i + "";
+                var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                preMonth.push(k);
+                preValue.push(0);
+            }
+            for(var i=firstTime; i<=strEndMonth; i++){
+                i = i + "";
+                var k = i.substr(0, 4)+"-"+i.substr(4,2);
+                preMonth.push(k);
+                preValue.push(0);
+            }
+        }
+        var month = categories;//后台取出的2组数据
+        var value = seriesData;
+        if(month && month.length>0){
+            for(var i = 0; i < month.length;i++){
+                var m = month[i];
+                for (var j = 0; j < preMonth.length; j++){
+                    if (m == preMonth[j]) {
+                        preValue[j] = value[i];
+                    }
+                }
+            }
+        }
+
+        for (var i = 0; i < preValue.length; i++) {
+            data.push({name:preMonth[i],y: parseInt(preValue[i])});
+        }
+        returnData.data = data;
+        returnData.preMonth = preMonth;
+        return returnData;
+    }
     
     
     //柱状图highchart
@@ -369,7 +244,7 @@ $(function(){
             xAxis: {
                 categories: preMonth,
                 title:{
-                    text:'月份'
+                    text:'<span style="float: right;">月份</span>'
                 }
             },
             yAxis: {
@@ -405,10 +280,14 @@ $(function(){
                             $("#sewageListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var paymentStatus = 1;
                             var unpaidStatus = 0;
-                            initTable2(firstTime,lastTime,paymentStatus,unpaidStatus);
+                            initLeftSewageTable(firstTime,lastTime,paymentStatus,unpaidStatus);
+                            initRightSewageTable(firstTime,lastTime,paymentStatus,unpaidStatus);
                         }
                     }
                 }
@@ -425,11 +304,11 @@ $(function(){
      */
     function pieMchart(series,startYdate,lastYdate){
         if(startYdate == '2016-01-01'){
-            titleSub= '2016年上半年企业排污申报费用统计'
+            titleSub= '2016年上半年企业排污申报费用(已缴费)统计'
         }else{
-            titleSub = startYdate+'月至'+lastYdate+'月企业排污申报费用统计';
+            titleSub = startYdate+'月至'+lastYdate+'月企业排污申报费用(已缴费)统计';
         }
-        highchart.highcharts({
+        highchart1.highcharts({
             chart: {
                 type: 'pie'
             },
@@ -454,10 +333,13 @@ $(function(){
                     events : {
                         click: function(e) {
                             console.log(e.point.name);
-                            $("#sewageListForm").modal('show');
+                            $("#sewageListForm2").modal('show');
                             var pointTime = e.point.name;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var StrStatus = 1;
                             initTable(firstTime,lastTime,StrStatus);
                         }
@@ -480,7 +362,69 @@ $(function(){
             series: series
         });
     }
+    /**
+     * 饼状图highchart
+     */
+    function pieMchart2(series,startYdate,lastYdate){
+        if(startYdate == '2016-01-01'){
+            titleSub= '2016年上半年企业排污申报费用(未缴费)统计'
+        }else{
+            titleSub = startYdate+'月至'+lastYdate+'月企业排污申报费用(未缴费)统计';
+        }
+        highchart2.highcharts({
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: titleSub
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}月</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    },
+                    showInLegend: true
+                },
+                series : {
+                    cursor: 'pointer',
+                    events : {
+                        click: function(e) {
+                            console.log(e.point.name);
+                            $("#sewageListForm2").modal('show');
+                            var pointTime = e.point.name;
+                            var firstTime = pointTime + "-"+"01";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
+                            var StrStatus = 0;
+                            initTable(firstTime,lastTime,StrStatus);
+                        }
+                    }
+                }
 
+            },
+            tooltip: {
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}月</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right"><b>{point.y} 家</b></td></tr>',
+                footerFormat: '</table>',
+                valueDecimals: 0
+            },
+            exporting: {
+                enabled:false
+            },
+            series: series
+        });
+    }
 
     /**
      * 折线图highchart
@@ -526,10 +470,14 @@ $(function(){
                             $("#sewageListForm").modal('show');
                             var pointTime = e.point.category;
                             var firstTime = pointTime + "-"+"01";
-                            var lastTime = pointTime + "-"+"31";
+                            var year = pointTime.substring(0,4);
+                            var month=pointTime.substring(5);
+                            var d=new Date(year,month,0);
+                            var lastTime = pointTime + "-"+d.getDate();
                             var paymentStatus = 1;
                             var unpaidStatus = 0;
-                            initTable2(firstTime,lastTime,paymentStatus,unpaidStatus);
+                            initLeftSewageTable(firstTime,lastTime,paymentStatus,unpaidStatus);
+                            initRightSewageTable(firstTime,lastTime,paymentStatus,unpaidStatus);
                         }
                     }
                 }
@@ -554,233 +502,202 @@ $(function(){
         });
     }
 
-    /**============grid 排污申报列表(饼状图)============**/
-    var sewageTable = $('#sewageTable');
-    function initTable(firstTime,lastTime,StrStatus) {
-        sewageTable.bootstrapTable('destroy');
-        sewageTable.bootstrapTable({
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            sidePagination:"server",
-            url: rootPath+"/action/S_exelaw_PollutantPayment_list.action?startYdate="+firstTime+"&lastYdate="+lastTime+"&StrStatus="+StrStatus,
-            method:'post',
-            pagination:true,
-            clickToSelect:true,//单击行时checkbox选中
-            queryParams:pageUtils.localParams,
-            columns: [
-                {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:false,  //  true 单选， false多选
-                    valign: 'middle'
-                },
-                {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible:false
-                },
-                {
-                    field: 'enterpriseId',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    visible:false
-                },
-                {
-                    title: '企业名称',
-                    field: 'enterpriseName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '企业法人',
-                    field: 'enterpriseAP',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '联系方式',
-                    field: 'apPhone',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '缴费金额',
-                    field: 'payMoney',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '登记日期',
-                    field: 'registDate',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '缴费日期',
-                    field: 'payDate',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '距缴费日期',
-                    field: 'rangeDays',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '缴费状态',
-                    field: 'paymentStatus',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    formatter:function (value, row, index) {
-                        if (0==value){
-                            value="未缴费"
-                        }else if(1==value){
-                            value="已缴费"
-                        }else if(2==value){
-                            value="未按时缴费"
-                        }
-                        return value;
+    var bootstrapTableOptions = {
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        sidePagination:"server",
+        url: rootPath+"/action/S_exelaw_PollutantPayment_list.action",
+        method:'post',
+        pagination:true,
+        pageSize:8,
+        clickToSelect:true,//单击行时checkbox选中
+        columns: [
+            {
+                title: '企业名称',
+                field: 'enterpriseName',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '企业法人',
+                field: 'enterpriseAP',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '联系方式',
+                field: 'apPhone',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费金额',
+                field: 'payMoney',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '登记日期',
+                field: 'registDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费日期',
+                field: 'payDate',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '距缴费日期',
+                field: 'rangeDays',
+                editable: false,
+                sortable: false,
+                align: 'center'
+            },
+            {
+                title: '缴费状态',
+                field: 'paymentStatus',
+                sortable: false,
+                align: 'center',
+                editable: false,
+                formatter:function (value, row, index) {
+                    if (0==value){
+                        value="未缴费"
+                    }else if(1==value){
+                        value="已缴费"
+                    }else if(2==value){
+                        value="未按时缴费"
                     }
+                    return value;
                 }
-            ]
-        });
-        // sometimes footer render error.
-        setTimeout(function () {
-            sewageTable.bootstrapTable('resetView');
-        }, 200);
-
-
-        $(window).resize(function () {
-            // 重新设置表的高度
-            sewageTable.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
+            }
+        ]
+    };
+    /**============grid 排污申报列表(饼状图)============**/
+    var sewageTable = $('#sewageTable'),isLoadSewageTable = false;
+    function initTable(startYdate,lastYdate,StrStatus) {
+        sewageTable.startYdate = startYdate;
+        sewageTable.lastYdate = lastYdate;
+        sewageTable.StrStatus = StrStatus;
+        if(isLoadSewageTable){
+            sewageTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:8});
+        }else{
+            isLoadSewageTable = true;
+            bootstrapTableOptions.queryParams=function(params){
+                var localParams = {};
+                //分页参数
+                localParams.take = params.limit;
+                localParams.skip = params.offset;
+                if(params.offset){
+                    localParams.page = params.offset / params.limit + 1;
+                }else{
+                    localParams.page = 1;
+                }
+                localParams.pageSize = params.limit;
+                localParams.startYdate = sewageTable.startYdate;
+                localParams.lastYdate = sewageTable.lastYdate;
+                localParams.StrStatus = sewageTable.StrStatus;
+                return localParams;
+            };
+            sewageTable.bootstrapTable(bootstrapTableOptions);
+            // sometimes footer render error.
+            setTimeout(function () {
+                sewageTable.bootstrapTable('resetView');
+            }, 200);
+            $(window).resize(function () {
+                // 重新设置表的高度
+                sewageTable.bootstrapTable('resetView', {
+                    height: pageUtils.getTableHeight()
+                });
             });
-        });
+        }
     }
 
 
     /**============grid 排污申报列表(线状图)（柱状图）============**/
-    var sewageTable2 = $('#sewageTable2');
-    function initTable2(firstTime,lastTime,paymentStatus,unpaidStatus) {
-        sewageTable.bootstrapTable('destroy');
-        sewageTable.bootstrapTable({
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            sidePagination:"server",
-            url: rootPath+"/action/S_exelaw_PollutantPayment_sewagelist.action?firstTime="+firstTime+"&lastTime="+lastTime+"&paymentStatus="+paymentStatus+"&unpaidStatus="+unpaidStatus,
-            method:'post',
-            pagination:true,
-            clickToSelect:true,//单击行时checkbox选中
-            queryParams:pageUtils.localParams,
-            columns: [
-                {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:false,  //  true 单选， false多选
-                    valign: 'middle'
-                },
-                {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible:false
-                },
-                {
-                    field: 'enterpriseId',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    visible:false
-                },
-                {
-                    title: '企业名称',
-                    field: 'enterpriseName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '企业法人',
-                    field: 'enterpriseAP',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '联系方式',
-                    field: 'apPhone',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '缴费金额',
-                    field: 'payMoney',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '登记日期',
-                    field: 'registDate',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '缴费日期',
-                    field: 'payDate',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '缴费状态',
-                    field: 'paymentStatus',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    formatter:function (value, row, index) {
-                        if (0==value){
-                            value="未缴费"
-                        }else if(1==value){
-                            value="已缴费"
-                        }else if(2==value){
-                            value="未按时缴费"
-                        }
-                        return value;
-                    }
+    var leftSewageTable = $('#leftSewageTable'),isLoadLeftSewageTable = false;
+    var rightSewageTable = $('#rightSewageTable'),isLoadRightSewageTable = false;
+
+    function initLeftSewageTable(firstTime,lastTime,paymentStatus,unpaidStatus) {
+        $('#leftSewageTableTitle').html(firstTime+"至"+lastTime+" 已缴费");
+        leftSewageTable.startYdate = firstTime;
+        leftSewageTable.lastYdate = lastTime;
+        if(isLoadLeftSewageTable){
+            leftSewageTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:8});
+        }else{
+            isLoadLeftSewageTable = true;
+            bootstrapTableOptions.queryParams=function(params){
+                var localParams = {};
+                //分页参数
+                localParams.take = params.limit;
+                localParams.skip = params.offset;
+                if(params.offset){
+                    localParams.page = params.offset / params.limit + 1;
+                }else{
+                    localParams.page = 1;
                 }
-            ]
-        });
-        // sometimes footer render error.
-        setTimeout(function () {
-            sewageTable2.bootstrapTable('resetView');
-        }, 200);
-
-
-        $(window).resize(function () {
-            // 重新设置表的高度
-            sewageTable2.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
-            });
-        });
+                localParams.pageSize = params.limit;
+                localParams.startYdate = leftSewageTable.startYdate;
+                localParams.lastYdate = leftSewageTable.lastYdate;
+                localParams.StrStatus = 1;
+                return localParams;
+            };
+            leftSewageTable.bootstrapTable(bootstrapTableOptions);
+            // sometimes footer render error.
+            setTimeout(function () {
+                leftSewageTable.bootstrapTable('resetView');
+            }, 200);
+            /*$(window).resize(function () {
+                // 重新设置表的高度
+                leftSewageTable.bootstrapTable('resetView', {
+                    height: pageUtils.getTableHeight()
+                });
+            });*/
+        }
     }
-    
-    
+    function initRightSewageTable(firstTime,lastTime,paymentStatus,unpaidStatus) {
+        $('#rightSewageTableTitle').html(firstTime+"至"+lastTime+" 未缴费");
+        rightSewageTable.startYdate = firstTime;
+        rightSewageTable.lastYdate = lastTime;
+        if(isLoadRightSewageTable){
+            rightSewageTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:8});
+        }else{
+            isLoadRightSewageTable = true;
+            bootstrapTableOptions.queryParams=function(params){
+                var localParams = {};
+                //分页参数
+                localParams.take = params.limit;
+                localParams.skip = params.offset;
+                if(params.offset){
+                    localParams.page = params.offset / params.limit + 1;
+                }else{
+                    localParams.page = 1;
+                }
+                localParams.pageSize = params.limit;
+                localParams.startYdate = rightSewageTable.startYdate;
+                localParams.lastYdate = rightSewageTable.lastYdate;
+                localParams.StrStatus = 0;
+                return localParams;
+            };
+            rightSewageTable.bootstrapTable(bootstrapTableOptions);
+            // sometimes footer render error.
+            setTimeout(function () {
+                rightSewageTable.bootstrapTable('resetView');
+            }, 200);
+            /*$(window).resize(function () {
+                // 重新设置表的高度
+                rightSewageTable.bootstrapTable('resetView', {
+                    height: pageUtils.getTableHeight()
+                });
+            });*/
+        }
+    }
+
+
 });

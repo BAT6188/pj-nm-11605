@@ -5,7 +5,9 @@ var gridTable = $('#table'),
     form = $("#EnvTestProgramForm"),
     formTitle = "环境自测方案",
     selections = [];
-
+$(".modalClose").click(function () {
+    form.modal('hide');
+})
 $('.form_date').datetimepicker({
     language:   'zh-CN',
     autoclose: 1,
@@ -244,7 +246,7 @@ var ef = form.easyform({
         entity.enterpriseId=enterpriseId;
         entity.attachmentId = getAttachmentIds();
         saveAjax(entity,function (msg) {
-            $(".modal").modal('hide');
+            form.modal('hide');
             Ewin.alert(updateSuccessMsg);
             gridTable.bootstrapTable('refresh');
         });

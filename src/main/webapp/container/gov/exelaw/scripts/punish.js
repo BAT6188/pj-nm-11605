@@ -544,13 +544,16 @@ $("#selected").click(function () {
     var rows=getLawTableSelections();
     if (rows.length>0){
         var row=rows[0]
-        setFormValueFromSelected(row)
+        setFormValueFromSelected(row);
         $("#lawListForm").modal('hide');
     }
 
 })
 
 function setFormValueFromSelected(row) {
+    if(row.enterpriseId){
+        $("#enterpriseId").val(row.enterpriseId);
+    }
     $("#dispatchTaskId").val(row.id)
     $("#caseName").val(row.enterpriseName+"处罚")
     $("#caseSource").val(row.source)

@@ -40,7 +40,7 @@ public interface PortStatusHistoryService extends IBaseService<PortStatusHistory
      * 企业超标异常信息
      * @return
      */
-    List<PortStatusHistory> companyByExcessive();
+    List<PortStatusHistory> companyByExcessive(String enterpriseId);
 
     /**
      * 超标同期对比查询列表

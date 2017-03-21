@@ -1,6 +1,5 @@
 package com.harmonywisdom.dshbcbp.dispatch.service.impl;
 
-import com.harmonywisdom.dshbcbp.common.dict.util.DateUtil;
 import com.harmonywisdom.dshbcbp.dispatch.bean.DispatchTask;
 import com.harmonywisdom.dshbcbp.dispatch.dao.DispatchTaskDAO;
 import com.harmonywisdom.dshbcbp.dispatch.service.DispatchTaskService;
@@ -87,7 +86,8 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
                 "GROUP BY DATE_FORMAT(t.`event_time`,'%Y-%m')),0) AS c\n" +
                 "FROM hw_dispatch_task t\n" +
                 " WHERE DATE_FORMAT(t.`event_time`,'%m')>= '"+strsStart+"' AND DATE_FORMAT(t.`event_time`,'%m')<= '"+strEnd+"'" + whereSql);
-
+        //List<Object[]> lastYearList = getDAO().queryNativeSQL("");
+        //List<Object[]> currentYearList = getDAO().queryNativeSQL("");
         return list;
     }
 
@@ -111,15 +111,17 @@ public class DispatchTaskServiceImpl extends BaseService<DispatchTask, String> i
 
         //分页条件
         int startIndex = paging.getStartIndex();
-        int endIndex = paging.getStartIndex() + paging.getPageSize();
+        int endIndex =  paging.getPageSize();
 
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
-        if (StringUtils.isNotBlank(params.get("firstTime")) || StringUtils.isNotBlank(params.get("lastTime"))) {
-            whereSql.append("and ( t.event_time >= '").append(params.get("firstTime")).append("' and t.event_time <= '").append(params.get("lastTime")+"')");
+        String firstTime = params.get("firstTime");
+        firstTime=firstTime.substring(0,7);
+        if (StringUtils.isNotBlank(firstTime)) {
+            whereSql.append(" and DATE_FORMAT(t.event_time, '%Y-%m') = '").append(firstTime).append("'");
         }
-        if(StringUtils.isNotBlank(params.get("lastStartTime")) || StringUtils.isNotBlank(params.get("lastEndTime"))){
-            whereSql.append("OR (t.event_time >= '").append(params.get("lastStartTime")).append("' and t.event_time <= '").append(params.get("lastEndTime")+"')");
-        }
+//        if(StringUtils.isNotBlank(params.get("lastStartTime")) || StringUtils.isNotBlank(params.get("lastEndTime"))){
+//            whereSql.append("OR (t.event_time >= '").append(params.get("lastStartTime")).append("' and t.event_time <= '").append(params.get("lastEndTime")+"')");
+//        }
 
         String countSql = "select count(*) from HW_DISPATCH_TASK t" +whereSql.toString();
         String querySql = "select t.id,t.event_time,t.enterprise_name,t.source,t.block_name,t.case_reason,t.sender_name from HW_DISPATCH_TASK t " +whereSql.toString()+"limit " + startIndex+","+endIndex;

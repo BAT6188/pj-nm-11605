@@ -62,6 +62,14 @@ $(function(){
         });
     }
 
+    var statusType = {
+        '1':'超标',
+        '2':'异常'
+    }
+    function statusFormatter(value){
+        return statusType[value];
+    }
+
     /**
      * 超标异常信息
      */
@@ -69,7 +77,7 @@ $(function(){
     function excessiveAbnormal(){
 
         $.ajax({
-            url: rootPath + "/action/action/S_port_PortStatusHistory_excessiveInformation.action",
+            url: rootPath + "/action/action/S_port_PortStatusHistory_excessiveInformation.action?enterpriseId="+enterpriseId,
             dataType: 'json',
             type: 'post',
             async: false,
@@ -86,12 +94,13 @@ $(function(){
                     }
                     trHtml = "<tr>"
                         + "<td><i class='panelList-icon error-icon'>" + "</i></td>"
-                        + "<td ><span>" + (result[i].res_title == null ? "" : result[i].res_title) + "</span></td>"
-                        + "<td ><span>" + (result[i].startTime == null ? "" : result[i].startTime) + "</span></td>"
-                        + "<td ><span>" + (result[i].equipmentPosition == null ? "" : result[i].equipmentPosition)+"</span></td>"
-                        + "<td ><span>" + (result[i].realtimeData == null ? "" : result[i].realtimeData) + "</span></td>"
-                        + "<td ><span>" + (result[i].maxValue == null ? "" : result[i].maxValue) + "</span></td>"
-                        + "<td ><span>" + '<button type="button" class="btn btn-md btn-warning view excess" id="viewBtn" >详情</button>' + "</span></td>"
+                        + "<td ><span>" + (result[i].portNumber == null ? "" : result[i].portNumber) + "</span></td>"
+                        + "<td ><span>" + (result[i].portName == null ? "" : result[i].portName) + "</span></td>"
+                        + "<td ><span>" + (result[i].time == null ? "" : result[i].time)+"</span></td>"
+                        + "<td ><span>" + (result[i].pollutantName == null ? "" : result[i].pollutantName) + "</span></td>"
+                        + "<td ><span>" + (result[i].liveValue == null ? "" : result[i].liveValue) + "</span></td>"
+                        + "<td ><span>" + (result[i].standardValue == null ? "" : result[i].standardValue) + "</span></td>"
+                        + "<td ><span>" + statusFormatter(result[i].portStatus == null ? "" : result[i].portStatus) + "</span></td>"
                         + "</tr>";
                     var $tr = $(trHtml);
                     $("#excessTable").append($tr);

@@ -12,6 +12,7 @@ var pageUtils = {
     MSG_TYPE_monitoring_station_office:"11",//监测站办公室发送给监测站站长
     MSG_TYPE_monitoring_station_master:"12",//监测站站长发送给监测人员
     MSG_TYPE_feedback:13,//反馈给监察大队
+    MSG_TYPE_xianChangJianCha:14,//现场检查
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
 
@@ -69,6 +70,7 @@ var pageUtils = {
             typeMapUrl[that.MSG_TYPE_monitoring_station_office] = 'container/gov/detect/monitoring_station_master.jsp';
             typeMapUrl[that.MSG_TYPE_monitoring_station_master] = 'container/gov/detect/monitoring_station_person.jsp';
             typeMapUrl[that.MSG_TYPE_feedback] = 'container/gov/dispatch/lawManage.jsp?role=monitor_master';
+            typeMapUrl[that.MSG_TYPE_xianChangJianCha] = 'container/gov/exelaw/siteMonitoring.jsp';
             msg.senderId = userId;
             msg.senderName = userName;
             msg.detailsUrl = typeMapUrl[msg.msgType];
@@ -205,7 +207,11 @@ var pageUtils = {
         //分页参数
         localParams.take = params.limit;
         localParams.skip = params.offset;
-        localParams.page = params.offset / params.limit + 1;
+        if(params.offset){
+            localParams.page = params.offset / params.limit + 1;
+        }else{
+            localParams.page = 1;
+        }
         localParams.pageSize = params.limit;
         var jsonData = $('.queryBox').find('form').formSerializeObject();
         if(!$.isEmptyObject(jsonData)){

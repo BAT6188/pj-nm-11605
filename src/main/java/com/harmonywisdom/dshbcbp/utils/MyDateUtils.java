@@ -465,6 +465,22 @@ public class MyDateUtils {
         }
     }
     /**
+     * 字符串转换成日期
+     * @param str
+     * @return date
+     */
+    public static Date StrToDate(String str,String formate) {
+
+        SimpleDateFormat format = new SimpleDateFormat(formate);
+        Date date = null;
+        try {
+            date = format.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+    /**
      * 得到本年输入月份的最后一天数（如果说是2月闰年则返回29，2月平年则返回28）
      *@param month 月份
      *@return int 这个月份的最后一天数，如果月份不存在则返回-1
@@ -796,7 +812,20 @@ public class MyDateUtils {
         gc.add(Calendar.MONTH, 1);
         return gc.getTime();
     }
-
+    public static java.util.Date getNextMonth(String date,String formate) {
+        Date currentDate = StrToDate(date,formate);
+        GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
+        gc.setTime(currentDate);
+        gc.add(Calendar.MONTH, 1);
+        return gc.getTime();
+    }
+    public static String getNextMonth(String date,String formate,String returnFormate) {
+        Date currentDate = StrToDate(date,formate);
+        GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
+        gc.setTime(currentDate);
+        gc.add(Calendar.MONTH, 1);
+        return getDateFormat(gc.getTime(),returnFormate);
+    }
     /**
      * 详细设计： 1.指定日期的月份加1
      */
@@ -1531,5 +1560,39 @@ public class MyDateUtils {
     //如果是null返回true，如果是String类型则还会判断是否是""(空字符串)，如果是""返回true，否则返回FALSE
     public static boolean isNullOrEmpty(Object obj) {
         return null == obj ? true : (obj instanceof String && "".equals(obj.toString().trim())) ? true : false;
+    }
+
+    public static int getMonthNumber(String start, String end) {
+        Date startDate = MyDateUtils.parseDateFormat(start,"yyyy-MM-dd HH:mm:ss");
+        Date endDate = MyDateUtils.parseDateFormat(end,"yyyy-MM-dd HH:mm:ss");
+        return getMonthNumber(startDate,endDate);
+    }
+
+    public static int getMonthNumber(Date start, Date end) {
+        if (start.after(end)) {
+            Date t = start;
+            start = end;
+            end = t;
+        }
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(start);
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(end);
+        Calendar temp = Calendar.getInstance();
+        temp.setTime(end);
+        temp.add(Calendar.DATE, 1);
+
+        int year = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
+        int month = endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
+
+        if ((startCalendar.get(Calendar.DATE) == 1)&& (temp.get(Calendar.DATE) == 1)) {
+            return year * 12 + month + 1;
+        } else if ((startCalendar.get(Calendar.DATE) != 1) && (temp.get(Calendar.DATE) == 1)) {
+            return year * 12 + month;
+        } else if ((startCalendar.get(Calendar.DATE) == 1) && (temp.get(Calendar.DATE) != 1)) {
+            return year * 12 + month;
+        } else {
+            return (year * 12 + month - 1) < 0 ? 0 : (year * 12 + month);
+        }
     }
 }

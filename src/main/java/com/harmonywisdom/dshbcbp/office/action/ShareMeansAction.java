@@ -11,6 +11,8 @@ import com.harmonywisdom.framework.dao.*;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
+
 public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> {
     @AutoService
     private ShareMeansService shareMeansService;
@@ -28,13 +30,13 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
         QueryParam param = new QueryParam();
 
         if (StringUtils.isNotBlank(entity.getTitle())) {
-            param.andParam(new QueryParam("title", QueryOperator.LIKE, entity.getTitle()));
+            param.andParam(new QueryParam("title", QueryOperator.LIKE, "%"+entity.getTitle()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getType())) {
-            param.andParam(new QueryParam("type", QueryOperator.LIKE, entity.getType()));
+            param.andParam(new QueryParam("type", QueryOperator.LIKE, "%"+entity.getType()+"%"));
         }
         if (StringUtils.isNotBlank(entity.getPubOrgName())) {
-            param.andParam(new QueryParam("pubOrgName", QueryOperator.LIKE, entity.getPubOrgName()));
+            param.andParam(new QueryParam("pubOrgName", QueryOperator.LIKE, "%"+entity.getPubOrgName()+"%"));
         }
 //        String orgCode=request.getParameter("orgCode");
        /* QueryParam statusParam=new QueryParam();
@@ -95,17 +97,19 @@ public class ShareMeansAction extends BaseAction<ShareMeans, ShareMeansService> 
     @Override
     public void save() {
         //获取删除的附件IDS
-
-            String attachmentIdsRemoveId = request.getParameter("removeId");
-            if (StringUtils.isNotBlank(attachmentIdsRemoveId)) {
-                //删除附件
-                attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
-            }
-            super.save();
-            if (StringUtils.isNotBlank(entity.getAttachmentIds())) {
-                attachmentService.updateBusinessId(entity.getId(), entity.getAttachmentIds().split(","));
-            }
-            write(true);
+        String attachmentIdsRemoveId = request.getParameter("removeId");
+        if (StringUtils.isNotBlank(attachmentIdsRemoveId)) {
+            //删除附件
+            attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        if(StringUtils.isNotBlank(entity.getStatus()) && "1".equals(entity.getStatus())){
+            entity.setPubTime(new Date());
+        }
+        super.save();
+        if (StringUtils.isNotBlank(entity.getAttachmentIds())) {
+            attachmentService.updateBusinessId(entity.getId(), entity.getAttachmentIds().split(","));
+        }
+        write(true);
     }
 
     /**

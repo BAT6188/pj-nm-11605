@@ -79,8 +79,14 @@ $(function(){
     $("#search").bind('click',function(){
         name = $("#s_name").val();
         var lawType = $("#lawType").val();
-        var startSdate = $("#start_createTime").val();
-        var lastSdate = $("#end_createTime").val();
+        var startTime = $("#start_createTime").val();
+        var endTime = $("#end_createTime").val();
+        if(startTime!=""){
+            startSdate = startTime;
+        }
+        if(endTime!=""){
+            lastSdate = endTime;
+        }
         var dateStr = startSdate;
         var arr = dateStr.split("-");
         var lastDate = new Date(parseInt(arr[0])-1, parseInt(arr[1])-1);
@@ -88,7 +94,7 @@ $(function(){
         if (lastMonth < 10) {
             lastMonth = "0" + lastMonth;
         }
-        var startXdate = lastDate.getFullYear() + "-" + lastMonth;
+        startXdate = lastDate.getFullYear() + "-" + lastMonth;
 
         var dateLtr2 = lastSdate;
         var arr2 = dateLtr2.split("-");
@@ -97,7 +103,7 @@ $(function(){
         if (lastMonth2 < 10) {
             lastMonth2 = "0" + lastMonth2;
         }
-        var lastXdate = lastDate2.getFullYear() + "-" + lastMonth2;
+        lastXdate = lastDate2.getFullYear() + "-" + lastMonth2;
         search(valueChart,name,lawType,startXdate,lastXdate,startSdate,lastSdate);
        
         
@@ -522,12 +528,15 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "32";
+                            var d=new Date(year,month,0);
+                            var lastTime = year + "-" + month + "-"+d.getDate();
                             var year2 = year - 1;
                             var lastStartTime = year2 + "-" + month + "-" + "01";
-                            var lastEndTime = year2 + "-" + month + "-" + "32";
-
-                            initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
+                            var d=new Date(year2,month,0);
+                            var lastEndTime = year2 + "-" + month + "-"+d.getDate();
+                            initlLawRatioTable(lastStartTime,lastEndTime);
+                            initcLawRatioTable(firstTime,lastTime);
+                            //initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
                         }
                     }
                 }
@@ -605,8 +614,8 @@ $(function(){
                            
                             var year2 = year - 1;
                             var firstTime = year2 + "-" + month + "-" + "01";
-                            var lastTime = year2 + "-" + month + "-" + "32";
-
+                            var d=new Date(year2,month,0);
+                            var lastTime = year2 + "-" + month + "-"+d.getDate();
                             initlawTable2(firstTime,lastTime);
                         }
                     }
@@ -672,8 +681,8 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "32";
-
+                            var d=new Date(year,month,0);
+                            var lastTime = year + "-" + month + "-"+d.getDate();
                             initlawTable2(firstTime,lastTime);
                         }
                     }
@@ -750,12 +759,15 @@ $(function(){
                             }
 
                             var firstTime = year + "-" + month + "-" + "01";
-                            var lastTime = year + "-" + month + "-" + "32";
+                            var d=new Date(year,month,0);
+                            var lastTime = year + "-" + month + "-"+d.getDate();
                             var year2 = year - 1;
                             var lastStartTime = year2 + "-" + month + "-" + "01";
-                            var lastEndTime = year2 + "-" + month + "-" + "32";
-
-                            initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
+                            var d=new Date(year2,month,0);
+                            var lastEndTime = year2 + "-" + month + "-"+d.getDate();
+                            initlLawRatioTable(lastStartTime,lastEndTime);
+                            initcLawRatioTable(firstTime,lastTime);
+                            //initlawTable(lastStartTime,lastEndTime,firstTime,lastTime);
                         }
                     }
                 }
@@ -790,309 +802,518 @@ $(function(){
     }
 
     /******************** 查询执法管理同期对比列表（柱状图，线状图） ********************/
-    var lawRatioTable = $('#lawRatioTable');
-    function initlawTable(lastStartTime,lastEndTime,firstTime,lastTime) {
-        lawRatioTable.bootstrapTable('destroy');
-        lawRatioTable.bootstrapTable({
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            sidePagination:"server",
-            url: rootPath+"/action/S_dispatch_DispatchTask_listgridLawRatio.action?lastStartTime="+lastStartTime +"&lastEndTime="+lastEndTime+"&firstTime="+firstTime+"&lastTime="+lastTime,
-            method:'post',
-            pagination:true,
-            clickToSelect:true,//单击行时checkbox选中
-            queryParams:pageUtils.localParams,
-            columns: [
-                {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:false,  //  true 单选， false多选
-                    valign: 'middle'
-                },
-                {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible:false
-                },
-                {
-                    title: '事件时间',
-                    field: 'eventTime',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    formatter:function (value, row, index) {
-                        return pageUtils.sub16(value);
+    var lLawRatioTable = $('#lastYearLawRatioTable'),isLoadlLawRatioTable=false;
+    var cLawRatioTable = $('#currentYearLawRatioTable'),isLoadcLawRatioTable=false;
+    function initlLawRatioTable(firstTime,lastTime) {
+        $('#lastYearTableTitle').html(firstTime+"至"+lastTime);
+        lLawRatioTable.firstTime = firstTime;
+        lLawRatioTable.lastTime = lastTime;
+        if(isLoadlLawRatioTable){
+            lLawRatioTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
+        }else{
+            isLoadlLawRatioTable = true;
+            lLawRatioTable.bootstrapTable({
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                sidePagination:"server",
+                url: rootPath+"/action/S_dispatch_DispatchTask_list.action",
+                method:'post',
+                pagination:true,
+                clickToSelect:true,//单击行时checkbox选中
+                queryParams:function(params){
+                    var localParams = {};
+                    //分页参数
+                    localParams.take = params.limit;
+                    localParams.skip = params.offset;
+                    if(params.offset){
+                        localParams.page = params.offset / params.limit + 1;
+                    }else{
+                        localParams.page = 1;
                     }
+                    localParams.pageSize = params.limit;
+                    localParams.firstTime = lLawRatioTable.firstTime;
+                    localParams.lastTime = lLawRatioTable.lastTime;
+                    return localParams;
                 },
-                {
-                    title: '接电人',
-                    field: 'answer',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    visible:false
-                },
-
-                {
-                    title: '企业名称',
-                    field: 'enterpriseName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-
-                {
-                    title: '信息来源',
-                    field: 'source',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        if(1==value){
-                            value="12369"
-                        }else if (2==value){
-                            value="区长热线"
-                        }else if (3==value){
-                            value="市长热线"
-                        }else if (4==value){
-                            value="现场监察"
-                        }else if (0==value){
-                            value="监控中心"
+                columns: [
+                    {
+                        title:"全选",
+                        checkbox: true,
+                        align: 'center',
+                        radio:false,  //  true 单选， false多选
+                        valign: 'middle'
+                    },
+                    {
+                        title: 'ID',
+                        field: 'id',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible:false
+                    },
+                    {
+                        title: '事件时间',
+                        field: 'eventTime',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        formatter:function (value, row, index) {
+                            return pageUtils.sub16(value);
                         }
-                        return value;
-                    }
-                },
-                {
-                    title: '所属网格',
-                    field: 'blockName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    field: 'reason',
-                    title: '原因',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    formatter:function (value, row, index) {
-                        if(1==value){
-                            value="异常"
-                        }else if(2==value){
-                            value="超标"
+                    },
+                    {
+                        title: '接电人',
+                        field: 'answer',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        visible:false
+                    },
+
+                    {
+                        title: '企业名称',
+                        field: 'enterpriseName',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+
+                    {
+                        title: '信息来源',
+                        field: 'source',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        formatter:function (value, row, index) {
+                            if(1==value){
+                                value="12369"
+                            }else if (2==value){
+                                value="区长热线"
+                            }else if (3==value){
+                                value="市长热线"
+                            }else if (4==value){
+                                value="现场监察"
+                            }else if (0==value){
+                                value="监控中心"
+                            }
+                            return value;
                         }
-                        return value;
+                    },
+                    {
+                        title: '所属网格',
+                        field: 'blockName',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        field: 'reason',
+                        title: '原因',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        formatter:function (value, row, index) {
+                            if(1==value){
+                                value="异常"
+                            }else if(2==value){
+                                value="超标"
+                            }
+                            return value;
+                        }
+                    },
+                    {
+                        field: 'senderName',
+                        title: '发送人',
+                        sortable: false,
+                        align: 'center',
+                        editable: false
+                    },
+
+                    {
+                        field: 'monitorCaseId',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'overValue',
+                        title: '超标值',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'thrValue',
+                        title: '超标阀值',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'sendRemark',
+                        title: '备注',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
                     }
-                },
-                {
-                    field: 'senderName',
-                    title: '发送人',
-                    sortable: false,
-                    align: 'center',
-                    editable: false
-                },
-
-                {
-                    field: 'monitorCaseId',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                },
-                {
-                    field: 'overValue',
-                    title: '超标值',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                },
-                {
-                    field: 'thrValue',
-                    title: '超标阀值',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                },
-                {
-                    field: 'sendRemark',
-                    title: '备注',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                }
-            ]
-        });
-        // sometimes footer render error.
-        setTimeout(function () {
-            lawRatioTable.bootstrapTable('resetView');
-        }, 200);
-
-
-        $(window).resize(function () {
-            // 重新设置表的高度
-            lawRatioTable.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
+                ]
             });
-        });
+            // sometimes footer render error.
+            setTimeout(function () {
+                lLawRatioTable.bootstrapTable('resetView');
+            }, 200);
+            $(window).resize(function () {
+                // 重新设置表的高度
+                lLawRatioTable.bootstrapTable('resetView', {
+                    height: pageUtils.getTableHeight()
+                });
+            });
+        }
+    }
+
+    function initcLawRatioTable(firstTime,lastTime) {
+        $('#currentYearTableTitle').html(firstTime+"至"+lastTime);
+        cLawRatioTable.firstTime = firstTime;
+        cLawRatioTable.lastTime = lastTime;
+        if(isLoadcLawRatioTable){
+            cLawRatioTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
+        }else{
+            isLoadcLawRatioTable = true;
+            cLawRatioTable.bootstrapTable({
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                sidePagination:"server",
+                url: rootPath+"/action/S_dispatch_DispatchTask_list.action",
+                method:'post',
+                pagination:true,
+                clickToSelect:true,//单击行时checkbox选中
+                queryParams:function(params){
+                    var localParams = {};
+                    //分页参数
+                    localParams.take = params.limit;
+                    localParams.skip = params.offset;
+                    if(params.offset){
+                        localParams.page = params.offset / params.limit + 1;
+                    }else{
+                        localParams.page = 1;
+                    }
+                    localParams.pageSize = params.limit;
+                    localParams.firstTime = cLawRatioTable.firstTime;
+                    localParams.lastTime = cLawRatioTable.lastTime;
+                    return localParams;
+                },
+                columns: [
+                    {
+                        title:"全选",
+                        checkbox: true,
+                        align: 'center',
+                        radio:false,  //  true 单选， false多选
+                        valign: 'middle'
+                    },
+                    {
+                        title: 'ID',
+                        field: 'id',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible:false
+                    },
+                    {
+                        title: '事件时间',
+                        field: 'eventTime',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        formatter:function (value, row, index) {
+                            return pageUtils.sub16(value);
+                        }
+                    },
+                    {
+                        title: '接电人',
+                        field: 'answer',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        visible:false
+                    },
+
+                    {
+                        title: '企业名称',
+                        field: 'enterpriseName',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+
+                    {
+                        title: '信息来源',
+                        field: 'source',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        formatter:function (value, row, index) {
+                            if(1==value){
+                                value="12369"
+                            }else if (2==value){
+                                value="区长热线"
+                            }else if (3==value){
+                                value="市长热线"
+                            }else if (4==value){
+                                value="现场监察"
+                            }else if (0==value){
+                                value="监控中心"
+                            }
+                            return value;
+                        }
+                    },
+                    {
+                        title: '所属网格',
+                        field: 'blockName',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        field: 'reason',
+                        title: '原因',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        formatter:function (value, row, index) {
+                            if(1==value){
+                                value="异常"
+                            }else if(2==value){
+                                value="超标"
+                            }
+                            return value;
+                        }
+                    },
+                    {
+                        field: 'senderName',
+                        title: '发送人',
+                        sortable: false,
+                        align: 'center',
+                        editable: false
+                    },
+
+                    {
+                        field: 'monitorCaseId',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'overValue',
+                        title: '超标值',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'thrValue',
+                        title: '超标阀值',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'sendRemark',
+                        title: '备注',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    }
+                ]
+            });
+            // sometimes footer render error.
+            setTimeout(function () {
+                cLawRatioTable.bootstrapTable('resetView');
+            }, 200);
+            $(window).resize(function () {
+                // 重新设置表的高度
+                cLawRatioTable.bootstrapTable('resetView', {
+                    height: pageUtils.getTableHeight()
+                });
+            });
+        }
     }
 
     /******************** 查询执法管理同期对比列表(饼状图) ********************/
-    var lawRatioTable2 = $('#lawRatioTable2');
+    var lawRatioTable2 = $('#lawRatioTable2'),isLoadlawRatioTable2=false;
     function initlawTable2(firstTime,lastTime) {
-        lawRatioTable2.bootstrapTable('destroy');
-        lawRatioTable2.bootstrapTable({
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            sidePagination:"server",
-            url: rootPath+"/action/S_dispatch_DispatchTask_list.action?firstTime="+firstTime +"&lastTime="+lastTime,
-            method:'post',
-            pagination:true,
-            clickToSelect:true,//单击行时checkbox选中
-            queryParams:pageUtils.localParams,
-            columns: [
-                {
-                    title:"全选",
-                    checkbox: true,
-                    align: 'center',
-                    radio:false,  //  true 单选， false多选
-                    valign: 'middle'
-                },
-                {
-                    title: 'ID',
-                    field: 'id',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: false,
-                    visible:false
-                },
-                {
-                    title: '事件时间',
-                    field: 'eventTime',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    formatter:function (value, row, index) {
-                        return pageUtils.sub16(value);
+        lawRatioTable2.firstTime = firstTime;
+        lawRatioTable2.lastTime = lastTime;
+        if(isLoadlawRatioTable2){
+            lawRatioTable2.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
+        }else{
+            isLoadlawRatioTable2 = true;
+            lawRatioTable2.bootstrapTable({
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                sidePagination:"server",
+                url: rootPath+"/action/S_dispatch_DispatchTask_list.action",
+                method:'post',
+                pagination:true,
+                clickToSelect:true,//单击行时checkbox选中
+                queryParams:function(params){
+                    var localParams = {};
+                    //分页参数
+                    localParams.take = params.limit;
+                    localParams.skip = params.offset;
+                    if(params.offset){
+                        localParams.page = params.offset / params.limit + 1;
+                    }else{
+                        localParams.page = 1;
                     }
+                    localParams.pageSize = params.limit;
+                    localParams.firstTime = lawRatioTable2.firstTime;
+                    localParams.lastTime = lawRatioTable2.lastTime;
+                    return localParams;
                 },
-                {
-                    title: '接电人',
-                    field: 'answer',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    visible:false
-                },
-
-                {
-                    title: '企业名称',
-                    field: 'enterpriseName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-
-                {
-                    title: '信息来源',
-                    field: 'source',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        if(1==value){
-                            value="12369"
-                        }else if (2==value){
-                            value="区长热线"
-                        }else if (3==value){
-                            value="市长热线"
-                        }else if (4==value){
-                            value="现场监察"
-                        }else if (0==value){
-                            value="监控中心"
+                columns: [
+                    {
+                        title:"全选",
+                        checkbox: true,
+                        align: 'center',
+                        radio:false,  //  true 单选， false多选
+                        valign: 'middle'
+                    },
+                    {
+                        title: 'ID',
+                        field: 'id',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible:false
+                    },
+                    {
+                        title: '事件时间',
+                        field: 'eventTime',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        formatter:function (value, row, index) {
+                            return pageUtils.sub16(value);
                         }
-                        return value;
-                    }
-                },
-                {
-                    title: '所属网格',
-                    field: 'blockName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    field: 'reason',
-                    title: '原因',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    formatter:function (value, row, index) {
-                        if(1==value){
-                            value="异常"
-                        }else if(2==value){
-                            value="超标"
+                    },
+                    {
+                        title: '接电人',
+                        field: 'answer',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        visible:false
+                    },
+
+                    {
+                        title: '企业名称',
+                        field: 'enterpriseName',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+
+                    {
+                        title: '信息来源',
+                        field: 'source',
+                        editable: false,
+                        sortable: false,
+                        align: 'center',
+                        formatter:function (value, row, index) {
+                            if(1==value){
+                                value="12369"
+                            }else if (2==value){
+                                value="区长热线"
+                            }else if (3==value){
+                                value="市长热线"
+                            }else if (4==value){
+                                value="现场监察"
+                            }else if (0==value){
+                                value="监控中心"
+                            }
+                            return value;
                         }
-                        return value;
+                    },
+                    {
+                        title: '所属网格',
+                        field: 'blockName',
+                        editable: false,
+                        sortable: false,
+                        align: 'center'
+                    },
+                    {
+                        field: 'reason',
+                        title: '原因',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        formatter:function (value, row, index) {
+                            if(1==value){
+                                value="异常"
+                            }else if(2==value){
+                                value="超标"
+                            }
+                            return value;
+                        }
+                    },
+                    {
+                        field: 'senderName',
+                        title: '发送人',
+                        sortable: false,
+                        align: 'center',
+                        editable: false
+                    },
+
+                    {
+                        field: 'monitorCaseId',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'overValue',
+                        title: '超标值',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'thrValue',
+                        title: '超标阀值',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
+                    },
+                    {
+                        field: 'sendRemark',
+                        title: '备注',
+                        sortable: false,
+                        align: 'center',
+                        editable: false,
+                        visible:false
                     }
-                },
-                {
-                    field: 'senderName',
-                    title: '发送人',
-                    sortable: false,
-                    align: 'center',
-                    editable: false
-                },
-
-                {
-                    field: 'monitorCaseId',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                },
-                {
-                    field: 'overValue',
-                    title: '超标值',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                },
-                {
-                    field: 'thrValue',
-                    title: '超标阀值',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                },
-                {
-                    field: 'sendRemark',
-                    title: '备注',
-                    sortable: false,
-                    align: 'center',
-                    editable: false,
-                    visible:false
-                }
-            ]
-        });
-        // sometimes footer render error.
-        setTimeout(function () {
-            lawRatioTable2.bootstrapTable('resetView');
-        }, 200);
-
-
-        $(window).resize(function () {
-            // 重新设置表的高度
-            lawRatioTable2.bootstrapTable('resetView', {
-                height: pageUtils.getTableHeight()
+                ]
             });
-        });
+            // sometimes footer render error.
+            setTimeout(function () {
+                lawRatioTable2.bootstrapTable('resetView');
+            }, 200);
+            $(window).resize(function () {
+                // 重新设置表的高度
+                lawRatioTable2.bootstrapTable('resetView', {
+                    height: pageUtils.getTableHeight()
+                });
+            });
+        }
+
     }
 
 

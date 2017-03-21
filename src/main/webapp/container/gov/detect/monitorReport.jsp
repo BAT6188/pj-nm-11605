@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>监督性监测报告</title>
+    <script src="<%=request.getContextPath()%>/common/scripts/dict.js"></script>
     <%--<%@include file="/common/msgSend/msgSend.jsp"%>--%>
 </head>
 <body>
@@ -54,21 +55,21 @@
                         </div>
                         <div class="form-group">
                             <label for="">监测类型：</label>
-                            <select id="s_monitoringType" name="monitoringType" class="form-control">
+                            <select id="s_monitoringType" name="monitoringType" class="form-control monitoringType">
                                 <option value="">全部</option>
-                                <option value="1">监督性监测</option>
+                                <%--<option value="1">监督性监测</option>
                                 <option value="2">企业委托监测</option>
-                                <option value="3">环境质量监测</option>
+                                <option value="3">环境质量监测</option>--%>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">监测内容：</label>
-                            <select id="s_type" name="type" class="form-control">
+                            <select id="s_type" name="type" class="form-control monitoringContent">
                                 <option value="">全部</option>
-                                <option value="1">水质监测</option>
+                                <%--<option value="1">水质监测</option>
                                 <option value="2">大气监测</option>
                                 <option value="3">噪声监测</option>
-                                <option value="4">土壤监测</option>
+                                <option value="4">土壤监测</option>--%>
                             </select>
                         </div>
                     </form>
@@ -126,19 +127,19 @@
                     <div class="form-group">
                         <label for="monitoringType" class="col-sm-2 control-label">监测类型<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="monitoringType" name="monitoringType" class="form-control">
-                                <option value="1">监督性监测</option>
+                            <select id="monitoringType" name="monitoringType" class="form-control monitoringType">
+                                <%--<option value="1">监督性监测</option>
                                 <option value="2">企业委托监测</option>
-                                <option value="3">环境质量监测</option>
+                                <option value="3">环境质量监测</option>--%>
                             </select>
                         </div>
                         <label for="type" class="col-sm-2 control-label">监测内容<span class="text-danger">*</span>：</label>
                         <div class="col-sm-4">
-                            <select id="type" name="type" class="form-control">
-                                <option value="1">水质监测</option>
+                            <select id="type" name="type" class="form-control monitoringContent">
+                                <%--<option value="1">水质监测</option>
                                 <option value="2">大气监测</option>
                                 <option value="3">噪声监测</option>
-                                <option value="4">土壤监测</option>
+                                <option value="4">土壤监测</option>--%>
                             </select>
                         </div>
                     </div>

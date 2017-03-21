@@ -366,14 +366,12 @@ function initTable() {
     });
     //搜索
     $("#search").click(function () {
-        console.log("search--------------");
-        console.log(gridTable.bootstrapTable('getOptions').columns[0]);
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     //重置搜索
     $("#resetSearch").click(function () {
         resetQuery();
-        gridTable.bootstrapTable('refreshOptions',{pageNumber:1});
+        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
     });
     gridTable.BootstrapExport($('#export'),{
         fileName:'排污单位列表',  //自定义文件名

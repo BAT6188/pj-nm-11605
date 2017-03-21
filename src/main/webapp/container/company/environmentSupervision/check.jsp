@@ -4,7 +4,7 @@
 %>
 <script>
     var enterpriseId='<%=enterpriseId%>';
-    console.log(enterpriseId);
+    console.log(enterpriseData);
 </script>
 <!DOCTYPE html>
 <html>

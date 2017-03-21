@@ -54,6 +54,21 @@ public class MonitorCaseAction extends BaseAction<MonitorCase, MonitorCaseServic
         return monitorCaseService;
     }
 
+    public void queryAlertEnterpriseList(){
+        MonitorCase m=new MonitorCase();
+        m.setSource("0");
+        m.setPortAlertStatus("0");
+        List<MonitorCase> list = monitorCaseService.findBySample(m);
+        write(list);
+    }
+
+    public void setPortAlertStatus(){
+        MonitorCase m = monitorCaseService.findById(entity.getId());
+        m.setPortAlertStatus(request.getParameter("portAlertStatus"));
+        monitorCaseService.update(m);
+        write("ok");
+    }
+
     /**
      * 监控中心
      */

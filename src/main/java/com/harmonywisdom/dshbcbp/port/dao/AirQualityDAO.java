@@ -22,6 +22,5 @@ public class AirQualityDAO extends DefaultDAO<AirQuality, String> {
             count = Long.parseLong(String.valueOf(list.get(0)));
         }
         return count;
-
     }
 }

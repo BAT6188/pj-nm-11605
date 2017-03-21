@@ -5,6 +5,10 @@ var DemoPage = function () {
         form = $("#demoForm"),
         formTitle = "存在的问题及整改情况";
 
+    $(".modalClose").click(function () {
+        form.modal('hide');
+    })
+
     //保存ajax请求
     function saveAjax(entity, callback) {
         $.ajax({

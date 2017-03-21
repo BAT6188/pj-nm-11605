@@ -150,6 +150,13 @@ public class GasPort implements Serializable {
     private String enterpriseId;
 
     /**
+     * 企业code
+     */
+    @Column(name = "enterprise_code",length = 32)
+    private String enterpriseCode;
+
+
+    /**
      * 平面图标绘
      */
     @Column(name = "plane_map_mark",length = 1024)
@@ -359,5 +366,13 @@ public class GasPort implements Serializable {
 
     public void setOxygen(Double oxygen) {
         this.oxygen = oxygen;
+    }
+
+    public String getEnterpriseCode() {
+        return enterpriseCode;
+    }
+
+    public void setEnterpriseCode(String enterpriseCode) {
+        this.enterpriseCode = enterpriseCode;
     }
 }

@@ -104,11 +104,8 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
             condition.setParam(param);
         }
         condition.setPaging(getPaging());
-        condition.setOrderBy("pubTime", Direction.DESC);
+        condition.setOrderBy("mobileTimestamp", Direction.DESC);
         condition.setOrderBy("status", Direction.ASC);
-        if (StringUtils.isNotEmpty(mobileOperType)){
-            condition.setOrderBy("mobileTimestamp", Direction.DESC);
-        }
         return condition;
     }
 
@@ -138,6 +135,9 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
         if (StringUtils.isNotBlank(attachmentIdsRemoveId)) {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
+        }
+        if(StringUtils.isNotBlank(entity.getStatus()) && "1".equals(entity.getStatus())){
+            entity.setPubTime(new Date());
         }
         super.save();
         pubInfoService.savePubInfoRelTable(entity);
@@ -232,7 +232,7 @@ public class PubInfoAction extends BaseAction<PubInfo, PubInfoService> {
                 List<IOrg> childParent = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
                 if(childParent.size()>0) {
                     for (IOrg childOrg:childParent) {
-                        List childOrgs = OrgServiceUtil.getOrgsByParentOrgId(childOrg.getOrgId());
+                        List<IOrg> childOrgs = OrgServiceUtil.getOrgsByParentOrgId(childOrg.getOrgId());
                         authorizationOrgs.addAll(childOrgs);
                     }
                 }

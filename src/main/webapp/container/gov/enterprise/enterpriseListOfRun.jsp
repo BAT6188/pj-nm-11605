@@ -7,6 +7,16 @@
     <meta charset="utf-8">
     <title>排污单位列表</title>
     <script src="<%=request.getContextPath()%>/common/scripts/jquery.form.js"></script>
+    <script>
+        $(function(){
+            $('#searchform').submit(function(e){
+                e.preventDefault();
+            });
+            $('#searchform').bind('keypress',function(event){
+                if(event.keyCode == "13") $('#search').click();
+            });
+        })
+    </script>
 </head>
 <body>
 <div class="content content1 clearfix">

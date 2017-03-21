@@ -87,13 +87,14 @@ public class WorkSumAction extends BaseAction<WorkSum, WorkSumService> {
     @Override
     public void save() {
         //获取删除的附件IDS
-
         String attachmentIdsRemoveId = request.getParameter("removeId");
         if(StringUtils.isNotBlank(attachmentIdsRemoveId)){
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
-        entity.setPubTime(new Date());
+        if(StringUtils.isNotBlank(entity.getPublishStatus()) && "1".equals(entity.getPublishStatus())){
+            entity.setPubTime(new Date());
+        }
         super.save();
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));

@@ -1,5 +1,7 @@
 package com.harmonywisdom.dshbcbp.attachment.action;
 
+import com.harmonywisdom.dshbcbp.appclient.bean.AppClient;
+import com.harmonywisdom.dshbcbp.appclient.service.AppClientService;
 import com.harmonywisdom.framework.action.DownloadableAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.harmonywisdom.dshbcbp.attachment.bean.Attachment;
@@ -16,7 +18,8 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
 	
     @AutoService
     private AttachmentService attachmentService;
-
+    @AutoService
+    private AppClientService appClientService;
     @Override
     protected AttachmentService getService() {
         return attachmentService;
@@ -28,13 +31,26 @@ public class AttachmentAction extends DownloadableAction<Attachment, AttachmentS
     }
 
     public void download() {
+        if(StringUtils.isNotBlank(entity.getAttachmentType()) && "apkDownload".equals(entity.getAttachmentType())){
+            AppClient apk = appClientService.findNewestApk();
+            if(apk!=null){
+                entity.setId(apk.getAttachmentId());
+            }else{
+                response.setStatus(500);
+                write("未找到相关文件");
+            }
+        }
         AttachmentConfigManager manager = AttachmentConfigManager.getInstance();
         Attachment attachment = attachmentService.findById(entity.getId());
         if (attachment != null) {
             boolean needCacheFile = false;
-            File file = new File(attachment.getPath());
 
-            if (manager.isSaveToDisk()) {
+            File file = null;
+            if(StringUtils.isNotEmpty(attachment.getPath())){
+                file = new File(attachment.getPath());
+            }
+
+            if (file!=null) {// 如果是以前保存的附件，则还是通过以前的方式文件进行下载
                 if (file.exists()) {
                     response.setContentType("application/octet-stream");
                     InputStream is = null;

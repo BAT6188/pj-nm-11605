@@ -129,14 +129,49 @@ public class EnterpriseServiceImpl extends BaseService<Enterprise, String> imple
         return dictBeans;
     }
 
+//    @Override
+//    public List<Map<String, String>> queryEnterpriseAlertStatus(String... ids) {
+//        List<Map<String, String>> result = new ArrayList<>();
+//        for (String id: ids) {
+//            Map<String, String> enterpriseAlertStatus = new HashMap<>();
+//            enterpriseAlertStatus.put("id", id);
+//            enterpriseAlertStatus.put("status", queryEnterpriseAlertStatus(id));
+//            result.add(enterpriseAlertStatus);
+//        }
+//        return result;
+//    }
+    /**
+     * 修改企业报警状态规则根据企业污染源状态（在超标预警记录发生调度的时候会判断设置企业污染源状态）(不再监测油烟的状态)，而不再根据企业排口状态
+     * @param ids
+     * @return
+     */
     @Override
     public List<Map<String, String>> queryEnterpriseAlertStatus(String... ids) {
         List<Map<String, String>> result = new ArrayList<>();
         for (String id: ids) {
+            Enterprise e = enterpriseDAO.findById(id);
             Map<String, String> enterpriseAlertStatus = new HashMap<>();
             enterpriseAlertStatus.put("id", id);
-            enterpriseAlertStatus.put("status", queryEnterpriseAlertStatus(id));
+            enterpriseAlertStatus.put("status", e.getPollutantStatus());
             result.add(enterpriseAlertStatus);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<Map<String, String>> queryAlertEnterpriseList(List<Enterprise> enterprises) {
+        List<Map<String, String>> result = new ArrayList<>();
+        for (Enterprise enterprise : enterprises) {
+            Map<String, String> enterpriseAlertStatus = new HashMap<>();
+            String id = enterprise.getId();
+            String status = queryEnterpriseAlertStatus(id);
+            if (PortStatusHistory.STATUS_OVER.equals(status)){
+                enterpriseAlertStatus.put("id", id);
+                enterpriseAlertStatus.put("name",enterprise.getName());
+                enterpriseAlertStatus.put("status", status);
+                result.add(enterpriseAlertStatus);
+            }
         }
         return result;
     }
