@@ -40,6 +40,14 @@ public class SmsSender
       logger.error("apiID不存在");
   }
 
+  /**
+   * 如果发送时间为空，立即发送;如果发送时间不为空，则到设置的定时时间再发送
+   * @param message
+   * @param _addressReceiver
+   * @param sendTime
+   * @param paramSmId
+   * @return
+   */
   public ISmsBean sendSms(String message, String[] _addressReceiver,Date sendTime,Long paramSmId) {
     SmsBean smsBean = new SmsBean();
     if (!(smsFlag)) {
