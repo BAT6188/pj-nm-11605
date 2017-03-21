@@ -402,12 +402,18 @@ var setting = {
         showLine: true
     },
     data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: "-1",
+        },
         keep: {
             leaf: true
         }
     },
     check: {
-        enable: true
+        enable: false
     },
     async: {
         enable: true,
@@ -423,30 +429,18 @@ var ztree = $.fn.zTree.init($("#manualZTree"), setting);
 
 //删除节点
 $("#deleteZTree").bind('click', function () {
-    var treeObj = $.fn.zTree.getZTreeObj("manualZTree");
-    var nodes = treeObj.getSelectedNodes();
+    //var treeObj = $.fn.zTree.getZTreeObj("manualZTree");
+    var nodes = ztree.getSelectedNodes();
     if (nodes.length > 0) {
         var node = nodes[0];
         var selectId = node.id;
-        if (node != null && node.isParent && node.id == "root") {
+        if (node != null && node.id == "root") {
             Ewin.alert({message: "根目录不能删除！"}).on(function (e) {
                 if (!e) {
                     return;
                 }
             });
-        }else if (node.id == null) {
-            Ewin.alert({message: "请选择数据"}).on(function (e) {
-                if (!e) {
-                    return;
-                }
-            });
-        } else if (node.isParent && node.children.length > 0) {
-            Ewin.alert({message: "不能删除！"}).on(function (e) {
-                if (!e) {
-                    return;
-                }
-            });
-        }else if(node.isParent){
+        }else{
             $.ajax({
                 url: rootPath + "/action/S_office_Manual_findByZtreeId.action",
                 type: "post",
@@ -465,47 +459,14 @@ $("#deleteZTree").bind('click', function () {
                             type: "post",
                             data: {deletedId: ztreeId},
                             dataType: "json",
-                            success: function () {
-                                zTreeOnAsyncSuccess();
+                            success: function (msg) {
+                                if(msg.success){
+                                    Ewin.alert("删除成功！");
+                                    ztree.removeNode(node);
+                                }
                             }
                         });
                     }
-                }
-            });
-        } else if (node.isParent == false) {
-            $.ajax({
-                url: rootPath + "/action/S_office_Manual_findByZtreeId.action",
-                type: "post",
-                data: {selectId: selectId},
-                dataType: "json",
-                success: function (msg) {
-                    if (msg.length > 0) {//有数据不能删除该数据
-                        Ewin.alert({message: "不能删除该数据"}).on(function (e) {
-                            if (!e) {
-                                return;
-                            }
-                        });
-                    }else {//
-                        $.ajax({
-                            url: rootPath + "/action/S_office_ManualCatalog_delete.action",
-                            type: "post",
-                            data: {deletedId: ztreeId},
-                            dataType: "json",
-                            success: function () {
-                                zTreeOnAsyncSuccess();
-                            }
-                        });
-                    }
-                }
-            });
-        }else {
-            $.ajax({
-                url: rootPath + "/action/S_office_ManualCatalog_delete.action",
-                type: "post",
-                data: {deletedId: ztreeId},
-                dataType: "json",
-                success: function () {
-                    zTreeOnAsyncSuccess();
                 }
             });
         }
@@ -520,13 +481,14 @@ $("#addZTree").bind('click', function () {
 });
 //添加节点
 $("#saveNodes").bind('click', function () {
-    var manualId;
+    /*var manualId;
     if(ztreeNode.isParent==false){
         var node=ztreeNode.getParentNode();
         manualId=node.id;
     }else{
         manualId = ztreeId;
-    }
+    }*/
+    var thisNode = ztree.getNodeByParam("id", manualId, null);
     var name = $("#name").val();
     $.ajax({
         url: rootPath + "/action/S_office_ManualCatalog_save.action",
@@ -534,7 +496,11 @@ $("#saveNodes").bind('click', function () {
         data: {manualId: manualId, name: name},
         dataType: "json",
         success: function (msg) {
-            zTreeOnSuccess();
+            if(msg.id){
+                Ewin.alert("添加成功！");
+                var newNode = [{"id":msg.id,name:name,parentId:manualId}];
+                ztree.addNodes(thisNode, newNode);
+            }
         }
     });
     $('#addNodes').modal('hide');
@@ -543,6 +509,7 @@ $("#saveNodes").bind('click', function () {
 //默认加载第一个节点
 var firstAsyncSuccessFlag = 0;
 function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+    ztree.expandAll(true);
     var treeObj = $.fn.zTree.getZTreeObj("manualZTree");
     //调用默认展开第一个节点
     if (firstAsyncSuccessFlag == 0) {
@@ -571,24 +538,20 @@ function zTreeOnClick(event, treeId, treeNode) {
         ztreeNode = treeNode;
 
         gridTable.bootstrapTable('refresh');
-
         if(ztreeId=="root"){
             $("#add").prop('disabled', true);
         }else{
             $("#add").prop('disabled', false);
         }
+        manualId = ztreeId;
     }
-    zTreeOnSuccess();
-    selectZreeId();
+    //zTreeOnSuccess();
+    //selectZreeId();
 }
 //右侧列表添加数据刷新zTree
 function zTreeOnSuccess() {
-    var treeObj = $.fn.zTree.getZTreeObj("manualZTree");
-    var node = treeObj.getSelectedNodes();
-    if (node.length > 0) {
-            //. 重新异步加载当前选中的第一个节点
-        treeObj.reAsyncChildNodes(node[0], "refresh");
-    }
+    ztree.reAsyncChildNodes(null, "refresh");
+    ztree.expandAll(true);
 }
 
 //获取树name信息
@@ -601,11 +564,8 @@ function selectZreeId() {
         var node = sNodes[0];
         if (node.id == "root") {
             return;
-        } else if (node.isParent == true) {
+        } else{
             manualId = node.id
-        } else {
-            var nodez = node.getParentNode();
-            manualId = nodez.id;
         }
     }
 }

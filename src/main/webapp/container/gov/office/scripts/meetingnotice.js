@@ -227,7 +227,6 @@ var options = {
 };
 var model = $.fn.MsgSend.init(3,options,function(e,data){
     var entity=data.sourceId;
-    console.log(data);
     var d,ids=[],names=[];
 
     var receivers = [];
@@ -250,7 +249,6 @@ var model = $.fn.MsgSend.init(3,options,function(e,data){
     names.push(userName)
     d=$.param({ids:ids,names:names},true);
     d+="&id="+data.sourceId.id;
-    console.log(d);//回调函数，data为所选人员ID
     $.ajax({
         url: rootPath + "/action/S_office_MeetingNotice_updateMeeting.action",
         type:"post",

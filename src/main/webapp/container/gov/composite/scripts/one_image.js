@@ -498,14 +498,32 @@ var OneImagePage = function () {
                     if (enterpriseAlertStatus && enterpriseAlertStatus.length > 0) {
                         for (var i = 0; i < enterpriseAlertStatus.length; i++) {
                             var eas = enterpriseAlertStatus[i];
-                            //eas.status==1时报警
+                            var typeStatus = '0';
+                            var mark = that.hwmap.getOverlay(eas.id);
+                            var eData;
+                            if (!mark) {
+                                return;
+                            }else{
+                                eData = mark.data;
+                            }
                             if (eas.status==1){
+                                typeStatus = '1';
                                 var s='<audio id="baojing" src="'+rootPath+'/container/gov/composite/baojing.wav" autoplay="autoplay" loop="loop"/>';
                                 $('body').append(s);
                                 setTimeout("$('#baojing').remove()",10000);
+                            }else{
+                                var enterpriseName = eData.name;
+                                if(enterpriseName.indexOf("煤炭")>0){
+                                    typeStatus = '2';
+                                }
+                                /*if(enterpriseName.indexOf("酒店")>0){
+                                    typeStatus = '3';
+                                }*/
                             }
-                            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG,eas.status);
-                            that.updateMarker(eas.id, image);
+                            var image = that.portStatusMapMarkerIconUtil.getIcon(Constant.ENTERPRISE_FLAG,typeStatus);
+                            //that.updateMarker(eas.id, image);
+                            mark.imgSrc = image;
+                            that.hwmap.updateMarker(mark);
                         }
                     }
                 }
@@ -589,7 +607,9 @@ var OneImagePage = function () {
                     };
                     this[Constant.ENTERPRISE_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/enterprise_n.png',
-                        '1': rootPath+'/common/gis/images/markers/enterprise_red_light.gif'
+                        '1': rootPath+'/common/gis/images/markers/enterprise_red_light.gif',
+                        '2': rootPath+'/common/gis/images/markers/company.png',
+                        '3': rootPath+'/common/gis/images/markers/enterprise_hotel.png'
                     };
                     this[Constant.VIDEO_FLAG] = {
                         '0': rootPath+'/common/gis/images/markers/camera.png'
