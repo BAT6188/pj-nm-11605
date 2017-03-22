@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2017-03-22 17:32:30
+Date: 2017-03-22 17:36:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1894,6 +1894,7 @@ INSERT INTO `hm_org_person` VALUES ('39', '402883b358849ce10158f6ae2a2f04e2', '3
 INSERT INTO `hm_org_person` VALUES ('4', '402883b3577422f00157f9d7e58d03e7', '4', null);
 INSERT INTO `hm_org_person` VALUES ('40', '402883b358849ce10158f6ae2a2f04e2', '40', null);
 INSERT INTO `hm_org_person` VALUES ('402880e55af4ef8b015af5375e550004', '402883b3577422f00157f9d83c5403e8', '21', null);
+INSERT INTO `hm_org_person` VALUES ('402880e55af4ef8b015af55ed26c000b', '402883b3577422f001577498383c0006', '402880e55af4ef8b015af55ed26b0009', null);
 INSERT INTO `hm_org_person` VALUES ('402883b3577422f00157749911c80009', '402883b3577422f001577498383c0006', '402883b3577422f00157749911c80007', null);
 INSERT INTO `hm_org_person` VALUES ('41', '402883b358849ce10158f6ae2a2f04e2', '41', null);
 INSERT INTO `hm_org_person` VALUES ('42', '402883b358849ce10158f6ae2a2f04e2', '42', null);
@@ -2162,6 +2163,7 @@ INSERT INTO `hm_person` VALUES ('38', '38', '0', 'hanxiao', '1', 'c4ca4238a0b923
 INSERT INTO `hm_person` VALUES ('39', '39', '0', 'wanglong', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', null, null, null, null, null, null, null, null, null, '2016-12-16 22:02:53', '0', '0', null, null);
 INSERT INTO `hm_person` VALUES ('4', '4', '0', 'shaomingfeng', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', '0', null, null, null, null, null, null, null, null, '2016-12-16 20:14:09', '0', '0', null, null);
 INSERT INTO `hm_person` VALUES ('40', '40', '0', 'zhangyile', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', '0', null, null, null, null, null, null, null, null, '2016-12-16 22:02:58', '0', '0', null, null);
+INSERT INTO `hm_person` VALUES ('402880e55af4ef8b015af55ed26b0009', '402880e55af4ef8b015af55ed26c000a', '0', 'dev2', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', '0', null, null, null, null, null, null, '2017-03-22 17:35:17', '2017-03-22 17:35:17', '2017-03-22 17:35:17', '0', '0', null, null);
 INSERT INTO `hm_person` VALUES ('402883b3577422f00157749911c80007', '402883b3577422f00157749911c80008', '0', 'dev', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', '0', null, null, null, null, null, null, '2016-09-29 14:19:31', '2016-09-29 14:19:31', '2016-09-29 14:19:31', '0', '0', null, null);
 INSERT INTO `hm_person` VALUES ('402883b35907c2a201592b054d480065', '402883b35907c2a201592b054d480066', '0', 'daduilindao', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', '0', null, null, null, null, null, null, '2016-12-23 17:31:25', '2016-12-23 17:31:25', '2016-12-23 17:31:25', '0', '1', null, null);
 INSERT INTO `hm_person` VALUES ('402883b35907c2a201592b05c4f60069', '402883b35907c2a201592b05c4f6006a', '0', 'huanbaozhanzhang', '1', 'c4ca4238a0b923820dcc509a6f75849b', '0', '0', null, null, null, null, null, null, '2016-12-23 17:31:56', '2016-12-23 17:31:56', '2016-12-23 17:31:56', '0', '1', null, null);
@@ -2376,6 +2378,7 @@ INSERT INTO `hm_person_base` VALUES ('38', '韩潇', '', null, '', '0', '', '', 
 INSERT INTO `hm_person_base` VALUES ('39', '王龙', '', null, '', '0', '', '', '', '8334609', null, '', '14794980888', '', null, null, null, '', '', '', '', '', '0.00', null, '', 'wanglong', '0', null, null, null, null);
 INSERT INTO `hm_person_base` VALUES ('4', '邵名峰', '', null, '', '1', '', '', '', '8341549', null, '', '13948176789', '', null, null, null, '', '', '', '', '', '4.00', null, '', 'shaomingfeng', '0', null, null, null, null);
 INSERT INTO `hm_person_base` VALUES ('40', '张一乐', '', null, '', '0', '', '', '', '8339874', null, '', '13604779948', '', null, null, null, '', '', '', '', '', '2.00', null, '', 'zhangyile', '0', null, null, null, null);
+INSERT INTO `hm_person_base` VALUES ('402880e55af4ef8b015af55ed26c000a', 'dev2', '', null, '', null, '', '', '', '', null, '', '', '', null, null, null, '', '', '', '', '', null, null, '', 'dev2', '0', null, null, null, null);
 INSERT INTO `hm_person_base` VALUES ('402883b3577422f00157749911c80008', '开发人员', '', null, '', '0', '', '', '', '', null, '', '', '', null, null, null, '', '', '', '', '', '0.00', null, '', 'dev', '0', null, null, null, null);
 INSERT INTO `hm_person_base` VALUES ('402883b35907c2a201592b054d480066', 'daduilindao', '', null, '', null, '', '', '', '', null, '', '', '', null, null, null, '', '', '', '', '', null, null, '', 'daduilindao', '0', null, null, null, null);
 INSERT INTO `hm_person_base` VALUES ('402883b35907c2a201592b05c4f6006a', 'huanbaozhanzhang', '', null, '', null, '', '', '', '', null, '', '', '', null, null, null, '', '', '', '', '', null, null, '', 'huanbaozhanzhang', '0', null, null, null, null);
@@ -3145,6 +3148,7 @@ INSERT INTO `hm_person_role` VALUES ('2c919dae5aa688c2015aa6d274520006', '2c919d
 INSERT INTO `hm_person_role` VALUES ('2c919dae5aae9bc3015ab12a388a05fd', '37', '2c919dae5aae9bc3015ab114344302b3', null);
 INSERT INTO `hm_person_role` VALUES ('2c919dae5aae9bc3015ab12d22490600', '40', '2c919dae5aae9bc3015ab11311ca02af', null);
 INSERT INTO `hm_person_role` VALUES ('402880e55af4ef8b015af552e2d10006', '21', '402883b3577422f00157f9f4c35603f7', null);
+INSERT INTO `hm_person_role` VALUES ('402880e55af4ef8b015af55f4f4b000c', '402880e55af4ef8b015af55ed26b0009', '402883b3577422f001577496c10b0004', null);
 INSERT INTO `hm_person_role` VALUES ('402883b35907c2a201592b07b0ca0078', '402883b35907c2a201592b054d480065', '402883b3577422f00157f9f52bb803f9', null);
 INSERT INTO `hm_person_role` VALUES ('402883b35907c2a201592b07fae4007b', '402883b35907c2a201592b05c4f60069', '402883b3577422f00157f9f65f8403fd', null);
 INSERT INTO `hm_person_role` VALUES ('402883b35907c2a201592b08670e007e', '402883b35907c2a201592b062703006d', '402883b3577422f00157fa2112620409', null);
@@ -3821,6 +3825,7 @@ INSERT INTO `hm_right_shortcut` VALUES ('2c919dae5aa688c2015aa6d274520007', '2c9
 INSERT INTO `hm_right_shortcut` VALUES ('2c919dae5aae9bc3015ab12a388c05fe', '37', '2c919dae5aae9bc3015ab114344302b3', '1', '37', '0');
 INSERT INTO `hm_right_shortcut` VALUES ('2c919dae5aae9bc3015ab12d224a0601', '40', '2c919dae5aae9bc3015ab11311ca02af', '1', '40', '0');
 INSERT INTO `hm_right_shortcut` VALUES ('402880e55af4ef8b015af552e2d10007', '21', '402883b3577422f00157f9f4c35603f7', '1', '21', '0');
+INSERT INTO `hm_right_shortcut` VALUES ('402880e55af4ef8b015af55f4f4b000d', '402880e55af4ef8b015af55ed26b0009', '402883b3577422f001577496c10b0004', '1', '402880e55af4ef8b015af55ed26b0009', '0');
 INSERT INTO `hm_right_shortcut` VALUES ('402883b3577422f00157fa491e3905c4', '402883b3577422f00157f9de5a1f03ef', '402883b3577422f00157f9f22cf103f3', '1', '402883b3577422f00157f9de5a1f03ef', '0');
 INSERT INTO `hm_right_shortcut` VALUES ('402883b3577422f00157fa49970f05c7', '402883b3577422f00157fa2340c1040b', '402883b3577422f00157f9f295a203f5', '1', '402883b3577422f00157fa2340c1040b', '0');
 INSERT INTO `hm_right_shortcut` VALUES ('402883b3577422f00157fa4a1ffd05ca', '402883b3577422f00157fa23f907040e', '402883b3577422f00157f9f295a203f5', '1', '402883b3577422f00157fa23f907040e', '0');
@@ -5450,6 +5455,7 @@ INSERT INTO `hm_syn_info` VALUES ('402880e55af4ef8b015af528460a0001', '11', '21'
 INSERT INTO `hm_syn_info` VALUES ('402880e55af4ef8b015af5375e320003', '11', '21', '11', '2017-03-22 16:52:11', null, '2017-03-22 16:52:11', '芒来');
 INSERT INTO `hm_syn_info` VALUES ('402880e55af4ef8b015af552d3730005', '14', '21', '31', '2017-03-22 17:22:10', null, '2017-03-22 17:22:10', '芒来');
 INSERT INTO `hm_syn_info` VALUES ('402880e55af4ef8b015af552e2d40008', '14', '21', '31', '2017-03-22 17:22:14', null, '2017-03-22 17:22:14', '芒来');
+INSERT INTO `hm_syn_info` VALUES ('402880e55af4ef8b015af55f4f4d000e', '14', '402880e55af4ef8b015af55ed26b0009', '31', '2017-03-22 17:35:49', null, '2017-03-22 17:35:49', 'dev2');
 INSERT INTO `hm_syn_info` VALUES ('402883b3577422f001577496c10b0005', '13', '402883b3577422f001577496c10b0004', '21', '2016-09-29 14:16:59', null, '2016-09-29 14:16:59', '开发人员');
 INSERT INTO `hm_syn_info` VALUES ('402883b3577422f001577499668c000a', '13', '402883b3577422f001577496c10b0004', '22', '2016-09-29 14:19:53', null, '2016-09-29 14:19:53', '开发者');
 INSERT INTO `hm_syn_info` VALUES ('402883b3577422f00157749a3ea2000f', '14', '402883b3577422f00157749911c80007', '31', '2016-09-29 14:20:48', null, '2016-09-29 14:20:48', '开发人员');
