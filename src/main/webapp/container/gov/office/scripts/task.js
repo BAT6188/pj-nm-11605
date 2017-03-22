@@ -2,13 +2,13 @@ var DemoPage = function () {
     var gridTable = $('#table'),
         removeBtn = $('#remove'),
         updateBtn = $('#update'),
-        form = $("#demoForm"),
+        form = $("#taskForm"),
         formTitle = "指标任务";
 
     //保存ajax请求
     function saveAjax(entity, callback) {
         $.ajax({
-            url: rootPath + "/action/S_office_CreateMode_save.action",
+            url: rootPath + "/action/S_office_Task_save.action",
             type:"post",
             data:entity,
             dataType:"json",
@@ -22,7 +22,7 @@ var DemoPage = function () {
      */
     function deleteAjax(ids, callback) {
         $.ajax({
-            url: rootPath + "/action/S_office_CreateMode_delete.action",
+            url: rootPath + "/action/S_office_Task_delete.action",
             type:"post",
             data:$.param({deletedId:ids},true),//阻止深度序列化，向后台传递数组
             dataType:"json",
@@ -34,7 +34,7 @@ var DemoPage = function () {
         gridTable.bootstrapTable({
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             sidePagination:"server",
-            url: rootPath+"/action/S_office_CreateMode_list.action?publishOrgId="+orgId,
+            url: rootPath+"/action/S_office_Task_list.action?publishOrgId="+orgId,
             height: pageUtils.getTableHeight(),
             method:'post',
             pagination:true,
@@ -58,45 +58,51 @@ var DemoPage = function () {
                 },
                 {
                     title: '任务名称',
-                    field: 'name',
+                    field: 'taskName',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
                     title: '发布单位',
-                    field: 'publishOrgName',
+                    field: 'taskCreateDepartment',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
                     title: '发布时间',
-                    field: 'publishTime',
+                    field: 'taskPubTime',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '上报截止时间',
-                    field: 'deadline',
+                    title: '描述',
+                    field: 'taskRemark',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '上报状态',
-                    field: 'status',
+                    title: '状态',
+                    field: 'taskStatus',
                     editable: false,
                     sortable: false,
                     align: 'center',
                     formatter:function (value, row, index) {
-                        if(value==1){
-                            value="完成"
-                        }else {
-                            value="未完成"
+                        switch (value){
+                            case '0':
+                                return '未发布';
+                            case '1':
+                                return '未完成';
+                            case '2':
+                                return '已完成';
+                            case '3':
+                                return '已办结';
+                            default:
+                                return '未发布';
                         }
-                        return value;
                     }
                 },
                 {
@@ -133,7 +139,7 @@ var DemoPage = function () {
 
 // 生成列表操作方法
     function operateFormatter(value, row, index) {
-        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#demoForm">详情</button>';
+        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#taskForm">详情</button>';
     }
 // 列表操作事件
     window.operateEvents = {
@@ -172,15 +178,13 @@ var DemoPage = function () {
      */
     $("#add").bind('click',function () {
         resetForm();
-
-        $("#publishOrgName").val(orgName)
-        $("#publishOrgId").val(orgId)
-        $("#publishOrgName").attr("disabled",true)
+        $("#taskCreateDepartment").val(orgName);
+        $("#publishOrgId").val(orgId);
+        $("#taskCreateDepartment").attr("readonly",true)
     });
-    $("#update").bind("click",function () {
+    updateBtn.bind("click",function () {
         setFormData(getSelections()[0]);
-
-        $("#publishOrgName").attr("disabled",true)
+        $("#taskCreateDepartment").attr("readonly",true)
     });
     /**
      * 列表工具栏 删除按钮
@@ -237,9 +241,9 @@ var DemoPage = function () {
 //初始化表单验证
     var ef = form.easyform({
         success:function (ef) {
-            var entity = $("#demoForm").find("form").formSerializeObject();
-            entity.publishOrgName=$("#publishOrgName").val()
-            entity.status=0
+            var entity = form.find("form").formSerializeObject();
+            entity.status=0;
+            entity.attachmentIds = getAttachmentIds();
             saveAjax(entity,function (msg) {
                 form.modal('hide');
                 gridTable.bootstrapTable('refresh');
@@ -268,6 +272,7 @@ var DemoPage = function () {
             $(selector).val(entity[p])
         }
 
+        uploader = new qq.FineUploader(pageUtils.getUploaderOptions('fine-uploader-gallery',id));
     }
     function setFormView(entity) {
         setFormData(entity);
@@ -275,25 +280,27 @@ var DemoPage = function () {
         disabledForm(true);
         form.find("#save").hide();
         form.find(".btn-cancel").text("关闭");
+        var fuOptions = pageUtils.getUploaderOptions('fine-uploader-gallery',entity.id);
+        fuOptions.callbacks.onSessionRequestComplete = function () {
+            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+        };
+        uploader = new qq.FineUploader(fuOptions);
+        $(".qq-upload-button").hide();
+        $("#fine-uploader-gallery").find('.qq-uploader-selector').attr('qq-drop-area-text','暂无上传的附件');
     }
     function disabledForm(disabled) {
         form.find("input").attr("disabled",disabled);
         form.find("textarea").attr("disabled",disabled);
         if (!disabled) {
             //初始化日期组件
-            $('#createTimeContent').datetimepicker({
-                language:   'zh-CN',
+            $('.editDatetime').datetimepicker({
+                language:'zh-CN',
                 autoclose: 1,
-                minView: 2
-            });
-            $('#openDateContent').datetimepicker({
-                language:   'zh-CN',
-                autoclose: 1,
-                minView: 2
+                minView: 2,
+                pickerPosition:'bottom-left'
             });
         }else{
-            $('#createTimeContent').datetimepicker('remove');
-            $('#openDateContent').datetimepicker('remove');
+            $('.editDatetime').datetimepicker('remove');
         }
 
     }
@@ -307,9 +314,19 @@ var DemoPage = function () {
         disabledForm(false);
         form.find("#save").show();
         form.find(".btn-cancel").text("取消");
+        uploader = new qq.FineUploader(pageUtils.getUploaderOptions('fine-uploader-gallery'));
     }
 
-
-
+    function getAttachmentIds() {
+        var attachments = uploader.getUploads();
+        if (attachments && attachments.length) {
+            var ids = [];
+            for (var i = 0 ; i < attachments.length; i++){
+                ids.push(attachments[i].uuid);
+            }
+            return ids.join(",");
+        }
+        return "";
+    }
 }();
 

@@ -436,6 +436,109 @@ var pageUtils = {
             }
         });
         return returnData;
+    },
+    /**
+     * 获取附件options
+     * @param uploadEleId 附件区ID
+     * @param bussinessId 父类id
+     * @param myUpType 附件类型
+     * @param limitNum 最大上传数量
+     * @param myUpCpmplateFunc 上传完成后处理函数
+     * @param myDeleteComplateFunc 删除后处理函数
+     * @returns options对象
+     */
+    getUploaderOptions:function(uploadEleId,bussinessId,myUpType,limitNum,myUpCpmplateFunc,myDeleteComplateFunc){
+        //$("#"+uploadEleId).on('click', '.qq-upload-download-selector', downloadFunc);
+        var upCpmplateFunc = function (id,fileName,msg,request) {
+            var uploader = this;
+            uploader.setUuid(id, msg.id);
+            $("#"+uploadEleId).on('click', '.qq-upload-download-selector', function(){
+                var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
+                window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+            });
+        };
+        var deleteComplateFunc = function (id) {
+            var uploader = this;
+            var file = uploader.getUploads({id:id});
+            var removeIds = $("#removeId").val();
+            if (removeIds) {
+                removeIds+= ("," + file.uuid)
+            }else{
+                removeIds = file.uuid;
+            }
+            $("#removeId").val(removeIds);
+        }
+        var upType = 'attachments',attachmentType = 'attachments';
+        if(myUpType){
+            upType = myUpType;
+            attachmentType = myUpType;
+        }
+        if(!bussinessId){
+            attachmentType = '';
+        }
+        var itemLimit = 3;
+        if(limitNum>0){
+            itemLimit = limitNum;
+        }
+        if(myUpCpmplateFunc){
+            upCpmplateFunc = myUpCpmplateFunc;
+        }
+        if(myDeleteComplateFunc){
+            deleteComplateFunc = myDeleteComplateFunc;
+        }
+        return {
+            element: document.getElementById(uploadEleId),
+            template: 'qq-template',
+            chunking: {
+                enabled: false,
+                concurrent: {
+                    enabled: true
+                }
+            },
+            resume: {
+                enabled: false
+            },
+            retry: {
+                enableAuto: false,
+                showButton: false
+            },
+            failedUploadTextDisplay: {
+                mode: 'custom'
+            },
+            callbacks: {
+                onComplete:upCpmplateFunc,
+                onDeleteComplete:deleteComplateFunc,
+                onAllComplete: function (succeed) {
+                    var self = this;
+                    $.each(succeed, function (k, v) {
+                        $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                    });
+                }
+            },
+            request: {
+                endpoint: rootPath + '/Upload?type='+upType+'&businessId='+bussinessId,
+                params: {
+                    businessId:bussinessId,
+                    type:upType
+                }
+            },
+            session:{
+                endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+                params: {
+                    businessId:bussinessId,
+                    attachmentType:attachmentType
+                }
+            },
+            deleteFile: {
+                enabled: true,
+                endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+                method:"POST"
+            },
+            validation: {
+                itemLimit: itemLimit
+            },
+            debug: true
+        };
     }
 };
 (function($){
