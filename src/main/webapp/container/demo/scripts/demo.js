@@ -401,27 +401,25 @@ var uploader2;//附件上传组件对象
     var uploaderCach = {};
     $.fn.initFineUploader = function(type,bussinessId,onSessionRequestComplete){
         var that=this;
-        // console.log(this)
-        // console.log(this[0])
         var uploaderOptions = getUploaderOptions(that,type,bussinessId);
         if (onSessionRequestComplete){
             uploaderOptions.callbacks.onSessionRequestComplete=onSessionRequestComplete;
         }
 
         var _uploader = new qq.FineUploader(uploaderOptions);
+        uploaderCach[this.prop("id")] = _uploader;
+
         this.on('click', '.qq-upload-download-selector', function () {
-            // console.log(this)
-            var _u=uploaderCach[_uploader._options.element.id]
-            if (uploader0==_u){
-
-            }else if (uploader1==_u){
-
-            }else if (uploader2==_u){
-
-            }else {
-                console.error(_uploader)
-            }
-
+            var _u=uploaderCach[that.prop("id")]
+            // if (uploader0==_u){
+            //
+            // }else if (uploader1==_u){
+            //
+            // }else if (uploader2==_u){
+            //
+            // }else {
+            //     console.error(_uploader)
+            // }
             var uuid = _u.getUuid($(this.closest('li')).attr('qq-file-id'));
             if (uuid){
                 window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
@@ -429,7 +427,7 @@ var uploader2;//附件上传组件对象
                 console.error("error")
             }
         });
-        uploaderCach[this.attr("id")] = _uploader;
+
         return _uploader;
     };
 })(jQuery);
