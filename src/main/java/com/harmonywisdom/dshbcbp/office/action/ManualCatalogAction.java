@@ -1,8 +1,8 @@
 package com.harmonywisdom.dshbcbp.office.action;
 
+import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.office.bean.ManualCatalog;
 import com.harmonywisdom.dshbcbp.office.service.ManualCatalogService;
-import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 
@@ -19,8 +19,9 @@ public class ManualCatalogAction extends BaseAction<ManualCatalog, ManualCatalog
 
     public void getManualCatalogTree(){
         String id=request.getParameter("id");
-        List<ZNodeDTO> levels = getService().getManualCatalog(id);
-        write(levels);
+        //List<ZNodeDTO> levels = getService().getManualCatalog(id);
+        List<ZtreeObj> list = getService().getManualCatalogZtree();
+        write(list);
     }
 
     @Override

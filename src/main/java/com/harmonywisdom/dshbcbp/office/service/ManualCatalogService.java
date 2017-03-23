@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.office.service;
 
+import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.office.bean.ManualCatalog;
 import com.harmonywisdom.dshbcbp.utils.ZNodeDTO;
 import com.harmonywisdom.framework.service.IBaseService;
@@ -16,4 +17,6 @@ public interface ManualCatalogService extends IBaseService<ManualCatalog, String
      * @return
      */
     List<ManualCatalog> findSelectTreeId(String ztreeId);
+
+    List<ZtreeObj> getManualCatalogZtree();
 }

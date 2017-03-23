@@ -1,5 +1,6 @@
 package com.harmonywisdom.dshbcbp.office.service.impl;
 
+import com.harmonywisdom.dshbcbp.common.dict.bean.ZtreeObj;
 import com.harmonywisdom.dshbcbp.office.bean.ManualCatalog;
 import com.harmonywisdom.dshbcbp.office.dao.ManualCatalogDAO;
 import com.harmonywisdom.dshbcbp.office.service.ManualCatalogService;
@@ -53,5 +54,21 @@ public class ManualCatalogServiceImpl extends BaseService<ManualCatalog, String>
     public List<ManualCatalog> findSelectTreeId(String ztreeId) {
         List<ManualCatalog> list=getDAO().queryJPQL("from ManualCatalog entity where entity.id=? ",ztreeId);
         return list ;
+    }
+
+    @Override
+    public List<ZtreeObj> getManualCatalogZtree() {
+        List<ZtreeObj> nodes=new ArrayList<>();
+        List<ManualCatalog> manualCatalogs=getDAO().findAll();
+        if(manualCatalogs.size()>0){
+            for(ManualCatalog mc:manualCatalogs){
+                ZtreeObj zo = new ZtreeObj();
+                zo.setId(mc.getId());
+                zo.setName(mc.getName());
+                zo.setParentId(mc.getManualId());
+                nodes.add(zo);
+            }
+        }
+        return nodes;
     }
 }
