@@ -2,7 +2,7 @@ var DemoPage = function () {
     var gridTable = $('#table'),
         removeBtn = $('#remove'),
         updateBtn = $('#update'),
-        form = $("#taskForm"),
+        form = $("#taskChildForm"),
         formTitle = "任务类型";
 
     //保存ajax请求
@@ -169,7 +169,7 @@ var DemoPage = function () {
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/taskChild.jsp?parentTaskId=" + row.id+"&parentTaskName="+encodeURIComponent(encodeURIComponent(row.taskName));
+            var url = rootPath + "/container/gov/office/taskChild.jsp?parentTaskId=" + row.id;
             pageUtils.toUrl(url);
         }
     };

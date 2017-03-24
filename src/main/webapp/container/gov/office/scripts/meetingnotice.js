@@ -1,11 +1,21 @@
-//@ sourceURL=meetingnotice.js
 var gridTable = $('#table'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     form = $("#scfForm"),
     formTitle = "会议通知",
     selections = [];
-
+initSelect();
+function initSelect(){
+    /*数据字典*/
+    var dictData = dict.getDctionnary({code:['type']});
+    $.each(dictData,function(k,v){
+        var optionsHtml = '';
+        $.each(v,function(i,obj){
+            optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
+        })
+        $('#'+k).append(optionsHtml);
+    });
+}
 //保存ajax请求
 function saveAjax(entity, callback) {
     $.ajax({

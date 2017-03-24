@@ -3,7 +3,7 @@ var DemoPage = function () {
         removeBtn = $('#remove'),
         updateBtn = $('#update'),
         form = $("#taskForm"),
-        formTitle = "任务类型";
+        formTitle = "年度任务";
 
     //保存ajax请求
     function saveAjax(entity, callback) {
@@ -40,24 +40,23 @@ var DemoPage = function () {
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
             queryParams:function localParams(params) {
-            var localParams = {};
-            //分页参数
-            localParams.take = params.limit;
-            localParams.skip = params.offset;
-            if(params.offset){
-                localParams.page = params.offset / params.limit + 1;
-            }else{
-                localParams.page = 1;
-            }
-            localParams.pageSize = params.limit;
-            var jsonData = $('.queryBox').find('form').formSerializeObject();
-            if(!$.isEmptyObject(jsonData)){
-                $.extend(localParams,jsonData);
-            }
-            localParams.taskType=1;
-            localParams.parentTaskId=parentTaskId;
-            return localParams;
-        },
+                var localParams = {};
+                //分页参数
+                localParams.take = params.limit;
+                localParams.skip = params.offset;
+                if(params.offset){
+                    localParams.page = params.offset / params.limit + 1;
+                }else{
+                    localParams.page = 1;
+                }
+                localParams.pageSize = params.limit;
+                var jsonData = $('.queryBox').find('form').formSerializeObject();
+                if(!$.isEmptyObject(jsonData)){
+                    $.extend(localParams,jsonData);
+                }
+                localParams.taskType=0;
+                return localParams;
+            },
             columns: [
                 {
                     title:"全选",
@@ -76,20 +75,13 @@ var DemoPage = function () {
                 },
                 {
                     title: '年度任务',
-                    field: 'parentTaskName',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
-                    title: '任务类型',
                     field: 'taskName',
                     editable: false,
                     sortable: false,
                     align: 'center'
                 },
                 {
-                    title: '发布单位',
+                    title: '发布科室',
                     field: 'taskCreateDepartment',
                     editable: false,
                     sortable: false,
@@ -108,27 +100,6 @@ var DemoPage = function () {
                     editable: false,
                     sortable: false,
                     align: 'center'
-                },
-                {
-                    title: '状态',
-                    field: 'taskStatus',
-                    editable: false,
-                    sortable: false,
-                    align: 'center',
-                    formatter:function (value, row, index) {
-                        switch (value){
-                            case '0':
-                                return '未发布';
-                            case '1':
-                                return '未完成';
-                            case '2':
-                                return '已完成';
-                            case '3':
-                                return '已办结';
-                            default:
-                                return '未发布';
-                        }
-                    }
                 },
                 {
                     field: 'operate',
@@ -169,7 +140,7 @@ var DemoPage = function () {
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/taskChild.jsp?parentTaskId=" + row.id+"&parentTaskName="+encodeURIComponent(encodeURIComponent(row.taskName));
+            var url = rootPath + "/container/gov/office/task.jsp?parentTaskId=" + row.id+"&parentTaskName="+encodeURIComponent(encodeURIComponent(row.taskName));
             pageUtils.toUrl(url);
         }
     };
@@ -203,18 +174,14 @@ var DemoPage = function () {
      */
     $("#add").bind('click',function () {
         resetForm();
-        editEntity = {};
         $("#taskCreateDepartment").val(orgName);
-        $("#dispatchDutyDepartmentCode").val(orgCode);
+        $("#publishOrgId").val(orgId);
         $("#taskCreateDepartment").attr("readonly",true)
     });
     updateBtn.bind("click",function () {
-        var entity = getSelections()[0];
-        setFormData(entity);
-        editEntity = entity;
+        setFormData(getSelections()[0]);
         $("#taskCreateDepartment").attr("readonly",true)
     });
-    var editEntity = {};
     /**
      * 列表工具栏 删除按钮
      */
@@ -238,6 +205,8 @@ var DemoPage = function () {
 
             });
         });
+
+
     });
 
     /**============列表搜索相关处理============**/
@@ -269,11 +238,7 @@ var DemoPage = function () {
     var ef = form.easyform({
         success:function (ef) {
             var entity = form.find("form").formSerializeObject();
-            if(!$.isEmptyObject(editEntity)){
-                $.extend({}, editEntity , entity || {});
-            }
-            entity.taskType = 1;
-            entity.parentTaskId = parentTaskId;
+            entity.taskType = 0;
             entity.status=0;
             entity.attachmentIds = getAttachmentIds();
             saveAjax(entity,function (msg) {
@@ -303,6 +268,7 @@ var DemoPage = function () {
             var selector="#"+p
             $(selector).val(entity[p])
         }
+
         uploader = new qq.FineUploader(pageUtils.getUploaderOptions('fine-uploader-gallery',id));
     }
     function setFormView(entity) {
@@ -328,6 +294,7 @@ var DemoPage = function () {
                 language:'zh-CN',
                 autoclose: 1,
                 minView: 2,
+                todayBtn:  1,
                 pickerPosition:'bottom-left'
             });
         }else{

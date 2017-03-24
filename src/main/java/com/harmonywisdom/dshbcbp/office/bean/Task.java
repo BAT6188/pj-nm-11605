@@ -17,7 +17,7 @@ public class Task implements Serializable {
     private String id;
 
     /**
-     * 任务类型(0:大任务，1：小任务)
+     * 任务类型(0:大任务，1：中任务,2小任务)
      */
     @Column(name = "task_type",length = 1)
     private String taskType;
@@ -27,6 +27,12 @@ public class Task implements Serializable {
      */
     @Column(name = "parent_task_id",length = 32)
     private String parentTaskId;
+
+    /**
+     * 父任务名称
+     */
+    @Column(name = "parent_task_name")
+    private String parentTaskName;
 
     /**
      * 任务名称
@@ -65,6 +71,12 @@ public class Task implements Serializable {
     private String dispatchDutyLeader;
 
     /**
+     * 调度责任部门ORG_CODE
+     */
+    @Column(name = "dispatch_department_code",length = 128)
+    private String dispatchDutyDepartmentCode;
+
+    /**
      * 调度责任部门
      */
     @Column(name = "dispatch_department",length = 128)
@@ -75,6 +87,12 @@ public class Task implements Serializable {
      */
     @Column(name = "task_deadline")
     private Date taskDeadline;
+
+    /**
+     * 任务创建人ID
+     */
+    @Column(name = "task_creator_id",length = 32)
+    private String taskCreatorId;
 
     /**
      * 任务创建人
@@ -89,7 +107,19 @@ public class Task implements Serializable {
     private Date taskCreateTime;
 
     /**
-     * 任务状态(0:初态,未发布;1:已完成)
+     * 任务发布时间
+     */
+    @Column(name = "task_pub_time")
+    private Date taskPubTime;
+
+    /**
+     * 任务创建单位
+     */
+    @Column(name = "task_create_department")
+    private String taskCreateDepartment;
+
+    /**
+     * 任务状态(0:初态,未发布;1:未完成；2：已完成；3：已办结)
      */
     @Column(name = "task_status",length = 2)
     private String taskStatus;
@@ -115,6 +145,9 @@ public class Task implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
     private Date mobileTimestamp;
+
+    @Column(name = "is_have_child",length = 2)
+    private String isHaveChild;
 
     /**
      *附件
@@ -272,5 +305,53 @@ public class Task implements Serializable {
 
     public void setReviewStatus(String reviewStatus) {
         this.reviewStatus = reviewStatus;
+    }
+
+    public String getTaskCreateDepartment() {
+        return taskCreateDepartment;
+    }
+
+    public void setTaskCreateDepartment(String taskCreateDepartment) {
+        this.taskCreateDepartment = taskCreateDepartment;
+    }
+
+    public Date getTaskPubTime() {
+        return taskPubTime;
+    }
+
+    public void setTaskPubTime(Date taskPubTime) {
+        this.taskPubTime = taskPubTime;
+    }
+
+    public String getIsHaveChild() {
+        return isHaveChild;
+    }
+
+    public void setIsHaveChild(String isHaveChild) {
+        this.isHaveChild = isHaveChild;
+    }
+
+    public String getTaskCreatorId() {
+        return taskCreatorId;
+    }
+
+    public void setTaskCreatorId(String taskCreatorId) {
+        this.taskCreatorId = taskCreatorId;
+    }
+
+    public String getDispatchDutyDepartmentCode() {
+        return dispatchDutyDepartmentCode;
+    }
+
+    public void setDispatchDutyDepartmentCode(String dispatchDutyDepartmentCode) {
+        this.dispatchDutyDepartmentCode = dispatchDutyDepartmentCode;
+    }
+
+    public String getParentTaskName() {
+        return parentTaskName;
+    }
+
+    public void setParentTaskName(String parentTaskName) {
+        this.parentTaskName = parentTaskName;
     }
 }

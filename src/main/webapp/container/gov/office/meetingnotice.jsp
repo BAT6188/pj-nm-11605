@@ -166,7 +166,7 @@
             </div>
             <div class="modal-footer">
                 <%--<button type="button" class="btn btn-primary" id="smsSend">短信发送</button>--%>
-                <span id="isSendSms"><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
+                <span><input type="checkbox" id="isSendSms"><label for="isSendSms">同时发送短信</label></span>
                 <button type="button" class="btn btn-primary" id="save">发送</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
@@ -174,21 +174,5 @@
     </div>
 </div>
 <script src="<%=request.getContextPath()%>/container/gov/office/scripts/meetingnotice.js"></script>
-<script>
-    $(function(){
-        initSelect();
-    });
-    function initSelect(){
-        /*数据字典*/
-        var dictData = dict.getDctionnary({code:['type']});
-        $.each(dictData,function(k,v){
-            var optionsHtml = '';
-            $.each(v,function(i,obj){
-                optionsHtml +='<option value="'+ obj.code+'">'+ obj.name+'</option>';
-            })
-            $('#'+k).append(optionsHtml);
-        });
-    }
-</script>
 </body>
 </html>
