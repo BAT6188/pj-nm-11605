@@ -3,6 +3,9 @@
 <html>
 <head>
     <title>噪音排口查看dialog</title>
+    <script>
+//        $('.modal-body').attr('style','max-height: '+pageUtils.getFormHeight()+'px;overflow-y: auto;overflow-x: hidden;padding:10px;');
+    </script>
 </head>
 <body style="overflow: hidden;">
 <!--噪音排口查看dialog-->
@@ -142,6 +145,23 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default lookBtn" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="noiseLiveTimeDataDialog" style="z-index: 9999;" data-backdrop="static" data-form-type="add" tabindex="-1" role="dialog" aria-labelledby="otherProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title form-title">噪音在线监控信息</h4>
+            </div>
+            <div class="modal-body" style="overflow-y: auto;">
+                正在加载...
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default lookBtn" data-dismiss="modal">关闭</button>

@@ -15,7 +15,7 @@ function initTable() {
     gridTable.bootstrapTable({
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         sidePagination:"server",
-        url: rootPath+"/action/S_port_NoisePortHistory_list.action",
+        url: rootPath+"/action/S_port_NoisePortHistory_list.action?portId="+portId,
         height: pageUtils.getTableHeight()-50,
         method:'post',
         pagination:true,

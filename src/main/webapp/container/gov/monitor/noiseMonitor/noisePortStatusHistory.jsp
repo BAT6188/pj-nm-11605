@@ -4,20 +4,31 @@
 <head>
     <%
         String id=request.getParameter("id");
+        String portId = request.getParameter("portId");
+        String noiseLiveTimeDataDialog = request.getParameter("noiseLiveTimeDataDialog");
     %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8">
     <title>噪声源排口实时数据</title>
     <script type="text/javascript">
-
+        var portId=<%=portId%>;
+        if(!portId){
+            portId=""
+        }
+        var noiseLiveTimeDataDialog='<%=noiseLiveTimeDataDialog%>';
+        $(document).ready(function () {
+            if("Y"==noiseLiveTimeDataDialog){
+                $(".isHide").hide();
+            }
+        })
     </script>
 </head>
 <body>
 <div class="content content1 clearfix">
     <div class="wrap">
         <div class="mainBox">
-            <a id="headTitle" href="javascript:void(0)" class="list-group-item active" style="cursor: default;font-size: 15px;z-index: 0;">噪声源 实时数据</a>
-            <div class="dealBox">
+            <a id="headTitle" href="javascript:void(0)" class="list-group-item active isHide" style="cursor: default;font-size: 15px;z-index: 0;">噪声源 实时数据</a>
+            <div class="dealBox isHide">
                 <div class="sideTitle left">
                         <span class="blueMsg">
                             <img class="tipImg" src="<%=request.getContextPath()%>/common/images/searchTip.png" alt=""/>
@@ -63,7 +74,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript" src="<%=request.getContextPath()%>/container/gov/monitor/noiseMonitor/scripts/noisePortStatusHistory.js"></script>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class SmsSender
    * @param message
    * @param _addressReceiver
    * @param sendTime
-   * @param paramSmId
+   * @param paramSmId 短信ID， 0到99999999之间的任何一个数值。 缺省值0。 当SM_ID为 0时， 表示这类短信不需要辨别其回执、回复
    * @return
    */
   public ISmsBean sendSms(String message, String[] _addressReceiver,Date sendTime,Long paramSmId) {

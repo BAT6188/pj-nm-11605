@@ -33,7 +33,7 @@ public class NoisePortHistoryAction extends BaseAction<NoisePortHistory, NoisePo
             param.andParam(new QueryParam("type", QueryOperator.EQ,entity.getType()));
         }
         if (StringUtils.isNotBlank(entity.getName())) {
-            param.andParam(new QueryParam("name", QueryOperator.EQ,entity.getName()));
+            param.andParam(new QueryParam("name", QueryOperator.LIKE,entity.getName()));
         }
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");

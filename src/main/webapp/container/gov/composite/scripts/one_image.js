@@ -704,14 +704,14 @@ var OneImagePage = function () {
             infoHtml+="<div class='btn-group btn-group-sm pull-right' style='text-align: right;bottom: 0;right: 5px;'>";
             infoHtml+="<button data-port-id='"+noisePort.id+"' class='btn btn-primary show-info-btn' href='javascript:void(0);'>监测点详情</button>";
             //超标按钮
-            var statusBtnText = "";
-            if (noisePort.portStatus == "1") {
-                statusBtnText+="超标信息";
-            }else if (noisePort.portStatus == "2") {
-                statusBtnText+="异常信息";
-            }else {
-                statusBtnText = "";
-            }
+            var statusBtnText = "在线监控";
+            // if (noisePort.portStatus == "1") {
+            //     statusBtnText+="超标信息";
+            // }else if (noisePort.portStatus == "2") {
+            //     statusBtnText+="异常信息";
+            // }else {
+            //     statusBtnText = "";
+            // }
             var statusBtnHtml = "<button data-port-id='" + noisePort.id + "' class='btn btn-primary show-status-btn' href='javascript:void(0);'>"+statusBtnText+"</button>";
             if(statusBtnText){
                 infoHtml+=statusBtnHtml;
@@ -739,12 +739,15 @@ var OneImagePage = function () {
             $(infoWindowDom).find(".show-status-btn").bind("click",function () {
                 var portId = $(this).data("port-id");
                 var text = $(this).text();
-                var result = PortStatusFormView.setPortId(portId);
-                if (result) {
-                    PortStatusFormView.open();
-                }else{
-                    Ewin.alert({message:"未找到"+text});
-                }
+                var url=rootPath+"/container/gov/monitor/noiseMonitor/noisePortStatusHistory.jsp?portId="+portId+"&noiseLiveTimeDataDialog=Y";
+                $("#noiseLiveTimeDataDialog").find(".modal-body").load(url);
+                $("#noiseLiveTimeDataDialog").modal('show')
+                // var result = PortStatusFormView.setPortId(portId);
+                // if (result) {
+                //     PortStatusFormView.open();
+                // }else{
+                //     Ewin.alert({message:"未找到"+text});
+                // }
 
             });
         },
