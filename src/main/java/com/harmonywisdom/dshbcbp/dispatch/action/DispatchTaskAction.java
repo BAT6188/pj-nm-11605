@@ -1,7 +1,9 @@
 package com.harmonywisdom.dshbcbp.dispatch.action;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
+import com.harmonywisdom.apportal.sdk.role.domain.Role;
 import com.harmonywisdom.dshbcbp.alert.bean.Message;
 import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
@@ -45,6 +47,8 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
 
     public static final String monitor_master="monitor_master";
     public static final String env_pro_sta="env_pro_sta";
+
+    public static final String env_pro_sta_roleListForMobile="appHBZZZ,streetLeader,appHBZJCY,streetClerk";
 
     @AutoService
     private OverManageServiceImpl overManageService;
@@ -90,12 +94,15 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public void getAllAttachmentIdList(){
         Map<String,List> map=new HashedMap();
         String id = entity.getId();
-        String site_monitoring_sql="select a.* from hw_dispatch_task d,hw_site_monitoring s ,hw_attachment a \n" +
-                "where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
-        String punish_sql="select a.* from hw_dispatch_task d,HW_PUNISH s ,hw_attachment a \n" +
-                "where s.dispatch_task_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
-        String feedbackg_sql="select a.* from hw_dispatch_task d,T_FEEDBACK s ,hw_attachment a \n" +
-                "where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String site_monitoring_sql="select a.ID,a.ATT_TYPE,a.BUSINESS_ID,a.FILE_EXT,a.FILE_NAME,a.FILE_SIZE \n" +
+                " from hw_dispatch_task d,hw_site_monitoring s ,hw_attachment a \n" +
+                " where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String punish_sql="select a.ID,a.ATT_TYPE,a.BUSINESS_ID,a.FILE_EXT,a.FILE_NAME,a.FILE_SIZE \n" +
+                " from hw_dispatch_task d,HW_PUNISH s ,hw_attachment a \n" +
+                " where s.dispatch_task_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
+        String feedbackg_sql="select a.ID,a.ATT_TYPE,a.BUSINESS_ID,a.FILE_EXT,a.FILE_NAME,a.FILE_SIZE \n" +
+                " from hw_dispatch_task d,T_FEEDBACK s ,hw_attachment a \n" +
+                " where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
         List<Attachment> site_monitoring = dispatchTaskService.queryNativeSQL(site_monitoring_sql, Attachment.class, id);
         for (Attachment attachment : site_monitoring) {
             attachment.setData(null);
@@ -209,6 +216,21 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             }
 
         }
+
+        String roleList = request.getParameter("roleList");
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(roleList)){
+            List<Role> roles = JSON.parseObject(roleList, new TypeReference<List<Role>>() {
+            });
+            for (Role r : roles) {
+                if (env_pro_sta_roleListForMobile.indexOf(r.getRoleCode()) >=0 ){
+                    String pId = request.getParameter("personId");
+                    params= new QueryParam("envProStaPersonList", QueryOperator.LIKE, "%\""+pId+"\"%");
+                    break;
+                }
+            }
+        }
+
+
         if(StringUtils.isNotBlank(entity.getMonitorReportStatus())){
             params.andParam(new QueryParam("monitorReportStatus", QueryOperator.EQ, entity.getMonitorReportStatus()));
         }
