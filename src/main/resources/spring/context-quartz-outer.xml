@@ -8,9 +8,9 @@
         <property name="triggers">
             <list>
                 <!--空气质量定时任务-->
-                <ref bean="airQualityForceWorkCronTrigger"/>
-                <!--噪声定时任务-->
-                <ref bean="noisePortHistoryforceWorkCronTrigger"/>
+                <!--<ref bean="airQualityForceWorkCronTrigger"/>
+                &lt;!&ndash;噪声定时任务&ndash;&gt;
+                <ref bean="noisePortHistoryforceWorkCronTrigger"/>-->
             </list>
         </property>
     </bean>
