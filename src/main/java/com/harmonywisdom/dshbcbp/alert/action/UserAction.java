@@ -6,6 +6,8 @@ import com.harmonywisdom.apportal.sdk.person.IPerson;
 import com.harmonywisdom.apportal.sdk.person.PersonServiceUtil;
 import com.harmonywisdom.apportal.sdk.right.RightServiceUtil;
 import com.harmonywisdom.apportal.sdk.right.domain.Right;
+import com.harmonywisdom.apportal.sdk.role.RoleServiceUtil;
+import com.harmonywisdom.apportal.sdk.role.domain.Role;
 import com.harmonywisdom.core.user.IUserProfile;
 import com.harmonywisdom.core.user.impl.UserProfile;
 import com.harmonywisdom.dshbcbp.alert.bean.User;
@@ -29,9 +31,11 @@ public class UserAction extends ActionHelper implements Preparable {
         if (PersonServiceUtil.validateUserPassword(userId, pwd)){
             IPerson person = PersonServiceUtil.getPersonByUserId(userId);
             IOrg org = OrgServiceUtil.getOrgByPersonId(person.getPersonId());
-//            Map<String, Object> ret = new HashMap<String, Object>();
-//            ret.put("person", person);
-//            ret.put("org", org);
+            List<Role> roleList = RoleServiceUtil.getRoleByUserId(userId);
+            for (Role role : roleList) {
+                role.setOrgId(null);
+                role.setRoleDesc(null);
+            }
             User user = new User();
             user.setUserId(person.getUserId());
             user.setUserName(person.getUserName());
@@ -42,6 +46,7 @@ public class UserAction extends ActionHelper implements Preparable {
             user.setOrgId(org.getOrgId());
             user.setOrgName(org.getOrgName());
             user.setMobile(person.getMobile());
+            user.setRoleList(roleList);
             user.setMenuData(getUserMenu(person.getPersonId()));
             write(user);
         }else{

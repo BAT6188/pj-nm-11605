@@ -1,6 +1,7 @@
 package com.harmonywisdom.dshbcbp.alert.bean;
 
 import com.harmonywisdom.apportal.sdk.right.domain.Right;
+import com.harmonywisdom.apportal.sdk.role.domain.Role;
 
 import java.io.Serializable;
 import java.util.List;
@@ -48,6 +49,11 @@ public class User implements Serializable {
      * 用户电话
      */
     private String mobile;
+
+    /**
+     * 用户角色列表
+     */
+    private List<Role> roleList;
 
     private List<Right> menuData;
 
@@ -129,5 +135,13 @@ public class User implements Serializable {
 
     public void setMenuData(List<Right> menuData) {
         this.menuData = menuData;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }
