@@ -8,13 +8,13 @@
         <property name="triggers">
             <list>
                 <!--废水数据获取定时任务-->
-                <!--<ref bean="waterPortHistoryforceWorkCronTrigger"/>
-                &lt;!&ndash;废气数据获取定时任务&ndash;&gt;
+                <ref bean="waterPortHistoryforceWorkCronTrigger"/>
+                <!--废气数据获取定时任务-->
                 <ref bean="gasPortHistoryforceWorkCronTrigger"/>
-                &lt;!&ndash;餐饮油烟定时清理任务&ndash;&gt;
+                <!--餐饮油烟定时清理任务-->
                 <ref bean="fumesPortHistoryCleanForceWorkCronTrigger"/>
-                &lt;!&ndash;工作任务定时任务&ndash;&gt;
-                <ref bean="taskWorkCronTrigger"/>-->
+                <!--工作任务定时任务-->
+                <ref bean="taskWorkCronTrigger"/>
             </list>
         </property>
     </bean>
