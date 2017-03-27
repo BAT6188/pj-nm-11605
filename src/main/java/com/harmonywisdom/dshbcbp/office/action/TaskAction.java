@@ -2,8 +2,6 @@ package com.harmonywisdom.dshbcbp.office.action;
 
 import com.harmonywisdom.apportal.sdk.org.IOrg;
 import com.harmonywisdom.apportal.sdk.person.IPerson;
-import com.harmonywisdom.dshbcbp.alert.bean.Message;
-import com.harmonywisdom.dshbcbp.alert.bean.MessageTrace;
 import com.harmonywisdom.dshbcbp.alert.service.MessageService;
 import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.Task;
@@ -17,7 +15,7 @@ import com.harmonywisdom.framework.dao.QueryParam;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -85,8 +83,8 @@ public class TaskAction extends BaseAction<Task, TaskService> {
             //删除附件
             attachmentService.removeByIds(attachmentIdsRemoveId.split(","));
         }
+        IPerson iPerson = ApportalUtil.getPerson(request);
         if(StringUtils.isBlank(entity.getId())){
-            IPerson iPerson = ApportalUtil.getPerson(request);
             entity.setTaskCreatorId(iPerson.getUserId());
             entity.setTaskCreator(iPerson.getUserName());
             entity.setTaskCreateTime(new Date());
@@ -98,9 +96,17 @@ public class TaskAction extends BaseAction<Task, TaskService> {
         }
         if(StringUtils.isNotBlank(entity.getTaskStatus()) && "1".equals(entity.getTaskStatus())){
             entity.setTaskPubTime(new Date());
+            entity.setTaskPubUserId(iPerson.getUserId());
+            entity.setWarnStatus("1");
+
+            Calendar ca=Calendar.getInstance();
+            ca.setTime(entity.getTaskPubTime());
+            ca.add(Calendar.HOUR_OF_DAY,1);
+            entity.setWarnTime(ca.getTime());
+
             task.setTaskStatus(entity.getTaskStatus());
             if(entity.getTaskType().equals(Task.TASK_TYPE_LITTLE)){
-                sendToOrgPerson(entity);
+                taskService.sendMessage(entity,"新任务提醒!");
             }
         }
         taskService.update(task);
@@ -110,30 +116,6 @@ public class TaskAction extends BaseAction<Task, TaskService> {
         }
     }
 
-    private void sendToOrgPerson(Task task){
-        Message message = new Message();
-        IPerson iPerson = ApportalUtil.getPerson(request);
-        message.setBusinessId(task.getId());
-        message.setContent(task.getTaskContent());
-        message.setDetailsUrl("container/gov/office/task.jsp?role=feedbacker");
-        message.setMsgType(Message.MSG_TYPE_TASK_FEEDBACK);
-        message.setTitle(task.getTaskName()+"最新任务");
-        message.setSenderId(iPerson.getUserId());
-        message.setSenderName(iPerson.getUserName());
-
-        List<MessageTrace> receivers = new ArrayList<>();
-        List<IPerson> iPersonList = ApportalUtil.getIPersonListByOrgCode(task.getDispatchDutyDepartmentCode());
-        if(iPersonList.size()>0){
-            for(IPerson p:iPersonList){
-                MessageTrace mt = new MessageTrace();
-                mt.setReceiverId(p.getUserId());
-                mt.setReceiverName(p.getUserName());
-                receivers.add(mt);
-            }
-        }
-
-        messageService.sendMessage(message, receivers);
-    }
     /**
      * 删除实体时删除关联的附件
      */

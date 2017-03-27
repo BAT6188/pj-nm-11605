@@ -240,8 +240,6 @@
             resetFeedbackForm();
             $('#feedbackFormSaveBtn').show();
             feedbackEditEntity.taskId = row.id;
-            feedbackEditEntity.feedbackerId = userId;
-            feedbackEditEntity.feedbacker = userName;
         }
     };
 
@@ -666,7 +664,7 @@
                                 setFeedbackFormView(row);
                                 $('#reviewDiv').show();
                             },
-                            'click .delteReviewView': function (e, value, row, index) {
+                            'click .deleteReviewView': function (e, value, row, index) {
                                 Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
                                     if (!e) {
                                         return;
@@ -686,7 +684,7 @@
                                 case '0':
                                     html = '<button type="button" class="btn btn-md btn-success subReviewView">提交审核</button>' +
                                         '&nbsp;<button type="button" class="btn btn-md btn-warning editReviewView" data-toggle="modal" data-target="#feedbackForm">修改</button>' +
-                                        '&nbsp;<button type="button" class="btn btn-md btn-danger delteReviewView">删除</button>';
+                                        '&nbsp;<button type="button" class="btn btn-md btn-danger deleteReviewView">删除</button>';
                                     break;
                                 case '1':
                                     html = '<button type="button" class="btn btn-md btn-default">正在审核..</button>';
