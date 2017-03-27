@@ -3,15 +3,31 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean name="noisePortHistoryquartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+    <!--外网部署-->
+    <bean name="outerQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
         <property name="triggers">
             <list>
+                <!--空气质量定时任务-->
+                <ref bean="airQualityForceWorkCronTrigger"/>
+                <!--噪声定时任务-->
                 <ref bean="noisePortHistoryforceWorkCronTrigger"/>
             </list>
         </property>
     </bean>
 
+    <!--空气质量定时任务配置-->
+    <bean id="airQualityManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="airEquipmentHistoryService"/>
+        <property name="targetMethod" value="saveAirEquipmentHistoryFromOuter"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="airQualityForceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="airQualityManagerDetail"/>
+        <property name="cronExpression" value="0 0/20 * * * ? "/>
+        <!--<property name="cronExpression" value="0/5 * * * * ?"/>-->
+    </bean>
 
+    <!--噪声定时任务配置-->
     <bean id="noisePortHistoryManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="noisePortHistoryService"/>
         <property name="targetMethod" value="saveNoiseRealTimeByWebservce"/>

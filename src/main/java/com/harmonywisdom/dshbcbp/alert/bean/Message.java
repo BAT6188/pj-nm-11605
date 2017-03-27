@@ -20,6 +20,9 @@ public class Message implements Serializable {
     public static final String MSG_TYPE_PUBINFO = "3";
     public static final String MSG_TYPE_POLLUTANTPAYMENT = "4";
     public static final String MSG_TYPE_CREATEMODEDETAIL = "5";
+    public static final String MSG_TYPE_TASK_PUBLISH = "20";//任务发布
+    public static final String MSG_TYPE_TASK_FEEDBACK = "21";//任务反馈
+    public static final String MSG_TYPE_TASK_REVIEW = "22";//任务审核
 
     @Id
     @Column(length = 32)
@@ -41,6 +44,9 @@ public class Message implements Serializable {
      * 3.信息公告
      * 4.排污申报提醒
      * 5.创模建设详情
+     * 20.任务发布
+     * 21.任务反馈
+     * 22.任务审核
      **/
     @Column(name = "msg_Type", length = 20)
     private String msgType;

@@ -175,6 +175,27 @@ public class ApportalUtil {
 		}else{
 			return null;
 		}
+	}
 
+	/**
+	 * 根据组织机构code获取人员
+	 * @param orgCode
+	 * @return
+     */
+	public static List<IPerson> getIPersonListByOrgCode(String orgCode){
+		IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
+		List<IPerson> iPersons = PersonServiceUtil.getPersonByOrgId(iOrg.getOrgId());
+		return iPersons;
+	}
+
+	/**
+	 * 根据组织机构code获取下属组织
+	 * @param orgCode
+	 * @return
+	 */
+	public static List<IOrg> getIOrgChildListByOrgCode(String orgCode){
+		IOrg iOrg = OrgServiceUtil.getOrgByOrgCode(orgCode);
+		List<IOrg> iOrgs = OrgServiceUtil.getOrgsByParentOrgId(iOrg.getOrgId());
+		return iOrgs;
 	}
 }
