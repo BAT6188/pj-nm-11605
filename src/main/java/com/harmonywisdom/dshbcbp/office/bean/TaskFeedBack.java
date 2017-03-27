@@ -9,6 +9,11 @@ import java.util.Date;
 public class TaskFeedBack implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final String REVIEW_STATUS_NOPUB = "0";
+    public static final String REVIEW_STATUS_NEEDCHECK = "1";
+    public static final String REVIEW_STATUS_PASS = "2";
+    public static final String REVIEW_STATUS_NOPASS = "3";
+
     @Id
     @Column(length = 32)
     private String id;

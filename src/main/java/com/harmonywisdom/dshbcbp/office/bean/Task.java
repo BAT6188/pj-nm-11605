@@ -16,6 +16,11 @@ public class Task implements Serializable {
     public static final String TASK_TYPE_MIDDLE = "1";
     public static final String TASK_TYPE_LITTLE = "2";
 
+    public static final String TASK_STATUS_NOPUB = "0";
+    public static final String TASK_STATUS_NODONE = "1";
+    public static final String TASK_STATUS_DONE = "2";
+    public static final String TASK_STATUS_OVER = "3";
+
     @Id
     @Column(length = 32)
     private String id;
@@ -121,6 +126,12 @@ public class Task implements Serializable {
      */
     @Column(name = "task_pub_time")
     private Date taskPubTime;
+
+    /**
+     * 任务发布人
+     */
+    @Column(name = "task_pub_user_id")
+    private String taskPubUserId;
 
     /**
      * 任务创建单位code
@@ -261,6 +272,14 @@ public class Task implements Serializable {
         this.dutyDepartment = dutyDepartment;
     }
 
+    public String getDispatchDutyLeaderId() {
+        return dispatchDutyLeaderId;
+    }
+
+    public void setDispatchDutyLeaderId(String dispatchDutyLeaderId) {
+        this.dispatchDutyLeaderId = dispatchDutyLeaderId;
+    }
+
     public String getDispatchDutyLeader() {
         return dispatchDutyLeader;
     }
@@ -325,6 +344,14 @@ public class Task implements Serializable {
         this.taskPubTime = taskPubTime;
     }
 
+    public String getTaskPubUserId() {
+        return taskPubUserId;
+    }
+
+    public void setTaskPubUserId(String taskPubUserId) {
+        this.taskPubUserId = taskPubUserId;
+    }
+
     public String getTaskCreateDepartmentCode() {
         return taskCreateDepartmentCode;
     }
@@ -381,6 +408,22 @@ public class Task implements Serializable {
         this.warnFrequency = warnFrequency;
     }
 
+    public String getWarnStatus() {
+        return warnStatus;
+    }
+
+    public void setWarnStatus(String warnStatus) {
+        this.warnStatus = warnStatus;
+    }
+
+    public Date getWarnTime() {
+        return warnTime;
+    }
+
+    public void setWarnTime(Date warnTime) {
+        this.warnTime = warnTime;
+    }
+
     public Date getMobileTimestamp() {
         return mobileTimestamp;
     }
@@ -403,29 +446,5 @@ public class Task implements Serializable {
 
     public void setAttachmentIds(String attachmentIds) {
         this.attachmentIds = attachmentIds;
-    }
-
-    public String getDispatchDutyLeaderId() {
-        return dispatchDutyLeaderId;
-    }
-
-    public void setDispatchDutyLeaderId(String dispatchDutyLeaderId) {
-        this.dispatchDutyLeaderId = dispatchDutyLeaderId;
-    }
-
-    public Date getWarnTime() {
-        return warnTime;
-    }
-
-    public void setWarnTime(Date warnTime) {
-        this.warnTime = warnTime;
-    }
-
-    public String getWarnStatus() {
-        return warnStatus;
-    }
-
-    public void setWarnStatus(String warnStatus) {
-        this.warnStatus = warnStatus;
     }
 }

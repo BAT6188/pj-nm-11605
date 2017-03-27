@@ -7,5 +7,5 @@ public interface TaskService extends IBaseService<Task, String> {
 
     void saveTaskWarnInfoOnTime();
 
-
+    void sendMessage(Task task,String title);
 }
