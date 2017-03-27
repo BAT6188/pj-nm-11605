@@ -110,6 +110,7 @@
 		<class>com.harmonywisdom.dshbcbp.port.bean.CityAqiPublish</class>
 		<class>com.harmonywisdom.dshbcbp.port.bean.CityDayAqiPublish</class>
 		<class>com.harmonywisdom.dshbcbp.office.bean.Task</class>
+		<class>com.harmonywisdom.dshbcbp.office.bean.TaskFeedBack</class>
 
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

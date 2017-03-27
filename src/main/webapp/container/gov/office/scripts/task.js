@@ -5,6 +5,59 @@ var DemoPage = function () {
         form = $("#taskForm"),
         formTitle = "任务类型";
 
+    initSelect();
+    function initSelect(){
+        if(window.DispatchDutyLeaderData){
+            initDispatchDutyLeaderOptions(window.DispatchDutyLeaderData);
+        }else{
+            $.ajax({
+                url: rootPath + "/action/S_office_Task_getDispatchDutyLeaders.action",
+                type:"post",
+                data:{orgCode:"0170001100"},
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                        initDispatchDutyLeaderOptions(data);
+                        window.DispatchDutyLeaderData = data;
+                    }
+                }
+            });
+        }
+        if(window.DispatchDutyDepartmentData){
+            initDispatchDutyDepartmentOptions(window.DispatchDutyDepartmentData);
+        }else{
+            $.ajax({
+                url: rootPath + "/action/S_office_Task_getDispatchDutyDepartments.action",
+                type:"post",
+                data:{orgCode:"0170001110"},
+                dataType:"json",
+                success:function(data){
+                    if(data){
+                        initDispatchDutyDepartmentOptions(data);
+                        window.DispatchDutyDepartmentData = data;
+                    }
+                }
+            });
+        }
+    }
+    function initDispatchDutyLeaderOptions(data){
+        $.each(data,function(k,v){
+            if(v.personCode=='bossLeader') return true;
+            $('#dispatchDutyLeaderId').append('<option value="'+ v.userId+'">'+ v.userName+'</option>');
+        })
+        $('#dispatchDutyLeaderId').on('change',function(){
+            $('#dispatchDutyLeader').val($(this).find("option:selected").text());
+        })
+    }
+    function initDispatchDutyDepartmentOptions(data){
+        $.each(data,function(k,v){
+            $('#dispatchDutyDepartmentCode').append('<option value="'+ v.orgCode+'">'+ v.orgName+'</option>');
+        })
+        $('#dispatchDutyDepartmentCode').on('change',function(){
+            $('#dispatchDutyDepartment').val($(this).find("option:selected").text());
+        })
+    }
+
     //保存ajax请求
     function saveAjax(entity, callback) {
         $.ajax({
@@ -50,12 +103,15 @@ var DemoPage = function () {
                 localParams.page = 1;
             }
             localParams.pageSize = params.limit;
+            localParams.taskStatus = taskStatus;
             var jsonData = $('.queryBox').find('form').formSerializeObject();
             if(!$.isEmptyObject(jsonData)){
                 $.extend(localParams,jsonData);
             }
             localParams.taskType=1;
             localParams.parentTaskId=parentTaskId;
+            localParams.dispatchDutyLeaderId = dispatchDutyLeaderId;
+            localParams.dispatchDutyDepartmentCode = dispatchDutyDepartmentCode;
             return localParams;
         },
             columns: [
@@ -94,6 +150,16 @@ var DemoPage = function () {
                     editable: false,
                     sortable: false,
                     align: 'center'
+                },
+                {
+                    title: '创建时间',
+                    field: 'taskCreateTime',
+                    editable: false,
+                    sortable: false,
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return value;
+                    }
                 },
                 {
                     title: '发布时间',
@@ -164,12 +230,12 @@ var DemoPage = function () {
 
 // 生成列表操作方法
     function operateFormatter(value, row, index) {
-        return '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#taskForm">详情</button>';
+        return '<button type="button" class="btn btn-md btn-warning view">子任务</button>';
     }
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/taskChild.jsp?parentTaskId=" + row.id+"&parentTaskName="+encodeURIComponent(encodeURIComponent(row.taskName));
+            var url = rootPath + "/container/gov/office/taskChild.jsp?parentTaskId=" + row.id+"&role="+role;
             pageUtils.toUrl(url);
         }
     };
@@ -203,41 +269,44 @@ var DemoPage = function () {
      */
     $("#add").bind('click',function () {
         resetForm();
+        $('#parentTaskName').val(parentTaskName);
+        $('#taskCreateDepartment').val(orgName);
         editEntity = {};
-        $("#taskCreateDepartment").val(orgName);
-        $("#dispatchDutyDepartmentCode").val(orgCode);
-        $("#taskCreateDepartment").attr("readonly",true)
+        editEntity.taskType = 1;
+        editEntity.parentTaskId = parentTaskId;
+        editEntity.taskCreateDepartmentCode = orgCode;
     });
     updateBtn.bind("click",function () {
         var entity = getSelections()[0];
         setFormData(entity);
         editEntity = entity;
-        $("#taskCreateDepartment").attr("readonly",true)
+        //$("#taskCreateDepartment").attr("readonly",true)
     });
     var editEntity = {};
     /**
      * 列表工具栏 删除按钮
      */
     removeBtn.click(function () {
-        var ids = getIdSelections();
-        Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-            if (!e) {
-                return;
-            }
-            deleteAjax(ids,function (msg) {
-                if(msg.success){
-                    gridTable.bootstrapTable('remove', {
-                        field: 'id',
-                        values: ids
-                    });
-                    removeBtn.prop('disabled', true);
-                    Ewin.alert(msg.msg)
-                }else {
-                    Ewin.alert(msg.msg)
+        var entity = getSelections()[0];
+        if(entity.isHaveChild=='1'){
+            Ewin.alert("请先删除子任务!")
+        }else{
+            Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+                if (!e) {
+                    return;
                 }
+                deleteAjax(entity.id,function (msg) {
+                    if(msg.success){
+                        gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
+                        removeBtn.prop('disabled', true);
+                        Ewin.alert(msg.msg)
+                    }else {
+                        Ewin.alert(msg.msg)
+                    }
 
+                });
             });
-        });
+        }
     });
 
     /**============列表搜索相关处理============**/
@@ -270,11 +339,9 @@ var DemoPage = function () {
         success:function (ef) {
             var entity = form.find("form").formSerializeObject();
             if(!$.isEmptyObject(editEntity)){
-                $.extend({}, editEntity , entity || {});
+                entity = $.extend({}, editEntity , entity || {});
             }
-            entity.taskType = 1;
-            entity.parentTaskId = parentTaskId;
-            entity.status=0;
+            entity.taskStatus=0;
             entity.attachmentIds = getAttachmentIds();
             saveAjax(entity,function (msg) {
                 form.modal('hide');
@@ -283,8 +350,12 @@ var DemoPage = function () {
         }
     });
 
-//表单 保存按钮
+    //表单 保存按钮
     $("#save").bind('click',function () {
+        //验证表单，验证成功后触发ef.success方法保存数据
+        ef.submit(false);
+    });
+    $('#publish').bind('click',function () {
         //验证表单，验证成功后触发ef.success方法保存数据
         ef.submit(false);
     });
@@ -299,10 +370,12 @@ var DemoPage = function () {
         form.find(".form-title").text("修改"+formTitle);
         var id = entity.id;
         $("#removeId").val("");
-        for(p in entity){
-            var selector="#"+p
-            $(selector).val(entity[p])
-        }
+        var inputs = form.find('.form-control');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            var value = entity[tagId];
+            $(v).val(value);
+        });
         uploader = new qq.FineUploader(pageUtils.getUploaderOptions('fine-uploader-gallery',id));
     }
     function setFormView(entity) {

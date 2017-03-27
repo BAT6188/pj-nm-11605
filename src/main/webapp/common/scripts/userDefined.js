@@ -1,9 +1,70 @@
+Date.prototype.Format = function(fmt)
+{
+    //author: meizz
+    var o =
+    {
+        "M+" : this.getMonth() + 1, //月份
+        "d+" : this.getDate(), //日
+        "h+" : this.getHours(), //小时
+        "m+" : this.getMinutes(), //分
+        "s+" : this.getSeconds(), //秒
+        "q+" : Math.floor((this.getMonth() + 3) / 3), //季度
+        "S" : this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};
+
+Date.prototype.addMinutes = function(m)
+{
+    this.setDate(this.getMinutes() + m);
+};
+
+Date.prototype.addHours = function(h)
+{
+    this.setDate(this.getHours + h);
+};
+
+Date.prototype.addDays = function(d)
+{
+    this.setDate(this.getDate() + d);
+};
+
+Date.prototype.addWeeks = function(w)
+{
+    this.addDays(w * 7);
+};
+
+Date.prototype.addMonths= function(M)
+{
+    var d = this.getDate();
+    this.setMonth(this.getMonth() + M);
+    if (this.getDate() < d)
+        this.setDate(0);
+};
+
+Date.prototype.addYears = function(y)
+{
+    var m = this.getMonth();
+    this.setFullYear(this.getFullYear() + y);
+    if (m < this.getMonth())
+    {
+        this.setDate(0);
+    }
+};
 var pageUtils = {
     MSG_TYPE_SCHEDULE:"1",
     MSG_TYPE_MEETINGNOTICE:"2",
     MSG_TYPE_PUBINFO : "3",
     MSG_TYPE_POLLUTANTPAYMENT : "4",
     MSG_TYPE_CREATEMODEDETAIL:"5",
+    MSG_TYPE_TASK_PUBLISH:'20',//任务发布
+    MSG_TYPE_TASK_FEEDBACK:'21',//任务反馈
+    MSG_TYPE_TASK_REVIEW:'22',//任务审核
     MSG_TYPE_MONITOR_OFFICE:"6",//监察大队办公室发送给环保站
     MSG_TYPE_MONITOR_CASE:"7",//监控中心发送给监察大队
     MSG_TYPE_law_manage:"8",//监察大队发送给环保站
@@ -15,6 +76,25 @@ var pageUtils = {
     MSG_TYPE_xianChangJianCha:14,//现场检查
     FROM_HEIGHT:600,
     PAGE_SIZE:10,
+    typeMapUrl:{
+        '1':'container/gov/detect/schedule.jsp',
+        '2': 'container/gov/office/meetingnotice.jsp',
+        '3': 'container/gov/office/pubinfo.jsp',
+        '4': 'container/gov/exelaw/pollutantPayment.jsp',
+        '5': 'container/gov/office/createModeDetailForUpload.jsp',
+        '20':'container/gov/office/taskPublish.jsp',
+        '21':'container/gov/office/task.jsp?role=feedbacker',
+        '22':'container/gov/office/task.jsp?role=reviewer',
+        '6': 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta',
+        '7': 'container/gov/dispatch/lawManage.jsp?role=monitor_master',
+        '8': 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta',
+        '9': 'container/gov/exelaw/receiveTrustMonitor.jsp',
+        '10': 'container/gov/detect/monitoring_station_office.jsp',
+        '11': 'container/gov/detect/monitoring_station_master.jsp',
+        '12': 'container/gov/detect/monitoring_station_person.jsp',
+        13: 'container/gov/dispatch/lawManage.jsp?role=monitor_master',
+        14: 'container/gov/exelaw/siteMonitoring.jsp'
+    },
 
     updateSelfReadStatus:function (url,id,selfReadStatus,reportNumber,personTime) {
         $.ajax({
@@ -56,21 +136,7 @@ var pageUtils = {
     sendMessage:function (msg,receivers) {
         if (msg && receivers && receivers.length > 0) {
             var that = this;
-            var typeMapUrl = {};
-            typeMapUrl[that.MSG_TYPE_SCHEDULE] = 'container/gov/detect/schedule.jsp';
-            typeMapUrl[that.MSG_TYPE_MEETINGNOTICE] = 'container/gov/office/meetingnotice.jsp';
-            typeMapUrl[that.MSG_TYPE_PUBINFO] = 'container/gov/office/pubinfo.jsp';
-            typeMapUrl[that.MSG_TYPE_POLLUTANTPAYMENT] = 'container/gov/exelaw/pollutantPayment.jsp';
-            typeMapUrl[that.MSG_TYPE_CREATEMODEDETAIL] = 'container/gov/office/createModeDetailForUpload.jsp';
-            typeMapUrl[that.MSG_TYPE_MONITOR_OFFICE] = 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta';
-            typeMapUrl[that.MSG_TYPE_MONITOR_CASE] = 'container/gov/dispatch/lawManage.jsp?role=monitor_master';
-            typeMapUrl[that.MSG_TYPE_law_manage] = 'container/gov/dispatch/lawManage.jsp?role=env_pro_sta';
-            typeMapUrl[that.MSG_TYPE_trustMonitor] = 'container/gov/exelaw/receiveTrustMonitor.jsp';
-            typeMapUrl[that.MSG_TYPE_receiveTrustMonitor] = 'container/gov/detect/monitoring_station_office.jsp';
-            typeMapUrl[that.MSG_TYPE_monitoring_station_office] = 'container/gov/detect/monitoring_station_master.jsp';
-            typeMapUrl[that.MSG_TYPE_monitoring_station_master] = 'container/gov/detect/monitoring_station_person.jsp';
-            typeMapUrl[that.MSG_TYPE_feedback] = 'container/gov/dispatch/lawManage.jsp?role=monitor_master';
-            typeMapUrl[that.MSG_TYPE_xianChangJianCha] = 'container/gov/exelaw/siteMonitoring.jsp';
+            var typeMapUrl = that.typeMapUrl;
             msg.senderId = userId;
             msg.senderName = userName;
             msg.detailsUrl = typeMapUrl[msg.msgType];

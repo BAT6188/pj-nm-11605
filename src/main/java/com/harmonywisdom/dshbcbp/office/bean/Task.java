@@ -12,6 +12,10 @@ import java.util.Date;
 public class Task implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final String TASK_TYPE_BIG = "0";
+    public static final String TASK_TYPE_MIDDLE = "1";
+    public static final String TASK_TYPE_LITTLE = "2";
+
     @Id
     @Column(length = 32)
     private String id;
@@ -65,6 +69,12 @@ public class Task implements Serializable {
     private String dutyDepartment;
 
     /**
+     * 调度责任领导ID
+     */
+    @Column(name = "dispatch_duty_leader_id",length = 128)
+    private String dispatchDutyLeaderId;
+
+    /**
      * 调度责任领导
      */
     @Column(name = "dispatch_duty_leader",length = 128)
@@ -113,6 +123,12 @@ public class Task implements Serializable {
     private Date taskPubTime;
 
     /**
+     * 任务创建单位code
+     */
+    @Column(name = "task_create_department_code")
+    private String taskCreateDepartmentCode;
+
+    /**
      * 任务创建单位
      */
     @Column(name = "task_create_department")
@@ -131,7 +147,7 @@ public class Task implements Serializable {
     private String taskRecipientId;
 
     /**
-     * 审核状态
+     * 审核状态(0：未提交审核，1：已提交审核，2：审核通过，3：审核未通过)
      */
     @Column(name = "review_status",length = 2)
     private String reviewStatus;
@@ -141,6 +157,24 @@ public class Task implements Serializable {
      */
     @Column(name = "task_recipient",columnDefinition = "mediumtext")
     private String taskRecipient;
+
+    /**
+     * 提醒频次
+     */
+    @Column(name = "warn_frequency",length = 8)
+    private Integer warnFrequency;
+
+    /**
+     * 提醒状态(0:不需要提醒，1：需要提醒)
+     */
+    @Column(name = "warn_status",length = 2)
+    private String warnStatus;
+
+    /**
+     * 提醒时间
+     */
+    @Column(name = "warn_time")
+    private Date warnTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "mobile_timestamp",columnDefinition = "CURRENT_TIMESTAMP")
@@ -179,6 +213,14 @@ public class Task implements Serializable {
         this.parentTaskId = parentTaskId;
     }
 
+    public String getParentTaskName() {
+        return parentTaskName;
+    }
+
+    public void setParentTaskName(String parentTaskName) {
+        this.parentTaskName = parentTaskName;
+    }
+
     public String getTaskName() {
         return taskName;
     }
@@ -201,70 +243,6 @@ public class Task implements Serializable {
 
     public void setTaskRemark(String taskRemark) {
         this.taskRemark = taskRemark;
-    }
-
-    public Date getTaskDeadline() {
-        return taskDeadline;
-    }
-
-    public void setTaskDeadline(Date taskDeadline) {
-        this.taskDeadline = taskDeadline;
-    }
-
-    public String getTaskCreator() {
-        return taskCreator;
-    }
-
-    public void setTaskCreator(String taskCreator) {
-        this.taskCreator = taskCreator;
-    }
-
-    public Date getTaskCreateTime() {
-        return taskCreateTime;
-    }
-
-    public void setTaskCreateTime(Date taskCreateTime) {
-        this.taskCreateTime = taskCreateTime;
-    }
-
-    public String getTaskStatus() {
-        return taskStatus;
-    }
-
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
-    }
-
-    public String getTaskRecipientId() {
-        return taskRecipientId;
-    }
-
-    public void setTaskRecipientId(String taskRecipientId) {
-        this.taskRecipientId = taskRecipientId;
-    }
-
-    public String getTaskRecipient() {
-        return taskRecipient;
-    }
-
-    public void setTaskRecipient(String taskRecipient) {
-        this.taskRecipient = taskRecipient;
-    }
-
-    public Date getMobileTimestamp() {
-        return mobileTimestamp;
-    }
-
-    public void setMobileTimestamp(Date mobileTimestamp) {
-        this.mobileTimestamp = mobileTimestamp;
-    }
-
-    public String getAttachmentIds() {
-        return attachmentIds;
-    }
-
-    public void setAttachmentIds(String attachmentIds) {
-        this.attachmentIds = attachmentIds;
     }
 
     public String getDutyLeader() {
@@ -291,6 +269,14 @@ public class Task implements Serializable {
         this.dispatchDutyLeader = dispatchDutyLeader;
     }
 
+    public String getDispatchDutyDepartmentCode() {
+        return dispatchDutyDepartmentCode;
+    }
+
+    public void setDispatchDutyDepartmentCode(String dispatchDutyDepartmentCode) {
+        this.dispatchDutyDepartmentCode = dispatchDutyDepartmentCode;
+    }
+
     public String getDispatchDutyDepartment() {
         return dispatchDutyDepartment;
     }
@@ -299,36 +285,12 @@ public class Task implements Serializable {
         this.dispatchDutyDepartment = dispatchDutyDepartment;
     }
 
-    public String getReviewStatus() {
-        return reviewStatus;
+    public Date getTaskDeadline() {
+        return taskDeadline;
     }
 
-    public void setReviewStatus(String reviewStatus) {
-        this.reviewStatus = reviewStatus;
-    }
-
-    public String getTaskCreateDepartment() {
-        return taskCreateDepartment;
-    }
-
-    public void setTaskCreateDepartment(String taskCreateDepartment) {
-        this.taskCreateDepartment = taskCreateDepartment;
-    }
-
-    public Date getTaskPubTime() {
-        return taskPubTime;
-    }
-
-    public void setTaskPubTime(Date taskPubTime) {
-        this.taskPubTime = taskPubTime;
-    }
-
-    public String getIsHaveChild() {
-        return isHaveChild;
-    }
-
-    public void setIsHaveChild(String isHaveChild) {
-        this.isHaveChild = isHaveChild;
+    public void setTaskDeadline(Date taskDeadline) {
+        this.taskDeadline = taskDeadline;
     }
 
     public String getTaskCreatorId() {
@@ -339,19 +301,131 @@ public class Task implements Serializable {
         this.taskCreatorId = taskCreatorId;
     }
 
-    public String getDispatchDutyDepartmentCode() {
-        return dispatchDutyDepartmentCode;
+    public String getTaskCreator() {
+        return taskCreator;
     }
 
-    public void setDispatchDutyDepartmentCode(String dispatchDutyDepartmentCode) {
-        this.dispatchDutyDepartmentCode = dispatchDutyDepartmentCode;
+    public void setTaskCreator(String taskCreator) {
+        this.taskCreator = taskCreator;
     }
 
-    public String getParentTaskName() {
-        return parentTaskName;
+    public Date getTaskCreateTime() {
+        return taskCreateTime;
     }
 
-    public void setParentTaskName(String parentTaskName) {
-        this.parentTaskName = parentTaskName;
+    public void setTaskCreateTime(Date taskCreateTime) {
+        this.taskCreateTime = taskCreateTime;
+    }
+
+    public Date getTaskPubTime() {
+        return taskPubTime;
+    }
+
+    public void setTaskPubTime(Date taskPubTime) {
+        this.taskPubTime = taskPubTime;
+    }
+
+    public String getTaskCreateDepartmentCode() {
+        return taskCreateDepartmentCode;
+    }
+
+    public void setTaskCreateDepartmentCode(String taskCreateDepartmentCode) {
+        this.taskCreateDepartmentCode = taskCreateDepartmentCode;
+    }
+
+    public String getTaskCreateDepartment() {
+        return taskCreateDepartment;
+    }
+
+    public void setTaskCreateDepartment(String taskCreateDepartment) {
+        this.taskCreateDepartment = taskCreateDepartment;
+    }
+
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public String getTaskRecipientId() {
+        return taskRecipientId;
+    }
+
+    public void setTaskRecipientId(String taskRecipientId) {
+        this.taskRecipientId = taskRecipientId;
+    }
+
+    public String getReviewStatus() {
+        return reviewStatus;
+    }
+
+    public void setReviewStatus(String reviewStatus) {
+        this.reviewStatus = reviewStatus;
+    }
+
+    public String getTaskRecipient() {
+        return taskRecipient;
+    }
+
+    public void setTaskRecipient(String taskRecipient) {
+        this.taskRecipient = taskRecipient;
+    }
+
+    public Integer getWarnFrequency() {
+        return warnFrequency;
+    }
+
+    public void setWarnFrequency(Integer warnFrequency) {
+        this.warnFrequency = warnFrequency;
+    }
+
+    public Date getMobileTimestamp() {
+        return mobileTimestamp;
+    }
+
+    public void setMobileTimestamp(Date mobileTimestamp) {
+        this.mobileTimestamp = mobileTimestamp;
+    }
+
+    public String getIsHaveChild() {
+        return isHaveChild;
+    }
+
+    public void setIsHaveChild(String isHaveChild) {
+        this.isHaveChild = isHaveChild;
+    }
+
+    public String getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public void setAttachmentIds(String attachmentIds) {
+        this.attachmentIds = attachmentIds;
+    }
+
+    public String getDispatchDutyLeaderId() {
+        return dispatchDutyLeaderId;
+    }
+
+    public void setDispatchDutyLeaderId(String dispatchDutyLeaderId) {
+        this.dispatchDutyLeaderId = dispatchDutyLeaderId;
+    }
+
+    public Date getWarnTime() {
+        return warnTime;
+    }
+
+    public void setWarnTime(Date warnTime) {
+        this.warnTime = warnTime;
+    }
+
+    public String getWarnStatus() {
+        return warnStatus;
+    }
+
+    public void setWarnStatus(String warnStatus) {
+        this.warnStatus = warnStatus;
     }
 }

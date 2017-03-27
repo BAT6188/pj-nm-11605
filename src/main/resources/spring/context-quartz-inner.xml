@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!--内网部署-->
+    <bean name="innerQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+        <property name="triggers">
+            <list>
+                <!--废水数据获取定时任务-->
+                <ref bean="waterPortHistoryforceWorkCronTrigger"/>
+                <!--废气数据获取定时任务-->
+                <ref bean="gasPortHistoryforceWorkCronTrigger"/>
+                <!--餐饮油烟定时清理任务-->
+                <ref bean="fumesPortHistoryCleanForceWorkCronTrigger"/>
+                <!--工作任务定时任务-->
+                <ref bean="taskWorkCronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--废水数据获取定时任务配置-->
+    <bean id="waterPortHistoryManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="waterPortHistoryService"/>
+        <property name="targetMethod" value="saveWaterPortHistoryDataList"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="waterPortHistoryforceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="waterPortHistoryManagerDetail"/>
+        <!--<property name="cronExpression" value="0 0 0 1/1 * ? "/>-->
+        <property name="cronExpression" value="0 0/10 * * * ?"/>
+    </bean>
+
+    <!--废气数据获取定时任务配置-->
+    <bean id="gasPortHistoryManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="gasPortHistoryService"/>
+        <property name="targetMethod" value="saveGasPortHistoryDataList"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="gasPortHistoryforceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="gasPortHistoryManagerDetail"/>
+        <!--<property name="cronExpression" value="0 0 0 1/1 * ? "/>-->
+        <property name="cronExpression" value="0 0/10 * * * ?"/>
+    </bean>
+
+    <!--餐饮油烟定时清理任务配置-->
+    <bean id="fumesPortHistoryCleanManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="fumesPortHistoryService"/>
+        <property name="targetMethod" value="deleteFumesPortHistoryDataOnTime"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="fumesPortHistoryCleanForceWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="fumesPortHistoryCleanManagerDetail"/>
+        <!--<property name="cronExpression" value="0 0 0 1/1 * ? "/>-->
+        <property name="cronExpression" value="0 0 0 * * ?"/>
+    </bean>
+
+    <!--工作任务配置-->
+    <bean id="taskManagerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="taskService"/>
+        <property name="targetMethod" value="saveTaskWarnInfoOnTime"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="taskWorkCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="taskManagerDetail"/>
+        <!--<property name="cronExpression" value="0 0 0 1/1 * ? "/>-->
+        <property name="cronExpression" value="0 0 0 * * ?"/>
+    </bean>
+</beans>

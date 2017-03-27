@@ -140,7 +140,7 @@ var DemoPage = function () {
 // 列表操作事件
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
-            var url = rootPath + "/container/gov/office/task.jsp?parentTaskId=" + row.id+"&parentTaskName="+encodeURIComponent(encodeURIComponent(row.taskName));
+            var url = rootPath + "/container/gov/office/task.jsp?parentTaskId=" + row.id;
             pageUtils.toUrl(url);
         }
     };
@@ -239,7 +239,7 @@ var DemoPage = function () {
         success:function (ef) {
             var entity = form.find("form").formSerializeObject();
             entity.taskType = 0;
-            entity.status=0;
+            entity.taskStatus=0;
             entity.attachmentIds = getAttachmentIds();
             saveAjax(entity,function (msg) {
                 form.modal('hide');
