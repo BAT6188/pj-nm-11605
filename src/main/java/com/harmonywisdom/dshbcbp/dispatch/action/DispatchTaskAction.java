@@ -94,13 +94,13 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
     public void getAllAttachmentIdList(){
         Map<String,List> map=new HashedMap();
         String id = entity.getId();
-        String site_monitoring_sql="select a.ID,a.ATT_TYPE,a.BUSINESS_ID,a.FILE_EXT,a.FILE_NAME,a.FILE_SIZE \n" +
+        String site_monitoring_sql="SELECT a.ID,a.ATT_TYPE,a.BUSINESS_ID,'' AS 'DATA',a.FILE_EXT,a.FILE_NAME,'' AS 'FILE_PATH',a.FILE_SIZE \n" +
                 " from hw_dispatch_task d,hw_site_monitoring s ,hw_attachment a \n" +
                 " where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
-        String punish_sql="select a.ID,a.ATT_TYPE,a.BUSINESS_ID,a.FILE_EXT,a.FILE_NAME,a.FILE_SIZE \n" +
+        String punish_sql="SELECT a.ID,a.ATT_TYPE,a.BUSINESS_ID,'' AS 'DATA',a.FILE_EXT,a.FILE_NAME,'' AS 'FILE_PATH',a.FILE_SIZE \n" +
                 " from hw_dispatch_task d,HW_PUNISH s ,hw_attachment a \n" +
                 " where s.dispatch_task_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
-        String feedbackg_sql="select a.ID,a.ATT_TYPE,a.BUSINESS_ID,a.FILE_EXT,a.FILE_NAME,a.FILE_SIZE \n" +
+        String feedbackg_sql="SELECT a.ID,a.ATT_TYPE,a.BUSINESS_ID,'' AS 'DATA',a.FILE_EXT,a.FILE_NAME,'' AS 'FILE_PATH',a.FILE_SIZE \n" +
                 " from hw_dispatch_task d,T_FEEDBACK s ,hw_attachment a \n" +
                 " where s.dispatch_id=d.id and a.BUSINESS_ID=s.id and d.id=?1";
         List<Attachment> site_monitoring = dispatchTaskService.queryNativeSQL(site_monitoring_sql, Attachment.class, id);
