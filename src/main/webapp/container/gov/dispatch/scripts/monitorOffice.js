@@ -1,6 +1,8 @@
 var gridTable = $('#table'),
     feedbackRecordTable=$("#feedbackRecordTable"),
     table_siteMonitoringReportDialog = $('#table_siteMonitoringReportDialog'),
+    siteMonitoringReportDialog = $('#siteMonitoringReportDialog'),
+    feedbackListDialog = $('#feedbackListDialog'),
     removeBtn = $('#remove'),
     updateBtn = $('#update'),
     eventMsgForm = $("#eventMsg"),
@@ -233,6 +235,7 @@ function initTable() {
 
 window.siteMonitoringReportEvents = {
     'click .siteMonitoringReport': function (e, value, entity, index) {
+        siteMonitoringReportDialog.find(".tableBox").data({dispatchId:entity.id});
         table_siteMonitoringReportDialog.bootstrapTable('refresh',{
             query:{dispatchId:entity.dispatchId}
         });
@@ -250,6 +253,7 @@ function operateFormatter(value, row, index) {
 // 列表操作事件
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
+        feedbackListDialog.find(".tableBox").data({dispatchId:row.id});
         feedbackRecordTable.bootstrapTable('refresh',{query:{id:row.id}})
     }
 };
@@ -433,7 +437,7 @@ var ef = eventMsgForm.easyform({
                         console.log(o)
                         var d=""
                         $.each(o.rows,function (i,v) {
-                            if(v.apportalPersonId!=undefined||v.apportalUserName!=undefined){
+                            if(v.apportalPersonId && v.apportalUserName){
                                 d+="&ids="+v.apportalPersonId
                                 d+="&names="+v.apportalUserName
                             }else {
@@ -880,7 +884,11 @@ function initfeedbackRecordTable() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=feedbackListDialog.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',
@@ -984,7 +992,11 @@ function initTable_siteMonitoringReportDialog() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=siteMonitoringReportDialog.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',
