@@ -12,6 +12,7 @@ var gridTable = $('#table'),
     feedbackForm=$("#feedbackForm"),
     overDialog=$("#overDialog"),
     addSiteMonitoringDialog=$("#addSiteMonitoringDialog"),
+    lookOverFeedbackForm=$("#lookOverFeedbackForm"),
     selections = [];
 
 $("#addPunish").click(function () {
@@ -362,6 +363,7 @@ window.operateEvents = {
         $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
         disabledForm($("#lookOverFeedbackForm"),true)
 
+        lookOverFeedbackForm.find(".tableBox").data({dispatchId:row.id});
         feedbackRecordTable.bootstrapTable('refresh',{query:{dispatchId:row.id}})
 
     }
@@ -433,59 +435,6 @@ $("#feedback").bind("click",function () {
     pageUtils.updateSelfReadStatus(url,getIdSelections()[0],1)
 
 });
-
-/***********  现场监察监测报告  *******************/
-/*var $monitorReport = $("#monitorReport");
-var options_monitorReport = {
-    params:{
-        orgCode:[orgCodeConfig.org.wuKongShi.orgCode],//组织机构代码(必填，组织机构代码)
-        type:2
-    },
-    choseMore:false,
-    title:"人员选择",//弹出框标题(可省略，默认值：“组织机构人员选择”)
-    width:"60%",        //宽度(可省略，默认值：850)
-}
-var model_monitorReport = $.fn.MsgSend.init(1,options_monitorReport,function(e,data){
-    console.info("回调函数data参数："+JSON.stringify(data))
-
-    var d=pageUtils.sendParamDataToString(data)
-    console.log("发送："+d)
-    $.ajax({
-        url: rootPath + "/action/S_dispatch_DispatchTask_saveToEnvProStaPersonList.action",
-        type:"post",
-        data:d,
-        success:function (msg) {
-            $monitorReport.modal('hide');
-            gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
-        }
-    });
-});
-
-var ef_$monitorReport = $monitorReport.easyform({
-    success:function (ef) {
-        var entity = $monitorReport.find("form").formSerializeObject();
-        entity.attachmentIds = getAttachmentIds();
-        console.log("发送："+JSON.stringify(entity))
-        $.ajax({
-            url: rootPath + "/action/S_dispatch_DispatchTask_saveMonitorReport.action",
-            type:"post",
-            data:entity,
-            success:function (id) {
-                entity.id=id;
-                entity.smsContent=entity.content
-                // entity.isSendSms=$("#isSendSms").is(':checked');
-                model_monitorReport.open(entity);
-                gridTable.bootstrapTable('refreshOptions',{pageNumber:1,pageSize:pageUtils.PAGE_SIZE});
-            }
-        });
-
-    }
-});
-
-$("#save_monitorReport").click(function () {
-    ef_$monitorReport.submit(false);
-})*/
-
 
 
 
@@ -898,7 +847,11 @@ function initfeedbackRecordTable() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=lookOverFeedbackForm.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',
