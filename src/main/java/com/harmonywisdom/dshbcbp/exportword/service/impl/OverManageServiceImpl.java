@@ -96,6 +96,7 @@ public class OverManageServiceImpl extends BaseService<OverManage,String> {
 		overManage.setCode(StringUtils.defaultString(punish.getCode()));
 		overManage.setDecideCode(StringUtils.defaultString(punish.getDecideCode()));
 		overManage.setProvision(StringUtils.defaultString(punish.getProvision()));
+		overManage.setExeDesc(StringUtils.defaultString(punish.getExeDesc()));
 		overManage.setExeDate(StringUtils.defaultString(DateUtil.dateToStr(punish.getExeDate(),"yyyy-MM-dd HH:mm")));
 		String type = punish.getType();
 		if ("1".equals(type)){

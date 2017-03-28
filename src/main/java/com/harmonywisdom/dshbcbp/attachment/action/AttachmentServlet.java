@@ -123,6 +123,7 @@ public class AttachmentServlet extends HttpServlet {
 
                     // 保存到数据库
                     service.save(attachment);
+
                     attachment.setData(null);
                     list.add(attachment);
                 }

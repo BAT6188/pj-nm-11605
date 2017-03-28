@@ -37,10 +37,13 @@ import com.harmonywisdom.framework.service.SpringUtil;
 import com.harmonywisdom.framework.service.annotation.AutoService;
 import com.harmonywisdom.framework.utils.UUIDGenerator;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.*;
 
 public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskService> {
@@ -431,9 +434,14 @@ public class DispatchTaskAction extends BaseAction<DispatchTask, DispatchTaskSer
             String fileName="执法归档.docx";
             attachment.setName(FilenameUtils.getName(fileName));
             attachment.setExt(FilenameUtils.getExtension(fileName));
-            attachment.setPath(docOutputPath);
-            attachment.setSize("86 KB");
 
+
+            InputStream inputStream=new FileInputStream(docOutputPath);
+            int len=inputStream.available();
+            byte[] buf=new byte[len];
+            inputStream.read(buf);
+            attachment.setData(buf);
+            attachment.setSize(FileUtils.byteCountToDisplaySize(len));
             AttachmentService service = SpringUtil.getBean("attachmentService");
             service.save(attachment);
         } catch (Exception e) {
