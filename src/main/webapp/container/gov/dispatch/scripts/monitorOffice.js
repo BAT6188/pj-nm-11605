@@ -433,7 +433,7 @@ var ef = eventMsgForm.easyform({
                         console.log(o)
                         var d=""
                         $.each(o.rows,function (i,v) {
-                            if(v.apportalPersonId!=undefined||v.apportalUserName!=undefined){
+                            if(v.apportalPersonId && v.apportalUserName){
                                 d+="&ids="+v.apportalPersonId
                                 d+="&names="+v.apportalUserName
                             }else {
