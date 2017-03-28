@@ -2,6 +2,7 @@ var gridTable = $('#table'),
     form = $("#systemSendForm"),
     formTitle = "调度单",
     feedbackRecordTable=$("#feedbackRecordTable"),
+    feedbackListDialog=$("#feedbackListDialog"),
     selections = [];
 
     function getTableHeight() {
@@ -103,38 +104,6 @@ var gridTable = $('#table'),
                 align: 'center',
                 editable: false
             },
-            // {
-            //     title: '监管人员',
-            //     field: 'supervisor',
-            //     editable: false,
-            //     sortable: false,
-            //     footerFormatter: totalTextFormatter,
-            //     align: 'center'
-            // },{
-            //     field: 'reason',
-            //     title: '原因',
-            //     sortable: false,
-            //     align: 'center',
-            //     editable: false,
-            //     formatter: function (value, row, index) {
-            //         return dict.get("caseReason",value)
-            //     }
-            // },
-            // {
-            //     field: 'status',
-            //     title: '状态跟踪',
-            //     align: 'center',
-            //     events: operateEvents,
-            //     formatter: statusFormatter,
-            //     visible:false
-            // },
-            // {
-            //     title: '发送至',
-            //     field: 'monitorOfficePersonName',
-            //     editable: false,
-            //     sortable: false,
-            //     align: 'center'
-            // },
             {
                 field: 'overStatus',
                 title: '办结状态',
@@ -168,47 +137,6 @@ var gridTable = $('#table'),
                 align: 'center',
                 events: queryFeedbackEvents,
                 formatter: queryFeedbackFormatter,
-                visible:false
-            },{
-                title: 'supervisorPhone',
-                field: 'supervisorPhone',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                visible:false
-            }, {
-                title: 'thrValue',
-                field: 'thrValue',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                visible:false
-            },{
-                title: 'content',
-                field: 'content',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                visible:false
-            },{
-                title: 'senderName',
-                field: 'senderName',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                visible:false
-            },{
-                title: 'sendTime',
-                field: 'sendTime',
-                editable: false,
-                sortable: false,
-                footerFormatter: totalTextFormatter,
-                visible:false
-            },{
-                title: 'sendRemark',
-                field: 'sendRemark',
-                editable: false,
-                sortable: false,
                 visible:false
             }
 
@@ -348,6 +276,7 @@ window.overEvents = {
 // 列表操作事件
 window.queryFeedbackEvents = {
     'click .view': function (e, value, row, index) {
+        feedbackListDialog.find(".tableBox").data({dispatchId:row.id});
         feedbackRecordTable.bootstrapTable('refresh',{query:{id:row.id}})
     }
 };
@@ -599,7 +528,11 @@ function initfeedbackRecordTable() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=feedbackListDialog.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',

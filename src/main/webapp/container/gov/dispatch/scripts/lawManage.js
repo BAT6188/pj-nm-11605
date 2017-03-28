@@ -13,6 +13,7 @@ var gridTable = $('#table'),
     overDialog=$("#overDialog"),
     addSiteMonitoringDialog=$("#addSiteMonitoringDialog"),
     lookOverFeedbackForm=$("#lookOverFeedbackForm"),
+    siteMonitoringReportDialog=$("#siteMonitoringReportDialog"),
     selections = [];
 
 $("#addPunish").click(function () {
@@ -331,6 +332,7 @@ window.lookOverEvents = {
 
 window.siteMonitoringReportEvents = {
     'click .siteMonitoringReport': function (e, value, entity, index) {
+        siteMonitoringReportDialog.find(".tableBox").data({dispatchId:entity.id});
         table_siteMonitoringReportDialog.bootstrapTable('refresh',{
             query:{dispatchId:entity.id}
         });
@@ -1067,7 +1069,11 @@ function initTable_siteMonitoringReportDialog() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=siteMonitoringReportDialog.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',

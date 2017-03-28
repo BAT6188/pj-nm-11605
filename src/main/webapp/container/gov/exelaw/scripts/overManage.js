@@ -5,6 +5,8 @@ var gridTable = $('#table'),
     table_siteMonitoringReportDialog = $('#table_siteMonitoringReportDialog'),
     eventMsg_monitorOffice_dialog = $("#eventMsg_monitorOffice"),
     eventMsg_monitorCase_dialog = $("#eventMsg_monitorCase"),
+    siteMonitoringReportDialog = $("#siteMonitoringReportDialog"),
+    lookOverFeedbackForm = $("#lookOverFeedbackForm"),
     selections = [];
 pageUtils.appendOptionFromDictCode(".caseSource",{code:"caseSource"})
 /**============grid 列表初始化相关代码============**/
@@ -222,6 +224,7 @@ function disabledForm(dialogSelector,disabled) {
 
 window.siteMonitoringReportEvents = {
     'click .siteMonitoringReport': function (e, value, entity, index) {
+        siteMonitoringReportDialog.find(".tableBox").data({dispatchId:entity.id});
         table_siteMonitoringReportDialog.bootstrapTable('refresh',{
             query:{dispatchId:entity.id}
         });
@@ -246,6 +249,7 @@ window.operateEvents = {
         $("#lookOverFeedbackForm_sendRemark").val(row.sendRemark);
         disabledForm($("#lookOverFeedbackForm"),true)
 
+        lookOverFeedbackForm.find(".tableBox").data({dispatchId:row.id});
         feedbackRecordTable.bootstrapTable('refresh',{query:{dispatchId:row.id}})
 
     }
@@ -290,7 +294,11 @@ function initfeedbackRecordTable() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=lookOverFeedbackForm.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',
@@ -747,7 +755,11 @@ function initTable_siteMonitoringReportDialog() {
         pagination:true,
         pageSize:5,
         pageList:[5],
-        queryParams:pageUtils.localParams,
+        queryParams:function (p) {
+            p = pageUtils.localParams(p);
+            p.dispatchId=siteMonitoringReportDialog.find(".tableBox").data('dispatchId');
+            return p;
+        },
         columns: [
             {
                 title: 'ID',
