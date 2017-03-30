@@ -40,6 +40,9 @@
             method:'post',
             pagination:true,
             clickToSelect:true,//单击行时checkbox选中
+            onLoadSuccess: function (data) {
+                $(".tooltipSpan").tooltip();
+            },
             queryParams:function localParams(params) {
             var localParams = {};
             //分页参数
@@ -100,10 +103,13 @@
                     sortable: false,
                     align: 'center',
                     formatter:function (value, row, index) {
+                        var html = value;
                         if(value.length>10){
-                            value = value.substr(0,8)+'..';
+                            value = value.substr(0,10)+'..';
+                            html ='<span class="tooltipSpan" data-placement="top" data-toggle="tooltip" title="'+row.taskContent+'">'+value+'</span>';
                         }
-                        return value;
+                        console.log(html);
+                        return html;
                     }
                 },
                 {
@@ -183,7 +189,7 @@
                         }
                     },
                     formatter:function (value, row, index) {
-                        return '<button type="button" class="btn btn-primary feedbackListView" data-toggle="modal" data-target="#feedbackListModal">查看列表</button>';
+                        return '<button type="button" class="btn btn-primary feedbackListView" data-toggle="modal" data-target="#feedbackListModal">反馈处理</button>';
                     }
                 },
                 {
@@ -200,7 +206,6 @@
         setTimeout(function () {
             gridTable.bootstrapTable('resetView');
         }, 200);
-
         //列表checkbox选中事件
         gridTable.on('check.bs.table uncheck.bs.table ' +
             'check-all.bs.table uncheck-all.bs.table', function () {
@@ -208,6 +213,8 @@
             removeBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length==1));
             //选中一条数据启用修改按钮
             updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
+            $('#addFeedback').prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         });
 
         $(window).resize(function () {
@@ -218,16 +225,19 @@
         });
     }
 
-// 生成列表操作方法
+    // 生成列表操作方法
+    /*if(role=='feedbacker'){
+     html +='&nbsp;<button type="button" class="btn btn-primary feedbackView" data-toggle="modal" data-target="#feedbackForm">反馈</button>';
+     }*/
+    /*if(role=='reviewer'){
+     if(row.reviewStatus==1){
+     html +='&nbsp;<button type="button" class="btn btn-primary reviewView" data-toggle="modal" data-target="#reviewForm">审核</button>';
+     }
+     }*/
     function operateFormatter(value, row, index) {
         var html = '<button type="button" class="btn btn-md btn-warning view" data-toggle="modal" data-target="#taskChildForm">查看</button>';
-        if(role=='feedbacker'){
-            html +='&nbsp;<button type="button" class="btn btn-primary feedbackView" data-toggle="modal" data-target="#feedbackForm">反馈</button>';
-        }
-        if(role=='reviewer'){
-            if(row.reviewStatus==1){
-                html +='&nbsp;<button type="button" class="btn btn-primary reviewView" data-toggle="modal" data-target="#reviewForm">审核</button>';
-            }
+        if(!taskRSV && row.taskStatus!=0){
+            html += '&nbsp;<button type="button" class="btn btn-md btn-warning feedbackListView" data-toggle="modal" data-target="#feedbackListModal">查看反馈列表</button>';
         }
         return html;
     }
@@ -235,12 +245,17 @@
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
             setFormView(row);
+            if(row.taskStatus!=0){
+                $('#publish').hide();
+            }else{
+                $('#publish').show();
+            }
         },
-        'click .feedbackView': function (e, value, row, index) {
+        /*'click .feedbackView': function (e, value, row, index) {
             resetFeedbackForm();
             $('#feedbackFormSaveBtn').show();
             feedbackEditEntity.taskId = row.id;
-        }
+        }*/
     };
 
     /**
@@ -273,6 +288,7 @@
      */
     $("#add").bind('click',function () {
         resetForm();
+        $('#publish').show();
         $('#parentTaskName').val(parentEntity.taskName);
         $('#dispatchDutyLeader').val(parentEntity.dispatchDutyLeader);
         $('#dispatchDutyDepartment').val(parentEntity.dispatchDutyDepartment);
@@ -384,6 +400,7 @@
     function setFormData(entity) {
         resetForm();
         if (!entity) {return false}
+        editEntity = entity;
         form.find(".form-title").text("修改"+formTitle);
         var id = entity.id;
         $("#removeId").val("");
@@ -455,12 +472,21 @@
 
     /*----------------------------------------反馈--------------------------------------------*/
     var feedbackUploader;
+    $('#addFeedback').bind('click',function(){
+        resetFeedbackForm();
+        $('#feedbackFormSaveBtn').show();
+        feedbackEditEntity.taskId = getIdSelections()[0];
+    });
     $('#feedbackFormSaveBtn').bind('click',function () {
         feedbackEditEntity.reviewStatus = 0;
         feedbackEf.submit(false);
     });
     $('#feedbackFormSubBtn').bind('click',function () {
         feedbackEditEntity.reviewStatus = 1;
+        feedbackEf.submit(false);
+    });
+    $('#feedbackFormReviewBtn').bind('click',function () {
+        feedbackEditEntity.reviewStatus = $('#reviewStatus').val();
         feedbackEf.submit(false);
     });
     function saveFeedbackAjax(entity, callback) {
@@ -488,6 +514,7 @@
             if(!$.isEmptyObject(feedbackEditEntity)){
                 entity = $.extend({}, feedbackEditEntity , entity || {});
             }
+            entity.reviewStatus = feedbackEditEntity.reviewStatus;
             entity.attachmentIds = getFeedbackAttachmentIds();
             saveFeedbackAjax(entity,function (msg) {
                 feedbackForm.modal('hide');
@@ -497,6 +524,7 @@
                     gridTable.bootstrapTable('refresh');
                 }
                 if(entity.reviewStatus==1){
+                    Ewin.alert('提交审核成功！');
                     var receivers = [];
                     var receiver1 = {receiverId: parentEntity.dispatchDutyLeaderId, receiverName: parentEntity.dispatchDutyLeader};
                     receivers.push(receiver1);
@@ -514,7 +542,8 @@
     function setFeedbackFormData(entity) {
         resetFeedbackForm();
         if (!entity) {return false}
-        feedbackForm.find(".form-title").text("修改"+formTitle);
+        feedbackEditEntity = entity;
+        feedbackForm.find(".form-title").text("修改反馈");
         var id = entity.id;
         $("#removeId").val("");
         var inputs = feedbackForm.find('.form-control');
@@ -533,7 +562,7 @@
         feedbackForm.find(".btn-cancel").text("关闭");
         var fuOptions = pageUtils.getUploaderOptions('feedback-uploader-gallery',entity.id);
         fuOptions.callbacks.onSessionRequestComplete = function () {
-            $("#fine-uploader-gallery").find(".qq-upload-delete").hide();
+            $("#feedback-uploader-gallery").find(".qq-upload-delete").hide();
         };
         feedbackUploader = new qq.FineUploader(fuOptions);
         $(".qq-upload-button").hide();
@@ -578,6 +607,9 @@
                 method:'post',
                 pagination:true,
                 clickToSelect:true,//单击行时checkbox选中
+                onLoadSuccess: function (data) {
+                    $(".tooltipSpan").tooltip();
+                },
                 queryParams:function localParams(params) {
                     var localParams = {};
                     //分页参数
@@ -600,10 +632,12 @@
                         sortable: false,
                         align: 'center',
                         formatter:function (value, row, index) {
+                            var html = value;
                             if(value.length>10){
                                 value = value.substr(0,10)+'..';
+                                html ='<span class="tooltipSpan" data-toggle="tooltip" title="'+html+'">'+value+'</span>';
                             }
-                            return value;
+                            return html;
                         }
                     },
                     {
@@ -654,15 +688,12 @@
                             'click .editReviewView': function (e, value, row, index) {
                                 setFeedbackFormData(row);
                                 $('#reviewDiv').hide();
+                                $('.feedbacker').show();
                                 if(row.reviewStatus==0){
                                     $('#feedbackFormSaveBtn').show();
                                 }else{
                                     $('#feedbackFormSaveBtn').hide();
                                 }
-                            },
-                            'click .lookReviewView': function (e, value, row, index) {
-                                setFeedbackFormView(row);
-                                $('#reviewDiv').show();
                             },
                             'click .deleteReviewView': function (e, value, row, index) {
                                 Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
@@ -693,10 +724,12 @@
                                     html = '<button type="button" class="btn btn-md btn-warning lookReviewView" data-toggle="modal" data-target="#feedbackForm">查看审核</button>';
                                     break;
                                 case '3':
-                                    html = '<button type="button" class="btn btn-md btn-warning editReviewView" data-toggle="modal" data-target="#feedbackForm">修改</button>';
+                                    html = '<button type="button" class="btn btn-md btn-success editReviewView" data-toggle="modal" data-target="#feedbackForm">修改重提</button>' +
+                                        '&nbsp;<button type="button" class="btn btn-md btn-warning lookReviewView" data-toggle="modal" data-target="#feedbackForm">查看审核</button>';
                                     break;
                                 default:
-                                    html = '<button type="button" class="btn btn-md btn-warning editReviewView" data-toggle="modal" data-target="#feedbackForm">修改</button>';
+                                    html = '<button type="button" class="btn btn-md btn-success editReviewView" data-toggle="modal" data-target="#feedbackForm">修改重提</button>' +
+                                        '&nbsp;<button type="button" class="btn btn-md btn-warning lookReviewView" data-toggle="modal" data-target="#feedbackForm">查看审核</button>';
                             }
                             return html;
                         }
@@ -711,12 +744,9 @@
                                 setFeedbackFormView(row);
                                 feedbackEditEntity = row;
                                 $('#reviewDiv').show();
+                                $('.reviewer').show();
                                 $('.review').attr("disabled",false);
                             },
-                            'click .lookReviewView': function (e, value, row, index) {
-                                setFeedbackFormView(row);
-                                $('#reviewDiv').show();
-                            }
                         },
                         formatter: function (value, row, index) {
                             var html = '';
@@ -738,6 +768,31 @@
                             }
                             return html;
                         }
+                    },
+                    {
+                        field: 'reviewOperation',
+                        title: '操作',//审核人员
+                        align: 'center',
+                        visible:!taskRSV,
+                        events: {
+                            'click .lookReviewView': function (e, value, row, index) {
+                                setFeedbackFormView(row);
+                                $('.feedbacker').hide();
+                                $('.reviewer').hide();
+                                $('#reviewDiv').show();
+                            },
+                        },
+                        formatter: function (value, row, index) {
+                            var html = '';
+                            switch (row.reviewStatus){
+                                case '1':
+                                    html = '<button type="button" class="btn btn-md btn-default">正在审核..</button>';
+                                    break;
+                                default:
+                                    html = '<button type="button" class="btn btn-md btn-warning lookReviewView" data-toggle="modal" data-target="#feedbackForm">查看</button>';
+                            }
+                            return html;
+                        }
                     }
                 ]
             });
@@ -745,7 +800,7 @@
             setTimeout(function () {
                 gridFeedbackTable.bootstrapTable('resetView');
             }, 200);
-
+            $('.tooltip').tooltip();
             $(window).resize(function () {
                 // 重新设置表的高度
                 gridFeedbackTable.bootstrapTable('resetView', {

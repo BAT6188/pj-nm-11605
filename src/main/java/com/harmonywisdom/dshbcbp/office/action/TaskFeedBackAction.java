@@ -45,10 +45,10 @@ public class TaskFeedBackAction extends BaseAction<TaskFeedBack, TaskFeedBackSer
             if(StringUtils.isNotBlank(entity.getTaskId())){
                 Task task = taskService.findById(entity.getTaskId());
                 task.setReviewStatus(entity.getReviewStatus());
-                if(TaskFeedBack.REVIEW_STATUS_PASS.equals(entity.getReviewStatus())){
+                if(TaskFeedBack.REVIEW_STATUS_PASS.equals(entity.getReviewStatus())){//审核通过
                     task.setTaskStatus(Task.TASK_STATUS_DONE);
                 }
-                if(TaskFeedBack.REVIEW_STATUS_NOPASS.equals(entity.getReviewStatus())){
+                if(TaskFeedBack.REVIEW_STATUS_NOPASS.equals(entity.getReviewStatus())){//审核不通过
                     task.setTaskStatus(Task.TASK_STATUS_NODONE);
                 }
                 taskService.update(task);
@@ -65,9 +65,9 @@ public class TaskFeedBackAction extends BaseAction<TaskFeedBack, TaskFeedBackSer
     @Override
     public void delete() {
         String deleteId = request.getParameter("deletedId");
+        super.delete();
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
         }
-        super.delete();
     }
 }

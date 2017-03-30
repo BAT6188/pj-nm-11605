@@ -18,6 +18,9 @@
             text-decoration:none;
             text-align:center;
         }
+        .tooltipSpan{
+            cursor: pointer;
+        }
     </style>
     <script>
         var parentTaskId='<%=parentTaskId==null?"":parentTaskId%>';
@@ -28,7 +31,7 @@
             if(role.length>0){
                 $('#headTitle').hide();
                 $('.creator').hide();
-                $('#creatorOption').remove();
+                $('.noCreator').show();
                 taskStatus = '00';
                 if(role=='reviewer'){
                     dispatchDutyLeaderId = userId;
@@ -78,13 +81,14 @@
                         <form >
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <label for="">任务名称：</label> <input type="text" name="taskName" style="width: 185px;" class="form-control" />
+                                    <label for="">任务名称：</label> <input type="text" name="taskName"  style="width: 242px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="labelMarginLeft">任务状态：</label>
-                                    <select name="taskRemark" class="form-control" style="width: 185px;">
-                                        <option value="">全部</option>
-                                        <option id="creatorOption" value="0">未发布</option>
+                                    <label for="taskRemark">&nbsp;任务状态：</label>
+                                    <select name="taskRemark" class="form-control" style="width: 170px;">
+                                        <option class="creator" value="">全部</option>
+                                        <option class="noCreator" style="display: none;" value="00">全部</option>
+                                        <option class="creator" value="0">未发布</option>
                                         <option value="1">未完成</option>
                                         <option value="2">已完成</option>
                                         <option value="3">已办结</option>
@@ -96,13 +100,13 @@
                                 <div class="form-group">
                                     <label for="">发布时间：</label>
                                     <div id="" class="input-group date form_datetime searDate" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                        <input class="form-control" size="16" name="start_publishTime"  type="text" value="" readonly>
+                                        <input class="form-control" size="16" name="startTime"  type="text" value="" readonly>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                     </div>
                                     -
                                     <div class="input-group date form_datetime searDate" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
-                                        <input class="form-control" size="16" name="end_publishTime" type="text" value="" readonly>
+                                        <input class="form-control" size="16" name="endTime" type="text" value="" readonly>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                     </div>
@@ -117,7 +121,7 @@
                     <button id="add" type="button" class="btn btn-sm btn-success creator" data-toggle="modal" data-target="#taskForm">
                         <i class="btnIcon add-icon"></i><span>新增任务类型</span>
                     </button>
-                    <button id="update" type="button" class="btn btn-sm btn-warning creator" data-toggle="modal" data-target="#taskForm">
+                    <button id="update" type="button" class="btn btn-sm btn-warning creator">
                         <i class="btnIcon edit-icon"></i><span>修改</span>
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger creator">

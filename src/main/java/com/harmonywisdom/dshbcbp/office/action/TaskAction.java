@@ -7,6 +7,7 @@ import com.harmonywisdom.dshbcbp.attachment.service.AttachmentService;
 import com.harmonywisdom.dshbcbp.office.bean.Task;
 import com.harmonywisdom.dshbcbp.office.service.TaskService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
+import com.harmonywisdom.dshbcbp.utils.MyDateUtils;
 import com.harmonywisdom.framework.action.BaseAction;
 import com.harmonywisdom.framework.dao.Direction;
 import com.harmonywisdom.framework.dao.QueryCondition;
@@ -65,6 +66,14 @@ public class TaskAction extends BaseAction<Task, TaskService> {
         if(StringUtils.isNotBlank(entity.getParentTaskName())){
             param.andParam(new QueryParam("parentTaskName", QueryOperator.LIKE,"%"+entity.getParentTaskName()+"%"));
         }
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        if(StringUtils.isNotBlank(startTime)){
+            param.andParam(new QueryParam("taskPubTime", QueryOperator.GE, MyDateUtils.getFullDate(startTime,true)));
+        }
+        if(StringUtils.isNotBlank(endTime)){
+            param.andParam(new QueryParam("taskPubTime", QueryOperator.LE,MyDateUtils.getFullDate(endTime,false)));
+        }
 
         QueryCondition condition=new QueryCondition();
         if (param.getField()!=null) {
@@ -122,10 +131,10 @@ public class TaskAction extends BaseAction<Task, TaskService> {
     @Override
     public void delete() {
         String deleteId = request.getParameter("deletedId");
+        super.delete();
         if(StringUtils.isNotBlank(deleteId)){
             attachmentService.removeByBusinessIds(deleteId);
         }
-        super.delete();
     }
 
     public void getDispatchDutyLeaders(){

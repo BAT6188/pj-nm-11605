@@ -185,14 +185,10 @@ var DemoPage = function () {
                         switch (value){
                             case '0':
                                 return '未发布';
-                            case '1':
-                                return '未完成';
-                            case '2':
-                                return '已完成';
                             case '3':
                                 return '已办结';
                             default:
-                                return '未发布';
+                                return '任务进行中...';
                         }
                     }
                 },
@@ -278,8 +274,13 @@ var DemoPage = function () {
     });
     updateBtn.bind("click",function () {
         var entity = getSelections()[0];
-        setFormData(entity);
-        editEntity = entity;
+        if(entity.taskStatus=='0'){
+            setFormData(entity);
+            editEntity = entity;
+            form.modal('show');
+        }else{
+            Ewin.alert("任务进行中,暂不可修改!")
+        }
         //$("#taskCreateDepartment").attr("readonly",true)
     });
     var editEntity = {};

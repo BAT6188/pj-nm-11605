@@ -18,6 +18,9 @@
             text-decoration:none;
             text-align:center;
         }
+        .tooltipSpan{
+            cursor: pointer;
+        }
     </style>
     <script>
         var parentTaskId='<%=parentTaskId==null?"":parentTaskId%>';
@@ -27,13 +30,18 @@
         $(function(){
             if(role.length>0){
                 $('.creator').hide();
-                $('#creatorOption').remove();
+                $('.noCreator').show();
                 taskStatus = '00';
                 taskRSV = true;
                 if(role=='reviewer'){
+                    $('.reviewer').show();
+                    $('.feedbacker').hide();
                     reviewerRSV = true;
                     //dispatchDutyLeaderId = userId;
                 }else if(role=='feedbacker'){
+                    $('.feedbacker').show();
+                    $('.reviewer').hide();
+                    $('#addFeedback').prop('disabled', true);
                     feedbackerRSV = true;
                     //dispatchDutyDepartmentCode = orgCode;
                 }
@@ -79,13 +87,14 @@
                         <form >
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <label for="">任务名称：</label> <input type="text" name="taskName" style="width: 180px;" class="form-control" />
+                                    <label for="">任务名称：</label> <input type="text" name="taskName" style="width: 242px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="labelMarginLeft">任务状态：</label>
-                                    <select name="taskRemark" class="form-control">
-                                        <option value="00">全部</option>
-                                        <option id="creatorOption" value="0">未发布</option>
+                                    <select name="taskStatus" class="form-control" style="width: 170px;">
+                                        <option class="creator" value="">全部</option>
+                                        <option class="noCreator" style="display: none;" value="00">全部</option>
+                                        <option class="creator" value="0">未发布</option>
                                         <option value="1">未完成</option>
                                         <option value="2">已完成</option>
                                         <option value="3">已办结</option>
@@ -124,7 +133,9 @@
                     <button id="remove" type="button" class="btn btn-sm btn-danger creator">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
-
+                    <button id="addFeedback" type="button" style="display: none;" class="btn btn-sm btn-success feedbacker" data-toggle="modal" data-target="#feedbackForm">
+                        <i class="btnIcon add-icon"></i><span>新增反馈</span>
+                    </button>
                 </p>
             </div>
             <div class="tableBox">
@@ -296,8 +307,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="feedbackFormSubBtn">提交</button>
-                <button type="button" class="btn btn-primary" id="feedbackFormSaveBtn">保存</button>
+                <button type="button" class="btn btn-success reviewer" id="feedbackFormReviewBtn">确定</button>
+                <button type="button" class="btn btn-success feedbacker" id="feedbackFormSubBtn">提交</button>
+                <button type="button" class="btn btn-primary feedbacker" id="feedbackFormSaveBtn">保存</button>
                 <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
             </div>
         </div>

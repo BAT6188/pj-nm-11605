@@ -518,10 +518,6 @@ var pageUtils = {
         var upCpmplateFunc = function (id,fileName,msg,request) {
             var uploader = this;
             uploader.setUuid(id, msg.id);
-            $("#"+uploadEleId).on('click', '.qq-upload-download-selector', function(){
-                var uuid = uploader.getUuid($(this.closest('li')).attr('qq-file-id'));
-                window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
-            });
         };
         var deleteComplateFunc = function (id) {
             var uploader = this;
@@ -534,12 +530,13 @@ var pageUtils = {
             }
             $("#removeId").val(removeIds);
         }
-        var upType = 'attachments',attachmentType = 'attachments';
+        var upType = '',attachmentType = '';
         if(myUpType){
             upType = myUpType;
             attachmentType = myUpType;
         }
         if(!bussinessId){
+            bussinessId = '';
             attachmentType = '';
         }
         var itemLimit = 3;
@@ -577,7 +574,13 @@ var pageUtils = {
                 onAllComplete: function (succeed) {
                     var self = this;
                     $.each(succeed, function (k, v) {
+                        var thisObj = $(self.getItemByFileId(v));
+                        console.log($('.qq-upload-download-selector', self.getItemByFileId(v)));
                         $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                        $(thisObj).on('click', '.qq-upload-download-selector', function(){
+                            var uuid = self.getUuid(v);
+                            window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+                        });
                     });
                 }
             },

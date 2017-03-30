@@ -41,7 +41,7 @@ public class AttachmentServiceImpl extends BaseService<Attachment, String> imple
 
     @Override
     public List<Attachment> getByBusinessId(String bussinessId) throws ServiceException {
-        List<Attachment> attachments = attachmentDAO.queryNativeSQL("select ID,ATT_TYPE,BUSINESS_ID,FILE_NAME,FILE_EXT,FILE_PATH,FILE_PATH as DATA,FILE_SIZE from HW_ATTACHMENT where BUSINESS_ID = ?1 and ATT_TYPE is null",Attachment.class,bussinessId);
+        List<Attachment> attachments = attachmentDAO.queryNativeSQL("select ID,ATT_TYPE,BUSINESS_ID,FILE_NAME,FILE_EXT,FILE_PATH,FILE_PATH as DATA,FILE_SIZE from HW_ATTACHMENT where BUSINESS_ID = ?1 ",Attachment.class,bussinessId);
         return attachments;// attachmentDAO.find("entity.businessId = ?1", bussinessId);
     }
 
