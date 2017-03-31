@@ -575,7 +575,6 @@ var pageUtils = {
                     var self = this;
                     $.each(succeed, function (k, v) {
                         var thisObj = $(self.getItemByFileId(v));
-                        console.log($('.qq-upload-download-selector', self.getItemByFileId(v)));
                         $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
                         $(thisObj).on('click', '.qq-upload-download-selector', function(){
                             var uuid = self.getUuid(v);

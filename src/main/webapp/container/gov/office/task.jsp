@@ -84,8 +84,8 @@
                                     <label for="">任务名称：</label> <input type="text" name="taskName"  style="width: 242px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="taskRemark">&nbsp;任务状态：</label>
-                                    <select name="taskRemark" class="form-control" style="width: 170px;">
+                                    <label for="taskStatus">&nbsp;任务状态：</label>
+                                    <select id="taskStatus" name="taskStatus" class="form-control" style="width: 170px;">
                                         <option class="creator" value="">全部</option>
                                         <option class="noCreator" style="display: none;" value="00">全部</option>
                                         <option class="creator" value="0">未发布</option>
@@ -127,7 +127,6 @@
                     <button id="remove" type="button" class="btn btn-sm btn-danger creator">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
                     </button>
-
                 </p>
             </div>
             <div class="tableBox">

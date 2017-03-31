@@ -265,7 +265,7 @@ var DemoPage = function () {
      */
     $("#add").bind('click',function () {
         resetForm();
-        $('#parentTaskName').val(parentTaskName);
+        $('#parentTaskName').val(parentEntity.taskName);
         $('#taskCreateDepartment').val(orgName);
         editEntity = {};
         editEntity.taskType = 1;

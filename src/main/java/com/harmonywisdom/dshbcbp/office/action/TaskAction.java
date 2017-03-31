@@ -98,30 +98,33 @@ public class TaskAction extends BaseAction<Task, TaskService> {
             entity.setTaskCreator(iPerson.getUserName());
             entity.setTaskCreateTime(new Date());
         }
+
         super.save();
-        Task task = taskService.findById(entity.getParentTaskId());
-        if(StringUtils.isNotBlank(entity.getTaskType()) && !entity.getTaskType().equals(Task.TASK_TYPE_BIG)){
-            task.setIsHaveChild("1");
-        }
-        if(StringUtils.isNotBlank(entity.getTaskStatus()) && "1".equals(entity.getTaskStatus())){
-            entity.setTaskPubTime(new Date());
-            entity.setTaskPubUserId(iPerson.getUserId());
-            entity.setWarnStatus("1");
 
-            Calendar ca=Calendar.getInstance();
-            ca.setTime(entity.getTaskPubTime());
-            ca.add(Calendar.HOUR_OF_DAY,1);
-            entity.setWarnTime(ca.getTime());
-
-            task.setTaskStatus(entity.getTaskStatus());
-            if(entity.getTaskType().equals(Task.TASK_TYPE_LITTLE)){
-                taskService.sendMessage(entity,"新任务提醒!");
-            }
-        }
-        taskService.update(task);
-        taskService.update(entity);
         if (StringUtils.isNotBlank(entity.getAttachmentIds())){
             attachmentService.updateBusinessId(entity.getId(),entity.getAttachmentIds().split(","));
+        }
+
+        if(StringUtils.isNotBlank(entity.getTaskType()) && !entity.getTaskType().equals(Task.TASK_TYPE_BIG)){
+            Task task = taskService.findById(entity.getParentTaskId());
+            task.setIsHaveChild("1");
+            if(StringUtils.isNotBlank(entity.getTaskStatus()) && "1".equals(entity.getTaskStatus())){
+                entity.setTaskPubTime(new Date());
+                entity.setTaskPubUserId(iPerson.getUserId());
+                entity.setWarnStatus("1");
+
+                Calendar ca=Calendar.getInstance();
+                ca.setTime(entity.getTaskPubTime());
+                ca.add(Calendar.HOUR_OF_DAY,1);
+                entity.setWarnTime(ca.getTime());
+
+                task.setTaskStatus(entity.getTaskStatus());
+                if(entity.getTaskType().equals(Task.TASK_TYPE_LITTLE)){
+                    taskService.sendMessage(entity,"新任务提醒!");
+                }
+            }
+            taskService.update(task);
+            taskService.update(entity);
         }
     }
 

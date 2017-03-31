@@ -41,7 +41,6 @@
                 }else if(role=='feedbacker'){
                     $('.feedbacker').show();
                     $('.reviewer').hide();
-                    $('#addFeedback').prop('disabled', true);
                     feedbackerRSV = true;
                     //dispatchDutyDepartmentCode = orgCode;
                 }
@@ -90,8 +89,8 @@
                                     <label for="">任务名称：</label> <input type="text" name="taskName" style="width: 242px;" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="labelMarginLeft">任务状态：</label>
-                                    <select name="taskStatus" class="form-control" style="width: 170px;">
+                                    <label for="taskStatus">&nbsp;任务状态：</label>
+                                    <select id="taskStatus" name="taskStatus" class="form-control" style="width: 170px;">
                                         <option class="creator" value="">全部</option>
                                         <option class="noCreator" style="display: none;" value="00">全部</option>
                                         <option class="creator" value="0">未发布</option>
@@ -132,6 +131,9 @@
                     </button>
                     <button id="remove" type="button" class="btn btn-sm btn-danger creator">
                         <i class="btnIcon delf-icon"></i><span>删除</span>
+                    </button>
+                    <button id="overBtn" type="button" class="btn btn-sm btn-info creator">
+                        <i class="glyphicon glyphicon-floppy-saved"></i><span>办结</span>
                     </button>
                     <button id="addFeedback" type="button" style="display: none;" class="btn btn-sm btn-success feedbacker" data-toggle="modal" data-target="#feedbackForm">
                         <i class="btnIcon add-icon"></i><span>新增反馈</span>

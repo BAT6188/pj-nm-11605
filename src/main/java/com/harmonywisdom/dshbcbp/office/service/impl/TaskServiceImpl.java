@@ -12,7 +12,6 @@ import com.harmonywisdom.dshbcbp.office.service.TaskService;
 import com.harmonywisdom.dshbcbp.utils.ApportalUtil;
 import com.harmonywisdom.framework.dao.BaseDAO;
 import com.harmonywisdom.framework.service.BaseService;
-import com.harmonywisdom.framework.service.annotation.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class TaskServiceImpl extends BaseService<Task, String> implements TaskSe
     private TaskDAO taskDAO;
     @Autowired
     private TaskFeedBackDAO taskFeedBackDAO;
-    @AutoService
+    @Autowired
     private MessageService messageService;
 
     @Override
@@ -59,7 +58,7 @@ public class TaskServiceImpl extends BaseService<Task, String> implements TaskSe
         message.setContent(task.getTaskContent());
         message.setDetailsUrl("container/gov/office/task.jsp?role=feedbacker");
         message.setMsgType(Message.MSG_TYPE_TASK_FEEDBACK);
-        message.setTitle(task.getTaskName()+ title);
+        message.setTitle(task.getParentTaskName()+ title);
         message.setSenderId(iPerson.getUserId());
         message.setSenderName(iPerson.getUserName());
 

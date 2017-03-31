@@ -2,6 +2,8 @@
     var gridTable = $('#table'),
         removeBtn = $('#remove'),
         updateBtn = $('#update'),
+        overBtn = $('#overBtn'),
+        addFeedbackBtn = $('#addFeedback'),
         form = $("#taskChildForm"),
         feedbackForm = $('#feedbackForm'),
         formTitle = "任务类型";
@@ -214,7 +216,9 @@
             //选中一条数据启用修改按钮
             updateBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
 
-            $('#addFeedback').prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+            overBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
+
+            addFeedbackBtn.prop('disabled', !(gridTable.bootstrapTable('getSelections').length== 1));
         });
 
         $(window).resize(function () {
@@ -283,6 +287,8 @@
     //初始化按钮状态
     removeBtn.prop('disabled', true);
     updateBtn.prop('disabled', true);
+    overBtn.prop('disabled', true);
+    addFeedbackBtn.prop('disabled', true);
     /**
      * 列表工具栏 新增和更新按钮打开form表单，并设置表单标识
      */
@@ -309,6 +315,27 @@
             form.modal('show');
         }else{
             Ewin.alert("任务已发布暂不可修改!")
+        }
+    });
+    overBtn.bind('click',function(){
+        var entity = getSelections()[0];
+        if(entity.taskStatus==2){
+            Ewin.confirm({ message: "确认要办结当前工作任务吗？" }).on(function (e) {
+                if (!e) {
+                    return;
+                }
+                entity.taskStatus = 3;
+                saveAjax(entity,function (msg) {
+                    Ewin.alert('当前工作任务办结成功!');
+                    gridTable.bootstrapTable('refresh');
+                });
+            });
+        }else{
+            if(entity.taskStatus==3){
+                Ewin.alert('工作任务已办结!');
+            }else{
+                Ewin.alert('工作任务未完成,不可办结!');
+            }
         }
     });
     var editEntity = {};
