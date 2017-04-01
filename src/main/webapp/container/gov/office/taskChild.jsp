@@ -135,9 +135,9 @@
                     <button id="overBtn" type="button" class="btn btn-sm btn-info creator">
                         <i class="glyphicon glyphicon-floppy-saved"></i><span>办结</span>
                     </button>
-                    <button id="addFeedback" type="button" style="display: none;" class="btn btn-sm btn-success feedbacker" data-toggle="modal" data-target="#feedbackForm">
+                    <%--<button id="addFeedback" type="button" style="display: none;" class="btn btn-sm btn-success feedbacker" data-toggle="modal" data-target="#feedbackForm">
                         <i class="btnIcon add-icon"></i><span>新增反馈</span>
-                    </button>
+                    </button>--%>
                 </p>
             </div>
             <div class="tableBox">

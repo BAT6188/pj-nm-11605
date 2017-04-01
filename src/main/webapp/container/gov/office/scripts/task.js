@@ -162,13 +162,6 @@ var DemoPage = function () {
                     }
                 },
                 {
-                    title: '发布时间',
-                    field: 'taskPubTime',
-                    editable: false,
-                    sortable: false,
-                    align: 'center'
-                },
-                {
                     title: '描述',
                     field: 'taskRemark',
                     editable: false,

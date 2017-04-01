@@ -90,7 +90,7 @@
                                    data-easytip="position:top;class:easy-red;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <%--<div class="form-group">
                         <label for="" class="col-sm-3 control-label">发布时间<span class="text-danger">*</span>：</label>
                         <div class="col-sm-9">
                             <div class="input-group date form_datetime editDatetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
@@ -100,7 +100,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="form-group">
                         <label for="taskRemark" class="col-sm-3 control-label">任务备注：</label>
                         <div class="col-sm-9">

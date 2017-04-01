@@ -607,6 +607,74 @@ var pageUtils = {
             },
             debug: true
         };
+    },
+    getUploaderShowOptions:function(uploadEleId,bussinessId,myUpType){
+        var upType = '',attachmentType = '';
+        if(myUpType){
+            upType = myUpType;
+            attachmentType = myUpType;
+        }
+        if(!bussinessId){
+            bussinessId = '';
+            attachmentType = '';
+        }
+        return {
+            element: document.getElementById(uploadEleId),
+            template: 'qq-template',
+            chunking: {
+                enabled: false,
+                concurrent: {
+                    enabled: true
+                }
+            },
+            resume: {
+                enabled: false
+            },
+            retry: {
+                enableAuto: false,
+                showButton: false
+            },
+            failedUploadTextDisplay: {
+                mode: 'custom'
+            },
+            callbacks: {
+                onAllComplete: function (succeed) {
+                    var self = this;
+                    $.each(succeed, function (k, v) {
+                        var thisObj = $(self.getItemByFileId(v));
+                        $('.qq-upload-download-selector', self.getItemByFileId(v)).toggleClass('qq-hide', false);
+                        $(thisObj).on('click', '.qq-upload-download-selector', function(){
+                            var uuid = self.getUuid(v);
+                            window.location.href = rootPath+"/action/S_attachment_Attachment_download.action?id=" + uuid;
+                        });
+                    });
+
+                }
+            },
+            request: {
+                endpoint: rootPath + '/Upload?type='+upType+'&businessId='+bussinessId,
+                params: {
+                    businessId:bussinessId,
+                    type:upType
+                }
+            },
+            session:{
+                endpoint: rootPath + '/action/S_attachment_Attachment_listAttachment.action',
+                params: {
+                    businessId:bussinessId,
+                    attachmentType:attachmentType
+                }
+            },
+            deleteFile: {
+                enabled: true,
+                endpoint: rootPath + "/action/S_attachment_Attachment_delete.action",
+                method:"POST"
+            },
+            validation: {
+                itemLimit: itemLimit
+            },
+            debug: true
+        };
     }
 };
 (function($){

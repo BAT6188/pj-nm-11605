@@ -88,8 +88,8 @@ var DemoPage = function () {
                     align: 'center'
                 },
                 {
-                    title: '发布时间',
-                    field: 'taskPubTime',
+                    title: '创建时间',
+                    field: 'taskCreateTime',
                     editable: false,
                     sortable: false,
                     align: 'center'
@@ -264,11 +264,12 @@ var DemoPage = function () {
         form.find(".form-title").text("修改"+formTitle);
         var id = entity.id;
         $("#removeId").val("");
-        for(p in entity){
-            var selector="#"+p
-            $(selector).val(entity[p])
-        }
-
+        var inputs = form.find('.form-control');
+        $.each(inputs,function(k,v){
+            var tagId = $(v).attr('name');
+            var value = entity[tagId];
+            $(v).val(value);
+        });
         uploader = new qq.FineUploader(pageUtils.getUploaderOptions('fine-uploader-gallery',id));
     }
     function setFormView(entity) {

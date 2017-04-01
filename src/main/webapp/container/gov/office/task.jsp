@@ -98,7 +98,7 @@
                             <p></p>
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <label for="">发布时间：</label>
+                                    <label for="">创建时间：</label>
                                     <div id="" class="input-group date form_datetime searDate" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="sendTime">
                                         <input class="form-control" size="16" name="startTime"  type="text" value="" readonly>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>

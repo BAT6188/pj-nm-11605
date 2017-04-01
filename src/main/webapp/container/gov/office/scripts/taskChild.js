@@ -243,6 +243,9 @@
         if(!taskRSV && row.taskStatus!=0){
             html += '&nbsp;<button type="button" class="btn btn-md btn-warning feedbackListView" data-toggle="modal" data-target="#feedbackListModal">查看反馈列表</button>';
         }
+        if(role=='feedbacker'){
+            html +='&nbsp;<button type="button" class="btn btn-primary feedbackView" data-toggle="modal" data-target="#feedbackForm">新增反馈</button>';
+        }
         return html;
     }
 // 列表操作事件
@@ -255,11 +258,11 @@
                 $('#publish').show();
             }
         },
-        /*'click .feedbackView': function (e, value, row, index) {
+        'click .feedbackView': function (e, value, row, index) {
             resetFeedbackForm();
             $('#feedbackFormSaveBtn').show();
             feedbackEditEntity.taskId = row.id;
-        }*/
+        }
     };
 
     /**

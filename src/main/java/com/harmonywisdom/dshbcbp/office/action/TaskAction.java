@@ -108,6 +108,9 @@ public class TaskAction extends BaseAction<Task, TaskService> {
         if(StringUtils.isNotBlank(entity.getTaskType()) && !entity.getTaskType().equals(Task.TASK_TYPE_BIG)){
             Task task = taskService.findById(entity.getParentTaskId());
             task.setIsHaveChild("1");
+            if(!"0".equals(entity.getTaskStatus())){
+                task.setTaskStatus(entity.getTaskStatus());
+            }
             if(StringUtils.isNotBlank(entity.getTaskStatus()) && "1".equals(entity.getTaskStatus())){
                 entity.setTaskPubTime(new Date());
                 entity.setTaskPubUserId(iPerson.getUserId());
@@ -115,10 +118,9 @@ public class TaskAction extends BaseAction<Task, TaskService> {
 
                 Calendar ca=Calendar.getInstance();
                 ca.setTime(entity.getTaskPubTime());
-                ca.add(Calendar.HOUR_OF_DAY,1);
+                ca.add(Calendar.DAY_OF_MONTH,entity.getWarnFrequency());
                 entity.setWarnTime(ca.getTime());
 
-                task.setTaskStatus(entity.getTaskStatus());
                 if(entity.getTaskType().equals(Task.TASK_TYPE_LITTLE)){
                     taskService.sendMessage(entity,"新任务提醒!");
                 }
